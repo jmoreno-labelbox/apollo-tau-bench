@@ -1,50 +1,39 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateBudgetThresholdAlert(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_id: str,
-        threshold_percentage: int = 80,
-        alert_recipients: list = [],
-        alert_name: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        threshold_percentage = kwargs.get("threshold_percentage", 80)
+        alert_recipients = kwargs.get("alert_recipients", [])
+        alert_name = kwargs.get("alert_name")
+
         if not all([project_id, alert_recipients]):
-            payload = {"error": "project_id and alert_recipients are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "project_id and alert_recipients are required"})
 
         if threshold_percentage < 50 or threshold_percentage > 100:
-            payload = {"error": "threshold_percentage must be between 50 and 100"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "threshold_percentage must be between 50 and 100"}
+            )
 
-        budgets = data.get("budgets", {}).values()
-        budget_alerts = data.get("budget_alerts", {}).values()
-        projects = data.get("projects", {}).values()
+        budgets = data.get("budgets", [])
+        budget_alerts = data.get("budget_alerts", [])
+        projects = list(data.get("projects", {}).values())
 
-        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
+        project = next((p for p in projects if p.get("project_id") == project_id), None)
         if not project:
-            payload = {"error": f"Project {project_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Project {project_id} not found"})
 
         existing_alert = next(
             (
                 a
-                for a in budget_alerts.values() if a.get("project_id") == project_id
+                for a in budget_alerts
+                if a.get("project_id") == project_id
                 and a.get("threshold_percentage") == threshold_percentage
                 and a.get("active")
             ),
@@ -52,9 +41,9 @@ class CreateBudgetThresholdAlert(Tool):
         )
 
         if existing_alert:
-            payload = {"error": "Similar active alert already exists for this project"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "Similar active alert already exists for this project"}
+            )
 
         alert_id = f"alert_{uuid.uuid4().hex[:8]}"
 
@@ -72,12 +61,13 @@ class CreateBudgetThresholdAlert(Tool):
             "alert_type": "budget_threshold",
         }
 
-        data["budget_alerts"][new_alert["budget_alert_id"]] = new_alert
+        budget_alerts.append(new_alert)
 
         current_budget = next(
             (
                 b
-                for b in budgets.values() if b.get("project_id") == project_id
+                for b in budgets
+                if b.get("project_id") == project_id
                 and b.get("fiscal_year") == datetime.now().year
             ),
             None,
@@ -93,20 +83,22 @@ class CreateBudgetThresholdAlert(Tool):
                 ),
                 2,
             )
-        payload = {
-            "success": True,
-            "budget_alert": new_alert,
-            "current_utilization": current_utilization,
-            "will_trigger_immediately": current_utilization >= threshold_percentage,
-        }
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(
+            {
+                "success": True,
+                "budget_alert": new_alert,
+                "current_utilization": current_utilization,
+                "will_trigger_immediately": current_utilization >= threshold_percentage,
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateBudgetThresholdAlert",
+                "name": "create_budget_threshold_alert",
                 "description": "Create budget threshold alert for a project",
                 "parameters": {
                     "type": "object",

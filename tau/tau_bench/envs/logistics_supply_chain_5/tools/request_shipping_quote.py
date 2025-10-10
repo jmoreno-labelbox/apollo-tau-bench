@@ -1,32 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RequestShippingQuote(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], carrier_scac: str = None, weight_kg: float = None, destination: str = None) -> str:
-        carriers = data.get("carriers", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        carrier_scac = kwargs.get("carrier_scac")
+        weight_kg = kwargs.get("weight_kg")
+        destination = kwargs.get("destination")
 
-        carrier = next((c for c in carriers.values() if c.get("scac") == carrier_scac), None)
+        carriers = data.get("carriers", [])
+
+        carrier = next((c for c in carriers if c.get("scac") == carrier_scac), None)
         if not carrier:
             return json.dumps({"error": f"Carrier {carrier_scac} not found"})
 
-        # Basic rate calculation
+        # Simplified rate calculation
         base_rate_per_kg = {
-            "NSTS": 2.50,  # Maritime shipping
-            "DLOG": 1.80,  # Rail and truck transport
-            "SWDL": 4.50,  # Expedited shipping
-            "GPLS": 3.20,  # Land and air transport
-            "NRMC": 2.30   # Maritime freight
+            "MAEU": 2.50,  # Sea freight
+            "DBSG": 1.80,  # Rail/Truck
+            "FDEG": 4.50,  # Express
+            "UPSN": 3.20,  # Ground/Air
+            "HLCU": 2.30   # Sea freight
         }.get(carrier_scac, 3.00)
 
         estimated_cost = weight_kg * base_rate_per_kg
@@ -55,12 +53,13 @@ class RequestShippingQuote(Tool):
             "carrier_name": carrier.get("carrier_name"),
             "validity_days": 30
         })
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RequestShippingQuote",
+                "name": "request_shipping_quote",
                 "description": "Request shipping quote from a carrier",
                 "parameters": {
                     "type": "object",

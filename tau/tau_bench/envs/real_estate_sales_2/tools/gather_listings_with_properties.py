@@ -1,42 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from itertools import islice
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GatherListingsWithProperties(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], listing_ids: list[int] = None) -> str:
-        ids = set(listing_ids or [])
-        props = _by_key(data.get("properties", {}).values(), "property_id")
-        out: list[dict[str, Any]] = []
-        for lst in data.get("listings", {}).values() or []:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ids = set(kwargs.get("listing_ids") or [])
+        props = _by_key(list(data.get("properties", {}).values()), "property_id")
+        out: List[Dict[str, Any]] = []
+        for lst in (list(data.get("listings", {}).values()) or []):
             if ids and lst.get("listing_id") not in ids:
                 continue
             pr = props.get(lst.get("property_id")) or {}
             out.append({"listing": lst, "property": pr})
-        payload = {"items": out}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"items": out}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GatherListingsWithProperties",
+                "name": "gather_listings_with_properties",
                 "description": "Return listing + property for listing_ids.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "listing_ids": {"type": "array", "items": {"type": "integer"}}
-                    },
+                    "properties": {"listing_ids": {"type": "array", "items": {"type": "integer"}}},
                     "required": ["listing_ids"],
                 },
             },

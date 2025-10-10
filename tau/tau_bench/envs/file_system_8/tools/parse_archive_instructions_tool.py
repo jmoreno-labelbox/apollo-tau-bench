@@ -1,18 +1,19 @@
-from tau_bench.envs.tool import Tool
-import datetime
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ParseArchiveInstructionsTool(Tool):
-    """Interprets user instructions for generating and moving an archive."""
+    """Parses user instructions for creating and transferring an archive."""
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ParseArchiveInstructions",
+                "name": "parse_archive_instructions",
                 "description": "Loads and validates instructions for an archival task.",
                 "parameters": {
                     "type": "object",
@@ -36,21 +37,6 @@ class ParseArchiveInstructionsTool(Tool):
         }
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        instructions: dict[str, Any] = None,
-        archive_name: Any = None,
-        destination_directory: str = None,
-        remote_address: str = None,
-        files_to_archive: list = None,
-        compression_level: int = None,
-        encryption_key_id: str = None,
-        retention_days: int = None,
-        archive_tier: str = None, encryption_enabled: Any = None,
-        create_manifest: Any = None,
-        verify_after_creation: Any = None,
-        ) -> str:
-        data["archive_instruct"] = instructions
-        payload = {"status": "success", "instructions": instructions}
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        data["archive_instruct"] = {**kwargs}
+        return json.dumps({"status": "success", "instructions": kwargs})

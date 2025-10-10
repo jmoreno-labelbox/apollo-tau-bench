@@ -1,40 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from itertools import islice
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AppendAuditEvent(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], actor_id: str = None, action: str = None, entity_type: str = None, entity_id: str = None, metadata_json: dict = None) -> str:
-        audits = data.get("audit_events", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        audits = data.get("audit_events", [])
         new_id = _next_auto_id(audits, "event_id")
         row = {
             "event_id": new_id,
-            "actor_id": actor_id,
-            "action": action,
-            "entity_type": entity_type,
-            "entity_id": entity_id,
+            "actor_id": kwargs.get("actor_id"),
+            "action": kwargs.get("action"),
+            "entity_type": kwargs.get("entity_type"),
+            "entity_id": kwargs.get("entity_id"),
             "occurred_at": _now_iso_fixed(),
-            "metadata_json": metadata_json or {},
+            "metadata_json": kwargs.get("metadata_json") or {},
         }
-        data["audit_events"][row["audit_event_id"]] = row
-        payload = row
-        out = json.dumps(payload, indent=2)
-        return out
+        audits.append(row)
+        return json.dumps(row, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AppendAuditEvent",
+                "name": "append_audit_event",
                 "description": "Append an audit_events row.",
                 "parameters": {
                     "type": "object",

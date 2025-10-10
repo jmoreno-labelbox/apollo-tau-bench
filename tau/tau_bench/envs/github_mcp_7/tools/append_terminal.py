@@ -1,0 +1,25 @@
+# Copyright Sierra
+
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class AppendTerminal(Tool):
+    """Append a line to the in-memory terminal log."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cmd = kwargs.get("line") or ""
+        _terminal(data).append({"line": cmd, "when": get_current_timestamp()})
+        return json.dumps({"ok": True})
+
+    @staticmethod
+    def get_info() -> Dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "append_terminal",
+                "description": "Append a line to an in-memory terminal log.",
+                "parameters": {"type": "object", "properties": {"line": {"type": "string"}}, "required": ["line"]}
+            },
+        }

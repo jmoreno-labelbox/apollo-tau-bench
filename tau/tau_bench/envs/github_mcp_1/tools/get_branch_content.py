@@ -1,14 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetBranchContent(Tool):
     """
@@ -18,46 +13,36 @@ class GetBranchContent(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], owner: str = "", repo_name: str = "", branch_name: str = "") -> str:
-        owner = owner.strip()
-        repo_name = repo_name.strip()
-        branch = branch_name.strip()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner = kwargs.get("owner", "").strip()
+        repo_name = kwargs.get("repo_name", "").strip()
+        branch = kwargs.get("branch_name", "").strip()
 
         if not owner or not repo_name or not branch:
-            payload = {
-                    "error": "Parameters 'owner', 'repo_name', and 'branch' are all required."
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": "Parameters 'owner', 'repo_name', and 'branch' are all required."},
+                indent=2
             )
-            return out
 
         # Support either {"repositories": [...]} or a direct list
-        repos = data.get("repositories", {}).values()
+        repos = list(data.get("repositories", {}).values())
 
         repo = next(
-            (
-                r
-                for r in repos.values() if r.get("owner") == owner and r.get("repo_name") == repo_name
-            ),
-            None,
+            (r for r in repos if r.get("owner") == owner and r.get("repo_name") == repo_name),
+            None
         )
         if not repo:
-            payload = {"error": f"Repository '{owner}/{repo_name}' not found."}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": f"Repository '{owner}/{repo_name}' not found."},
+                indent=2
             )
-            return out
 
         branches = repo.get("branches", [])
         if branch not in branches:
-            payload = {
-                    "error": f"Branch '{branch}' not found in repository '{owner}/{repo_name}'."
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"Branch '{branch}' not found in repository '{owner}/{repo_name}'."},
+                indent=2
             )
-            return out
 
         idx = branches.index(branch)
 
@@ -67,8 +52,8 @@ class GetBranchContent(Tool):
         branch_shas_all = repo.get("branch_shas", [])
 
         # Fallbacks: if per-branch arrays are missing, fall back to repo-wide files/contents
-        files = None
-        contents = None
+        files  = None
+        contents  = None
 
         if idx < len(branch_files_all):
             files = branch_files_all[idx]
@@ -86,35 +71,34 @@ class GetBranchContent(Tool):
             "branch": branch,
             "branch_files": files if files is not None else [],
             "branch_contents": contents if contents is not None else [],
-            "branch_sha": sha,
+            "branch_sha": sha
         }
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(result, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetBranchContent",
+                "name": "get_branch_content",
                 "description": "Fetch branch-level files, contents, and SHA for a given owner/repository/branch.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "owner": {
                             "type": "string",
-                            "description": "Repository owner (account/team).",
+                            "description": "Repository owner (account/team)."
                         },
                         "repo_name": {
                             "type": "string",
-                            "description": "Repository name.",
+                            "description": "Repository name."
                         },
                         "branch_name": {
                             "type": "string",
-                            "description": "Branch name to retrieve.",
-                        },
+                            "description": "Branch name to retrieve."
+                        }
                     },
-                    "required": ["owner", "repo_name", "branch_name"],
-                },
-            },
+                    "required": ["owner", "repo_name", "branch_name"]
+                }
+            }
         }

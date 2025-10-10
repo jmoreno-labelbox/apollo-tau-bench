@@ -1,15 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ApplyCuisineCap(Tool):
-    """Restrict a list of recipe_ids to a maximum of N for each cuisine."""
-
+    """Limit a list of recipe_ids to at most N per cuisine."""
     @staticmethod
-    def invoke(data: dict[str, Any], recipe_ids_json: str = "[]", max_per_cuisine: int = 2, exclude_recipe_ids: Any = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        recipe_ids_json = kwargs.get("recipe_ids_json", "[]")
+        max_per_cuisine = int(kwargs.get("max_per_cuisine", 2))
         ids = _parse_json_list_ids(recipe_ids_json)
-        counts: dict[str, int] = {}
-        selected: list[int] = []
+        counts: Dict[str, int] = {}
+        selected: List[int] = []
         for rid in ids:
             r = _recipe_by_id(data, rid)
             if not r:
@@ -20,20 +24,14 @@ class ApplyCuisineCap(Tool):
                 selected.append(rid)
                 counts[cz] = c + 1
         return _json_dump({"cuisine_limited_recipe_ids_json": json.dumps(selected)})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ApplyCuisineCap",
-                "description": "Apply a per-cuisine maximum to a recipe set.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "recipe_ids_json": {"type": "string"},
-                        "max_per_cuisine": {"type": "integer"},
-                    },
-                    "required": ["recipe_ids_json", "max_per_cuisine"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"apply_cuisine_cap",
+            "description":"Apply a per-cuisine maximum to a recipe set.",
+            "parameters":{"type":"object","properties":{
+                "recipe_ids_json":{"type":"string"},
+                "max_per_cuisine":{"type":"integer"}
+            },"required":["recipe_ids_json","max_per_cuisine"]}
+        }}

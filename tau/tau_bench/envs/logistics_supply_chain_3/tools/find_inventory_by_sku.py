@@ -1,54 +1,45 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindInventoryBySku(Tool):
-    """Identifies all inventory records for a specified SKU across all warehouses."""
+    """Finds all inventory records for a given SKU across all warehouses."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], sku: str = None) -> str:
-        inventory_items = data.get("inventory", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        sku = kwargs.get("sku")
+        inventory_items = list(data.get("inventory", {}).values())
         found_records = []
         for item in inventory_items:
             if item.get("sku") == sku:
                 found_records.append(
                     {
-                        "inventory_id": item["inventory_id"],
-                        "warehouse_id": item["warehouse_id"],
-                        "warehouse_name": item["warehouse_name"],
-                        "quantity_on_hand": item["quantity_on_hand"],
-                        "quantity_available": item["quantity_available"],
-                        "quantity_allocated": item["quantity_allocated"],
-                        "quantity_inbound": item["quantity_inbound"],
-                        "unit_cost": item["unit_cost"],
-                        "lot_number": item["lot_number"],
-                        "expiration_date": item["expiration_date"],
-                        "unit_dimensions_cm": item["unit_dimensions_cm"],
+                        "inventory_id": item.get("inventory_id"),
+                        "warehouse_id": item.get("warehouse_id"),
+                        "warehouse_name": item.get("warehouse_name"),
+                        "quantity_on_hand": item.get("quantity_on_hand"),
+                        "quantity_available": item.get("quantity_available"),
+                        "quantity_allocated": item.get("quantity_allocated"),
+                        "quantity_inbound": item.get("quantity_inbound"),
+                        "unit_cost": item.get("unit_cost"),
+                        "lot_number": item.get("lot_number"),
+                        "expiration_date": item.get("expiration_date"),
+                        "unit_dimensions_cm": item.get("unit_dimensions_cm"),
                     }
                 )
         if found_records:
-            payload = found_records
-            out = json.dumps(payload)
-            return out
-        payload = {"error": "No inventory records found for that SKU"}
-        out = json.dumps(payload)
-        return out
+            return json.dumps(found_records)
+        return json.dumps({"error": "No inventory records found for that SKU"})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindInventoryBySku",
+                "name": "find_inventory_by_sku",
                 "description": "Finds all inventory records for a given SKU, returning a list of locations and quantities.",
                 "parameters": {
                     "type": "object",

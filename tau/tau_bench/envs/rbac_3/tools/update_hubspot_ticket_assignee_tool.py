@@ -1,27 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpdateHubspotTicketAssigneeTool(Tool):
-    """update_hubspot_ticket_assignee: assign assignee with audit."""
+    """update_hubspot_ticket_assignee: set assignee with audit."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], ticket_id: str = None, assignee_id: str = None, actor_id: str = None, note: Any = None) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         return UpdateHubspotTicketTool.invoke(
             data,
-            ticket_id=ticket_id,
-            assignee_id=assignee_id,
-            actor_id=actor_id,
+            ticket_id=kwargs.get("ticket_id"),
+            assignee_id=kwargs.get("assignee_id"),
+            actor_id=kwargs.get("actor_id"),
         )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateHubspotTicketAssignee",
+                "name": "update_hubspot_ticket_assignee",
                 "description": "Update a HubSpot ticket assignee (writes audit entry).",
                 "parameters": {
                     "type": "object",

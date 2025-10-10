@@ -1,20 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateClientNote(Tool):
-    """Generate a note to be added to a client's file."""
-
+    """Create a note for a client's file."""
+    
     @staticmethod
-    def invoke(data: dict[str, Any], client_id: str = None, broker_id: str = None, note_text: str = None, note_type: str = "general", neighborhood_name: Any = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        client_id = kwargs.get('client_id')
+        broker_id = kwargs.get('broker_id')
+        note_text = kwargs.get('note_text')
+        note_type = kwargs.get('note_type', 'general')
+        
         if not all([client_id, broker_id, note_text]):
-            payload = {"error": "client_id, broker_id, and note_text are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-
-        #Generate a note for the client
+            return json.dumps({
+                "error": "client_id, broker_id, and note_text are required"
+            }, indent=2)
+        
+        # Create client note
         note = {
             "note_id": 801,
             "client_id": client_id,
@@ -22,46 +28,44 @@ class CreateClientNote(Tool):
             "note_text": note_text,
             "note_type": note_type,
             "created_at": "2024-08-21T00:00:00Z",
-            "status": "active",
+            "status": "active"
         }
-        payload = {
-                "success": True,
-                "note_id": 801,
-                "message": f"Note created for client {client_id}",
-                "note": note,
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        
+        return json.dumps({
+            "success": True,
+            "note_id": 801,
+            "message": f"Note created for client {client_id}",
+            "note": note
+        }, indent=2)
+    
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createClientNote",
+                "name": "create_client_note",
                 "description": "Create a note for a client's file",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "client_id": {
                             "type": "integer",
-                            "description": "Client ID to create note for",
+                            "description": "Client ID to create note for"
                         },
                         "broker_id": {
                             "type": "integer",
-                            "description": "Broker ID creating the note",
+                            "description": "Broker ID creating the note"
                         },
                         "note_text": {
                             "type": "string",
-                            "description": "Content of the note",
+                            "description": "Content of the note"
                         },
                         "note_type": {
                             "type": "string",
-                            "description": "Type of note (general, follow_up, concern, etc.)",
-                        },
+                            "description": "Type of note (general, follow_up, concern, etc.)"
+                        }
                     },
-                    "required": ["client_id", "broker_id", "note_text"],
-                },
-            },
+                    "required": ["client_id", "broker_id", "note_text"]
+                }
+            }
         }

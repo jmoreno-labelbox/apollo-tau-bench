@@ -1,40 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class RegisterEtlRun(Tool):
-    """Adds an etl_runs record."""
-
+    """
+    Appends an etl_runs record.
+    """
     @staticmethod
-    def invoke(data: dict[str, Any], run_id: str, input_paths: Any, output_paths: Any, status: str, started_ts: Any) -> str:
+    def invoke(data: Dict[str, Any], record: Dict[str, Any]) -> str:
         req = {"run_id", "input_paths", "output_paths", "status", "started_ts"}
-        record = {
-            "run_id": run_id,
-            "input_paths": input_paths,
-            "output_paths": output_paths,
-            "status": status,
-            "started_ts": started_ts
-        }
         if not req.issubset(set(record.keys())):
-            payload = {"error": "missing required fields"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "missing required fields"})
         data.setdefault("etl_runs", []).append(record)
-        payload = {"status": "inserted", "run_id": record.get("run_id")}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "inserted", "run_id": record.get("run_id")})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "registerEtlRun",
+                "name": "register_etl_run",
                 "description": "Appends an etl_runs record.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"record": {"type": "object"}},
-                    "required": ["record"],
-                },
-            },
+                    "properties": {
+                        "record": {"type": "object"}
+                    },
+                    "required": ["record"]
+                }
+            }
         }

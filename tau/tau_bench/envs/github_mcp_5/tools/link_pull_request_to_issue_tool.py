@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class LinkPullRequestToIssueTool(Tool):
     """
@@ -41,42 +29,30 @@ class LinkPullRequestToIssueTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str, pr_number: int, issue_number: int) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            pr_number = _validate_param({"pr_number": pr_number}, "pr_number", int)
-            issue_number = _validate_param({"issue_number": issue_number}, "issue_number", int)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            pr_number = _validate_param(kwargs, "pr_number", int)
+            issue_number = _validate_param(kwargs, "issue_number", int)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        prs = data.get("pull_requests", {}).values()
-        pr = next(
-            (
-                p
-                for p in prs.values() if p.get("repo") == repo_name and p.get("number") == pr_number
-            ),
-            None,
-        )
+        prs = list(data.get("pull_requests", {}).values())
+        pr = next((p for p in prs if p.get("repo") == repo_name and p.get("number") == pr_number), None)
 
         if not pr:
-            return _response(
-                "error",
-                ERROR_MESSAGES["NOT_FOUND"].format(
-                    entity="Pull Request", entity_id=pr_number
-                ),
-                "NOT_FOUND",
-            )
+            return _response("error", ERROR_MESSAGES["NOT_FOUND"].format(entity="Pull Request", entity_id=pr_number), "NOT_FOUND")
 
         pr.setdefault("linked_issues", []).append(issue_number)
         pr["updated_at"] = CURRENT_DATE
         return _response("ok", pr)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "LinkPullRequestToIssue",
+                "name": "link_pull_request_to_issue",
                 "description": "Link a pull request to an issue deterministically.",
                 "parameters": {
                     "type": "object",

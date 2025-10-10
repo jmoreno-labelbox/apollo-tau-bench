@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetHotspotRepositoriesTool(Tool):
     """
@@ -41,29 +29,27 @@ class GetHotspotRepositoriesTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        issues = data.get("issues", {}).values()
-        alerts = data.get("code_scanning_alerts", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
+        issues = list(data.get("issues", {}).values())
+        alerts = data.get("code_scanning_alerts", [])
 
         repo_hotspots = {}
-        for i in issues.values():
+        for i in issues:
             if i.get("state") == "open":
                 repo_hotspots[i.get("repo")] = repo_hotspots.get(i.get("repo"), 0) + 1
-        for a in alerts.values():
+        for a in alerts:
             if a.get("state") == "open":
                 repo_hotspots[a.get("repo")] = repo_hotspots.get(a.get("repo"), 0) + 1
 
-        result = [
-            {"repo": r, "open_items": count, "report_date": CURRENT_DATE}
-            for r, count in repo_hotspots.items()
-        ]
+        result = [{"repo": r, "open_items": count, "report_date": CURRENT_DATE} for r, count in repo_hotspots.items()]
         return _response("ok", result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getHotspotRepositories",
+                "name": "get_hotspot_repositories",
                 "description": "Identify repositories with most open issues and alerts deterministically.",
                 "parameters": {"type": "object", "properties": {}},
             },

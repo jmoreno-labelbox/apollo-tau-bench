@@ -1,60 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class BuildRecipeFilters(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         meal_type: str,
-        peanut_free: bool | None = None,
-        min_protein_g: int | None = None,
-        no_heat_required: bool | None = None,
-        minimal_prep: bool | None = None,
-        no_heat: Any = None,
-        max_prep_minutes: Any = None
+        min_protein_g: int = 0,
+        peanut_free: bool = False,
+        cuisines_exclude: Optional[List[str]] = None,
     ) -> str:
-        filters = {
-            "meal_type": meal_type,
-            "peanut_free": peanut_free,
-            "min_protein_g": min_protein_g,
-            "no_heat_required": no_heat_required,
-            "minimal_prep": minimal_prep,
-        }
-        # Eliminate Nones in a deterministic manner
-        filters = {k: v for k, v in filters.items() if v is not None}
-        payload = {"filters": filters}
-        out = json.dumps(payload, indent=2)
-        return out
-        pass
-        filters = {
-            "meal_type": meal_type,
-            "peanut_free": peanut_free,
-            "min_protein_g": min_protein_g,
-            "no_heat_required": no_heat_required,
-            "minimal_prep": minimal_prep,
-        }
-        #Eliminate Nones in a deterministic manner
-        filters = {k: v for k, v in filters.items() if v is not None}
-        payload = {"filters": filters}
-        out = json.dumps(payload, indent=2)
-        return out
+        ex = ",".join(sorted((cuisines_exclude or [])))
+        token = f"F:{meal_type}:P{int(min_protein_g)}:PF{1 if peanut_free else 0}:EX{ex}"
+        return _json({"filter_token": token})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "buildRecipeFilters",
-                "description": "Returns a normalized recipe filter object.",
+                "name": "build_recipe_filters",
+                "description": "Construct a deterministic filter token for recipes.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "meal_type": {"type": "string"},
-                        "peanut_free": {"type": "boolean"},
                         "min_protein_g": {"type": "integer"},
-                        "no_heat_required": {"type": "boolean"},
-                        "minimal_prep": {"type": "boolean"},
+                        "peanut_free": {"type": "boolean"},
+                        "cuisines_exclude": {"type": "array", "items": {"type": "string"}},
                     },
                     "required": ["meal_type"],
                 },

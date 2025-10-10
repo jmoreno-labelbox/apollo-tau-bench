@@ -1,8 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetAccountTransactionHistoryTool(Tool):
     """
@@ -20,20 +21,15 @@ class GetAccountTransactionHistoryTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, days: int = 30, start_date: str = None, end_date: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get("account_id")
+        days = kwargs.get("days", 30)
         if not account_id:
             return json.dumps({"error": "account_id is required"}, indent=2)
 
         transactions = load_json("transactions.json")
-        
-        # Use start_date/end_date if provided, otherwise use days
-        if start_date:
-            cutoff = datetime.strptime(start_date, "%Y-%m-%d")
-        else:
-            current_time = get_current_timestamp()
-            cutoff = datetime.strptime(current_time, "%Y-%m-%dT%H:%M:%S.%f") - timedelta(days=days)
-        
-        end_cutoff = datetime.strptime(end_date, "%Y-%m-%d") if end_date else datetime.now()
+        current_time = get_current_timestamp()
+        cutoff = datetime.strptime(current_time, "%Y-%m-%dT%H:%M:%S.%f") - timedelta(days=days)
 
         filtered = []
         for t in transactions:
@@ -45,12 +41,8 @@ class GetAccountTransactionHistoryTool(Tool):
                 txn_date = datetime.fromisoformat(
                     t["transaction_date"].replace("Z", "+00:00")
                 ).replace(tzinfo=None)
-            if start_date or end_date:
-                if txn_date >= cutoff and txn_date <= end_cutoff:
-                    filtered.append(t)
-            else:
-                if txn_date >= cutoff:
-                    filtered.append(t)
+            if txn_date >= cutoff:
+                filtered.append(t)
 
         categorized = {}
         for t in filtered:
@@ -60,12 +52,13 @@ class GetAccountTransactionHistoryTool(Tool):
         return json.dumps(
             {"transactions": filtered, "categorized_totals": categorized}, indent=2
         )
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAccountTransactionHistory",
+                "name": "get_account_transaction_history",
                 "description": "Retrieve and categorize past transactions for the customer's account.",
                 "parameters": {
                     "type": "object",

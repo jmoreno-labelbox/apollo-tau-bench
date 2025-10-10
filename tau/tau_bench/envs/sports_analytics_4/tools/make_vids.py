@@ -1,40 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class MakeVids(Tool):
     @staticmethod
-    #primary invocation function
-    def invoke(data: dict[str, Any], report_id: str = None, internal_portal_link: str = None, clip_count: int = 0) -> str:
+        # main invoke function
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         playlists = _load_table(data, "video_playlists")
-        playlists.append(
-            {
-                "report_id": report_id,
-                "internal_portal_link": internal_portal_link,
-                "clip_count": clip_count,
-            }
-        )
-        payload = {"status": "ok"}
-        out = json.dumps(payload, indent=2)
-        return out
+        playlists.append({
+            "report_id": kwargs.get("report_id"),
+            "internal_portal_link": kwargs.get("internal_portal_link"),
+            "clip_count": kwargs.get("clip_count", 0)
+        })
+        # return result
+        return json.dumps({"status": "ok"}, indent=2)
+
     @staticmethod
-    #metadata information
-    def get_info() -> dict[str, Any]:
-        pass
-        #return result
-        return {
-            "type": "function",
-            "function": {
-                "name": "makeVid",
-                "description": "Persists a video playlist row linked to a report.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "report_id": {"type": "string"},
-                        "internal_portal_link": {"type": "string"},
-                        "clip_count": {"type": "integer"},
-                    },
-                    "required": ["internal_portal_link"],
-                },
-            },
-        }
+        # info metadata
+    def get_info() -> Dict[str, Any]:
+        # return result
+        return {"type": "function", "function": {"name": "makeVid", "description": "Persists a video playlist row linked to a report.", "parameters": {"type": "object", "properties": {"report_id": {"type": "string"}, "internal_portal_link": {"type": "string"}, "clip_count": {"type": "integer"}}, "required": ["internal_portal_link"]}}}

@@ -1,65 +1,43 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindRolesByResourceId(Tool):
-    """Locates all roles that provide permissions for a specific resource ID."""
-
+    """ Finds all roles that grant permissions to a specific resource ID. """
     @staticmethod
-    def invoke(data: dict[str, Any], role_permissions: list = None, permissions: list = None, resource_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        resource_id = kwargs.get("resource_id")
         try:
-            role_permissions = role_permissions if role_permissions is not None else data.get("role_permissions", {}).values()
-            permissions = permissions if permissions is not None else data.get("permissions", {}).values()
+            role_permissions = data.get('role_permissions', [])
+            permissions = list(data.get('permissions', {}).values())
         except:
-            payload = {"error": "Data files not found."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Data files not found."})
 
-        perm_ids_for_resource = {
-            p["permission_id"]
-            for p in permissions
-            if p.get("resource_id") == resource_id
-        }
+        perm_ids_for_resource = {p["permission_id"] for p in permissions if p.get("resource_id") == resource_id}
 
         if not perm_ids_for_resource:
-            payload = []
-            out = json.dumps(payload)
-            return out
+            return json.dumps([])
 
-        role_ids_for_resource = {
-            rp["role_id"]
-            for rp in role_permissions
-            if rp.get("permission_id") in perm_ids_for_resource
-        }
-        payload = list(role_ids_for_resource)
-        out = json.dumps(payload)
-        return out
+        role_ids_for_resource = {rp["role_id"] for rp in role_permissions if rp.get("permission_id") in perm_ids_for_resource}
+        
+        return json.dumps(list(role_ids_for_resource))
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindRolesByResourceId",
+                "name": "find_roles_by_resource_id",
                 "description": "Returns a list of role IDs that are associated with a given resource ID.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "resource_id": {
-                            "type": "string",
-                            "description": "The ID of the resource to find associated roles for.",
-                        }
+                        "resource_id": {"type": "string", "description": "The ID of the resource to find associated roles for."}
                     },
-                    "required": ["resource_id"],
-                },
-            },
+                    "required": ["resource_id"]
+                }
+            }
         }

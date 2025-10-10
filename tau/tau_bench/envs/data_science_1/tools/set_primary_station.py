@@ -1,42 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SetPrimaryStation(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], station_id: str = None) -> str:
-        err = _require({"station_id": station_id}, ["station_id"])
-        if err:
-            return err
-        cfg = (
-            (data.get("project_config") or [{}])[0]
-            if data.get("project_config")
-            else {}
-        )
-        cfg["primary_station_id_nullable"] = station_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        err = _require(kwargs, ["station_id"])
+        if err: return err
+        cfg = (data.get("project_config") or [{}])[0] if data.get("project_config") else {}
+        cfg["primary_station_id_nullable"] = kwargs["station_id"]
         data["project_config"] = [cfg] if data.get("project_config") else [cfg]
-        payload = cfg
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(cfg, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "SetPrimaryStation",
-                "description": "Sets the chosen primary station_id on project_config.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"station_id": {"type": "string"}},
-                    "required": ["station_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "set_primary_station",
+            "description": "Sets the chosen primary station_id on project_config.",
+            "parameters": {"type": "object", "properties": {"station_id": {"type": "string"}}, "required": ["station_id"]}}}

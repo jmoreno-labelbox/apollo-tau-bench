@@ -1,22 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetMcpToolCallsByServer(Tool):
-    """Provides flattened MCP tool call entries filtered by the server name."""
-
+    """
+    Returns flattened MCP tool call entries filtered by server name.
+    """
     @staticmethod
-    def invoke(data: dict[str, Any], server_name: str) -> str:
-        rows = data.get("mcp_tool_calls", {}).values()
-        out: list[dict[str, Any]] = []
+    def invoke(data: Dict[str, Any], server_name: str) -> str:
+        rows = data.get("mcp_tool_calls", [])
+        out: List[Dict[str, Any]] = []
         for row in rows:
             servers = row.get("server_names", [])
             tools = row.get("tool_names", [])
@@ -25,32 +21,28 @@ class GetMcpToolCallsByServer(Tool):
             times = row.get("called_ts", [])
             for i, s in enumerate(servers):
                 if s == server_name:
-                    out.append(
-                        {
-                            "server_name": s,
-                            "tool_name": tools[i] if i < len(tools) else None,
-                            "params_json": params[i] if i < len(params) else None,
-                            "response_meta_nullable": (
-                                metas[i] if i < len(metas) else None
-                            ),
-                            "called_ts": times[i] if i < len(times) else None,
-                        }
-                    )
-        payload = {"items": out}
-        out_str = json.dumps(payload)
-        return out_str
+                    out.append({
+                        "server_name": s,
+                        "tool_name": tools[i] if i < len(tools) else None,
+                        "params_json": params[i] if i < len(params) else None,
+                        "response_meta_nullable": metas[i] if i < len(metas) else None,
+                        "called_ts": times[i] if i < len(times) else None
+                    })
+        return json.dumps({"items": out})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetMcpToolCallsByServer",
+                "name": "get_mcp_tool_calls_by_server",
                 "description": "Returns flattened MCP tool call entries filtered by server name.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"server_name": {"type": "string"}},
-                    "required": ["server_name"],
-                },
-            },
+                    "properties": {
+                        "server_name": {"type": "string"}
+                    },
+                    "required": ["server_name"]
+                }
+            }
         }

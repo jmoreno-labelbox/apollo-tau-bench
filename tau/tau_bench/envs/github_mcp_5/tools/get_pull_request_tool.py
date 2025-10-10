@@ -1,91 +1,60 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetPullRequestTool(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], owner: str = None, repo: str = None, pr_number: int = None) -> str:
-        if not all([owner, repo, pr_number]):
-            payload = {
-                    "status": "error",
-                    "message": "Missing required parameters for get_pull_request.",
-                    "required": ["owner", "repo", "pr_number"],
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner = kwargs.get('owner')
+        repo = kwargs.get('repo')
+        pr_number = kwargs.get('pr_number')
 
-        repositories = data.get("repositories", {}).values()
-        repository = next(
-            (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
-            None,
-        )
+        if not all([owner, repo, pr_number]):
+            return json.dumps({
+                "status": "error",
+                "message": "Missing required parameters for get_pull_request.",
+                "required": ["owner", "repo", "pr_number"]
+            }, indent=2)
+
+        repositories = list(data.get('repositories', {}).values())
+        repository = next((r for r in repositories if r['repo_name'] == repo and r['owner'] == owner), None)
 
         if not repository:
-            payload = {
-                    "status": "error",
-                    "message": f"Repository '{repo}' not found for owner '{owner}'.",
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({
+                "status": "error",
+                "message": f"Repository '{repo}' not found for owner '{owner}'.",
+            }, indent=2)
 
-        pull_requests = repository.get("pull_requests", [])
-        pull_request = next(
-            (pr for pr in pull_requests if pr["pr_number"] == pr_number), None
-        )
+        pull_requests = repository.get('pull_requests', [])
+        pull_request = next((pr for pr in pull_requests if pr['pr_number'] == pr_number), None)
 
         if not pull_request:
-            payload = {
-                    "status": "error",
-                    "message": f"Pull request #{pr_number} not found in repository '{repo}'.",
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
-        payload = {"status": "success", "pull_request": pull_request}
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({
+                "status": "error",
+                "message": f"Pull request #{pr_number} not found in repository '{repo}'.",
+            }, indent=2)
+
+        return json.dumps({
+            "status": "success",
+            "pull_request": pull_request
+        }, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getPullRequest",
+                "name": "get_pull_request",
                 "description": "Retrieves a specific pull request.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "owner": {
-                            "type": "string",
-                            "description": "The owner of the repository.",
-                        },
-                        "repo": {
-                            "type": "string",
-                            "description": "The name of the repository.",
-                        },
-                        "pr_number": {
-                            "type": "integer",
-                            "description": "The number of the pull request.",
-                        },
+                        "owner": {"type": "string", "description": "The owner of the repository."},
+                        "repo": {"type": "string", "description": "The name of the repository."},
+                        "pr_number": {"type": "integer", "description": "The number of the pull request."}
                     },
                     "required": ["owner", "repo", "pr_number"],
                 },

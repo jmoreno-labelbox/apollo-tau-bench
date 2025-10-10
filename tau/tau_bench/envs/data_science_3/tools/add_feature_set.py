@@ -1,56 +1,39 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AddFeatureSet(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], feature_set_name: str = None, version: str = None, columns: list = None) -> str:
-        feats = data.get("features", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        feats = data.get("features", [])
         max_id = 0
         for f in feats:
             try:
                 fid = int(f.get("feature_set_id", 0))
-                if fid > max_id:
-                    max_id = fid
+                if fid > max_id: max_id = fid
             except (ValueError, TypeError):
                 continue
         new_id = max_id + 1
         row = {
             "feature_set_id": new_id,
-            "feature_set_name": feature_set_name,
-            "version": version,
-            "columns": columns,
-            "created_at": _fixed_now_iso(),
+            "feature_set_name": kwargs.get("feature_set_name"),
+            "version": kwargs.get("version"),
+            "columns": kwargs.get("columns"),
+            "created_at": _fixed_now_iso()
         }
-        data["features"][row["feature_id"]] = row
-        payload = {"feature_set_id": new_id, "feature_set_name": row["feature_set_name"]}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        feats.append(row)
+        return json.dumps({"feature_set_id": new_id, "feature_set_name": row["feature_set_name"]}, indent=2)
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "InsertFeatureSet",
-                "description": "Insert a new feature set descriptor.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "feature_set_name": {"type": "string"},
-                        "version": {"type": "string"},
-                        "columns": {"type": "array", "items": {"type": "string"}},
-                    },
-                    "required": ["feature_set_name", "version", "columns"],
-                },
-            },
-        }
+    def get_info()->Dict[str,Any]:
+        return {"type":"function","function":{
+            "name":"insert_feature_set",
+            "description":"Insert a new feature set descriptor.",
+            "parameters":{"type":"object","properties":{
+                "feature_set_name":{"type":"string"},
+                "version":{"type":"string"},
+                "columns":{"type":"array","items":{"type":"string"}}
+            },"required":["feature_set_name","version","columns"]}
+        }}

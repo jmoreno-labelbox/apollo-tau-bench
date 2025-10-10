@@ -1,40 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SaveChangeRequestsConflicts(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        cr_id: str = None,
-        conflicting_cr_id: str = None,
-        conflict_type: str = None,
-        conflicting_deliverables: list = None,
-        severity: str = None,
-        rule_violation: str = None,
-        action_required: str = None,
-        recommendation: str = None
-,
-    type: Any = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
+        conflicting_cr_id = kwargs.get("conflicting_cr_id")
+        conflict_type = kwargs.get("type")
+        conflicting_deliverables = kwargs.get("conflicting_deliverables")
+        severity = kwargs.get("severity")
+        rule_violation = kwargs.get("rule_violation")
+        action_required = kwargs.get("action_required")
+        recommendation = kwargs.get("recommendation")
+
         if not cr_id or not conflicting_cr_id:
-            payload = {"error": "cr_id and conflicting_cr_id are required parameters"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "cr_id and conflicting_cr_id are required parameters"})
 
         conflict_cr_id_1 = {
             "conflicting_cr_id": conflicting_cr_id,
-            "conflict_id": f"cf_{uuid.uuid4().hex[:8]}",
+            "conflict_id": f"cf_{uuid.uuid4().hex[:8]}"
         }
         if conflict_type:
             conflict_cr_id_1["conflict_type"] = conflict_type
@@ -49,16 +37,15 @@ class SaveChangeRequestsConflicts(Tool):
         if recommendation:
             conflict_cr_id_1["recommendation"] = recommendation
 
-        change_requests = data.get("change_requests", {}).values()
-        for change_request in change_requests.values():
+        change_requests = data.get("change_requests", [])
+        for change_request in change_requests:
             if change_request.get("cr_id") == cr_id:
                 if "conflicts" in change_request:
                     change_request["conflicts"].append(conflict_cr_id_1)
                 else:
                     change_request["conflicts"] = [conflict_cr_id_1]
-                payload = {"success": True}
-                out = json.dumps(payload)
-                return out
+
+                return json.dumps({"success": True})
 
             elif change_request.get("cr_id") == conflicting_cr_id:
                 conflict_cr_id_2 = conflict_cr_id_1.copy()
@@ -67,15 +54,15 @@ class SaveChangeRequestsConflicts(Tool):
                     change_request["conflicts"].append(conflict_cr_id_2)
                 else:
                     change_request["conflicts"] = [conflict_cr_id_2]
-        payload = {"error": f"It wasn't found any change request with the ID {cr_id}"}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"error": f"It wasn't found any change request with the ID {cr_id}"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SaveChangeRequestsConflicts",
+                "name": "save_change_requests_conflicts",
                 "description": "Save conflicts into change requests",
                 "parameters": {
                     "type": "object",
@@ -93,8 +80,7 @@ class SaveChangeRequestsConflicts(Tool):
                             "description": "Conflicting change request ID",
                         },
                         "conflicting_deliverables": {
-                            "type": "array",
-                            "items": {"type": "string"},
+                            "type": "list",
                             "description": "Conflicting deliverable IDs",
                         },
                         "severity": {
@@ -112,7 +98,7 @@ class SaveChangeRequestsConflicts(Tool):
                         "recommendation": {
                             "type": "string",
                             "description": "Recommendation description",
-                        },
+                        }
                     },
                     "required": ["cr_id", "conflicting_cr"],
                 },

@@ -1,44 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListInvoiceEvents(Tool):
-    """Retrieve all audit records for a specific invoice."""
+    """List all audit events for an invoice."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        inv_id = kwargs.get("invoice_id")
+        inv_no = kwargs.get("invoice_number")
+        events = []
+        for a in data.get("invoice_audit", []) or []:
+            if inv_id and str(a.get("invoice_id")) == str(inv_id):
+                events.append(a)
+            elif inv_no and a.get("invoice_number") == inv_no:
+                events.append(a)
+        return json.dumps({"events": events}, indent=2)
 
     @staticmethod
-    def invoke(data: dict[str, Any], invoice_id: str = None, invoice_number: str = None) -> str:
-        events = []
-        for a in data.get("invoice_audit", {}).values() or []:
-            if invoice_id and str(a.get("invoice_id")) == str(invoice_id):
-                events.append(a)
-            elif invoice_number and a.get("invoice_number") == invoice_number:
-                events.append(a)
-        payload = {"events": events}
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ListInvoiceEvents",
-                "description": "List audit events by invoice id or number.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "invoice_id": {"type": "string"},
-                        "invoice_number": {"type": "string"},
-                    },
-                    "required": [],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "list_invoice_events",
+            "description": "List audit events by invoice id or number.",
+            "parameters": {"type": "object", "properties": {
+                "invoice_id": {"type": "string"},
+                "invoice_number": {"type": "string"}
+            }, "required": []}
+        }}

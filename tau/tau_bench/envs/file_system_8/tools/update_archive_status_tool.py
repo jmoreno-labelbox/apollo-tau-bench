@@ -1,26 +1,19 @@
-from tau_bench.envs.tool import Tool
-import datetime
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateArchiveStatusTool(Tool):
-    """Modifies the status of a task in the archive_instructions database."""
+    """Updates the status of a task in the archive_instructions database."""
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "updateArchiveStatus",
+                "name": "update_archive_status",
                 "description": "Finds an archive instruction by its 'archive_id' and updates its 'status' field.",
                 "parameters": {
                     "type": "object",
@@ -40,20 +33,20 @@ class UpdateArchiveStatusTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: dict[str, Any], archive_id: str = None, status: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        archive_id = kwargs.get("archive_id")
+        status = kwargs.get("status")
         archive_task = next(
             (
                 t
-                for t in data.get("archive_instructions", {}).values()
+                for t in data.get("archive_instructions", [])
                 if t.get("archive_id") == archive_id
             ),
             None,
         )
         if archive_task:
             archive_task["status"] = status
-            payload = {"status": "success", "archive_id": archive_id, "new_status": status}
-            out = json.dumps(payload)
-            return out
-        payload = {"error": f"Archive ID {archive_id} not found."}
-        out = json.dumps(payload)
-        return out
+            return json.dumps(
+                {"status": "success", "archive_id": archive_id, "new_status": status}
+            )
+        return json.dumps({"error": f"Archive ID {archive_id} not found."})

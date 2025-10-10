@@ -1,42 +1,25 @@
-from tau_bench.envs.tool import Tool
-import html
+# Copyright Sierra
+
 import json
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SendEmailInThread(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        thread_id: str = None,
-        sender_id: str = None,
-        body_html: str = None,
-        attachments_asset_ids: list[str] | None = None
-    ) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         required = ["thread_id", "sender_id", "body_html"]
-        params_dict = {k: v for k, v in locals().items() if k != "data"}
-
-        missing = [f for f in required.values() if params_dict.get(f) is None]
+        missing = [f for f in required if f not in kwargs or kwargs[f] is None]
         if missing:
-            payload = {"error": f"Missing required fields: {', '.join(missing)}"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"Missing required fields: {', '.join(missing)}"}, indent=2)
 
-        attachments_asset_ids = attachments_asset_ids or []
+        thread_id = kwargs.get("thread_id")
+        sender_id = kwargs.get("sender_id")
+        body_html = kwargs.get("body_html")
+        attachments_asset_ids: Optional[List[str]] = kwargs.get("attachments_asset_ids") or []
 
-        threads: list[dict[str, Any]] = data.get("gmail_threads", {}).values()
-        messages: list[dict[str, Any]] = data.get("gmail_messages", {}).values()
+        threads: List[Dict[str, Any]] = data.get("gmail_threads", [])
+        messages: List[Dict[str, Any]] = data.get("gmail_messages", [])
 
         thread = None
         for row in threads:
@@ -44,17 +27,11 @@ class SendEmailInThread(Tool):
                 thread = row
                 break
         if not thread:
-            payload = {"error": f"No thread with id '{thread_id}'"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"No thread with id '{thread_id}'"}, indent=2)
 
-        allowed = (sender_id == thread.get("sender_identity")) or (
-            sender_id in (thread.get("recipients") or [])
-        )
+        allowed = (sender_id == thread.get("sender_identity")) or (sender_id in (thread.get("recipients") or []))
         if not allowed:
-            payload = {"error": "SENDER_NOT_AUTHORIZED"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "SENDER_NOT_AUTHORIZED"}, indent=2)
 
         t = body_html
         t = re.sub(r"</li\s*>", ", ", t, flags=re.IGNORECASE)
@@ -74,22 +51,22 @@ class SendEmailInThread(Tool):
             "body_html": body_html,
             "body_text_stripped": body_text_stripped,
             "sent_ts": ts,
-            "attachments_asset_ids": attachments_asset_ids,
+            "attachments_asset_ids": attachments_asset_ids
         }
 
         messages.append(new_message)
         thread["updated_ts"] = ts
         data["gmail_messages"] = messages
         data["gmail_threads"] = threads
-        payload = {"thread": thread, "message": new_message}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"thread": thread, "message": new_message}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SendEmailInThread",
+                "name": "send_email_in_thread",
                 "description": "Send a message in an existing Gmail thread. Sender must match thread sender_identity or be in recipients. HTML body is converted to stripped text.",
                 "parameters": {
                     "type": "object",
@@ -97,12 +74,9 @@ class SendEmailInThread(Tool):
                         "thread_id": {"type": "string"},
                         "sender_id": {"type": "string"},
                         "body_html": {"type": "string"},
-                        "attachments_asset_ids": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                        },
+                        "attachments_asset_ids": {"type": "array", "items": {"type": "string"}}
                     },
-                    "required": ["thread_id", "sender_id", "body_html"],
-                },
-            },
+                    "required": ["thread_id", "sender_id", "body_html"]
+                }
+            }
         }

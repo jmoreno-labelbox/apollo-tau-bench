@@ -1,59 +1,53 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchClients(Tool):
-    """Look for clients using their name WA other parameters."""
-
+    """Search for clients by name or other criteria."""
+    
     @staticmethod
-    def invoke(data: dict[str, Any], name: str = "", client_id: Any = None) -> str:
-        clients = data.get("client_preferences", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        clients = data.get('client_preferences', [])
         if not clients:
-            payload = {"error": "No client data available"}
-            out = json.dumps(payload, indent=2)
-            return out
-
+            return json.dumps({"error": "No client data available"}, indent=2)
+        
         results = []
-        name_query = name.lower()
-
-        for client in clients.values():
-            if client_id and client.get("client_id") != client_id:
+        name_query = kwargs.get('name', '').lower()
+        client_id = kwargs.get('client_id')
+        
+        for client in clients:
+            if client_id and client.get('client_id') != client_id:
                 continue
-            if name_query and name_query not in client.get("name", "").lower():
+            if name_query and name_query not in client.get('name', '').lower():
                 continue
-
+            
             results.append(client)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+        
+        return json.dumps(results, indent=2)
+    
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchClients",
-                "description": "Search for clients by name WA ID",
+                "name": "search_clients",
+                "description": "Search for clients by name or ID",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "name": {
                             "type": "string",
-                            "description": "Client name to search for (partial match)",
+                            "description": "Client name to search for (partial match)"
                         },
                         "client_id": {
                             "type": "string",
-                            "description": "Specific client ID",
-                        },
+                            "description": "Specific client ID"
+                        }
                     },
-                    "required": [],
-                },
-            },
+                    "required": []
+                }
+            }
         }

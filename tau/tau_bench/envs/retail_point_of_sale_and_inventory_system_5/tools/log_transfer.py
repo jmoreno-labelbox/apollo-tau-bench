@@ -1,33 +1,21 @@
-from tau_bench.envs.tool import Tool
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class LogTransfer(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], from_store: str, to_store: str, sku: str, quantity: int) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         entry = {
-            "from_store": from_store,
-            "to_store": to_store,
-            "sku": sku,
-            "quantity": quantity,
+            "from_store": kwargs["from_store"],
+            "to_store": kwargs["to_store"],
+            "sku": kwargs["sku"],
+            "quantity": kwargs["quantity"]
         }
         data.setdefault("transfer_logs", []).append(entry)
-        payload = {"message": "Transfer logged.", "entry": entry}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"message": "Transfer logged.", "entry": entry}, indent=2)
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "LogTransfer",
-                "parameters": {
-                    "from_store": {"type": "string"},
-                    "to_store": {"type": "string"},
-                    "sku": {"type": "string"},
-                    "quantity": {"type": "number"},
-                },
-                "required": ["from_store", "to_store", "sku", "quantity"],
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "log_transfer", "parameters": {"from_store": {"type": "string"}, "to_store": {"type": "string"}, "sku": {"type": "string"}, "quantity": {"type": "number"}}, "required": ["from_store", "to_store", "sku", "quantity"]}}

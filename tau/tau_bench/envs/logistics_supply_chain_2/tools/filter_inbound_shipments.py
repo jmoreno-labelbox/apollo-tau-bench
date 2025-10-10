@@ -1,61 +1,52 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FilterInboundShipments(Tool):
-    """Utility for fetching inbound shipments based on specific key-value pairs."""
+    """Tool to retrieve inbound shipments by key and value."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], key: str, value: str, list_of_ids: list[str] = None) -> str:
-        shipments = data.get("inbound_shipments", {}).values()
-        result = [
-            item["shipment_id"]
-            for item in shipments.values() if item[key].lower() == value.lower()
-        ]
-        if list_of_ids:
-            result = [r for r in result.values() if r in list_of_ids]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        shipments = data.get("inbound_shipments", [])
+        key = kwargs.get("key")
+        value = kwargs.get("value")
+        list_of_shipments = kwargs.get("list_of_ids", None)
+        result = [item['shipment_id'] for item in shipments if item[key].lower() == value.lower()]
+        if list_of_shipments:
+            result = [r for r in result if r in list_of_shipments]
         if result:
-            payload = {key: value, "result": result}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"error": f"No matching shipments found for {key} {value}"}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+            return json.dumps({key: value, 'result': result}, indent=2)
+        return json.dumps({"error": f"No matching shipments found for {key} {value}"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FilterInboundShipments",
+                "name": "filter_inbound_shipments",
                 "description": "Retrieve inbound shipments based on key and value.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "list_of_ids": {
                             "type": "array",
-                            "items": {"type": "string"},
-                            "description": "List of shipments to choose from.",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "List of shipments to choose from."
                         },
                         "key": {
                             "type": "string",
-                            "description": "Key to consider like carrier_scac.",
+                            "description": "Key to consider like carrier_scac."
                         },
                         "value": {
                             "type": "string",
-                            "description": "Value to consider for this skey.",
-                        },
-                    },
-                },
-            },
+                            "description": "Value to consider for this skey."
+                        }
+                    }
+                }
+            }
         }

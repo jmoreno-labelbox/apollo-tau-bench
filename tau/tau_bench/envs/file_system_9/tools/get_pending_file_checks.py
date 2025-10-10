@@ -1,32 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetPendingFileChecks(Tool):
-    """Fetches tasks for pending file checks."""
+    """Retrieves pending file check tasks."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        pending_tasks = [task for task in data.get("file_check_db", []) if not task.get("completed")]
+        return json.dumps({"pending_tasks": pending_tasks})
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        pending_tasks = [
-            task for task in data.get("file_check_db", {}).values() if not task.get("completed")
-        ]
-        payload = {"pending_tasks": pending_tasks}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPendingFileChecks",
+                "name": "get_pending_file_checks",
                 "description": "Retrieves pending file check tasks.",
                 "parameters": {},
             },

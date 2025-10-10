@@ -1,40 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetSupplyOrderDetails(Tool):
-    """Fetch a supply order from supply_orders.json using supply_order_id."""
+    """Retrieve a supply order from supply_orders.json by supply_order_id."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], supply_order_id: str) -> str:
-        supply_orders = data.get("supply_orders", {}).values()
-        for so in supply_orders.values():
+    def invoke(data: Dict[str, Any], supply_order_id: str) -> str:
+        supply_orders = data.get("supply_orders", [])
+        for so in supply_orders:
             if so.get("supply_order_id") == supply_order_id:
-                payload = so
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Supply order not found", "supply_order_id": supply_order_id}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(so)
+        return json.dumps({"error": "Supply order not found", "supply_order_id": supply_order_id})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetSupplyOrderDetails",
+                "name": "get_supply_order_details",
                 "description": "Get supply order details by supply_order_id from supply_orders.json.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"supply_order_id": {"type": "string"}},
-                    "required": ["supply_order_id"],
-                },
-            },
+                    "properties": {
+                        "supply_order_id": {"type": "string"}
+                    },
+                    "required": ["supply_order_id"]
+                }
+            }
         }

@@ -1,56 +1,53 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ValidatePurchaseOrder(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], po_number: str = None, vendor_id: str = None, project_id: str = None, amount: float = None, description: str = None, fiscal_year: int = datetime.now().year) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        po_number = kwargs.get("po_number")
+        vendor_id = kwargs.get("vendor_id")
+        project_id = kwargs.get("project_id")
+        amount = kwargs.get("amount")
+        description = kwargs.get("description")
+        fiscal_year = kwargs.get("fiscal_year", datetime.now().year)
+
         if not all([po_number, vendor_id, project_id, amount]):
-            payload = {"error": "po_number, vendor_id, project_id, and amount are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "po_number, vendor_id, project_id, and amount are required"}
+            )
 
-        budgets = data.get("budgets", {}).values()
-        vendors = data.get("vendors", {}).values()
-        data.get("purchase_orders", {}).values()
-        projects = data.get("projects", {}).values()
+        budgets = data.get("budgets", [])
+        vendors = data.get("vendors", [])
+        purchase_orders = data.get("purchase_orders", [])
+        projects = list(data.get("projects", {}).values())
 
-        vendor = next((v for v in vendors.values() if v.get("vendor_id") == vendor_id), None)
+        vendor = next((v for v in vendors if v.get("vendor_id") == vendor_id), None)
         if not vendor:
-            payload = {"error": f"Vendor {vendor_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Vendor {vendor_id} not found"})
 
         if vendor.get("status") != "active":
-            payload = {
-                "error": f"Vendor status is {vendor.get('status')}. Only active vendors allowed"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": f"Vendor status is {vendor.get('status')}. Only active vendors allowed"
+                }
+            )
 
         budget = next(
             (
                 b
-                for b in budgets.values() if b.get("project_id") == project_id
+                for b in budgets
+                if b.get("project_id") == project_id
                 and b.get("fiscal_year") == fiscal_year
             ),
             None,
         )
 
         if not budget:
-            payload = {"error": "No budget found for project"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "No budget found for project"})
 
         available_budget = (
             budget["total_budget"]
@@ -58,7 +55,7 @@ class ValidatePurchaseOrder(Tool):
             - budget.get("committed_amount", 0)
         )
 
-        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
+        project = next((p for p in projects if p.get("project_id") == project_id), None)
         approval_required = []
 
         if project:
@@ -108,15 +105,15 @@ class ValidatePurchaseOrder(Tool):
             validation_result["warnings"].append(
                 "PO will push budget utilization over 90%"
             )
-        payload = validation_result
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(validation_result, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ValidatePurchaseOrder",
+                "name": "validate_purchase_order",
                 "description": "Validate a purchase order against budget and vendor status",
                 "parameters": {
                     "type": "object",

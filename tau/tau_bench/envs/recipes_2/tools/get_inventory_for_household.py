@@ -1,43 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetInventoryForHousehold(Tool):
-    """Fetches all stock items for a specific household ID."""
+    """Retrieves all inventory items for a given household ID."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        household_id = kwargs.get("household_id")
+        inventory = data.get("inventory_items", [])
+        household_inventory = [item for item in inventory if item.get("household_id") == household_id]
+        return json.dumps(household_inventory)
 
     @staticmethod
-    def invoke(data: dict[str, Any], household_id: str = None) -> str:
-        inventory = data.get("inventory_items", {}).values()
-        household_inventory = [
-            item for item in inventory.values() if item.get("household_id") == household_id
-        ]
-        payload = household_inventory
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getInventoryForHousehold",
+                "name": "get_inventory_for_household",
                 "description": "Retrieves all inventory items for a given household ID.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "household_id": {
-                            "type": "integer",
-                            "description": "The unique ID of the household.",
-                        }
-                    },
+                    "properties": {"household_id": {"type": "integer", "description": "The unique ID of the household."}},
                     "required": ["household_id"],
                 },
             },

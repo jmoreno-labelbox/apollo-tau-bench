@@ -1,40 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetUserPaymentMethods(Tool):
-    """Enumerate all payment options for a specified user_id."""
+    """List all payment methods for a given user_id."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str) -> str:
-        users = data.get("users", {}).values()
-        for user in users.values():
+    def invoke(data: Dict[str, Any], user_id: str) -> str:
+        users = list(data.get("users", {}).values())
+        for user in users:
             if user.get("user_id") == user_id:
-                payload = {"payment_methods": user.get("payment_methods", {}).values()}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "User not found", "user_id": user_id}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"payment_methods": user.get("payment_methods", {})})
+        return json.dumps({"error": "User not found", "user_id": user_id})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetUserPaymentMethods",
+                "name": "get_user_payment_methods",
                 "description": "Retrieve payment methods for a given user_id from users.json.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"user_id": {"type": "string"}},
-                    "required": ["user_id"],
-                },
-            },
+                    "properties": {
+                        "user_id": {"type": "string"}
+                    },
+                    "required": ["user_id"]
+                }
+            }
         }

@@ -1,19 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetPullRequest(Tool):
-    """Provides information about a particular pull request."""
+    """Returns details of a specific pull request."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str = None, pr_number: int = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        repo_name = kwargs.get("repo_name")
+        pr_number = int(kwargs.get("pr_number"))
+
         if not all([repo_name, pr_number]):
-            payload = {"error": "repo_name and pr_number are required."}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "repo_name and pr_number are required."}, indent=2)
 
         me = _auth(data)["username"]
         for pr in _prs(data):
@@ -40,27 +41,24 @@ class GetPullRequest(Tool):
                         "created_ts": pr["created_ts"][idx],
                         "updated_ts": pr["updated_ts"][idx],
                     }
-                    payload = single_pr
-                    out = json.dumps(payload, indent=2)
-                    return out
-        payload = {"error": "Pull request not found."}
-        out = json.dumps(payload, indent=2)
-        return out
+                    return json.dumps(single_pr, indent=2)
+
+        return json.dumps({"error": "Pull request not found."}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GetPullRequest",
+                "name": "get_pull_request",
                 "description": "Returns details of a specific pull request.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "repo_name": {"type": "string"},
-                        "pr_number": {"type": "integer"},
+                        "pr_number": {"type": "integer"}
                     },
-                    "required": ["repo_name"],
-                },
-            },
+                    "required": ["repo_name"]
+                }
+            }
         }

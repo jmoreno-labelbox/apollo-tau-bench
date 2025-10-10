@@ -1,8 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class DetectSuspiciousActivityAndAlertTool(Tool):
     """
@@ -21,7 +22,8 @@ class DetectSuspiciousActivityAndAlertTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get("account_id")
         if not account_id:
             return json.dumps({"error": "account_id is required"}, indent=2)
 
@@ -39,12 +41,13 @@ class DetectSuspiciousActivityAndAlertTool(Tool):
             },
             indent=2,
         )
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "DetectSuspiciousActivityAndAlert",
+                "name": "detect_suspicious_activity_and_alert",
                 "description": "Analyze recent transactions and flag suspicious patterns, triggering an alert.",
                 "parameters": {
                     "type": "object",

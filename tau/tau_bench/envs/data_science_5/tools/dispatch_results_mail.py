@@ -1,27 +1,14 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class DispatchResultsMail(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        to_address: str = None,
-        subject: str = None,
-        body_text: str = None,
-        attachment: str = None,
-        model_name: str = None,
-        batch_name: str = None
-    ) -> str:
-        inbox = data.get("gmail_messages", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        inbox = data.get("gmail_messages", [])
         max_id = 0
         for m in inbox:
             try:
@@ -33,38 +20,28 @@ class DispatchResultsMail(Tool):
         new_id = max_id + 1
         row = {
             "message_id": new_id,
-            "to": to_address,
-            "subject": subject,
-            "body_text": body_text,
-            "attachment": attachment,
-            "model_name": model_name,
-            "batch_name": batch_name,
+            "to": kwargs.get("to_address"),
+            "subject": kwargs.get("subject"),
+            "body_text": kwargs.get("body_text"),
+            "attachment": kwargs.get("attachment"),
+            "model_name": kwargs.get("model_name"),
+            "batch_name": kwargs.get("batch_name"),
             "sent_at": _now_iso_fixed(),
         }
-        data["gmail_messages"][row["gmail_message_id"]] = row
-        payload = {"status": "sent", "message_id": new_id, "to": row["to"]}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        inbox.append(row)
+        return json.dumps({"status": "sent", "message_id": new_id, "to": row["to"]}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "DispatchResultsMail",
-                "description": "Send a results email with a single attachment.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "to_address": {"type": "string"},
-                        "subject": {"type": "string"},
-                        "body_text": {"type": "string"},
-                        "attachment": {"type": "string"},
-                        "model_name": {"type": "string"},
-                        "batch_name": {"type": "string"},
-                    },
-                    "required": ["to_address", "subject", "body_text", "attachment"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "dispatch_results_mail",
+            "description": "Send a results email with a single attachment.",
+            "parameters": {"type": "object", "properties": {
+                "to_address": {"type": "string"},
+                "subject": {"type": "string"},
+                "body_text": {"type": "string"},
+                "attachment": {"type": "string"},
+                "model_name": {"type": "string"},
+                "batch_name": {"type": "string"}
+            }, "required": ["to_address", "subject", "body_text", "attachment"]}
+        }}

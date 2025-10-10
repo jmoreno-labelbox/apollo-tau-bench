@@ -1,92 +1,69 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SendEmail(Tool):
-    """A utility for sending an email by generating a record in the database."""
+    """ A tool to send an email by creating a record in the database."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        sender: str = None,
-        receiver: str = None,
-        subject: str = None,
-        text_content: str = None,
-        timestamp: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         try:
-            emails = data.get("emails", {}).values()
+            emails = data.get('emails', [])
         except (KeyError, json.JSONDecodeError):
             emails = []
-        existing_ids = [
-            int(email["email_id"].replace("EM-", ""))
-            for email in emails.values() if email.get("email_id", "").startswith("EM-")
-        ]
+        existing_ids = [int(email["email_id"].replace("EM-", "")) for email in emails if email.get("email_id", "").startswith("EM-")]
         next_id_num = max(existing_ids) + 1 if existing_ids else 1
         email_id = f"EM-{next_id_num:03d}"
 
         new_email = {
             "email_id": email_id,
-            "sender": sender,
-            "receiver": receiver,
-            "subject": subject,
-            "text_content": text_content,
-            "timestamp": timestamp,
+            "sender": kwargs.get("sender"),
+            "receiver": kwargs.get("receiver"),
+            "subject": kwargs.get("subject"),
+            "text_content": kwargs.get("text_content"),
+            "timestamp": kwargs.get("timestamp"),
         }
 
-        data["emails"][email_id] = new_email
+        emails.append(new_email)
         data["emails.json"] = json.dumps(emails, indent=4)
-        payload = new_email
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(new_email)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SendEmail",
+                "name": "send_email",
                 "description": "Sends a standard onboarding email by creating a record of it in the database.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "sender": {
                             "type": "string",
-                            "description": "The email address of the sender (e.g., onboarding@taucorp.com).",
+                            "description": "The email address of the sender (e.g., onboarding@taucorp.com)."
                         },
                         "receiver": {
                             "type": "string",
-                            "description": "The email address of the recipient.",
+                            "description": "The email address of the recipient."
                         },
                         "subject": {
                             "type": "string",
-                            "description": "The subject line of the email.",
+                            "description": "The subject line of the email."
                         },
                         "text_content": {
                             "type": "string",
-                            "description": "The plain text body of the email.",
+                            "description": "The plain text body of the email."
                         },
                         "timestamp": {
                             "type": "string",
-                            "description": "The timestamp of when the email is sent, in ISO 8601 format.",
+                            "description": "The timestamp of when the email is sent, in ISO 8601 format."
                         },
                     },
-                    "required": [
-                        "sender",
-                        "receiver",
-                        "subject",
-                        "text_content",
-                        "timestamp",
-                    ],
-                },
-            },
+                    "required": ["sender", "receiver", "subject", "text_content", "timestamp"]
+                }
+            }
         }

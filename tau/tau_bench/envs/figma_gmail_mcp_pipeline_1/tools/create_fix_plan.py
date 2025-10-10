@@ -1,90 +1,77 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class CreateFixPlan(Tool):  #WRITE
+class CreateFixPlan(Tool):  # WRITE
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         audit_id: str,
         owner_email: str,
-        delivery_method: str = None,
+        delivery_method: str = None
     ) -> str:
-        pass
-        #Check the input for validity
+        # Validate input
         if not isinstance(audit_id, str) or not audit_id:
-            payload = {"error": "audit_id must be a non-empty string"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "audit_id must be a non-empty string"})
 
         if not isinstance(owner_email, str) or not owner_email:
-            payload = {"error": "owner_email must be a non-empty string"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "owner_email must be a non-empty string"})
 
-        #Verify the existence of the audit
-        audits = data.get("audits", {}).values()
-        audit_exists = any(audit.get("audit_id") == audit_id for audit in audits.values())
+        # Check if audit exists
+        audits = data.get("audits", [])
+        audit_exists = any(audit.get("audit_id") == audit_id for audit in audits)
         if not audit_exists:
-            payload = {"error": f"Audit with ID '{audit_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Audit with ID '{audit_id}' not found"})
 
-        #Retrieve current fix plans to identify the next plan_id
-        fix_plans = data.get("fix_plans", {}).values()
+        # Get existing fix plans to determine next plan_id
+        fix_plans = data.get("fix_plans", [])
         next_num = len(fix_plans) + 1
         plan_id = f"plan_{next_num:03d}"
 
-        #Utilize custom_hash to establish delivery_method based on owner_email if not provided
+        # Use custom_hash to determine delivery_method based on owner_email if not given
         if delivery_method is None:
             delivery_methods = ["TICKETS", "COMMENTS", "PDF"]
             hash_value = custom_hash(owner_email)
             delivery_method = delivery_methods[hash_value % len(delivery_methods)]
 
-        #Establish a new fix plan entry
+        # Create new fix plan entry
         new_fix_plan = {
             "plan_id": plan_id,
             "audit_id": audit_id,
             "status": "DRAFTED",
             "created_ts": "2024-08-25T10:00:00Z",
             "owner_email": owner_email,
-            "delivery_method": delivery_method,
+            "delivery_method": delivery_method
         }
 
-        #Include in fix_plans
-        data["fix_plans"][new_fix_plan["fix_plan_id"]] = new_fix_plan
-        payload = {"new_fix_plan": new_fix_plan}
-        out = json.dumps(payload)
-        return out
+        # Add to fix_plans
+        fix_plans.append(new_fix_plan)
+
+        return json.dumps({"new_fix_plan": new_fix_plan})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateFixPlan",
+                "name": "create_fix_plan",
                 "description": "Create a new fix plan for an audit with specified owner. Automatically determines delivery method based on owner email using hash function.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "audit_id": {
                             "type": "string",
-                            "description": "The audit ID for which to create the fix plan.",
+                            "description": "The audit ID for which to create the fix plan."
                         },
                         "owner_email": {
                             "type": "string",
-                            "description": "Email address of the fix plan owner.",
-                        },
+                            "description": "Email address of the fix plan owner."
+                        }
                     },
-                    "required": ["audit_id", "owner_email"],
-                },
-            },
+                    "required": ["audit_id", "owner_email"]
+                }
+            }
         }

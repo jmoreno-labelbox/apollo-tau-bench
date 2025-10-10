@@ -1,26 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class add_position(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], position_id: str = None,
-    position: Any = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], position: dict) -> str:
         positions = data.setdefault("positions", [])
-        position = {"position_id": position_id}
-        data["positions"][position_id] = position
-        payload = {"success": True, "position_id": position.get("position_id")}
-        out = json.dumps(
-            payload, indent=2
+        positions.append(position)
+        return json.dumps(
+            {"success": True, "position_id": position.get("position_id")}, indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddPosition",
+                "name": "add_position",
                 "description": "Add a new position record. The position object must contain all required fields.",
                 "parameters": {
                     "type": "object",

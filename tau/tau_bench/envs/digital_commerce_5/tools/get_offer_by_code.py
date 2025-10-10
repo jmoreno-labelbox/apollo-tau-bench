@@ -1,30 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetOfferByCode(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], code: Any) -> str:
-        offers = data.get("offers", {}).values()
-        match = next((o for o in offers.values() if o.get("offer_code") == code), None)
-        payload = match or {}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], code: str) -> str:
+        offers = data.get("offers", [])
+        match = next((o for o in offers if o.get("offer_code") == code), None)
+        return json.dumps(match or {}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetOfferByCode",
+                "name": "get_offer_by_code",
                 "description": "Return an offer by code (discount_type=PERCENTAGE|FIXED_AMOUNT).",
                 "parameters": {
                     "type": "object",

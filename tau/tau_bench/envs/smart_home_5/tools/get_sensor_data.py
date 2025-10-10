@@ -1,32 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetSensorData(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], sensor_ids: list[str] | None = None) -> str:
-        sensors = data.get("sensors", {}).values()
+    def invoke(data: Dict[str, Any], sensor_ids: Optional[List[str]] = None) -> str:
+        sensors = data.get('sensors', [])
         if sensor_ids:
-            result = [s for s in sensors.values() if s.get("id") in sensor_ids]
+            result = [s for s in sensors if s.get('id') in sensor_ids]
         else:
             result = sensors
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(result, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetSensorData",
+                "name": "get_sensor_data",
                 "description": "Get data from one or more sensors. Sensor state is read-only.",
                 "parameters": {
                     "type": "object",
@@ -34,10 +28,10 @@ class GetSensorData(Tool):
                         "sensor_ids": {
                             "type": "array",
                             "items": {"type": "string"},
-                            "description": "A list of sensor IDs to retrieve data from. If empty, returns data for all sensors.",
+                            "description": "A list of sensor IDs to retrieve data from. If empty, returns data for all sensors."
                         }
                     },
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

@@ -1,43 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FetchProjectCard(Tool):
-    """Get project using project_id."""
+    """Fetch project by project_id."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        pid = kwargs.get("project_id")
+        row = next((p for p in list(data.get("projects", {}).values()) if p.get("project_id") == pid), None)
+        if not row:
+            return json.dumps({"error": f"project_id '{pid}' not found"}, indent=2)
+        return json.dumps(row, indent=2)
 
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: str = None) -> str:
-        pid = project_id
-        row = next(
-            (p for p in data.get("projects", {}).values() if p.get("project_id") == pid), None
-        )
-        if not row:
-            payload = {"error": f"project_id '{pid}' not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = row
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "FetchProjectCard",
-                "description": "Fetch a project by id.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"project_id": {"type": "string"}},
-                    "required": ["project_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "fetch_project_card",
+            "description": "Fetch a project by id.",
+            "parameters": {"type": "object", "properties": {"project_id": {"type": "string"}}, "required": ["project_id"]}
+        }}

@@ -1,35 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAircraftByAirport(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], airport_id: str) -> str:
+    def invoke(data: Dict[str, Any], airport_id: str) -> str:
         res = []
-        for a in data.get("aircraft", {}).values():
-            if a.get("location").get("airport_id") == airport_id:
+        for a in list(data.get("aircraft", {}).values()):
+            if a.get('location').get("airport_id") == airport_id:
                 res.append(_j(a))
         return _j(res)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetAircraftByAirport",
-                "description": "Return aircraft by their base airport.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"airport_id": {"type": "string"}},
-                    "required": ["airport_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"get_aircraft_by_airport",
+            "description":"Return aircraft by their base airport.",
+            "parameters":{"type":"object","properties":{"airport_id":{"type":"string"}},"required":["airport_id"]}
+        }}

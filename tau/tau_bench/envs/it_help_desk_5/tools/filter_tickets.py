@@ -1,74 +1,47 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FilterTickets(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], ids: list = None, status: str = None, not_status: str = None) -> str:
-        if ids is None:
-            ids = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ids = kwargs.get('ids',[])
+        status = kwargs.get('status')
+        not_status = kwargs.get('not_status')
 
         if len(ids) == 0 and all([param is None for param in [status, not_status]]):
-            payload = {
-                "status": "error",
-                "description": "Input parameters to search for are required.",
-            }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({'status': 'error', 'description': 'Input parameters to search for are required.'}, indent=2)
 
-        tickets = data.get("tickets")
+        tickets = data.get('tickets')
         temp_tickets = tickets.copy()
 
         if len(ids) != 0:
-            temp_tickets = [
-                ticket for ticket in temp_tickets if ticket["ticket_id"] in ids
-            ]
+            temp_tickets = [ticket for ticket in temp_tickets if ticket['ticket_id'] in ids]
         if status is not None:
-            temp_tickets = [
-                ticket for ticket in temp_tickets if ticket["status"] == status
-            ]
+            temp_tickets = [ticket for ticket in temp_tickets if ticket['status'] == status]
         if not_status is not None:
-            temp_tickets = [
-                ticket for ticket in temp_tickets if ticket["status"] != not_status
-            ]
-        payload = temp_tickets
-        out = json.dumps(payload, indent=2)
-        return out
+            temp_tickets = [ticket for ticket in temp_tickets if ticket['status'] != not_status]
+
+        return json.dumps(temp_tickets, indent=2)
+
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "filterTickets",
-                "description": "Filters tickets by input criteria.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "ids": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "An array of ticket ids to search for.",
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "A status to search for.",
-                        },
-                        "not_status": {
-                            "type": "string",
-                            "description": "A status to exclude from search results.",
-                        },
+            'type': 'function',
+            'function': {
+                'name': 'filter_tickets',
+                'description': 'Filters tickets by input criteria.',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'ids': {'type': 'array', 'items': {'type': 'string'}, 'description': 'An array of ticket ids to search for.'},
+                        'status': {'type': 'string', 'description': 'A status to search for.'},
+                        'not_status': {'type': 'string', 'description': 'A status to exclude from search results.'}
                     },
-                },
-            },
+                }
+            }
         }

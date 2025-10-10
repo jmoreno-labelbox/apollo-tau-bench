@@ -1,43 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ReadStakeholderArtifact(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], output_id: str = None, output_label: str = None) -> str:
-        outs = data.get("stakeholder_outputs", {}).values() or []
-        oid = output_id
-        label = output_label
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        outs = data.get("stakeholder_outputs", []) or []
+        oid = kwargs.get("output_id")
+        label = kwargs.get("output_label")
         row = None
         if oid is not None:
-            row = next((o for o in outs.values() if str(o.get("output_id")) == str(oid)), None)
+            row = next((o for o in outs if str(o.get("output_id")) == str(oid)), None)
         elif label:
-            row = next((o for o in outs.values() if o.get("output_label") == label), None)
-        payload = row or {"error": "Stakeholder output not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+            row = next((o for o in outs if o.get("output_label") == label), None)
+        return json.dumps(row or {"error": "Stakeholder output not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ReadStakeholderArtifact",
-                "description": "Fetch a stakeholder artifact row by id or label.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "output_id": {"type": "string"},
-                        "output_label": {"type": "string"},
-                    },
-                    "required": [],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "read_stakeholder_artifact",
+            "description": "Fetch a stakeholder artifact row by id or label.",
+            "parameters": {"type": "object", "properties": {
+                "output_id": {"type": "string"},
+                "output_label": {"type": "string"}
+            }, "required": []}
+        }}

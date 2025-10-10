@@ -1,27 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FetchClientFullContextTool(Tool):
-    """Combines client preferences, mortgage profile, inferred assigned broker, and counts of recent activities."""
+    """Aggregates client preferences, mortgage profile, inferred assigned broker, and recent-activity counts."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], client_id: int = None) -> str:
-        client_id = _as_int(client_id)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        client_id = _as_int(kwargs.get("client_id"))
         if client_id is None:
             return _err("client_id is required")
 
-        #--- User Preferences ---
+        # --- Preferences ---
         p = _get_client_prefs(data, client_id) or {}
         prefs_out = {
             "neighborhoods_json": p.get("neighborhoods_json") or [],
@@ -36,10 +29,10 @@ class FetchClientFullContextTool(Tool):
             "commute_max_minutes": p.get("commute_max_minutes"),
         }
 
-        #--- Mortgage profile (accept mortage_profiles misspelling) ---
+        # --- Mortgage profile (tolerate mortage_profiles typo) ---
         msrc = data.get("mortgage_profiles") or data.get("mortage_profiles") or []
         m = (
-            next((r for r in msrc.values() if _as_int(r.get("client_id")) == client_id), None)
+            next((r for r in msrc if _as_int(r.get("client_id")) == client_id), None)
             or {}
         )
         mort_out = {
@@ -52,7 +45,7 @@ class FetchClientFullContextTool(Tool):
             "last_reviewed_at": m.get("last_reviewed_at"),
         }
 
-        #--- Assigned broker inferred (clients table not present) ---
+        # --- Inferred assigned broker (no clients table) ---
         assigned_broker_id, assignment_basis, last_interaction, broker_active = (
             None,
             None,
@@ -60,10 +53,10 @@ class FetchClientFullContextTool(Tool):
             None,
         )
 
-        #1) Latest comp_report for this client
+        # 1) Most recent comp_report for this client
         crs = [
             r
-            for r in data.get("comp_reports", {}).values()
+            for r in data.get("comp_reports", [])
             if _as_int(r.get("client_id")) == client_id
         ]
         if crs:
@@ -77,11 +70,11 @@ class FetchClientFullContextTool(Tool):
             last_interaction = latest.get("updated_at") or latest.get("created_at")
             broker_active = True
 
-        #2) Backup: latest calendar event
+        # 2) Fallback: most recent calendar event
         if assigned_broker_id is None:
             evs = [
                 e
-                for e in data.get("calendar_events", {}).values()
+                for e in data.get("calendar_events", [])
                 if _as_int(e.get("client_id")) == client_id
             ]
             if evs:
@@ -103,20 +96,20 @@ class FetchClientFullContextTool(Tool):
             "broker_active": broker_active,
         }
 
-        #--- Counts of recent activities ---
+        # --- Recent activity counts ---
         emails_cnt = sum(
             1
-            for e in data.get("emails", {}).values()
+            for e in data.get("emails", [])
             if _as_int(e.get("client_id")) == client_id
         )
         reports_cnt = sum(
             1
-            for r in data.get("comp_reports", {}).values()
+            for r in data.get("comp_reports", [])
             if _as_int(r.get("client_id")) == client_id
         )
         events_cnt = sum(
             1
-            for e in data.get("calendar_events", {}).values()
+            for e in data.get("calendar_events", [])
             if _as_int(e.get("client_id")) == client_id
         )
 
@@ -126,25 +119,26 @@ class FetchClientFullContextTool(Tool):
             "properties_viewed": events_cnt,
         }
 
-        #If absolutely nothing is found for this client, return not_found
+        # If literally nothing exists for this client, return not_found
         if not p and not m and emails_cnt == 0 and reports_cnt == 0 and events_cnt == 0:
             return _err(f"client_id {client_id} not found", code="not_found")
-        payload = {
+
+        return json.dumps(
+            {
                 "client_basic": client_basic,
                 "preferences": prefs_out,
                 "mortgage_profile": mort_out,
                 "recent_activity": recent_out,
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FetchClientFullContext",
+                "name": "fetch_client_full_context",
                 "description": (
                     "Fetch client preferences, mortgage profile, inferred assigned broker, and activity counts."
                 ),

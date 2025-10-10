@@ -1,38 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CompleteCertificationTool(Tool):
-    """Designate a certification as complete."""
+    """Mark a certification as complete."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], certification_id: str = None, completed_on: str = None) -> str:
-        for c in data.get("certifications", {}).values():
-            if c["certification_id"] == certification_id:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cid = kwargs.get("certification_id")
+        completed_on = kwargs.get("completed_on")
+        for c in data.get("certifications", []):
+            if c["certification_id"] == cid:
                 c["status"] = "COMPLETED"
                 c["completed_on"] = completed_on
-                payload = {"success": f"Certification {certification_id} completed"}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
-        payload = {"error": f"Certification {certification_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps({"success": f"Certification {cid} completed"}, indent=2)
+        return json.dumps({"error": f"Certification {cid} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CompleteCertification",
+                "name": "complete_certification",
                 "description": "Mark a certification as completed",
                 "parameters": {
                     "type": "object",
@@ -40,7 +32,7 @@ class CompleteCertificationTool(Tool):
                         "certification_id": {"type": "string"},
                         "completed_on": {"type": "string"},
                     },
-                    "required": ["certification_id", "completed_on"],
-                },
-            },
+                    "required": ["certification_id", "completed_on"]
+                }
+            }
         }

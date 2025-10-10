@@ -1,25 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SetOrderStatusTool(Tool):
     """
-    Set or change an order's status in orders.json.
+    Set or override an order's status in orders.json.
 
     Behavior:
-    - Confirms the order exists.
-    - Updates order['status'] to the provided value.
-    - Does not alter fulfillments or payment_history.
+    - Validates the order exists.
+    - Sets order['status'] = provided value.
+    - Does not modify fulfillments or payment_history.
 
     Input (kwargs):
         order_id (str, required)
@@ -30,31 +23,27 @@ class SetOrderStatusTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str = None, status: str = None) -> str:
-        if not order_id or not isinstance(status, str) or not status:
-            payload = {"error": "order_id and non-empty status are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get("order_id")
+        status = kwargs.get("status")
 
-        orders = data.get("orders", {}).values()
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
+        if not order_id or not isinstance(status, str) or not status:
+            return json.dumps({"error": "order_id and non-empty status are required"}, indent=2)
+
+        orders = list(data.get("orders", {}).values())
+        order = next((o for o in orders if o.get("order_id") == order_id), None)
         if not order:
-            payload = {"error": f"order_id '{order_id}' not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"order_id '{order_id}' not found"}, indent=2)
 
         order["status"] = status
-        payload = {"order_id": order_id, "status": status}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"order_id": order_id, "status": status}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SetOrderStatus",
+                "name": "set_order_status",
                 "description": "Set or override the 'status' field of an existing order (orders.json).",
                 "parameters": {
                     "type": "object",

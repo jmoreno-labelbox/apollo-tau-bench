@@ -1,43 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FetchFeatureSetDetails(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], feature_set_id: str = None, feature_set_name: str = None) -> str:
-        feats = data.get("features", {}).values() or []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        feats = data.get("features", []) or []
+        fid = kwargs.get("feature_set_id")
+        fname = kwargs.get("feature_set_name")
         row = None
-        if feature_set_id is not None:
-            row = next(
-                (f for f in feats.values() if str(f.get("feature_set_id")) == str(feature_set_id)), None
-            )
-        elif feature_set_name:
-            row = next((f for f in feats.values() if f.get("feature_set_name") == feature_set_name), None)
-        payload = row or {"error": "Feature set not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+        if fid is not None:
+            row = next((f for f in feats if str(f.get("feature_set_id"))==str(fid)), None)
+        elif fname:
+            row = next((f for f in feats if f.get("feature_set_name")==fname), None)
+        return json.dumps(row or {"error":"Feature set not found"}, indent=2)
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetFeatureSetDetails",
-                "description": "Read a feature set by id or by name.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "feature_set_id": {"type": "string"},
-                        "feature_set_name": {"type": "string"},
-                    },
-                    "required": [],
-                },
-            },
-        }
+    def get_info()->Dict[str,Any]:
+        return {"type":"function","function":{
+            "name":"get_feature_set_details",
+            "description":"Read a feature set by id or by name.",
+            "parameters":{"type":"object","properties":{
+                "feature_set_id":{"type":"string"},"feature_set_name":{"type":"string"}
+            },"required":[]}
+        }}

@@ -1,37 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class VerifyCrewDutyTime(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], crew_member_id: str, reference_date: str) -> str:
-        crew_members = data.get("crew_members", {}).values()
+    def invoke(data: Dict[str, Any], crew_member_id: str, reference_date: str) -> str:
+        crew_members = data.get("crew_members", [])
         target_logs = []
         for member in crew_members:
             if member.get("crew_member_id") == crew_member_id:
                 target_logs.extend(member.get("flight_log", []))
 
         if not target_logs:
-            payload = {
+            return json.dumps({
                 "crew_member_id": crew_member_id,
                 "is_compliant": True,
                 "hours_past_24h": 0,
                 "hours_past_30d": 0,
                 "hours_past_365d": 0,
-                "details": "No flight logs found, compliant by default.",
-            }
-            out = json.dumps(payload)
-            return out
+                "details": "No flight logs found, compliant by default."
+            })
 
         ref_date = datetime.fromisoformat(reference_date)
         hours_24h, hours_30d, hours_365d = 0.0, 0.0, 0.0
@@ -40,7 +31,7 @@ class VerifyCrewDutyTime(Tool):
             log_date = datetime.fromisoformat(log.get("date"))
             delta = ref_date - log_date
 
-            raw_hours = log.get("hours_flown", {}).values().get("total")
+            raw_hours = log.get("hours_flown", {}).get("total")
             hours = raw_hours if isinstance(raw_hours, (int, float)) else 0.0
 
             if delta.days < 1:
@@ -50,36 +41,40 @@ class VerifyCrewDutyTime(Tool):
             if delta.days < 365:
                 hours_365d += hours
 
-        is_compliant = all([hours_24h <= 8, hours_30d <= 100, hours_365d <= 1000])
-        payload = {
+        is_compliant = all([
+            hours_24h <= 8,
+            hours_30d <= 100,
+            hours_365d <= 1000
+        ])
+
+        return json.dumps({
             "crew_member_id": crew_member_id,
             "is_compliant": is_compliant,
             "hours_past_24h": round(hours_24h, 2),
             "hours_past_30d": round(hours_30d, 2),
-            "hours_past_365d": round(hours_365d, 2),
-        }
-        out = json.dumps(payload)
-        return out
+            "hours_past_365d": round(hours_365d, 2)
+        })
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "VerifyCrewDutyTime",
+                "name": "verify_crew_duty_time",
                 "description": "Verifies if a crew member is compliant with cumulative flight duty time limits based on their flight log.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "crew_member_id": {
                             "type": "string",
-                            "description": "The unique ID of the crew member to verify.",
+                            "description": "The unique ID of the crew member to verify."
                         },
                         "reference_date": {
                             "type": "string",
-                            "description": "The date of the prospective flight assignment (YYYY-MM-DD), used as the reference point for calculations.",
-                        },
+                            "description": "The date of the prospective flight assignment (YYYY-MM-DD), used as the reference point for calculations."
+                        }
                     },
-                    "required": ["crew_member_id", "reference_date"],
-                },
-            },
+                    "required": ["crew_member_id", "reference_date"]
+                }
+            }
         }

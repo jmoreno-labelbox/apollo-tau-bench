@@ -1,45 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SendEmailTool(Tool):
-    """Generates an email entry with automatic subject/body creation if not provided."""
+    """Creates an email entry with automatic subject/body generation when omitted."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        client_id: str = None,
-        broker_id: str = None,
-        template_code: str = None,
-        subject: str = None,
-        body_uri: str = None,
-        campaign_id: str = None,
-        property_id: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        client_id = kwargs.get("client_id")
+        broker_id = kwargs.get("broker_id")
+        template_code = kwargs.get("template_code")
+        subject = kwargs.get("subject")
+        body_uri = kwargs.get("body_uri")
+        campaign_id = kwargs.get("campaign_id")
+        property_id = kwargs.get("property_id")
+
         if client_id is None or broker_id is None or not template_code:
             return _err("client_id, broker_id, and template_code are required")
 
-        # Process property_id as either a string or a list of strings
+        # Handle property_id as string or list of strings
         if property_id:
             if isinstance(property_id, list):
                 pid = ", ".join(property_id)
             else:
                 pid = str(property_id)
         else:
-            # Automatically create property_id if absent
+            # Auto-generate property_id if missing
             comp_reports = [
                 r
-                for r in data.get("comp_reports", {}).values()
+                for r in data.get("comp_reports", [])
                 if _as_int(r.get("client_id")) == int(client_id)
             ]
             if comp_reports:
@@ -52,11 +44,11 @@ class SendEmailTool(Tool):
             else:
                 pid = "HTX000"
 
-        # Automatically create subject and body_uri if they are absent
+        # Auto-generate subject and body_uri if missing
         if not subject or not body_uri:
             comp_reports = [
                 r
-                for r in data.get("comp_reports", {}).values()
+                for r in data.get("comp_reports", [])
                 if _as_int(r.get("client_id")) == int(client_id)
             ]
             if comp_reports:
@@ -77,29 +69,29 @@ class SendEmailTool(Tool):
                 elif template_code == "report_followup":
                     subject = f"Follow-up on Your Property Analysis for {pid}"
                 elif template_code == "briefing":
-                    subject = "Your Property Market Briefing is Ready"
+                    subject = f"Your Property Market Briefing is Ready"
                 elif template_code == "first_time_buyer":
                     subject = f"First-Time Buyer Resources for {pid}"
                 elif template_code == "general_update":
-                    subject = "Real Estate Market Update"
+                    subject = f"Real Estate Market Update"
                 elif template_code == "market_update":
-                    subject = "Your Market Update"
+                    subject = f"Your Market Update"
                 elif template_code == "investment_alert":
-                    subject = "Investment Opportunity Alert"
+                    subject = f"Investment Opportunity Alert"
                 elif template_code == "listing_summary":
                     subject = f"Property Listing Summary for {pid}"
                 elif template_code == "welcome_new_client":
-                    subject = "Welcome to Our Real Estate Services"
+                    subject = f"Welcome to Our Real Estate Services"
                 elif template_code == "post_closing_checkin":
-                    subject = "Post-Closing Check-CO and Next Steps"
+                    subject = f"Post-Closing Check-in and Next Steps"
                 elif template_code == "follow_up":
-                    subject = "Following Up on Your Real Estate Needs"
+                    subject = f"Following Up on Your Real Estate Needs"
                 else:
-                    # Backup logic determined by report status
+                    # Fallback logic based on report status
                     if report_status == "sent_to_client":
                         subject = f"Your comparable analysis for {pid} is complete"
                     elif report_status == "ready_for_review":
-                        subject = "Your comp report is ready for review"
+                        subject = f"Your comp report is ready for review"
                     elif report_status == "sent_to_broker":
                         subject = f"Comp report for {pid} sent to broker for review"
                     else:
@@ -131,10 +123,10 @@ class SendEmailTool(Tool):
                 elif template_code == "follow_up":
                     body_uri = f"https://storage.example.com/emails/email_followup_{int(client_id):03d}.html"
                 else:
-                    # Revert to comp report format
+                    # Default to comp report style
                     body_uri = f"https://storage.example.com/emails/email_comp_{int(client_id):03d}.html"
 
-        # Generate Email Entry
+        # Create Email Entry
         email_rows = data.setdefault("emails", [])
         email_id = _next_int_id(email_rows, "email_id")
         email_rec = {
@@ -147,7 +139,7 @@ class SendEmailTool(Tool):
             "sent_at": HARD_TS,
             "campaign_id": campaign_id,
         }
-        data["emails"][email_rec["email_id"]] = email_rec
+        email_rows.append(email_rec)
 
         audit_rows = data.setdefault("audit_events", [])
         audit_event_id = _next_int_id(audit_rows, "event_id")
@@ -160,16 +152,16 @@ class SendEmailTool(Tool):
             "occurred_at": HARD_TS,
             "metadata_json": {"client_id": int(client_id), "template": template_code},
         }
-        data["audit_events"][audit_rec["audit_event_id"]] = audit_rec
-        payload = {"email": email_rec, "audit_event": audit_rec}
-        out = json.dumps(payload, indent=2)
-        return out
+        audit_rows.append(audit_rec)
+
+        return json.dumps({"email": email_rec, "audit_event": audit_rec}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SendEmail",
+                "name": "send_email",
                 "description": (
                     "Create an email entry with template-based subject/body defaults."
                 ),

@@ -1,76 +1,51 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
-from tau_bench.envs.retail_1.tools import _match
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class GetInfoFromDB(Tool):  #READ
+class GetInfoFromDB(Tool): # READ
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        database_name: str,
-        filter_params: dict[str, Any],
-        required_fields: list[str] = None,
-    ) -> str:
-        pass
-        db = _convert_db_to_list(data.get(database_name, {}))
+    def invoke(data: Dict[str, Any], database_name:str, filter_params: Dict[str, Any], required_fields: List[str] = None) -> str:
+        db = data.get(database_name, [])
 
-        filtered_db = [row for row in db.values() if _match(row, filter_params)]
+        filtered_db = [row for row in db if _match(row, filter_params)]
         if not filtered_db:
-            payload = {"error": "No entries found matching the filter parameters."}
-            out = json.dumps(
-                payload)
-            return out
+            return json.dumps({"error": "No entries found matching the filter parameters."})
 
-        #If no specific fields are requested, return the entire filtered database.
+        # If no specific fields are requested, return the full filtered database.
         if required_fields is None:
-            payload = filtered_db
-            out = json.dumps(payload)
-            return out
-        payload = [
-                {
-                    required_field: row.get(required_field)
-                    for required_field in required_fields
-                }
-                for row in filtered_db
-            ]
-        out = json.dumps(
-            payload)
-        return out
+            return json.dumps(filtered_db)
+
+        # Otherwise, return only the specified fields.
+        return json.dumps([{required_field: row.get(required_field) for required_field in required_fields} for row in filtered_db])
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetInfoFromDb",
+                "name": "get_info_from_db",
                 "description": "Filter users by parameters and return specified fields.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "database_name": {
                             "type": "string",
-                            "description": "The name of the database to filter. This should match the key in the data dictionary.",
+                            "description": "The name of the database to filter. This should match the key in the data dictionary."
                         },
                         "filter_params": {
                             "type": "object",
-                            "description": "Dictionary/List of ways to filter items in the database. Dictionaries are AND conditions, lists are OR conditions.",
+                            "description": "Dictionary/List of ways to filter items in the database. Dictionaries are AND conditions, lists are OR conditions."
                         },
                         "required_fields": {
-                            "type": "array",
+                            "type": "list",
                             "items": {"type": "string"},
-                            "description": "A list of all the keys of the infomation that should be returned by the function for the filtered database entries.",
-                        },
+                            "description": "A list of all the keys of the infomation that should be returned by the function for the filtered database entries."
+                        }
                     },
-                    "required": ["database_name", "filter_params"],
-                },
-            },
+                    "required": ["filter_params"]
+                }
+            }
         }

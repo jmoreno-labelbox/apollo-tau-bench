@@ -1,36 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class ComputeMentorLoad(Tool):
+class compute_mentor_load(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], mentor_id: str) -> str:
+    def invoke(data: Dict[str, Any], mentor_id: str) -> str:
         relationships = [
             r
-            for r in data.get("user_mentorship_relationships", {}).values()
+            for r in data.get("user_mentorship_relationships", [])
             if r.get("mentor_id") == mentor_id and r.get("status") == "Active"
         ]
         load = len(relationships)
-        payload = {"mentor_load": load, "mentor_id": mentor_id}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"mentor_load": load, "mentor_id": mentor_id}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "computeMentorLoad",
+                "name": "compute_mentor_load",
                 "description": "Compute the current active mentee load for a mentor",
                 "parameters": {
                     "type": "object",

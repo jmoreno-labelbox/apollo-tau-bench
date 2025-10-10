@@ -1,87 +1,64 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class UpdateReviewCycleStatus(Tool):  #WRITE
+class UpdateReviewCycleStatus(Tool):  # WRITE
     @staticmethod
-    def invoke(data: dict[str, Any], cycle_id: str, new_status: str) -> str:
-        pass
-        #Check the input for validity
+    def invoke(
+        data: Dict[str, Any],
+        cycle_id: str,
+        new_status: str
+    ) -> str:
+        # Validate input
         if not isinstance(cycle_id, str) or not cycle_id:
-            payload = {"error": "cycle_id must be a non-empty string"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "cycle_id must be a non-empty string"})
 
-        allowed_status = [
-            "NEEDS_REVIEW",
-            "APPROVED",
-            "CHANGES_REQUESTED",
-            "ESCALATED",
-            "IN_FLIGHT",
-        ]
+        allowed_status = ["NEEDS_REVIEW", "APPROVED", "CHANGES_REQUESTED", "ESCALATED", "IN_FLIGHT"]
         if new_status not in allowed_status:
-            payload = {"error": f"Invalid status. Allowed: {allowed_status}"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Invalid status. Allowed: {allowed_status}"})
 
-        review_cycles = data.get("review_cycles", {}).values()
+        review_cycles = data.get("review_cycles", [])
 
-        #Identify the review cycle that needs updating
+        # Find the review cycle to update
         cycle_found = False
-        for cycle in review_cycles.values():
+        for cycle in review_cycles:
             if cycle.get("cycle_id") == cycle_id:
                 cycle_found = True
                 old_status = cycle.get("status")
                 cycle["status"] = new_status
 
-                #If the status is being updated to ESCALATED, record the escalated timestamp
+                # If status is changing to ESCALATED, set escalated timestamp
                 if new_status == "ESCALATED" and old_status != "ESCALATED":
                     cycle["escalated_ts_nullable"] = "2025-08-26T12:00:00Z"
                 elif new_status != "ESCALATED":
                     cycle["escalated_ts_nullable"] = None
-                payload = {
-                        "updated_cycle": cycle,
-                        "previous_status": old_status,
-                        "new_status": new_status,
-                    }
-                out = json.dumps(
-                    payload)
-                return out
+
+                return json.dumps({
+                    "updated_cycle": cycle,
+                    "previous_status": old_status,
+                    "new_status": new_status
+                })
 
         if not cycle_found:
-            payload = {"error": f"Review cycle with cycle_id '{cycle_id}' not found"}
-            out = json.dumps(
-                payload)
-            return out
+            return json.dumps({"error": f"Review cycle with cycle_id '{cycle_id}' not found"})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateReviewCycleStatus",
+                "name": "update_review_cycle_status",
                 "description": "Update the status of an existing review cycle.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "cycle_id": {
-                            "type": "string",
-                            "description": "The review cycle ID to update.",
-                        },
-                        "new_status": {
-                            "type": "string",
-                            "description": "New review cycle status (NEEDS_REVIEW, APPROVED, CHANGES_REQUESTED, ESCALATED, IN_FLIGHT).",
-                        },
+                        "cycle_id": {"type": "string", "description": "The review cycle ID to update."},
+                        "new_status": {"type": "string", "description": "New review cycle status (NEEDS_REVIEW, APPROVED, CHANGES_REQUESTED, ESCALATED, IN_FLIGHT)."}
                     },
-                    "required": ["cycle_id", "new_status"],
-                },
-            },
+                    "required": ["cycle_id", "new_status"]
+                }
+            }
         }

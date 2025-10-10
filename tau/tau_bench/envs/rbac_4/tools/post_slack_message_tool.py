@@ -1,66 +1,55 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class PostSlackMessageTool(Tool):
-    """Send a new message to a Slack channel (write operation, predictable)."""
+    """Post a new message into a Slack channel (write operation, deterministic)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], channel: str = None, message: str = None) -> str:
-        pass
-        # Anticipate: data["slack_messages"] is a collection of dicts sourced from /mnt/data/slack_messages.json
-        slack_messages = data.get("slack_messages", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        # Expect: data["slack_messages"] is a list of dicts from /mnt/data/slack_messages.json
+        slack_messages = data.get("slack_messages", [])
         if not isinstance(slack_messages, list):
-            payload = {"error": "slack_messages must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "slack_messages must be a list"}, indent=2)
+
+        channel = kwargs.get("channel")
+        message = kwargs.get("message")
 
         if not isinstance(channel, str) or not channel.strip():
-            payload = {"error": "channel must be a non-empty string"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "channel must be a non-empty string"}, indent=2)
         if not isinstance(message, str) or not message.strip():
-            payload = {"error": "message must be a non-empty string"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "message must be a non-empty string"}, indent=2)
 
-        # Add a new message to the log (simulated posting)
+        # Append a new message to the log (mock posting)
         new_entry = {
             "channel": channel,
             "message": message,
         }
-        data["slack_messages"][new_entry["slack_message_id"]] = new_entry
-        payload = {"success": f"Message posted to {channel}", "message": new_entry}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        slack_messages.append(new_entry)
+
+        return json.dumps({"success": f"Message posted to {channel}", "message": new_entry}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "PostSlackMessage",
+                "name": "post_slack_message",
                 "description": "Post a new message into a Slack channel.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "channel": {
                             "type": "string",
-                            "description": "Slack channel name or ID, e.g. #general",
+                            "description": "Slack channel name or ID, e.g. #general"
                         },
                         "message": {
                             "type": "string",
-                            "description": "Text content of the message to post",
-                        },
+                            "description": "Text content of the message to post"
+                        }
                     },
                     "required": ["channel", "message"],
                 },

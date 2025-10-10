@@ -1,57 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateProjectLinks(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: Any = None, add_article_id: Any = None) -> str:
-        project_id = project_id
-        add_article_id = add_article_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get('project_id')
+        add_article_id = kwargs.get('add_article_id')
         if not all([project_id, add_article_id]):
-            payload = {"error": "project_id and add_article_id are required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "project_id and add_article_id are required."})
 
-        for project in data.get("projects", {}).values():
-            if project["study_id"] == project_id:
-                if add_article_id not in project.get("connected_papers", []):
-                    project["connected_papers"].append(add_article_id)
-                payload = {"success": True, "project": project}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Project with ID '{project_id}' not found."}
-        out = json.dumps(payload)
-        return out
+        for project in list(data.get('projects', {}).values()):
+            if project['project_id'] == project_id:
+                if add_article_id not in project.get('linked_articles', []):
+                    project['linked_articles'].append(add_article_id)
+                return json.dumps({"success": True, "project": project})
+
+        return json.dumps({"error": f"Project with ID '{project_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "UpdateProjectLinks",
-                "description": "Links an additional article to an existing project.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "project_id": {
-                            "type": "string",
-                            "description": "The ID of the project to update.",
-                        },
-                        "add_article_id": {
-                            "type": "string",
-                            "description": "The ID of the article to link to the project.",
-                        },
-                    },
-                    "required": ["project_id", "add_article_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "update_project_links", "description": "Links an additional article to an existing project.", "parameters": {"type": "object", "properties": {"project_id": {"type": "string", "description": "The ID of the project to update."}, "add_article_id": {"type": "string", "description": "The ID of the article to link to the project."}}, "required": ["project_id", "add_article_id"]}}}

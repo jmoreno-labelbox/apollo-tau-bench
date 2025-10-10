@@ -1,23 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone, date, timedelta
-import calendar
-from typing import Any, Dict
-import random
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateAddressForCustomerId(Tool):
+    """Updates mailing and/or residential address for a given customer ID."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, mailing_address: str = None, residential_address: str = None, set_as_primary: bool = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        mailing_address = kwargs.get("mailing_address")
+        residential_address = kwargs.get("residential_address")
+
         if not customer_id:
             return json.dumps({"error": "customer_id is required."}, indent=2)
 
@@ -26,10 +22,10 @@ class UpdateAddressForCustomerId(Tool):
                 "error": "At least one of mailing_address or residential_address must be provided."
             }, indent=2)
 
-        customers = data.get("customers", {}).values()
-        for customer in customers.values():
+        customers = list(data.get("customers", {}).values())
+        for customer in customers:
             if customer.get("customer_id") == customer_id:
-                contact_info = customer.setdefault("contact_info", {}).values()
+                contact_info = customer.setdefault("contact_info", {})
                 if mailing_address:
                     contact_info["mailing_address"] = mailing_address
                 if residential_address:
@@ -37,12 +33,13 @@ class UpdateAddressForCustomerId(Tool):
                 return json.dumps({"status": "Address updated successfully."}, indent=2)
 
         return json.dumps({"error": "Customer not found."}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateAddressForCustomerId",
+                "name": "update_address_for_customer_id",
                 "description": "Updates mailing and/or residential address for a given customer ID.",
                 "parameters": {
                     "type": "object",

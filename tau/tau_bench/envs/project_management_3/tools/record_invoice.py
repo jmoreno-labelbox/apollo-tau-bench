@@ -1,62 +1,48 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RecordInvoice(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        vendor_id: str,
-        po_number: str = None,
-        invoice_number: str = None,
-        amount: float = None,
-        invoice_date: str = None,
-        due_date: str = None,
-        invoice_id: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        vendor_id = kwargs.get("vendor_id")
+        po_number = kwargs.get("po_number")
+        invoice_number = kwargs.get("invoice_number")
+        amount = kwargs.get("amount")
+        invoice_date = kwargs.get("invoice_date")
+        due_date = kwargs.get("due_date")
+
         if not all([vendor_id, invoice_number, amount, invoice_date, due_date]):
-            payload = {"error": "All fields except po_number are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "All fields except po_number are required"})
 
-        invoices = data.get("invoices", {}).values()
-        purchase_orders = data.get("purchase_orders", {}).values()
-        vendors = data.get("vendors", {}).values()
+        invoices = data.get("invoices", [])
+        purchase_orders = data.get("purchase_orders", [])
+        vendors = data.get("vendors", [])
 
-        vendor = next((v for v in vendors.values() if v.get("vendor_id") == vendor_id), None)
+        vendor = next((v for v in vendors if v.get("vendor_id") == vendor_id), None)
         if not vendor:
-            payload = {"error": f"Vendor {vendor_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Vendor {vendor_id} not found"})
 
         if po_number:
             po = next(
-                (p for p in purchase_orders.values() if p.get("po_number") == po_number), None
+                (p for p in purchase_orders if p.get("po_number") == po_number), None
             )
             if po:
                 if po.get("vendor_id") != vendor_id:
-                    payload = {"error": "PO vendor does not match invoice vendor"}
-                    out = json.dumps(payload)
-                    return out
+                    return json.dumps(
+                        {"error": "PO vendor does not match invoice vendor"}
+                    )
                 if abs(po.get("total_amount", 0) - amount) > 0.01:
-                    payload = {
-                        "error": f"Invoice amount ${amount} does not match PO amount ${po.get('total_amount', 0)}"
-                    }
-                    out = json.dumps(payload)
-                    return out
+                    return json.dumps(
+                        {
+                            "error": f"Invoice amount ${amount} does not match PO amount ${po.get('total_amount', 0)}"
+                        }
+                    )
 
-        if invoice_id is None:
-            invoice_id = f"inv_{uuid.uuid4().hex[:8]}"
+        invoice_id = kwargs.get("invoice_id", f"inv_{uuid.uuid4().hex[:8]}")
 
         new_invoice = {
             "invoice_id": invoice_id,
@@ -71,7 +57,7 @@ class RecordInvoice(Tool):
             "payment_terms": vendor.get("payment_terms", "Net 30"),
         }
 
-        data["invoices"][invoice_id] = new_invoice
+        invoices.append(new_invoice)
 
         due_dt = datetime.fromisoformat(due_date.replace("Z", "+00:00"))
 
@@ -79,22 +65,22 @@ class RecordInvoice(Tool):
 
         if datetime.now(timezone.utc) > due_dt:
             days_late = (datetime.now(timezone.utc) - due_dt).days
-            payload = {
-                "success": True,
-                "invoice": new_invoice,
-                "warning": f"Invoice is already {days_late} days past due",
-            }
-            out = json.dumps(payload)
-            return out
-        payload = {"success": True, "invoice": new_invoice}
-        out = json.dumps(payload)
-        return out
+            return json.dumps(
+                {
+                    "success": True,
+                    "invoice": new_invoice,
+                    "warning": f"Invoice is already {days_late} days past due",
+                }
+            )
+
+        return json.dumps({"success": True, "invoice": new_invoice})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RecordInvoice",
+                "name": "record_invoice",
                 "description": "Record a vendor invoice for payment",
                 "parameters": {
                     "type": "object",

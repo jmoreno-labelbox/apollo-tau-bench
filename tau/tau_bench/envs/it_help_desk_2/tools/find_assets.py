@@ -1,19 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class FindAssets(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
-        asset_type: str | None = None,
-        status: str | None = None,
-        model: str | None = None,
-        assigned_to: str | None = None,
-        mdm_enrolled: bool | None = None
+        data: Dict[str, Any],
+        asset_type: Optional[str] = None,
+        status: Optional[str] = None,
+        model: Optional[str] = None,
+        assigned_to: Optional[str] = None,
+        mdm_enrolled: Optional[bool] = None,
     ) -> str:
         results = []
-        for a in data["it_assets"].values():
+        for a in data["it_assets"]:
             if asset_type and a["asset_type"] != asset_type:
                 continue
             if status and a["status"] != status:
@@ -25,16 +28,14 @@ class FindAssets(Tool):
             if mdm_enrolled is not None and a.get("mdm_enrolled") != mdm_enrolled:
                 continue
             results.append(a)
-        payload = {"status": "ok", "assets": results}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "assets": results})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindAssets",
+                "name": "find_assets",
                 "description": "Find assets filtered by type, status, model, owner, or MDM enrolled flag.",
                 "parameters": {
                     "type": "object",

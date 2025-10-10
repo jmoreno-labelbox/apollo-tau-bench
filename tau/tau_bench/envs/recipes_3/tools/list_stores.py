@@ -1,21 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ListStores(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], stores: list = None) -> str:
-        stores = _get_table(data, "stores")
-        payload = {"stores": stores}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any]) -> str:
+        return _json({"stores": data.get("stores", [])})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "listStores",
-                "description": "Returns all stores.",
-                "parameters": {"type": "object", "properties": {}, "required": []},
+                "name": "list_stores",
+                "description": "List stores.",
+                "parameters": {"type": "object", "properties": {}},
             },
         }

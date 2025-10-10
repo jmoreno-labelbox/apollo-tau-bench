@@ -1,43 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
-from decimal import ROUND_HALF_UP, Decimal
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class VerifyOrderFromStock(Tool):
+    """Validate order using live stock, without passing available_quantity explicitly."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], items: list[dict[str, Any]]) -> str:
+    def invoke(data: Dict[str, Any], items: Any) -> str:
+        items: List[Dict[str, Any]] = items
         if not items or not isinstance(items, list):
-            payload = {
-                "error": "Missing or invalid 'items'. Expected list of {product_id, required_quantity}."
-            }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {
+                    "error": "Missing or invalid 'items'. Expected list of {product_id, required_quantity}."
+                },
+                indent=2,
             )
-            return out
-        products = data.get("products", {}).values()
+        products = list(data.get("products", {}).values())
         results = []
         is_valid = True
         for it in items:
             pid = it.get("product_id")
             req = it.get("required_quantity")
             if not pid or req is None:
-                payload = {
-                    "error": "Each item must include product_id and required_quantity"
-                }
-                out = json.dumps(
-                    payload, indent=2,
+                return json.dumps(
+                    {"error": "Each item must include product_id and required_quantity"}, indent=2
                 )
-                return out
-            match = next((p for p in products.values() if p.get("product_id") == pid), None)
+            match = next((p for p in products if p.get("product_id") == pid), None)
             if not match:
                 results.append({"product_id": pid, "error": "Product not found"})
                 is_valid = False
@@ -54,15 +45,14 @@ class VerifyOrderFromStock(Tool):
                     "valid_quantity": valid_q,
                 }
             )
-        payload = {"is_valid": is_valid, "Valid_item_list": results}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"is_valid": is_valid, "Valid_item_list": results}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "VerifyOrderFromStock",
+                "name": "verify_order_from_stock",
                 "description": "Validate order quantities against current stock without separate quantity fetch.",
                 "parameters": {
                     "type": "object",

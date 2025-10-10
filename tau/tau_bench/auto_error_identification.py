@@ -87,8 +87,10 @@ def context_description(grading_strategy: GradingStrategy) -> str:
 
 def display_traj(traj: List[Dict[str, Any]]) -> str:
     if len(traj) == 0:
-        raise ValueError("Trajectory is empty")
+        return "[Empty trajectory - task failed during initialization or had no conversation]"
     stripped_traj = [item for item in traj if item["role"] != "system"]
+    if len(stripped_traj) == 0:
+        return "[No conversation messages - only system messages present]"
     return "\n".join([f"{item['role'].capitalize()}: {item['content']}" for item in stripped_traj])
 
 def display_actions(actions: List[Action]) -> str:
@@ -222,13 +224,16 @@ def main() -> None:
     failures_due_to_agent = [original_results[i] for i, r in enumerate(fault_assignment_results) if r.author == FaultAuthor.AGENT]
     print(f"Performing fault type analysis on {len(failures_due_to_agent)} failures that have been marked as being caused by the agent with a max concurrency of {args.max_concurrency}...")
     fault_type_results = fault_type_analysis(api=api, results=failures_due_to_agent, max_concurrency=args.max_concurrency)
-    print(f"""Reviewed {len(fault_assignment_results)} trajectories:
+    if len(fault_assignment_results) > 0:
+        print(f"""Reviewed {len(fault_assignment_results)} trajectories:
 
 Author fault distribution:
   - User: {sum(1 for r in fault_assignment_results if r.author == FaultAuthor.USER)} ({round(sum(1 for r in fault_assignment_results if r.author == FaultAuthor.USER) / len(fault_assignment_results) * 100, 2)}%)
   - Agent: {sum(1 for r in fault_assignment_results if r.author == FaultAuthor.AGENT)} ({round(sum(1 for r in fault_assignment_results if r.author == FaultAuthor.AGENT) / len(fault_assignment_results) * 100, 2)}%)
   - Environment (otherwise case): {sum(1 for r in fault_assignment_results if r.author == FaultAuthor.ENVIRONMENT)} ({round(sum(1 for r in fault_assignment_results if r.author == FaultAuthor.ENVIRONMENT) / len(fault_assignment_results) * 100, 2)}%)
 """)
+    else:
+        print("\n✅ No failures found - all tasks passed successfully!")
     
     if len(fault_type_results) > 0:
         print(f"""Fault type distribution (only failures marked as being caused by the agent):

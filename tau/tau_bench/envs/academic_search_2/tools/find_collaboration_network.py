@@ -1,73 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from collections import Counter
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindCollaborationNetwork(Tool):
     """
-    Identifies the collaboration network for a specified author.
-    Can be limited to examine only a particular list of possible collaborators.
+    Finds the collaboration network for a given author.
+    Can be constrained to check only against a specific list of potential collaborators.
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], author_name: Any = None, authors_to_check: Any = None) -> str:
-        author_name = author_name
-        authors_to_check = authors_to_check
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        author_name = kwargs.get('author_name')
+        authors_to_check = kwargs.get('authors_to_check')
         if not author_name:
-            payload = {"error": "author_name is required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "author_name is required."})
 
-        # Retrieve all articles authored by the primary author
-        articles = [
-            a for a in data.get("articles", {}).values() if author_name in a.get("authors", [])
-        ]
+        # Find all articles by the main author
+        articles = [a for a in list(data.get('articles', {}).values()) if author_name in a.get('authors', [])]
 
-        # Tally all collaborators associated with those articles
+        # Count all collaborators from those articles
         all_collaborators = Counter()
         for article in articles:
-            for author in article.get("authors", []):
+            for author in article.get('authors', []):
                 if author != author_name:
                     all_collaborators[author] += 1
 
-        # If a designated list of authors is given, refine the results
+        # If a specific list of authors is provided, filter the results
         if authors_to_check:
-            final_counts = {
-                author: all_collaborators.get(author, 0) for author in authors_to_check
-            }
-            payload = final_counts
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = dict(all_collaborators)
-        out = json.dumps(payload, indent=2)
-        return out
+            final_counts = {author: all_collaborators.get(author, 0) for author in authors_to_check}
+            return json.dumps(final_counts, indent=2)
+
+        return json.dumps(dict(all_collaborators), indent=2)
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "FindCollaborationNetwork",
-                "description": "Finds the collaboration network for an author, optionally checking against a specific list of names.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "author_name": {"type": "string"},
-                        "authors_to_check": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                        },
-                    },
-                    "required": ["author_name"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "find_collaboration_network", "description": "Finds the collaboration network for an author, optionally checking against a specific list of names.", "parameters": {"type": "object", "properties": {"author_name": {"type": "string"}, "authors_to_check": {"type": "array", "items": {"type": "string"}}}, "required": ["author_name"]}}}

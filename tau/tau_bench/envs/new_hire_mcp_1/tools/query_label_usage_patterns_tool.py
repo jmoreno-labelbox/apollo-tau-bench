@@ -1,32 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class QueryLabelUsagePatternsTool(Tool):
-    """Examines the usage of email_labels across emails to comprehend categorization patterns and identify missing labels."""
+    """Analyzes email_labels usage across emails to understand categorization patterns and missing labels."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], label_category: str = None) -> str:
-        pass
-        label_category_filter = label_category  # This parameter remains but will not be utilized since the category is absent
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        label_category_filter = kwargs.get("label_category") # This parameter is kept but won't be used as category doesn't exist
 
-        labels_map = {l.get("label_id"): l for l in data.get("email_labels", {}).values()}
-        emails = data.get("emails", {}).values()
+        labels_map = {l.get("label_id"): l for l in data.get("email_labels", [])}
+        emails = data.get("emails", [])
 
         usage_stats = {}
         unlabeled_emails = 0
 
-        for email in emails.values():
+        for email in emails:
             label_ids = email.get("labels_ids", [])
             if not label_ids:
                 unlabeled_emails += 1
@@ -42,25 +34,22 @@ class QueryLabelUsagePatternsTool(Tool):
 
         result = {
             "label_usage_stats": usage_stats,
-            "unlabeled_email_count": unlabeled_emails,
+            "unlabeled_email_count": unlabeled_emails
         }
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(result, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "queryLabelUsagePatterns",
+                "name": "query_label_usage_patterns",
                 "description": "Analyzes email_labels usage across emails to understand categorization patterns and missing labels.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "label_category": {
-                            "type": "string",
-                            "description": "Specific label type to analyze",
-                        }
+                        "label_category": {"type": "string", "description": "Specific label type to analyze"}
                     },
                     "required": [],
                 },

@@ -1,56 +1,39 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SubmitPullRequestForReview(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        owner: str,
-        repo: str,
-        pullNumber: int,
-        reviewers: str,
-        submission_message: str = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], owner: str, repo: str, pullNumber: int, reviewers: str, submission_message: str = None) -> str:
         """Submit a PR for review by requesting specific reviewers and marking it ready for review."""
-        pass
-        pull_requests = data.get("pull_requests", {}).values()
-        for pr_entry in pull_requests.values():
+        pull_requests = list(data.get("pull_requests", {}).values())
+        for pr_entry in pull_requests:
             if pr_entry["owner"] == owner and pr_entry["repo_name"] == repo:
                 try:
                     pr_idx = pr_entry["pr_numbers"].index(pullNumber)
-                    #Indicate PR is ready for review (not in draft status)
+                    # Mark PR as ready for review (not draft)
                     pr_entry["pr_states"][pr_idx] = "open"
 
-                    #Analyze reviewers (string separated by commas)
-                    reviewer_list = [
-                        r.strip() for r in reviewers.split(",") if r.strip()
-                    ]
+                    # Parse reviewers (comma-separated string)
+                    reviewer_list = [r.strip() for r in reviewers.split(",") if r.strip()]
 
-                    #Set up review structures if necessary
+                    # Initialize review structures if needed
                     if len(pr_entry["reviewers"][pr_idx]) == 0:
                         pr_entry["reviewers"][pr_idx] = [[]]
                         pr_entry["review_states"][pr_idx] = [[]]
                         pr_entry["review_events"][pr_idx] = [[]]
 
-                    #Include reviewers with a pending status
+                    # Add reviewers with pending status
                     for reviewer in reviewer_list:
                         if reviewer not in pr_entry["reviewers"][pr_idx][0]:
                             pr_entry["reviewers"][pr_idx][0].append(reviewer)
                             pr_entry["review_states"][pr_idx][0].append("pending")
-                            pr_entry["review_events"][pr_idx][0].append(
-                                "review_requested"
-                            )
+                            pr_entry["review_events"][pr_idx][0].append("review_requested")
 
-                    #Include submission comment if available
+                    # Add submission comment if provided
                     if submission_message:
                         if len(pr_entry["pr_comments"][pr_idx]) == 0:
                             pr_entry["pr_comments"][pr_idx] = [[]]
@@ -63,25 +46,22 @@ class SubmitPullRequestForReview(Tool):
                         "pr_number": pullNumber,
                         "state": "ready_for_review",
                         "requested_reviewers": reviewer_list,
-                        "submission_timestamp": "2023-12-05T12:30:00Z",
+                        "submission_timestamp": "2023-12-05T12:30:00Z"
                     }
                     if submission_message:
                         result["submission_message"] = submission_message
-                    payload = result
-                    out = json.dumps(payload, indent=2)
-                    return out
+
+                    return json.dumps(result, indent=2)
                 except ValueError:
                     pass
-        payload = {"error": f"Pull request #{pullNumber} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"error": f"Pull request #{pullNumber} not found"}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "submitPullRequestForReview",
+                "name": "submit_pull_request_for_review",
                 "description": "Submit a PR for review by requesting specific reviewers and marking it ready for review.",
                 "parameters": {
                     "type": "object",
@@ -89,16 +69,10 @@ class SubmitPullRequestForReview(Tool):
                         "owner": {"type": "string", "description": "Repository owner"},
                         "repo": {"type": "string", "description": "Repository name"},
                         "pullNumber": {"type": "integer", "description": "PR number"},
-                        "reviewers": {
-                            "type": "string",
-                            "description": "Comma-separated list of reviewer usernames",
-                        },
-                        "submission_message": {
-                            "type": "string",
-                            "description": "Optional comment to add when submitting for review",
-                        },
+                        "reviewers": {"type": "string", "description": "Comma-separated list of reviewer usernames"},
+                        "submission_message": {"type": "string", "description": "Optional comment to add when submitting for review"}
                     },
-                    "required": ["owner", "repo", "pullNumber", "reviewers"],
-                },
-            },
+                    "required": ["owner", "repo", "pullNumber", "reviewers"]
+                }
+            }
         }

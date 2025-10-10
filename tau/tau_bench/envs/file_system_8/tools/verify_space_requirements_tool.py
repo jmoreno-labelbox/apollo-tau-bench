@@ -1,26 +1,19 @@
-from tau_bench.envs.tool import Tool
-import datetime
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class VerifySpaceRequirementsTool(Tool):
-    """Contrasts total file size with available disk space to confirm adequate space."""
+    """Compares total file size against available disk space to ensure sufficient space."""
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "VerifySpaceRequirements",
+                "name": "verify_space_requirements",
                 "description": "Compares the total size of files to be moved against available disk space at the destination to ensure the operation can proceed.",
                 "parameters": {
                     "type": "object",
@@ -36,32 +29,34 @@ class VerifySpaceRequirementsTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: dict[str, Any], destination_path: str) -> str:
-        # Obtain the total size from the previous calculation
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        destination_path = kwargs["destination_path"]
+
+        # Get the total size from the last calculation
         total_size = data.get("last_total_size", 0)
 
-        # Determine available space for the destination
+        # Get available space for the destination
         disk_space_key = f"disk_space_{destination_path.replace('/', '_')}"
         available_space = data.get(
             disk_space_key, 10**12
-        )  # Fallback to 1TB if not located
+        )  # Default to 1TB if not found
 
         if total_size <= available_space:
-            payload = {
-                "status": "sufficient_space",
-                "total_size": total_size,
-                "available_space": available_space,
-                "space_check": "passed",
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "status": "sufficient_space",
+                    "total_size": total_size,
+                    "available_space": available_space,
+                    "space_check": "passed",
+                }
+            )
         else:
-            payload = {
-                "status": "insufficient_space",
-                "total_size": total_size,
-                "available_space": available_space,
-                "space_check": "failed",
-                "error": f"Insufficient disk space. Need {total_size} bytes but only {available_space} bytes available.",
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "status": "insufficient_space",
+                    "total_size": total_size,
+                    "available_space": available_space,
+                    "space_check": "failed",
+                    "error": f"Insufficient disk space. Need {total_size} bytes but only {available_space} bytes available.",
+                }
+            )

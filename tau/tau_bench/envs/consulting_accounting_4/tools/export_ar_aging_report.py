@@ -1,26 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ExportARAgingReport(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], period_label: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        period_label = kwargs.get("period_label")
         pdf_path = f"https://storage.example.com/reports/AR_Aging_{period_label}.pdf"
-        payload = {"report_pdf_path": pdf_path}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"report_pdf_path": pdf_path}, indent=2)
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ExportArAgingReport",
-                "description": "Export an A/R Aging report and return pdf path.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"period_label": {"type": "string"}},
-                    "required": ["period_label"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"export_ar_aging_report",
+            "description":"Export an A/R Aging report and return pdf path.",
+            "parameters":{"type":"object","properties":{"period_label":{"type":"string"}},"required":["period_label"]}
+        }}

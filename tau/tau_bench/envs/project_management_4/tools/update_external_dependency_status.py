@@ -1,40 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateExternalDependencyStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], dependency_id: str = None, new_status: str = None, actual_delivery_date: str = None) -> str:
-        if not all([dependency_id, new_status]):
-            payload = {"error": "dependency_id and new_status are required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        dependency_id = kwargs.get("dependency_id")
+        new_status = kwargs.get("new_status")
+        actual_delivery_date = kwargs.get("actual_delivery_date")
 
-        external_dependencies = data.get("external_dependencies", {}).values()
-        milestones = data.get("milestones", {}).values()
+        if not all([dependency_id, new_status]):
+            return json.dumps({"error": "dependency_id and new_status are required"})
+
+        external_dependencies = data.get("external_dependencies", [])
+        milestones = list(data.get("milestones", {}).values())
 
         dependency = next(
             (
                 d
-                for d in external_dependencies.values() if d.get("dependency_id") == dependency_id
+                for d in external_dependencies
+                if d.get("dependency_id") == dependency_id
             ),
             None,
         )
         if not dependency:
-            payload = {"error": f"External dependency '{dependency_id}' not found"}
-            out = json.dumps(
-                payload)
-            return out
+            return json.dumps(
+                {"error": f"External dependency '{dependency_id}' not found"}
+            )
 
         old_status = dependency.get("status")
         dependency["status"] = new_status
@@ -54,7 +49,8 @@ class UpdateExternalDependencyStatus(Tool):
                 milestone = next(
                     (
                         m
-                        for m in milestones.values() if m.get("milestone_id") == dependency.get("milestone_id")
+                        for m in milestones
+                        if m.get("milestone_id") == dependency.get("milestone_id")
                     ),
                     None,
                 )
@@ -66,7 +62,8 @@ class UpdateExternalDependencyStatus(Tool):
             milestone = next(
                 (
                     m
-                    for m in milestones.values() if m.get("milestone_id") == dependency.get("milestone_id")
+                    for m in milestones
+                    if m.get("milestone_id") == dependency.get("milestone_id")
                 ),
                 None,
             )
@@ -74,20 +71,21 @@ class UpdateExternalDependencyStatus(Tool):
                 milestone["health"] = (
                     "yellow" if milestone.get("health") == "green" else "red"
                 )
-        payload = {
+
+        return json.dumps(
+            {
                 "success": True,
                 "dependency": dependency,
                 "status_change": f"{old_status} -> {new_status}",
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateExternalDependencyStatus",
+                "name": "update_external_dependency_status",
                 "description": "Update the status of an external dependency",
                 "parameters": {
                     "type": "object",

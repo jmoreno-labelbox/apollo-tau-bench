@@ -1,41 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchStoresByName(Tool):
-    """Looks for stores whose names include the specified text."""
+    """Searches for stores with names containing the specified text."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], name_query: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name_query = kwargs.get("name_query")
         if not name_query:
-            payload = {"error": "name_query parameter is required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "name_query parameter is required."})
 
-        stores = data.get("stores", {}).values()
-
+        stores = data.get("stores", [])
+        
         matching_stores = [
-            store
-            for store in stores.values() if name_query.lower() in store.get("store_name", "").lower()
+            store for store in stores 
+            if name_query.lower() in store.get("store_name", "").lower()
         ]
-        payload = matching_stores
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps(matching_stores)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchStoresByName",
+                "name": "search_stores_by_name",
                 "description": "Searches for stores with names containing the specified text.",
                 "parameters": {
                     "type": "object",

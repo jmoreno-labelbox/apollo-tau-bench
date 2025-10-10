@@ -1,36 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from itertools import islice
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ReadCampaign(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], campaign_id: str = None, type: Any = None) -> str:
-        cid = campaign_id
-        c = next(
-            (x for x in data.get("campaigns", {}).values() if x.get("campaign_id") == cid), None
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cid = kwargs.get("campaign_id")
+        c = next((x for x in list(data.get("campaigns", {}).values()) if x.get("campaign_id") == cid), None)
         if not c:
-            payload = {"error": f"campaign_id {cid} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = c
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": f"campaign_id {cid} not found"}, indent=2)
+        return json.dumps(c, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ReadCampaign",
+                "name": "read_campaign",
                 "description": "Fetch a campaign row by ID.",
                 "parameters": {
                     "type": "object",

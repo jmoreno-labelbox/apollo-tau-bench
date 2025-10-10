@@ -1,51 +1,45 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetHighValueOutboundOrders(Tool):
-    """Utility for obtaining outbound orders that exceed a certain value."""
+    """Tool to retrieve outbound orders above a specified value."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], min_value: int = 100000, list_of_ids: list = None) -> str:
-        orders = data.get("outbound_orders", {}).values()
-        result = [
-            order["order_id"]
-            for order in orders.values() if order.get("total_value", 0) >= min_value
-        ]
-        if list_of_ids:
-            result = [r for r in result.values() if r in list_of_ids]
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        threshold = kwargs.get("min_value", 100000)
+        list_of_orders = kwargs.get("list_of_ids", None)
+        orders = data.get("outbound_orders", [])
+        result = [order['order_id'] for order in orders if order.get("total_value", 0) >= threshold]
+        if list_of_orders:
+            result = [r for r in result if r in list_of_orders]
+        return json.dumps(result, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetHighValueOutboundOrders",
+                "name": "get_high_value_outbound_orders",
                 "description": "Retrieve outbound orders where total value exceeds the given threshold.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "min_value": {
                             "type": "number",
-                            "description": "Minimum total value (default is 100000)",
+                            "description": "Minimum total value (default is 100000)"
                         },
                         "list_of_ids": {
                             "type": "array",
-                            "items": {"type": "string"},
-                            "description": "List of orders to choose from.",
-                        },
-                    },
-                },
-            },
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "List of orders to choose from."
+                        }
+                    }
+                }
+            }
         }

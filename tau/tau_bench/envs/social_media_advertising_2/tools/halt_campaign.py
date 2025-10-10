@@ -1,40 +1,28 @@
-from tau_bench.envs.tool import Tool
-import csv
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class HaltCampaign(Tool):
-    """Suspend a campaign identified by its ID."""
+    """Pause a campaign by ID."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], campaign_id: str = None,
-    reason: Any = None,
-    ) -> str:
-        for c in data.get("campaigns", {}).values():
-            if c.get("campaign_id") == campaign_id:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cid = kwargs.get("campaign_id")
+        for c in list(data.get("campaigns", {}).values()):
+            if c.get("campaign_id") == cid:
                 c["status"] = "paused"
-                payload = c
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Campaign {campaign_id} not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(c)
+        return json.dumps({"error": f"Campaign {cid} not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "HaltCampaign",
+                "name": "halt_campaign",
                 "description": "Pause a campaign by ID.",
                 "parameters": {
                     "type": "object",

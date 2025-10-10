@@ -1,14 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpsertCustomList(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], custom_list: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], custom_list: Dict[str, Any]) -> str:
         if not custom_list:
-            payload = {"error": "custom_list object required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "custom_list object required"}, indent=2)
         lists = _load("custom_lists", data)
         idx, _ = _find(lists, custom_list["list_id"])
         if idx is not None:
@@ -18,15 +19,14 @@ class UpsertCustomList(Tool):
             lists.append(custom_list)
             msg = "added"
             data["custom_lists"] = lists
-        payload = {"success": f"list {msg}", "list": custom_list}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"success": f"list {msg}", "list": custom_list}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpsertCustomList",
+                "name": "upsert_custom_list",
                 "description": "Create a new custom list or update an existing one (metadata & tags, not line-items).",
                 "parameters": {
                     "type": "object",
@@ -34,11 +34,11 @@ class UpsertCustomList(Tool):
                         "custom_list": {
                             "type": "object",
                             "description": "Full or partial custom list object.",
-                            "additionalProperties": True,
+                            "additionalProperties": True
                         }
                     },
                     "required": ["custom_list"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

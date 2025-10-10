@@ -1,16 +1,17 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class BulkCreateComparableEntriesTool(Tool):
-    """Perform batch insertion of comparables for a report."""
+    """Batch insert comparables for a report."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], report_id: int = None, comparables: list = None) -> str:
-        report_id = _as_int(report_id)
-        items = comparables or []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        report_id = _as_int(kwargs.get("report_id"))
+        items = kwargs.get("comparables") or []
         if report_id is None:
             return _err("report_id is required")
         if not isinstance(items, list) or not items:
@@ -32,17 +33,17 @@ class BulkCreateComparableEntriesTool(Tool):
             }
             rows.append(rec)
             created.append(rec)
-        payload = {"created_count": len(created), "comparables": created}
-        out = json.dumps(
-            payload, indent=2
+
+        return json.dumps(
+            {"created_count": len(created), "comparables": created}, indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "BulkCreateComparableEntries",
+                "name": "bulk_create_comparable_entries",
                 "description": "Create multiple comparables for a comp report.",
                 "parameters": {
                     "type": "object",

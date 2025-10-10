@@ -1,52 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AddClientProfile(Tool):
-    """Add a new client/publisher entry."""
+    """Create a new client/publisher row."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        tbl = data.get("publishers", [])
+        row = {
+            "publisher_id": kwargs.get("publisher_id"),
+            "name": kwargs.get("name"),
+            "address": kwargs.get("address"),
+            "contact_email": kwargs.get("contact_email"),
+            "gst_number": kwargs.get("gst_number"),
+            "created_at": _now_iso(),
+            "updated_at": _now_iso()
+        }
+        tbl.append(row)
+        return json.dumps(row, indent=2)
 
     @staticmethod
-    def invoke(data: dict[str, Any], publisher_id: str = None, name: str = None, address: str = None, contact_email: str = None, gst_number: str = None) -> str:
-        tbl = data.get("publishers", {}).values()
-        row = {
-            "publisher_id": publisher_id,
-            "name": name,
-            "address": address,
-            "contact_email": contact_email,
-            "gst_number": gst_number,
-            "created_at": _now_iso(),
-            "updated_at": _now_iso(),
-        }
-        data["publishers"][publisher_id] = row
-        payload = row
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "AddClientProfile",
-                "description": "Create a client/publisher row.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "publisher_id": {"type": "string"},
-                        "name": {"type": "string"},
-                        "address": {"type": "string"},
-                        "contact_email": {"type": "string"},
-                        "gst_number": {"type": "string"},
-                    },
-                    "required": ["publisher_id", "name"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "add_client_profile",
+            "description": "Create a client/publisher row.",
+            "parameters": {"type": "object", "properties": {
+                "publisher_id": {"type": "string"},
+                "name": {"type": "string"},
+                "address": {"type": "string"},
+                "contact_email": {"type": "string"},
+                "gst_number": {"type": "string"}
+            }, "required": ["publisher_id", "name"]}
+        }}

@@ -1,37 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetVendorStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], vendor_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        vendor_id = kwargs.get("vendor_id")
+
         if not vendor_id:
-            payload = {"error": "vendor_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "vendor_id is required"})
 
-        vendors = data.get("vendors", {}).values()
-        invoices = data.get("invoices", {}).values()
-        data.get("payments", {}).values()
-        purchase_orders = data.get("purchase_orders", {}).values()
+        vendors = data.get("vendors", [])
+        invoices = data.get("invoices", [])
+        payments = data.get("payments", [])
+        purchase_orders = data.get("purchase_orders", [])
 
-        vendor = next((v for v in vendors.values() if v.get("vendor_id") == vendor_id), None)
+        vendor = next((v for v in vendors if v.get("vendor_id") == vendor_id), None)
         if not vendor:
-            payload = {"error": f"Vendor {vendor_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Vendor {vendor_id} not found"})
 
-        vendor_invoices = [i for i in invoices.values() if i.get("vendor_id") == vendor_id]
+        vendor_invoices = [i for i in invoices if i.get("vendor_id") == vendor_id]
 
         outstanding_amount = sum(
             i.get("amount", 0) for i in vendor_invoices if i.get("status") != "paid"
@@ -39,12 +30,14 @@ class GetVendorStatus(Tool):
 
         pending_pos = [
             po
-            for po in purchase_orders.values() if po.get("vendor_id") == vendor_id
+            for po in purchase_orders
+            if po.get("vendor_id") == vendor_id
             and po.get("status") == "pending_approval"
         ]
         approved_pos = [
             po
-            for po in purchase_orders.values() if po.get("vendor_id") == vendor_id and po.get("status") == "approved"
+            for po in purchase_orders
+            if po.get("vendor_id") == vendor_id and po.get("status") == "approved"
         ]
 
         late_invoices = []
@@ -75,22 +68,22 @@ class GetVendorStatus(Tool):
             "requires_prepayment": vendor.get("late_payments", 0) >= 3,
             "outstanding_amount": outstanding_amount,
             "pending_pos_count": len(pending_pos),
-            "pending_pos_value": sum(po.get("total_amount", 0) for po in pending_pos.values()),
+            "pending_pos_value": sum(po.get("total_amount", 0) for po in pending_pos),
             "approved_pos_count": len(approved_pos),
-            "approved_pos_value": sum(po.get("total_amount", 0) for po in approved_pos.values()),
+            "approved_pos_value": sum(po.get("total_amount", 0) for po in approved_pos),
             "late_invoices": late_invoices,
-            "total_late_fees": sum(inv["late_fee"] for inv in late_invoices.values()),
+            "total_late_fees": sum(inv["late_fee"] for inv in late_invoices),
             "last_payment_date": vendor.get("last_payment_date"),
         }
-        payload = status
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(status, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetVendorStatus",
+                "name": "get_vendor_status",
                 "description": "Get vendor payment status and history",
                 "parameters": {
                     "type": "object",

@@ -1,58 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import random
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetInventoryDetails(Tool):
-    """Obtains a single inventory record for a SKU located at a specific warehouse."""
+    """Retrieves a single inventory record for a SKU at a specific warehouse."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        sku, warehouse_id = map(kwargs.get, ["sku", "warehouse_id"])
+        if not all([sku, warehouse_id]):
+            return json.dumps({"error": "sku and warehouse_id are required."}, indent=2)
+        inventory_record = next((i for i in list(data.get('inventory', {}).values()) if i.get('sku') == sku and i.get('warehouse_id') == warehouse_id), None)
+        if not inventory_record:
+            return json.dumps({"error": f"Inventory for SKU '{sku}' not found at warehouse '{warehouse_id}'."}, indent=2)
+        return json.dumps(inventory_record, indent=2)
 
     @staticmethod
-    def invoke(data: dict[str, Any], sku: str = None, warehouse_id: str = None) -> str:
-        if not all([sku, warehouse_id]):
-            payload = {"error": "sku and warehouse_id are required."}
-            out = json.dumps(payload, indent=2)
-            return out
-        inventory_record = next(
-            (
-                i
-                for i in data.get("inventory", {}).values()
-                if i.get("sku") == sku and i.get("warehouse_id") == warehouse_id
-            ),
-            None,
-        )
-        if not inventory_record:
-            payload = {
-                    "error": f"Inventory for SKU '{sku}' not found at warehouse '{warehouse_id}'."
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
-        payload = inventory_record
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetInventoryDetails",
-                "description": "Retrieves a single inventory record for a SKU at a specific warehouse.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "sku": {"type": "string"},
-                        "warehouse_id": {"type": "string"},
-                    },
-                    "required": ["sku", "warehouse_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "get_inventory_details", "description": "Retrieves a single inventory record for a SKU at a specific warehouse.", "parameters": {"type": "object", "properties": {"sku": {"type": "string"}, "warehouse_id": {"type": "string"}}, "required": ["sku", "warehouse_id"]}}}

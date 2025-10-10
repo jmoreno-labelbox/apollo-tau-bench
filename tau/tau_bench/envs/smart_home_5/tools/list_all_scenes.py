@@ -1,27 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ListAllScenes(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], scenes: list[dict[str, Any]] = []) -> str:
-        scene_info = [
-            {
-                "id": s.get("id"),
-                "name": s.get("name"),
-                "description": s.get("description"),
-            }
-            for s in scenes
-        ]
-        payload = scene_info
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any]) -> str:
+        scenes = list(data.get('scenes', {}).values())
+        scene_info = [{"id": s.get("id"), "name": s.get("name"), "description": s.get("description")} for s in scenes]
+        return json.dumps(scene_info, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListAllScenes",
-                "description": "List all available scenes.",
-            },
+                "name": "list_all_scenes",
+                "description": "List all available scenes."
+            }
         }

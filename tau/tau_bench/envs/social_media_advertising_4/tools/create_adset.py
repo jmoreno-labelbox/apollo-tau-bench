@@ -1,67 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateAdset(Tool):
-    """Initiates a new ad set inside a campaign."""
+    """Creates a new ad set within a campaign."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adsets = data.get('adsets', [])
+        new_id = max((int(a['adset_id']) for a in adsets), default=100) + 1
+        new_adset = {"adset_id": str(new_id), "campaign_id": kwargs.get("campaign_id"), "name": kwargs.get("name"), "category": kwargs.get("category"), "daily_budget": kwargs.get("daily_budget"), "bid_strategy": kwargs.get("bid_strategy"), "bid_amount": kwargs.get("bid_amount"), "status": "paused", "updated_at": "2025-08-15T00:00:00Z"}
+        adsets.append(new_adset)
+        data['adsets'] = adsets
+        return json.dumps(new_adset)
 
     @staticmethod
-    def invoke(data: dict[str, Any], campaign_id: str = None, name: str = None, category: str = None, 
-               daily_budget: float = None, bid_strategy: str = None, bid_amount: float = None,
-               request_id: Any = None,
-               status: Any = None,
-               ) -> str:
-        adsets = data.get("adsets", {}).values()
-        new_id = max((int(a["adset_id"]) for a in adsets.values()), default=100) + 1
-        new_adset = {
-            "adset_id": str(new_id),
-            "campaign_id": campaign_id,
-            "name": name,
-            "category": category,
-            "daily_budget": daily_budget,
-            "bid_strategy": bid_strategy,
-            "bid_amount": bid_amount,
-            "status": "paused",
-            "updated_at": "2025-08-15T00:00:00Z",
-        }
-        data["adsets"][new_adset["adset_id"]] = new_adset
-        data["adsets"] = adsets
-        payload = new_adset
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "CreateAdset",
-                "description": "Creates a new ad set within a specified campaign.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "campaign_id": {"type": "string"},
-                        "name": {"type": "string"},
-                        "category": {"type": "string"},
-                        "daily_budget": {"type": "number"},
-                        "bid_strategy": {"type": "string"},
-                        "bid_amount": {"type": "number"},
-                    },
-                    "required": [
-                        "campaign_id",
-                        "name",
-                        "category",
-                        "daily_budget",
-                        "bid_strategy",
-                    ],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "create_adset", "description": "Creates a new ad set within a specified campaign.", "parameters": {"type": "object", "properties": {"campaign_id": {"type": "string"}, "name": {"type": "string"}, "category": {"type": "string"}, "daily_budget": {"type": "number"}, "bid_strategy": {"type": "string"}, "bid_amount": {"type": "number"}}, "required": ["campaign_id", "name", "category", "daily_budget", "bid_strategy"]}}}

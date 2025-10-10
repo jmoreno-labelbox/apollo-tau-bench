@@ -1,42 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class GetJobMarketInsights(Tool):
+class get_job_market_insights(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], role: str) -> str:
-        _roleL = role or ''.lower()
-        insights = data.get("job_market_insights", {}).values()
+    def invoke(data: Dict[str, Any], role: str) -> str:
+        insights = data.get("job_market_insights", [])
         insight = next(
-            (i for i in insights.values() if i.get("role", "").lower() == role.lower()), None
+            (i for i in insights if i.get("role", "").lower() == role.lower()), None
         )
         if insight:
-            payload = insight
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps(insight, indent=2)
         else:
-            payload = {"role": role, "insights": "Market data not available"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"role": role, "insights": "Market data not available"}, indent=2
             )
-            return out
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "getJobMarketInsights",
+                "name": "get_job_market_insights",
                 "description": "Get job market insights for a role",
                 "parameters": {
                     "type": "object",

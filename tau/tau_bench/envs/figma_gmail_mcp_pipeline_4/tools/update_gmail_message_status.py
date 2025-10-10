@@ -1,145 +1,90 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateGmailMessageStatus(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        message_id: str = None,
-        sender_email: str = None,
-        body_html: str = None,
-        body_text_stripped: str = None,
-        attachments_asset_ids: list = None,
-        message_metadata: dict = None,
-        new_status: str = None,
-        updated_by: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
-        Modifies Gmail message metadata and oversees message workflow tracking.
+        Updates Gmail message metadata and manages message workflow tracking.
         """
-        if attachments_asset_ids is None:
-            attachments_asset_ids = []
-        if message_metadata is None:
-            message_metadata = {}
+        message_id = kwargs.get('message_id')
+        sender_email = kwargs.get('sender_email')
+        body_html = kwargs.get('body_html')
+        body_text_stripped = kwargs.get('body_text_stripped')
+        attachments_asset_ids = kwargs.get('attachments_asset_ids', [])
+        message_metadata = kwargs.get('message_metadata', {})
 
         if not message_id:
-            payload = {"error": "message_id is required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "message_id is required."})
 
-        gmail_messages = data.get("gmail_messages", {}).values()
+        gmail_messages = data.get('gmail_messages', [])
 
-        # Locate the message
+        # Find the message
         message_found = False
-        for message in gmail_messages.values():
-            if message.get("message_id") == message_id:
+        for message in gmail_messages:
+            if message.get('message_id') == message_id:
                 message_found = True
 
-                # Revise fields of the message
+                # Update message fields
                 if sender_email:
-                    message["sender_email"] = sender_email
+                    message['sender_email'] = sender_email
                 if body_html:
-                    message["body_html"] = body_html
+                    message['body_html'] = body_html
                 if body_text_stripped:
-                    message["body_text_stripped"] = body_text_stripped
+                    message['body_text_stripped'] = body_text_stripped
                 if attachments_asset_ids:
-                    message["attachments_asset_ids"] = attachments_asset_ids
+                    message['attachments_asset_ids'] = attachments_asset_ids
 
-                message["last_updated"] = datetime.now().isoformat()
+                message['last_updated'] = datetime.now().isoformat()
 
-                # Include metadata
+                # Add metadata
                 if message_metadata:
                     for key, value in message_metadata.items():
                         message[key] = value
 
-                # Document the update
-                if "update_history" not in message:
-                    message["update_history"] = []
-                message["update_history"].append(
-                    {
-                        "timestamp": datetime.now().isoformat(),
-                        "updated_fields": [
-                            "message_id",
-                            "sender_email",
-                            "body_html",
-                            "body_text_stripped",
-                            "attachments_asset_ids",
-                            "message_metadata",
-                        ],
-                        "metadata": message_metadata,
-                    }
-                )
+                # Log the update
+                if 'update_history' not in message:
+                    message['update_history'] = []
+                message['update_history'].append({
+                    "timestamp": datetime.now().isoformat(),
+                    "updated_fields": list(kwargs.keys()),
+                    "metadata": message_metadata
+                })
 
                 break
 
         if not message_found:
-            payload = {"error": f"Gmail message with ID '{message_id}' not found."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Gmail message with ID '{message_id}' not found."})
 
-        payload = {
+        return json.dumps({
             "success": True,
             "message_id": message_id,
             "updated_at": datetime.now().isoformat(),
-            "updated_fields": [
-                "message_id",
-                "sender_email",
-                "body_html",
-                "body_text_stripped",
-                "attachments_asset_ids",
-                "message_metadata",
-            ],
-        }
-        out = json.dumps(payload)
-        return out
+            "updated_fields": list(kwargs.keys())
+        })
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateGmailMessageStatus",
+                "name": "update_gmail_message_status",
                 "description": "Updates Gmail message metadata including sender, body content, attachments, and custom metadata for message workflow tracking.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "message_id": {
-                            "type": "string",
-                            "description": "The ID of the Gmail message to update.",
-                        },
-                        "sender_email": {
-                            "type": "string",
-                            "description": "Optional updated sender email address.",
-                        },
-                        "body_html": {
-                            "type": "string",
-                            "description": "Optional updated HTML body content.",
-                        },
-                        "body_text_stripped": {
-                            "type": "string",
-                            "description": "Optional updated plain text body content.",
-                        },
-                        "attachments_asset_ids": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "Optional updated list of attachment asset IDs.",
-                        },
-                        "message_metadata": {
-                            "type": "object",
-                            "description": "Optional additional metadata fields for the message.",
-                        },
+                        "message_id": {"type": "string", "description": "The ID of the Gmail message to update."},
+                        "sender_email": {"type": "string", "description": "Optional updated sender email address."},
+                        "body_html": {"type": "string", "description": "Optional updated HTML body content."},
+                        "body_text_stripped": {"type": "string", "description": "Optional updated plain text body content."},
+                        "attachments_asset_ids": {"type": "array", "items": {"type": "string"}, "description": "Optional updated list of attachment asset IDs."},
+                        "message_metadata": {"type": "object", "description": "Optional additional metadata fields for the message."}
                     },
-                    "required": ["message_id"],
-                },
-            },
+                    "required": ["message_id"]
+                }
+            }
         }

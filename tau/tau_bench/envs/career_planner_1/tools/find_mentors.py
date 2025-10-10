@@ -1,42 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindMentors(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], mentee_id: str, focus_areas: list[str]) -> str:
-        pass
-        mentors = data.get("user_mentorship", {}).values()
+    def invoke(data: Dict[str, Any], mentee_id: str, focus_areas: List[str]) -> str:
+        mentors = data.get("user_mentorship", [])
 
-        # Adopt a wider definition of expertise, encompassing roles and general knowledge
+        # Use a broader definition of expertise, including roles and general expertise
         def get_mentor_expertise_set(mentor):
-            pass
             expertise = set(mentor.get("expertise", []))
             roles = set(mentor.get("mentoring_roles", []))
             return expertise.union(roles)
 
-        # Identify mentors whose expertise/roles intersect with the focus areas
-        # and who are clearly suitable for the mentee.
+        # Find mentors whose expertise/roles overlap with the focus areas
+        # and who are explicitly compatible with the mentee.
         matches = []
         focus_set = set(focus_areas)
-        for mentor in mentors.values():
+        for mentor in mentors:
             if mentor.get("availability") == "Full":
                 continue
 
-            # Verify compatibility
+            # Check for compatibility
             if mentee_id not in mentor.get("compatible_user_ids", []):
                 continue
 
-            # Examine for overlap in expertise
+            # Check for expertise overlap
             mentor_expertise = get_mentor_expertise_set(mentor)
             if focus_set.intersection(mentor_expertise):
                 matches.append(
@@ -46,16 +38,15 @@ class FindMentors(Tool):
                         "expertise": list(mentor_expertise),
                     }
                 )
-        payload = {"mentors": matches}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"mentors": matches}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "FindMentors",
+                "name": "find_mentors",
                 "description": "Finds suitable and available mentors for a mentee based on required focus areas and compatibility.",
                 "parameters": {
                     "type": "object",

@@ -1,26 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetLabels(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], owner: str, repo: str) -> str:
+    def invoke(data: Dict[str, Any], owner: str, repo: str) -> str:
         """Get all available labels for a repository."""
-        pass
-        issues_data = data.get("issues", {}).values()
+        issues_data = list(data.get("issues", {}).values())
 
-        #Locate the repository within the issues data
-        for issue_entry in issues_data.values():
+        # Find the repository in issues data
+        for issue_entry in issues_data:
             if issue_entry["owner"] == owner and issue_entry["repo_name"] == repo:
-                #Gather all distinct labels from every issue in this repository
+                # Collect all unique labels from all issues in this repository
                 all_labels = set()
                 for labels_list in issue_entry["labels"]:
                     if isinstance(labels_list, list):
@@ -28,53 +22,52 @@ class GetLabels(Tool):
                     elif isinstance(labels_list, str):
                         all_labels.add(labels_list)
 
-                #Transform into a sorted list for uniform output
+                # Convert to sorted list for consistent output
                 available_labels = sorted(list(all_labels))
-                payload = {
-                        "success": True,
-                        "data": {
-                            "repository": f"{owner}/{repo}",
-                            "available_labels": available_labels,
-                            "total_labels": len(available_labels),
-                        },
-                        "metadata": {
-                            "owner": owner,
-                            "repo": repo,
-                            "labels_discovered": len(available_labels),
-                        },
+
+                return json.dumps({
+                    "success": True,
+                    "data": {
+                        "repository": f"{owner}/{repo}",
+                        "available_labels": available_labels,
+                        "total_labels": len(available_labels)
+                    },
+                    "metadata": {
+                        "owner": owner,
+                        "repo": repo,
+                        "labels_discovered": len(available_labels)
                     }
-                out = json.dumps(
-                    payload, indent=2,
-                )
-                return out
-        payload = {
-                "success": True,
-                "data": {
-                    "repository": f"{owner}/{repo}",
-                    "available_labels": [],
-                    "total_labels": 0,
-                },
-                "metadata": {"owner": owner, "repo": repo, "labels_discovered": 0},
+                }, indent=2)
+
+        # If repository not found, return empty labels list
+        return json.dumps({
+            "success": True,
+            "data": {
+                "repository": f"{owner}/{repo}",
+                "available_labels": [],
+                "total_labels": 0
+            },
+            "metadata": {
+                "owner": owner,
+                "repo": repo,
+                "labels_discovered": 0
             }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        }, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getLabels",
+                "name": "get_labels",
                 "description": "Get all available labels for a repository to understand the labeling system and available options.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "owner": {"type": "string", "description": "Repository owner"},
-                        "repo": {"type": "string", "description": "Repository name"},
+                        "repo": {"type": "string", "description": "Repository name"}
                     },
-                    "required": ["owner", "repo"],
-                },
-            },
+                    "required": ["owner", "repo"]
+                }
+            }
         }

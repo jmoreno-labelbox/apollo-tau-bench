@@ -1,40 +1,36 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
-from decimal import ROUND_HALF_UP, Decimal
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetOrCreateCart(Tool):
+    """Return existing cart for a contact_id, or create a new empty cart if none exists."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], contact_id: Any) -> str:
-        pass
-        #1) Confirm
+    def invoke(data: Dict[str, Any], contact_id: Any) -> str:
         if not contact_id:
-            payload = {"error": "Missing required field: contact_id"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Missing required field: contact_id"}, indent=2)
         carts = data.setdefault("carts", [])
         for cart in carts:
             if cart.get("contact_id") == contact_id:
-                payload = cart
-                out = json.dumps(payload, indent=2)
-                return out
+                return json.dumps(cart, indent=2)
         cart_id = get_next_cart_id(data)
         new_cart = {
             "cart_id": cart_id,
             "contact_id": contact_id,
             "last_updated_at": get_current_timestamp(),
         }
-        data["carts"][new_cart["cart_id"]] = new_cart
-        payload = new_cart
-        out = json.dumps(payload, indent=2)
-        return out
+        carts.append(new_cart)
+        return json.dumps(new_cart, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getOrCreateCart",
+                "name": "get_or_create_cart",
                 "description": "Return existing cart for contact_id, or create a new empty cart if none exists.",
                 "parameters": {
                     "type": "object",

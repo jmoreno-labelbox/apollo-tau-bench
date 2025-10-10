@@ -1,22 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ApplyLabelToEmail(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], email_id: str = None, label_id: str = None) -> str:
-        email_labels = data.get("email_labels", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        email_id = kwargs.get("email_id")
+        label_id = kwargs.get("label_id")
+        email_labels = data.get("email_labels", [])
 
-        # Search for the email in the list and assign the tag
+        # Find the email in the list and apply the label
         for e in email_labels:
             if e.get("email_id") == email_id:
                 applied_labels = e.setdefault("labels", [])
@@ -24,28 +20,30 @@ class ApplyLabelToEmail(Tool):
                     applied_labels.append(label_id)
                 break
         else:
-            # If the email is not located, you may create a new record
+            # If email not found, optionally create a new entry
             email_labels.append({"email_id": email_id, "labels": [label_id]})
             data["email_labels"] = email_labels
-        payload = {"email_id": email_id, "applied_label_id": label_id, "status": "Success"}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+
+        return json.dumps({
+            "email_id": email_id,
+            "applied_label_id": label_id,
+            "status": "Success"
+        }, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ApplyLabelToEmail",
+                "name": "apply_label_to_email",
                 "description": "Applies a label to an email.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "email_id": {"type": "string"},
-                        "label_id": {"type": "string"},
+                        "label_id": {"type": "string"}
                     },
-                    "required": ["email_id", "label_id"],
-                },
-            },
+                    "required": ["email_id", "label_id"]
+                }
+            }
         }

@@ -1,22 +1,19 @@
-from tau_bench.envs.tool import Tool
-from typing import Any, Dict
+# Copyright Sierra
+
 import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAccountTransactionsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str, limit: int = 10) -> str:
-        transactions = data.get('transactions', {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        limit = kwargs.get('limit', 10)
+        transactions = list(data.get('transactions', {}).values())
 
         account_transactions = []
-        for transaction in transactions.values():
+        for transaction in transactions:
             if transaction['account_id'] == account_id:
                 account_transactions.append({
                     'transaction_id': transaction['transaction_id'],
@@ -28,12 +25,13 @@ class GetAccountTransactionsTool(Tool):
 
         account_transactions.sort(key=lambda x: x['date'], reverse=True)
         return json.dumps(account_transactions[:limit], indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAccountTransactions",
+                "name": "get_account_transactions",
                 "description": "Get recent transactions for a specific account",
                 "parameters": {
                     "type": "object",

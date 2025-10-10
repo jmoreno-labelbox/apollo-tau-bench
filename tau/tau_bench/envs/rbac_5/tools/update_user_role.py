@@ -1,87 +1,63 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateUserRole(Tool):
     """
-    Add or revoke a user role assignment.
+    Add or remove a user role assignment.
 
     kwargs:
-      user_id: str (mandatory)
-      role_id: str (mandatory)
-      action: str = "ADD" | "REMOVE" (mandatory)
-      assigned_by: str (mandatory for ADD)
-      assigned_on: str ISO (optional for ADD, defaults to now)
+      user_id: str (required)
+      role_id: str (required)
+      action: str = "ADD" | "REMOVE" (required)
+      assigned_by: str (required for ADD)
+      assigned_on: str ISO (optional for ADD, defaults now)
       expires_on: str ISO (optional for ADD)
     """
-
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        user_id: str = "",
-        role_id: str = "",
-        action: str = "",
-        assigned_by: str = "",
-        assigned_on: str = None,
-        expires_on: str = None
-    ) -> str:
-        pass
-        action = action.upper()
-        assigned_on = assigned_on or get_current_timestamp()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id", "")
+        role_id = kwargs.get("role_id", "")
+        action = (kwargs.get("action", "") or "").upper()
+        assigned_by = kwargs.get("assigned_by", "")
+        assigned_on = kwargs.get("assigned_on") or get_current_timestamp()
+        expires_on = kwargs.get("expires_on")
 
         if action not in ("ADD", "REMOVE"):
-            payload = {"error": "action must be ADD or REMOVE"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "action must be ADD or REMOVE"})
 
-        # Presence validations
-        if not _find_by_id(data.get("users", {}).values(), "user_id", user_id):
-            payload = {"error": f"user_id {user_id} not found"}
-            out = json.dumps(payload)
-            return out
-        if not _find_by_id(data.get("roles", {}).values(), "role_id", role_id):
-            payload = {"error": f"role_id {role_id} not found"}
-            out = json.dumps(payload)
-            return out
+        # Existence checks
+        if not _find_by_id(list(data.get("users", {}).values()), "user_id", user_id):
+            return json.dumps({"error": f"user_id {user_id} not found"})
+        if not _find_by_id(list(data.get("roles", {}).values()), "role_id", role_id):
+            return json.dumps({"error": f"role_id {role_id} not found"})
 
-        assignments = data.get("user_roles", {}).values()
+        assignments = data.get("user_roles", [])
         existing_index = None
-        for i, ur in enumerate(assignments.values()):
+        for i, ur in enumerate(assignments):
             if ur.get("user_id") == user_id and ur.get("role_id") == role_id:
                 existing_index = i
                 break
 
         if action == "ADD":
             if not assigned_by:
-                payload = {"error": "assigned_by is required for ADD action"}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"error": "assigned_by is required for ADD action"})
 
             if existing_index is not None:
-                # Modify the current assignment
+                # Update existing assignment
                 existing = assignments[existing_index]
                 updated = dict(existing)
                 if expires_on and existing.get("expires_on") != expires_on:
                     updated["expires_on"] = expires_on
                     data["user_roles"][existing_index] = updated
-                    payload = {"ok": True, "assignment": updated, "updated_expiry": True}
-                    out = json.dumps(payload)
-                    return out
+                    return json.dumps({"ok": True, "assignment": updated, "updated_expiry": True})
                 else:
-                    payload = {"ok": True, "no_op": True, "assignment": existing}
-                    out = json.dumps(payload)
-                    return out
+                    return json.dumps({"ok": True, "no_op": True, "assignment": existing})
             else:
-                # Establish a new assignment
+                # Create new assignment
                 new_ur = {
                     "user_role_id": _next_user_role_id(data, user_id),
                     "user_id": user_id,
@@ -91,61 +67,37 @@ class UpdateUserRole(Tool):
                     "expires_on": expires_on,
                 }
                 data.setdefault("user_roles", []).append(new_ur)
-                payload = {"ok": True, "assignment": new_ur, "action": "created"}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"ok": True, "assignment": new_ur, "action": "created"})
 
         elif action == "REMOVE":
             if existing_index is not None:
                 removed = data["user_roles"].pop(existing_index)
                 removed["assigned_by"] = assigned_by
-                payload = {"ok": True, "assignment": removed, "action": "removed"}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"ok": True, "assignment": removed, "action": "removed"})
             else:
-                payload = {
-                    "ok": True,
-                    "no_op": True,
-                    "message": "Role assignment does not exist",
-                }
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"ok": True, "no_op": True, "message": "Role assignment does not exist"})
         else:
-            payload = {"error": "Invalid action"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Invalid action"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateUserRole",
+                "name": "update_user_role",
                 "description": "Add or remove a user role assignment. For ADD: creates new assignment or updates expiry if exists. For REMOVE: deletes the assignment.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "user_id": {"type": "string", "description": "Target user_id."},
                         "role_id": {"type": "string", "description": "Target role_id."},
-                        "action": {
-                            "type": "string",
-                            "enum": ["ADD", "REMOVE"],
-                            "description": "Action to perform.",
-                        },
-                        "assigned_by": {
-                            "type": "string",
-                            "description": "Actor user_id performing assignment (required).",
-                        },
-                        "assigned_on": {
-                            "type": "string",
-                            "description": "ISO timestamp of assignment (optional for ADD).",
-                        },
-                        "expires_on": {
-                            "type": "string",
-                            "description": "ISO timestamp for expiry (optional for ADD).",
-                        },
+                        "action": {"type": "string", "enum": ["ADD", "REMOVE"], "description": "Action to perform."},
+                        "assigned_by": {"type": "string", "description": "Actor user_id performing assignment (required)."},
+                        "assigned_on": {"type": "string", "description": "ISO timestamp of assignment (optional for ADD)."},
+                        "expires_on": {"type": "string", "description": "ISO timestamp for expiry (optional for ADD)."}
                     },
                     "required": ["user_id", "role_id", "action", "assigned_by"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

@@ -1,32 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AttachSymbolicatedStackToRun(Tool):
-    """Link a symbolicated stack trace URI to a build run by selecting a corresponding symbol record."""
-
+    """Attach a symbolicated stack trace URI to a build run by choosing a matching symbol record."""
     @staticmethod
-    def invoke(data: dict[str, Any], run_id: str = None, build_id: str = None, module_name: str = None, platform: str = None) -> str:
-        symbols = data.get("symbols", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        run_id = kwargs.get("run_id")
+        build_id = kwargs.get("build_id")
+        module_name = kwargs.get("module_name")
+        platform = kwargs.get("platform")
+
+        symbols = data.get("symbols", [])
         chosen = None
         for s in symbols:
-            if (
-                s.get("build_id") == build_id
-                and s.get("module_name") == module_name
-                and s.get("platform") == platform
-            ):
+            if s.get("build_id") == build_id and s.get("module_name") == module_name and s.get("platform") == platform:
                 chosen = s
                 break
 
-        runs = data.get("build_runs", {}).values()
+        runs = data.get("build_runs", [])
         idx = _idx_by_id(runs, run_id)
         updated_run = None
         if idx is not None and chosen is not None:
@@ -34,17 +29,15 @@ class AttachSymbolicatedStackToRun(Tool):
             run["symbolicated_stack_uri"] = chosen.get("sym_uri")
             runs[idx] = run
             updated_run = run
-        payload = {"chosen_symbol": chosen, "updated_run": updated_run}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+
+        return json.dumps({"chosen_symbol": chosen, "updated_run": updated_run}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AttachSymbolicatedStackToRun",
+                "name": "attach_symbolicated_stack_to_run",
                 "description": "Attach symbolicated stack URI on a run by matching symbol metadata.",
                 "parameters": {
                     "type": "object",
@@ -52,9 +45,9 @@ class AttachSymbolicatedStackToRun(Tool):
                         "run_id": {"type": "string"},
                         "build_id": {"type": "string"},
                         "module_name": {"type": "string"},
-                        "platform": {"type": "string"},
+                        "platform": {"type": "string"}
                     },
-                    "required": ["run_id", "build_id", "module_name", "platform"],
-                },
-            },
+                    "required": ["run_id", "build_id", "module_name", "platform"]
+                }
+            }
         }

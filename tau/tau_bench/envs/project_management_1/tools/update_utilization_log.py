@@ -1,26 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateUtilizationLog(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None, new_utilization: float = None) -> str:
-        if not all([employee_id, new_utilization is not None]):
-            payload = {"error": "employee_id and new_utilization are required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        new_utilization = kwargs.get("new_utilization")
 
-        utilization_logs = data.get("utilization_logs", {}).values()
+        if not all([employee_id, new_utilization is not None]):
+            return json.dumps({"error": "employee_id and new_utilization are required"})
+
+        utilization_logs = data.get("utilization_logs", [])
 
         log_entry = {
             "log_id": f"log_{uuid.uuid4().hex[:8]}",
@@ -29,22 +23,22 @@ class UpdateUtilizationLog(Tool):
             "timestamp": datetime.now().isoformat(),
         }
 
-        data["utilization_logs"][log_entry["utilization_log_id"]] = log_entry
+        utilization_logs.append(log_entry)
 
-        employees = data.get("employees", {}).values()
-        for employee in employees.values():
+        employees = list(data.get("employees", {}).values())
+        for employee in employees:
             if employee.get("employee_id") == employee_id:
                 employee["current_utilization"] = new_utilization
                 break
-        payload = {"success": True, "log_entry": log_entry}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"success": True, "log_entry": log_entry})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateUtilizationLog",
+                "name": "update_utilization_log",
                 "description": "Log utilization changes for an employee",
                 "parameters": {
                     "type": "object",

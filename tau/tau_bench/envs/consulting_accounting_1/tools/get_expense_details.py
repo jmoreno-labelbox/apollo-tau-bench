@@ -1,38 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetExpenseDetails(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], expense_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        expense_id = kwargs.get("expense_id")
         if not expense_id:
-            payload = {"error": "expense_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
-        expenses = data.get("expenses", {}).values()
-        exp = next((e for e in expenses.values() if e.get("expense_id") == expense_id), None)
-        payload = exp or {"error": f"Expense {expense_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": "expense_id is required"}, indent=2)
+        expenses = data.get("expenses", [])
+        exp = next((e for e in expenses if e.get("expense_id") == expense_id), None)
+        return json.dumps(exp or {"error": f"Expense {expense_id} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "getExpenseDetails",
-                "description": "Retrieve all data for a specific expense.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"expense_id": {"type": "string"}},
-                    "required": ["expense_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function","function": {"name": "get_expense_details","description": "Retrieve all data for a specific expense.","parameters": {"type": "object","properties": {"expense_id": {"type": "string"}},"required": ["expense_id"]}}}

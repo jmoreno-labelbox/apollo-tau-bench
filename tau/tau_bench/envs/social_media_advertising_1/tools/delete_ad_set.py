@@ -1,48 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class DeleteAdSet(Tool):
-    """Removes an ad set."""
+    """Deletes an ad set."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
         if not adset_id:
-            payload = {"error": "adset_id is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "adset_id is a required parameter."})
 
-        adsets = data.get("adsets", {}).values()
-        for adset in adsets.values():
+        adsets = data.get("adsets", [])
+        for adset in adsets:
             if adset.get("adset_id") == adset_id:
-                data["adsets"] = [
-                    d for d in data["adsets"].values() if d["adset_id"] != adset_id
-                ]
-                payload = {
+                data['adsets'] = [d for d in data['adsets'] if d['adset_id'] != adset_id]
+                return json.dumps(
+                    {
                         "status": "success",
                         "message": f"Ad set with id {adset_id} deleted successfully",
                     }
-                out = json.dumps(
-                    payload)
-                return out
-        payload = {"error": f"Ad set with ID '{adset_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                )
+
+        return json.dumps({"error": f"Ad set with ID '{adset_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "deleteAdset",
+                "name": "delete_adset",
                 "description": "Deletes an ad set.",
                 "parameters": {
                     "type": "object",

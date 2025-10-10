@@ -1,28 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
-from decimal import ROUND_HALF_UP, Decimal
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetPriceOfProduct(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], items: list[dict[str, Any]]) -> str:
+    def invoke(data: Dict[str, Any], items: Any) -> str:
+        items = items
         if not items or not isinstance(items, list):
-            payload = {
-                "error": "Missing or invalid 'items'. Expected a list of {product_id, pricebook_id}."
-            }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {
+                    "error": "Missing or invalid 'items'. Expected a list of {product_id, pricebook_id}."
+                },
+                indent=2,
             )
-            return out
-        pricebook_entries = data.get("pricebook_entries", {}).values()
+        pricebook_entries = data.get("pricebook_entries", [])
         results = []
         for item in items:
             product_id = item.get("product_id")
@@ -33,8 +27,8 @@ class GetPriceOfProduct(Tool):
             match = next(
                 (
                     e
-                    for e in pricebook_entries.values() if e.get("product_id") == product_id
-                    and e.get("pricebook_id") == pricebook_id
+                    for e in pricebook_entries
+                    if e.get("product_id") == product_id and e.get("pricebook_id") == pricebook_id
                 ),
                 None,
             )
@@ -48,16 +42,14 @@ class GetPriceOfProduct(Tool):
                         "error": f"No price found in pricebook_id '{pricebook_id}'",
                     }
                 )
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(results, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPriceOfProduct",
+                "name": "get_price_of_product",
                 "description": "Fetch the prices of multiple products for given pricebook_ids.",
                 "parameters": {
                     "type": "object",

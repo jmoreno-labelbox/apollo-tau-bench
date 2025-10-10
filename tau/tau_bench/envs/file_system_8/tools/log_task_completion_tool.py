@@ -1,18 +1,19 @@
-from tau_bench.envs.tool import Tool
-import datetime
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class LogTaskCompletionTool(Tool):
-    """Records the completion information of a task in a central log."""
+    """Logs the completion details of a task to a central log."""
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "LogTaskCompletion",
+                "name": "log_task_completion",
                 "description": "Logs the result and notes of a completed task to the task_log.",
                 "parameters": {
                     "type": "object",
@@ -29,19 +30,9 @@ class LogTaskCompletionTool(Tool):
         }
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        log_entry: dict[str, Any] = None,
-        task_id: Any = None,
-        task_name: str = None,
-        result: str = None,
-        timestamp: str = None,
-        notes: str = None,
-        severity: str = None, timestamp_format: Any = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         if "task_log" not in data:
             data["task_log"] = []
-        log = log_entry
+        log = {**kwargs}
         data["task_log"].append(log)
-        payload = {"status": "logged", "entry": log}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "logged", "entry": log})

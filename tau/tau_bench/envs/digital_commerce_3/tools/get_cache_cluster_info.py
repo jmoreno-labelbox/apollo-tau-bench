@@ -1,36 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCacheClusterInfo(Tool):
-    """Obtain ElastiCache cluster information using cluster_id."""
+    """Fetch ElastiCache cluster details by cluster_id."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], cluster_id: Any) -> str:
+    def invoke(data: Dict[str, Any], cluster_id: Any) -> str:
         cluster_id = _idstr(cluster_id)
         if not cluster_id:
             return _error("cluster_id is required.")
-        clusters = data.get("aws_elasticache_clusters", {}).values()
-        cluster = _find_one(list(clusters.values()), "cluster_id", cluster_id)
+        clusters = data.get("aws_elasticache_clusters", [])
+        cluster = _find_one(clusters, "cluster_id", cluster_id)
         if not cluster:
             return _error(f"Cluster '{cluster_id}' not found.")
-        payload = cluster
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(cluster, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCacheClusterInfo",
+                "name": "get_cache_cluster_info",
                 "description": "Fetch ElastiCache cluster details by cluster_id.",
                 "parameters": {
                     "type": "object",

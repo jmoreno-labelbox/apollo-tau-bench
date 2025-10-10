@@ -1,28 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AnalyzeTerminalActivityTypes(Tool):
-    """Provides the frequency of inferred terminal activity types (e.g., git, docker, pytest)"""
+    """Returns frequency of inferred terminal activity types (e.g., git, docker, pytest)"""
 
-    DEFAULT_KEYWORDS = [
-        "git",
-        "docker",
-        "kubectl",
-        "pytest",
-        "helm",
-        "make",
-        "terraform",
-        "pip",
-        "npm",
-    ]
+    DEFAULT_KEYWORDS = ["git", "docker", "kubectl", "pytest", "helm", "make", "terraform", "pip", "npm"]
 
     @staticmethod
-    def invoke(data: dict[str, Any], keywords: list[str] = None) -> str:
-        if keywords is None:
-            keywords = AnalyzeTerminalActivityTypes.DEFAULT_KEYWORDS
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         logs = _terminal(data)
+        keywords = kwargs.get("keywords", AnalyzeTerminalActivityTypes.DEFAULT_KEYWORDS)
 
         counter = Counter()
         for entry in logs:
@@ -30,15 +21,15 @@ class AnalyzeTerminalActivityTypes(Tool):
             for keyword in keywords:
                 if keyword in msg:
                     counter[keyword] += 1
-        payload = dict(counter)
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(dict(counter), indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "analyzeTerminalActivityTypes",
+                "name": "analyze_terminal_activity_types",
                 "description": "Returns frequency of terminal activity types using known or custom keywords.",
                 "parameters": {
                     "type": "object",
@@ -46,9 +37,9 @@ class AnalyzeTerminalActivityTypes(Tool):
                         "keywords": {
                             "type": "array",
                             "items": {"type": "string"},
-                            "description": "Optional list of keywords to count (e.g., git, docker)",
+                            "description": "Optional list of keywords to count (e.g., git, docker)"
                         }
-                    },
-                },
-            },
+                    }
+                }
+            }
         }

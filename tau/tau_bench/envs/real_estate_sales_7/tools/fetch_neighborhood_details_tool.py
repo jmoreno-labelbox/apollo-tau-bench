@@ -1,43 +1,39 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FetchNeighborhoodDetailsTool(Tool):
-    """Retrieves characteristics of the neighborhood and adjacent areas."""
+    """Gets neighborhood characteristics and bordering areas."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], neighborhood_id: int = None, name: str = None) -> str:
-        if neighborhood_id is None and name is None:
-            return _err("Either neighborhood_id (int) WA name (string) is required")
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        neighborhood_id = _as_int(kwargs.get("neighborhood_id"))
+        name = kwargs.get("name")
 
-        # Prioritize searching by neighborhood_id if available
+        if neighborhood_id is None and name is None:
+            return _err("Either neighborhood_id (int) or name (string) is required")
+
+        # Search by neighborhood_id first if provided
         if neighborhood_id is not None:
             rec = next(
                 (
                     n
-                    for n in data.get("neighborhoods", {}).values()
+                    for n in data.get("neighborhoods", [])
                     if _as_int(n.get("neighborhood_id")) == neighborhood_id
                 ),
                 None,
             )
         else:
-            # Conduct a case-insensitive partial name search
+            # Search by name with case-insensitive partial matching
             name_lower = name.lower()
             rec = None
-            for n in data.get("neighborhoods", {}).values():
+            for n in data.get("neighborhoods", []):
                 n_name = n.get("name", "").lower()
-                # Verify if the search name exists within the neighborhood name or the other way around
-                # This accommodates scenarios such as "Heights" corresponding to "The Hills"
+                # Check if the search name is contained in the neighborhood name or vice versa
+                # This handles cases like "Heights" matching "The Heights"
                 if name_lower in n_name or n_name in name_lower:
                     rec = n
                     break
@@ -59,15 +55,14 @@ class FetchNeighborhoodDetailsTool(Tool):
             "transit_score": rec.get("transit_score"),
             "bordering_ids_json": rec.get("bordering_ids_json") or [],
         }
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FetchNeighborhoodDetails",
+                "name": "fetch_neighborhood_details",
                 "description": "Gets neighborhood characteristics and bordering areas.",
                 "parameters": {
                     "type": "object",

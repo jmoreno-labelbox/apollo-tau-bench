@@ -1,17 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class update_review_status_by_quorum(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], review_cycles: list[dict] = None, review_approvals: list[dict] = None, system_config: dict = None, cycle_id: str = None) -> str:
-        review_cycles = review_cycles or []
-        approvals = review_approvals or []
-        cfg = system_config or {}
+    def invoke(data: Dict[str, Any], cycle_id: str) -> str:
+        review_cycles = data.get("review_cycles", [])
+        approvals = data.get("review_approvals", [])
+        cfg = data.get("system_config", {}) or {}
 
         review_cfg = {}
         if isinstance(cfg, dict):
-            review_cfg = cfg.get("review_workflow_config", {}).values() or {}
+            review_cfg = cfg.get("review_workflow_config", {}) or {}
         quorum = review_cfg.get("approval_quorum", 2)
         try:
             quorum = int(quorum)
@@ -26,11 +29,9 @@ class update_review_status_by_quorum(Tool):
                     break
 
         if not cycle:
-            payload = {"error": f"Review cycle {cycle_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"Review cycle {cycle_id} not found"}, indent=2)
 
-        approve_emails: list[str] = []
+        approve_emails: List[str] = []
         if isinstance(approvals, list):
             for a in approvals:
                 if not isinstance(a, dict):
@@ -44,7 +45,7 @@ class update_review_status_by_quorum(Tool):
         approvals_count = len(unique_reviewers)
 
         if approvals_count >= quorum:
-            cycle.get("status")
+            old = cycle.get("status")
             cycle["status"] = "APPROVED"
         else:
             pass
@@ -53,19 +54,21 @@ class update_review_status_by_quorum(Tool):
             cycle["approvals_recorded"] = approvals_count
         except Exception:
             pass
-        payload = cycle
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(cycle, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateReviewStatusByQuorum",
+                "name": "update_review_status_by_quorum",
                 "description": "Checks unique APPROVE intents against configured quorum and sets status to APPROVED if met.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"cycle_id": {"type": "string"}},
+                    "properties": {
+                        "cycle_id": {"type": "string"}
+                    },
                     "required": ["cycle_id"],
                 },
             },

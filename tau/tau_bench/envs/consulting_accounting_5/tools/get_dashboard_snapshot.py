@@ -1,17 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any, Dict
-from datetime import timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetDashboardSnapshot(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], snapshot_id: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
         Returns the snapshot_id if found.
         """
-        snapshot = next((s for s in data["dashboard_snapshots"].values() if s["snapshot_id"] == snapshot_id), None)
+        snapshot_id = kwargs["snapshot_id"]
+        snapshot = next((s for s in data["dashboard_snapshots"] if s["snapshot_id"] == snapshot_id), None)
         return json.dumps(snapshot["snapshot_id"] if snapshot else None)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {

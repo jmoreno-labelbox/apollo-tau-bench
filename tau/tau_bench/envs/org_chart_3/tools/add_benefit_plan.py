@@ -1,42 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class add_benefit_plan(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], benefit_plan: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], benefit_plan: Dict[str, Any]) -> str:
         if not benefit_plan:
-            payload = {"error": "benefit_plan record required"}
-            out = json.dumps(payload, indent=2)
-            return out
-        bp = data.get("benefit_plans", {}).values()
-        data["benefit_plans"][benefit_plan["benefit_plan_id"]] = benefit_plan
+            return json.dumps({"error": "benefit_plan record required"}, indent=2)
+        bp = data.get("benefit_plans", [])
+        bp.append(benefit_plan)
         data["benefit_plans"] = bp
-        payload = {"success": f'benefit_plan {benefit_plan["benefit_plan_id"]} added'}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        return json.dumps({"success": f'benefit_plan {benefit_plan["benefit_plan_id"]} added'}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddBenefitPlan",
+                "name": "add_benefit_plan",
                 "description": "Create a new benefit plan definition.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"benefit_plan": {"type": "object"}},
+                    "properties": {
+                        "benefit_plan": {"type": "object"}
+                    },
                     "required": ["benefit_plan"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

@@ -1,33 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindNoaaStation(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], latitude: float = None, longitude: float = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        lat = kwargs.get("latitude")
+        lon = kwargs.get("longitude")
+
         station_id = "NOAA_STATION_001"
         noaa_station_json = {
             "station_ids": station_id,
             "raw_json_path_nullable": f"/data/raw/noaa_station_{station_id}.json",
         }
-        data["noaa_station_searches"][noaa_station_json["noaa_station_searche_id"]] = noaa_station_json
-        payload = noaa_station_json
-        out = json.dumps(payload)
-        return out
+        data.get("noaa_station_searches", []).append(noaa_station_json)
+        return json.dumps(noaa_station_json)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "findNoaaStation",
+                "name": "FindNoaaStation",
                 "parameters": {
                     "type": "object",
                     "properties": {

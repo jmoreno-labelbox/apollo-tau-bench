@@ -1,13 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CountPublicPrivateRepos(Tool):
-    """Provides the count of public and private repositories owned by the acting user."""
+    """Returns count of public vs private repositories owned by the acting user."""
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         me = _auth(data)["username"]
         repos = [r for r in _repos(data) if r.get("owner") == me]
 
@@ -18,17 +20,19 @@ class CountPublicPrivateRepos(Tool):
                 result["public"] += 1
             elif vis == "private":
                 result["private"] += 1
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(result, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "countPublicPrivateRepos",
+                "name": "count_public_private_repos",
                 "description": "Returns counts of public and private repositories owned by the user.",
-                "parameters": {"type": "object", "properties": {}},
-            },
+                "parameters": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
         }

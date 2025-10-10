@@ -1,90 +1,64 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import random
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateOutboundOrderStatus(Tool):
-    """Modifies the status of a current outbound order."""
-
+    """Updates the status of an existing outbound order."""
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str = None, new_status: str = None) -> str:
-        if not all([order_id, new_status]):
-            payload = {"error": "order_id and new_status are required."}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get('order_id')
+        new_status = kwargs.get('new_status')
 
-        order = next(
-            (
-                o
-                for o in data.get("outbound_orders", {}).values()
-                if o.get("order_id") == order_id
-            ),
-            None,
-        )
+        if not all([order_id, new_status]):
+            return json.dumps({"error": "order_id and new_status are required."}, indent=2)
+
+        order = next((o for o in data.get('outbound_orders', []) if o.get('order_id') == order_id), None)
         if not order:
-            payload = {"error": f"Order '{order_id}' not found."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"Order '{order_id}' not found."}, indent=2)
 
         if new_status == "Cancelled":
             for item in order.get("line_items", []):
-                for inv_record in data.get("inventory", {}).values():
-                    if inv_record.get("sku") == item.get("sku") and inv_record.get(
-                        "warehouse_id"
-                    ) == order.get("warehouse_id"):
-                        inv_record["quantity_available"] += item.get("quantity", 0)
-                        inv_record["quantity_allocated"] -= item.get("quantity", 0)
+                for inv_record in list(data.get('inventory', {}).values()):
+                    if inv_record.get('sku') == item.get('sku') and inv_record.get('warehouse_id') == order.get('warehouse_id'):
+                        inv_record['quantity_available'] += item.get('quantity', 0)
+                        inv_record['quantity_allocated'] -= item.get('quantity', 0)
                         break
 
-        order["status"] = new_status
+        order['status'] = new_status
         return_related_statuses = [
             "Returned",
             "Partially Returned",
-            "Cancelled - Damaged Stock",  #Or other statuses that involve return/cancellation affecting returns
+            "Cancelled - Damaged Stock", # Ou outros status que impliquem devolução/cancelamento com impacto em retorno
             "Processing Return",
             "Incorrect Item Returned",
             "Cancelled - Force Majeure",
-            "On Hold - Fraud Investigation",  #Depending on the fraud/return policy
+            "On Hold - Fraud Investigation", # Dependendo da política de fraude/retorno
             "Cancelled - Expired Stock",
-            "Cancelled",  #If a generic cancellation also involves a return
+            "Cancelled" # Se um cancelamento genérico também implica em retorno
         ]
         if new_status in return_related_statuses:
-            order["return_status"] = new_status
+            order['return_status'] = new_status
         else:
-            order["return_status"] = "None"
-        payload = order
-        out = json.dumps(payload, indent=2)
-        return out
+            order['return_status'] = "None"
+        return json.dumps(order, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateOutboundOrderStatus",
+                "name": "update_outbound_order_status",
                 "description": "Updates the status of an existing outbound order (e.g., to 'Partially Returned').",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "order_id": {
-                            "type": "string",
-                            "description": "The ID of the order to update.",
-                        },
-                        "new_status": {
-                            "type": "string",
-                            "description": "The new status to set for the order.",
-                        },
+                        "order_id": {"type": "string", "description": "The ID of the order to update."},
+                        "new_status": {"type": "string", "description": "The new status to set for the order."}
                     },
-                    "required": ["order_id", "new_status"],
-                },
-            },
+                    "required": ["order_id", "new_status"]
+                }
+            }
         }

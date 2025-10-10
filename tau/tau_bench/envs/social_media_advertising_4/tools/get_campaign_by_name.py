@@ -1,45 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCampaignByName(Tool):
-    """Obtains the details of a campaign using its name."""
+    """Retrieves a campaign's details by its name."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name = kwargs.get("name")
+        for campaign in list(data.get('campaigns', {}).values()):
+            if campaign.get('name') == name:
+                return json.dumps(campaign)
+        return json.dumps({"error": f"Campaign '{name}' not found."})
 
     @staticmethod
-    def invoke(data: dict[str, Any], name: str = None) -> str:
-        for campaign in data.get("campaigns", {}).values():
-            if campaign.get("name") == name:
-                payload = campaign
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Campaign '{name}' not found."}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetCampaignByName",
-                "description": "Find a specific campaign by its exact name.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "name": {
-                            "type": "string",
-                            "description": "The name of the campaign.",
-                        }
-                    },
-                    "required": ["name"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "get_campaign_by_name", "description": "Find a specific campaign by its exact name.", "parameters": {"type": "object", "properties": {"name": {"type": "string", "description": "The name of the campaign."}}, "required": ["name"]}}}

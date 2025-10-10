@@ -1,55 +1,39 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateProductAvailability(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        product_id: str = None,
-        item_id: str = None,
-        available: bool = True,
-        new_price: float = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], product_id: str, item_id: str, available: bool = True, new_price: float = None) -> str:
         """
         Update product variant availability status and optionally price
 
         Writes to: products.json (updates variant availability and price)
         """
-        products = data.get("products", {}).values()
+        products = list(data.get("products", {}).values())
         product_to_update = None
         product_index = None
 
         # Find the product
-        for i, product in enumerate(products.values()):
+        for i, product in enumerate(products):
             if product.get("product_id") == product_id:
                 product_to_update = product
                 product_index = i
                 break
 
         if not product_to_update:
-            payload = {"error": f"Product {product_id} not found", "status": "failed"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Product {product_id} not found", "status": "failed"})
 
         # Rule: Confirm item_id exists in product variants before including in orders
-        variants = product_to_update.get("variants", {}).values()
+        variants = product_to_update.get("variants", {})
         if item_id not in variants:
-            payload = {
+            return json.dumps({
                 "error": f"Item variant {item_id} not found in product {product_id}",
-                "status": "failed",
-            }
-            out = json.dumps(payload)
-            return out
+                "status": "failed"
+            })
 
         variant_to_update = variants[item_id]
         old_availability = variant_to_update.get("available", False)
@@ -63,9 +47,7 @@ class UpdateProductAvailability(Tool):
         price_updated = False
         if new_price is not None:
             if new_price < 0:
-                payload = {"error": "Price cannot be negative", "status": "failed"}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"error": "Price cannot be negative", "status": "failed"})
             variant_to_update["price"] = new_price
             price_updated = True
 
@@ -79,52 +61,35 @@ class UpdateProductAvailability(Tool):
             "item_id": item_id,
             "availability_update": {
                 "previous_available": old_availability,
-                "new_available": available,
+                "new_available": available
             },
-            "price_update": (
-                {
-                    "updated": price_updated,
-                    "previous_price": old_price,
-                    "new_price": new_price,
-                }
-                if price_updated
-                else {"updated": False}
-            ),
-            "variant_options": list(variant_to_update.get("options", {}).values()),
-            "last_updated": variant_to_update["last_updated"],
+            "price_update": {
+                "updated": price_updated,
+                "previous_price": old_price,
+                "new_price": new_price
+            } if price_updated else {"updated": False},
+            "variant_options": variant_to_update.get("options", {}),
+            "last_updated": variant_to_update["last_updated"]
         }
-        payload = result
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(result)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateProductAvailability",
+                "name": "update_product_availability",
                 "description": "Update product variant availability status and optionally price",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "product_id": {
-                            "type": "string",
-                            "description": "Product identifier",
-                        },
-                        "item_id": {
-                            "type": "string",
-                            "description": "Product variant identifier",
-                        },
-                        "available": {
-                            "type": "boolean",
-                            "description": "New availability status",
-                        },
-                        "new_price": {
-                            "type": "number",
-                            "description": "New price (optional)",
-                        },
+                        "product_id": {"type": "string", "description": "Product identifier"},
+                        "item_id": {"type": "string", "description": "Product variant identifier"},
+                        "available": {"type": "boolean", "description": "New availability status"},
+                        "new_price": {"type": "number", "description": "New price (optional)"}
                     },
-                    "required": ["product_id", "item_id"],
-                },
-            },
+                    "required": ["product_id", "item_id"]
+                }
+            }
         }

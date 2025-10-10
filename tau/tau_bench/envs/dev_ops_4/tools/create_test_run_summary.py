@@ -1,21 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateTestRunSummary(Tool):
-    """Generate a summary of a test run with a fixed identifier."""
-
+    """Create a test run summary with a deterministic id."""
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        pipeline_id: str = None,
-        total: int = None,
-        failed: int = None,
-        passed: int = None,
-        coverage_pct: float = None,
-        report_uri: str = None,
-        skipped: int = 0
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        pipeline_id = kwargs.get("pipeline_id")
+        total = kwargs.get("total")
+        failed = kwargs.get("failed")
+        passed = kwargs.get("passed")
+        skipped = kwargs.get("skipped", 0)
+        coverage_pct = kwargs.get("coverage_pct")
+        report_uri = kwargs.get("report_uri")
+
         if pipeline_id == "pipeline_asset_validation":
             test_run_id = f"{ID_PREFIX}::test_run::{pipeline_id}::ctd1"
         elif pipeline_id == "pipeline_perf_windows":
@@ -32,18 +33,17 @@ class CreateTestRunSummary(Tool):
             "passed": passed,
             "coverage_pct": coverage_pct if coverage_pct is not None else 0.0,
             "report_uri": report_uri,
-            "created_at": FIXED_NOW,
+            "created_at": FIXED_NOW
         }
         data.setdefault("test_runs", []).append(row)
-        payload = {"test_run": row}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"test_run": row}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateTestRunSummary",
+                "name": "create_test_run_summary",
                 "description": "Create a test run row with deterministic id.",
                 "parameters": {
                     "type": "object",
@@ -54,9 +54,9 @@ class CreateTestRunSummary(Tool):
                         "passed": {"type": "integer"},
                         "skipped": {"type": "integer"},
                         "coverage_pct": {"type": "number"},
-                        "report_uri": {"type": "string"},
+                        "report_uri": {"type": "string"}
                     },
-                    "required": ["pipeline_id", "total", "failed", "passed"],
-                },
-            },
+                    "required": ["pipeline_id", "total", "failed", "passed"]
+                }
+            }
         }

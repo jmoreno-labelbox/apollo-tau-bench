@@ -1,27 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AppendAuditLogTool(Tool):
-    """AppendAuditLog"""
+    """append_audit_log"""
 
     @staticmethod
-    def invoke(data: dict[str, Any], access_request: str = None, actor_id: str = None, action_type: str = None, target_id: str = None, log_id: str = None, details: str = "",
-    timestamp: Any = None
-    ) -> str:
-        # Create log_id if it hasn't been supplied
-        if log_id is None:
-            log_id = f"LOG-{access_request or 'unknown'}-decision"
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        # Generate log_id if not provided
+        if "log_id" not in kwargs or kwargs["log_id"] is None:
+            access_request = kwargs["access_request"]
+            log_id = f"LOG-{access_request}-decision"
+        else:
+            log_id = kwargs["log_id"]
 
         entry = {
             "log_id": log_id,
-            "actor_id": actor_id,
-            "action_type": action_type,
-            "target_id": target_id,
+            "actor_id": kwargs["actor_id"],
+            "action_type": kwargs["action_type"],
+            "target_id": kwargs["target_id"],
             "timestamp": _HARD_TS,
-            "details": details,
+            "details": kwargs.get("details", ""),
         }
         logs = data.setdefault("audit_logs", [])
         existing = next((l for l in logs if l.get("log_id") == entry["log_id"]), None)
@@ -30,15 +32,14 @@ class AppendAuditLogTool(Tool):
             out = entry
         else:
             out = existing
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AppendAuditLog",
+                "name": "append_audit_log",
                 "description": "Append an audit log entry.",
                 "parameters": {
                     "type": "object",

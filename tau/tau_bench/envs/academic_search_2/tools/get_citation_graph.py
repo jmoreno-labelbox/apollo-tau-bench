@@ -1,85 +1,53 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from collections import Counter
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCitationGraph(Tool):
     """
-    Retrieves the citation graph for a particular article.
-    If a second article ID is supplied through 'compare_with_article_id', it identifies the shared citations between both.
+    Gets the citation graph for a specific article.
+    If a second article ID is provided via 'compare_with_article_id', it finds the common citations between the two.
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], article_id: Any = None, compare_with_article_id: Any = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        article_id = kwargs.get('article_id')
+        compare_with_article_id = kwargs.get('compare_with_article_id')
+
         if not article_id:
-            payload = {"error": "article_id is required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "article_id is required."})
 
-        citations = data.get("citations", {}).values()
+        citations = list(data.get('citations', {}).values())
 
-        # Functionality taken from the previous FindCommonCitations tool
+        # Logic from the old FindCommonCitations tool
         if compare_with_article_id:
-            cites1 = {
-                c["referenced_paper_id"]
-                for c in citations.values() if c.get("origin_paper_id") == article_id
-            }
-            cites2 = {
-                c["referenced_paper_id"]
-                for c in citations.values() if c.get("origin_paper_id") == compare_with_article_id
-            }
+            cites1 = {c['cited_article_id'] for c in citations if c.get('source_article_id') == article_id}
+            cites2 = {c['cited_article_id'] for c in citations if c.get('source_article_id') == compare_with_article_id}
             common_citations = list(cites1.intersection(cites2))
-            payload = {
-                "article1_id": article_id,
-                "article2_id": compare_with_article_id,
-                "common_citations": common_citations,
-            }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({"article1_id": article_id, "article2_id": compare_with_article_id, "common_citations": common_citations}, indent=2)
 
-        # Initial logic of GetCitationGraph
+        # Original logic of GetCitationGraph
         else:
-            cited_by = [
-                c["origin_paper_id"]
-                for c in citations.values() if c.get("referenced_paper_id") == article_id
-            ]
-            cites = [
-                c["referenced_paper_id"]
-                for c in citations.values() if c.get("origin_paper_id") == article_id
-            ]
+            cited_by = [c['source_article_id'] for c in citations if c.get('cited_article_id') == article_id]
+            cites = [c['cited_article_id'] for c in citations if c.get('source_article_id') == article_id]
             result = {"article_id": article_id, "cited_by": cited_by, "cites": cites}
-            payload = result
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps(result, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCitationGraph",
+                "name": "get_citation_graph",
                 "description": "Gets the citation graph for an article, or finds common citations between two articles.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "article_id": {"type": "string"},
-                        "compare_with_article_id": {
-                            "type": "string",
-                            "description": "If provided, finds common articles cited by both this article and the main article_id.",
-                        },
+                        "compare_with_article_id": {"type": "string", "description": "If provided, finds common articles cited by both this article and the main article_id."}
                     },
-                    "required": ["article_id"],
-                },
-            },
+                    "required": ["article_id"]
+                }
+            }
         }

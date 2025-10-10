@@ -1,30 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FetchOpenHouseOpportunitiesTool(Tool):
-    """Locates open houses that align with client criteria and availability."""
+    """Finds open houses matching client criteria and availability."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        property_candidates: list = None,
-        date: str = None,
-        date_range_start: str = None,
-        date_range_end: str = None
-    ) -> str:
-        property_candidates = property_candidates or []
-        # Improvement: enable simplified single date that automatically extends to 3 days
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        property_candidates = kwargs.get("property_candidates") or []
+        # Enhancement: support simplified single date that auto-expands to 3 days
+        date = kwargs.get("date")
+        date_range_start = kwargs.get("date_range_start")
+        date_range_end = kwargs.get("date_range_end")
         if date and (not date_range_start or not date_range_end):
             try:
                 from datetime import datetime, timedelta
@@ -34,7 +24,7 @@ class FetchOpenHouseOpportunitiesTool(Tool):
                 date_range_start = f"{start_dt.strftime('%Y-%m-%d')}T00:00:00Z"
                 date_range_end = f"{end_dt.strftime('%Y-%m-%d')}T23:59:59Z"
             except Exception:
-                # Best-effort fallback
+                # Fallback best-effort
                 date_str = str(date)
                 date_range_start = f"{date_str}T00:00:00Z"
                 try:
@@ -43,13 +33,13 @@ class FetchOpenHouseOpportunitiesTool(Tool):
                 except Exception:
                     date_range_end = f"{date_str}T23:59:59Z"
         if not date_range_start or not date_range_end:
-            return _err("date WA (date_range_start and date_range_end) are required")
+            return _err("date or (date_range_start and date_range_end) are required")
 
         prop_set = set(property_candidates)
         open_houses = []
-        for oh in data.get("open_houses", {}).values():
+        for oh in data.get("open_houses", []):
             if str(oh.get("property_id")) in prop_set:
-                # Verify if open house dates coincide with the search range
+                # Check if open house dates overlap with search range
                 oh_start = oh.get("start_at", "")
                 oh_end = oh.get("end_at", "")
                 if oh_start <= date_range_end and oh_end >= date_range_start:
@@ -60,16 +50,15 @@ class FetchOpenHouseOpportunitiesTool(Tool):
             "open_house_opportunities": open_houses[:10],
             "total_opportunities": len(open_houses),
         }
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        #Facilitates Route Optimization Protocol (for planning viewings)
+    def get_info() -> Dict[str, Any]:
+        # Supports Route Optimization Protocol (planning viewings)
         return {
             "type": "function",
             "function": {
-                "name": "FetchOpenHouseOpportunities",
+                "name": "fetch_open_house_opportunities",
                 "description": (
                     "Find open houses for a set of properties within a date range."
                 ),

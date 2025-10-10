@@ -1,37 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetSupplierDetails(Tool):
-    """Obtains complete details for a supplier using their ID."""
+    """Retrieves the full details for a supplier by their id."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], supplier_id: str = None) -> str:
-        suppliers = data.get("supplier_master", {}).values()
-        for supplier in suppliers.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        supplier_id = kwargs.get("supplier_id")
+        suppliers = data.get("supplier_master", [])
+        for supplier in suppliers:
             if supplier.get("supplier_id") == supplier_id:
-                payload = supplier
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Supplier not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(supplier)
+        return json.dumps({"error": "Supplier not found"})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetSupplierDetails",
+                "name": "get_supplier_details",
                 "description": "Retrieves the full record for a supplier by their id.",
                 "parameters": {
                     "type": "object",

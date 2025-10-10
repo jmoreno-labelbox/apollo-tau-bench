@@ -1,78 +1,56 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateRepositoryNameTool(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], target_name: str = None, repo_already_exists: bool = False) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        target_name = kwargs.get("target_name")
+        repo_already_exists = kwargs.get("repo_already_exists")
+
         if not target_name:
-            payload = {
+            return json.dumps(
+                {
                     "status": "error",
                     "message": "Missing required parameters: 'target_name'.",
                     "required": ["target_name"],
-                }
-            out = json.dumps(
-                payload, indent=2,
+                },
+                indent=2,
             )
-            return out
 
         if repo_already_exists:
             new_target_name = target_name + "_v2"
-            repos = data.get("repositories", {}).values()
-            repo = next((c for c in repos.values() if c["repo_name"] == new_target_name), None)
-            #repo = get_data(repos, new_target_name)
+            repos = list(data.get('repositories', {}).values())
+            repo = next((c for c in repos if c["repo_name"] == new_target_name), None)
+            # repo = get_data(repos, new_target_name)
 
             if not repo:
-                payload = {
-                        "status": "success",
-                        "target_name": new_target_name,
-                        "message": "Target repo name updated",
-                    }
-                out = json.dumps(
-                    payload, indent=2,
+                return json.dumps(
+                    {"status": "success", "target_name": new_target_name, "message": "Target repo name updated"},
+                    indent=2,
                 )
-                return out
             else:
-                payload = {
-                        "status": "error",
-                        "message": f"New Target repo name {new_target_name} already exists in the database.",
-                    }
-                out = json.dumps(
-                    payload, indent=2,
+                # Simulate document verification logic
+                return json.dumps(
+                    {"status": "error", "message": f"New Target repo name {new_target_name} already exists in the database."}, indent=2
                 )
-                return out
         else:
-            payload = {
-                    "status": "success",
-                    "target_name": target_name,
-                    "message": "Target repo name unchanged",
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"status": "success", "target_name": target_name, "message": "Target repo name unchanged"},
+                indent=2,
             )
-            return out
+
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
 
         return {
             "type": "function",
             "function": {
-                "name": "updateRepositoryName",
+                "name": "update_repository_name",
                 "description": "Updates the name of the target repository.",
                 "parameters": {
                     "type": "object",

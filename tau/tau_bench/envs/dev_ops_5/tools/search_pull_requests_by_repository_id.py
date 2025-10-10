@@ -1,34 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchPullRequestsByRepositoryId(Tool):
-    """Looks for all pull requests in a particular repository."""
+    """Searches for all pull requests within a specific repository."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], repository_id: str = None) -> str:
-        pull_requests = data.get("pull_requests", {}).values()
-
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        repository_id = kwargs.get("repository_id")
+        pull_requests = list(data.get("pull_requests", {}).values())
+        
         matching_prs = [
-            pr for pr in pull_requests.values() if pr.get("repository_id") == repository_id
+            pr for pr in pull_requests if pr.get("repository_id") == repository_id
         ]
-        payload = {"pull_requests": matching_prs}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"pull_requests": matching_prs})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "searchPullRequestsByRepositoryId",
+                "name": "search_pull_requests_by_repository_id",
                 "description": "Searches for all pull requests within a specific repository.",
                 "parameters": {
                     "type": "object",

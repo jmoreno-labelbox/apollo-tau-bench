@@ -1,37 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateChangeTemplate(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        template_name: str,
-        template_type: str,
-        standard_fields: dict[str, Any] = {},
-        required_approvals: list = [],
-        risk_threshold: str = "medium",
-        created_by: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        template_name = kwargs.get("template_name")
+        template_type = kwargs.get("template_type")
+        standard_fields = kwargs.get("standard_fields", {})
+        required_approvals = kwargs.get("required_approvals", [])
+        risk_threshold = kwargs.get("risk_threshold", "medium")
+        created_by = kwargs.get("created_by")
+
         if not all([template_name, template_type, created_by]):
-            payload = {"error": "template_name, template_type, and created_by are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "template_name, template_type, and created_by are required"}
+            )
 
         if "change_templates" not in data:
             data["change_templates"] = []
         change_templates = data["change_templates"]
 
         existing = next(
-            (t for t in change_templates.values() if t.get("template_name") == template_name),
+            (t for t in change_templates if t.get("template_name") == template_name),
             None,
         )
         if existing:
-            payload = {"error": f"Template '{template_name}' already exists"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Template '{template_name}' already exists"})
 
         template_id = f"ct_{uuid.uuid4().hex[:8]}"
 
@@ -74,15 +72,15 @@ class CreateChangeTemplate(Tool):
         }
 
         change_templates.append(new_template)
-        payload = {"success": True, "template": new_template}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"success": True, "template": new_template})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateChangeTemplate",
+                "name": "create_change_template",
                 "description": "Create a template for common change request types",
                 "parameters": {
                     "type": "object",

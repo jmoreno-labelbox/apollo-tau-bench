@@ -1,62 +1,48 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpdateOrderItemPrice(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str = None, item_id: str = None, new_price: float = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get('order_id')
+        item_id = kwargs.get('item_id')
+        new_price = kwargs.get('new_price')
         if not all([order_id, item_id, new_price]):
-            payload = {"error": "order_id, item_id, and new_price are required"}
-            out = json.dumps(
-                payload)
-            return out
+            return json.dumps({'error': 'order_id, item_id, and new_price are required'})
 
-        order = next((o for o in data["orders"].values() if o["order_id"] == order_id), None)
+        order = next((o for o in data['orders'] if o['order_id'] == order_id), None)
         if not order:
-            payload = {"error": "Order not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({'error': 'Order not found'})
 
-        if order["status"] != "pending":
-            payload = {"error": "Can only update prices on pending orders."}
-            out = json.dumps(payload)
-            return out
+        if order['status'] != 'pending':
+            return json.dumps({'error': 'Can only update prices on pending orders.'})
 
-        item_to_update = next(
-            (item for item in order["items"] if item["item_id"] == item_id), None
-        )
+        item_to_update = next((item for item in order['items'] if item['item_id'] == item_id), None)
         if not item_to_update:
-            payload = {"error": f"Item {item_id} not in order."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({'error': f'Item {item_id} not in order.'})
 
-        item_to_update["price"] = new_price
-        payload = {
-                "success": True,
-                "order_id": order_id,
-                "item_id": item_id,
-                "new_price": new_price,
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        item_to_update['price'] = new_price
+        return json.dumps({'success': True, 'order_id': order_id, 'item_id': item_id, 'new_price': new_price}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "updateOrderItemPrice",
-                "description": "Manually update the price of an item in a pending order.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "order_id": {"type": "string"},
-                        "item_id": {"type": "string"},
-                        "new_price": {"type": "number"},
+            'type': 'function',
+            'function': {
+                'name': 'update_order_item_price',
+                'description': "Manually update the price of an item in a pending order.",
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'order_id': {'type': 'string'},
+                        'item_id': {'type': 'string'},
+                        'new_price': {'type': 'number'}
                     },
-                    "required": ["order_id", "item_id", "new_price"],
-                },
-            },
+                    'required': ['order_id', 'item_id', 'new_price']
+                }
+            }
         }

@@ -1,29 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ListRepoTopics(Tool):
-    """Enumerates all topics associated with a specified repository."""
+    """Lists all topics for a given repository."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str = None) -> str:
-        repo = _find_repo_record(data, repo_name)
-        payload = {"topics": repo.get("topics", [])}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        repo = _find_repo_record(data, kwargs.get("repo_name"))
+        return json.dumps({"topics": repo.get("topics", [])}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "ListRepoTopics",
+                "name": "list_repo_topics",
                 "description": "Returns the list of repository topics.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"repo_name": {"type": "string"}},
-                    "required": ["repo_name"],
-                },
-            },
+                    "properties": {
+                        "repo_name": {"type": "string"}
+                    },
+                    "required": ["repo_name"]
+                }
+            }
         }

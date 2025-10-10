@@ -1,47 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class StoreFeatures(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        csv_path: str = None,
-        definitions_nullable: Any = None,
-        feature_names: list[str] = None,
-        generated_ts: Any = None
-    ) -> str:
-        err = _require({"csv_path": csv_path, "feature_names": feature_names}, ["csv_path", "feature_names"])
-        if err:
-            return err
-        row = {
-            "csv_path": csv_path,
-            "feature_names": feature_names,
-            "definitions_nullable": definitions_nullable,
-            "generated_ts": generated_ts,
-        }
-        payload = _append(data.setdefault("features", []), row)
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        err = _require(kwargs, ["csv_path", "feature_names"])
+        if err: return err
+        row = {"csv_path": kwargs["csv_path"], "feature_names": kwargs["feature_names"],
+               "definitions_nullable": kwargs.get("definitions_nullable"), "generated_ts": kwargs.get("generated_ts")}
+        return json.dumps(_append(data.setdefault("features", []), row), indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "StoreFeatures",
-                "description": "Stores feature list metadata for a generated CSV.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "csv_path": {"type": "string"},
-                        "feature_names": {"type": "array", "items": {"type": "string"}},
-                        "definitions_nullable": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                        },
-                        "generated_ts": {"type": "string"},
-                    },
-                    "required": ["csv_path", "feature_names"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "store_features",
+            "description": "Stores feature list metadata for a generated CSV.",
+            "parameters": {"type": "object", "properties": {
+                "csv_path": {"type": "string"}, "feature_names": {"type": "array", "items": {"type": "string"}},
+                "definitions_nullable": {"type": "array", "items": {"type": "string"}},
+                "generated_ts": {"type": "string"}}, "required": ["csv_path", "feature_names"]}}}

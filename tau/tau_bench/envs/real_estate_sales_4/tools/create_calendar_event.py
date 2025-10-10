@@ -1,31 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateCalendarEvent(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        broker_id: str = None,
-        client_id: str = None,
-        title: str = None,
-        start_at: str = None,
-        end_at: str = None,
-        location: str = None,
-        notes: str = None,
-        source: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        broker_id = kwargs.get('broker_id')
+        client_id = kwargs.get('client_id')
+        title = kwargs.get('title')
+        start_at = kwargs.get('start_at')
+        end_at = kwargs.get('end_at')
+        location = kwargs.get('location')
+        notes = kwargs.get('notes')
+        source = kwargs.get('source')
+        
         if not all([broker_id, client_id, title, start_at, end_at]):
-            payload = {
+            return json.dumps({
                 "error": "broker_id, client_id, title, start_at, and end_at are required"
-            }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
-
+            }, indent=2)
+        
         import time
-
         timestamp = str(int(time.time() * 1000))
         event_id = f"EVENT-{client_id}-{timestamp}"
         event = {
@@ -39,59 +36,60 @@ class CreateCalendarEvent(Tool):
             "notes": notes,
             "source": source,
             "status": "scheduled",
-            "created_at": "2024-08-21T00:00:00Z",
+            "created_at": "2024-08-21T00:00:00Z"
         }
-        payload = {
+        
+        return json.dumps({
             "success": True,
             "event_id": event_id,
             "message": f"Calendar event created for client {client_id}",
-            "event": event,
-        }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+            "event": event
+        }, indent=2)
+    
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateCalendarEvent",
-                "description": "Create a calendar event for client meetings WA appointments",
+                "name": "create_calendar_event",
+                "description": "Create a calendar event for client meetings or appointments",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "broker_id": {
                             "type": "integer",
-                            "description": "Broker ID creating the event",
+                            "description": "Broker ID creating the event"
                         },
                         "client_id": {
                             "type": "integer",
-                            "description": "Client ID for the event",
+                            "description": "Client ID for the event"
                         },
-                        "title": {"type": "string", "description": "Event title"},
+                        "title": {
+                            "type": "string",
+                            "description": "Event title"
+                        },
                         "start_at": {
                             "type": "string",
-                            "description": "Start time in ISO format",
+                            "description": "Start time in ISO format"
                         },
                         "end_at": {
                             "type": "string",
-                            "description": "End time in ISO format",
+                            "description": "End time in ISO format"
                         },
-                        "location": {"type": "string", "description": "Event location"},
-                        "notes": {"type": "string", "description": "Event notes"},
+                        "location": {
+                            "type": "string",
+                            "description": "Event location"
+                        },
+                        "notes": {
+                            "type": "string",
+                            "description": "Event notes"
+                        },
                         "source": {
                             "type": "string",
-                            "description": "Event source (client_meeting, follow_up, viewing, etc.)",
-                        },
+                            "description": "Event source (client_meeting, follow_up, viewing, etc.)"
+                        }
                     },
-                    "required": [
-                        "broker_id",
-                        "client_id",
-                        "title",
-                        "start_at",
-                        "end_at",
-                    ],
-                },
-            },
+                    "required": ["broker_id", "client_id", "title", "start_at", "end_at"]
+                }
+            }
         }

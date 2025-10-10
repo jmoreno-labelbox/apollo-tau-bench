@@ -1,22 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class CheckUserTrainingCompletion(Tool):
+class check_user_training_completion(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str, team_id: str) -> str:
-        training_logs = data.get("team_training_log", {}).values()
-        user_training = [log for log in training_logs.values() if log.get("user_id") == user_id]
+    def invoke(data: Dict[str, Any], user_id: str, team_id: str) -> str:
+        training_logs = data.get("team_training_log", [])
+        user_training = [log for log in training_logs if log.get("user_id") == user_id]
         completed_training = [
             log for log in user_training if log.get("status") == "Completed"
         ]
@@ -24,24 +17,24 @@ class CheckUserTrainingCompletion(Tool):
         completion_rate = (
             len(completed_training) / len(user_training) if user_training else 0
         )
-        payload = {
-            "user_id": user_id,
-            "team_id": team_id,
-            "total_training_sessions": len(user_training),
-            "completed_sessions": len(completed_training),
-            "completion_rate": completion_rate,
-        }
-        out = json.dumps(
-            payload, indent=2,
+
+        return json.dumps(
+            {
+                "user_id": user_id,
+                "team_id": team_id,
+                "total_training_sessions": len(user_training),
+                "completed_sessions": len(completed_training),
+                "completion_rate": completion_rate,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "checkUserTrainingCompletion",
+                "name": "check_user_training_completion",
                 "description": "Check training completion status for a user",
                 "parameters": {
                     "type": "object",

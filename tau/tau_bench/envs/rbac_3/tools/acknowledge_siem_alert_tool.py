@@ -1,32 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AcknowledgeSiemAlertTool(Tool):
     """acknowledge_siem_alert
-    Records in data['siem_acknowledgments'] with: alert_id, ack_by, status, note, ack_at(HARD_TS)
+    Writes to data['siem_acknowledgments'] with: alert_id, ack_by, status, note, ack_at(HARD_TS)
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], alert_id: str = None, ack_by: str = None, status: str = "ACKNOWLEDGED", note: str = None, severity_in: Any = None) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        alert_id = kwargs.get("alert_id")
+        ack_by = kwargs.get("ack_by")
+        status = kwargs.get("status") or "ACKNOWLEDGED"
+        note = kwargs.get("note")
         ack_at = _HARD_TS
 
         if not alert_id or not ack_by:
-            payload = {"error": "alert_id and ack_by are required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "alert_id and ack_by are required"}, indent=2)
 
-        alerts: list[dict[str, Any]] = data.setdefault("siem_alerts", [])
+        alerts: List[Dict[str, Any]] = data.setdefault("siem_alerts", [])
         rec = next((a for a in alerts if a.get("alert_id") == alert_id), None)
         if not rec:
-            payload = {"error": f"Alert {alert_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"Alert {alert_id} not found"}, indent=2)
 
-        acks: list[dict[str, Any]] = data.setdefault("siem_acknowledgments", [])
+        acks: List[Dict[str, Any]] = data.setdefault("siem_acknowledgments", [])
         ack = next((x for x in acks if x.get("alert_id") == alert_id), None)
         if not ack:
             ack = {"alert_id": alert_id}
@@ -36,7 +36,7 @@ class AcknowledgeSiemAlertTool(Tool):
         ack["note"] = note
         ack["ack_at"] = ack_at
 
-        #insert or update
+        # upsert
         replaced = False
         for i, x in enumerate(acks):
             if x.get("alert_id") == alert_id:
@@ -45,15 +45,15 @@ class AcknowledgeSiemAlertTool(Tool):
                 break
         if not replaced:
             acks.append(ack)
-        payload = ack
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(ack, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AcknowledgeSiemAlert",
+                "name": "acknowledge_siem_alert",
                 "description": (
                     "Record an acknowledgment for a SIEM alert in a separate store (no changes to alert record)."
                 ),

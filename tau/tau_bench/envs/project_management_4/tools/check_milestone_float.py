@@ -1,28 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CheckMilestoneFloat(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: str = None) -> str:
-        if not project_id:
-            payload = {"error": "project_id is required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
 
-        milestones = data.get("milestones", {}).values()
+        if not project_id:
+            return json.dumps({"error": "project_id is required"})
+
+        milestones = list(data.get("milestones", {}).values())
         project_milestones = [
-            m for m in milestones.values() if m.get("project_id") == project_id
+            m for m in milestones if m.get("project_id") == project_id
         ]
 
         float_analysis = []
@@ -62,35 +55,36 @@ class CheckMilestoneFloat(Tool):
 
         summary = {
             "negative_float": len(
-                [f for f in float_analysis.values() if f["float_status"] == "negative"]
+                [f for f in float_analysis if f["float_status"] == "negative"]
             ),
             "zero_float": len(
-                [f for f in float_analysis.values() if f["float_status"] == "zero"]
+                [f for f in float_analysis if f["float_status"] == "zero"]
             ),
-            "low_float": len([f for f in float_analysis.values() if f["float_status"] == "low"]),
+            "low_float": len([f for f in float_analysis if f["float_status"] == "low"]),
             "comfortable_float": len(
-                [f for f in float_analysis.values() if f["float_status"] == "comfortable"]
+                [f for f in float_analysis if f["float_status"] == "comfortable"]
             ),
             "critical_path_count": len(
-                [f for f in float_analysis.values() if f["is_critical_path"]]
+                [f for f in float_analysis if f["is_critical_path"]]
             ),
         }
-        payload = {
+
+        return json.dumps(
+            {
                 "project_id": project_id,
                 "float_analysis": float_analysis,
                 "summary": summary,
                 "total_milestones": len(float_analysis),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CheckMilestoneFloat",
+                "name": "check_milestone_float",
                 "description": "Check float/slack time for all project milestones",
                 "parameters": {
                     "type": "object",

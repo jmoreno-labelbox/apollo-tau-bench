@@ -1,39 +1,28 @@
-from tau_bench.envs.tool import Tool
-import csv
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ComputeRoas(Tool):
-    """Calculate ROAS (revenue/spend) for an ad set on a specific date."""
+    """Compute ROAS (revenue/spend) for an adset on a date."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None, date: str = None) -> str:
-        aid, date = adset_id, date
-        for i in data.get("f_insights", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        aid, date = kwargs.get("adset_id"), kwargs.get("date")
+        for i in data.get("f_insights", []):
             if i.get("adset_id") == aid and i.get("date") == date:
                 s, r = i.get("spend", 0), i.get("revenue", 0)
-                payload = {"adset_id": aid, "roas": round(r / s, 2) if s > 0 else 0}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "No data to calc ROAS"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"adset_id": aid, "roas": round(r / s, 2) if s > 0 else 0})
+        return json.dumps({"error": "No data to calc ROAS"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ComputeRoas",
+                "name": "compute_roas",
                 "description": "Compute ROAS (revenue/spend) for an adset on a date.",
                 "parameters": {
                     "type": "object",

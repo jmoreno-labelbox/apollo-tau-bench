@@ -1,35 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class update_leave_record(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], leave_id: str, updates: dict[str, Any]) -> str:
-        records = data.get("leave_records", {}).values()
+    def invoke(data: Dict[str, Any], leave_id: str, updates: Dict[str, Any]) -> str:
+        records = data.get("leave_records", [])
         for rec in records:
             if rec["leave_id"] == leave_id:
                 rec.update(updates)
                 data["leave_records"] = records
-                payload = {"success": f"leave {leave_id} updated"}
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"leave_id {leave_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps({"success": f"leave {leave_id} updated"}, indent=2)
+        return json.dumps({"error": f"leave_id {leave_id} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateLeaveRecord",
+                "name": "update_leave_record",
                 "description": "Patch one or more fields (end_date, status, notes …) on an existing leave record.",
                 "parameters": {
                     "type": "object",

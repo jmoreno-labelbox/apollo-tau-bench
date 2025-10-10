@@ -1,46 +1,39 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, time, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateCustomer(Tool):
     @staticmethod
-    def invoke(
-        data: Dict[str, Any],
-        first_name: str = None,
-        last_name: str = None,
-        dob: str = None,
-        email: str = None,
-        phone: str = None,
-        street: str = None,
-        city: str = None,
-        postal_code: str = None,
-        country: str = None,
-        annual_income: float = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         customer_id = _get_next_customer_id(data)
         new_customer = {
-            "customer_id": customer_id,
-            "personal_info": {"first_name": first_name, "last_name": last_name, "date_of_birth": dob},
-            "contact_info": {
-                "email_address": email,
-                "phone_numbers": [{"type": "Mobile", "number": phone, "is_primary": True}],
-                "mailing_address": {"street_address": street, "city": city, "postal_code": postal_code, "country": country},
-                "residential_address": {"street_address": street, "city": city, "postal_code": postal_code, "country": country}
-            },
-            "account_ids": [],
-            "financial_profile": {"annual_income": annual_income},
-            "bank_relationship": {"date_joined": NOW.strftime('%Y-%m-%d')},
-            "compliance": {"kyc_status": "Verified", "aml_risk_level": "Low"}
+                "customer_id": customer_id,
+                "personal_info": {"first_name": kwargs.get("first_name"), "last_name": kwargs.get("last_name"), "date_of_birth": kwargs.get("dob")},
+                "contact_info": {
+                        "email_address": kwargs.get("email"),
+                        "phone_numbers": [{"type": "Mobile", "number": kwargs.get("phone"), "is_primary": True}],
+                        "mailing_address": {"street_address": kwargs.get("street"), "city": kwargs.get("city"), "postal_code": kwargs.get("postal_code"),
+                                            "country": kwargs.get("country")},
+                        "residential_address": {"street_address": kwargs.get("street"), "city": kwargs.get("city"), "postal_code": kwargs.get("postal_code"),
+                                                "country": kwargs.get("country")}
+                },
+                "account_ids": [],
+                "financial_profile": {"annual_income": kwargs.get("annual_income")},
+                "bank_relationship": {"date_joined": NOW.strftime('%Y-%m-%d')},
+                "compliance": {"kyc_status": "Verified", "aml_risk_level": "Low"}
         }
         data['customers'].append(new_customer)
         return json.dumps(new_customer)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "CreateCustomer",
+                        "name": "create_customer",
                         "description": "Creates a new customer profile.",
                         "parameters": {
                                 "type": "object",

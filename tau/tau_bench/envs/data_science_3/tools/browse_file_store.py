@@ -1,28 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class BrowseFileStore(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        payload = {"files": data.get("file_store", {}).values()}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        return json.dumps({"files": data.get("file_store", [])}, indent=2)
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "listFileStore",
-                "description": "List all files in the file store.",
-                "parameters": {"type": "object", "properties": {}, "required": []},
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"list_file_store",
+            "description":"List all files in the file store.",
+            "parameters":{"type":"object","properties":{},"required":[]}
+        }}

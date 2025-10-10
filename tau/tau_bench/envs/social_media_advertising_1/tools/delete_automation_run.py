@@ -1,49 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class DeleteAutomationRun(Tool):
-    """Removes a record of an automation run."""
+    """Deletes an automation run record."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], run_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        run_id = kwargs.get("run_id")
         if not run_id:
-            payload = {"error": "run_id is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "run_id is a required parameter."})
 
-        runs = data.get("automation_runs", {}).values()
+        runs = data.get("automation_runs", [])
         original_count = len(runs)
-        data["automation_runs"] = [r for r in runs.values() if r.get("run_id") != run_id]
+        data['automation_runs'] = [r for r in runs if r.get("run_id") != run_id]
 
-        if len(data["automation_runs"]) < original_count:
-            payload = {
-                    "status": "success",
-                    "message": f"Automation run with id {run_id} deleted successfully.",
-                }
-            out = json.dumps(
-                payload)
-            return out
+        if len(data['automation_runs']) < original_count:
+            return json.dumps({
+                "status": "success",
+                "message": f"Automation run with id {run_id} deleted successfully."
+            })
         else:
-            payload = {"error": f"Automation run with ID '{run_id}' not found."}
-            out = json.dumps(
-                payload)
-            return out
+            return json.dumps({"error": f"Automation run with ID '{run_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "deleteAutomationRun",
+                "name": "delete_automation_run",
                 "description": "Deletes an automation run record.",
                 "parameters": {
                     "type": "object",

@@ -1,23 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AddTestResultToRun(Tool):
-    """Add a test result to a test run in a deterministic manner."""
-
+    """Append a test result to a test run deterministically."""
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        test_run_id: str = None,
-        test_name: str = None,
-        status: str = None,
-        failure_type: str = None,
-        issue_message: str = None,
-        file_path: str = None,
-        line_number: int = None,
-        issue_code: str = None,
-        duration_ms: int = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        test_run_id = kwargs.get("test_run_id")
+        test_name = kwargs.get("test_name")
+        status = kwargs.get("status")  # passed, failed, skipped
+        failure_type = kwargs.get("failure_type")
+        issue_message = kwargs.get("issue_message")
+        file_path = kwargs.get("file_path")
+        line_number = kwargs.get("line_number")
+        issue_code = kwargs.get("issue_code")
+        duration_ms = kwargs.get("duration_ms")
+
         rec = {
             "id": f"{ID_PREFIX}::test_result::{_sanitize(test_run_id)}__{_sanitize(test_name)}::001",
             "test_run_id": test_run_id,
@@ -31,36 +32,32 @@ class AddTestResultToRun(Tool):
             "stack_trace": None,
             "duration_ms": duration_ms,
             "timestamp": FIXED_NOW,
-            "metadata": {},
+            "metadata": {}
         }
         data.setdefault("test_results", []).append(rec)
-        payload = {"test_result": rec}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"test_result": rec}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddTestResultToRun",
+                "name": "add_test_result_to_run",
                 "description": "Append a test result.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "test_run_id": {"type": "string"},
                         "test_name": {"type": "string"},
-                        "status": {
-                            "type": "string",
-                            "enum": ["passed", "failed", "skipped"],
-                        },
+                        "status": {"type": "string", "enum": ["passed", "failed", "skipped"]},
                         "failure_type": {"type": "string"},
                         "issue_message": {"type": "string"},
                         "file_path": {"type": "string"},
                         "line_number": {"type": "integer"},
                         "issue_code": {"type": "string"},
-                        "duration_ms": {"type": "integer"},
+                        "duration_ms": {"type": "integer"}
                     },
-                    "required": ["test_run_id", "test_name", "status"],
-                },
-            },
+                    "required": ["test_run_id", "test_name", "status"]
+                }
+            }
         }

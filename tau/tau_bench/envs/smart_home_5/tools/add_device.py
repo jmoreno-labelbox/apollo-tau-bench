@@ -1,46 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AddDevice(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], new_device_id: str = None, new_device_name: str = None,
-    new_device: Any = None,
-    ) -> str:
-        devices = data.get("devices", {}).values()
-        if not new_device_id:
-            payload = {"error": "New device must have an 'id'."}
-            out = json.dumps(payload, indent=2)
-            return out
+    def invoke(data: Dict[str, Any], new_device: Dict[str, Any]) -> str:
+        devices = list(data.get('devices', {}).values())
+        if 'id' not in new_device:
+            return json.dumps({"error": "New device must have an 'id'."}, indent=2)
 
-        if any(d.get("id") == new_device_id for d in devices.values()):
-            payload = {"error": f"Device with ID '{new_device_id}' already exists."}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+        if any(d.get('id') == new_device['id'] for d in devices):
+            return json.dumps({"error": f"Device with ID '{new_device['id']}' already exists."}, indent=2)
 
-        new_device = {"id": new_device_id, "name": new_device_name}
-        data["devices"][device_id] = new_device
-        payload = {"success": f"Device '{new_device_name or new_device_id}' added."}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        devices.append(new_device)
+        return json.dumps({"success": f"Device '{new_device.get('name', new_device['id'])}' added."}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddDevice",
+                "name": "add_device",
                 "description": "Add a new device to the smart home system.",
                 "parameters": {
                     "type": "object",
@@ -52,14 +35,14 @@ class AddDevice(Tool):
                                 "id": {"type": "string"},
                                 "type": {"type": "string"},
                                 "name": {"type": "string"},
-                                "location": {"type": "string"},
+                                "location": {"type": "string"}
                             },
                             "required": ["id", "type", "name"],
-                            "additionalProperties": True,
+                            "additionalProperties": True
                         }
                     },
                     "required": ["new_device"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

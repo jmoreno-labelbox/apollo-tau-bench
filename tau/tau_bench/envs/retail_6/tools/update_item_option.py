@@ -1,60 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpdateItemOption(Tool):
-    """Modify a specific option key for a particular item in an order."""
-
+    """Update a specific option key for a given item in an order."""
     @staticmethod
-    def invoke(data, order_id=None, item_id=None, option_key=None, option_value=None) -> str:
+    def invoke(data, **kwargs) -> str:
+        order_id = kwargs.get('order_id')
+        item_id = kwargs.get('item_id')
+        option_key = kwargs.get('option_key')
+        option_value = kwargs.get('option_value')
         if not order_id or not item_id or option_key is None or option_value is None:
-            payload = {"error": "order_id, item_id, option_key, option_value are required"}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({"error":"order_id, item_id, option_key, option_value are required"}, indent=2)
         o = _find_order(data, order_id)
         if not o:
-            payload = {"error": f"order_id {order_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        it = next((i for i in o.get("items", []) if i.get("item_id") == item_id), None)
+            return json.dumps({"error":f"order_id {order_id} not found"}, indent=2)
+        it = next((i for i in o.get('items', []) if i.get('item_id') == item_id), None)
         if not it:
-            payload = {"error": f"item_id {item_id} not in order {order_id}"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        opts = it.setdefault("options", {}).values()
+            return json.dumps({"error":f"item_id {item_id} not in order {order_id}"}, indent=2)
+        opts = it.setdefault('options', {})
         opts[option_key] = option_value
-        payload = {
-                "success": True,
-                "order_id": order_id,
-                "item_id": item_id,
-                "option_key": option_key,
-                "option_value": option_value,
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        return json.dumps({"success": True, "order_id": order_id, "item_id": item_id, "option_key": option_key, "option_value": option_value}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "updateItemOption",
-                "description": "Update a single option on an order item.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "order_id": {"type": "string"},
-                        "item_id": {"type": "string"},
-                        "option_key": {"type": "string"},
-                        "option_value": {},
-                    },
-                    "required": ["order_id", "item_id", "option_key", "option_value"],
-                },
-            },
-        }
+        return {"type":"function","function":{"name":"update_item_option","description":"Update a single option on an order item.","parameters":{"type":"object","properties":{"order_id":{"type":"string"},"item_id":{"type":"string"},"option_key":{"type":"string"},"option_value":{}},"required":["order_id","item_id","option_key","option_value"]}}}

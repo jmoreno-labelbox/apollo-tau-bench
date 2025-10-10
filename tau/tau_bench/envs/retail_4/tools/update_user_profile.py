@@ -1,44 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateUserProfile(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        user_id: str, 
-        profile_updates: dict[str, Any]
-    ) -> str:
+    def invoke(data: Dict[str, Any], user_id: str, profile_updates: Dict[str, Any]) -> str:
         """
         Update customer profile information (name, email, default address)
 
         Writes to: users.json (updates user profile fields)
         """
-        pass
         # Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", {}).values()
+        users = list(data.get("users", {}).values())
         user_to_update = None
         user_index = None
 
-        for i, user in enumerate(users.values()):
+        for i, user in enumerate(users):
             if user.get("user_id") == user_id:
                 user_to_update = user
                 user_index = i
                 break
 
         if not user_to_update:
-            payload = {"error": f"User {user_id} not found", "status": "failed"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"User {user_id} not found", "status": "failed"})
 
         # Track what was updated
         updates_applied = {}
@@ -48,7 +35,7 @@ class UpdateUserProfile(Tool):
             name_update = profile_updates["name"]
             if isinstance(name_update, dict):
                 if "first_name" in name_update or "last_name" in name_update:
-                    old_name = user_to_update.get("name", {}).values()
+                    old_name = user_to_update.get("name", {})
                     new_name = old_name.copy()
 
                     if "first_name" in name_update:
@@ -63,9 +50,7 @@ class UpdateUserProfile(Tool):
         if "email" in profile_updates:
             new_email = profile_updates["email"]
             if "@" not in new_email:
-                payload = {"error": "Invalid email format", "status": "failed"}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"error": "Invalid email format", "status": "failed"})
 
             old_email = user_to_update.get("email")
             user_to_update["email"] = new_email
@@ -84,14 +69,12 @@ class UpdateUserProfile(Tool):
                         missing_fields.append(field)
 
                 if missing_fields:
-                    payload = {
+                    return json.dumps({
                         "error": f"Invalid address fields: {', '.join(missing_fields)} cannot be empty",
-                        "status": "failed",
-                    }
-                    out = json.dumps(payload)
-                    return out
+                        "status": "failed"
+                    })
 
-                old_address = user_to_update.get("address", {}).values()
+                old_address = user_to_update.get("address", {})
                 new_address = old_address.copy()
                 new_address.update(address_update)
 
@@ -99,12 +82,10 @@ class UpdateUserProfile(Tool):
                 updates_applied["address"] = {"old": old_address, "new": new_address}
 
         if not updates_applied:
-            payload = {
+            return json.dumps({
                 "error": "No valid updates provided. Supported fields: name, email, address",
-                "status": "failed",
-            }
-            out = json.dumps(payload)
-            return out
+                "status": "failed"
+            })
 
         # WRITE OPERATION: Update user profile in users.json
         user_to_update["profile_updated"] = datetime.now().isoformat()
@@ -118,26 +99,22 @@ class UpdateUserProfile(Tool):
             "user_id": user_id,
             "updates_applied": updates_applied,
             "total_updates": len(updates_applied),
-            "profile_updated": user_to_update["profile_updated"],
+            "profile_updated": user_to_update["profile_updated"]
         }
-        payload = result
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(result)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateUserProfile",
+                "name": "update_user_profile",
                 "description": "Update customer profile information",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "user_id": {
-                            "type": "string",
-                            "description": "Customer identifier",
-                        },
+                        "user_id": {"type": "string", "description": "Customer identifier"},
                         "profile_updates": {
                             "type": "object",
                             "properties": {
@@ -145,8 +122,8 @@ class UpdateUserProfile(Tool):
                                     "type": "object",
                                     "properties": {
                                         "first_name": {"type": "string"},
-                                        "last_name": {"type": "string"},
-                                    },
+                                        "last_name": {"type": "string"}
+                                    }
                                 },
                                 "email": {"type": "string"},
                                 "address": {
@@ -157,14 +134,14 @@ class UpdateUserProfile(Tool):
                                         "city": {"type": "string"},
                                         "country": {"type": "string"},
                                         "state": {"type": "string"},
-                                        "zip": {"type": "string"},
-                                    },
-                                },
+                                        "zip": {"type": "string"}
+                                    }
+                                }
                             },
-                            "description": "Profile fields to update",
-                        },
+                            "description": "Profile fields to update"
+                        }
                     },
-                    "required": ["user_id", "profile_updates"],
-                },
-            },
+                    "required": ["user_id", "profile_updates"]
+                }
+            }
         }

@@ -1,27 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class DeleteReminder(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], reminder_id: str) -> str:
+    def invoke(data: Dict[str, Any], reminder_id: str) -> str:
         reminders = _load("reminders", data)
         idx, rem = _find(reminders, reminder_id)
         if idx is None:
-            payload = {"error": "reminder not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "reminder not found"}, indent=2)
         reminders.pop(idx)
         data["reminders"] = reminders
-        payload = {"success": "reminder deleted", "reminder": rem}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"success": "reminder deleted", "reminder": rem}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "DeleteReminder",
+                "name": "delete_reminder",
                 "description": "Delete a reminder by id.",
                 "parameters": {
                     "type": "object",
@@ -29,7 +29,7 @@ class DeleteReminder(Tool):
                         "reminder_id": {"type": "string", "description": "Reminder id"}
                     },
                     "required": ["reminder_id"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

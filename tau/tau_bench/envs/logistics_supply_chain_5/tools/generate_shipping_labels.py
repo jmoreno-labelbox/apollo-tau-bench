@@ -1,21 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GenerateShippingLabels(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], order_id: str, carrier_scac: str, outbound_orders: list = None, carriers: list = None) -> str:
-        orders = outbound_orders if outbound_orders is not None else data.get("outbound_orders", {}).values()
-        carriers = carriers if carriers is not None else data.get("carriers", {}).values()
+    def invoke(data: Dict[str, Any], order_id: str, carrier_scac: str) -> str:
+        orders = data.get("outbound_orders", [])
+        carriers = data.get("carriers", [])
 
         order = next((o for o in orders if o.get("order_id") == order_id), None)
         if not order:
@@ -23,10 +17,10 @@ class GenerateShippingLabels(Tool):
 
         carrier = next((c for c in carriers if c.get("scac") == carrier_scac), None)
 
-        # UPDATED: Manage carriers mentioned in orders that are absent from carriers.json
+        # UPDATED: Handle carriers referenced in orders but not in carriers.json
         tracking = ""
         if not carrier:
-            # Verify the presence of the carrier in order data (backup for data discrepancies)
+            # Check if carrier exists in order data (fallback for data inconsistencies)
             order_carrier = order.get("carrier_scac")
             if order_carrier == carrier_scac:
                 carrier_name = order.get("carrier_name", f"Carrier {carrier_scac}")
@@ -63,12 +57,13 @@ class GenerateShippingLabels(Tool):
             "carrier_name": carrier_name,
             "estimated_delivery_date": shipping_label["estimated_delivery_date"]
         })
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GenerateShippingLabels",
+                "name": "generate_shipping_labels",
                 "description": "Generate shipping labels and tracking numbers for an order",
                 "parameters": {
                     "type": "object",

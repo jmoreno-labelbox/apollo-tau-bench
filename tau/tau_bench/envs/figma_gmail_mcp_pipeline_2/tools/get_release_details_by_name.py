@@ -1,54 +1,40 @@
-from tau_bench.envs.tool import Tool
-import html
+# Copyright Sierra
+
 import json
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetReleaseDetailsByName(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], release_name: str = None) -> str:
-        if not release_name:
-            payload = {"error": "Missing required field: release_name"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        if not kwargs.get("release_name"):
+            return json.dumps({"error": "Missing required field: release_name"}, indent=2)
 
-        releases: list[dict[str, Any]] = data.get("releases", {}).values()
+        release_name = kwargs.get("release_name")
+        releases: List[Dict[str, Any]] = data.get("releases", [])
 
-        results: list[dict[str, Any]] = [
-            r for r in releases if r.get("release_name") == release_name
-        ]
+        results: List[Dict[str, Any]] = [r for r in releases if r.get("release_name") == release_name]
         results.sort(key=lambda r: (str(r.get("created_ts")), str(r.get("release_id"))))
 
         if not results:
-            payload = {"error": f"No release found with release_name '{release_name}'"}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
-        payload = {"count": len(results), "releases": results}
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": f"No release found with release_name '{release_name}'"}, indent=2)
+
+        return json.dumps({"count": len(results), "releases": results}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetReleaseDetailsByName",
+                "name": "get_release_details_by_name",
                 "description": "Return releases matching an exact release_name.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"release_name": {"type": "string"}},
-                    "required": ["release_name"],
-                },
-            },
+                    "properties": {
+                        "release_name": {"type": "string"}
+                    },
+                    "required": ["release_name"]
+                }
+            }
         }

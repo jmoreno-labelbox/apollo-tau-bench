@@ -1,35 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindCourseByName(Tool):
-    """Identify a course's ID based on its name."""
+    """Find a course's ID by its name."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], name: str = None) -> str:
-        for c in data.get("course_catalog", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name = kwargs.get("name")
+        for c in data.get("course_catalog", []):
             if c.get("name").lower() == name.lower():
-                payload = {"course_id": c.get("course_id")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Course not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"course_id": c.get("course_id")})
+        return json.dumps({"error": "Course not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindCourseByName",
+                "name": "find_course_by_name",
                 "description": "Find a course's ID by its name.",
                 "parameters": {
                     "type": "object",

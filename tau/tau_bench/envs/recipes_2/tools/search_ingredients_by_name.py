@@ -1,41 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchIngredientsByName(Tool):
-    """Looks for ingredients whose names contain the specified text."""
+    """Searches for ingredients with names containing the specified text."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], name_query: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name_query = kwargs.get("name_query")
         if not name_query:
-            payload = {"error": "name_query parameter is required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "name_query parameter is required."})
 
-        ingredients = data.get("ingredients", {}).values()
-
+        ingredients = list(data.get("ingredients", {}).values())
+        
         matching_ingredients = [
-            ingredient
-            for ingredient in ingredients.values() if name_query.lower() in ingredient.get("ingredient_name", "").lower()
+            ingredient for ingredient in ingredients 
+            if name_query.lower() in ingredient.get("ingredient_name", "").lower()
         ]
-        payload = matching_ingredients
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps(matching_ingredients)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchIngredientsByName",
+                "name": "search_ingredients_by_name",
                 "description": "Searches for ingredients with names containing the specified text.",
                 "parameters": {
                     "type": "object",

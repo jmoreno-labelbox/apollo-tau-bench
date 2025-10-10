@@ -1,35 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class DeleteEmail(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], message_id: str = None, email_id: Any = None) -> str:
-        emails = data.get("emails", {}).values()
-        data["emails"] = [e for e in emails.values() if e.get("message_id") != message_id]
-        payload = {"deleted_message_id": message_id}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        message_id = kwargs.get("message_id")
+        emails = data.get("emails", [])
+        data["emails"] = [e for e in emails if e.get("message_id") != message_id]
+        return json.dumps({"deleted_message_id": message_id}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "DeleteEmail",
-                "description": "Delete an email by message ID.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"message_id": {"type": "string"}},
-                    "required": ["message_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"delete_email",
+            "description":"Delete an email by message ID.",
+            "parameters":{"type":"object","properties":{"message_id":{"type":"string"}},"required":["message_id"]}
+        }}

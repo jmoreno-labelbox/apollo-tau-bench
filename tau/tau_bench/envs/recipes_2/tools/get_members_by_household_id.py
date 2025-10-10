@@ -1,34 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetMembersByHouseholdId(Tool):
-    """Fetches all members associated with a specific household ID."""
+    """Retrieves all members for a given household ID."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        household_id = kwargs.get("household_id")
+        members = data.get("members", [])
+        household_members = [member for member in members if member.get("household_id") == household_id]
+        return json.dumps(household_members)
 
     @staticmethod
-    def invoke(data: dict[str, Any], household_id: str = None) -> str:
-        members = data.get("members", {}).values()
-        household_members = [
-            member for member in members.values() if member.get("household_id") == household_id
-        ]
-        payload = household_members
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetMembersByHouseholdId",
+                "name": "get_members_by_household_id",
                 "description": "Retrieves all members for a given household ID.",
                 "parameters": {
                     "type": "object",

@@ -1,8 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CancelScheduledPaymentTool(Tool):
     """
@@ -21,7 +22,8 @@ class CancelScheduledPaymentTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], payment_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        payment_id = kwargs.get("payment_id")
         if not payment_id:
             return json.dumps({"error": "payment_id is required"}, indent=2)
         payments = load_json("scheduled_payments.json")
@@ -33,12 +35,13 @@ class CancelScheduledPaymentTool(Tool):
                     {"status": "Cancelled", "cancelled_at": p["cancelled_at"]}, indent=2
                 )
         return json.dumps({"error": "Payment not found"}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CancelScheduledPayment",
+                "name": "cancel_scheduled_payment",
                 "description": "Cancel a scheduled payment before execution and refund if necessary.",
                 "parameters": {
                     "type": "object",

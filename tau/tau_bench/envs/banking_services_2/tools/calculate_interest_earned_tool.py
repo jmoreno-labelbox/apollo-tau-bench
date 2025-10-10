@@ -1,21 +1,18 @@
-from tau_bench.envs.tool import Tool
-from typing import Any, Dict
+# Copyright Sierra
+
 import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CalculateInterestEarnedTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str, days: int = 30) -> str:
-        accounts = data.get('accounts', {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        days = kwargs.get('days', 30)
+        accounts = list(data.get('accounts', {}).values())
 
-        for account in accounts.values():
+        for account in accounts:
             if account['account_id'] == account_id:
                 if account['account_type'] != 'Savings':
                     return json.dumps({"error": "Interest calculation only available for savings accounts"}, indent=2)
@@ -36,12 +33,13 @@ class CalculateInterestEarnedTool(Tool):
                 }, indent=2)
 
         return json.dumps({"error": f"Account {account_id} not found"}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "calculateInterestEarned",
+                "name": "calculate_interest_earned",
                 "description": "Calculate interest earned for a savings account",
                 "parameters": {
                     "type": "object",

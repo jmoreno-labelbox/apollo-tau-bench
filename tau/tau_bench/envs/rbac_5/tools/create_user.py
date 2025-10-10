@@ -1,94 +1,69 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateUser(Tool):
     """
-    Establish a new user account with consistent ID generation.
+    Create a new user account with deterministic ID generation.
 
     kwargs:
-      username: str (mandatory)
-      email: str (mandatory)
-      department: str (mandatory)
+      username: str (required)
+      email: str (required)
+      department: str (required)
       status: str = "ACTIVE" (optional)
       mfa_enabled: bool = True (optional)
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], username: str = "", email: str = "", department: str = "", status: str = "ACTIVE", mfa_enabled: bool = True,
-    actor_id: Any = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        username = kwargs.get("username", "")
+        email = kwargs.get("email", "")
+        department = kwargs.get("department", "")
+        status = kwargs.get("status", "ACTIVE")
+        mfa_enabled = kwargs.get("mfa_enabled", True)
+
         if not username or not email or not department:
-            payload = {"error": "username, email, and department are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "username, email, and department are required"})
 
-        # Verify if the username is already taken
-        users = data.get("users", {}).values()
-        for user in users.values():
+        # Check if username already exists
+        users = list(data.get("users", {}).values())
+        for user in users:
             if user.get("username") == username:
-                payload = {"error": f"username {username} already exists"}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"error": f"username {username} already exists"})
 
-        # Register a new user
+        # Create new user
         new_user = {
             "user_id": _next_id(data, "users", "U"),
             "username": username,
             "email": email,
             "department": department,
             "status": status,
-            "mfa_enabled": mfa_enabled,
+            "mfa_enabled": mfa_enabled
         }
 
         data.setdefault("users", []).append(new_user)
-        payload = {"ok": True, "user": new_user}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"ok": True, "user": new_user})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateUser",
+                "name": "create_user",
                 "description": "Create a new user account with deterministic ID generation.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "username": {
-                            "type": "string",
-                            "description": "Username (lowercase, no spaces).",
-                        },
-                        "email": {
-                            "type": "string",
-                            "description": "User email address.",
-                        },
-                        "department": {
-                            "type": "string",
-                            "description": "User department.",
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "User status.",
-                            "default": "ACTIVE",
-                        },
-                        "mfa_enabled": {
-                            "type": "boolean",
-                            "description": "Enable MFA for user.",
-                            "default": True,
-                        },
+                        "username": {"type": "string", "description": "Username (lowercase, no spaces)."},
+                        "email": {"type": "string", "description": "User email address."},
+                        "department": {"type": "string", "description": "User department."},
+                        "status": {"type": "string", "description": "User status.", "default": "ACTIVE"},
+                        "mfa_enabled": {"type": "boolean", "description": "Enable MFA for user.", "default": True}
                     },
                     "required": ["username", "email", "department"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

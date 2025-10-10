@@ -1,36 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetPromotionById(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], promotion_id: str = None) -> str:
-        promotions = data.get("promotions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        promotion_id = kwargs.get('promotion_id')
+        promotions = data.get("promotions", [])
         for promo in promotions:
             if promo.get("promotion_id") == promotion_id:
-                payload = promo
-                out = json.dumps(payload)
-                return out
-        payload = {}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(promo)
+        return json.dumps({})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPromotionById",
+                "name": "get_promotion_by_id",
                 "description": "Retrieves details of a promotion by its unique ID.",
                 "parameters": {
                     "type": "object",

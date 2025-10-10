@@ -1,12 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetMemberTargets(Tool):
-    """Retrieve target_calories/target_protein and flags for a member."""
-
+    """Return target_calories/target_protein and flags for a member."""
     @staticmethod
-    def invoke(data: dict[str, Any], member_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        member_id = kwargs.get("member_id")
         if member_id is None:
             return _json_dump({"error": "member_id is required"})
         row = _require(data, "members", "member_id", member_id)
@@ -21,17 +24,11 @@ class GetMemberTargets(Tool):
             "allergies_json": row.get("allergies_json"),
         }
         return _json_dump(out)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetMemberTargets",
-                "description": "Return member nutrition targets and key flags.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"member_id": {"type": "integer"}},
-                    "required": ["member_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "get_member_targets",
+            "description": "Return member nutrition targets and key flags.",
+            "parameters": {"type": "object", "properties": {"member_id": {"type": "integer"}}, "required": ["member_id"]}
+        }}

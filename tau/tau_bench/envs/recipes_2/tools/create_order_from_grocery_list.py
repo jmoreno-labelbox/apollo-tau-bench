@@ -1,33 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateOrderFromGroceryList(Tool):
-    """Forms a new order based on a grocery list."""
-
+    """Creates a new order from a grocery list."""
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        household_id: int = None,
-        store_id: int = None,
-        list_id: int = None,
-        subtotal_cents: int = None,
-        total_cents: int = None
-    ) -> str:
-        orders = data.get("orders", {}).values()
-        # Automatically create the next order_id
-        new_id = (
-            max([order.get("order_id", 0) for order in orders.values()]) + 1 if orders else 10001
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        household_id = kwargs.get("household_id")
+        store_id = kwargs.get("store_id")
+        list_id = kwargs.get("list_id")
+        subtotal_cents = kwargs.get("subtotal_cents")
+        total_cents = kwargs.get("total_cents")
+        
+        orders = list(data.get("orders", {}).values())
+        # Automatically generate the next order_id
+        new_id = max([order.get("order_id", 0) for order in orders]) + 1 if orders else 10001
 
         new_order = {
             "order_id": new_id,
@@ -39,18 +29,17 @@ class CreateOrderFromGroceryList(Tool):
             "total_cents": total_cents,
             "placed_ts": "2025-08-21T09:00:00Z",
             "scheduled_slot_start_ts": "2025-08-22T18:00:00Z",
-            "scheduled_slot_end_ts": "2025-08-22T20:00:00Z",
+            "scheduled_slot_end_ts": "2025-08-22T20:00:00Z"
         }
-        data["orders"][order_id] = new_order
-        payload = new_order
-        out = json.dumps(payload)
-        return out
+        data["orders"].append(new_order)
+        return json.dumps(new_order)
+        
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateOrderFromGroceryList",
+                "name": "create_order_from_grocery_list",
                 "description": "Creates a new order from a grocery list.",
                 "parameters": {
                     "type": "object",
@@ -61,13 +50,7 @@ class CreateOrderFromGroceryList(Tool):
                         "subtotal_cents": {"type": "integer"},
                         "total_cents": {"type": "integer"},
                     },
-                    "required": [
-                        "household_id",
-                        "store_id",
-                        "list_id",
-                        "subtotal_cents",
-                        "total_cents",
-                    ],
+                    "required": ["household_id", "store_id", "list_id", "subtotal_cents", "total_cents"],
                 },
             },
         }

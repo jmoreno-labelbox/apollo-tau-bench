@@ -1,38 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetUserAsset(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None) -> str:
-        assets = data.get("it_assets", {}).values()
-        asset = next((a for a in assets.values() if a.get("assigned_to") == employee_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        assets = data.get("it_assets", [])
+        asset = next((a for a in assets if a.get("assigned_to") == employee_id), None)
         if not asset:
-            payload = {"employee_id": employee_id, "asset": None}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = asset
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"employee_id": employee_id, "asset": None}, indent=2)
+        return json.dumps(asset, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetUserAsset",
-                "description": "Find an IT asset assigned to a specific employee.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"employee_id": {"type": "string"}},
-                    "required": ["employee_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "get_user_asset", "description": "Find an IT asset assigned to a specific employee.", "parameters": {"type": "object", "properties": {"employee_id": {"type": "string"}}, "required": ["employee_id"]}}}

@@ -1,59 +1,36 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateManagerIntroEmail(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        message_id: str = None,
-        subject: str = None,
-        body: str = None,
-        to_emails: list = None,
-        candidate_id: str = None
-    ) -> str:
-        if to_emails is None:
-            to_emails = []
-        InsertEmail.invoke(
-            data,
-            message_id=message_id,
-            subject=subject,
-            body=body,
-            to_emails=to_emails,
-            candidate_id=candidate_id,
-            draft_flag=False,
-            sent_flag=True,
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        message_id = kwargs.get("message_id")
+        subject = kwargs.get("subject")
+        body = kwargs.get("body")
+        to_emails = kwargs.get("to_emails", [])
+        candidate_id = kwargs.get("candidate_id")
+        InsertEmail.invoke(data, message_id=message_id, subject=subject, body=body, to_emails=to_emails,
+                           candidate_id=candidate_id, draft_flag=False, sent_flag=True)
         le = CreateOrGetEmailLabel.invoke
         info = json.loads(le(data, name="Manager-Intro"))
         lid = info.get("label_id")
         AddLabelsToEmail.invoke(data, message_id=message_id, label_ids=[lid])
-        payload = {"message_id": message_id, "label_id": lid}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"message_id": message_id, "label_id": lid}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "createManagerIntroEmail",
-                "description": "Create a manager intro email and label it.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "message_id": {"type": "string"},
-                        "subject": {"type": "string"},
-                        "body": {"type": "string"},
-                        "to_emails": {"type": "array", "items": {"type": "string"}},
-                        "candidate_id": {"type": "string"},
-                    },
-                    "required": [
-                        "message_id",
-                        "subject",
-                        "body",
-                        "to_emails",
-                        "candidate_id",
-                    ],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "create_manager_intro_email",
+                                                 "description": "Create a manager intro email and label it.",
+                                                 "parameters": {"type": "object",
+                                                                "properties": {"message_id": {"type": "string"},
+                                                                               "subject": {"type": "string"},
+                                                                               "body": {"type": "string"},
+                                                                               "to_emails": {"type": "array", "items": {
+                                                                                   "type": "string"}},
+                                                                               "candidate_id": {"type": "string"}},
+                                                                "required": ["message_id", "subject", "body",
+                                                                             "to_emails", "candidate_id"]}}}

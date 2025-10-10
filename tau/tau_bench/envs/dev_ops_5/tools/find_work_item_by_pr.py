@@ -1,57 +1,47 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindWorkItemByPr(Tool):
-    """Locates a work item linked to a pull request number."""
-
+    """Finds a work item associated with a pull request number."""
     @staticmethod
-    def invoke(data: dict[str, Any], pr_number: int = None, repository_id: int = None) -> str:
-        pass
-        # This is a simulated implementation since there is no direct connection in the schema.
-        # It will locate a work item that closely corresponds to the PR title.
-        prs = data.get("pull_requests", {}).values()
-        work_items = data.get("work_items", {}).values()
-
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        # This is a mock implementation as there's no direct link in the schema.
+        # It will find a work item that matches the PR title approximately.
+        pr_number = kwargs.get("pr_number")
+        repo_id = kwargs.get("repository_id")
+        prs = list(data.get("pull_requests", {}).values())
+        work_items = data.get("work_items", [])
+        
         pr_title = ""
-        for pr in prs.values():
-            if pr.get("repository_id") == repository_id and pr.get("number") == pr_number:
+        for pr in prs:
+            if pr.get("repository_id") == repo_id and pr.get("number") == pr_number:
                 pr_title = pr.get("title", "").lower()
                 break
 
         if not pr_title:
-            payload = {"error": "PR not found."}
-            out = json.dumps(payload)
-            return out
-
-        for item in work_items.values():
+            return json.dumps({"error": "PR not found."})
+            
+        for item in work_items:
             if item.get("title", "").lower() in pr_title:
-                payload = item
-                out = json.dumps(payload)
-                return out
-        payload = {"info": "No matching work item found for PR."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(item)
+                
+        return json.dumps({"info": "No matching work item found for PR."})
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "findWorkItemByPr",
+                "name": "find_work_item_by_pr",
                 "description": "Finds a work item associated with a pull request.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "pr_number": {"type": "integer"},
-                        "repository_id": {"type": "string"},
+                        "repository_id": {"type": "string"}
                     },
                     "required": ["pr_number", "repository_id"],
                 },

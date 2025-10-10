@@ -1,26 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateMortgageProfileTool(Tool):
-    """Inserts WA modifies a mortgage profile entry in the mortgage_profiles table."""
+    """Creates or updates a mortgage profile entry in the mortgage_profiles table."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        client_id: int = None,
-        loan_amount: float = None,
-        down_payment: float = None,
-        interest_rate: float = None,
-        term_years: int = None,
-        annual_income: float = None,
-        credit_score: int = None,
-        region: str = None
-    ) -> str:
-        client_id = _as_int(client_id)
-        term_years = _as_int(term_years)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        client_id = _as_int(kwargs.get("client_id"))
+        loan_amount = kwargs.get("loan_amount")
+        down_payment = kwargs.get("down_payment")
+        interest_rate = kwargs.get("interest_rate")
+        term_years = _as_int(kwargs.get("term_years"))
+        annual_income = kwargs.get("annual_income")
 
         if (
             client_id is None
@@ -33,10 +28,11 @@ class CreateMortgageProfileTool(Tool):
                 "client_id, loan_amount, down_payment, interest_rate, and term_years are required"
             )
 
-        # Non-mandatory fields
-        credit_score = _as_int(credit_score)
+        # Optional fields
+        credit_score = _as_int(kwargs.get("credit_score"))
+        region = kwargs.get("region")
 
-        # Accept misspelling "mortage_profiles"
+        # Tolerate typo "mortage_profiles"
         if "mortgage_profiles" in data:
             rows = data.setdefault("mortgage_profiles", [])
         else:
@@ -44,7 +40,7 @@ class CreateMortgageProfileTool(Tool):
 
         existing = _get_mortgage_profile(data, client_id)
         if existing:
-            # Revise current profile
+            # Update existing profile
             existing.update(
                 {
                     "credit_score": credit_score,
@@ -57,11 +53,9 @@ class CreateMortgageProfileTool(Tool):
                     "last_reviewed_at": HARD_TS,
                 }
             )
-            payload = existing
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps(existing, indent=2)
         else:
-            # Establish a new profile
+            # Create new profile
             mortgage_id = _next_int_id(rows, "mortgage_id")
             rec = {
                 "mortgage_id": mortgage_id,
@@ -76,17 +70,16 @@ class CreateMortgageProfileTool(Tool):
                 "last_reviewed_at": HARD_TS,
             }
             rows.append(rec)
-            payload = rec
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps(rec, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateMortgageProfile",
+                "name": "create_mortgage_profile",
                 "description": (
-                    "Creates a new mortgage profile for a client, WA updates existing one."
+                    "Creates a new mortgage profile for a client, or updates existing one."
                 ),
                 "parameters": {
                     "type": "object",

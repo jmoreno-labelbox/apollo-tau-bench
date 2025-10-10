@@ -1,21 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, time, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetCustomerFinancialProfile(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
         customer = next((c for c in data['customers'] if c['customer_id'] == customer_id), None)
         if customer and "financial_profile" in customer:
             return json.dumps(customer['financial_profile'])
         return json.dumps({"error": "Customer or financial profile not found"})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "GetCustomerFinancialProfile",
+                        "name": "get_customer_financial_profile",
                         "description": "Retrieves the financial profile of a customer.",
                         "parameters": {
                                 "type": "object",

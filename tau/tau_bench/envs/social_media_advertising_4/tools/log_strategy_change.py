@@ -1,73 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class LogStrategyChange(Tool):
-    """Records an entry in the bid strategy change log."""
+    """Adds an entry to the bid strategy change log."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        changes = data.get('strategy_changes', [])
+        new_id = f"SC-{max((int(c['change_id'][3:]) for c in changes), default=0) + 1}"
+        new_log = {"change_id": new_id, "adset_id": kwargs.get("adset_id"), "old_strategy": kwargs.get("old_strategy"), "new_strategy": kwargs.get("new_strategy"), "old_bid": kwargs.get("old_bid"), "new_bid": kwargs.get("new_bid"), "changed_at": "2025-08-15T02:00:00Z", "reason": kwargs.get("reason")}
+        changes.append(new_log)
+        data['strategy_changes'] = changes
+        return json.dumps(new_log)
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        adset_id: str = None,
-        old_strategy: str = None,
-        new_strategy: str = None,
-        old_bid: float = None,
-        new_bid: float = None,
-        reason: str = None
-,
-    change_id: Any = None,
-    ) -> str:
-        changes = data.get("strategy_changes", {}).values()
-        new_id = f"SC-{max((int(c['change_id'][3:]) for c in changes.values()), default=0) + 1}"
-        new_log = {
-            "change_id": new_id,
-            "adset_id": adset_id,
-            "old_strategy": old_strategy,
-            "new_strategy": new_strategy,
-            "old_bid": old_bid,
-            "new_bid": new_bid,
-            "changed_at": "2025-08-15T02:00:00Z",
-            "reason": reason,
-        }
-        data["changes"][change_id] = new_log
-        data["strategy_changes"] = changes
-        payload = new_log
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "LogStrategyChange",
-                "description": "Writes an audit log entry for an ad set bid strategy change.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "adset_id": {"type": "string"},
-                        "old_strategy": {"type": "string"},
-                        "new_strategy": {"type": "string"},
-                        "old_bid": {"type": "number"},
-                        "new_bid": {"type": "number"},
-                        "reason": {"type": "string"},
-                    },
-                    "required": [
-                        "adset_id",
-                        "old_strategy",
-                        "new_strategy",
-                        "old_bid",
-                        "new_bid",
-                        "reason",
-                    ],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "log_strategy_change", "description": "Writes an audit log entry for an ad set bid strategy change.", "parameters": {"type": "object", "properties": {"adset_id": {"type": "string"}, "old_strategy": {"type": "string"}, "new_strategy": {"type": "string"}, "old_bid": {"type": "number"}, "new_bid": {"type": "number"}, "reason": {"type": "string"}}, "required": ["adset_id", "old_strategy", "new_strategy", "old_bid", "new_bid", "reason"]}}}

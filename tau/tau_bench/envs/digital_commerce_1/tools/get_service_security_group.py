@@ -1,12 +1,14 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetServiceSecurityGroup(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], environment: str, service_name: str) -> str:
+    def invoke(data: Dict[str, Any], environment: str, service_name: str) -> str:
         rules = _ensure_table(data, "aws_security_group_rules")
-        # Gather all rules that correspond to environment and service
         matches = _find_all(rules, environment=environment, service_name=service_name)
         if matches:
             sg_id = matches[0]["sg_id"]
@@ -21,7 +23,6 @@ class GetServiceSecurityGroup(Tool):
                 if r.get("direction") == "egress"
             ]
         else:
-            # fixed sg id (not saved until an update applies rules)
             sg_id = _stable_id("sg", environment, service_name)
             ingress, egress = [], []
         return _json(
@@ -34,20 +35,18 @@ class GetServiceSecurityGroup(Tool):
                 "egress_rules": egress,
             }
         )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetServiceSecurityGroup",
+                "name": "get_service_security_group",
                 "description": "Find the security group for a service in an environment.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "environment": {
-                            "type": "string",
-                            "enum": ["DEV", "UAT", "PROD"],
-                        },
+                        "environment": {"type": "string", "enum": ["DEV", "UAT", "PROD"]},
                         "service_name": {"type": "string"},
                     },
                     "required": ["environment", "service_name"],

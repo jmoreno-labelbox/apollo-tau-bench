@@ -1,64 +1,41 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class StoreQCFigure(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        figure_label: str = None, 
-        figure_path: str = None, 
-        artifact_type: str = None, 
-        related_model_name: str = None
-    ) -> str:
-        figs = data.get("qc_figures", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        figs = data.get("qc_figures", [])
         max_id = 0
         for f in figs:
             try:
                 fid = int(f.get("figure_id", 0))
-                if fid > max_id:
-                    max_id = fid
+                if fid > max_id: max_id = fid
             except (ValueError, TypeError):
                 continue
         new_id = max_id + 1
         row = {
             "figure_id": new_id,
-            "figure_label": figure_label,
-            "figure_path": figure_path,
-            "artifact_type": artifact_type,
-            "related_model_name": related_model_name,
-            "created_at": _fixed_now_iso(),
+            "figure_label": kwargs.get("figure_label"),
+            "figure_path": kwargs.get("figure_path"),
+            "artifact_type": kwargs.get("artifact_type"),
+            "related_model_name": kwargs.get("related_model_name"),
+            "created_at": _fixed_now_iso()
         }
-        data["qc_figures"][row["qc_figure_id"]] = row
-        payload = {"figure_id": new_id, "figure_label": row["figure_label"]}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        figs.append(row)
+        return json.dumps({"figure_id": new_id, "figure_label": row["figure_label"]}, indent=2)
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "InsertQcFigure",
-                "description": "Insert a QC figure record.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "figure_label": {"type": "string"},
-                        "figure_path": {"type": "string"},
-                        "artifact_type": {"type": "string"},
-                        "related_model_name": {"type": ["string", "null"]},
-                    },
-                    "required": ["figure_label", "figure_path", "artifact_type"],
-                },
-            },
-        }
+    def get_info()->Dict[str,Any]:
+        return {"type":"function","function":{
+            "name":"insert_qc_figure",
+            "description":"Insert a QC figure record.",
+            "parameters":{"type":"object","properties":{
+                "figure_label":{"type":"string"},
+                "figure_path":{"type":"string"},
+                "artifact_type":{"type":"string"},
+                "related_model_name":{"type":["string","null"]}
+            },"required":["figure_label","figure_path","artifact_type"]}
+        }}

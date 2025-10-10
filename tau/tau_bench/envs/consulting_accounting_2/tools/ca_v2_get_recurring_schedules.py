@@ -1,44 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CaV2GetRecurringSchedules(Tool):
-    """Retrieve recurring scheduled payments categorized by type."""
+    """Get recurring scheduled payments by type."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], schedule_type: str = None, active_only: bool = True) -> str:
-        schedules = data.get("recurring_schedules", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        schedule_type = kwargs.get("schedule_type")
+        active_only = kwargs.get("active_only", True)
+
+        schedules = data.get("recurring_schedules", [])
 
         if schedule_type:
             schedules = _find_all(schedules, "schedule_type", schedule_type)
 
         if active_only:
-            schedules = [sch for sch in schedules.values() if sch.get("is_active", True)]
-        payload = schedules
-        out = json.dumps(payload)
-        return out
+            schedules = [sch for sch in schedules if sch.get("is_active", True)]
+
+        return json.dumps(schedules)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CaV2GetRecurringSchedules",
+                "name": "ca_v2_get_recurring_schedules",
                 "description": "Get recurring scheduled payments, optionally filtered by type.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "schedule_type": {"type": "string"},
-                        "active_only": {"type": "boolean", "default": True},
+                        "active_only": {"type": "boolean", "default": True}
                     },
                     "required": [],
                 },

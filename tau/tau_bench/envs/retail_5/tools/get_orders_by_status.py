@@ -1,72 +1,59 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetOrdersByStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], status: str, limit: int = 20, start_date: str = None, end_date: str = None) -> str:
-        if not status:
-            payload = {"error": "status is required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        status = kwargs.get('status')
+        limit = kwargs.get('limit', 20)
+        start_date = kwargs.get('start_date')
+        end_date = kwargs.get('end_date')
 
-        orders = data["orders"]
+        if not status:
+            return json.dumps({'error': 'status is required'})
+
+        orders = data['orders']
         filtered_orders = []
 
-        for order in orders.values():
-            if order["status"] != status:
+        for order in orders:
+            if order['status'] != status:
                 continue
 
-            # Date filtering is complicated without appropriate datetime objects, deferring for now as in the original
+            # Date filtering is complex without proper datetime objects, skipping for now as in original
 
             order_summary = {
-                "order_id": order["order_id"],
-                "user_id": order["user_id"],
-                "status": order["status"],
-                "item_count": len(order["items"]),
-                "total_amount": sum(item["price"] for item in order["items"]),
-                "tracking_ids": [
-                    f["tracking_id"][0]
-                    for f in order.get("fulfillments", [])
-                    if f.get("tracking_id")
-                ],
+                'order_id': order['order_id'],
+                'user_id': order['user_id'],
+                'status': order['status'],
+                'item_count': len(order['items']),
+                'total_amount': sum(item['price'] for item in order['items']),
+                'tracking_ids': [f['tracking_id'][0] for f in order.get('fulfillments', []) if f.get('tracking_id')]
             }
-            filtered_data["orders"][order_id] = order_summary
+            filtered_orders.append(order_summary)
 
-        filtered_orders.sort(key=lambda x: x["order_id"], reverse=True)
-        payload = filtered_orders[:limit]
-        out = json.dumps(payload, indent=2)
-        return out
+        filtered_orders.sort(key=lambda x: x['order_id'], reverse=True)
+        return json.dumps(filtered_orders[:limit], indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "getOrdersByStatus",
-                "description": "Get all orders with a specific status.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "status": {
-                            "type": "string",
-                            "description": "Order status to filter by",
-                        },
-                        "limit": {
-                            "type": "integer",
-                            "description": "Maximum number of orders to return",
-                            "default": 20,
-                        },
-                        "start_date": {
-                            "type": "string",
-                            "description": "Start date for filtering (ISO format, not fully implemented)",
-                        },
-                        "end_date": {
-                            "type": "string",
-                            "description": "End date for filtering (ISO format, not fully implemented)",
-                        },
+            'type': 'function',
+            'function': {
+                'name': 'get_orders_by_status',
+                'description': 'Get all orders with a specific status.',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'status': {'type': 'string', 'description': 'Order status to filter by'},
+                        'limit': {'type': 'integer', 'description': 'Maximum number of orders to return', 'default': 20},
+                        'start_date': {'type': 'string', 'description': 'Start date for filtering (ISO format, not fully implemented)'},
+                        'end_date': {'type': 'string', 'description': 'End date for filtering (ISO format, not fully implemented)'}
                     },
-                    "required": ["status"],
-                },
-            },
+                    'required': ['status']
+                }
+            }
         }

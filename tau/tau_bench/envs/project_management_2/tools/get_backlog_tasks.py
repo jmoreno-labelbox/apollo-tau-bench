@@ -1,30 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetBacklogTasks(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], priority: str = None, max_story_points: int = None) -> str:
-        tasks = data.get("tasks", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        priority = kwargs.get("priority")
+
+        tasks = list(data.get("tasks", {}).values())
 
         backlog_tasks = [
-            t for t in tasks.values() if not t.get("sprint_id") and t.get("status") != "done"
+            t for t in tasks if not t.get("sprint_id") and t.get("status") != "done"
         ]
 
         if priority:
-            backlog_tasks = [t for t in backlog_tasks.values() if t.get("priority") == priority]
+            backlog_tasks = [t for t in backlog_tasks if t.get("priority") == priority]
 
-        if max_story_points:
+        if max_story_points := kwargs.get("max_story_points"):
             backlog_tasks = [
                 t for t in backlog_tasks if t.get("story_points", 0) <= max_story_points
             ]
@@ -36,23 +31,24 @@ class GetBacklogTasks(Tool):
                 x.get("story_points", 0),
             )
         )
-        payload = {
-            "backlog_size": len(backlog_tasks),
-            "total_story_points": sum(
-                t.get("story_points", 0) for t in backlog_tasks
-            ),
-            "tasks": backlog_tasks,
-        }
-        out = json.dumps(
-            payload, indent=2,
+
+        return json.dumps(
+            {
+                "backlog_size": len(backlog_tasks),
+                "total_story_points": sum(
+                    t.get("story_points", 0) for t in backlog_tasks
+                ),
+                "tasks": backlog_tasks,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetBacklogTasks",
+                "name": "get_backlog_tasks",
                 "description": "Get tasks in the backlog (not assigned to any sprint)",
                 "parameters": {
                     "type": "object",

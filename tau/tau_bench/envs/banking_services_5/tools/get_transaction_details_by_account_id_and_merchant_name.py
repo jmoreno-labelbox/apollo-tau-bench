@@ -1,25 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone, date, timedelta
-import calendar
-from typing import Any, Dict
-import random
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetTransactionDetailsByAccountIdAndMerchantName(Tool):
+    """Retrieves transactions for a specific account and merchant name."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, merchant_name: str = None) -> str:
-        account_id = (account_id or "").strip()
-        merchant_name = (merchant_name or "").strip().lower()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = (kwargs.get("account_id") or "").strip()
+        raw_name = kwargs.get("merchant_name")
+        merchant_name = (raw_name or "").strip().lower()
 
         if not account_id or not merchant_name:
             return json.dumps(
@@ -27,9 +20,10 @@ class GetTransactionDetailsByAccountIdAndMerchantName(Tool):
                 indent=2
             )
 
-        transactions = data.get("transactions", {}).values()
+        transactions = list(data.get("transactions", {}).values())
         matched = [
-            txn for txn in transactions.values() if txn.get("account_id") == account_id
+            txn for txn in transactions
+            if txn.get("account_id") == account_id
             and (txn.get("merchant_name") or "").strip().lower() == merchant_name
         ]
 
@@ -37,12 +31,13 @@ class GetTransactionDetailsByAccountIdAndMerchantName(Tool):
             return json.dumps({"message": "No matching transactions found."}, indent=2)
 
         return json.dumps({"transactions": matched}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getTransactionDetailsByAccountIdAndMerchantName",
+                "name": "get_transaction_details_by_account_id_and_merchant_name",
                 "description": (
                     "Fetches transaction records using the account ID and merchant name."
                 ),

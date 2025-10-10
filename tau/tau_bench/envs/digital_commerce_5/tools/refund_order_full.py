@@ -1,24 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RefundOrderFull(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: Any, reason: Any) -> str:
+    def invoke(data: Dict[str, Any], order_id: str, reason: str) -> str:
         if not order_id or not reason:
             return _err("order_id and reason are required.")
         order_id = _as_id(order_id)
-        orders = data.get("orders", {}).values()
-        order = next((o for o in orders.values() if _as_id(o.get("order_id")) == order_id), None)
+        orders = list(data.get("orders", {}).values())
+        order = next((o for o in orders if _as_id(o.get("order_id")) == order_id), None)
         if not order:
             return _err("Order not found.")
         refunds = data.setdefault("refunds", [])
@@ -31,16 +25,15 @@ class RefundOrderFull(Tool):
             "kind": "full",
             "reason": reason,
         }
-        data["refunds"][rec["refund_id"]] = rec
-        payload = rec
-        out = json.dumps(payload, indent=2)
-        return out
+        refunds.append(rec)
+        return json.dumps(rec, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RefundOrderFull",
+                "name": "refund_order_full",
                 "description": "Create a full refund ledger entry for an order.",
                 "parameters": {
                     "type": "object",

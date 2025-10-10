@@ -1,49 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
-from decimal import ROUND_HALF_UP, Decimal
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAccountByName(Tool):
+    """Fetch a company account record by its account_name."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], name: Any) -> str:
+    def invoke(data: Dict[str, Any], name: Any) -> str:
         account_name = name
         if not account_name:
-            payload = {"error": "Missing required field: name"}
-            out = json.dumps(payload, indent=2)
-            return out
-        accounts = data.get("accounts", {}).values()
-        for account in accounts.values():
+            return json.dumps({"error": "Missing required field: name"}, indent=2)
+        accounts = list(data.get("accounts", {}).values())
+        for account in accounts:
             if account.get("account_name") == account_name:
-                payload = account
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"No account found with name '{account_name}'"}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+                return json.dumps(account, indent=2)
+
+        return json.dumps({"error": f"No account found with name '{account_name}'"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAccountByName",
-                "description": "Fetch a single account's full details by its account_name.",
+                "name": "get_account_by_name",
+                "description": "Fetch a single company account's full details by its account_name.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "name": {
                             "type": "string",
-                            "description": "Exact account name to retrieve.",
+                            "description": "Exact company account name to retrieve.",
                         }
                     },
                     "required": ["name"],

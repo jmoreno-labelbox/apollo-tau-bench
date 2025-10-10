@@ -1,63 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class LinkCitedArticle(Tool):
-    """Utility for establishing a new citation record linking two articles."""
-
+    """Tool to create a new citation record between two articles."""
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        source_article_id: str = None,
-        cited_article_id: str = None,
-        citation_context: str = "Citation added for reference."
-    ) -> str:
-        citations = data.get("citations", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        citations = list(data.get('citations', {}).values())
         new_citation_id = f"cit_{len(citations) + 1:02d}"
         new_citation = {
-            "reference_id": new_citation_id,
-            "origin_paper_id": source_article_id,
-            "referenced_paper_id": cited_article_id,
-            "reference_context": citation_context,
+            "citation_id": new_citation_id,
+            "source_article_id": kwargs.get('source_article_id'),
+            "cited_article_id": kwargs.get('cited_article_id'),
+            "citation_context": kwargs.get('citation_context', 'Citation added for reference.')
         }
-        data["citations"][citation_id] = new_citation
-        payload = new_citation
-        out = json.dumps(payload, indent=2)
-        return out
+        citations.append(new_citation)
+        return json.dumps(new_citation, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "LinkCitedArticle",
-                "description": "Creates a new citation record to link a source article to a cited article.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "source_article_id": {
-                            "type": "string",
-                            "description": "The ID of the article making the citation.",
-                        },
-                        "cited_article_id": {
-                            "type": "string",
-                            "description": "The ID of the article being cited.",
-                        },
-                        "citation_context": {
-                            "type": "string",
-                            "description": "A brief description of the citation's context.",
-                        },
-                    },
-                    "required": ["source_article_id", "cited_article_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "link_cited_article", "description": "Creates a new citation record to link a source article to a cited article.", "parameters": {"type": "object", "properties": {
+            "source_article_id": {"type": "string", "description": "The ID of the article making the citation."},
+            "cited_article_id": {"type": "string", "description": "The ID of the article being cited."},
+            "citation_context": {"type": "string", "description": "A brief description of the citation's context."}
+        }, "required": ["source_article_id", "cited_article_id"]}}}

@@ -1,14 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateRepository(Tool):
     """
@@ -21,45 +16,38 @@ class CreateRepository(Tool):
     """
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        owner: str = "",
-        repo_name: str = "",
-        description: str = None,
-        private_flag: bool = False,
-        auto_init_flag: bool = False
-    ) -> str:
-        pass
-        owner = owner.strip()
-        repo_name = repo_name.strip()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner = kwargs.get("owner", "").strip()
+        repo_name = kwargs.get("repo_name", "").strip()
+        description = kwargs.get("description", None)
+        private_flag = kwargs.get("private_flag", False)
+        autoinit_flag = kwargs.get("auto_init_flag", False)
 
         if not owner or not repo_name:
-            payload = {"error": "Both 'owner' and 'repo_name' are required."}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": "Both 'owner' and 'repo_name' are required."},
+                indent=2
             )
-            return out
 
-        repos = data.get("repositories", {}).values()
+
+        repos = list(data.get("repositories", {}).values())
+
+
 
         # Normalize description to the nullable field name used in the DB
         description_nullable = description if description is not None else None
 
         # Collision handling: if (owner, repo_name) exists, try single '_v2' suffix
         def _exists(o: str, n: str) -> bool:
-            pass
-            return any(r.get("owner") == o and r.get("repo_name") == n for r in repos.values())
+            return any(r.get("owner") == o and r.get("repo_name") == n for r in repos)
 
         if _exists(owner, repo_name):
             candidate = f"{repo_name}_v2"
             if _exists(owner, candidate):
-                payload = {
-                        "error": f"Repository '{owner}/{repo_name}' exists and '{candidate}' also exists."
-                    }
-                out = json.dumps(
-                    payload, indent=2,
+                return json.dumps(
+                    {"error": f"Repository '{owner}/{repo_name}' exists and '{candidate}' also exists."},
+                    indent=2
                 )
-                return out
             repo_name = candidate  # single deterministic suffix
 
         # Deterministic timestamps
@@ -75,14 +63,14 @@ class CreateRepository(Tool):
         branch_shas = [main_sha]
 
         # Auto-init file tree (repo-wide)
-        file_paths = []
-        file_contents = []
+        file_paths= []
+        file_contents= []
 
         # Per-branch aligned structures
         branch_files = [[]]
         branch_contents = [[]]
 
-        if auto_init_flag:
+        if autoinit_flag:
             readme_content = f"# {repo_name}\n\nInitial commit."
             file_paths = ["README.md"]
             file_contents = [readme_content]
@@ -95,7 +83,7 @@ class CreateRepository(Tool):
             "repo_name": repo_name,
             "description_nullable": description_nullable,
             "private_flag": bool(private_flag),
-            "auto_init_flag": bool(auto_init_flag),
+            "auto_init_flag": bool(autoinit_flag),
             "default_branch": default_branch,
             "file_paths": file_paths,
             "file_contents": file_contents,
@@ -108,12 +96,12 @@ class CreateRepository(Tool):
         }
 
         # Insert deterministically at the end
-        data["repositories"][new_repo["repositorie_id"]] = new_repo
+        repos.append(new_repo)
 
-        add_terminal_message(
-            data, f"Repository '{owner}/{repo_name}' created.", get_current_timestamp()
-        )
-        payload = {
+        add_terminal_message(data, f"Repository '{owner}/{repo_name}' created.", get_current_timestamp())
+
+        return json.dumps(
+            {
                 "success": f"Repository '{owner}/{repo_name}' created.",
                 "repository": {
                     "owner": owner,
@@ -123,51 +111,45 @@ class CreateRepository(Tool):
                     "created_ts": created_ts,
                     "updated_ts": updated_ts,
                     "file_paths": file_paths,
-                    "file_contents": file_contents,
-                },
-            }
-        out = json.dumps(
-            payload, indent=2,
+                    "file_contents": file_contents
+                }
+            },
+            indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createRepository",
+                "name": "create_repository",
                 "description": "Creates a new repository with default branch 'main', a deterministic branch SHA, and deterministic timestamps. If name exists, appends '_v2'. If autoinit_flag is true, seeds README.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "owner": {
                             "type": "string",
-                            "description": "Repository owner (account/team).",
+                            "description": "Repository owner (account/team)."
                         },
                         "repo_name": {
                             "type": "string",
-                            "description": "Repository name to create (may be suffixed with '_v2' if taken).",
+                            "description": "Repository name to create (may be suffixed with '_v2' if taken)."
                         },
                         "description": {
                             "type": "string",
                             "nullable": True,
-                            "description": "Optional description of the repository.",
+                            "description": "Optional description of the repository."
                         },
                         "private_flag": {
                             "type": "boolean",
-                            "description": "Whether the repo is private.",
+                            "description": "Whether the repo is private."
                         },
                         "autoinit_flag": {
                             "type": "boolean",
-                            "description": "If true, adds README to file paths/contents and to the main branch.",
-                        },
+                            "description": "If true, adds README to file paths/contents and to the main branch."
+                        }
                     },
-                    "required": [
-                        "owner",
-                        "repo_name",
-                        "private_flag",
-                        "auto_init_flag",
-                    ],
-                },
-            },
+                    "required": ["owner", "repo_name", "private_flag", "auto_init_flag"]
+                }
+            }
         }

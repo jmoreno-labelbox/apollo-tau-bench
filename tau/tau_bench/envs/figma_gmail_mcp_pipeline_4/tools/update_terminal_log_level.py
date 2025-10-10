@@ -1,106 +1,77 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateTerminalLogLevel(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        message: str,
-        log_level: str = "INFO",
-        source_component: str = None,
-        workflow_id: str = None,
-        max_log_entries: int = 1000
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
-        Includes new terminal log entries and oversees log retention.
+        Adds new terminal log entries and manages log retention.
         """
+        message = kwargs.get('message')
+        log_level = kwargs.get('log_level', 'INFO')
+        source_component = kwargs.get('source_component')
+        workflow_id = kwargs.get('workflow_id')
+        max_log_entries = kwargs.get('max_log_entries', 1000)
+
         if not message:
-            payload = {"error": "message is required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "message is required."})
 
-        # Check the correctness of log level
-        valid_levels = ["DEBUG", "INFO", "WARN", "ERROR", "CRITICAL"]
+        # Validate log level
+        valid_levels = ['DEBUG', 'INFO', 'WARN', 'ERROR', 'CRITICAL']
         if log_level not in valid_levels:
-            payload = {
-                "error": f"Invalid log_level. Must be one of: {', '.join(valid_levels)}"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Invalid log_level. Must be one of: {', '.join(valid_levels)}"})
 
-        terminal_logs = data.get("terminal_logs", {}).values()
+        terminal_logs = data.get('terminal_logs', [])
 
-        # Generate a new log entry
+        # Create new log entry
         new_log_entry = {
             "log_ts": datetime.now().isoformat(),
             "message": f"{log_level}: {message}",
             "level": log_level,
             "component": source_component,
-            "workflow_id": workflow_id,
+            "workflow_id": workflow_id
         }
 
-        # Include entry in logs
-        data["terminal_logs"][new_log_entry["terminal_log_id"]] = new_log_entry
+        # Add entry to logs
+        terminal_logs.append(new_log_entry)
 
-        # Enforce log retention by retaining only the latest entries
+        # Implement log retention - keep only the most recent entries
         if len(terminal_logs) > max_log_entries:
-            # Order by timestamp and retain the latest
-            terminal_logs.sort(key=lambda x: x.get("log_ts", ""))
-            # Eliminate the oldest entries
+            # Sort by timestamp and keep the most recent
+            terminal_logs.sort(key=lambda x: x.get('log_ts', ''))
+            # Remove oldest entries
             excess_count = len(terminal_logs) - max_log_entries
             for _ in range(excess_count):
                 terminal_logs.pop(0)
-        payload = {
+
+        return json.dumps({
             "success": True,
             "log_entry": new_log_entry,
             "total_log_entries": len(terminal_logs),
-            "logged_at": datetime.now().isoformat(),
-        }
-        out = json.dumps(payload)
-        return out
+            "logged_at": datetime.now().isoformat()
+        })
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "updateTerminalLogLevel",
+                "name": "update_terminal_log_level",
                 "description": "Adds new terminal log entries with specified log levels and manages log retention for workflow tracking and debugging.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "message": {
-                            "type": "string",
-                            "description": "The log message to add.",
-                        },
-                        "log_level": {
-                            "type": "string",
-                            "description": "The log level. Must be one of: DEBUG, INFO, WARN, ERROR, CRITICAL.",
-                        },
-                        "source_component": {
-                            "type": "string",
-                            "description": "Optional component or service generating the log entry.",
-                        },
-                        "workflow_id": {
-                            "type": "string",
-                            "description": "Optional workflow ID to associate with the log entry.",
-                        },
-                        "max_log_entries": {
-                            "type": "integer",
-                            "description": "Maximum number of log entries to retain (default: 1000).",
-                        },
+                        "message": {"type": "string", "description": "The log message to add."},
+                        "log_level": {"type": "string", "description": "The log level. Must be one of: DEBUG, INFO, WARN, ERROR, CRITICAL."},
+                        "source_component": {"type": "string", "description": "Optional component or service generating the log entry."},
+                        "workflow_id": {"type": "string", "description": "Optional workflow ID to associate with the log entry."},
+                        "max_log_entries": {"type": "integer", "description": "Maximum number of log entries to retain (default: 1000)."}
                     },
-                    "required": ["message"],
-                },
-            },
+                    "required": ["message"]
+                }
+            }
         }

@@ -1,47 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetWarehouseByID(Tool):
-    """Utility for obtaining complete details of a warehouse via its ID."""
+    """Tool to retrieve a warehouse’s full details using its ID."""
+
     @staticmethod
-    def invoke(data: dict[str, Any], warehouse_id: str = None) -> str:
-        warehouses = data.get("warehouses", {}).values()
-        for warehouse in warehouses.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        warehouse_id = kwargs.get("warehouse_id")
+        warehouses = data.get("warehouses", [])
+        for warehouse in warehouses:
             if warehouse["warehouse_id"] == warehouse_id:
-                payload = warehouse
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Warehouse ID '{warehouse_id}' not found."}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+                return json.dumps(warehouse, indent=2)
+        return json.dumps({"error": f"Warehouse ID '{warehouse_id}' not found."}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetWarehouseById",
+                "name": "get_warehouse_by_id",
                 "description": "Retrieve full warehouse details using warehouse ID.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "warehouse_id": {
                             "type": "string",
-                            "description": "Warehouse ID (e.g., 'WH-14')",
+                            "description": "Warehouse ID (e.g., 'WH-14')"
                         }
                     },
-                    "required": ["warehouse_id"],
-                },
-            },
+                    "required": ["warehouse_id"]
+                }
+            }
         }

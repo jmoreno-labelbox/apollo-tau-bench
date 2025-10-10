@@ -1,100 +1,54 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ScheduleDeviceTimerUpdate(Tool):
-    """Insert or substitute a forthcoming scheduled update for a device."""
+    """Add or replace a future scheduled update for a device."""
 
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         device_id: str,
         timestamp: str,
-        timestamp_end: str,
-        update: dict[str, Any],
+        timestamp_end:str,
+        update: Dict[str, Any],
         replace: bool = False,
-        rrule: str | None = None
+        rrule: Optional[str] = None,
     ) -> str:
-        devices: list[dict[str, Any]] = data.get("devices", {}).values()
-        for dev in devices:
-            if dev.get("id") == device_id:
-                if timestamp_end is None:
-                    payload = {"error": "End time is needed"}
-                    out = json.dumps(payload, indent=2)
-                    return out
-
-                # Configure Device as required
-                sched: list[dict[str, Any]] = dev.setdefault("scheduled_updates", [])
-                if replace:
-                    sched[:] = [s for s in sched.values() if s.get("timestamp") != timestamp]
-                if rrule:
-                    sched.append(
-                        {"timestamp": timestamp, "update": update, "rrule": rrule}
-                    )
-                else:
-                    sched.append({"timestamp": timestamp, "update": update})
-                ScheduleDeviceUpdate.invoke(
-                    data, device_id, timestamp_end, {"power": "off"}, replace, rrule
-                )
-                payload = {"success": True, "scheduled_updates": sched}
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Device '{device_id}' not found"}
-        out = json.dumps(payload, indent=2)
-        return out
-        pass
-        devices: list[dict[str, Any]] = data.get("devices", {}).values()
+        devices: List[Dict[str, Any]] = list(data.get("devices", {}).values())
         for dev in devices:
             if dev.get("id") == device_id:
                 if timestamp_end == None:
-                    payload = {"error": "End time is needed"}
-                    out = json.dumps(payload, indent=2)
-                    return out
+                    return json.dumps({"error": "End time is needed"}, indent=2)
 
-                #Configure Device as required
-                sched: list[dict[str, Any]] = dev.setdefault("scheduled_updates", [])
+                # Set Device as its needed
+                sched: List[Dict[str, Any]] = dev.setdefault("scheduled_updates", [])
                 if replace:
-                    sched[:] = [s for s in sched.values() if s.get("timestamp") != timestamp]
+                    sched[:] = [s for s in sched if s.get("timestamp") != timestamp]
                 if rrule:
-                    sched.append(
-                        {"timestamp": timestamp, "update": update, "rrule": rrule}
-                    )
+                    sched.append({"timestamp": timestamp, "update": update, "rrule": rrule})
                 else:
                     sched.append({"timestamp": timestamp, "update": update})
-                ScheduleDeviceUpdate.invoke(
-                    data, device_id, timestamp_end, {"power": "off"}, replace, rrule
-                )
-                payload = {"success": True, "scheduled_updates": sched}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
-        payload = {"error": f"Device '{device_id}' not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                ScheduleDeviceUpdate.invoke(data, device_id, timestamp_end, {"power": "off"}, replace, rrule)
+                return json.dumps({"success": True, "scheduled_updates": sched}, indent=2)
+
+
+        return json.dumps({"error": f"Device '{device_id}' not found"}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ScheduleDeviceUpdateTimer",
+                "name": "schedule_device_update_timer",
                 "description": "Add or replace a future scheduled update for a device that only bee on for a time.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "device_id": {
-                            "type": "string",
-                            "description": "Device identifier.",
-                        },
+                        "device_id": {"type": "string", "description": "Device identifier."},
                         "timestamp": {
                             "type": "string",
                             "description": "ISO‑8601 timestamp in device local tz.",

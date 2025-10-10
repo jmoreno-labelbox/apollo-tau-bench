@@ -1,33 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ListOpenAlerts(Tool):
-    """Enumerates all active code-scanning alerts along with the repository, alert ID, and severity."""
+    """Lists all open code-scanning alerts with repo, alert ID, and severity."""
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         alerts = _alerts(data)
         open_alerts = [
             {
                 "repo_name": a.get("repo_name"),
                 "alert_number": a.get("alert_number"),
-                "severity": a.get("severity"),
+                "severity": a.get("severity")
             }
             for a in alerts
             if a.get("state") != "closed"
         ]
-        payload = open_alerts
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(open_alerts, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "listOpenAlerts",
+                "name": "list_open_alerts",
                 "description": "Returns open alerts across all repositories with ID and severity.",
-                "parameters": {"type": "object", "properties": {}},
-            },
+                "parameters": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
         }

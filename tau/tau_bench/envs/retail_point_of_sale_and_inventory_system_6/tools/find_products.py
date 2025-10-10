@@ -1,36 +1,16 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import OrderedDict, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class find_products(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        sku: str = None,
-        category: str = None,
-        is_discountable: bool = None,
-        supplier_id: int = None,
-        brand: str = None,
-        barcode: str = None,
-        status: str = None,
-        expiry_date: str = None,
-        name: str = None,
-        description: str = None,
-        created_at: str = None,
-        updated_at: str = None
-    ) -> str:
-        products = data.get("products", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        products = list(data.get("products", {}).values())
 
-        # These columns will match precisely with the provided value
+        # These columns will be matched exactly to the value sent
         exact_match_cols = [
             "sku",
             "category",
@@ -41,29 +21,15 @@ class find_products(Tool):
             "status",
             "expiry_date",
         ]
-        exact_match_values = {
-            "sku": sku,
-            "category": category,
-            "is_discountable": is_discountable,
-            "supplier_id": supplier_id,
-            "brand": brand,
-            "barcode": barcode,
-            "status": status,
-            "expiry_date": expiry_date,
-        }
+        exact_match_values = {k: kwargs.get(k) for k in exact_match_cols}
 
-        # These columns will match as long as the database field includes the provided value
+        # These columns will be matched as long as the database field contains the sent value
         approximate_match_cols = ["name", "description", "created_at", "updated_at"]
-        approximate_match_values = {
-            "name": name,
-            "description": description,
-            "created_at": created_at,
-            "updated_at": updated_at,
-        }
+        approximate_match_values = {k: kwargs.get(k) for k in approximate_match_cols}
 
         matches = []
-        for product in products.values():
-            # Add to the return list if all provided criteria align
+        for product in products:
+            # If all sent criteria match, then add it to the return list
             if all(
                 [
                     exact_match_values[k] == product[k]
@@ -78,15 +44,15 @@ class find_products(Tool):
                 ]
             ):
                 matches.append(product)
-        payload = matches
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(matches, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindProducts",
+                "name": "find_products",
                 "description": "Finds products matching the sent criteria. Returns an empty list if there are none",
                 "parameters": {
                     "type": "object",
@@ -100,7 +66,7 @@ class find_products(Tool):
                             "description": "The category of the item. Will do an exact match",
                         },
                         "is_discountable": {
-                            "type": "boolean",
+                            "type": "bool",
                             "description": "If the product can be discounted. Will do an exact match",
                         },
                         "supplier_id": {

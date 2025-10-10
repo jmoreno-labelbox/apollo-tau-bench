@@ -1,32 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindCarrierByService(Tool):
-    """Identifies the top-rated, active carrier for a specific transport mode and service level."""
+    """Finds the best-rated, active carrier for a specific transport mode AND service level."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], mode_of_transport: str = None, service_level: str = None) -> str:
-        carriers = data.get("carriers", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        carriers = data.get("carriers", [])
+        mode_of_transport = kwargs.get("mode_of_transport")
+        service_level = kwargs.get("service_level")
 
         if not mode_of_transport or not service_level:
-            payload = {"error": "Mode of transport and service level are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "Mode of transport and service level are required"}
+            )
 
         best_carrier = None
         max_rating = -1.0
 
-        for carrier in carriers.values():
+        for carrier in carriers:
             is_active = carrier.get("active_status", False)
             supported_modes = [
                 mode.lower() for mode in carrier.get("supported_modes", [])
@@ -40,7 +36,7 @@ class FindCarrierByService(Tool):
                 and mode_of_transport.lower() in supported_modes
                 and service_level.lower() in supported_services
             ):
-                current_rating = carrier.get("performance_metrics", {}).values().get(
+                current_rating = carrier.get("performance_metrics", {}).get(
                     "average_rating", 0.0
                 )
                 if current_rating > max_rating:
@@ -48,26 +44,26 @@ class FindCarrierByService(Tool):
                     best_carrier = carrier
 
         if best_carrier:
-            payload = {
-                "carrier_id": best_carrier.get("carrier_id"),
-                "carrier_name": best_carrier.get("carrier_name"),
-                "carrier_scac": best_carrier.get("scac"),
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "carrier_id": best_carrier.get("carrier_id"),
+                    "carrier_name": best_carrier.get("carrier_name"),
+                    "carrier_scac": best_carrier.get("scac"),
+                }
+            )
         else:
-            payload = {
-                "error": f"No active carrier found for mode '{mode_of_transport}' and service '{service_level}'"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": f"No active carrier found for mode '{mode_of_transport}' and service '{service_level}'"
+                }
+            )
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindCarrierByService",
+                "name": "find_carrier_by_service",
                 "description": "Finds the active carrier with the highest rating for a given transport mode AND a specific service level (e.g., 'Pharma', 'Perishables', 'Express').",
                 "parameters": {
                     "type": "object",

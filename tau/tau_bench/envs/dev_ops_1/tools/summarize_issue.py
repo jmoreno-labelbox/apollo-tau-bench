@@ -1,10 +1,13 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class SummarizeIssue(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], ticket_key: str) -> str:
+    def invoke(data: Dict[str, Any], ticket_key: str) -> str:
         work_items = _get_table(data, "work_items")
         item = next((w for w in work_items if w.get("ticket_key") == ticket_key), None)
         if not item:
@@ -13,21 +16,8 @@ class SummarizeIssue(Tool):
         desc = (norm.get("description") or "")[:140]
         summary = f"{norm.get('title') or 'Issue'} :: {desc}"
         item["summary_text"] = summary
-        payload = {"summary_text": summary}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"summary_text": summary}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "SummarizeIssue",
-                "description": "Creates a deterministic short summary from normalized fields.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"ticket_key": {"type": "string"}},
-                    "required": ["ticket_key"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "summarize_issue", "description": "Creates a deterministic short summary from normalized fields.", "parameters": {"type": "object", "properties": {"ticket_key": {"type": "string"}}, "required": ["ticket_key"]}}}

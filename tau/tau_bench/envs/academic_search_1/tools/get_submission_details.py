@@ -1,50 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetSubmissionDetails(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], submission_id: Any = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        submission_id = kwargs.get('submission_id')
         if not submission_id:
-            payload = {"error": "submission_id is required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "submission_id is required."})
 
-        submissions = data.get("submissions", {}).values()
-        for sub in submissions.values():
-            if sub.get("proposal_id") == submission_id:
-                payload = sub
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Submission with ID '{submission_id}' not found."}
-        out = json.dumps(payload)
-        return out
+        submissions = list(data.get('submissions', {}).values())
+        for sub in submissions:
+            if sub.get('submission_id') == submission_id:
+                return json.dumps(sub, indent=2)
+
+        return json.dumps({"error": f"Submission with ID '{submission_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetSubmissionDetails",
+                "name": "get_submission_details",
                 "description": "Retrieves the full details for a single submission by its unique ID.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "submission_id": {
-                            "type": "string",
-                            "description": "The unique ID of the submission to retrieve.",
-                        }
+                        "submission_id": {"type": "string", "description": "The unique ID of the submission to retrieve."}
                     },
-                    "required": ["submission_id"],
-                },
-            },
+                    "required": ["submission_id"]
+                }
+            }
         }

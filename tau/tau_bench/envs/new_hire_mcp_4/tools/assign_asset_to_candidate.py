@@ -1,49 +1,42 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AssignAssetToCandidate(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], asset_tag: str, candidate_id: str) -> str:
-        inv = data.get("inventory_assets", {}).values()
-        row = next((a for a in inv.values() if a.get("asset_tag") == asset_tag), None)
-        if not row:
-            payload = {"error": f"asset_tag {asset_tag} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        asset_tag = kwargs["asset_tag"]
+        cand_id = kwargs["candidate_id"]
 
-        row["assigned_candidate_id_nullable"] = candidate_id
+        inv = data.get("inventory_assets", [])
+        row = next((a for a in inv if a.get("asset_tag") == asset_tag), None)
+        if not row:
+            return json.dumps({"error": f"asset_tag {asset_tag} not found"}, indent=2)
+
+        row["assigned_candidate_id_nullable"] = cand_id
         row["status"] = "allocated"
-        for c in data.get("candidates", {}).values():
-            if c.get("candidate_id") == candidate_id:
+        for c in data.get("candidates", []):
+            if c.get("candidate_id") == cand_id:
                 c["allocated_asset_tag_nullable"] = asset_tag
-        payload = {"asset_tag": asset_tag, "assigned_to": candidate_id}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"asset_tag": asset_tag, "assigned_to": cand_id}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "assignAssetToCandidate",
+                "name": "assign_asset_to_candidate",
                 "description": "Assign inventory asset to candidate.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "asset_tag": {"type": "string"},
-                        "candidate_id": {"type": "string"},
+                        "candidate_id": {"type": "string"}
                     },
-                    "required": ["asset_tag", "candidate_id"],
-                },
-            },
+                    "required": ["asset_tag", "candidate_id"]
+                }
+            }
         }

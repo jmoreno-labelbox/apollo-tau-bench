@@ -1,37 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetProjectByName(Tool):
-    """Fetches a project using its precise name."""
+    """Retrieves a project by its exact name."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], name: str = None) -> str:
-        project_name = name
-        projects = data.get("projects", {}).values()
-
-        for project in projects.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_name = kwargs.get("name")
+        projects = list(data.get("projects", {}).values())
+        
+        for project in projects:
             if project.get("name") == project_name:
-                payload = project
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Project with name '{project_name}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(project)
+        
+        return json.dumps({"error": f"Project with name '{project_name}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetProjectByName",
+                "name": "get_project_by_name",
                 "description": "Retrieves a project by its exact name.",
                 "parameters": {
                     "type": "object",

@@ -1,39 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCrashEventById(Tool):
-    """Fetches a crash event using its ID."""
-
+    """Retrieves a crash event by its ID."""
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        crash_id: str = None,
-        id: Any = None
-    ) -> str:
-        crashes = data.get("crash_events", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        crash_id = kwargs.get("id")
+        crashes = data.get("crash_events", [])
         for crash in crashes:
             if crash.get("id") == crash_id:
-                payload = crash
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Crash event with ID '{crash_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(crash)
+        return json.dumps({"error": f"Crash event with ID '{crash_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCrashEventById",
+                "name": "get_crash_event_by_id",
                 "description": "Retrieves a crash event by its ID.",
                 "parameters": {
                     "type": "object",

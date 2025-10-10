@@ -1,49 +1,44 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateSession(Tool):
     """
-    Modify session properties while maintaining session_id as immutable.
+    Update session properties while keeping session_id immutable.
 
     kwargs:
-      session_id: str (mandatory) - Session ID to modify
-      end_time: str ISO (optional) - Specify session end time
-      ip_address: str (optional) - Update the IP address
-      device: str (optional) - Update the type of device
+      session_id: str (required) - Session ID to update
+      end_time: str ISO (optional) - Set session end time
+      ip_address: str (optional) - Update IP address
+      device: str (optional) - Update device type
       is_mfa: bool (optional) - Update MFA status
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], session_id: str = "", end_time: Any = None, ip_address: Any = None, device: Any = None, is_mfa: Any = None) -> str:
-        if not session_id:
-            payload = {"error": "session_id required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        session_id = kwargs.get("session_id", "")
+        end_time = kwargs.get("end_time")
+        ip_address = kwargs.get("ip_address")
+        device = kwargs.get("device")
+        is_mfa = kwargs.get("is_mfa")
 
-        # Locate the session
-        sessions = data.get("sessions", {}).values()
+        if not session_id:
+            return json.dumps({"error": "session_id required"})
+
+        # Find the session
+        sessions = data.get("sessions", [])
         session_index = None
-        for i, session in enumerate(sessions.values()):
+        for i, session in enumerate(sessions):
             if session.get("session_id") == session_id:
                 session_index = i
                 break
 
         if session_index is None:
-            payload = {"error": f"session_id {session_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"session_id {session_id} not found"})
 
-        # Modify the session (session_id, user_id, or start_time cannot be changed)
+        # Update the session (cannot modify session_id, user_id, or start_time)
         updated_session = dict(sessions[session_index])
         if end_time is not None:
             updated_session["end_time"] = end_time
@@ -55,42 +50,26 @@ class UpdateSession(Tool):
             updated_session["is_mfa"] = is_mfa
 
         data["sessions"][session_index] = updated_session
-        payload = {"ok": True, "session": updated_session}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"ok": True, "session": updated_session})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "updateSession",
+                "name": "update_session",
                 "description": "Update session properties while keeping session_id immutable.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "session_id": {
-                            "type": "string",
-                            "description": "Session ID to update.",
-                        },
-                        "end_time": {
-                            "type": "string",
-                            "description": "ISO timestamp for session end time.",
-                        },
-                        "ip_address": {
-                            "type": "string",
-                            "description": "Updated IP address.",
-                        },
-                        "device": {
-                            "type": "string",
-                            "description": "Updated device type (DESKTOP, LAPTOP, MOBILE).",
-                        },
-                        "is_mfa": {
-                            "type": "boolean",
-                            "description": "Updated MFA status.",
-                        },
+                        "session_id": {"type": "string", "description": "Session ID to update."},
+                        "end_time": {"type": "string", "description": "ISO timestamp for session end time."},
+                        "ip_address": {"type": "string", "description": "Updated IP address."},
+                        "device": {"type": "string", "description": "Updated device type (DESKTOP, LAPTOP, MOBILE)."},
+                        "is_mfa": {"type": "boolean", "description": "Updated MFA status."}
                     },
                     "required": ["session_id"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

@@ -1,36 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetRepositoryByFullName(Tool):
-    """Fetches a repository using its complete name (e.g., 'gamecorp/engine-core')."""
+    """Retrieves a repository by its full name (e.g., 'gamecorp/engine-core')."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_full_name: str = None) -> str:
-        repositories = data.get("repositories", {}).values()
-
-        for repo in repositories.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        repo_full_name = kwargs.get("repo_full_name")
+        repositories = list(data.get("repositories", {}).values())
+        
+        for repo in repositories:
             if repo.get("repo_full_name") == repo_full_name:
-                payload = repo
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Repository with full name '{repo_full_name}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(repo)
+        
+        return json.dumps({"error": f"Repository with full name '{repo_full_name}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getRepositoryByFullName",
+                "name": "get_repository_by_full_name",
                 "description": "Retrieves a repository by its full name (e.g., 'gamecorp/engine-core').",
                 "parameters": {
                     "type": "object",

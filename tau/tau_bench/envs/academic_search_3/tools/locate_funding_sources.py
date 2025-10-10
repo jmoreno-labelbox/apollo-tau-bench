@@ -1,67 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class LocateFundingSources(Tool):
-    """Utility for identifying funding sources based on research area and availability."""
-
+    """Tool to locate funding sources by research area and availability status."""
     @staticmethod
-    def invoke(data: dict[str, Any], area: str = None, status: str = None, funding_source_id: str = None, source_name: str = None) -> str:
-        sources = data.get("funding_sources", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        sources = list(data.get('funding_sources', {}).values())
         results = []
-        area = area.lower() if area else ""
-        status = status.lower() if status else ""
-        source_name = source_name.lower() if source_name else ""
+        area = kwargs.get('area', '').lower()
+        status = kwargs.get('status', '').lower()
 
         for s in sources:
-            match_area = not area or area in s.get("focus_area", "").lower()
-            match_status = not status or status == s.get("status", "").lower()
-            match_id = not funding_source_id or funding_source_id == s.get("sponsor_id")
-            match_name = not source_name or source_name in s.get("source_name", "").lower()
+            match_area = area in s.get('focus_area', '').lower()
+            match_status = True
+            if status:
+                match_status = status == s.get('status', '').lower()
 
-            if match_area and match_status and match_id and match_name:
+            if match_area and match_status:
                 results.append(s)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(results, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "LocateFundingSources",
-                "description": "Locates funding sources by research area, availability, funding source ID, or source name.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "area": {
-                            "type": "string",
-                            "description": "The research area (e.g., 'AI', 'Medical Research').",
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "The availability status of the grant (e.g., 'available').",
-                        },
-                        "funding_source_id": {
-                            "type": "string",
-                            "description": "The ID of the funding source to search for.",
-                        },
-                        "source_name": {
-                            "type": "string",
-                            "description": "The name of the funding source to search for.",
-                        },
-                    },
-                    "required": [],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "locate_funding_sources", "description": "Locates funding sources by research area and availability.", "parameters": {"type": "object", "properties": {
+            "area": {"type": "string", "description": "The research area (e.g., 'AI', 'Medical Research')."},
+            "status": {"type": "string", "description": "The availability status of the grant (e.g., 'available')."}
+        }, "required": []}}}

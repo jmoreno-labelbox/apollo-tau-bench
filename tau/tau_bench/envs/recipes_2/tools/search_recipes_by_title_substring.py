@@ -1,47 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchRecipesByTitleSubstring(Tool):
-    """Looks for recipes whose titles include the specified text."""
+    """Searches for recipes with titles containing the specified text."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        title_substring = kwargs.get("title_substring")
+        if not title_substring:
+            return json.dumps({"error": "title_substring parameter is required."})
+        recipes = list(data.get("recipes", {}).values())
+        matching_recipes = [
+            recipe for recipe in recipes 
+            if title_substring.lower() in recipe.get("recipe_title", "").lower()
+        ]
+        return json.dumps(matching_recipes)
 
     @staticmethod
-    def invoke(data: dict[str, Any], title_substring: str = None) -> str:
-        if not title_substring:
-            payload = {"error": "title_substring parameter is required."}
-            out = json.dumps(payload)
-            return out
-        recipes = data.get("recipes", {}).values()
-        matching_recipes = [
-            recipe
-            for recipe in recipes.values() if title_substring.lower() in recipe.get("recipe_title", "").lower()
-        ]
-        payload = matching_recipes
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchRecipesByTitleSubstring",
+                "name": "search_recipes_by_title_substring",
                 "description": "Searches for recipes with titles containing the specified text.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "title_substring": {
-                            "type": "string",
-                            "description": "The text to search for in recipe titles.",
-                        }
+                        "title_substring": {"type": "string", "description": "The text to search for in recipe titles."}
                     },
                     "required": ["title_substring"],
                 },

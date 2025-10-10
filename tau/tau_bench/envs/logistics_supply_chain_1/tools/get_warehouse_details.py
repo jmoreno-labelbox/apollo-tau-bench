@@ -1,53 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import random
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetWarehouseDetails(Tool):
-    """Fetches all information for a specific warehouse using its name."""
+    """Retrieves all details for a specific warehouse by its name."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        warehouse_name = kwargs.get('warehouse_name')
+        if not warehouse_name:
+            return json.dumps({"error": "warehouse_name is required."}, indent=2)
+        warehouse = next((w for w in data.get('warehouses', []) if w.get('warehouse_name') == warehouse_name), None)
+        if not warehouse:
+            return json.dumps({"error": f"Warehouse '{warehouse_name}' not found."}, indent=2)
+        return json.dumps(warehouse, indent=2)
 
     @staticmethod
-    def invoke(data: dict[str, Any], warehouse_name: str = None) -> str:
-        if not warehouse_name:
-            payload = {"error": "warehouse_name is required."}
-            out = json.dumps(payload, indent=2)
-            return out
-        warehouse = next(
-            (
-                w
-                for w in data.get("warehouses", {}).values()
-                if w.get("warehouse_name") == warehouse_name
-            ),
-            None,
-        )
-        if not warehouse:
-            payload = {"error": f"Warehouse '{warehouse_name}' not found."}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        payload = warehouse
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetWarehouseDetails",
-                "description": "Retrieves all details for a specific warehouse by its name.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"warehouse_name": {"type": "string"}},
-                    "required": ["warehouse_name"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "get_warehouse_details", "description": "Retrieves all details for a specific warehouse by its name.", "parameters": {"type": "object", "properties": {"warehouse_name": {"type": "string"}}, "required": ["warehouse_name"]}}}

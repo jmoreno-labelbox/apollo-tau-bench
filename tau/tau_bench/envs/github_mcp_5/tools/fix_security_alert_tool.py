@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FixSecurityAlertTool(Tool):
     """
@@ -40,42 +28,30 @@ class FixSecurityAlertTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str = None, alert_number: int = None) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            alert_number = _validate_param({"alert_number": alert_number}, "alert_number", int)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            alert_number = _validate_param(kwargs, "alert_number", int)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        alerts = data.get("code_scanning_alerts", {}).values()
-        alert = next(
-            (
-                a
-                for a in alerts.values() if a.get("repo") == repo_name and a.get("number") == alert_number
-            ),
-            None,
-        )
+        alerts = data.get("code_scanning_alerts", [])
+        alert = next((a for a in alerts if a.get("repo") == repo_name and a.get("number") == alert_number), None)
 
         if not alert:
-            return _response(
-                "error",
-                ERROR_MESSAGES["NOT_FOUND"].format(
-                    entity="Alert", entity_id=alert_number
-                ),
-                "NOT_FOUND",
-            )
+            return _response("error", ERROR_MESSAGES["NOT_FOUND"].format(entity="Alert", entity_id=alert_number), "NOT_FOUND")
 
         alert["state"] = "fixed"
         alert["resolved_at"] = CURRENT_DATE
         alert["updated_at"] = CURRENT_DATE
         return _response("ok", alert)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FixSecurityAlert",
+                "name": "fix_security_alert",
                 "description": "Mark a security alert as fixed deterministically.",
                 "parameters": {
                     "type": "object",

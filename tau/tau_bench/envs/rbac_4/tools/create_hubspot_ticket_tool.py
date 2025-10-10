@@ -1,60 +1,49 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateHubspotTicketTool(Tool):
-    """Initiate a new HubSpot ticket associated with RBAC or SIEM context."""
-
+    """Create a new HubSpot ticket linked to RBAC or SIEM context."""
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        subject: str = None,
-        description: str = None,
-        requester_id: str = None,
-        assignee_id: str = None,
-        category: str = None,
-        priority: str = "MEDIUM",
-        created_at: str = None
-    ) -> str:
-        pass
-        tickets = data.get("hubspot_tickets", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        tickets = data.get("hubspot_tickets", [])
 
-        # Predictable ticket ID
+        subject = kwargs.get("subject")
+        description = kwargs.get("description")
+        requester_id = kwargs.get("requester_id")
+        assignee_id = kwargs.get("assignee_id")
+        category = kwargs.get("category")
+        priority = kwargs.get("priority", "MEDIUM")
+
+        # Deterministic ticket ID
         new_id = f"TI-{len(tickets) + 1:03d}"
         fixed_time = "2025-08-11 12:00:00+00:00"
 
-        tickets.append(
-            {
-                "ticket_id": new_id,
-                "created_at": fixed_time,
-                "updated_at": fixed_time,
-                "subject": subject,
-                "description": description,
-                "status": "OPEN",
-                "priority": priority,
-                "assignee_id": assignee_id,
-                "requester_id": requester_id,
-                "category": category,
-                "closed_at": None,
-            }
-        )
-        payload = {"success": f"Ticket {new_id} created"}
-        out = json.dumps(payload, indent=2)
-        return out
+        tickets.append({
+            "ticket_id": new_id,
+            "created_at": fixed_time,
+            "updated_at": fixed_time,
+            "subject": subject,
+            "description": description,
+            "status": "OPEN",
+            "priority": priority,
+            "assignee_id": assignee_id,
+            "requester_id": requester_id,
+            "category": category,
+            "closed_at": None
+        })
+
+        return json.dumps({"success": f"Ticket {new_id} created"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateHubspotTicket",
+                "name": "create_hubspot_ticket",
                 "description": "Create a HubSpot ticket and associate it with RBAC or SIEM events.",
                 "parameters": {
                     "type": "object",
@@ -64,15 +53,9 @@ class CreateHubspotTicketTool(Tool):
                         "requester_id": {"type": "string"},
                         "assignee_id": {"type": "string"},
                         "category": {"type": "string"},
-                        "priority": {"type": "string"},
+                        "priority": {"type": "string"}
                     },
-                    "required": [
-                        "subject",
-                        "description",
-                        "requester_id",
-                        "assignee_id",
-                        "category",
-                    ],
-                },
-            },
+                    "required": ["subject", "description", "requester_id", "assignee_id", "category"]
+                }
+            }
         }

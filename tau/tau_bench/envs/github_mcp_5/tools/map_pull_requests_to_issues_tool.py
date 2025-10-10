@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class MapPullRequestsToIssuesTool(Tool):
     """
@@ -39,37 +27,31 @@ class MapPullRequestsToIssuesTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        prs = data.get("pull_requests", {}).values()
+        prs = list(data.get("pull_requests", {}).values())
 
         mapping = [
             {
-                "issue_id": _safe_id(
-                    pr, "issue_id", f"ISSUE_{repo_name}_", ["title", "body"]
-                ),
-                "pr_id": _safe_id(
-                    pr,
-                    "pr_id",
-                    f"PR_{repo_name}_",
-                    ["title", "head_branch", "base_branch"],
-                ),
+                "issue_id": _safe_id(pr, "issue_id", f"ISSUE_{repo_name}_", ["title", "body"]),
+                "pr_id": _safe_id(pr, "pr_id", f"PR_{repo_name}_", ["title", "head_branch", "base_branch"]),
                 "linked_issues": pr.get("linked_issues", []),
                 "report_date": CURRENT_DATE,
             }
-            for pr in prs.values() if pr.get("repo") == repo_name
+            for pr in prs if pr.get("repo") == repo_name
         ]
         return _response("ok", mapping)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "mapPullRequestsToIssues",
+                "name": "map_pull_requests_to_issues",
                 "description": "Map pull requests deterministically to their linked issues.",
                 "parameters": {
                     "type": "object",

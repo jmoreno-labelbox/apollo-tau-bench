@@ -1,35 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetRollbackByDeploymentId(Tool):
-    """Obtains rollback information for a failed deployment ID."""
-
+    """Retrieves rollback details for a failed deployment ID."""
     @staticmethod
-    def invoke(data: dict[str, Any], deployment_id: str = None) -> str:
-        rollbacks = data.get("rollbacks", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        deployment_id = kwargs.get("deployment_id")
+        rollbacks = data.get("rollbacks", [])
         for r in rollbacks:
             if r.get("deployment_id") == deployment_id:
-                payload = r
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Rollback for deployment ID '{deployment_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(r)
+        return json.dumps({"error": f"Rollback for deployment ID '{deployment_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetRollbackByDeploymentId",
+                "name": "get_rollback_by_deployment_id",
                 "description": "Retrieves rollback details for a failed deployment ID.",
                 "parameters": {
                     "type": "object",

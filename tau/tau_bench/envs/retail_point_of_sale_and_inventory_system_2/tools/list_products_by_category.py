@@ -1,50 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListProductsByCategory(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], category: str) -> str:
-        _categoryL = category or ''.lower()
-        pass
-        products = data.get("products", {}).values()
-        category_products = [
-            p for p in products.values() if p.get("category", "").lower() == category.lower()
-        ]
-        payload = {
-                "products": category_products,
-                "count": len(category_products),
-                "category": category,
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+    def invoke(data: Dict[str, Any], category: str) -> str:
+        products = list(data.get("products", {}).values())
+        category_products = [p for p in products if p.get("category", "").lower() == category.lower()]
+        return json.dumps({"products": category_products, "count": len(category_products), "category": category}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListProductsByCategory",
+                "name": "list_products_by_category",
                 "description": "List all products in a specific category.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "category": {
-                            "type": "string",
-                            "description": "Product category to filter by.",
-                        }
+                        "category": {"type": "string", "description": "Product category to filter by."}
                     },
-                    "required": ["category"],
-                },
-            },
+                    "required": ["category"]
+                }
+            }
         }

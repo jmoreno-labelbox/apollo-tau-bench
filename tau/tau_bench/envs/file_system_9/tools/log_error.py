@@ -1,21 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class LogError(Tool):
-    """Records an error message and returns the generated msg_id."""
-
+    """Logs an error message and returns the generated msg_id."""
     @staticmethod
-    def invoke(data: dict[str, Any], err_type: str = None, task_id: str = None, user_id: str = None, message: str = None, severity: str = None) -> str:
-        error_messages = data.get("error_messages", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        error_messages = data.get("error_messages", [])
         max_id = 0
         if error_messages:
             for msg in error_messages:
@@ -30,22 +24,21 @@ class LogError(Tool):
 
         new_error = {
             "msg_id": msg_id,
-            "err_type": err_type,
-            "task_id": task_id,
-            "user_id": user_id,
-            "msg": message,
-            "severity": severity,
+            "err_type": kwargs.get("err_type"),
+            "task_id": kwargs.get("task_id"),
+            "user_id": kwargs.get("user_id"),
+            "msg": kwargs.get("message"),
+            "severity": kwargs.get("severity"),
         }
         data["error_messages"].append(new_error)
-        payload = {"status": "success", "message": "Error message logged.", "msg_id": msg_id}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "success", "message": "Error message logged.", "msg_id": msg_id})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "logError",
+                "name": "log_error",
                 "description": "Logs an error message and returns the generated msg_id.",
                 "parameters": {
                     "type": "object",
@@ -56,13 +49,7 @@ class LogError(Tool):
                         "message": {"type": "string"},
                         "severity": {"type": "string"},
                     },
-                    "required": [
-                        "err_type",
-                        "task_id",
-                        "user_id",
-                        "message",
-                        "severity",
-                    ],
+                    "required": ["err_type", "task_id", "user_id", "message", "severity"],
                 },
             },
         }

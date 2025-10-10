@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetReleasesByRepositoryTool(Tool):
     """
@@ -45,14 +33,13 @@ class GetReleasesByRepositoryTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        releases = data.get("releases", {}).values()
+        releases = data.get("releases", [])
         filtered = [
             {
                 "release_id": _safe_id(r, "release_id", "REL_", ["repo", "version"]),
@@ -62,15 +49,16 @@ class GetReleasesByRepositoryTool(Tool):
                 "created_at": r.get("created_at"),
                 "report_date": CURRENT_DATE,
             }
-            for r in releases.values() if r.get("repo") == repo_name
+            for r in releases if r.get("repo") == repo_name
         ]
         return _response("ok", filtered)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetReleasesByRepository",
+                "name": "get_releases_by_repository",
                 "description": "List all releases for a repository deterministically.",
                 "parameters": {
                     "type": "object",

@@ -1,50 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCustomerLoyaltyPoints(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], customer_id: str) -> str:
-        customers = data.get("customers", {}).values()
-        for customer in customers.values():
+    def invoke(data: Dict[str, Any], customer_id: str) -> str:
+        customers = list(data.get("customers", {}).values())
+        for customer in customers:
             if customer.get("customer_id") == customer_id:
                 loyalty_info = {
                     "customer_id": customer_id,
                     "name": customer.get("name"),
                     "loyalty_points": customer.get("loyalty_points", 0),
-                    "membership_level": customer.get("membership_level", "bronze"),
+                    "membership_level": customer.get("membership_level", "bronze")
                 }
-                payload = loyalty_info
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Customer with ID {customer_id} not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(loyalty_info, indent=2)
+        return json.dumps({"error": f"Customer with ID {customer_id} not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCustomerLoyaltyPoints",
+                "name": "get_customer_loyalty_points",
                 "description": "Get loyalty points balance for a specific customer.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "customer_id": {
-                            "type": "string",
-                            "description": "Unique identifier of the customer.",
-                        }
+                        "customer_id": {"type": "string", "description": "Unique identifier of the customer."}
                     },
-                    "required": ["customer_id"],
-                },
-            },
+                    "required": ["customer_id"]
+                }
+            }
         }

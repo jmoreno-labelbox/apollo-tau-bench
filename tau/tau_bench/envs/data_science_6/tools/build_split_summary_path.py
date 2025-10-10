@@ -1,40 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class BuildSplitSummaryPath(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], city_slug: str = None, method: str = None, split_ts: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        city_slug = kwargs.get("city_slug")
+        method = kwargs.get("method")
+        split_ts = kwargs.get("split_ts")
         if not city_slug or not method or not split_ts:
-            payload = {"error": "Missing city_slug, method, or split_ts"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error":"Missing city_slug, method, or split_ts"})
         ymd = split_ts[:10].replace("-", "")
         path = f"/data/splits/{city_slug}_{method}_split_{ymd}.json"
-        payload = {
-            "city_slug": city_slug,
-            "method": method,
-            "split_ts": split_ts,
-            "split_summary_json_path": path,
-        }
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"city_slug": city_slug, "method": method, "split_ts": split_ts, "split_summary_json_path": path})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "BuildSplitSummaryPath",
-                "description": "Builds canonical split_summary_json_path from city_slug, method, and split_ts.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "city_slug": {"type": "string"},
-                        "method": {"type": "string"},
-                        "split_ts": {"type": "string"},
-                    },
-                    "required": ["city_slug", "method", "split_ts"],
-                },
-            },
+            "type":"function",
+            "function":{
+                "name":"build_split_summary_path",
+                "description":"Builds canonical split_summary_json_path from city_slug, method, and split_ts.",
+                "parameters":{"type":"object","properties":{"city_slug":{"type":"string"},"method":{"type":"string"},"split_ts":{"type":"string"}},"required":["city_slug","method","split_ts"]}
+            }
         }

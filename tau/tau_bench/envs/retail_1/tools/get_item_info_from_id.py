@@ -1,45 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class GetItemInfoFromId(Tool):  #READ
+class GetItemInfoFromId(Tool): # READ
     @staticmethod
-    def invoke(data: dict[str, Any], item_id: str) -> str:
-        pass
-        products = data.get("products", {}).values()
-        for product in products.values():
+    def invoke(data: Dict[str, Any], item_id: str) -> str:
+        products = list(data.get("products", {}).values())
+        for product in products:
             if item_id in product["variants"]:
-                payload = product["variants"][item_id]
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Item not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(product["variants"][item_id])
+        return json.dumps({"error": "Item not found"})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getItemInfoFromId",
+                "name": "get_item_info_from_id",
                 "description": "Retrieve item information by item ID.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "item_id": {
-                            "type": "string",
-                            "description": "The ID of the item to retrieve information for.",
-                        }
+                        "item_id": {"type": "string", "description": "The ID of the item to retrieve information for."}
                     },
-                    "required": ["item_id"],
-                },
-            },
+                    "required": ["item_id"]
+                }
+            }
         }

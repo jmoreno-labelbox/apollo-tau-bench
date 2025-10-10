@@ -1,34 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class NotifyTeamOfReport(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], pdf_path: str = None, csv_path: str = None, report_date: Any = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        pdf_path = kwargs.get("pdf_path")
+        csv_path = kwargs.get("csv_path")
         recipient = "it-management-dl@company.com"
-        payload = {
-                "status": "notified",
-                "recipient": recipient,
-                "attachments": [pdf_path, csv_path],
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        return json.dumps({"status": "notified", "recipient": recipient, "attachments": [pdf_path, csv_path]}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "NotifyTeamOfReport",
-                "description": "Sends an email notification with the generated reports as attachments.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "pdf_path": {"type": "string"},
-                        "csv_path": {"type": "string"},
-                    },
-                    "required": ["pdf_path", "csv_path"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "notify_team_of_report", "description": "Sends an email notification with the generated reports as attachments.", "parameters": {"type": "object", "properties": {"pdf_path": {"type": "string"}, "csv_path": {"type": "string"}}, "required": ["pdf_path", "csv_path"]}}}

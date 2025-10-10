@@ -1,71 +1,57 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetBaseRoleByDepartment(Tool):
     """
-    Retrieve the foundational role ID for a specified department.
+    Get the base role ID for a given department.
 
     kwargs:
-      department: str (mandatory)
+      department: str (required)
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], department: str = "") -> str:
-        department = department.strip().lower()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        department = (kwargs.get("department", "") or "").strip().lower()
 
-        # Associate departments with foundational role names
+        # Map departments to base role names
         department_role_map = {
             "engineering": "engineering-base",
             "marketing": "marketing-base",
             "sales": "sales-base",
             "human resources": "hr-base",
             "operations": "operations-base",
-            "finance": "finance-base",
+            "finance": "finance-base"
         }
 
         role_name = department_role_map.get(department)
         if not role_name:
-            payload = {"error": f"No base role found for department '{department}'"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"No base role found for department '{department}'"})
 
-        # Identify the role
-        roles = data.get("roles", {}).values()
-        for role in roles.values():
+        # Find the role
+        roles = list(data.get("roles", {}).values())
+        for role in roles:
             if role.get("role_name") == role_name:
-                payload = {"role": role}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Base role '{role_name}' not found in roles"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"role": role})
+
+        return json.dumps({"error": f"Base role '{role_name}' not found in roles"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetBaseRoleByDepartment",
+                "name": "get_base_role_by_department",
                 "description": "Get the base role for a given department.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "department": {
-                            "type": "string",
-                            "description": "Department name.",
-                        }
+                        "department": {"type": "string", "description": "Department name."}
                     },
                     "required": ["department"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

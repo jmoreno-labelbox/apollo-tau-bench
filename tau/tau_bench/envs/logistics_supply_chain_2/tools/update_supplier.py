@@ -1,54 +1,39 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateSupplier(Tool):
-    """Utility for modifying supplier details."""
+    """Tool to update supplier information."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], supplier_id: str = None, updates: dict[str, Any] = None) -> str:
-        suppliers = data.get("supplier_master", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        supplier_id = kwargs.get("supplier_id")
+        updates = kwargs.get("updates")
+        suppliers = data.get("supplier_master", [])
 
-        for supplier in suppliers.values():
+        for supplier in suppliers:
             if supplier["supplier_id"] == supplier_id:
                 supplier.update(updates)
-                payload = {"success": f"supplier {supplier_id} updated"}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
-        payload = {"error": f"supplier_id {supplier_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps({"success": f"supplier {supplier_id} updated"}, indent=2)
+        return json.dumps({"error": f"supplier_id {supplier_id} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateSupplier",
+                "name": "update_supplier",
                 "description": "Update supplier by ID",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "supplier_id": {
-                            "type": "string",
-                            "description": "The supplier ID to update",
-                        },
-                        "updates": {
-                            "type": "object",
-                            "description": "Fields and values to update",
-                        },
+                        "supplier_id": {"type": "string", "description": "The supplier ID to update"},
+                        "updates": {"type": "object", "description": "Fields and values to update"}
                     },
-                    "required": ["supplier_id", "updates"],
-                },
-            },
+                    "required": ["supplier_id", "updates"]
+                }
+            }
         }

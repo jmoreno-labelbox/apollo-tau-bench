@@ -1,11 +1,14 @@
-from tau_bench.envs.tool import Tool
-import json
-from typing import Any
+# Copyright Sierra
 
-class EnrollInCourse(Tool):
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class enroll_in_course(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any], user_id: str, course_id: str, enroll_date: str
+        data: Dict[str, Any], user_id: str, course_id: str, enroll_date: str
     ) -> str:
         enrollment = {
             "user_id": user_id,
@@ -16,20 +19,16 @@ class EnrollInCourse(Tool):
             "current_progress_percent": 0,
         }
         data.setdefault("user_course_progress", []).append(enrollment)
-        payload = {"success": f"User {user_id} enrolled in course {course_id}"}
-        out = json.dumps(
-            payload, indent=2
+        return json.dumps(
+            {"success": f"User {user_id} enrolled in course {course_id}"}, indent=2
         )
-        return out
-
 
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "enrollInCourse",
+                "name": "enroll_in_course",
                 "description": "Enroll a user in a course",
                 "parameters": {
                     "type": "object",

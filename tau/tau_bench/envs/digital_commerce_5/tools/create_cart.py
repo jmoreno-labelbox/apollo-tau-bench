@@ -1,35 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateCart(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], cart_id: Any, contact_id: Any, created_at: Any
-    ) -> str:
-        cart_id = _as_id(cart_id)
+    def invoke(data: Dict[str, Any], contact_id: str, created_at: str) -> str:
+        carts = data.setdefault("carts", [])
+        nums = []
+        for c in carts:
+            existing = _as_id(c.get("cart_id"))
+            if existing is not None and str(existing).isdigit():
+                nums.append(int(existing))
+        next_id = (max(nums) + 1) if nums else 5001
+        cart_id = str(next_id)
+
         contact_id = _as_id(contact_id)
         if not cart_id or not contact_id or not created_at:
             return _err("cart_id, contact_id, created_at are required.")
         carts = data.setdefault("carts", [])
-        if any(_as_id(c.get("cart_id")) == cart_id for c in carts.values()):
+        if any(_as_id(c.get("cart_id")) == cart_id for c in carts):
             existing = next(c for c in carts if _as_id(c.get("cart_id")) == cart_id)
-            payload = existing
-            out = json.dumps(payload, indent=2)
-            return out
-        contacts = data.get("contacts", {}).values()
-        contact = next(
-            (c for c in contacts.values() if _as_id(c.get("contact_id")) == contact_id), None
-        )
+            return json.dumps(existing, indent=2)
+        contacts = data.get("contacts", [])
+        contact = next((c for c in contacts if _as_id(c.get("contact_id")) == contact_id), None)
         if not contact:
             return _err("Contact not found.")
         cart = {
@@ -40,27 +36,23 @@ class CreateCart(Tool):
             "override_pricebook_id": None,
             "last_updated_at": created_at,
         }
-        data["carts"][cart["cart_id"]] = cart
-        payload = cart
-        out = json.dumps(payload, indent=2)
-        return out
-            
+        carts.append(cart)
+        return json.dumps(cart, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateCart",
+                "name": "create_cart",
                 "description": "Create a cart for a contact at a deterministic timestamp.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "cart_id": {"type": "string"},
                         "contact_id": {"type": "string"},
                         "created_at": {"type": "string"},
                     },
-                    "required": ["cart_id", "contact_id", "created_at"],
+                    "required": ["contact_id", "created_at"],
                 },
             },
         }

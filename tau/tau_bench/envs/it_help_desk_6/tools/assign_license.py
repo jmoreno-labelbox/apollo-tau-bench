@@ -1,30 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AssignLicense(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         assignment_id: str,
         account_id: str,
         employee_id: str,
         license_id: str,
         assigned_at: str,
     ) -> str:
-        pass
         inv = _find_one(data["license_inventory"], license_id=license_id)
         if not inv:
-            payload = {"status": "error", "reason": "license_not_found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "license_not_found"})
         if inv["used_seats"] + inv["reserved_seats"] + 1 > inv["total_seats"]:
-            payload = {"status": "error", "reason": "no_capacity"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "no_capacity"})
 
-        #Alter the dictionary within the list directly
-        for item in data["license_inventory"].values():
+        # Directly modify the dictionary in the list
+        for item in data["license_inventory"]:
             if item["license_id"] == license_id:
                 item["used_seats"] += 1
                 break
@@ -38,16 +36,14 @@ class AssignLicense(Tool):
             "assigned_at": assigned_at,
         }
         _append_row(data["license_assignments"], row)
-        payload = {"status": "ok", "assignment": row, "inventory": inv}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "assignment": row, "inventory": inv})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AssignLicense",
+                "name": "assign_license",
                 "description": "Assign a license and increment used seats deterministically.",
                 "parameters": {
                     "type": "object",
@@ -58,13 +54,7 @@ class AssignLicense(Tool):
                         "license_id": {"type": "string"},
                         "assigned_at": {"type": "string"},
                     },
-                    "required": [
-                        "assignment_id",
-                        "account_id",
-                        "employee_id",
-                        "license_id",
-                        "assigned_at",
-                    ],
+                    "required": ["assignment_id", "account_id", "employee_id", "license_id", "assigned_at"],
                 },
             },
         }

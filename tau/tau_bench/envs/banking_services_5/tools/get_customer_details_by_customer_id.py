@@ -1,24 +1,16 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone, date, timedelta
-import calendar
-from typing import Any, Dict
-import random
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCustomerDetailsByCustomerId(Tool):
+    """Returns full customer record given a customer_id."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = "") -> str:
-        customer_id = customer_id.strip()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id", "").strip()
         if not customer_id:
             return json.dumps(
                 {"error": "customer_id is required."},
@@ -26,7 +18,7 @@ class GetCustomerDetailsByCustomerId(Tool):
             )
 
         customer = next(
-            (c for c in data.get("customers", {}).values()
+            (c for c in list(data.get("customers", {}).values())
              if c.get("customer_id") == customer_id),
             None
         )
@@ -37,12 +29,13 @@ class GetCustomerDetailsByCustomerId(Tool):
             )
 
         return json.dumps(customer, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCustomerDetailsByCustomerId",
+                "name": "get_customer_details_by_customer_id",
                 "description": "Fetches the complete customer record for the given customer_id.",
                 "parameters": {
                     "type": "object",

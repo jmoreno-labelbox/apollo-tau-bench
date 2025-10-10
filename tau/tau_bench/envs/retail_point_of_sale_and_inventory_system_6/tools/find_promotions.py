@@ -1,54 +1,39 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import OrderedDict, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class find_promotions(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        promotion_id: str = None,
-        type: str = None,
-        status: str = None,
-        name: str = None,
-        description: str = None,
-        has_sku: str = None
-    ) -> str:
-        promotions = data.get("promotions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        promotions = data.get("promotions", [])
 
-        # If customer id is provided, it will take precedence over all other criteria
+        # If customer id is sent, then it will override all other criteria
+        promotion_id = kwargs.get("promotion_id")
 
-        # These columns will match precisely with the provided value
+        # These columns will be matched exactly to the value sent
         exact_match_cols = ["type", "status"]
-        exact_match_values = {"type": type, "status": status}
+        exact_match_values = {k: kwargs.get(k) for k in exact_match_cols}
 
-        # These columns will match as long as the database field includes the provided value
+        # These columns will be matched as long as the database field contains the sent value
         approximate_match_cols = ["name", "description"]
-        approximate_match_values = {"name": name, "description": description}
+        approximate_match_values = {k: kwargs.get(k) for k in approximate_match_cols}
 
-        # These columns possess unique matching criteria
+        # These columns have special matching criteria
         special_match_cols = ["has_sku"]
-        special_match_values = {"has_sku": has_sku}
+        special_match_values = {k: kwargs.get(k) for k in special_match_cols}
 
         matches = []
         for promotion in promotions:
-            # customer_id is prioritized
+            # customer_id takes priority
             if (promotion_id is not None) and (
                 promotion["promotion_id"] == promotion_id
             ):
-                payload = promotion
-                out = json.dumps(payload, indent=2)
-                return out
+                return json.dumps(promotion, indent=2)
 
-            # Add to the return list if all provided criteria align
+            # If all sent criteria match, then add it to the return list
             elif (
                 all(
                     [
@@ -76,15 +61,15 @@ class find_promotions(Tool):
                 )
             ):
                 matches.append(promotion)
-        payload = matches
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(matches, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindPromotions",
+                "name": "find_promotions",
                 "description": "Finds promotions matching the sent criteria. Returns an empty list if there are none",
                 "parameters": {
                     "type": "object",

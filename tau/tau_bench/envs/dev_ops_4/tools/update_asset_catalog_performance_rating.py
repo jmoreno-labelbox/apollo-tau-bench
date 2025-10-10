@@ -1,54 +1,42 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateAssetCatalogPerformanceRating(Tool):
-    """Revise performance_rating for an asset within the asset_catalog."""
-
+    """Update performance_rating for an asset in the asset_catalog."""
     @staticmethod
-    def invoke(data: dict[str, Any], asset_path: str = None, performance_rating: str = None) -> str:
-        rows = data.get("asset_catalog", {}).values()
-        idx = next(
-            (i for i, r in enumerate(rows) if r.get("asset_path") == asset_path), None
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        asset_path = kwargs.get("asset_path")
+        performance_rating = kwargs.get("performance_rating")
+        rows = data.get("asset_catalog", [])
+        idx = next((i for i, r in enumerate(rows) if r.get("asset_path") == asset_path), None)
         if idx is None:
-            payload = {"asset_catalog": None}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"asset_catalog": None}, indent=2)
         row = rows[idx]
         row["performance_rating"] = performance_rating
         row["validation_status"] = row.get("validation_status", "failed")
         row["updated_at"] = "2025-01-27T13:35:00Z"
         row["validation_date"] = "2025-01-27T13:35:00Z"
         rows[idx] = row
-        payload = {"asset_catalog": row}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"asset_catalog": row}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateAssetCatalogPerformanceRating",
+                "name": "update_asset_catalog_performance_rating",
                 "description": "Set performance_rating for the given asset_path.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "asset_path": {"type": "string"},
-                        "performance_rating": {
-                            "type": "string",
-                            "enum": ["low", "medium", "high"],
-                        },
+                        "performance_rating": {"type": "string", "enum": ["low", "medium", "high"]}
                     },
-                    "required": ["asset_path", "performance_rating"],
-                },
-            },
+                    "required": ["asset_path", "performance_rating"]
+                }
+            }
         }

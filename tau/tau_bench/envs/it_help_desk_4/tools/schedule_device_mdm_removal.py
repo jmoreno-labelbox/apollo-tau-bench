@@ -1,33 +1,17 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ScheduleDeviceMDMRemoval(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], asset_id: str = None, last_day: str = None) -> str:
-        payload = {
-            "asset_id": asset_id,
-            "removal_scheduled_for": last_day,
-            "status": "pending_removal",
-        }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        asset_id = kwargs.get("asset_id")
+        last_day = kwargs.get("last_day")
+        return json.dumps({"asset_id": asset_id, "removal_scheduled_for": last_day, "status": "pending_removal"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "scheduleDeviceMdmRemoval",
-                "description": "Schedules a device for removal from MDM on a specific date.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "asset_id": {"type": "string"},
-                        "last_day": {"type": "string"},
-                    },
-                    "required": ["asset_id", "last_day"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "schedule_device_mdm_removal", "description": "Schedules a device for removal from MDM on a specific date.", "parameters": {"type": "object", "properties": {"asset_id": {"type": "string"}, "last_day": {"type": "string"}}, "required": ["asset_id", "last_day"]}}}

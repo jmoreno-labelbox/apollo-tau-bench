@@ -1,40 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class get_compensation_records(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None) -> str:
-        if not find_employee(data.get("employees", {}).values(), employee_id):
-            payload = {"error": f"employee_id {employee_id} not found"}
-            out = json.dumps(
-                payload, indent=2
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        if not find_employee(list(data.get("employees", {}).values()), employee_id):
+            return json.dumps(
+                {"error": f"employee_id {employee_id} not found"}, indent=2
             )
-            return out
 
         records = [
             c
-            for c in data.get("compensation_records", {}).values()
+            for c in data.get("compensation_records", [])
             if c.get("employee_id") == employee_id
         ]
-        payload = records
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(records, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCompensationRecords",
+                "name": "get_compensation_records",
                 "description": "Retrieve all historical compensation records for an employee.",
                 "parameters": {
                     "type": "object",

@@ -1,19 +1,16 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ValidateCourseSkillMapping(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], course_id: str = None, skill_name: str = None) -> str:
-        courses = data.get("course_catalog", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        course_id = kwargs.get("course_id")
+        skill_name = kwargs.get("skill_name")
+        courses = data.get("course_catalog", [])
 
         course = None
         for c in courses:
@@ -22,45 +19,44 @@ class ValidateCourseSkillMapping(Tool):
                 break
 
         if not course:
-            payload = {"valid": False, "error": "Course not found", "course_id": course_id}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"valid": False, "error": "Course not found", "course_id": course_id},
+                indent=2,
             )
-            return out
 
-        # Verify whether the course includes the skill
+        # Check if skill is covered by the course
         skills_covered = []
         for skill_imparted in course.get("skills_imparted", []):
             skills_covered.append(skill_imparted.get("skill", ""))
 
         if skill_name in skills_covered:
-            payload = {
+            return json.dumps(
+                {
                     "valid": True,
                     "course_id": course_id,
                     "skill_name": skill_name,
                     "course_name": course.get("name", ""),
-                }
-            out = json.dumps(
-                payload, indent=2,
+                },
+                indent=2,
             )
-            return out
-        payload = {
+
+        return json.dumps(
+            {
                 "valid": False,
                 "error": "Skill not covered by course",
                 "course_id": course_id,
                 "skill_name": skill_name,
                 "skills_covered": skills_covered,
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ValidateCourseSkillMapping",
+                "name": "validate_course_skill_mapping",
                 "description": "Validates that a course covers a specific skill.",
                 "parameters": {
                     "type": "object",

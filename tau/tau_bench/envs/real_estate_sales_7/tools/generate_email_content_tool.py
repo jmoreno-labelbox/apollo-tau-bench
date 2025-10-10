@@ -1,43 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GenerateEmailContentTool(Tool):
-    """Creates HTML content for emails."""
+    """Generates HTML email content."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        template_code: str = None,
-        recipient_data: dict[str, Any] = None,
-        context_data: dict[str, Any] = None,
-        attachments: list = None
-    ) -> str:
-        recipient_data = recipient_data or {}
-        context_data = context_data or {}
-        attachments = attachments or []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        template_code = kwargs.get("template_code")
+        recipient_data = kwargs.get("recipient_data") or {}
+        context_data = kwargs.get("context_data") or {}
+        attachments = kwargs.get("attachments") or []
 
         if not template_code:
             return _err("template_code is required")
 
-        # Deterministic content URI generated from template_code
+        # Deterministic content URI based on template_code
         rid = recipient_data.get("client_id") or "000"
         if isinstance(rid, int) or (isinstance(rid, str) and rid.isdigit()):
             client_id = int(rid)
         else:
-            client_id = 15  # Standard fallback
+            client_id = 15  # Default fallback
 
-        # URI generation specific to the template
+        # Template-specific URI generation
         if template_code == "open_house_summary":
             uri = f"https://storage.example.com/emails/email_openhouse_{client_id:03d}.html"
         elif template_code == "comp_report_delivery":
@@ -79,7 +67,7 @@ class GenerateEmailContentTool(Tool):
         else:
             uri = f"https://storage.example.com/emails/email_comp_{client_id:03d}.html"
 
-        # Establish subject line according to the template
+        # Set subject line based on template
         property_id = context_data.get("subject_property_id", "HTX003")
         date = context_data.get("date", "2025-09-15")
 
@@ -100,12 +88,12 @@ class GenerateEmailContentTool(Tool):
             )
         elif template_code == "briefing_followup":
             subject_line = (
-                context_data.get("subject_line") or "Follow-up on Your Client Briefing"
+                context_data.get("subject_line") or f"Follow-up on Your Client Briefing"
             )
         elif template_code == "briefing_delivery":
             subject_line = (
                 context_data.get("subject_line")
-                or "Your Property Market Briefing is Ready"
+                or f"Your Property Market Briefing is Ready"
             )
         elif template_code == "first_time_buyer":
             subject_line = (
@@ -114,13 +102,13 @@ class GenerateEmailContentTool(Tool):
             )
         elif template_code == "general_update":
             subject_line = (
-                context_data.get("subject_line") or "Real Estate Market Update"
+                context_data.get("subject_line") or f"Real Estate Market Update"
             )
         elif template_code == "market_update":
-            subject_line = context_data.get("subject_line") or "Your Market Update"
+            subject_line = context_data.get("subject_line") or f"Your Market Update"
         elif template_code == "investment_alert":
             subject_line = (
-                context_data.get("subject_line") or "Investment Opportunity Alert"
+                context_data.get("subject_line") or f"Investment Opportunity Alert"
             )
         elif template_code == "listing_summary":
             subject_line = (
@@ -130,22 +118,22 @@ class GenerateEmailContentTool(Tool):
         elif template_code == "welcome_new_client":
             subject_line = (
                 context_data.get("subject_line")
-                or "Welcome to Our Real Estate Services"
+                or f"Welcome to Our Real Estate Services"
             )
         elif template_code == "post_closing_checkin":
             subject_line = (
                 context_data.get("subject_line")
-                or "Post-Closing Check-CO and Next Steps"
+                or f"Post-Closing Check-in and Next Steps"
             )
         elif template_code == "next_steps":
             subject_line = (
                 context_data.get("subject_line")
-                or "Next Steps in Your Real Estate Journey"
+                or f"Next Steps in Your Real Estate Journey"
             )
         elif template_code == "follow_up":
             subject_line = (
                 context_data.get("subject_line")
-                or "Following Up on Your Real Estate Needs"
+                or f"Following Up on Your Real Estate Needs"
             )
         else:
             subject_line = (
@@ -160,15 +148,14 @@ class GenerateEmailContentTool(Tool):
             "subject_line": subject_line,
             "attachment_count": int(len(attachments)),
         }
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "generateEmailContent",
+                "name": "generate_email_content",
                 "description": "Generate HTML email content and return its URI.",
                 "parameters": {
                     "type": "object",

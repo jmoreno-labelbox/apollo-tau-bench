@@ -1,28 +1,13 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AssignCourier(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        destination_country: str,
-        order_value: float = None,
-        order_values: list[float] = None,
-        location: dict[str, str] = None,
-        tracking_ids: list[str] = None,
-        courier_id: str = None,
-        order_id: Any = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], destination_country: str, order_value: float = None, order_values: List[float] = None, location: Dict[str, str] = None, tracking_ids: List[str] = None, **kwargs) -> str:
         """
         Assign appropriate courier for order delivery based on coverage and requirements
         Supports both single order value and multiple order values for batch processing
@@ -32,20 +17,16 @@ class AssignCourier(Tool):
         """
         # Validate input parameters
         if order_value is not None and order_values is not None:
-            payload = {
+            return json.dumps({
                 "error": "Cannot specify both order_value and order_values. Use one or the other.",
-                "status": "failed",
-            }
-            out = json.dumps(payload)
-            return out
+                "status": "failed"
+            })
 
         if order_value is None and order_values is None:
-            payload = {
+            return json.dumps({
                 "error": "Either order_value or order_values must be provided",
-                "status": "failed",
-            }
-            out = json.dumps(payload)
-            return out
+                "status": "failed"
+            })
 
         # Validate tracking_ids parameter if provided
         if tracking_ids is not None:
@@ -58,68 +39,60 @@ class AssignCourier(Tool):
                 if len(set(tracking_ids)) == 1:
                     single_tracking_id = tracking_ids[0]
                 else:
-                    payload = {
+                    return json.dumps({
                         "error": "For single tracking ID mode, all tracking_ids must be the same or provide only one tracking_id",
-                        "status": "failed",
-                    }
-                    out = json.dumps(payload)
-                    return out
+                        "status": "failed"
+                    })
             else:
-                payload = {
+                return json.dumps({
                     "error": "tracking_ids cannot be empty if provided",
-                    "status": "failed",
-                }
-                out = json.dumps(payload)
-                return out
+                    "status": "failed"
+                })
 
         # Build list of order values to process
         values_to_process = []
         if order_value is not None:
             if order_value < 0:
-                payload = {"error": "Order value cannot be negative", "status": "failed"}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({
+                    "error": "Order value cannot be negative",
+                    "status": "failed"
+                })
             values_to_process.append(order_value)
 
         if order_values is not None:
             if not order_values:
-                payload = {"error": "Order values list cannot be empty", "status": "failed"}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({
+                    "error": "Order values list cannot be empty",
+                    "status": "failed"
+                })
             for i, value in enumerate(order_values):
                 if not isinstance(value, (int, float)) or value < 0:
-                    payload = {
+                    return json.dumps({
                         "error": f"Order value at index {i} must be a non-negative number: {value}",
-                        "status": "failed",
-                    }
-                    out = json.dumps(payload)
-                    return out
+                        "status": "failed"
+                    })
             values_to_process = order_values
 
         # Rule: Assign couriers only if destination country matches their coverage areas
-        couriers = data.get("couriers", {}).values()
+        couriers = data.get("couriers", [])
         eligible_couriers = []
 
-        for courier in couriers.values():
+        for courier in couriers:
             coverage_area = courier.get("coverage_area", [])
             if destination_country in coverage_area:
-                eligible_data["couriers"][courier_id] = courier
+                eligible_couriers.append(courier)
 
         if not eligible_couriers:
-            payload = {
+            return json.dumps({
                 "error": f"No couriers available for destination country: {destination_country}",
-                "status": "failed",
-            }
-            out = json.dumps(payload)
-            return out
+                "status": "failed"
+            })
 
         # Select courier based on preference or use automatic selection
         selected_courier = eligible_couriers[0]  # Simple selection logic
-        if courier_id is not None:
-            selected_courier = next(
-                (c for c in eligible_couriers if c.get("courier_id") == courier_id),
-                selected_courier,
-            )
+        if "courier_id" in kwargs:
+            courier_id = kwargs["courier_id"]
+            selected_courier = next((c for c in eligible_couriers if c.get("courier_id") == courier_id), selected_courier)
 
         # Get courier's tracking pool for fallback generation
         tracking_ids_pool = selected_courier.get("tracking_ids", [])
@@ -129,17 +102,13 @@ class AssignCourier(Tool):
         if location:
             # Validate location has required fields
             required_location_fields = ["city", "country"]
-            missing_fields = [
-                field for field in required_location_fields if not location.get(field)
-            ]
+            missing_fields = [field for field in required_location_fields if not location.get(field)]
 
             if missing_fields:
-                payload = {
+                return json.dumps({
                     "error": f"Location missing required fields: {', '.join(missing_fields)}",
-                    "status": "failed",
-                }
-                out = json.dumps(payload)
-                return out
+                    "status": "failed"
+                })
 
             delivery_location = {
                 "address1": location.get("address1", ""),
@@ -147,17 +116,15 @@ class AssignCourier(Tool):
                 "city": location.get("city"),
                 "state": location.get("state", ""),
                 "zip": location.get("zip", ""),
-                "country": location.get("country"),
+                "country": location.get("country")
             }
 
             # Verify location country matches destination_country parameter
             if delivery_location["country"] != destination_country:
-                payload = {
+                return json.dumps({
                     "error": f"Location country '{delivery_location['country']}' does not match destination_country '{destination_country}'",
-                    "status": "failed",
-                }
-                out = json.dumps(payload)
-                return out
+                    "status": "failed"
+                })
 
         # Generate single tracking ID for all orders (whether single or multiple)
         batch_mode = len(values_to_process) > 1
@@ -171,19 +138,13 @@ class AssignCourier(Tool):
             if batch_mode:
                 # For multiple orders, create a batch tracking ID
                 batch_identifier = f"BATCH{len(values_to_process):02d}"
-                courier_code = (
-                    selected_courier.get("courier_id", "")
-                    .replace("#", "")
-                    .replace("COU", "C")
-                )
+                courier_code = selected_courier.get("courier_id", "").replace("#", "").replace("COU", "C")
                 assigned_tracking_id = f"TRK{batch_identifier}{courier_code}"
             else:
                 # For single order, use standard generation with single tracking
-                base_tracking_id = (
-                    tracking_ids_pool[0] if tracking_ids_pool else "TRK001"
-                )
+                base_tracking_id = tracking_ids_pool[0] if tracking_ids_pool else "TRK001"
                 total_value = values_to_process[0]
-                assigned_tracking_id = f"{base_tracking_id}-{total_value}"
+                assigned_tracking_id = f'{base_tracking_id}-{total_value}'
             tracking_source = "courier_pool_generated"
 
         # Process each order value with the same tracking ID
@@ -197,15 +158,13 @@ class AssignCourier(Tool):
             if requires_insurance:
                 high_value_orders += 1
 
-            courier_assignments.append(
-                {
-                    "order_index": i + 1 if batch_mode else None,
-                    "order_value": current_order_value,
-                    "assigned_tracking_id": assigned_tracking_id,  # Same tracking ID for all
-                    "tracking_source": tracking_source,
-                    "requires_insurance": requires_insurance,
-                }
-            )
+            courier_assignments.append({
+                "order_index": i + 1 if batch_mode else None,
+                "order_value": current_order_value,
+                "assigned_tracking_id": assigned_tracking_id,  # Same tracking ID for all
+                "tracking_source": tracking_source,
+                "requires_insurance": requires_insurance,
+            })
 
         # Calculate batch metrics
         batch_metrics = {
@@ -216,7 +175,7 @@ class AssignCourier(Tool):
             "min_order_value": min(values_to_process),
             "max_order_value": max(values_to_process),
             "single_tracking_id_used": True,
-            "tracking_id_sharing": True,  # Always true now since we always use single tracking
+            "tracking_id_sharing": True  # Always true now since we always use single tracking
         }
 
         result = {
@@ -227,88 +186,70 @@ class AssignCourier(Tool):
                 "courier_name": selected_courier.get("name"),
                 "contact_info": selected_courier.get("contact_info"),
                 "destination_country": destination_country,
-                "delivery_location": delivery_location,
+                "delivery_location": delivery_location
             },
             "tracking_configuration": {
                 "single_tracking_id": assigned_tracking_id,
                 "shared_across_orders": True,  # Always true now
                 "tracking_source": tracking_source,
                 "custom_tracking_provided": tracking_ids is not None,
-                "courier_tracking_pool_size": len(tracking_ids_pool),
+                "courier_tracking_pool_size": len(tracking_ids_pool)
             },
             "batch_metrics": batch_metrics,
             "order_assignments": courier_assignments,
             "processing_summary": {
                 "total_assignments": len(courier_assignments),
                 "high_value_assignments": high_value_orders,
-            },
+            }
         }
-        payload = result
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(result)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AssignCourier",
+                "name": "assign_courier",
                 "description": "Assign courier for order delivery based on destination and order requirements. Supports both single order value and batch processing with multiple order values. Always uses a single tracking ID for all orders (whether single or multiple).",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "destination_country": {
-                            "type": "string",
-                            "description": "Destination country for delivery",
-                        },
-                        "order_value": {
-                            "type": "number",
-                            "description": "Single order value in dollars. Cannot be used with order_values. Uses single tracking ID.",
-                        },
+                        "destination_country": {"type": "string", "description": "Destination country for delivery"},
+                        "order_value": {"type": "number", "description": "Single order value in dollars. Cannot be used with order_values. Uses single tracking ID."},
                         "order_values": {
                             "type": "array",
                             "items": {"type": "number"},
-                            "description": "Array of order values in dollars for batch processing. Cannot be used with order_value. All orders will share a single tracking ID.",
+                            "description": "Array of order values in dollars for batch processing. Cannot be used with order_value. All orders will share a single tracking ID."
                         },
                         "location": {
                             "type": "object",
                             "properties": {
-                                "address1": {
-                                    "type": "string",
-                                    "description": "Primary street address",
-                                },
-                                "address2": {
-                                    "type": "string",
-                                    "description": "Secondary address line (apartment, suite, etc.)",
-                                },
+                                "address1": {"type": "string", "description": "Primary street address"},
+                                "address2": {"type": "string", "description": "Secondary address line (apartment, suite, etc.)"},
                                 "city": {"type": "string", "description": "City name"},
-                                "state": {
-                                    "type": "string",
-                                    "description": "State or province",
-                                },
-                                "zip": {
-                                    "type": "string",
-                                    "description": "ZIP or postal code",
-                                },
-                                "country": {
-                                    "type": "string",
-                                    "description": "Country name",
-                                },
+                                "state": {"type": "string", "description": "State or province"},
+                                "zip": {"type": "string", "description": "ZIP or postal code"},
+                                "country": {"type": "string", "description": "Country name"}
                             },
                             "required": ["city", "country"],
-                            "description": "Optional detailed delivery address information",
+                            "description": "Optional detailed delivery address information"
                         },
                         "tracking_ids": {
                             "type": "array",
                             "items": {"type": "string"},
-                            "description": "Optional single tracking ID for all orders. Provide either one tracking ID (which will be used for all orders) or the same tracking ID repeated. Can be used with both single order and multiple orders.",
+                            "description": "Optional single tracking ID for all orders. Provide either one tracking ID (which will be used for all orders) or the same tracking ID repeated. Can be used with both single order and multiple orders."
                         },
                         "courier_id": {
                             "type": "string",
-                            "description": "Optional specific courier ID to assign, if known",
-                        },
+                            "description": "Optional specific courier ID to assign, if known"
+                        }
                     },
                     "required": ["destination_country"],
-},
-            },
+                    "anyOf": [
+                        {"required": ["order_value"]},
+                        {"required": ["order_values"]}
+                    ]
+                }
+            }
         }

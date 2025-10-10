@@ -1,22 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GenerateBriefingDoc(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], client_id: str = None, broker_id: str = None,
-        property_id: Any = None,
-        doc_type: Any = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        client_id = kwargs.get('client_id')
+        broker_id = kwargs.get('broker_id')
+        
         if not all([client_id, broker_id]):
-            payload = {"error": "client_id and broker_id are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-
+            return json.dumps({
+                "error": "client_id and broker_id are required"
+            }, indent=2)
+        
         import time
-
         timestamp = str(int(time.time() * 1000))
         document_id = f"DOC-{client_id}-{timestamp}"
         document = {
@@ -27,38 +27,36 @@ class GenerateBriefingDoc(Tool):
             "title": f"Client Briefing - Client {client_id}",
             "file_path": f"https://storage.example.com/briefings/client_{client_id}_briefing.pdf",
             "status": "generated",
-            "created_at": "2024-08-21T00:00:00Z",
+            "created_at": "2024-08-21T00:00:00Z"
         }
-        payload = {
-                "success": True,
-                "document_id": document_id,
-                "message": f"Briefing document generated for client {client_id}",
-                "document": document,
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        
+        return json.dumps({
+            "success": True,
+            "document_id": document_id,
+            "message": f"Briefing document generated for client {client_id}",
+            "document": document
+        }, indent=2)
+    
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GenerateBriefingDoc",
+                "name": "generate_briefing_doc",
                 "description": "Generate a briefing document for a client",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "client_id": {
                             "type": "integer",
-                            "description": "Client ID to generate briefing for",
+                            "description": "Client ID to generate briefing for"
                         },
                         "broker_id": {
                             "type": "integer",
-                            "description": "Broker ID generating the briefing",
-                        },
+                            "description": "Broker ID generating the briefing"
+                        }
                     },
-                    "required": ["client_id", "broker_id"],
-                },
-            },
+                    "required": ["client_id", "broker_id"]
+                }
+            }
         }

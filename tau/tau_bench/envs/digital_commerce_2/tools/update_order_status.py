@@ -1,45 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
-from decimal import ROUND_HALF_UP, Decimal
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateOrderStatus(Tool):
+    """Update the status of an existing order."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: Any, new_status: Any) -> str:
+    def invoke(data: Dict[str, Any], order_id: Any, new_status: Any) -> str:
         order_id = _idstr(order_id)
-        orders = data.get("orders", {}).values()
-        for order in orders.values():
+        orders = list(data.get("orders", {}).values())
+        for order in orders:
             if order.get("order_id") == order_id:
                 order["status"] = new_status
-                payload = order
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"No order found with ID '{order_id}'"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(order, indent=2)
+
+        return json.dumps({"error": f"No order found with ID '{order_id}'"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateOrderStatus",
+                "name": "update_order_status",
                 "description": "Update the status of an existing order.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "order_id": {
-                            "type": "string",
-                            "description": "Exact order ID to update.",
-                        },
+                        "order_id": {"type": "string", "description": "Exact order ID to update."},
                         "new_status": {
                             "type": "string",
                             "description": "New status to set for the order (e.g., Processing, Shipped, Delivered).",

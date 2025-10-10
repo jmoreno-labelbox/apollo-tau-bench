@@ -1,75 +1,45 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpdateInventoryQuantity(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], household_id: int, ingredient_id: int, delta: float
-    ) -> str:
-        inv = _get_table(data, "inventory_items")
+    def invoke(data: Dict[str, Any], household_id: int, ingredient_id: int, delta: float) -> str:
+        tbl = _tbl(data, "inventory_items")
         row = next(
             (
-                x
-                for x in inv
-                if x.get("household_id") == household_id
-                and x.get("ingredient_id") == ingredient_id
+                i
+                for i in tbl
+                if int(i.get("household_id")) == int(household_id)
+                and int(i.get("ingredient_id")) == int(ingredient_id)
             ),
             None,
         )
-        if not row:
+        if row is None:
+            next_id = _max_id(tbl, "inv_item_id", 7000) + 1
+            qty = float(delta)
             row = {
-                "inv_item_id": _max_int(inv, "inv_item_id", 0) + 1,
-                "household_id": household_id,
-                "ingredient_id": ingredient_id,
-                "quantity": 0,
-                "unit": None,
-                "location_enum": None,
-                "best_by_date": None,
+                "inv_item_id": next_id,
+                "household_id": int(household_id),
+                "ingredient_id": int(ingredient_id),
+                "quantity": qty,
             }
-            inv.append(row)
-        q = float(row.get("quantity") or 0)
-        q = max(0.0, q + float(delta))
-        row["quantity"] = q
-        payload = {"ingredient_id": ingredient_id, "quantity": q}
-        out = json.dumps(payload, indent=2)
-        return out
-        pass
-        inv = _get_table(data, "inventory_items")
-        row = next(
-            (
-                x
-                for x in inv
-                if x.get("household_id") == household_id
-                and x.get("ingredient_id") == ingredient_id
-            ),
-            None,
-        )
-        if not row:
-            row = {
-                "inv_item_id": _max_int(inv, "inv_item_id", 0) + 1,
-                "household_id": household_id,
-                "ingredient_id": ingredient_id,
-                "quantity": 0,
-                "unit": None,
-                "location_enum": None,
-                "best_by_date": None,
-            }
-            inv.append(row)
-        q = float(row.get("quantity") or 0)
-        q = max(0.0, q + float(delta))
-        row["quantity"] = q
-        payload = {"ingredient_id": ingredient_id, "quantity": q}
-        out = json.dumps(payload, indent=2)
-        return out
+            tbl.append(row)
+            return _json({"inv_item_id": next_id, "quantity": qty})
+        qty = float(row.get("quantity", 0)) + float(delta)
+        row["quantity"] = qty
+        return _json({"inv_item_id": int(row.get("inv_item_id")), "quantity": qty})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateInventoryQuantity",
-                "description": "Adjusts inventory quantity by delta with floor at zero.",
+                "name": "update_inventory_quantity",
+                "description": "Apply delta to inventory; create if missing.",
                 "parameters": {
                     "type": "object",
                     "properties": {

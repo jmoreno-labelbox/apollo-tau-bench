@@ -1,89 +1,58 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import random
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateInventoryDamageStatus(Tool):
-    """Modifies the inventory count to transfer a quantity of units from 'available' to 'damaged'."""
-
+    """Updates the inventory count to move a number of units from 'available' to 'damaged'."""
     @staticmethod
-    def invoke(data: dict[str, Any], inventory_id: str = None, damaged_quantity: int = None) -> str:
-        if not all([inventory_id, damaged_quantity]):
-            payload = {"error": "inventory_id and damaged_quantity are required."}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        inventory_id = kwargs.get('inventory_id')
+        damaged_quantity = kwargs.get('damaged_quantity')
 
-        inventory_record = next(
-            (
-                i
-                for i in data.get("inventory", {}).values()
-                if i.get("inventory_id") == inventory_id
-            ),
-            None,
-        )
+        if not all([inventory_id, damaged_quantity]):
+            return json.dumps({"error": "inventory_id and damaged_quantity are required."}, indent=2)
+
+        inventory_record = next((i for i in list(data.get('inventory', {}).values()) if i.get('inventory_id') == inventory_id), None)
 
         if not inventory_record:
-            payload = {"error": f"Inventory record '{inventory_id}' not found."}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"Inventory record '{inventory_id}' not found."}, indent=2)
 
         if damaged_quantity > 0:
-            if damaged_quantity > inventory_record.get("quantity_available", 0):
-                payload = {
-                        "error": f"Cannot mark {damaged_quantity} as damaged, only {inventory_record.get('quantity_available')} are available."
-                    }
-                out = json.dumps(
-                    payload, indent=2,
-                )
-                return out
-            inventory_record["quantity_available"] -= damaged_quantity
-            inventory_record["quantity_damaged"] += damaged_quantity
+            if damaged_quantity > inventory_record.get('quantity_available', 0):
+                return json.dumps({"error": f"Cannot mark {damaged_quantity} as damaged, only {inventory_record.get('quantity_available')} are available."}, indent=2)
+            inventory_record['quantity_available'] -= damaged_quantity
+            inventory_record['quantity_damaged'] += damaged_quantity
         elif damaged_quantity < 0:
             abs_damaged_quantity = abs(damaged_quantity)
 
-            inventory_record["quantity_available"] += abs_damaged_quantity
+            inventory_record['quantity_available'] += abs_damaged_quantity
 
-            if abs_damaged_quantity > inventory_record.get("quantity_damaged", 0):
-                inventory_record["quantity_damaged"] = 0
+            if abs_damaged_quantity > inventory_record.get('quantity_damaged', 0):
+                inventory_record['quantity_damaged'] = 0
             else:
-                inventory_record["quantity_damaged"] -= abs_damaged_quantity
+                inventory_record['quantity_damaged'] -= abs_damaged_quantity
         else:
             pass
-        payload = inventory_record
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(inventory_record, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateInventoryDamageStatus",
+                "name": "update_inventory_damage_status",
                 "description": "Updates an inventory record to reflect damaged goods by moving a quantity from 'available' to 'damaged'.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "inventory_id": {
-                            "type": "string",
-                            "description": "The ID of the inventory record to update.",
-                        },
-                        "damaged_quantity": {
-                            "type": "integer",
-                            "description": "The number of units to mark as damaged.",
-                        },
+                        "inventory_id": {"type": "string", "description": "The ID of the inventory record to update."},
+                        "damaged_quantity": {"type": "integer", "description": "The number of units to mark as damaged."}
                     },
-                    "required": ["inventory_id", "damaged_quantity"],
-                },
-            },
+                    "required": ["inventory_id", "damaged_quantity"]
+                }
+            }
         }

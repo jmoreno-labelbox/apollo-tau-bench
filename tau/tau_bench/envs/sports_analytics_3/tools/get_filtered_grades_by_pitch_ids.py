@@ -1,19 +1,14 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetFilteredGradesByPitchIds(Tool):
     """
-    Retrieve execution grade records for a collection of pitch IDs, then EXCLUDE any rows
-    whose execution_grade matches the provided grades list.
+    Fetch execution grade records for a list of pitch IDs, then EXCLUDE any rows
+    whose execution_grade is in the provided grades list.
 
     Inputs (exact names; case-sensitive):
       - pitch_ids (List[int]) : Non-empty list of pitch IDs to search.
@@ -21,78 +16,69 @@ class GetFilteredGradesByPitchIds(Tool):
                                 (exact, case-sensitive match, e.g., ["C", "D", "F"]).
 
     Behavior:
-      - Looks up all rows where rec.pitch_id is in pitch_ids.
-      - Excludes rows where rec.execution_grade is in grades.
-      - Returns results sorted deterministically by (pitch_id in ascending order, grade_id in ascending order).
-      - If no rows match the pitch_ids, returns a structured error.
-      - If rows match pitch_ids but all are excluded by grades, returns a structured error.
+      - Looks up all rows where rec.pitch_id ∈ pitch_ids.
+      - Filters OUT rows where rec.execution_grade ∈ grades.
+      - Returns results sorted deterministically by (pitch_id ASC, grade_id ASC).
+      - If no rows match the pitch_ids at all, returns a structured error.
+      - If rows match pitch_ids but all are filtered out by grades, returns a structured error.
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], pitch_ids: list[int] = None, grades_to_exclude: list[str] = None,
-    grades: Any = None,
-    ) -> str:
-        #---- 1) Confirm inputs
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        # ---- 1) Validate inputs
+        pitch_ids = kwargs.get("pitch_ids")
+        grades_to_exclude = kwargs.get("grades")
+
         if not isinstance(pitch_ids, list) or len(pitch_ids) == 0:
-            payload = {
-                    "error": "Missing required field: pitch_ids (non-empty list of integers)"
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": "Missing required field: pitch_ids (non-empty list of integers)"},
+                indent=2
             )
-            return out
         if not isinstance(grades_to_exclude, list) or len(grades_to_exclude) == 0:
-            payload = {
-                    "error": "Missing required field: grades (non-empty list of strings to EXCLUDE)"
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": "Missing required field: grades (non-empty list of strings to EXCLUDE)"},
+                indent=2
             )
-            return out
 
-        #---- 2) Retrieve DB
-        grades: list[dict[str, Any]] = data.get("pitch_execution_grades", {}).values()
+        # ---- 2) Get DB
+        grades: List[Dict[str, Any]] = data.get("pitch_execution_grades", [])
 
-        #---- 3) Gather matches based on pitch_ids
+        # ---- 3) Collect matches by pitch_ids
         id_set = set(pitch_ids)
-        initial = [rec for rec in grades.values() if rec.get("pitch_id") in id_set]
+        initial = [rec for rec in grades if rec.get("pitch_id") in id_set]
 
         if not initial:
-            payload = {"error": f"No grades found for pitch_ids {pitch_ids}"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": f"No grades found for pitch_ids {pitch_ids}"},
+                indent=2
             )
-            return out
 
-        #---- 4) Exclude records where execution_grade matches grades_to_exclude (exact, case-sensitive)
+        # ---- 4) Filter OUT records whose execution_grade is in grades_to_exclude (exact, case-sensitive)
         excl_set = set(grades_to_exclude)
-        filtered = [rec for rec in initial.values() if rec.get("execution_grade") in excl_set]
+        filtered = [rec for rec in initial if rec.get("execution_grade") in excl_set]
 
         if not filtered:
-            payload = {
+            return json.dumps(
+                {
                     "error": (
                         "All grades were filtered out. No remaining records after excluding "
                         f"{sorted(excl_set)} for pitch_ids {pitch_ids}"
                     )
-                }
-            out = json.dumps(
-                payload, indent=2,
+                },
+                indent=2
             )
-            return out
 
-        #---- 5) Sort deterministically: pitch_id ASC, grade_id ASC
-        filtered.sort(
-            key=lambda r: (int(r.get("pitch_id", 0)), int(r.get("grade_id", 0)))
-        )
-        payload = filtered
-        out = json.dumps(payload, indent=2)
-        return out
+        # ---- 5) Deterministic sort: pitch_id ASC, grade_id ASC
+        filtered.sort(key=lambda r: (int(r.get("pitch_id", 0)), int(r.get("grade_id", 0))))
+
+        return json.dumps(filtered, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetFilteredGradesByPitchIds",
+                "name": "get_filtered_grades_by_pitch_ids",
                 "description": "Fetch execution grade records for given pitch IDs and EXCLUDE rows whose execution_grade matches any provided grade.",
                 "parameters": {
                     "type": "object",
@@ -100,15 +86,15 @@ class GetFilteredGradesByPitchIds(Tool):
                         "pitch_ids": {
                             "type": "array",
                             "items": {"type": "integer"},
-                            "description": "Non-empty list of pitch IDs to retrieve grades for.",
+                            "description": "Non-empty list of pitch IDs to retrieve grades for."
                         },
                         "grades": {
                             "type": "array",
                             "items": {"type": "string"},
-                            "description": "Non-empty list of grade labels to EXCLUDE (exact, case-sensitive).",
-                        },
+                            "description": "Non-empty list of grade labels to EXCLUDE (exact, case-sensitive)."
+                        }
                     },
-                    "required": ["pitch_ids", "grades"],
-                },
-            },
+                    "required": ["pitch_ids", "grades"]
+                }
+            }
         }

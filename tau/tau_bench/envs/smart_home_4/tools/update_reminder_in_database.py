@@ -1,75 +1,50 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateReminderInDatabase(Tool):
-    """Modify any attribute of a reminder."""
-
+    """Update any field of a reminder."""
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        reminder_id: str = "",
-        updates: dict[str, Any] | None = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], reminder_id: str = "", updates: Optional[Dict[str, Any]] = None) -> str:
         if not reminder_id or not updates:
-            payload = {"error": "'reminder_id' and 'updates' parameters are required"}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
-        reminders = data.get("reminders", {}).values()
+            return json.dumps({"error": "'reminder_id' and 'updates' parameters are required"}, indent=2)
+        reminders = data.get('reminders', [])
         found = False
-        for r in reminders.values():
+        for r in reminders:
             if r["reminder_id"] == reminder_id:
                 for k, v in updates.items():
                     r[k] = v
                 found = True
                 break
         if not found:
-            payload = {"error": "Reminder not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {
-                "success": "Reminder updated",
-                "reminder_id": reminder_id,
-                "updates": updates,
-                "reminders": reminders,
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+            return json.dumps({"error": "Reminder not found"}, indent=2)
+        return json.dumps({"success": "Reminder updated", "reminder_id": reminder_id, "updates": updates, "reminders": reminders}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "updateReminderInDatabase",
+                "name": "update_reminder_in_database",
                 "description": "Update any field of a reminder by id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "reminder_id": {
                             "type": "string",
-                            "description": "The id of the reminder to update.",
+                            "description": "The id of the reminder to update."
                         },
                         "updates": {
                             "type": "object",
                             "description": "Key-value pairs of fields to update.",
-                            "additionalProperties": True,
-                        },
+                            "additionalProperties": True
+                        }
                     },
                     "required": ["reminder_id", "updates"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

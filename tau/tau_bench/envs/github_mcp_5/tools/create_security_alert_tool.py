@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateSecurityAlertTool(Tool):
     """
@@ -43,36 +31,19 @@ class CreateSecurityAlertTool(Tool):
     """
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        repo_name: str,
-        severity: str,
-        description: str,
-        file: str,
-        branch: str
-    ) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            severity = _validate_param({"severity": severity}, "severity", str)
-            description = _validate_param({"description": description}, "description", str)
-            file = _validate_param({"file": file}, "file", str)
-            branch = _validate_param({"branch": branch}, "branch", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            severity = _validate_param(kwargs, "severity", str)
+            description = _validate_param(kwargs, "description", str)
+            file = _validate_param(kwargs, "file", str)
+            branch = _validate_param(kwargs, "branch", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        alerts = data.get("code_scanning_alerts", {}).values()
-        if any(
-            a.get("repo") == repo_name and a.get("description") == description
-            for a in alerts.values()
-        ):
-            return _response(
-                "error",
-                ERROR_MESSAGES["ALREADY_EXISTS"].format(
-                    entity="SecurityAlert", entity_id=description
-                ),
-                "ALREADY_EXISTS",
-            )
+        alerts = data.get("code_scanning_alerts", [])
+        if any(a.get("repo") == repo_name and a.get("description") == description for a in alerts):
+            return _response("error", ERROR_MESSAGES["ALREADY_EXISTS"].format(entity="SecurityAlert", entity_id=description), "ALREADY_EXISTS")
 
         new_number = len(alerts) + 1
         new_alert = {
@@ -86,17 +57,16 @@ class CreateSecurityAlertTool(Tool):
             "created_at": CURRENT_DATE,
             "updated_at": CURRENT_DATE,
         }
-        new_alert["alert_id"] = _safe_id(
-            new_alert, "alert_id", f"ALERT_{repo_name}_", ["description", "file"]
-        )
-        data["code_scanning_alerts"][new_alert["code_scanning_alert_id"]] = new_alert
+        new_alert["alert_id"] = _safe_id(new_alert, "alert_id", f"ALERT_{repo_name}_", ["description", "file"])
+        alerts.append(new_alert)
         return _response("ok", new_alert)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateSecurityAlert",
+                "name": "create_security_alert",
                 "description": "Create a new deterministic security alert (in-memory only).",
                 "parameters": {
                     "type": "object",
@@ -107,13 +77,7 @@ class CreateSecurityAlertTool(Tool):
                         "file": {"type": "string"},
                         "branch": {"type": "string"},
                     },
-                    "required": [
-                        "repo_name",
-                        "severity",
-                        "description",
-                        "file",
-                        "branch",
-                    ],
+                    "required": ["repo_name", "severity", "description", "file", "branch"],
                 },
             },
         }

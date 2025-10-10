@@ -1,24 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class add_employee(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str) -> str:
+    def invoke(data: Dict[str, Any], employee: dict) -> str:
         employees = data.setdefault("employees", [])
-        employee = {"employee_id": employee_id}
-        data["employees"][employee_id] = employee
-        payload = {"success": True, "employee_id": employee_id}
-        out = json.dumps(
-            payload, indent=2
+        employees.append(employee)
+        return json.dumps(
+            {"success": True, "employee_id": employee.get("employee_id")}, indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "addEmployee",
+                "name": "add_employee",
                 "description": "Add a new employee record. The employee object must contain all required fields.",
                 "parameters": {
                     "type": "object",

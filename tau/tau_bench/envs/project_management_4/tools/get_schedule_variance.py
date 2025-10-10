@@ -1,40 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetScheduleVariance(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: str = None, baseline_id: str = None) -> str:
-        if not project_id:
-            payload = {"error": "project_id is required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
 
-        milestones = data.get("milestones", {}).values()
-        schedule_baselines = data.get("schedule_baselines", {}).values()
+        if not project_id:
+            return json.dumps({"error": "project_id is required"})
+
+        milestones = list(data.get("milestones", {}).values())
+        schedule_baselines = data.get("schedule_baselines", [])
 
         project_milestones = [
-            m for m in milestones.values() if m.get("project_id") == project_id
+            m for m in milestones if m.get("project_id") == project_id
         ]
 
-        if baseline_id:
+        if baseline_id := kwargs.get("baseline_id"):
             baseline = next(
-                (b for b in schedule_baselines.values() if b.get("baseline_id") == baseline_id),
+                (b for b in schedule_baselines if b.get("baseline_id") == baseline_id),
                 None,
             )
         else:
+
             project_baselines = [
-                b for b in schedule_baselines.values() if b.get("project_id") == project_id
+                b for b in schedule_baselines if b.get("project_id") == project_id
             ]
             baseline = (
                 max(project_baselines, key=lambda x: x.get("created_date"))
@@ -43,14 +37,15 @@ class GetScheduleVariance(Tool):
             )
 
         if not baseline:
-            payload = {"error": f"No baseline found for project '{project_id}'"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": f"No baseline found for project '{project_id}'"}
+            )
 
         variance_analysis = []
         total_variance_days = 0
 
         for milestone in project_milestones:
+
             baseline_snapshot = next(
                 (
                     s
@@ -100,11 +95,11 @@ class GetScheduleVariance(Tool):
                             "original_baseline_target"
                         ),
                         "original_variance_days": original_variance_days,
-                        "original_variance_percentage": (
-                            round(original_variance_percentage, 1)
-                            if original_variance_percentage
-                            else None
-                        ),
+                        "original_variance_percentage": round(
+                            original_variance_percentage, 1
+                        )
+                        if original_variance_percentage
+                        else None,
                         "requires_executive_approval": original_variance_percentage
                         and abs(original_variance_percentage) > 20,
                         "status": milestone.get("status"),
@@ -123,9 +118,11 @@ class GetScheduleVariance(Tool):
         requiring_approval = [
             v for v in variance_analysis if v.get("requires_executive_approval", False)
         ]
-        payload = {
+
+        return json.dumps(
+            {
                 "delayed_milestones": len(
-                    [v for v in variance_analysis.values() if v["variance_days"] > 0]
+                    [v for v in variance_analysis if v["variance_days"] > 0]
                 ),
                 "project_id": project_id,
                 "baseline_id": baseline.get("baseline_id"),
@@ -135,31 +132,30 @@ class GetScheduleVariance(Tool):
                 "summary": {
                     "total_milestones": len(variance_analysis),
                     "delayed_milestones": len(
-                        [v for v in variance_analysis.values() if v["variance_days"] > 0]
+                        [v for v in variance_analysis if v["variance_days"] > 0]
                     ),
                     "ahead_milestones": len(
-                        [v for v in variance_analysis.values() if v["variance_days"] < 0]
+                        [v for v in variance_analysis if v["variance_days"] < 0]
                     ),
                     "on_track_milestones": len(
-                        [v for v in variance_analysis.values() if v["variance_days"] == 0]
+                        [v for v in variance_analysis if v["variance_days"] == 0]
                     ),
                     "average_variance_days": round(avg_variance, 1),
                     "max_delay_days": max(
-                        (v["variance_days"] for v in variance_analysis.values()), default=0
+                        (v["variance_days"] for v in variance_analysis), default=0
                     ),
                     "milestones_requiring_executive_approval": len(requiring_approval),
                 },
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetScheduleVariance",
+                "name": "get_schedule_variance",
                 "description": "Analyze schedule variance against baseline",
                 "parameters": {
                     "type": "object",

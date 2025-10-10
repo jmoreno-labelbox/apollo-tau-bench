@@ -1,18 +1,19 @@
-from tau_bench.envs.tool import Tool
-import datetime
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ParseDirectoryRestructureInstructionsTool(Tool):
-    """Interprets user instructions for organizing and relocating files into a structured format."""
+    """Parses user instructions for moving and sorting files into a structured format."""
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ParseDirectoryRestructureInstructions",
+                "name": "parse_directory_restructure_instructions",
                 "description": "Parses instructions to move files from a target directory to a destination, sorting by file type.",
                 "parameters": {
                     "type": "object",
@@ -34,23 +35,9 @@ class ParseDirectoryRestructureInstructionsTool(Tool):
         }
 
     @staticmethod
-
-    def invoke(
-
-        data: dict[str, Any],
-
-        instruction: dict[str, Any] = None,
-
-        target_directory: Any = None,
-
-        destination_directory: str = None,
-
-        sort_rules: dict = None
-
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         if "directories_db" not in data:
             data["directories_db"] = []
+        instruction = {**kwargs}
         data["directories_db"].append(instruction)
-        payload = {"status": "success", "instruction": instruction}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "success", "instruction": instruction})

@@ -1,57 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ComputeYtdFromMonthlyRevenue(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], year: int = None, through_month: int = None) -> str:
-        if not year or not through_month:
-            payload = {"error": "year and through_month are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        rows = [
-            r
-            for r in data.get("monthly_revenue", {}).values()
-            if str(r.get("month_year", "")).startswith(f"{year}-")
-        ]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        year = kwargs.get("year")
+        through = kwargs.get("through_month")
+        if not year or not through:
+            return json.dumps({"error":"year and through_month are required"}, indent=2)
+        rows = [r for r in data.get("monthly_revenue", []) if str(r.get("month_year","")).startswith(f"{year}-")]
         total = 0.0
         for r in rows:
             try:
                 m = int(r["month_year"].split("-")[1])
-                if m <= through_month:
-                    total += float(r.get("revenue", 0.0))
+                if m <= through:
+                    total += float(r.get("revenue",0.0))
             except Exception:
                 continue
-        payload = {"year": year, "through_month": through_month, "ytd_revenue": round(total, 2)}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        return json.dumps({"year": year,"through_month": through,"ytd_revenue": round(total,2)}, indent=2)
+
     @staticmethod
-    def get_info(self=None) -> dict[str, Any]:
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "ComputeYtdFromMonthlyRevenue",
-                "description": "Compute YTD revenue summing monthly_revenue rows up to a month.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "year": {"type": "integer"},
-                        "through_month": {"type": "integer"},
-                    },
-                    "required": ["year", "through_month"],
-                },
-            },
-        }
+    def get_info(self=None) -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"compute_ytd_from_monthly_revenue",
+            "description":"Compute YTD revenue summing monthly_revenue rows up to a month.",
+            "parameters":{"type":"object","properties":{
+                "year":{"type":"integer"},
+                "through_month":{"type":"integer"}
+            },"required":["year","through_month"]}
+        }}

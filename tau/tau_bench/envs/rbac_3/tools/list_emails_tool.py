@@ -1,27 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListEmailsTool(Tool):
-    """ListEmails"""
+    """list_emails"""
 
     @staticmethod
-    def invoke(data: dict[str, Any], receiver: str = None, email_id: str = None, date_from: str = None, date_to: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        receiver = kwargs.get("receiver")
+        email_id = kwargs.get("email_id")
+        date_from = kwargs.get("date_from")
+        date_to = kwargs.get("date_to")
+
         dt_from = _parse_iso(date_from)
         dt_to = _parse_iso(date_to)
 
-        emails: list[dict[str, Any]] = data.get("emails", {}).values()
-        out: list[dict[str, Any]] = []
+        emails: List[Dict[str, Any]] = data.get("emails", [])
+        out: List[Dict[str, Any]] = []
 
         for e in emails:
             if receiver and not _eq(e.get("receiver"), receiver):
@@ -39,15 +37,14 @@ class ListEmailsTool(Tool):
             out.append(e)
 
         out.sort(key=lambda r: ((r.get("timestamp") or ""), (r.get("email_id") or "")))
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListEmails",
+                "name": "list_emails",
                 "description": (
                     "List email records with optional filters for receiver, email_id, and date range."
                 ),

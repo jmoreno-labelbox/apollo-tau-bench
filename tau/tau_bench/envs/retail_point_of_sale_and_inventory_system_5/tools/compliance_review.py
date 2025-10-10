@@ -1,21 +1,14 @@
-from tau_bench.envs.tool import Tool
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ComplianceReview(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], transfer_id: str = None, adjustment_id: str = None) -> str:
-        payload = {"compliance_reviewed": True}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        return json.dumps({"compliance_reviewed": True}, indent=2)
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ComplianceReview",
-                "parameters": {"transfer_id": {"type": "string"}},
-                "required": ["transfer_id"],
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "compliance_review", "parameters": {"transfer_id": {"type": "string"}}, "required": ["transfer_id"]}}

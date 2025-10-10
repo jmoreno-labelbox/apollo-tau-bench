@@ -1,28 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class VideoCreation(Tool):
     @staticmethod
-    #primary invocation function
-    def invoke(data: dict[str, Any], insights: Any = None, manifest: Any = None, tool: str = None) -> str:
-        payload = {"video_manifest": "manifest_001"}
-        out = json.dumps(payload, indent=2)
-        return out
+        # main invoke function
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        # return result
+        return json.dumps({"video_manifest": "manifest_001"}, indent=2)
+
     @staticmethod
-    #metadata information
-    def get_info() -> dict[str, Any]:
-        pass
-        #return result
-        return {
-            "type": "function",
-            "function": {
-                "name": "vidMani",
-                "description": "Creates a manifest of clips.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"insights": {"type": "string"}},
-                    "required": ["insights"],
-                },
-            },
-        }
+        # info metadata
+    def get_info() -> Dict[str, Any]:
+        # return result
+        return {"type": "function", "function": {"name": "vidMani", "description": "Creates a manifest of clips.", "parameters": {"type": "object", "properties": {"insights": {"type": "string"}}, "required": ["insights"]}}}

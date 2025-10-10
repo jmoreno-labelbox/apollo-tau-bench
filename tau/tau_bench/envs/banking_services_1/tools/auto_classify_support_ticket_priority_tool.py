@@ -1,16 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AutoClassifySupportTicketPriorityTool(Tool):
     """
@@ -28,15 +21,19 @@ class AutoClassifySupportTicketPriorityTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, message: str = None, ticket_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        message = kwargs.get("message")
+        ticket_id = kwargs.get("ticket_id")
+
         if not customer_id or not message or not ticket_id:
             return json.dumps(
                 {"error": "customer_id, message, and ticket_id are required"},
                 indent=2
             )
 
-        tickets = data.get("support_tickets", {}).values()
-        for t in tickets.values():
+        tickets = list(data.get("support_tickets", {}).values())
+        for t in tickets:
             if t["ticket_id"] == ticket_id:
                 priority = (
                     "High"
@@ -51,12 +48,13 @@ class AutoClassifySupportTicketPriorityTool(Tool):
                 }, indent=2)
 
         return json.dumps({"error": f"Ticket '{ticket_id}' not found"}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "autoClassifySupportTicketPriority",
+                "name": "auto_classify_support_ticket_priority",
                 "description": "Automatically classify the priority of a support ticket based on content.",
                 "parameters": {
                     "type": "object",

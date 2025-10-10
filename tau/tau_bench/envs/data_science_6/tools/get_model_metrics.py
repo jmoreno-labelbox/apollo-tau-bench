@@ -1,46 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetModelMetrics(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], model_name: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        model_name = kwargs.get("model_name")
         if not model_name:
-            payload = {"error": "Missing model_name"}
-            out = json.dumps(payload)
-            return out
-        for m in data.get("metrics", {}).values():
+            return json.dumps({"error": "Missing model_name"})
+        for m in data.get("metrics", []):
             if m.get("model_name") == model_name:
-                payload = {
+                return json.dumps({
                     "model_name": model_name,
                     "auc": m.get("auc_nullable"),
-                    "accuracy": m.get("accuracy_nullable"),
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {}
-        out = json.dumps(payload)
-        return out
+                    "accuracy": m.get("accuracy_nullable")
+                })
+        return json.dumps({})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetModelMetrics",
+                "name": "get_model_metrics",
                 "description": "Return stored AUC/accuracy for a given model_name.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"model_name": {"type": "string"}},
-                    "required": ["model_name"],
-                },
-            },
+                    "properties": {
+                        "model_name": {"type": "string"}
+                    },
+                    "required": ["model_name"]
+                }
+            }
         }

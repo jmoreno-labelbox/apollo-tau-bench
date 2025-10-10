@@ -1,42 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AuditIamAccessTool(Tool):
-    """Display IAM access audit logs within specified timestamps."""
+    """List IAM access audit logs between timestamps."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], start_time: str = None, end_time: str = None) -> str:
-        logs = data.get("audit_logs", {}).values()
-        results = [
-            l
-            for l in logs.values() if start_time <= l["timestamp"] <= end_time and "IAM" in l.get("details", "")
-        ]
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        start = kwargs.get("start_time")
+        end = kwargs.get("end_time")
+        logs = data.get("audit_logs", [])
+        results = [l for l in logs if start <= l["timestamp"] <= end and "IAM" in l.get("details", "")]
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AuditIamAccess",
+                "name": "audit_iam_access",
                 "description": "Return IAM-specific audit logs in the provided time range",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "start_time": {"type": "string"},
-                        "end_time": {"type": "string"},
+                        "end_time": {"type": "string"}
                     },
-                    "required": ["start_time", "end_time"],
-                },
-            },
+                    "required": ["start_time", "end_time"]
+                }
+            }
         }

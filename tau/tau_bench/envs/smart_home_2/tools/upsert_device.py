@@ -1,14 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpsertDevice(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], device: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], device: Dict[str, Any]) -> str:
         if not device or not isinstance(device, dict):
-            payload = {"error": "device object required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "device object required"}, indent=2)
         devices = _load("devices", data)
         idx, _old = _find(devices, device["id"])
         if idx is not None:
@@ -18,27 +19,26 @@ class UpsertDevice(Tool):
             devices.append(device)
             action = "added"
             data["devices"] = devices
-        payload = {"success": f"device {action}", "device": device}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"success": f"device {action}", "device": device}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpsertDevice",
+                "name": "upsert_device",
                 "description": "Create a new device or update an existing one (metadata only; state changes use modify_device_state).",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "UpsertScene": {
+                        "upsert_scene": {
                             "type": "object",
                             "description": "Full or partial device object following the schema in devices.json.",
-                            "additionalProperties": True,
+                            "additionalProperties": True
                         }
                     },
                     "required": ["device"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

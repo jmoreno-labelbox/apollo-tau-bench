@@ -1,17 +1,14 @@
-from tau_bench.envs.tool import Tool
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ApplyBulkDiscount(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], store_id: str = None, sku: str = None, discount_percent: int = None, min_quantity: int = None) -> str:
-        payload = {"bulk_discount_applied": True}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        return json.dumps({"bulk_discount_applied": True}, indent=2)
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {"name": "ApplyBulkDiscount", "parameters": {}, "required": []},
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "apply_bulk_discount", "parameters": {}, "required": []}}

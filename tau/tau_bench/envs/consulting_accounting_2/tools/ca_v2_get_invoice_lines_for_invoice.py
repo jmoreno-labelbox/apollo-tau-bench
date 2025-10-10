@@ -1,36 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CaV2GetInvoiceLinesForInvoice(Tool):
-    """Retrieve all line items for a specific invoice."""
+    """Get all invoice lines for a specific invoice."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], invoice_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        invoice_id = kwargs.get("invoice_id")
         if not invoice_id:
             return _error("invoice_id is required.")
 
-        invoice_lines = data.get("invoice_lines", {}).values()
+        invoice_lines = data.get("invoice_lines", [])
         lines = _find_all(invoice_lines, "invoice_id", invoice_id)
-        payload = lines
-        out = json.dumps(payload)
-        return out
+        return json.dumps(lines)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CaV2GetInvoiceLinesForInvoice",
+                "name": "ca_v2_get_invoice_lines_for_invoice",
                 "description": "Get all line items for a specific invoice.",
                 "parameters": {
                     "type": "object",

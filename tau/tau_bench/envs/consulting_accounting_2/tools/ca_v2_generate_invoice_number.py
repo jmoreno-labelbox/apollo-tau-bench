@@ -1,30 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CaV2GenerateInvoiceNumber(Tool):
-    """Create the next sequential invoice number for a specified year."""
+    """Generate next sequential invoice number for a given year."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], year: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        year = kwargs.get("year")
         if not year:
             return _error("year is required.")
 
-        invoices = data.get("invoices", {}).values()
-        year_invoices = [
-            inv for inv in invoices.values() if inv.get("invoice_date", "").startswith(year)
-        ]
+        invoices = data.get("invoices", [])
+        year_invoices = [inv for inv in invoices if inv.get("invoice_date", "").startswith(year)]
 
-        # Identify the maximum value for the year
+        # Find highest number for the year
         max_number = 0
         for invoice in year_invoices:
             invoice_number = invoice.get("invoice_number", "")
@@ -41,15 +34,15 @@ class CaV2GenerateInvoiceNumber(Tool):
         return _ok(
             next_invoice_number=next_invoice_number,
             sequence_number=next_number,
-            year=year,
+            year=year
         )
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CaV2GenerateInvoiceNumber",
+                "name": "ca_v2_generate_invoice_number",
                 "description": "Generate the next sequential invoice number for a given year.",
                 "parameters": {
                     "type": "object",

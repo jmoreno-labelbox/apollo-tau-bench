@@ -1,82 +1,62 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListOfPRForRepo(Tool):
     """
     Lists pull requests for a repository.
     - Inputs: owner, repo_name, (optional) state in {'open','closed','merged'}
     - Returns an array of PR summaries (number, title, state, branches, head_sha, timestamps, files).
-    - Reads from data.get('pull_requests', {}).values() or top-level list.
+    - Reads from list(data.get('pull_requests', {}).values()) or top-level list.
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], owner: str = "", repo_name: str = "", state: str = "") -> str:
-        owner = owner.strip()
-        repo_name = repo_name.strip()
-        state_filter = state.strip().lower()  # optional
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner = kwargs.get("owner", "").strip()
+        repo_name = (kwargs.get("repo_name") or kwargs.get("repo_name") or "").strip()
+        state_filter = (kwargs.get("state") or "").strip().lower()  # optional
 
         if not owner or not repo_name:
-            payload = {"error": "Parameters 'owner' and 'repo_name' are required."}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": "Parameters 'owner' and 'repo_name' are required."},
+                indent=2
             )
-            return out
 
         if state_filter and state_filter not in {"open", "closed", "merged"}:
-            payload = {"error": "Invalid 'state'. Use one of: 'open', 'closed', 'merged'."}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": "Invalid 'state'. Use one of: 'open', 'closed', 'merged'."},
+                indent=2
             )
-            return out
 
         # Load PR DB (supports dict with 'pull_requests' or a top-level list)
-        pr_db = _convert_db_to_list(data.get("pull_requests", {}).values())
+        pr_db = list(data.get("pull_requests", {}).values())
+        
 
         if not isinstance(pr_db, list):
-            payload = {"error": "Invalid pull requests DB: expected a list."}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "Invalid pull requests DB: expected a list."}, indent=2)
 
         # Find the repo bucket
-        rec = next(
-            (
-                r
-                for r in pr_db
-                if r.get("owner") == owner and r.get("repo_name") == repo_name
-            ),
-            None,
-        )
+        rec = next((r for r in pr_db if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
         if rec is None:
-            payload = {
-                    "error": f"No pull requests found for repository '{owner}/{repo_name}'."
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"No pull requests found for repository '{owner}/{repo_name}'."},
+                indent=2
             )
-            return out
 
-        pr_numbers: list[int] = rec.get("pr_numbers", [])
+        pr_numbers: List[int] = rec.get("pr_numbers", [])
 
         def get_at(name: str, i: int):
             arr = rec.get(name, [])
             return arr[i] if i < len(arr) else None
 
         # Build list of (number, index) and sort by PR number ascending
-        indexed: list[tuple] = [(num, i) for i, num in enumerate(pr_numbers)]
+        indexed: List[tuple] = [(num, i) for i, num in enumerate(pr_numbers)]
         indexed.sort(key=lambda t: t[0])
 
-        results: list[dict[str, Any]] = []
+        results: List[Dict[str, Any]] = []
         for num, idx in indexed:
             pr_state = get_at("pr_states", idx)
             merged_flag = bool(get_at("merged_flags", idx))
@@ -87,9 +67,7 @@ class ListOfPRForRepo(Tool):
                 if state_filter in {"open", "closed"} and pr_state != state_filter:
                     continue
 
-            files_entry = get_at(
-                "pr_files", idx
-            )  # stored shape is typically [ [ "fileA", ... ] ]
+            files_entry = get_at("pr_files", idx)  # stored shape is typically [ [ "fileA", ... ] ]
             pr_summary = {
                 "number": num,
                 "title": get_at("pr_titles", idx),
@@ -105,38 +83,36 @@ class ListOfPRForRepo(Tool):
                 "updated_ts": get_at("updated_ts", idx),
             }
             results.append(pr_summary)
-        payload = {
+
+        return json.dumps(
+            {
                 "owner": owner,
                 "repo_name": repo_name,
                 "count": len(results),
-                "pull_requests": results,
-            }
-        out = json.dumps(
-            payload, indent=2,
+                "pull_requests": results
+            },
+            indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "listOfPrForRepo",
+                "name": "list_of_pr_for_repo",
                 "description": "List pull requests for a repository, optionally filtered by state.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "owner": {"type": "string", "description": "Repository owner."},
-                        "repo_name": {
-                            "type": "string",
-                            "description": "Repository name.",
-                        },
+                        "repo_name": {"type": "string", "description": "Repository name."},
                         "state": {
                             "type": "string",
                             "enum": ["open", "closed", "merged"],
-                            "description": "Optional filter by PR state.",
-                        },
+                            "description": "Optional filter by PR state."
+                        }
                     },
-                    "required": ["owner", "repo_name"],
-                },
-            },
+                    "required": ["owner", "repo_name"]
+                }
+            }
         }

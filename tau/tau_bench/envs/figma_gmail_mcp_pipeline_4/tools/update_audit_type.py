@@ -1,29 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpdateAuditType(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        audit_id: str = None,
-        new_audit_type: str = None,
-        updated_by: str = None,
-        status: str = "RUNNING",
-        notes: str = "",
-        updated_ts: str = "2024-08-23T15:00:00Z"
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
-        Modifies the audit type and related metadata.
+        Updates the audit type and associated metadata.
         """
-        if not all([audit_id, new_audit_type]):
-            payload = {"error": "audit_id and new_audit_type are required."}
-            out = json.dumps(payload)
-            return out
+        audit_id = kwargs.get("audit_id")
+        new_audit_type = kwargs.get("new_audit_type")
 
-        payload = {
+        if not all([audit_id, new_audit_type]):
+            return json.dumps({"error": "audit_id and new_audit_type are required."})
+
+        updated_by = kwargs.get("updated_by")
+        status = kwargs.get("status", "RUNNING")
+        notes = kwargs.get("notes", "")
+        updated_ts = kwargs.get("updated_ts", "2024-08-23T15:00:00Z")
+
+        return json.dumps({
             "status": "SUCCESS",
             "audit_id": audit_id,
             "previous_audit_type": "A11Y",
@@ -31,46 +30,27 @@ class UpdateAuditType(Tool):
             "status": status,
             "updated_by": updated_by,
             "notes": notes,
-            "updated_ts": updated_ts,
-        }
-        out = json.dumps(payload)
-        return out
+            "updated_ts": updated_ts
+        })
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateAuditType",
+                "name": "update_audit_type",
                 "description": "Updates the audit type and associated metadata.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "audit_id": {
-                            "type": "string",
-                            "description": "The ID of the audit to update.",
-                        },
-                        "new_audit_type": {
-                            "type": "string",
-                            "description": "The new audit type (A11Y, DS_MAPPING, COMBINED_DS_A11Y).",
-                        },
-                        "updated_by": {
-                            "type": "string",
-                            "description": "Email of the user updating the audit type.",
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "Optional status update (RUNNING, COMPLETED, FAILED).",
-                        },
-                        "notes": {
-                            "type": "string",
-                            "description": "Optional notes about the audit type change.",
-                        },
-                        "updated_ts": {
-                            "type": "string",
-                            "description": "Timestamp of the update.",
-                        },
+                        "audit_id": {"type": "string", "description": "The ID of the audit to update."},
+                        "new_audit_type": {"type": "string", "description": "The new audit type (A11Y, DS_MAPPING, COMBINED_DS_A11Y)."},
+                        "updated_by": {"type": "string", "description": "Email of the user updating the audit type."},
+                        "status": {"type": "string", "description": "Optional status update (RUNNING, COMPLETED, FAILED)."},
+                        "notes": {"type": "string", "description": "Optional notes about the audit type change."},
+                        "updated_ts": {"type": "string", "description": "Timestamp of the update."}
                     },
-                    "required": ["audit_id", "new_audit_type"],
-                },
-            },
+                    "required": ["audit_id", "new_audit_type"]
+                }
+            }
         }

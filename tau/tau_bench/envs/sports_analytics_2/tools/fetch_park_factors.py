@@ -1,55 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FetchParkFactors(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], **kwargs) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         game_pk = kwargs.get("game_pk")
-        game = next(
-            (g for g in data.get("games", {}).values() if g.get("game_pk") == int(game_pk)), None
-        )
-        venue = next(
-            (
-                v
-                for v in data.get("venues", {}).values()
-                if v.get("venue_id") == (game or {}).get("venue_id")
-            ),
-            None,
-        )
+        game = next((g for g in data.get("games", []) if g.get("game_pk") == int(game_pk)), None)
+        venue = next((v for v in data.get("venues", []) if v.get("venue_id") == (game or {}).get("venue_id")), None)
         if not venue:
-            payload = {}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {
-                "park_factor_runs": venue.get("park_factor_runs"),
-                "park_factor_hr": venue.get("park_factor_hr"),
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+            return json.dumps({}, indent=2)
+        return json.dumps({"park_factor_runs": venue.get("park_factor_runs"), "park_factor_hr": venue.get("park_factor_hr")}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "fetchParkFactors",
-                "description": "Fetches park factors for a game's venue.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"game_pk": {"type": "string"}},
-                    "required": ["game_pk"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "fetch_park_factors", "description": "Fetches park factors for a game's venue.", "parameters": {"type": "object", "properties": {"game_pk": {"type": "string"}}, "required": ["game_pk"]}}}

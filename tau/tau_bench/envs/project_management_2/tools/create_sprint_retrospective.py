@@ -1,75 +1,59 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateSprintRetrospective(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        sprint_id: str,
-        what_went_well: list = [],
-        what_needs_improvement: list = [],
-        action_items: list = []
-    ) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        sprint_id = kwargs.get("sprint_id")
+        what_went_well = kwargs.get("what_went_well", [])
+        what_needs_improvement = kwargs.get("what_needs_improvement", [])
+        action_items = kwargs.get("action_items", [])
 
         if not sprint_id:
-            payload = {"error": "sprint_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "sprint_id is required"})
 
-        sprints = data.get("sprints", {}).values()
-        retrospectives = data.get("retrospectives", {}).values()
+        sprints = data.get("sprints", [])
+        retrospectives = data.get("retrospectives", [])
 
-        sprint = next((s for s in sprints.values() if s.get("sprint_id") == sprint_id), None)
+        sprint = next((s for s in sprints if s.get("sprint_id") == sprint_id), None)
         if not sprint:
-            payload = {"error": f"Sprint '{sprint_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Sprint '{sprint_id}' not found"})
 
-        #if sprint.get("status") != "completed":
-        #return json.dumps(
-        #{"error": "Retrospective can only be created for completed sprints"}
-        #)
+        # if sprint.get("status") != "completed":
+        #     return json.dumps(
+        #         {"error": "Retrospective can only be created for completed sprints"}
+        #     )
 
         if len(what_went_well) < 1:
-            payload = {
+            return json.dumps(
+                {
                     "error": "Retrospective must include at least 3 items for 'what went well'",
                     "current_count": len(what_went_well),
                     "required": 3,
                 }
-            out = json.dumps(
-                payload)
-            return out
+            )
 
         if len(what_needs_improvement) < 1:
-            payload = {
+            return json.dumps(
+                {
                     "error": "Retrospective must include at least 3 items for 'what needs improvement'",
                     "current_count": len(what_needs_improvement),
                     "required": 3,
                 }
-            out = json.dumps(
-                payload)
-            return out
+            )
 
-        #if len(action_items) < 1:
-        #return json.dumps(
-        #{
-        #"error": "Retrospective must include at least 3 action items",
-        #"current_count": len(action_items),
-        #"required": 3,
-        #}
-        #)
+        # if len(action_items) < 1:
+        #     return json.dumps(
+        #         {
+        #             "error": "Retrospective must include at least 3 action items",
+        #             "current_count": len(action_items),
+        #             "required": 3,
+        #         }
+        #     )
 
         if sprint.get("completed_date"):
             try:
@@ -78,12 +62,11 @@ class CreateSprintRetrospective(Tool):
                 )
                 days_since_completion = (datetime.now() - completed_date).days
                 if days_since_completion > 2:
-                    payload = {
+                    return json.dumps(
+                        {
                             "warning": f"Retrospective is being created {days_since_completion} days after sprint completion",
                         }
-                    out = json.dumps(
-                        payload)
-                    return out
+                    )
             except:
                 pass
 
@@ -99,16 +82,16 @@ class CreateSprintRetrospective(Tool):
             "team_id": sprint.get("team_id"),
         }
 
-        data["retrospectives"][retrospective["retrospective_id"]] = retrospective
-        payload = {"success": True, "retrospective": retrospective}
-        out = json.dumps(payload)
-        return out
+        retrospectives.append(retrospective)
+
+        return json.dumps({"success": True, "retrospective": retrospective})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateSprintRetrospective",
+                "name": "create_sprint_retrospective",
                 "description": "Create a retrospective for a completed sprint",
                 "parameters": {
                     "type": "object",
@@ -130,11 +113,7 @@ class CreateSprintRetrospective(Tool):
                             "description": "Action items for next sprint",
                         },
                     },
-                    "required": [
-                        "sprint_id",
-                        "what_went_well",
-                        "what_needs_improvement",
-                    ],
+                    "required": ["sprint_id", "what_went_well", "what_needs_improvement"],
                 },
             },
         }

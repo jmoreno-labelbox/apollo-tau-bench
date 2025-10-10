@@ -1,41 +1,17 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class WriteGameDayEvent(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], **kwargs) -> str:
-        pass
-        events = data.get("game_day_events", {}).values()
-        data["game_day_events"][kwargs["game_day_event_id"]] = kwargs
-        payload = {"status": "ok"}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        events = data.get("game_day_events", [])
+        events.append(kwargs)
+        return json.dumps({"status": "ok"}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "WriteGameDayEvent",
-                "description": "Writes a game day event row.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "game_pk": {"type": "string"},
-                        "leverage_index": {"type": "number"},
-                        "is_manual_alert": {"type": "boolean"},
-                        "suggestion_text": {"type": "string"},
-                    },
-                    "required": ["game_pk", "leverage_index", "is_manual_alert"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "write_game_day_event", "description": "Writes a game day event row.", "parameters": {"type": "object", "properties": {"game_pk": {"type": "string"}, "leverage_index": {"type": "number"}, "is_manual_alert": {"type": "boolean"}, "suggestion_text": {"type": "string"}}, "required": ["game_pk", "leverage_index", "is_manual_alert"]}}}

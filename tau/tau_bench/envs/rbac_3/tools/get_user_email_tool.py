@@ -1,34 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetUserEmailTool(Tool):
-    """GetUserEmail"""
+    """get_user_email"""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
         if not user_id:
-            payload = {"error": "user_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "user_id is required"}, indent=2)
 
-        users: list[dict[str, Any]] = data.get("users", {}).values()
+        users: List[Dict[str, Any]] = list(data.get("users", {}).values())
         user = next((u for u in users if u.get("user_id") == user_id), None)
 
         if not user:
-            payload = {"error": f"User {user_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"User {user_id} not found"}, indent=2)
 
         out = {
             "user_id": user.get("user_id"),
@@ -36,15 +26,14 @@ class GetUserEmailTool(Tool):
             "email": user.get("email"),
             "status": user.get("status"),
         }
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetUserEmail",
+                "name": "get_user_email",
                 "description": (
                     "Return the email address and username for a given user_id."
                 ),

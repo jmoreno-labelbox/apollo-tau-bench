@@ -1,40 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListRolesTool(Tool):
-    """Display roles, with an optional filter for temporary ones."""
+    """List roles, with optional filter for temporary."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], is_temporary: bool = None) -> str:
-        roles = data.get("roles", {}).values()
-        if is_temporary is None:
-            payload = roles
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = [r for r in roles.values() if r["is_temporary"] == is_temporary]
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        temp_flag = kwargs.get("is_temporary")
+        roles = list(data.get("roles", {}).values())
+        if temp_flag is None:
+            return json.dumps(roles, indent=2)
+        return json.dumps([r for r in roles if r["is_temporary"] == temp_flag], indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListRoles",
+                "name": "list_roles",
                 "description": "List all roles optionally filtering by temporary flag",
                 "parameters": {
                     "type": "object",
-                    "properties": {"is_temporary": {"type": "boolean"}},
-                },
-            },
+                    "properties": {
+                        "is_temporary": {"type": "boolean"}
+                    }
+                }
+            }
         }

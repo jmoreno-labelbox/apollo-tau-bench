@@ -1,41 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetPredictionsByModelName(Tool):
-    """Fetches predictions record using model_name."""
-
+    """
+    Retrieves predictions record by model_name.
+    """
     @staticmethod
-    def invoke(data: dict[str, Any], model_name: str) -> str:
-        rows = data.get("predictions", {}).values()
+    def invoke(data: Dict[str, Any], model_name: str) -> str:
+        rows = data.get("predictions", [])
         for row in rows:
             if row.get("model_name") == model_name:
-                payload = row
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "predictions not found", "model_name": model_name}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(row)
+        return json.dumps({"error": "predictions not found", "model_name": model_name})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPredictionsByModelName",
+                "name": "get_predictions_by_model_name",
                 "description": "Retrieves predictions record by model_name.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"model_name": {"type": "string"}},
-                    "required": ["model_name"],
-                },
-            },
+                    "properties": {
+                        "model_name": {"type": "string"}
+                    },
+                    "required": ["model_name"]
+                }
+            }
         }

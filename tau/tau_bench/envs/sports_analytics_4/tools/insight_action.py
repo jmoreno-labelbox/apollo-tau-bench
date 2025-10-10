@@ -1,27 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class InsightAction(Tool):
     @staticmethod
-    #primary invocation function
-    def invoke(data: dict[str, Any], source_table: str = None) -> str:
-        payload = {"filtered": True, "filtered_table": "flags_actionable"}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        # main invoke function
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        # return result
+        return json.dumps({"filtered": True, "filtered_table": "flags_actionable"}, indent=2)
+
     @staticmethod
-    #metadata information
-    def get_info() -> dict[str, Any]:
-        pass
-        #return result
-        return {
-            "type": "function",
-            "function": {
-                "name": "cutOut",
-                "description": "Selects insights by actionability.",
-                "parameters": {"type": "object", "properties": {}},
-                "required": [],
-            },
-        }
+        # info metadata
+    def get_info() -> Dict[str, Any]:
+        # return result
+        return {"type": "function", "function": {"name": "cutOut", "description": "Selects insights by actionability.", "parameters": {"type": "object", "properties": {}}, "required": []}}

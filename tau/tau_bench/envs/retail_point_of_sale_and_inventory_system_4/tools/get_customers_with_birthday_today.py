@@ -1,47 +1,41 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class GetCustomersWithBirthdayToday(Tool):  #VIEW
+class GetCustomersWithBirthdayToday(Tool): # READ
     @staticmethod
-    def invoke(data: dict[str, Any], current_day: str) -> str:
-        db = _convert_db_to_list(data.get("customers", {}).values())
-        # current_day must follow the "MM-DD" format
+    def invoke(data: Dict[str, Any], current_day: str) -> str:
+        db = list(data.get("customers", {}).values())
+        # current_day should be in "MM-DD" format
         result = []
         for row in db:
             birthdate = row.get("birthdate", "")
-            # Allow birthdate in either "YYYY-MM-DD" or "MM-DD"
+            # Accept birthdate in "YYYY-MM-DD" or "MM-DD"
             if len(birthdate) >= 5:
                 birthdate = birthdate[-5:]
             if birthdate == current_day:
                 result.append(row.get("customer_id"))
-        payload = result
-        out = json.dumps(payload)
-        return out
+        return json.dumps(result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCustomersWithBirthdayToday",
+                "name": "get_customers_with_birthday_today",
                 "description": "Return a list of customer IDs who have a birthday on the given day (MM-DD).",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "current_day": {
                             "type": "string",
-                            "description": "The current day in MM-DD format (e.g., '04-23').",
+                            "description": "The current day in MM-DD format (e.g., '04-23')."
                         }
                     },
-                    "required": ["current_day"],
-                },
-            },
+                    "required": ["current_day"]
+                }
+            }
         }

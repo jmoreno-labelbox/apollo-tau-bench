@@ -1,50 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import random
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListCarriersByMode(Tool):
-    """A utility to identify all active carriers that facilitate a specific transport mode."""
+    """A tool to find all active carriers that support a specific mode of transport."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        mode = kwargs.get('mode')
+        if not mode:
+            return json.dumps({"error": "mode is a required argument."}, indent=2)
+        carriers = data.get('carriers', [])
+        matching_carriers = [c for c in carriers if c.get('active_status') is True and mode.title() in c.get('supported_modes', [])]
+        return json.dumps(matching_carriers, indent=2)
 
     @staticmethod
-    def invoke(data: dict[str, Any], mode: str = None) -> str:
-        if not mode:
-            payload = {"error": "mode is a required argument."}
-            out = json.dumps(payload, indent=2)
-            return out
-        carriers = data.get("carriers", {}).values()
-        matching_carriers = [
-            c
-            for c in carriers.values() if c.get("active_status") is True
-            and mode.title() in c.get("supported_modes", [])
-        ]
-        payload = matching_carriers
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ListCarriersByMode",
-                "description": "Finds all active carriers for a given transportation mode.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "mode": {
-                            "type": "string",
-                            "description": "The mode of transport to filter by (e.g., 'Air', 'Sea').",
-                        }
-                    },
-                    "required": ["mode"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "list_carriers_by_mode", "description": "Finds all active carriers for a given transportation mode.", "parameters": {"type": "object", "properties": {"mode": {"type": "string", "description": "The mode of transport to filter by (e.g., 'Air', 'Sea')."}}, "required": ["mode"]}}}

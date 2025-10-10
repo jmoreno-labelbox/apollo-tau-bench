@@ -1,51 +1,45 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CaV2CreateDashboardSnapshot(Tool):
-    """Generate a dashboard snapshot displaying current financial metrics."""
+    """Create a dashboard snapshot with current financial metrics."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        snapshot_id: str = None,
-        snapshot_date: str = None,
-        ytd_revenue: float = None,
-        ytd_tax_reserve: float = None,
-        pdf_path: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        snapshot_id = kwargs.get("snapshot_id")
+        snapshot_date = kwargs.get("snapshot_date")
+        ytd_revenue = kwargs.get("ytd_revenue")
+        ytd_tax_reserve = kwargs.get("ytd_tax_reserve")
+        pdf_path = kwargs.get("pdf_path")
+
         if not snapshot_date:
             return _error("snapshot_date is required")
 
         snapshot = {
-            "snapshot_id": snapshot_id
-            or f"SNAP{len(data.get('dashboard_snapshots', {})) + 1:03d}",
+            "snapshot_id": snapshot_id or f"SNAP{len(data.get('dashboard_snapshots', [])) + 1:03d}",
             "snapshot_date": snapshot_date,
             "ytd_revenue": ytd_revenue or 0.0,
             "ytd_tax_reserve": ytd_tax_reserve or 0.0,
-            "pdf_path": pdf_path
-            or f"/dashboards/{snapshot_date[:4]}/dashboard_{snapshot_date}.pdf",
+            "pdf_path": pdf_path or f"/dashboards/{snapshot_date[:4]}/dashboard_{snapshot_date}.pdf"
         }
 
         data.setdefault("dashboard_snapshots", []).append(snapshot)
 
-        return _ok(snapshot_id=snapshot_id, snapshot_date=snapshot_date)
+        return _ok(
+            snapshot_id=snapshot_id,
+            snapshot_date=snapshot_date
+        )
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CaV2CreateDashboardSnapshot",
+                "name": "ca_v2_create_dashboard_snapshot",
                 "description": "Create a financial dashboard snapshot.",
                 "parameters": {
                     "type": "object",
@@ -54,7 +48,7 @@ class CaV2CreateDashboardSnapshot(Tool):
                         "snapshot_date": {"type": "string", "format": "date"},
                         "ytd_revenue": {"type": "number"},
                         "ytd_tax_reserve": {"type": "number"},
-                        "pdf_path": {"type": "string"},
+                        "pdf_path": {"type": "string"}
                     },
                     "required": ["snapshot_date"],
                 },

@@ -1,51 +1,43 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetUserDetailsByEmail(Tool):
-    """Acquires a user's full details using their email address."""
+    """Retrieves a user's full details using their email address."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], email: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        email = kwargs.get("email")
         try:
-            users = data.get("users", {}).values()
+            users = list(data.get('users', {}).values())
         except (KeyError, json.JSONDecodeError):
             users = []
 
-        for user in users.values():
-            if user.get("email") == email:
-                payload = user
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "User not found"}
-        out = json.dumps(payload)
-        return out
+        for user in users:
+            if user.get('email') == email:
+                return json.dumps(user)
+
+        return json.dumps({"error": "User not found"})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetUserDetailsByEmail",
+                "name": "get_user_details_by_email",
                 "description": "Retrieves full user details based on their email address.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "email": {
                             "type": "string",
-                            "description": "The email address to search for.",
+                            "description": "The email address to search for."
                         }
                     },
-                    "required": ["email"],
-                },
-            },
+                "required": ["email"]
+                }
+            }
         }

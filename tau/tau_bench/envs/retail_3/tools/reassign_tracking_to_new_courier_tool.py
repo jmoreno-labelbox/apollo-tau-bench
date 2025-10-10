@@ -1,27 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ReassignTrackingToNewCourierTool(Tool):
     """
-    Reassign an existing tracking record to a different courier, creating a new tracking id.
+    Reassign an existing tracking record to a different courier, generating a fresh tracking id.
 
     Behavior:
-    - Confirms the tracking record exists.
-    - Confirms the new courier exists and provides an unused tracking id.
-    - Updates tracking.courier_name, adds the new id to tracking.tracking_id (maintains history),
-      and records 'reassigned_to_<courier>'.
-    - Adds a fulfillment update to the corresponding order indicating the reassignment and new tracking id.
+    - Validates the tracking record exists.
+    - Validates the new courier exists and provides an unused tracking id.
+    - Updates tracking.courier_name, appends the new id to tracking.tracking_id (keeps history),
+      and logs 'reassigned_to_<courier>'.
+    - Appends a fulfillment update into the corresponding order noting the reassignment and new tracking id.
 
     Input (kwargs):
         tracking_id (str, required)     # any id currently on the record
@@ -32,48 +25,32 @@ class ReassignTrackingToNewCourierTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], tracking_id: str = None, new_courier_name: str = None) -> str:
-        if not tracking_id or not new_courier_name:
-            payload = {"error": "tracking_id and new_courier_name are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        tid = kwargs.get("tracking_id")
+        new_courier_name = kwargs.get("new_courier_name")
 
-        tracking_db = _convert_db_to_list(data.get("tracking", {}).values())
-        rec = next(
-            (t for t in tracking_db if tracking_id in (t.get("tracking_id") or [])), None
-        )
+        if not tid or not new_courier_name:
+            return json.dumps({"error": "tracking_id and new_courier_name are required"}, indent=2)
+
+        tracking_db = data.get("tracking", [])
+        rec = next((t for t in tracking_db if tid in (t.get("tracking_id") or [])), None)
         if not rec:
-            payload = {"error": f"tracking_id '{tracking_id}' not found in tracking"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"tracking_id '{tid}' not found in tracking"}, indent=2)
 
         old_courier = rec.get("courier_name")
 
-        couriers = data.get("couriers", {}).values()
-        new_courier = next(
-            (c for c in couriers.values() if c.get("name") == new_courier_name), None
-        )
+        couriers = data.get("couriers", [])
+        new_courier = next((c for c in couriers if c.get("name") == new_courier_name), None)
         if not new_courier:
-            payload = {"error": f"courier '{new_courier_name}' not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"courier '{new_courier_name}' not found"}, indent=2)
 
         used_tids = {tid for t in tracking_db for tid in (t.get("tracking_id") or [])}
-        new_tid = next(
-            (t for t in new_courier.get("tracking_ids", []) if t not in used_tids), None
-        )
+        new_tid = next((t for t in new_courier.get("tracking_ids", []) if t not in used_tids), None)
         if not new_tid:
-            payload = {"error": f"No available tracking_id for courier '{new_courier_name}'"}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"No available tracking_id for courier '{new_courier_name}'"},
+                indent=2,
             )
-            return out
 
         rec["courier_name"] = new_courier_name
         rec.setdefault("tracking_id", []).append(new_tid)
@@ -83,8 +60,8 @@ class ReassignTrackingToNewCourierTool(Tool):
 
         order_id = rec.get("order_id")
         if order_id:
-            orders = data.get("orders", {}).values()
-            order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
+            orders = list(data.get("orders", {}).values())
+            order = next((o for o in orders if o.get("order_id") == order_id), None)
             if order:
                 order.setdefault("fulfillments", []).append(
                     {
@@ -94,22 +71,23 @@ class ReassignTrackingToNewCourierTool(Tool):
                         "timestamp": _now_iso(),
                     }
                 )
-        payload = {
+
+        return json.dumps(
+            {
                 "order_id": order_id,
                 "old_courier": old_courier,
                 "new_courier": new_courier_name,
                 "new_tracking_id": new_tid,
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "reassignTrackingToNewCourier",
+                "name": "reassign_tracking_to_new_courier",
                 "description": "Reassign a tracking record to a different courier and append the new tracking id; mirror change to order fulfillments.",
                 "parameters": {
                     "type": "object",

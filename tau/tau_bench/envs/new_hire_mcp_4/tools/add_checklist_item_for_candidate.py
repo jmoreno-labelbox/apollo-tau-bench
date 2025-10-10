@@ -1,46 +1,42 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AddChecklistItemForCandidate(Tool):
-    """Establish or insert a checklist item for a candidate."""
+    """Create or upsert a checklist item for a candidate."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], item_id: str = None, candidate_id: str = None, title: str = None, due_date: str = None, status: str = "pending", completed_on: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         item = {
-            "item_id": item_id,
-            "candidate_id": candidate_id,
-            "title": title,
-            "due_date": due_date,
-            "status": status,
-            "completed_on": completed_on,
+            "item_id": kwargs.get("item_id"),
+            "candidate_id": kwargs.get("candidate_id"),
+            "title": kwargs.get("title"),
+            "due_date": kwargs.get("due_date"),
+            "status": kwargs.get("status", "pending"),
+            "completed_on": kwargs.get("completed_on"),
         }
         if not item["item_id"] or not item["candidate_id"]:
-            payload = {"error": "missing_required_fields"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "missing_required_fields"}, indent=2)
         data.setdefault("checklist_items", [])
-        #insert or update using item_id
+        # upsert by item_id
         for i, it in enumerate(data["checklist_items"]):
             if it.get("item_id") == item["item_id"]:
                 updated = dict(it)
                 updated.update({k: v for k, v in item.items() if v is not None})
                 data["checklist_items"][i] = updated
-                payload = updated
-                out = json.dumps(payload, indent=2)
-                return out
+                return json.dumps(updated, indent=2)
         data["checklist_items"].append(item)
-        payload = item
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(item, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "addChecklistItemForCandidate",
+                "name": "add_checklist_item_for_candidate",
                 "description": "Create or upsert a checklist item for a candidate.",
                 "parameters": {
                     "type": "object",
@@ -52,7 +48,7 @@ class AddChecklistItemForCandidate(Tool):
                         "status": {"type": "string"},
                         "completed_on": {"type": "string"},
                     },
-                    "required": ["item_id", "candidate_id"],
-                },
-            },
+                    "required": ["item_id", "candidate_id"]
+                }
+            }
         }

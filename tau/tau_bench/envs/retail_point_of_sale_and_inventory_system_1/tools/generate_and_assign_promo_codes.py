@@ -1,14 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GenerateAndAssignPromoCodes(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], customer_ids: list[str] = None, promotion_id: str = None) -> str:
-        if customer_ids is None:
-            customer_ids = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_ids = kwargs.get('customer_ids', [])
+        promotion_id = kwargs.get('promotion_id')
 
         if "promo_codes" not in data:
             data["promo_codes"] = {}
@@ -20,20 +21,19 @@ class GenerateAndAssignPromoCodes(Tool):
                 "code": unique_code,
                 "promotion_id": promotion_id,
                 "customer_id": cid,
-                "is_used": False,
+                "is_used": False
             }
             data["promo_codes"][unique_code] = assignment
             generated_assignments.append(assignment)
-        payload = generated_assignments
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(generated_assignments)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GenerateAndAssignPromoCodes",
+                "name": "generate_and_assign_promo_codes",
                 "description": "Generates unique, single-use promotion codes and assigns them to a list of customers for a specific promotion.",
                 "parameters": {
                     "type": "object",

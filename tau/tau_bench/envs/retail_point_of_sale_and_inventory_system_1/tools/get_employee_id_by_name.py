@@ -1,37 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetEmployeeIdByName(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_name: str = None) -> str:
-        employees = data.get("employees", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_name = kwargs.get("employee_name")
+        employees = list(data.get("employees", {}).values())
 
-        for employee in employees.values():
+        for employee in employees:
             if employee.get("name") == employee_name:
-                payload = {"employee_id": employee.get("employee_id")}
-                out = json.dumps(payload)
-                return out
-        payload = {"employee_id": None}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"employee_id": employee.get("employee_id")})
+
+        return json.dumps({"employee_id": None})
+
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetEmployeeIdByName",
+                "name": "get_employee_id_by_name",
                 "description": "Retrieves the employee ID for a given employee's full name.",
                 "parameters": {
                     "type": "object",

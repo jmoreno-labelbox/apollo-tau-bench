@@ -1,0 +1,47 @@
+# Copyright Sierra
+
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class UpdateElastiCacheClusterConfig(Tool):
+    @staticmethod
+    def invoke(data: Dict[str, Any], cluster_id: Any, node_type: Any, num_nodes: Any) -> str:
+        changed_at = FIXED_NOW
+        cluster_id = _as_id(cluster_id)
+        clusters = data.get("aws_elasticache_clusters", [])
+        c = next((x for x in clusters if _as_id(x.get("cluster_id")) == cluster_id), None)
+        if not c:
+            return _err("Cluster not found.")
+        c["node_type"] = str(node_type)
+        c["num_nodes"] = int(num_nodes)
+        c["last_modified_at"] = str(changed_at)
+        return json.dumps(
+            {
+                "cluster_id": cluster_id,
+                "node_type": c["node_type"],
+                "num_nodes": c["num_nodes"],
+                "last_modified_at": c["last_modified_at"],
+            },
+            indent=2,
+        )
+
+    @staticmethod
+    def get_info() -> Dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "update_elasticache_cluster_config",
+                "description": "Resize an ElastiCache cluster (node_type / num_nodes).",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "cluster_id": {"type": "string"},
+                        "node_type": {"type": "string"},
+                        "num_nodes": {"type": "integer"},
+                    },
+                    "required": ["cluster_id", "node_type", "num_nodes"],
+                },
+            },
+        }

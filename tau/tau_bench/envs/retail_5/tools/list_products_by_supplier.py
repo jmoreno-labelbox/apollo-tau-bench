@@ -1,37 +1,36 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ListProductsBySupplier(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], supplier_id: str = None) -> str:
-        if not supplier_id:
-            payload = {"error": "supplier_id is required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        supplier_id = kwargs.get('supplier_id')
 
-        products = data["products"]
-        supplier_products = [p for p in products.values() if p["supplier_id"] == supplier_id]
-        payload = supplier_products
-        out = json.dumps(payload, indent=2)
-        return out
+        if not supplier_id:
+            return json.dumps({'error': 'supplier_id is required'})
+
+        products = data['products']
+        supplier_products = [p for p in products if p['supplier_id'] == supplier_id]
+
+        return json.dumps(supplier_products, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "listProductsBySupplier",
-                "description": "Get all products supplied by a specific supplier.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "supplier_id": {
-                            "type": "string",
-                            "description": "Supplier ID to get products for",
-                        }
+            'type': 'function',
+            'function': {
+                'name': 'list_products_by_supplier',
+                'description': 'Get all products supplied by a specific supplier.',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'supplier_id': {'type': 'string', 'description': 'Supplier ID to get products for'}
                     },
-                    "required": ["supplier_id"],
-                },
-            },
+                    'required': ['supplier_id']
+                }
+            }
         }

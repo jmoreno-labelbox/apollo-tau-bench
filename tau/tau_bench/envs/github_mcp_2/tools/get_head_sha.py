@@ -1,32 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetHeadSha(Tool):
-    """Delivers the SHA of the most recent commit on a specified branch."""
+    """Returns the SHA of the latest commit on a given branch."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str = None, branch: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        repo_name, branch = kwargs.get("repo_name"), kwargs.get("branch")
         if not repo_name:
-            payload = {"error": "repo_name is required."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "repo_name is required."}, indent=2)
 
         repo = _find_repo_record(data, repo_name)
         idx = _branch_index(repo, branch)
-        payload = {"branch": repo["branches"][idx], "sha": repo["branch_shas"][idx]}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        return json.dumps({"branch": repo["branches"][idx], "sha": repo["branch_shas"][idx]}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GetHeadSha",
+                "name": "get_head_sha",
                 "description": "Gets the SHA of the head commit on a branch.",
                 "parameters": {
                     "type": "object",
@@ -34,7 +31,7 @@ class GetHeadSha(Tool):
                         "repo_name": {"type": "string"},
                         "branch": {"type": "string"},
                     },
-                    "required": ["repo_name"],
-                },
-            },
+                    "required": ["repo_name"]
+                }
+            }
         }

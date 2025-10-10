@@ -1,44 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class terminate_employee(Tool):
     """
-    Designates an employee as terminated by updating status, termination_date,
-    and (if desired) removing benefit and compensation associations.
+    Marks an employee as terminated by setting status, termination_date,
+    and (optionally) clearing benefit and compensation links.
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str, termination_date: str = None) -> str:
-        employees = data.get("employees", {}).values()
+    def invoke(data: Dict[str, Any], employee_id: str, termination_date: str) -> str:
+        employees = list(data.get("employees", {}).values())
 
-        for e in employees.values():
+        for e in employees:
             if e["employee_id"] == employee_id:
                 e["status"] = "Terminated"
                 e["termination_date"] = termination_date
                 data["employees"] = employees
-                payload = {"success": f"employee {employee_id} terminated"}
-                out = json.dumps(
-                    payload, indent=2
+                return json.dumps(
+                    {"success": f"employee {employee_id} terminated"}, indent=2
                 )
-                return out
-        payload = {"error": f"employee_id {employee_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"error": f"employee_id {employee_id} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "TerminateEmployee",
+                "name": "terminate_employee",
                 "description": "Soft-delete: flag employee as Terminated and record final day.",
                 "parameters": {
                     "type": "object",

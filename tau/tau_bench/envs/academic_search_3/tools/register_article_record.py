@@ -1,67 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RegisterArticleRecord(Tool):
-    """Utility for generating a new article record."""
-
+    """Tool to create a new article record."""
     @staticmethod
-    def invoke(data: dict[str, Any], title: str, authors: list = None, topic: str = None, abstract: str = None) -> str:
-        if authors is None:
-            authors = []
-        articles = data.get("articles", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        articles = list(data.get('articles', {}).values())
         new_article = {
             "article_id": f"art_{len(articles) + 1:02d}",
-            "title": title,
-            "authors": authors,
+            "title": kwargs.get('title'),
+            "authors": kwargs.get('authors', []),
             "publication_year": datetime.now().year,
-            "topic": topic,
-            "abstract": abstract,
-            "status": "draft",
+            "topic": kwargs.get('topic'),
+            "abstract": kwargs.get('abstract'),
+            "status": "draft"
         }
-        data["articles"][article_id] = new_article
-        payload = new_article
-        out = json.dumps(payload, indent=2)
-        return out
+        articles.append(new_article)
+        return json.dumps(new_article, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "RegisterArticleRecord",
-                "description": "Creates a new draft article record.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "title": {
-                            "type": "string",
-                            "description": "The title of the article.",
-                        },
-                        "authors": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "A list of author names.",
-                        },
-                        "topic": {
-                            "type": "string",
-                            "description": "The primary topic of the article.",
-                        },
-                        "abstract": {
-                            "type": "string",
-                            "description": "The abstract of the article.",
-                        },
-                    },
-                    "required": ["title", "authors", "topic", "abstract"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "register_article_record", "description": "Creates a new draft article record.", "parameters": {"type": "object", "properties": {
+            "title": {"type": "string", "description": "The title of the article."},
+            "authors": {"type": "array", "items": {"type": "string"}, "description": "A list of author names."},
+            "topic": {"type": "string", "description": "The primary topic of the article."},
+            "abstract": {"type": "string", "description": "The abstract of the article."}
+        }, "required": ["title", "authors", "topic", "abstract"]}}}

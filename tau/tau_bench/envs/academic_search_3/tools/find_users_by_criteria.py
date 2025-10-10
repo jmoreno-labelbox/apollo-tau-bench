@@ -1,73 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindUsersByCriteria(Tool):
-    """Utility for locating users based on different criteria."""
-
+    """Tool to find users by various criteria."""
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: Any = None, name: Any = None, research_field: Any = None, availability: Any = None, institution: Any = None) -> str:
-        users = data.get("users", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        users = list(data.get('users', {}).values())
         results = []
-        for user in users.values():
+        for user in users:
             match = True
-            if user_id and user_id != user.get("person_id"):
-                match = False
-            if name and name.lower() not in user.get("name", "").lower():
-                match = False
-            if research_field and research_field.lower() not in user.get("research_field", "").lower():
-                match = False
-            if availability and availability != user.get("availability"):
-                match = False
-            if institution and institution == user.get("institution"):
-                match = False
+            if kwargs.get('user_id') and kwargs['user_id'] != user.get('user_id'): match = False
+            if kwargs.get('name') and kwargs['name'].lower() not in user.get('name', '').lower(): match = False
+            if kwargs.get('research_field') and kwargs['research_field'].lower() not in user.get('research_field', '').lower(): match = False
+            if kwargs.get('availability') and kwargs['availability'] != user.get('availability'): match = False
+            if kwargs.get('institution') and kwargs.get('institution') == user.get('institution'): match = False
             if match:
                 results.append(user)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(results, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "FindUsersByCriteria",
-                "description": "Finds researchers by ID, name, research field, availability, or to exclude an institution.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "user_id": {
-                            "type": "string",
-                            "description": "The unique ID of the user.",
-                        },
-                        "name": {
-                            "type": "string",
-                            "description": "The name of the user.",
-                        },
-                        "research_field": {
-                            "type": "string",
-                            "description": "A research field to filter by.",
-                        },
-                        "availability": {
-                            "type": "string",
-                            "description": "The availability status (e.g., 'available').",
-                        },
-                        "institution": {
-                            "type": "string",
-                            "description": "Excludes users who belong to this institution.",
-                        },
-                    },
-                    "required": [],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "find_users_by_criteria", "description": "Finds researchers by ID, name, research field, availability, or to exclude an institution.", "parameters": {"type": "object", "properties": {
+            "user_id": {"type": "string", "description": "The unique ID of the user."},
+            "name": {"type": "string", "description": "The name of the user."},
+            "research_field": {"type": "string", "description": "A research field to filter by."},
+            "availability": {"type": "string", "description": "The availability status (e.g., 'available')."},
+            "institution": {"type": "string", "description": "Excludes users who belong to this institution."}
+        }, "required": []}}}

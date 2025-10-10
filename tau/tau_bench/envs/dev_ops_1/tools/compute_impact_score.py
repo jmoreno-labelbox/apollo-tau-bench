@@ -1,12 +1,13 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ComputeImpactScore(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], ticket_key: str, fingerprint: str | None = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], ticket_key: str, fingerprint: Optional[str] = None) -> str:
         work_items = _get_table(data, "work_items")
         crashes = _get_table(data, "crash_events")
         item = next((w for w in work_items if w.get("ticket_key") == ticket_key), None)
@@ -19,24 +20,8 @@ class ComputeImpactScore(Tool):
             crash_count = sum(1 for c in crashes if c.get("fingerprint") == fingerprint)
         impact = sev_weight * (1 + crash_count)
         item["impact_score"] = impact
-        payload = {"impact_score": impact}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"impact_score": impact}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ComputeImpactScore",
-                "description": "Deterministically computes an impact score from severity weight and optional crash fingerprint count.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "ticket_key": {"type": "string"},
-                        "fingerprint": {"type": "string"},
-                    },
-                    "required": ["ticket_key"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "compute_impact_score", "description": "Deterministically computes an impact score from severity weight and optional crash fingerprint count.", "parameters": {"type": "object", "properties": {"ticket_key": {"type": "string"}, "fingerprint": {"type": "string"}}, "required": ["ticket_key"]}}}

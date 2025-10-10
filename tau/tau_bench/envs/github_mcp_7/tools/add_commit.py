@@ -1,0 +1,50 @@
+# Copyright Sierra
+
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class AddCommit(Tool):
+    """Record a commit on a branch (very lightweight)."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner = kwargs.get("owner") or _actor_name(data)
+        repo = kwargs.get("repo")
+        branch = kwargs.get("branch", "main")
+        message = kwargs.get("message") or ""
+        if not (_find_repo(data, owner, repo)):
+            raise RuntimeError("Repository not found")
+        seq = sum(1 for c in _commits(data) if c.get("owner") == owner and c.get("repo") == repo) + 1
+        sha = f"{branch}-{seq:06d}"
+        c = {
+            "owner": owner,
+            "repo": repo,
+            "branch": branch,
+            "sha": sha,
+            "message": message,
+            "author": _actor_name(data),
+            "timestamp": get_current_timestamp(),
+        }
+        _commits(data).append(c)
+        return json.dumps(c)
+
+    @staticmethod
+    def get_info() -> Dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "add_commit",
+                "description": "Add a commit record to a branch.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "owner": {"type": "string"},
+                        "repo": {"type": "string"},
+                        "branch": {"type": "string"},
+                        "message": {"type": "string"}
+                    },
+                    "required": ["repo"]
+                }
+            },
+        }

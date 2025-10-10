@@ -1,7 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class InitiateProductRecall(Tool):
     @staticmethod
@@ -16,17 +18,18 @@ class InitiateProductRecall(Tool):
             "recall_date": get_current_timestamp(),
             "recall_scope": f"all_lot_{lot_number}"
         })
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "InitiateProductRecall",
-                "description": "Initiate product recall for specific EAC number",
+                "name": "initiate_product_recall",
+                "description": "Initiate product recall for specific lot number",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "lot_number": {"type": "string", "description": "EAC number to recall"},
+                        "lot_number": {"type": "string", "description": "Lot number to recall"},
                         "recall_type": {"type": "string", "description": "Type of recall (voluntary/mandatory/precautionary)"}
                     },
                     "required": ["lot_number", "recall_type"]

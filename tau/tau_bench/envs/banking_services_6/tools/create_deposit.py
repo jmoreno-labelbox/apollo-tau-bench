@@ -1,14 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, time, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateDeposit(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, amount: float = None, description: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         transaction_id = _get_next_transaction_id(data)
+        account_id = kwargs.get("account_id")
+        amount = kwargs.get("amount")
+        description = kwargs.get("description")
 
-        account = next((acc for acc in data["accounts"].values() if acc["account_id"] == account_id), None)
+        account = next((acc for acc in data["accounts"] if acc["account_id"] == account_id), None)
         if not account:
             return json.dumps({"error": "Account not found."})
 
@@ -25,15 +30,16 @@ class CreateDeposit(Tool):
                 "status": "Completed",
                 "channel": "Online"
         }
-        data["transactions"][transaction_id] = new_transaction
+        data["transactions"].append(new_transaction)
 
         return json.dumps(new_transaction)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "CreateDeposit",
+                        "name": "create_deposit",
                         "description": "Records an external deposit into an account.",
                         "parameters": {
                                 "type": "object",

@@ -1,26 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateAuditEventEntryTool(Tool):
-    """Inserts a record into the audit_events table for compliance monitoring."""
+    """Creates entry in audit_events table for compliance tracking."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        actor_id: int = None,
-        action: str = None,
-        entity_type: str = None,
-        entity_id: str = None,
-        metadata_json: Any = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        actor_id = kwargs.get("actor_id")
+        action = kwargs.get("action")
+        entity_type = kwargs.get("entity_type")
+        entity_id = kwargs.get("entity_id")
+        metadata_json = kwargs.get("metadata_json")
+
         if actor_id is None or not action or not entity_type or entity_id is None:
             return _err("actor_id, action, entity_type, entity_id are required")
 
         if metadata_json is not None and not isinstance(metadata_json, (dict, list)):
-            return _err("metadata_json must be an object WA array if provided")
+            return _err("metadata_json must be an object or array if provided")
 
         rows = data.setdefault("audit_events", [])
         event_id = _next_int_id(rows, "event_id")
@@ -34,15 +34,14 @@ class CreateAuditEventEntryTool(Tool):
             "metadata_json": metadata_json if metadata_json is not None else {},
         }
         rows.append(rec)
-        payload = rec
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(rec, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateAuditEventEntry",
+                "name": "create_audit_event_entry",
                 "description": (
                     "Creates entry in audit_events table for compliance tracking."
                 ),
@@ -53,13 +52,7 @@ class CreateAuditEventEntryTool(Tool):
                         "action": {"type": "string"},
                         "entity_type": {"type": "string"},
                         "entity_id": {"type": "string"},
-                        "metadata_json": {
-                            "oneOf": [
-                                {"type": "object"},
-                                {"type": "array", "items": {"type": "object"}},
-                                {"type": "null"}
-                            ]
-                        },
+                        "metadata_json": {"type": ["object", "array", "null"]},
                     },
                     "required": ["actor_id", "action", "entity_type", "entity_id"],
                 },

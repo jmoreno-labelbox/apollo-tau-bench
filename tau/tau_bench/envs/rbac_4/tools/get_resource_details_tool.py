@@ -1,40 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetResourceDetailsTool(Tool):
-    """Get information regarding a specified resource."""
+    """Retrieve details for a given resource."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], resource_id: str = None) -> str:
-        rid = resource_id
-        for res in data.get("resources", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        rid = kwargs.get("resource_id")
+        for res in data.get("resources", []):
             if res["resource_id"] == rid:
-                payload = res
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Resource {rid} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(res, indent=2)
+        return json.dumps({"error": f"Resource {rid} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetResourceDetails",
+                "name": "get_resource_details",
                 "description": "Get full details of a resource from resource_id",
                 "parameters": {
                     "type": "object",
-                    "properties": {"resource_id": {"type": "string"}},
-                    "required": ["resource_id"],
-                },
-            },
+                    "properties": {
+                        "resource_id": {"type": "string"}
+                    },
+                    "required": ["resource_id"]
+                }
+            }
         }

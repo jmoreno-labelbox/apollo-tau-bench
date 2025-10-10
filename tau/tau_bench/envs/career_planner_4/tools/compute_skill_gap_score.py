@@ -1,25 +1,23 @@
-from tau_bench.envs.tool import Tool
-import json
-import uuid
-from datetime import datetime
-from typing import Any
+# Copyright Sierra
 
-class ComputeSkillGapScore(Tool):
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class compute_skill_gap_score(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str) -> str:
-        pass
-        # Simulated computation - in a real system, actual skill gaps would be assessed
-        score = 45  # Simulated score under the threshold
-        payload = {"readiness_score": score, "user_id": user_id}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], user_id: str) -> str:
+        # Mock computation - in real system would analyze actual skill gaps
+        score = 45  # Mock score below threshold
+        return json.dumps({"readiness_score": score, "user_id": user_id}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "computeSkillGapScore",
+                "name": "compute_skill_gap_score",
                 "description": "Compute skill gap readiness score for a user",
                 "parameters": {
                     "type": "object",

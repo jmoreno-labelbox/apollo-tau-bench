@@ -1,25 +1,25 @@
-from tau_bench.envs.tool import Tool
-import json
-from typing import Any
+# Copyright Sierra
 
-class GetTopNCustomersByLoyaltyPoints(Tool):  #VIEW
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class GetTopNCustomersByLoyaltyPoints(Tool): # READ
     @staticmethod
-    def invoke(data: dict[str, Any], n: int) -> str:
+    def invoke(data: Dict[str, Any], n: int) -> str:
         customers = data["customers"]
-        # Order by loyalty_points from highest to lowest
-        sorted_customers = sorted(
-            customers, key=lambda c: c["loyalty_points"], reverse=True
-        )
+        # Sort by loyalty_points in descending order
+        sorted_customers = sorted(customers, key=lambda c: c["loyalty_points"], reverse=True)
         top_customers = sorted_customers[:n]
-        payload = top_customers
-        out = json.dumps(payload)
-        return out
+        return json.dumps(top_customers)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetTopNCustomersByLoyaltyPoints",
+                "name": "get_top_n_customers_by_loyalty_points",
                 "description": "Get the top N customers sorted by loyalty points in descending order.",
                 "parameters": {
                     "type": "object",

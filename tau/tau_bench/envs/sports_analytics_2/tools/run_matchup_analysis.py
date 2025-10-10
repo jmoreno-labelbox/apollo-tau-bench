@@ -1,33 +1,17 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class RunMatchupAnalysis(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], **kwargs) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         opponent_team = kwargs.get("opponent_team")
-        kwargs.get("our_lineup")
-        payload = {"matchup_analysis": f"matchups_vs_team_{opponent_team}"}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        our_lineup = kwargs.get("our_lineup")
+        return json.dumps({"matchup_analysis": f"matchups_vs_team_{opponent_team}"}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "runMatchupAnalysis",
-                "description": "Runs tactical matchup analysis between lineups.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "opponent_team": {"type": "integer"},
-                        "our_lineup": {"type": "string"},
-                    },
-                    "required": ["opponent_team"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "run_matchup_analysis", "description": "Runs tactical matchup analysis between lineups.", "parameters": {"type": "object", "properties": {"opponent_team": {"type": "integer"}, "our_lineup": {"type": "string"}}, "required": ["opponent_team"]}}}

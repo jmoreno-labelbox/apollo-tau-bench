@@ -1,34 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, time, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateCustomerPhone(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, new_phone_number: str = None) -> str:
-        for customer in data.get("customers", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        new_phone_number = kwargs.get("new_phone_number")
+        for customer in list(data.get("customers", {}).values()):
             if customer.get("customer_id") == customer_id:
-                for phone in customer.get("contact_info", {}).values().get("phone_numbers", []):
+                for phone in customer.get("contact_info", {}).get("phone_numbers", []):
                     if phone.get("is_primary"):
                         phone["number"] = new_phone_number
                         return json.dumps(customer)
                 customer["contact_info"]["phone_numbers"].append({"type": "Mobile", "number": new_phone_number, "is_primary": True})
                 return json.dumps(customer)
         return json.dumps({"error": "Customer not found."})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "UpdateCustomerPhone",
+                        "name": "update_customer_phone",
                         "description": "Updates the primary phone number for a customer.",
                         "parameters": {
                                 "type": "object",

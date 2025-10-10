@@ -1,43 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetRecipeIngredients(Tool):
-    """Obtains all components for a certain recipe ID."""
+    """Retrieves all ingredients for a specific recipe ID."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        recipe_id = kwargs.get("recipe_id")
+        recipe_ingredients = data.get("recipe_ingredients", [])
+        ingredients = [ri for ri in recipe_ingredients if ri.get("recipe_id") == recipe_id]
+        return json.dumps(ingredients)
 
     @staticmethod
-    def invoke(data: dict[str, Any], recipe_id: str = None) -> str:
-        recipe_ingredients = data.get("recipe_ingredients", {}).values()
-        ingredients = [
-            ri for ri in recipe_ingredients.values() if ri.get("recipe_id") == recipe_id
-        ]
-        payload = ingredients
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetRecipeIngredients",
+                "name": "get_recipe_ingredients",
                 "description": "Retrieves all ingredients for a specific recipe ID.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "recipe_id": {
-                            "type": "integer",
-                            "description": "The unique ID of the recipe.",
-                        }
-                    },
+                    "properties": {"recipe_id": {"type": "integer", "description": "The unique ID of the recipe."}},
                     "required": ["recipe_id"],
                 },
             },

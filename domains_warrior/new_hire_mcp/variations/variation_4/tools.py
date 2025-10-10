@@ -1,4 +1,4 @@
-﻿from domains.dto import Tool
+from domains.dto import Tool
 from typing import Any, Dict, List, Optional
 import json, re
 from datetime import datetime, timezone

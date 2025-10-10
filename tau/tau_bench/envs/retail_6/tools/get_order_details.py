@@ -1,34 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetOrderDetails(Tool):
-    """Fetch an order using its ID."""
+    """Return an order by ID."""
+    @staticmethod
+    def invoke(data, **kwargs) -> str:
+        order_id = kwargs.get('order_id')
+        if not order_id:
+            return json.dumps({"error":"order_id is required"}, indent=2)
+        order = _find_order(data, order_id)
+        return json.dumps(order or {"error": f"order_id {order_id} not found"}, indent=2)
 
     @staticmethod
-    def invoke(data, order_id=None) -> str:
-        if not order_id:
-            payload = {"error": "order_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
-        order = _find_order(data, order_id)
-        payload = order or {"error": f"order_id {order_id} not found"}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
-    @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "getOrderDetails",
-                "description": "Fetch an order by ID.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"order_id": {"type": "string"}},
-                    "required": ["order_id"],
-                },
-            },
-        }
+        return {"type":"function","function":{"name":"get_order_details","description":"Fetch an order by ID.","parameters":{"type":"object","properties":{"order_id":{"type":"string"}},"required":["order_id"]}}}

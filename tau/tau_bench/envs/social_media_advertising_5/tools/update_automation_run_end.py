@@ -1,45 +1,29 @@
-from tau_bench.envs.tool import Tool
-import ast
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateAutomationRunEnd(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], run_id: str = None, status: str = None, ended_at: str = None) -> str:
-        for r in data.get("automation_runs", {}).values():
-            if r.get("run_id") == run_id:
-                r["status"] = status
-                r["ended_at"] = ended_at
-                payload = r
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"run {run_id} not found"}
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        rid = kwargs.get("run_id")
+        st = kwargs.get("status")
+        ea = kwargs.get("ended_at")
+        for r in data.get("automation_runs", []):
+            if r.get("run_id") == rid:
+                r["status"] = st
+                r["ended_at"] = ea
+                return json.dumps(r)
+        return json.dumps({"error": f"run {rid} not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "UpdateAutomationRunEnd",
-                "description": "Sets final status and end time for a run.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "run_id": {"type": "string"},
-                        "status": {"type": "string"},
-                        "ended_at": {"type": "string"},
-                    },
-                    "required": ["run_id", "status", "ended_at"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "update_automation_run_end",
+                                                 "description": "Sets final status and end time for a run.",
+                                                 "parameters": {"type": "object",
+                                                                "properties": {"run_id": {"type": "string"},
+                                                                               "status": {"type": "string"},
+                                                                               "ended_at": {"type": "string"}},
+                                                                "required": ["run_id", "status", "ended_at"]}}}

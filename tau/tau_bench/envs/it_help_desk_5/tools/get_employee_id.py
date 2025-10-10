@@ -1,64 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetEmployeeId(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], first_name: str = None, last_name: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        first_name = kwargs.get('first_name')
+        last_name = kwargs.get('last_name')
+
         if first_name is None or last_name is None:
-            payload = {"error": "first_name and last_name are required."}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({'error': 'first_name and last_name are required.'}, indent=2)
 
-        employees = data.get("employees", {}).values()
+        employees = list(data.get('employees', {}).values())
 
-        for employee in employees.values():
-            if (
-                employee["first_name"] == first_name
-                and employee["last_name"] == last_name
-            ):
-                payload = employee["employee_id"]
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {
-                "status": "error",
-                "reason": f"Employee {first_name} {last_name} not found.",
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        for employee in employees:
+            if employee['first_name'] == first_name and employee['last_name'] == last_name:
+                return json.dumps(employee['employee_id'], indent=2)
+        return json.dumps({'status': 'error', 'reason': f'Employee {first_name} {last_name} not found.'}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "getEmployeeId",
-                "description": "Finds an employee's id using their first name and last name.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "first_name": {
-                            "type": "string",
-                            "description": "The first name of the employee to search for.",
-                        },
-                        "last_name": {
-                            "type": "string",
-                            "description": "The last name of the employee to search for.",
-                        },
+            'type': 'function',
+            'function': {
+                'name': 'get_employee_id',
+                'description': "Finds an employee's id using their first name and last name.",
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'first_name': {'type': 'string', 'description': 'The first name of the employee to search for.'},
+                        'last_name': {'type': 'string', 'description': 'The last name of the employee to search for.'},
                     },
-                    "required": ["first_name", "last_name"],
-                },
-            },
+                    'required': ['first_name', 'last_name']
+                }
+            }
         }

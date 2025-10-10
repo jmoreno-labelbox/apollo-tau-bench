@@ -1,29 +1,22 @@
-from tau_bench.envs.tool import Tool
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListArtifactsTool(Tool):
-    """Enumerate Figma artifacts filtered by owner, tags, type, or modified since."""
+    """List Figma artifacts filtered by owner, tags, type, or modified since."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        owner_email: str = None,
-        tag: str = None,
-        artifact_type: str = None,
-        modified_since: str = None
-    ) -> str:
-        rows = data.get("figma_artifacts", {}).values()
-        out: list[dict[str, Any]] = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner_email = kwargs.get("owner_email")
+        tag = kwargs.get("tag")
+        artifact_type = kwargs.get("artifact_type")
+        modified_since = kwargs.get("modified_since")  # ISO string
+
+        rows = data.get("figma_artifacts", [])
+        out: List[Dict[str, Any]] = []
         for r in rows:
             if owner_email and r.get("owner_email") != owner_email:
                 continue
@@ -35,29 +28,17 @@ class ListArtifactsTool(Tool):
                     continue
             if modified_since and r.get("modified_ts", "") < modified_since:
                 continue
-            out.append(
-                _small_fields(
-                    r,
-                    [
-                        "artifact_id",
-                        "artifact_name",
-                        "artifact_type",
-                        "owner_email",
-                        "modified_ts",
-                    ],
-                )
-            )
+            out.append(_small_fields(r, ["artifact_id", "artifact_name", "artifact_type", "owner_email", "modified_ts"]))
 
-        out.sort(key=lambda x: (x.get("artifact_type", ""), x.get("artifact_name", "")))
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        out.sort(key=lambda x: (x.get("artifact_type",""), x.get("artifact_name","")))
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListArtifacts",
+                "name": "list_artifacts",
                 "description": "List Figma artifacts filtered by owner, tag, type, or modified_since (ISO).",
                 "parameters": {
                     "type": "object",
@@ -65,11 +46,8 @@ class ListArtifactsTool(Tool):
                         "owner_email": {"type": "string"},
                         "tag": {"type": "string"},
                         "artifact_type": {"type": "string"},
-                        "modified_since": {
-                            "type": "string",
-                            "description": "ISO timestamp; include rows with modified_ts >= this.",
-                        },
-                    },
-                },
-            },
+                        "modified_since": {"type": "string", "description": "ISO timestamp; include rows with modified_ts >= this."}
+                    }
+                }
+            }
         }

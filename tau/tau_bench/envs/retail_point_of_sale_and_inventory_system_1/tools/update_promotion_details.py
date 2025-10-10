@@ -1,50 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdatePromotionDetails(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], promotion_id: str, key: str = None, value: Any = None,
-    usage_limit: Any = None,
-    times_used: Any = None,
-    name: Any = None,
-    description: Any = None,
-    applicable_skus: Any = None,
-    status: Any = None,
-    end_date: Any = None,
-    discount_value: Any = None,
-    start_date: Any = None,
-    requires_code: Any = None,
-    type: Any = None,
-    ) -> str:
-        promotions = data.get("promotions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        promotion_id = kwargs.get('promotion_id')
+        promotions = data.get("promotions", [])
         updated_promo = None
         for promo in promotions:
             if promo.get("promotion_id") == promotion_id:
-                if key is not None and value is not None:
-                    promo[key] = value
+                for key, value in kwargs.items():
+                    if key != 'promotion_id':
+                        promo[key] = value
                 updated_promo = promo
                 break
-        payload = {"updated_promotion": updated_promo}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"updated_promotion": updated_promo})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdatePromotionDetails",
+                "name": "update_promotion_details",
                 "description": "Updates various details of an existing promotion.",
                 "parameters": {
                     "type": "object",

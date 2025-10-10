@@ -1,93 +1,68 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetFixPlanItems(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        plan_ids: list[str] = None,
-        status: str = None,
-        severity: str = None,
-        include_resolved: bool = False,
-        limit: int = 50,
-        plan_id: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
-        Obtains fix items for one or more fix plans with available filtering options.
+        Retrieves fix items for one or more fix plans with filtering options.
         """
-        if plan_ids is None:
-            plan_ids = []
+        plan_ids = kwargs.get('plan_ids', [])
+        status_filter = kwargs.get('status')
+        severity_filter = kwargs.get('severity')
+        include_resolved = kwargs.get('include_resolved', False)
+        limit = kwargs.get('limit', 50)
 
-        if not plan_ids and plan_id:
-            plan_ids = [plan_id]
+        if not plan_ids and 'plan_id' in kwargs:
+            plan_ids = [kwargs['plan_id']]
 
         if not plan_ids:
-            payload = {"error": "At least one plan_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "At least one plan_id is required"})
 
-        fix_plans = data.get("fix_plans", {}).values()
-        fix_items = data.get("fix_items", {}).values()
+        fix_plans = data.get('fix_plans', [])
+        fix_items = data.get('fix_items', [])
 
         result = []
         for plan_id in plan_ids:
-            plan = next((p for p in fix_plans.values() if p.get("plan_id") == plan_id), None)
+            plan = next((p for p in fix_plans if p.get('plan_id') == plan_id), None)
             if not plan:
                 continue
 
             plan_items = [
-                item
-                for item in fix_items.values() if item.get("plan_id") == plan_id
-                and (include_resolved or item.get("status") != "RESOLVED")
+                item for item in fix_items
+                if item.get('plan_id') == plan_id and
+                   (include_resolved or item.get('status') != 'RESOLVED')
             ]
 
-            if status:
-                plan_items = [
-                    item for item in plan_items if item.get("status") == status
-                ]
-            if severity:
-                plan_items = [
-                    item
-                    for item in plan_items
-                    if item.get("severity") == severity
-                ]
+            if status_filter:
+                plan_items = [item for item in plan_items if item.get('status') == status_filter]
+            if severity_filter:
+                plan_items = [item for item in plan_items if item.get('severity') == severity_filter]
 
             if plan_items:
-                result.append(
-                    {
-                        "plan_id": plan_id,
-                        "plan_name": plan.get("name", ""),
-                        "status": plan.get("status", ""),
-                        "items": plan_items[:limit],
-                    }
-                )
-        payload = {
-                "total_plans": len(result),
-                "total_items": sum(len(plan["items"]) for plan in result.values()),
-                "plans": result,
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+                result.append({
+                    'plan_id': plan_id,
+                    'plan_name': plan.get('name', ''),
+                    'status': plan.get('status', ''),
+                    'items': plan_items[:limit]
+                })
+
+        return json.dumps({
+            'total_plans': len(result),
+            'total_items': sum(len(plan['items']) for plan in result),
+            'plans': result
+        }, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GetFixPlanItems",
+                "name": "get_fix_plan_items",
                 "description": "Retrieves fix items for one or more fix plans with filtering options.",
                 "parameters": {
                     "type": "object",
@@ -95,31 +70,35 @@ class GetFixPlanItems(Tool):
                         "plan_ids": {
                             "type": "array",
                             "items": {"type": "string"},
-                            "description": "List of fix plan IDs to retrieve items for",
+                            "description": "List of fix plan IDs to retrieve items for"
                         },
                         "plan_id": {
                             "type": "string",
-                            "description": "Single fix plan ID (alternative to plan_ids)",
+                            "description": "Single fix plan ID (alternative to plan_ids)"
                         },
                         "status": {
                             "type": "string",
-                            "description": "Filter items by status (e.g., 'OPEN', 'IN_PROGRESS', 'RESOLVED')",
+                            "description": "Filter items by status (e.g., 'OPEN', 'IN_PROGRESS', 'RESOLVED')"
                         },
                         "severity": {
                             "type": "string",
-                            "description": "Filter items by severity (e.g., 'LOW', 'MEDIUM', 'HIGH', 'CRITICAL')",
+                            "description": "Filter items by severity (e.g., 'LOW', 'MEDIUM', 'HIGH', 'CRITICAL')"
                         },
                         "include_resolved": {
                             "type": "boolean",
                             "default": False,
-                            "description": "Include resolved items in results",
+                            "description": "Include resolved items in results"
                         },
                         "limit": {
                             "type": "integer",
                             "default": 50,
-                            "description": "Maximum number of items to return per plan",
-                        },
+                            "description": "Maximum number of items to return per plan"
+                        }
                     },
-},
-            },
+                    "anyOf": [
+                        {"required": ["plan_ids"]},
+                        {"required": ["plan_id"]}
+                    ]
+                }
+            }
         }

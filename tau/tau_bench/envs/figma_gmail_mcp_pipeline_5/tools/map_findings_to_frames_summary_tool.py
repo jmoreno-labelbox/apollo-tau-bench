@@ -1,65 +1,40 @@
-from tau_bench.envs.tool import Tool
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class MapFindingsToFramesSummaryTool(Tool):
-    """Generate a per-frame summary of counts from DS and A11y findings for a specific audit."""
+    """Produce a per-frame summary of counts from DS and A11y findings for a given audit."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], audit_id: str = None) -> str:
-        audit_id = _require_str(audit_id, "audit_id")
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        audit_id = _require_str(kwargs.get("audit_id"), "audit_id")
         if not audit_id:
-            payload = {"error": "audit_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error":"audit_id is required"})
 
-        ds = [
-            r
-            for r in data.get("audit_findings_ds", {}).values()
-            if r.get("audit_id") == audit_id
-        ]
-        a11y = [
-            r
-            for r in data.get("audit_findings_a11y", {}).values()
-            if r.get("audit_id") == audit_id
-        ]
-        counts: dict[str, dict[str, int]] = {}
+        ds = [r for r in data.get("audit_findings_ds", []) if r.get("audit_id") == audit_id]
+        a11y = [r for r in data.get("audit_findings_a11y", []) if r.get("audit_id") == audit_id]
+        counts: Dict[str, Dict[str,int]] = {}
         for r in ds:
             fid = r.get("frame_id")
-            bucket = counts.setdefault(fid, {"ds": 0, "a11y": 0})
+            bucket = counts.setdefault(fid, {"ds":0,"a11y":0})
             bucket["ds"] += 1
         for r in a11y:
             fid = r.get("frame_id")
-            bucket = counts.setdefault(fid, {"ds": 0, "a11y": 0})
+            bucket = counts.setdefault(fid, {"ds":0,"a11y":0})
             bucket["a11y"] += 1
 
-        out = [
-            {"frame_id": k, "ds_count": v["ds"], "a11y_count": v["a11y"]}
-            for k, v in sorted(counts.items())
-        ]
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        out = [{"frame_id": k, "ds_count": v["ds"], "a11y_count": v["a11y"]} for k,v in sorted(counts.items())]
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "MapFindingsToFramesSummary",
-                "description": "Return per-frame counts of DS and A11y findings for a given audit.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"audit_id": {"type": "string"}},
-                    "required": ["audit_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"map_findings_to_frames_summary",
+            "description":"Return per-frame counts of DS and A11y findings for a given audit.",
+            "parameters":{"type":"object","properties":{
+                "audit_id":{"type":"string"}
+            },"required":["audit_id"]}
+        }}

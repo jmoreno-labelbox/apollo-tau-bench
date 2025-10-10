@@ -1,20 +1,14 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateGoal(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         user_id: str,
         goal_id: str,
         last_updated_date: str,
@@ -22,16 +16,14 @@ class UpdateGoal(Tool):
         progress_percent: int = None,
         notes_to_append: str = None,
     ) -> str:
-        goals_data = data.get("goals", {}).values()
+        goals_data = data.get("goals", [])
         user_goals_obj = next(
-            (g for g in goals_data.values() if g.get("user_id") == user_id), None
+            (g for g in goals_data if g.get("user_id") == user_id), None
         )
         if not user_goals_obj:
-            payload = {"error": f"User {user_id} not found in goals data"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": f"User {user_id} not found in goals data"}, indent=2
             )
-            return out
 
         goal_to_update = next(
             (g for g in user_goals_obj.get("goals", []) if g.get("goal_id") == goal_id),
@@ -39,13 +31,11 @@ class UpdateGoal(Tool):
         )
 
         if not goal_to_update:
-            payload = {"error": f"Goal {goal_id} not found for user {user_id}"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": f"Goal {goal_id} not found for user {user_id}"}, indent=2
             )
-            return out
 
-        # Implement updates if supplied
+        # Apply updates if provided
         if status is not None:
             goal_to_update["status"] = status
         if progress_percent is not None:
@@ -57,22 +47,19 @@ class UpdateGoal(Tool):
             else:
                 goal_to_update["notes"] = notes_to_append.strip()
 
-        # Assign the last_updated date based on the supplied parameter
+        # Set the last_updated date from the provided parameter
         goal_to_update["last_updated"] = last_updated_date
-        payload = {"success": f"Goal {goal_id} updated for user {user_id}"}
-        out = json.dumps(
-            payload, indent=2
+
+        return json.dumps(
+            {"success": f"Goal {goal_id} updated for user {user_id}"}, indent=2
         )
-        return out
-            
 
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "UpdateGoal",
+                "name": "update_goal",
                 "description": "Update specific fields of a user's goal. The last_updated date must be provided.",
                 "parameters": {
                     "type": "object",

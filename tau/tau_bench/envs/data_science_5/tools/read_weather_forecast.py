@@ -1,35 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ReadWeatherForecast(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], city: str = None) -> str:
-        rows = data.get("weather_forecasts", {}).values() or []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        city = kwargs.get("city")
+        rows = data.get("weather_forecasts", []) or []
         if city:
-            rows = [r for r in rows.values() if r.get("city") == city]
-        payload = {"rows": rows}
-        out = json.dumps(payload, indent=2)
-        return out
+            rows = [r for r in rows if r.get("city") == city]
+        return json.dumps({"rows": rows}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "readWeatherForecast",
-                "description": "Fetch Open-Meteo style forecast rows (optional city filter).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"city": {"type": "string"}},
-                    "required": [],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "read_weather_forecast",
+            "description": "Fetch Open-Meteo style forecast rows (optional city filter).",
+            "parameters": {"type": "object", "properties": {"city": {"type": "string"}}, "required": []}
+        }}

@@ -1,15 +1,45 @@
-# Re-export TOOLS from the adjacent tools.py file
-import sys
-from pathlib import Path
+# Copyright Sierra
 
-# Add parent directory to path to import tools.py as a module
-_parent = Path(__file__).parent.parent
-_tools_module_path = _parent / "tools.py"
+from .get_device_info import GetDeviceInfo
+from .set_device_state import SetDeviceState
+from .add_device import AddDevice
+from .remove_device import RemoveDevice
+from .get_room_info import GetRoomInfo
+from .manage_room_devices import ManageRoomDevices
+from .list_all_scenes import ListAllScenes
+from .activate_scene import ActivateScene
+from .create_scene import CreateScene
+from .delete_scene import DeleteScene
+from .get_reminders import GetReminders
+from .add_reminder import AddReminder
+from .update_reminder import UpdateReminder
+from .delete_reminder import DeleteReminder
+from .get_custom_list import GetCustomList
+from .create_custom_list import CreateCustomList
+from .manage_custom_list_items import ManageCustomListItems
+from .delete_custom_list import DeleteCustomList
+from .get_sensor_data import GetSensorData
+from .get_member_info import GetMemberInfo
 
-import importlib.util
-spec = importlib.util.spec_from_file_location("_tools_module", _tools_module_path)
-_tools_module = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(_tools_module)
-
-# Re-export TOOLS
-TOOLS = _tools_module.TOOLS
+ALL_TOOLS = [
+    GetDeviceInfo,
+    SetDeviceState,
+    AddDevice,
+    RemoveDevice,
+    GetRoomInfo,
+    ManageRoomDevices,
+    ListAllScenes,
+    ActivateScene,
+    CreateScene,
+    DeleteScene,
+    GetReminders,
+    AddReminder,
+    UpdateReminder,
+    DeleteReminder,
+    GetCustomList,
+    CreateCustomList,
+    ManageCustomListItems,
+    DeleteCustomList,
+    GetSensorData,
+    GetMemberInfo,
+]

@@ -1,8 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class DeleteExistingBeneficiaryTool(Tool):
     """
@@ -20,7 +21,9 @@ class DeleteExistingBeneficiaryTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, beneficiary_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        beneficiary_id = kwargs.get("beneficiary_id")
         if not customer_id or not beneficiary_id:
             return json.dumps(
                 {"error": "customer_id and beneficiary_id are required"}, indent=2
@@ -45,12 +48,13 @@ class DeleteExistingBeneficiaryTool(Tool):
         return json.dumps(
             {"status": "deleted", "beneficiary_id": beneficiary_id}, indent=2
         )
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "DeleteExistingBeneficiary",
+                "name": "delete_existing_beneficiary",
                 "description": "Remove a beneficiary from the customer's account after validation.",
                 "parameters": {
                     "type": "object",

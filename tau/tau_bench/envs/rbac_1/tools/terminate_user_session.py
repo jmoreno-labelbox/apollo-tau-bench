@@ -1,46 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class TerminateUserSession(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], session_id: str = None) -> str:
-        sessions = data.get("user_sessions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        session_id = kwargs.get("session_id")
+        sessions = data.get('user_sessions', [])
         terminated = False
-        for session in sessions.values():
-            if session.get("session_id") == session_id:
-                session["end_time"] = NOW.strftime(DT_STR_FORMAT)
-                session["status"] = "TERMINATED"
+        for session in sessions:
+            if session.get('session_id') == session_id:
+                session['end_time'] = NOW.strftime(DT_STR_FORMAT)
+                session['status'] = 'TERMINATED'
                 terminated = True
                 break
 
         if terminated:
-            payload = session
-            out = json.dumps(payload)
-            return out
-        payload = {"error": "Session not found"}
-        out = json.dumps(payload)
-        return out
+            return json.dumps(session)
+        return json.dumps({"error": "Session not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "terminateUserSession",
-                "description": "Terminates a user's active session.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"session_id": {"type": "string"}},
-                    "required": ["session_id"],
-                },
-            },
+                "type": "function",
+                "function": {
+                        "name": "terminate_user_session",
+                        "description": "Terminates a user's active session.",
+                        "parameters": {
+                                "type": "object",
+                                "properties": {
+                                        "session_id": {"type": "string"}
+                                },
+                                "required": ["session_id"]
+                        }
+                }
         }

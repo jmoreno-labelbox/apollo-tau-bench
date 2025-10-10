@@ -1,57 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CancelOrderItems(Tool):
-    """Designate certain items in an order as cancelled with a reason_code (adds 'cancelled': True)."""
-
+    """Mark specific items in an order as cancelled with a reason_code (adds 'cancelled': True)."""
     @staticmethod
-    def invoke(data, order_id: str = None, item_ids: list = None, reason_code: str = None) -> str:
-        if item_ids is None:
-            item_ids = []
+    def invoke(data, **kwargs) -> str:
+        order_id = kwargs.get('order_id')
+        item_ids = kwargs.get('item_ids', [])
+        reason_code = kwargs.get('reason_code')
         if not order_id or not item_ids or not reason_code:
-            payload = {"error": "order_id, item_ids, reason_code are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error":"order_id, item_ids, reason_code are required"}, indent=2)
         o = _find_order(data, order_id)
         if not o:
-            payload = {"error": f"order_id {order_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error":f"order_id {order_id} not found"}, indent=2)
         updated = []
-        for item in o.get("items", []):
-            if item.get("item_id") in item_ids:
-                item["cancelled"] = True
-                item["cancellation_reason"] = reason_code
-                updated.append(item["item_id"])
-        payload = {
-                "success": True,
-                "order_id": order_id,
-                "cancelled_item_ids": updated,
-                "reason_code": reason_code,
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        for item in o.get('items', []):
+            if item.get('item_id') in item_ids:
+                item['cancelled'] = True
+                item['cancellation_reason'] = reason_code
+                updated.append(item['item_id'])
+        return json.dumps({"success": True, "order_id": order_id, "cancelled_item_ids": updated, "reason_code": reason_code}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "cancelOrderItems",
-                "description": "Mark given item_ids in an order as cancelled with a reason_code.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "order_id": {"type": "string"},
-                        "item_ids": {"type": "array", "items": {"type": "string"}},
-                        "reason_code": {"type": "string"},
-                    },
-                    "required": ["order_id", "item_ids", "reason_code"],
-                },
-            },
-        }
+        return {"type":"function","function":{"name":"cancel_order_items","description":"Mark given item_ids in an order as cancelled with a reason_code.","parameters":{"type":"object","properties":{"order_id":{"type":"string"},"item_ids":{"type":"array","items":{"type":"string"}},"reason_code":{"type":"string"}},"required":["order_id","item_ids","reason_code"]}}}

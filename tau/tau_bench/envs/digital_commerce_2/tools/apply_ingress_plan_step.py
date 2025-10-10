@@ -1,125 +1,124 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
-from decimal import ROUND_HALF_UP, Decimal
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ApplyIngressPlanStep(Tool):
+    name = "apply_ingress_plan_step"
+    description = "Apply a single step of the most recent ingress plan."
 
     @staticmethod
-    def invoke(data: dict[str, Any], plan_id: Any, step_index: Any) -> str:
-        pass
-        plan_id = _idstr(plan_id)
-        step_index = int(step_index)
-        #retrieve plan
-        plan = None
-        for p in data.get("aws_plans", {}).values():
-            if p.get("plan_id") == plan_id and p.get("type") == "ingress":
-                plan = p
-                break
-        if not plan:
-            payload = {"error": f"No ingress plan '{plan_id}'"}
-            out = json.dumps(payload, indent=2)
-            return out
-        steps = plan.get("steps", [])
-        if step_index < 0 or step_index >= len(steps):
-            payload = {"error": f"Invalid step_index {step_index}"}
-            out = json.dumps(payload, indent=2)
-            return out
+    def invoke(
+        data: Dict[str, Any],
+        plan_id: Any,
+        step_index: Any,
+    ) -> Dict[str, Any]:
+        rules = data.get("aws_security_group_rules", [])
 
-        sg_id = plan["security_group_id"]
-        rules = data.get("aws_security_group_rules", {}).values()
-        step = steps[step_index]
+        def find_rule(rid):
+            if isinstance(rules, dict):
+                return rules.get(rid)
+            for r in rules:
+                if r.get("rule_id") == rid:
+                    return r
+            return None
 
-        def _append_tag(desc: str, tag: str) -> str:
-            pass
-            tag = tag if tag.startswith("[") and tag.endswith("]") else f"[{tag}]"
-            if tag in desc:  #prevent duplicates
-                return desc
-            return f"{desc} {tag}".strip()
-
-        if step == "update_rule":
-            #assign source and description to the original rule
-            for r in rules.values():
-                if r.get("rule_id") == plan["rule_id"]:
-                    r["source_ip"] = plan["target_cidr"]
-                    r["description"] = plan["final_description"]
-                    payload = r
-                    out = json.dumps(payload, indent=2)
-                    return out
-            payload = {"error": f"Missing rule '{plan['rule_id']}'"}
-            out = json.dumps(payload, indent=2)
-            return out
-
-        if step == "consolidate":
-            #confirm there is precisely one 6379/TCP rule in this Security Group
-            keep = None
-            removed = []
-            remain = []
-            for r in rules.values():
-                if r.get("security_group_id") == sg_id and r.get("port") == 6379:
-                    if keep is None:
-                        keep = r
-                    else:
-                        removed.append(r)
-                        continue
-                remain.append(r)
-            data["aws_security_group_rules"] = remain + ([keep] if keep else [])
-            if keep is None:
-                #generate one
-                new_rule = {
-                    "rule_id": f"sgr-auto-{len(data['aws_security_group_rules'])+1:04d}",
-                    "security_group_id": sg_id,
-                    "port": 6379,
-                    "protocol": "TCP",
-                    "source_ip": plan["target_cidr"],
-                    "description": plan["final_description"],
-                }
-                data["aws_security_group_rules"].append(new_rule)
-                payload = {"consolidated_rule": new_rule, "removed": removed}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
+        def remove_rules(ids):
+            if isinstance(rules, dict):
+                for rid in ids:
+                    rules.pop(rid, None)
             else:
-                keep["source_ip"] = plan["target_cidr"]
-                keep["description"] = plan["final_description"]
-                payload = {"consolidated_rule": keep, "removed": removed}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
+                idxs = [i for i, r in enumerate(rules) if r.get("rule_id") in ids]
+                for i in sorted(idxs, reverse=True):
+                    rules.pop(i)
 
-        if step == "standardize":
-            #add environment tag to every 6379 rule in this Security Group
+        last_rule_id = data.get("_last_ingress_plan_rule_id")
+        if not last_rule_id:
+            return {"error": f"No ingress plan '{plan_id}'"}
+        rule = find_rule(last_rule_id)
+        if not rule:
+            return {"error": f"No ingress plan '{plan_id}'"}
+        plan = rule.get("_pending_ingress_plan")
+        if not plan or plan.get("plan_id") != plan_id:
+            return {"error": f"No ingress plan '{plan_id}'"}
+        steps = plan.get("steps", [])
+        i = int(step_index)
+        if i < 0 or i >= len(steps):
+            return {"error": f"Invalid step_index '{step_index}'"}
+        action = steps[i]
+        if action == "update_rule":
+            rule["source_ip"] = plan["target_cidr"]
+            rule["description"] = plan["final_description"]
+            return {
+                "rule_id": rule["rule_id"],
+                "security_group_id": rule["security_group_id"],
+                "protocol": rule.get("protocol", "TCP"),
+                "port": rule.get("port", 6379),
+                "source_ip": rule["source_ip"],
+                "description": rule["description"],
+            }
+        if action == "consolidate":
+            sg_id = rule["security_group_id"]
+            port = rule.get("port", 6379)
+            proto = rule.get("protocol", "TCP")
+            same = []
+            if isinstance(rules, dict):
+                same = [
+                    r
+                    for r in rules.values()
+                    if r.get("security_group_id") == sg_id
+                    and r.get("port", 6379) == port
+                    and r.get("protocol", "TCP") == proto
+                ]
+            else:
+                same = [
+                    r
+                    for r in rules
+                    if r.get("security_group_id") == sg_id
+                    and r.get("port", 6379) == port
+                    and r.get("protocol", "TCP") == proto
+                ]
+            keep_id = rule["rule_id"]
+            removed = [r["rule_id"] for r in same if r.get("rule_id") != keep_id]
+            remove_rules(removed)
+            return {
+                "consolidated_rule": {
+                    "rule_id": rule["rule_id"],
+                    "security_group_id": rule["security_group_id"],
+                    "protocol": proto,
+                    "port": port,
+                    "source_ip": rule["source_ip"],
+                    "description": rule["description"],
+                },
+                "removed": removed,
+            }
+        if action == "standardize":
+            tag = plan.get("env_tag")
             updated = []
-            tag = plan["env_tag"]
-            for r in rules.values():
-                if r.get("security_group_id") == sg_id and r.get("port") == 6379:
-                    before = r.get("description", "")
-                    after = _append_tag(before, tag)
-                    if after != before:
-                        r["description"] = after
-                        updated.append(r)
-            payload = {"updated": updated, "count": len(updated)}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"error": f"Unsupported step '{step}'"}
-        out = json.dumps(payload, indent=2)
-        return out
+            if tag:
+                if not str(rule.get("description", "")).endswith(f" [{tag}]"):
+                    rule["description"] = f"{rule['description']} [{tag}]"
+                updated.append(
+                    {
+                        "rule_id": rule["rule_id"],
+                        "security_group_id": rule["security_group_id"],
+                        "protocol": rule.get("protocol", "TCP"),
+                        "port": rule.get("port", 6379),
+                        "source_ip": rule["source_ip"],
+                        "description": rule["description"],
+                    }
+                )
+            return {"updated": updated, "count": len(updated)}
+        return {"error": f"Unknown step '{action}'"}
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ApplyIngressPlanStep",
+                "name": "apply_ingress_plan_step",
                 "description": "Apply a single step by index for a previously created ingress plan.",
                 "parameters": {
                     "type": "object",

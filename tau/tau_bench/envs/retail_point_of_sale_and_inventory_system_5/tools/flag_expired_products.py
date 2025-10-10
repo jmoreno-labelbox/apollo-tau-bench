@@ -1,26 +1,14 @@
-from tau_bench.envs.tool import Tool
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class FlagExpiredProducts(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any],
-        store_id: Any = None,
-        sku: Any = None,
-        as_of_date: str = None
-    ) -> str:
-        payload = {"flagged_products": True}
-        out = json.dumps(payload, indent=2)
-        return out
-
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        return json.dumps({"flagged_products": True}, indent=2)
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "FlagExpiredProducts",
-                "parameters": {},
-                "required": [],
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "flag_expired_products", "parameters": {}, "required": []}}

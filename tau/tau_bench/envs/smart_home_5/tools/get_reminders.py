@@ -1,52 +1,42 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetReminders(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], reminder_id: str | None = None, status: str | None = None
-    ) -> str:
-        reminders = data.get("reminders", {}).values()
+    def invoke(data: Dict[str, Any], reminder_id: Optional[str] = None, status: Optional[str] = None) -> str:
+        reminders = data.get('reminders', [])
         result = reminders
         if reminder_id:
-            result = [r for r in result.values() if r.get("reminder_id") == reminder_id]
+            result = [r for r in result if r.get('reminder_id') == reminder_id]
         if status:
-            result = [r for r in result.values() if r.get("status") == status]
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
-    
+            result = [r for r in result if r.get('status') == status]
+        return json.dumps(result, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetReminders",
+                "name": "get_reminders",
                 "description": "Get reminders, with optional filters.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "reminder_id": {
                             "type": "string",
-                            "description": "The ID of a specific reminder to retrieve.",
+                            "description": "The ID of a specific reminder to retrieve."
                         },
                         "status": {
                             "type": "string",
                             "enum": ["scheduled", "active", "inactive"],
-                            "description": "Filter reminders by status.",
-                        },
+                            "description": "Filter reminders by status."
+                        }
                     },
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

@@ -1,54 +1,41 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListPolicyExceptionsTool(Tool):
     """
     list_policy_exceptions
 
-    Enumerates policy exception records with optional filters:
-      - user_id:       filter for a specific user
-      - permission_id: filter for a specific permission
+    Lists policy exception records with optional filters:
+      - user_id:       filter to a specific user
+      - permission_id: filter to a specific permission
       - status:        filter by exception status (e.g., APPROVED, DENIED, EXPIRED, PENDING)
       - requested_on_from / requested_on_to: inclusive ISO-8601 bounds on requested_on
-      - active_only:   if True, return solely non-denied/non-expired records
+      - active_only:   if True, return only non-denied/non-expired records
 
-    Results are sorted by requested_on, then exception_id for consistency.
+    Results are returned sorted by requested_on, then exception_id for determinism.
     """
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        user_id: str = None,
-        permission_id: str = None,
-        status: str = None,
-        active_only: bool = False,
-        requested_on_from: str = None,
-        requested_on_to: str = None,
-        date_from: str = None,
-        date_to: str = None
-    ) -> str:
-        pass
-        # Accommodate both specific and general names for date filters (matching with
-        # other utilities)
-        date_from = requested_on_from or date_from
-        date_to = requested_on_to or date_to
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        permission_id = kwargs.get("permission_id")
+        status = kwargs.get("status")
+        active_only = bool(kwargs.get("active_only", False))
+
+        # Support both specific and generic names for date filters (parity with
+        # other tools)
+        date_from = kwargs.get("requested_on_from") or kwargs.get("date_from")
+        date_to = kwargs.get("requested_on_to") or kwargs.get("date_to")
 
         dt_from = _parse_iso(date_from)
         dt_to = _parse_iso(date_to)
 
-        exceptions: list[dict[str, Any]] = data.get("policy_exceptions", {}).values()
-        out: list[dict[str, Any]] = []
+        exceptions: List[Dict[str, Any]] = data.get("policy_exceptions", [])
+        out: List[Dict[str, Any]] = []
 
         for rec in exceptions:
             if user_id and not _eq(rec.get("user_id"), user_id):
@@ -60,7 +47,7 @@ class ListPolicyExceptionsTool(Tool):
             if active_only and (rec.get("status") in ("DENIED", "EXPIRED")):
                 continue
 
-            # Date filter based on requested_on
+            # Date filter on requested_on
             if dt_from or dt_to:
                 ts = _parse_iso(rec.get("requested_on"))
                 if dt_from and (not ts or ts < dt_from):
@@ -76,12 +63,13 @@ class ListPolicyExceptionsTool(Tool):
         import json as _json
 
         return _json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListPolicyExceptions",
+                "name": "list_policy_exceptions",
                 "description": (
                     "List policy exceptions with optional filters (user_id, permission_id, status, requested_on bounds, active_only)."
                 ),

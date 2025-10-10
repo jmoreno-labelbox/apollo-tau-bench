@@ -1,28 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindProductByName(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], name: Any) -> str:
-        match = next((p for p in data.get("products", {}).values() if p.get("name") == name), {}).values()
-        payload = match
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], name: Any) -> str:
+        name = name
+        match = next((p for p in list(data.get("products", {}).values()) if p.get("name") == name), {})
+        return json.dumps(match, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindProductByName",
+                "name": "find_product_by_name",
                 "description": "Returns product by exact name.",
                 "parameters": {
                     "type": "object",

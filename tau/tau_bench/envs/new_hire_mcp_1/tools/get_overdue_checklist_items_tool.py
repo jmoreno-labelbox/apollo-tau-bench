@@ -1,29 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetOverdueChecklistItemsTool(Tool):
-    """Searches checklist_items for overdue tasks, organized by candidate and task priority."""
+    """Queries checklist_items for tasks past due date, grouped by candidate and task priority."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str = None, days_overdue_threshold: int = 0) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
+        days_overdue_threshold = _as_int(kwargs.get("days_overdue_threshold", 0))
+
         if days_overdue_threshold is None:
             return _err("days_overdue_threshold must be an integer.")
 
-        checklist_items = data.get("checklist_items", {}).values()
+        checklist_items = data.get("checklist_items", [])
 
         overdue_items = []
-        for item in checklist_items.values():
+        for item in checklist_items:
             due_date = item.get("due_date")
             if not due_date or item.get("status") == "Completed":
                 continue
@@ -36,34 +32,28 @@ class GetOverdueChecklistItemsTool(Tool):
                     item_copy["days_overdue"] = days_overdue
                     overdue_items.append(item_copy)
 
-        # Organize by candidate
+        # Group by candidate
         grouped_results = {}
         for item in overdue_items:
             cid = item.get("candidate_id")
             if cid not in grouped_results:
                 grouped_results[cid] = []
             grouped_results[cid].append(item)
-        payload = grouped_results
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(grouped_results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetOverdueChecklistItems",
+                "name": "get_overdue_checklist_items",
                 "description": "Queries checklist_items for tasks past due date, grouped by candidate and task priority.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "candidate_id": {
-                            "type": "string",
-                            "description": "Specific candidate or null for all candidates",
-                        },
-                        "days_overdue_threshold": {
-                            "type": "integer",
-                            "description": "Minimum days past due date",
-                        },
+                        "candidate_id": {"type": "string", "description": "Specific candidate or null for all candidates"},
+                        "days_overdue_threshold": {"type": "integer", "description": "Minimum days past due date"}
                     },
                     "required": ["days_overdue_threshold"],
                 },

@@ -1,15 +1,51 @@
-# Re-export TOOLS from the adjacent tools.py file
-import sys
-from pathlib import Path
+# Copyright Sierra
 
-# Add parent directory to path to import tools.py as a module
-_parent = Path(__file__).parent.parent
-_tools_module_path = _parent / "tools.py"
+from .find_users import FindUsers
+from .launch_project import LaunchProject
+from .modify_submission_status import ModifySubmissionStatus
+from .appoint_reviewer import AppointReviewer
+from .submit_review import SubmitReview
+from .get_reviews_for_submission import GetReviewsForSubmission
+from .modify_project_status import ModifyProjectStatus
+from .link_article_to_project import LinkArticleToProject
+from .find_grants import FindGrants
+from .assign_funding_to_project import AssignFundingToProject
+from .add_researcher_to_project_team import AddResearcherToProjectTeam
+from .create_research_log import CreateResearchLog
+from .search_research_logs import SearchResearchLogs
+from .get_user_subscriptions import GetUserSubscriptions
+from .update_user_subscriptions import UpdateUserSubscriptions
+from .update_user_preferences import UpdateUserPreferences
+from .notify_user import NotifyUser
+from .find_publications import FindPublications
+from .summarize_article_text import SummarizeArticleText
+from .find_references import FindReferences
+from .find_projects import FindProjects
+from .get_user_preferences import GetUserPreferences
+from .lookup_submissions import LookupSubmissions
 
-import importlib.util
-spec = importlib.util.spec_from_file_location("_tools_module", _tools_module_path)
-_tools_module = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(_tools_module)
-
-# Re-export TOOLS
-TOOLS = _tools_module.TOOLS
+ALL_TOOLS = [
+    FindUsers,
+    LaunchProject,
+    ModifySubmissionStatus,
+    AppointReviewer,
+    SubmitReview,
+    GetReviewsForSubmission,
+    ModifyProjectStatus,
+    LinkArticleToProject,
+    FindGrants,
+    AssignFundingToProject,
+    AddResearcherToProjectTeam,
+    CreateResearchLog,
+    SearchResearchLogs,
+    GetUserSubscriptions,
+    UpdateUserSubscriptions,
+    UpdateUserPreferences,
+    NotifyUser,
+    FindPublications,
+    SummarizeArticleText,
+    FindReferences,
+    FindProjects,
+    GetUserPreferences,
+    LookupSubmissions,
+]

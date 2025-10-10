@@ -1,42 +1,36 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetGroceryListItemsByListIdAndIngredientId(Tool):
-    """Fetches items from a specific grocery list that correspond to a particular ingredient ID."""
+    """Retrieves grocery list items from a specific list that match a given ingredient ID."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], list_id: str = None, ingredient_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        list_id = kwargs.get("list_id")
+        ingredient_id = kwargs.get("ingredient_id")
+
         if list_id is None or ingredient_id is None:
-            payload = {"error": "list_id and ingredient_id parameters are required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "list_id and ingredient_id parameters are required."})
 
-        grocery_list_items = data.get("grocery_list_items", {}).values()
-
+        grocery_list_items = data.get("grocery_list_items", [])
+        
         matching_items = [
-            item
-            for item in grocery_list_items.values() if item.get("list_id") == list_id
-            and item.get("ingredient_id") == ingredient_id
+            item for item in grocery_list_items 
+            if item.get("list_id") == list_id and item.get("ingredient_id") == ingredient_id
         ]
-        payload = matching_items
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps(matching_items)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetGroceryListItemsByListIdAndIngredientId",
+                "name": "get_grocery_list_items_by_list_id_and_ingredient_id",
                 "description": "Retrieves grocery list items from a specific list that match a given ingredient ID.",
                 "parameters": {
                     "type": "object",
@@ -48,7 +42,7 @@ class GetGroceryListItemsByListIdAndIngredientId(Tool):
                         "ingredient_id": {
                             "type": "integer",
                             "description": "The unique ID of the ingredient to find on the list.",
-                        },
+                        }
                     },
                     "required": ["list_id", "ingredient_id"],
                 },

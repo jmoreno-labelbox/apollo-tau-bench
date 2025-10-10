@@ -1,17 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class PostAuditEvent(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], actor_id: str = None, action: str = None, entity_type: str = None, entity_id: str = None, metadata_json: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        actor_id = kwargs.get('actor_id')
+        action = kwargs.get('action')
+        entity_type = kwargs.get('entity_type')
+        entity_id = kwargs.get('entity_id')
+        metadata_json = kwargs.get('metadata_json')
+        
         if not all([actor_id, action, entity_type, entity_id]):
-            payload = {"error": "actor_id, action, entity_type, and entity_id are required"}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
-
+            return json.dumps({
+                "error": "actor_id, action, entity_type, and entity_id are required"
+            }, indent=2)
+        
         audit_event = {
             "audit_id": 501,
             "actor_id": actor_id,
@@ -19,50 +26,48 @@ class PostAuditEvent(Tool):
             "entity_type": entity_type,
             "entity_id": entity_id,
             "metadata": metadata_json,
-            "timestamp": "2024-08-21T00:00:00Z",
+            "timestamp": "2024-08-21T00:00:00Z"
         }
-        payload = {
-                "success": True,
-                "audit_id": 501,
-                "message": f"Audit event recorded: {action}",
-                "audit_event": audit_event,
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        
+        return json.dumps({
+            "success": True,
+            "audit_id": 501,
+            "message": f"Audit event recorded: {action}",
+            "audit_event": audit_event
+        }, indent=2)
+    
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "postAuditEvent",
+                "name": "post_audit_event",
                 "description": "Record an audit event for tracking system actions",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "actor_id": {
                             "type": "integer",
-                            "description": "ID of the user performing the action",
+                            "description": "ID of the user performing the action"
                         },
                         "action": {
                             "type": "string",
-                            "description": "Action being performed",
+                            "description": "Action being performed"
                         },
                         "entity_type": {
                             "type": "string",
-                            "description": "Type of entity being acted upon",
+                            "description": "Type of entity being acted upon"
                         },
                         "entity_id": {
                             "type": "integer",
-                            "description": "ID of the entity being acted upon",
+                            "description": "ID of the entity being acted upon"
                         },
                         "metadata_json": {
                             "type": "object",
-                            "description": "Additional metadata about the action",
-                        },
+                            "description": "Additional metadata about the action"
+                        }
                     },
-                    "required": ["actor_id", "action", "entity_type", "entity_id"],
-                },
-            },
+                    "required": ["actor_id", "action", "entity_type", "entity_id"]
+                }
+            }
         }

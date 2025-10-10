@@ -1,51 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetTeamLead(Tool):
-    """Obtains the lead engineer/lead operations for a particular team."""
-
+    """Retrieves the lead engineer/lead ops for a specific team."""
     @staticmethod
-    def invoke(data: dict[str, Any], team_id: str = None) -> str:
-        teams = data.get("teams", {}).values()
-        for team in teams.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        team_id = kwargs.get("team_id")
+        teams = data.get("teams", [])
+        for team in teams:
             if team.get("id") == team_id:
-                lead_id = (
-                    team.get("lead_engineer")
-                    or team.get("lead_ops")
-                    or team.get("lead_security")
-                    or team.get("lead_analytics")
-                    or team.get("lead_server_ops")
-                )
+                lead_id = team.get("lead_engineer") or team.get("lead_ops") or team.get("lead_security") or team.get("lead_analytics") or team.get("lead_server_ops")
                 if lead_id:
-                    payload = {"lead_id": lead_id}
-                    out = json.dumps(payload)
-                    return out
+                    return json.dumps({"lead_id": lead_id})
 
-        teams = data.get("team_members", {}).values()
-        for team in teams.values():
+        teams = data.get("team_members", [])
+        for team in teams:
             if team.get("team_id") == team_id:
-                if team.get("role") == "team_lead":
-                    payload = {"lead_id": team.get("user_id")}
-                    out = json.dumps(payload)
-                    return out
-        payload = {"error": f"Lead for team ID '{team_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                if team.get('role') == 'team_lead':
+                    return json.dumps({"lead_id": team.get('user_id')})
+
+        return json.dumps({"error": f"Lead for team ID '{team_id}' not found."})
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetTeamLead",
+                "name": "get_team_lead",
                 "description": "Retrieves the lead for a specific team.",
                 "parameters": {
                     "type": "object",

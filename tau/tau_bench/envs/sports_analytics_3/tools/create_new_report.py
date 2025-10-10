@@ -1,18 +1,13 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateNewReport(Tool):
     """
-    Establish a new player development report.
+    Create a new player development report.
     Required inputs (exact names):
       - player_id (int)
       - week_of_date (string, YYYY-MM-DD)
@@ -23,58 +18,57 @@ class CreateNewReport(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], player_id: str = None, week_of_date: str = None) -> str:
-        #1) Confirm required inputs
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        player_id = kwargs.get("player_id")
+        week_of_date = kwargs.get("week_of_date")
+
+
+        # 1) Validate required inputs
         missing = []
-        if player_id is None:
-            missing.append("player_id")
-        if not isinstance(week_of_date, str) or week_of_date == "":
-            missing.append("week_of_date")
+        if player_id is None: missing.append("player_id")
+        if not isinstance(week_of_date, str) or week_of_date == "": missing.append("week_of_date")
+
 
         if missing:
-            payload = {"error": f"Missing required field(s): {', '.join(missing)}"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"Missing required field(s): {', '.join(missing)}"}, indent=2)
 
-        #2) Retrieve DB
-        reports: list[dict[str, Any]] = data.get("player_dev_reports", {}).values()
+        # 2) Get DB
+        reports: List[Dict[str, Any]] = data.get("player_dev_reports", [])
 
         new_id = get_next_dev_report_goal_id(data)
 
-        #4) Construct and add the row
+        # 4) Build and insert the row
         new_row = {
             "dev_report_id": new_id,
             "player_id": player_id,
             "week_of_date": week_of_date,
             "created_at": get_current_timestamp(),
-            "s3_pdf_path": f"s3://reports/development/{new_id}.pdf",
+            "s3_pdf_path": f"s3://reports/development/{new_id}.pdf"
         }
         reports.append(new_row)
-        payload = new_row
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(new_row, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateNewReport",
+                "name": "create_new_report",
                 "description": "Create a new player development report. dev_report_id auto-generated (max existing + 1).",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "player_id": {
                             "type": "integer",
-                            "description": "Player ID the report belongs to.",
+                            "description": "Player ID the report belongs to."
                         },
                         "week_of_date": {
                             "type": "string",
-                            "description": "Week-of date in YYYY-MM-DD.",
+                            "description": "Week-of date in YYYY-MM-DD."
                         },
                     },
-                    "required": ["player_id", "week_of_date"],
-                },
-            },
+                    "required": ["player_id", "week_of_date"]
+                }
+            }
         }

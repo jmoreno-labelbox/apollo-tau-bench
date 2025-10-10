@@ -1,39 +1,42 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CheckDriveTimeConstraints(Tool):
-    """Verify if properties are accessible within the time limits."""
-
+    """Check if properties can be visited within time constraints."""
+    
     @staticmethod
-    def invoke(data: dict[str, Any], property_ids: list = None, max_minutes: int = 30) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        property_ids = kwargs.get('property_ids')
+        max_minutes = kwargs.get('max_minutes', 30)
+        
         if not property_ids:
-            payload = {"error": "property_ids is required"}
-            out = json.dumps(payload, indent=2)
-            return out
-
-        # Emulate checking drive times
-        feasible = (
-            len(property_ids) <= 4
-        )  # Basic rule: a maximum of 4 properties within the time constraint
-
+            return json.dumps({
+                "error": "property_ids is required"
+            }, indent=2)
+        
+        # Simulate drive time checking
+        feasible = len(property_ids) <= 4  # Simple rule: max 4 properties within time limit
+        
         result = {
             "feasible": feasible,
             "property_count": len(property_ids),
             "max_minutes_per_hop": max_minutes,
-            "estimated_total_time": len(property_ids)
-            * 25,  # Average of 25 minutes per property
-            "properties_checked": property_ids,
+            "estimated_total_time": len(property_ids) * 25,  # 25 min average per property
+            "properties_checked": property_ids
         }
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+        
+        return json.dumps(result, indent=2)
+    
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "checkDriveTimeConstraints",
+                "name": "check_drive_time_constraints",
                 "description": "Check if properties can be visited within time constraints",
                 "parameters": {
                     "type": "object",
@@ -41,14 +44,14 @@ class CheckDriveTimeConstraints(Tool):
                         "property_ids": {
                             "type": "array",
                             "items": {"type": "string"},
-                            "description": "List of property IDs to check",
+                            "description": "List of property IDs to check"
                         },
                         "max_minutes": {
                             "type": "integer",
-                            "description": "Maximum minutes allowed between stops",
-                        },
+                            "description": "Maximum minutes allowed between stops"
+                        }
                     },
-                    "required": ["property_ids"],
-                },
-            },
+                    "required": ["property_ids"]
+                }
+            }
         }

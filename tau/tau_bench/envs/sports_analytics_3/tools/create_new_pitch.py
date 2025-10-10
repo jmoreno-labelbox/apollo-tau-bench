@@ -1,18 +1,13 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateNewPitch(Tool):
     """
-    Add a new pitch row with complete details.
+    Insert a new pitch row with full details.
     Required inputs (exact names):
       - game_pk (int)
       - at_bat_index (int)
@@ -35,94 +30,51 @@ class CreateNewPitch(Tool):
     """
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        game_pk: int = None,
-        at_bat_index: int = None,
-        pitch_number: int = None,
-        pitcher_id: int = None,
-        hitter_id: int = None,
-        pitch_type_raw: str = None,
-        pitch_type_canonical: str = None,
-        velocity_mph: float = None,
-        spin_rate_rpm: float = None,
-        release_x: float = None,
-        release_z: float = None,
-        plate_x: float = None,
-        plate_z: float = None,
-        exit_velocity_mph: float = None,
-        launch_angle_deg: float = None,
-        leverage_index: float = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         required_fields = [
-            "game_pk",
-            "at_bat_index",
-            "pitch_number",
-            "pitcher_id",
-            "hitter_id",
-            "pitch_type_raw",
-            "pitch_type_canonical",
-            "velocity_mph",
-            "spin_rate_rpm",
-            "release_x",
-            "release_z",
-            "plate_x",
-            "plate_z",
-            "exit_velocity_mph",
-            "launch_angle_deg",
-            "leverage_index",
+            "game_pk","at_bat_index","pitch_number","pitcher_id","hitter_id",
+            "pitch_type_raw","pitch_type_canonical","velocity_mph","spin_rate_rpm",
+            "release_x","release_z","plate_x","plate_z",
+            "exit_velocity_mph","launch_angle_deg","leverage_index"
         ]
-        missing = [
-            f for f in required_fields if locals().get(f) is None
-        ]
+        missing = [f for f in required_fields if kwargs.get(f) is None]
         if missing:
-            payload = {"error": f"Missing required field(s): {', '.join(missing)}"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"Missing required field(s): {', '.join(missing)}"}, indent=2)
 
-        pitches: list[dict[str, Any]] = data.get("pitches", {}).values()
+        pitches: List[Dict[str, Any]] = data.get("pitches", [])
 
-        # Create a new pitch_id in a deterministic manner
+        # Generate new pitch_id deterministically
         new_id = get_next_pitch_id(data)
 
         new_pitch = {"pitch_id": new_id}
         for f in required_fields:
-            new_pitch[f] = locals().get(f)
+            new_pitch[f] = kwargs.get(f)
 
         pitches.append(new_pitch)
-        payload = new_pitch
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(new_pitch, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        #Construct JSON schema properties
-        props: dict[str, Any] = {
-            "game_pk": {"type": "integer"},
-            "at_bat_index": {"type": "integer"},
-            "pitch_number": {"type": "integer"},
-            "pitcher_id": {"type": "integer"},
-            "hitter_id": {"type": "integer"},
-            "pitch_type_raw": {"type": "string"},
-            "pitch_type_canonical": {"type": "string"},
-            "velocity_mph": {"type": "number"},
-            "spin_rate_rpm": {"type": "number"},
-            "release_x": {"type": "number"},
-            "release_z": {"type": "number"},
-            "plate_x": {"type": "number"},
-            "plate_z": {"type": "number"},
-            "exit_velocity_mph": {"type": "number"},
-            "launch_angle_deg": {"type": "number"},
-            "leverage_index": {"type": "number"},
+    def get_info() -> Dict[str, Any]:
+        # Build JSON schema properties
+        props: Dict[str, Any] = {
+            "game_pk": {"type": "integer"}, "at_bat_index": {"type": "integer"},
+            "pitch_number": {"type": "integer"}, "pitcher_id": {"type": "integer"},
+            "hitter_id": {"type": "integer"}, "pitch_type_raw": {"type": "string"},
+            "pitch_type_canonical": {"type": "string"}, "velocity_mph": {"type": "number"},
+            "spin_rate_rpm": {"type": "number"}, "release_x": {"type": "number"},
+            "release_z": {"type": "number"}, "plate_x": {"type": "number"},
+            "plate_z": {"type": "number"}, "exit_velocity_mph": {"type": "number"},
+            "launch_angle_deg": {"type": "number"}, "leverage_index": {"type": "number"}
         }
         return {
             "type": "function",
             "function": {
-                "name": "createNewPitch",
+                "name": "create_new_pitch",
                 "description": "Insert a new pitch with full details; pitch_id auto-generated.",
                 "parameters": {
                     "type": "object",
                     "properties": props,
-                    "required": list(props.keys()),
-                },
-            },
+                    "required": list(props.keys())
+                }
+            }
         }

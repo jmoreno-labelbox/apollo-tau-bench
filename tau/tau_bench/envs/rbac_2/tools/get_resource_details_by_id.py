@@ -1,51 +1,43 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetResourceDetailsById(Tool):
-    """Obtain the complete details of a specific resource by its ID."""
+    """ Get the full details of a specific resource using its ID. """
 
     @staticmethod
-    def invoke(data: dict[str, Any], resource_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        resource_id = kwargs.get("resource_id")
         try:
-            resources = data.get("resources", {}).values()
+            resources = data.get('resources', [])
         except:
             resources = []
 
         for resource in resources:
             if resource.get("resource_id") == resource_id:
-                payload = resource
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Resource with ID '{resource_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(resource)
+
+        return json.dumps({"error": f"Resource with ID '{resource_id}' not found."})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetResourceDetailsById",
+                "name": "get_resource_details_by_id",
                 "description": "Retrieves the full details of a specific resource (e.g., its criticality) using its ID.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "resource_id": {
                             "type": "string",
-                            "description": "The unique ID of the resource to retrieve (e.g., 'RES-025').",
+                            "description": "The unique ID of the resource to retrieve (e.g., 'RES-025')."
                         }
                     },
-                    "required": ["resource_id"],
-                },
-            },
+                    "required": ["resource_id"]
+                }
+            }
         }

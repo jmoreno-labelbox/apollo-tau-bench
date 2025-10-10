@@ -1,27 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class MarkCourseCompleted(Tool):
+class mark_course_completed(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any], user_id: str, course_id: str, completion_date: str
+        data: Dict[str, Any], user_id: str, course_id: str, completion_date: str
     ) -> str:
-        progress = data.get("user_course_progress", {}).values()
+        progress = data.get("user_course_progress", [])
         user_progress = next(
             (
                 p
-                for p in progress.values() if p.get("user_id") == user_id and p.get("course_id") == course_id
+                for p in progress
+                if p.get("user_id") == user_id and p.get("course_id") == course_id
             ),
             None,
         )
@@ -37,21 +31,18 @@ class MarkCourseCompleted(Tool):
                 "completion_date": completion_date,
                 "current_progress_percent": 100,
             }
-            data["user_course_progress"][new_progress["user_course_progres_id"]] = new_progress
-        payload = {"success": f"Course {course_id} marked completed for user {user_id}"}
-        out = json.dumps(
-            payload, indent=2,
+            progress.append(new_progress)
+        return json.dumps(
+            {"success": f"Course {course_id} marked completed for user {user_id}"},
+            indent=2,
         )
-        return out
-        return out
 
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "markCourseCompleted",
+                "name": "mark_course_completed",
                 "description": "Mark a course as completed for a user",
                 "parameters": {
                     "type": "object",

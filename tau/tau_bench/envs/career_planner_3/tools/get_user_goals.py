@@ -1,29 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetUserGoals(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        goals = data.get("goals", {}).values()
-        result = [g for g in goals.values() if g["user_id"] == user_id]
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        goals = data.get("goals", [])
+        result = [g for g in goals if g["user_id"] == user_id]
+        return json.dumps(result, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetUserGoals",
+                "name": "get_user_goals",
                 "description": "Retrieves the active career goals for a given user.",
                 "parameters": {
                     "type": "object",

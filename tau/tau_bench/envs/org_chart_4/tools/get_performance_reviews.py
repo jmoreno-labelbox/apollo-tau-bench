@@ -1,29 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class get_performance_reviews(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str) -> str:
-        reviews = data.get("performance_reviews", {}).values()
-        filtered = [r for r in reviews.values() if r.get("employee_id") == employee_id]
-        payload = filtered
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], employee_id: str) -> str:
+        reviews = data.get("performance_reviews", [])
+        filtered = [r for r in reviews if r.get("employee_id") == employee_id]
+        return json.dumps(filtered, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPerformanceReviews",
+                "name": "get_performance_reviews",
                 "description": "Return all performance reviews for the given employee_id.",
                 "parameters": {
                     "type": "object",

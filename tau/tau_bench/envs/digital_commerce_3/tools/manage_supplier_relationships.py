@@ -1,54 +1,17 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ManageSupplierRelationships(Tool):
-    """Oversee relationships with suppliers and procurement processes."""
+    """Manage supplier relationships and procurement workflows."""
 
     @staticmethod
     def invoke(
-        data: dict[str, Any], supplier_name: Any, action: Any, contact_email: str = None, supplier_data: Any = {}
+        data: Dict[str, Any], supplier_name: Any, action: Any, supplier_data: Any = {}
     ) -> str:
-        pass
-        supplier_name = supplier_name
-        action = action
-        supplier_data = supplier_data
-
-        if not supplier_name or not action:
-            return _error("supplier_name and action are required.")
-
-        suppliers = data.setdefault("suppliers", [])
-
-        if action == "add":
-            supplier = {
-                "supplier_id": f"SUP_{len(suppliers) + 1:03d}",
-                "supplier_name": supplier_name,
-                "contact_email": contact_email,
-                "rating": 4.0,
-                "status": "active",
-                "added_at": FIXED_NOW,
-            }
-            data["suppliers"][supplier_id] = supplier
-
-        result = {
-            "supplier_name": supplier_name,
-            "action": action,
-            "status": "completed",
-        }
-
-        _append_audit(data, "supplier_managed", supplier_name, {"action": action})
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
-        pass
         supplier_name = supplier_name
         action = action
         supplier_data = supplier_data
@@ -67,31 +30,24 @@ class ManageSupplierRelationships(Tool):
                 "status": "active",
                 "added_at": FIXED_NOW,
             }
-            data["suppliers"][supplier_id] = supplier
+            suppliers.append(supplier)
 
-        result = {
-            "supplier_name": supplier_name,
-            "action": action,
-            "status": "completed",
-        }
+        result = {"supplier_name": supplier_name, "action": action, "status": "completed"}
 
-        _append_audit(data, "supplier_managed", supplier_name, {"action": action})
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(result, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ManageSupplierRelationships",
+                "name": "manage_supplier_relationships",
                 "description": "Manage supplier relationships and procurement workflows.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "supplier_name": {"type": "string"},
-                        "action": {"type": "string"},
+                        "action": {"type": "string", "enum": ["add"]},
                         "supplier_data": {"type": "object"},
                     },
                     "required": ["supplier_name", "action"],

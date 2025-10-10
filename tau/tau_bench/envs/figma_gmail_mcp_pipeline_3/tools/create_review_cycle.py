@@ -1,41 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class create_review_cycle(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        artifact_id: str = None,
-        cycle_id: str = None,
-        request_id: str = None,
-        started_at: str = None,
-        timestamp: str = None
-    ) -> str:
-        p = _params(data, {
-            "cycle_id": cycle_id,
-            "artifact_id": artifact_id,
-            "started_at": started_at,
-            "timestamp": timestamp,
-            "request_id": request_id
-        })
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        p = _params(data, kwargs)
 
-        #mandatory fields
-        miss = _require(
-            p, ["cycle_id", "artifact_id", "started_at", "timestamp", "request_id"]
-        )
-        if miss:
-            return miss
+        # required fields
+        miss = _require(p, ["cycle_id","artifact_id","started_at","timestamp","request_id"])
+        if miss: return miss
         w = _require_write(p)
-        if w:
-            return w
+        if w: return w
 
-        #ID_RULE: review_cycle_id — rev-<artifact_id>-<YYYYMMDD>-<seq>
-        m = re.match(
-            r"^rev-(?P<art>[^-]+)-(?P<date>\d{8})-(?P<seq>\d+)$", p["cycle_id"]
-        )
+        # ID_RULE: review_cycle_id — rev-<artifact_id>-<YYYYMMDD>-<seq>
+        m = re.match(r"^rev-(?P<art>[^-]+)-(?P<date>\d{8})-(?P<seq>\d+)$", p["cycle_id"])
         if not m:
             return _err("invalid_cycle_id_format")
 
@@ -48,8 +30,8 @@ class create_review_cycle(Tool):
         if date_from_id != ts_date:
             return _err("cycle_id_date_mismatch")
 
-        #consistent output; no thread linked at the time of creation
-        c = {
+        # deterministic output; no thread attached at creation time
+        c= {
             "cycle_id": p["cycle_id"],
             "artifact_id": p["artifact_id"],
             "status": "IN_FLIGHT",
@@ -59,29 +41,17 @@ class create_review_cycle(Tool):
         }
         _ensure(data, "review_cycles", []).append(c)
         return _ok(c)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "CreateReviewCycle",
-                "description": "Create a review cycle with deterministic ID validation per ID_RULE.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "cycle_id": {"type": "string"},
-                        "artifact_id": {"type": "string"},
-                        "started_at": {"type": "string"},
-                        "timestamp": {"type": "string"},
-                        "request_id": {"type": "string"},
-                    },
-                    "required": [
-                        "cycle_id",
-                        "artifact_id",
-                        "started_at",
-                        "timestamp",
-                        "request_id",
-                    ],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"create_review_cycle",
+            "description":"Create a review cycle with deterministic ID validation per ID_RULE.",
+            "parameters":{"type":"object","properties":{
+                "cycle_id":{"type":"string"},
+                "artifact_id":{"type":"string"},
+                "started_at":{"type":"string"},
+                "timestamp":{"type":"string"},
+                "request_id":{"type":"string"},
+            },"required":["cycle_id","artifact_id","started_at","timestamp","request_id"]}
+        }}

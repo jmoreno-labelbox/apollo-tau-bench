@@ -1,26 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ListScenes(Tool):
-    """Fetch all predefined scenes and their corresponding actions."""
+    """Retrieve all pre‑defined scenes and their actions."""
+
     @staticmethod
-    def invoke(data: dict[str, Any], scenes: list = None) -> str:
-        payload = scenes if scenes is not None else []
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any]) -> str:
+        return json.dumps(list(data.get("scenes", {}).values()), indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListScenes",
+                "name": "list_scenes",
                 "description": "Retrieve all pre‑defined scenes and their actions.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {},
-                    "required": [],
-                    "additionalProperties": False,
-                },
+                "parameters": {"type": "object", "properties": {}, "required": [], "additionalProperties": False},
             },
         }

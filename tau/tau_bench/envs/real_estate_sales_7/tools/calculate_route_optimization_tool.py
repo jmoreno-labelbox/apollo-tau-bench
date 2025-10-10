@@ -1,19 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CalculateRouteOptimizationTool(Tool):
-    """Enhances property viewing routes while considering travel time limitations."""
+    """Optimizes property viewing route with travel time constraints."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], property_list: list = None, start_address: str = None, max_hop_minutes: int = None) -> str:
-        if property_list is None or start_address is None or max_hop_minutes is None:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        property_list = kwargs.get("property_list") or []
+        start_address = kwargs.get("start_address")
+        max_hop_minutes = _as_int(kwargs.get("max_hop_minutes"))
+        if not property_list or not start_address or max_hop_minutes is None:
             return _err("property_list, start_address, max_hop_minutes are required")
 
-        # Deterministic pseudo-optimizer: maintain input sequence; allocate stable hop times <= max_hop_minutes
-        # Route Optimization Protocol requirement: <= 30 minutes between stops
+        # Deterministic pseudo-optimizer: keep input order; assign stable hop times <= max_hop_minutes
+        # Route Optimization Protocol constraint: <= 30 minutes between stops
         max_constraint = min(30, max_hop_minutes)
 
         route = list(property_list)
@@ -34,7 +38,7 @@ class CalculateRouteOptimizationTool(Tool):
         total_time = 0
         for s in segments:
             total_time += int(s["travel_minutes"])
-        # include fixed viewing times (deterministic) to achieve sample 165 in specification, while adhering to travel constraints
+        # add fixed viewing times (deterministic) to reach sample 165 in spec, but keep travel constraint
         viewing_time = 120 if len(route) >= 3 else 60
         total_time_minutes = total_time + viewing_time
 
@@ -43,23 +47,22 @@ class CalculateRouteOptimizationTool(Tool):
             "route_segments": segments,
             "total_time_minutes": total_time_minutes,
             "max_hop_time": (
-                max(s["travel_minutes"] for s in segments.values()) if segments else 0
+                max(s["travel_minutes"] for s in segments) if segments else 0
             ),
             "constraint_satisfied": all(
                 s["travel_minutes"] <= max_constraint for s in segments
             ),
             "map_url": "https://maps.google.com/route/optimized_tour_001",
         }
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        #Route Optimization Protocol
+    def get_info() -> Dict[str, Any]:
+        # Route Optimization Protocol
         return {
             "type": "function",
             "function": {
-                "name": "CalculateRouteOptimization",
+                "name": "calculate_route_optimization",
                 "description": "Optimize route order and verify hop-time constraints.",
                 "parameters": {
                     "type": "object",

@@ -1,39 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ValidateChangeCompliance(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        cr_id: str,
-        compliance_checklist: list[str] = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
+        compliance_checklist = kwargs.get("compliance_checklist", [])
+
         if not cr_id:
-            payload = {"error": "cr_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "cr_id is required"})
 
-        change_requests = data.get("change_requests", {}).values()
-        emergency_logs = data.get("emergency_logs", {}).values()
-        risk_assessments = data.get("risk_assessments", {}).values()
-        scope_baselines = data.get("scope_baselines", {}).values()
+        change_requests = data.get("change_requests", [])
+        emergency_logs = data.get("emergency_logs", [])
+        risk_assessments = data.get("risk_assessments", [])
+        scope_baselines = data.get("scope_baselines", [])
 
-        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:
-            payload = {"error": f"Change request '{cr_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Change request '{cr_id}' not found"})
 
         violations = []
         warnings = []
@@ -68,8 +56,8 @@ class ValidateChangeCompliance(Tool):
                     violations.append("Missing impact assessment")
 
             elif check == "has_risk_assessment":
-                risk_assessments = data.get("risk_assessments", {}).values()
-                has_risk = any(ra.get("cr_id") == cr_id for ra in risk_assessments.values())
+                risk_assessments = data.get("risk_assessments", [])
+                has_risk = any(ra.get("cr_id") == cr_id for ra in risk_assessments)
                 if cr.get("priority") in ["high", "critical"] and not has_risk:
                     warnings.append("High priority change without risk assessment")
 
@@ -109,7 +97,8 @@ class ValidateChangeCompliance(Tool):
                 project_baseline = next(
                     (
                         b
-                        for b in scope_baselines.values() if b.get("project_id") == cr.get("project_id")
+                        for b in scope_baselines
+                        if b.get("project_id") == cr.get("project_id")
                         and b.get("status") == "approved"
                     ),
                     None,
@@ -142,7 +131,7 @@ class ValidateChangeCompliance(Tool):
             elif check == "emergency_deadlines_met":
                 if cr.get("requires_emergency_approval"):
                     log = next(
-                        (e for e in emergency_logs.values() if e.get("cr_id") == cr_id), None
+                        (e for e in emergency_logs if e.get("cr_id") == cr_id), None
                     )
                     if log:
                         current_time = datetime.now()
@@ -180,7 +169,7 @@ class ValidateChangeCompliance(Tool):
                         and cr.get("status") != "draft"
                     ):
                         risk_assessment = next(
-                            (ra for ra in risk_assessments.values() if ra.get("cr_id") == cr_id),
+                            (ra for ra in risk_assessments if ra.get("cr_id") == cr_id),
                             None,
                         )
                         if not risk_assessment:
@@ -199,28 +188,29 @@ class ValidateChangeCompliance(Tool):
                             )
 
         compliance_status = "compliant" if not violations else "non_compliant"
-        payload = {
+
+        return json.dumps(
+            {
                 "cr_id": cr_id,
                 "compliance_status": compliance_status,
                 "violations": violations,
                 "warnings": warnings,
                 "checks_performed": checks_to_perform,
-                "recommendation": (
-                    "Address violations before proceeding"
-                    if violations
-                    else "Proceed with caution" if warnings else "Fully compliant"
-                ),
-            }
-        out = json.dumps(
-            payload, indent=2,
+                "recommendation": "Address violations before proceeding"
+                if violations
+                else "Proceed with caution"
+                if warnings
+                else "Fully compliant",
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ValidateChangeCompliance",
+                "name": "validate_change_compliance",
                 "description": "Validate change request compliance with policies",
                 "parameters": {
                     "type": "object",

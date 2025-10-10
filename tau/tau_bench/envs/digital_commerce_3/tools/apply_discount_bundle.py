@@ -1,52 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ApplyDiscountBundle(Tool):
-    """Implement a discount on a cart and compute overall savings."""
+    """Apply a discount to a cart and calculate total savings."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        cart_id: Any,
-        offer_code: Any,
-        carts: list = None,
-        offers: list = None,
-        cart_items: list = None,
-        pricebook_entries: list = None,
-        accounts: list = None
-    ) -> str:
-        pass
+    def invoke(data: Dict[str, Any], cart_id: Any, offer_code: Any) -> str:
         cart_id = _idstr(cart_id)
         offer_code = f"{offer_code}"
         if not cart_id or not offer_code:
             return _error("cart_id and offer_code are required.")
 
-        carts = carts if carts is not None else data.get("carts", {}).values()
+        carts = data.get("carts", [])
         cart = _find_one(carts, "cart_id", cart_id)
         if not cart:
             return _error(f"Cart '{cart_id}' not found.")
 
-        offers = offers if offers is not None else data.get("offers", {}).values()
+        offers = data.get("offers", [])
         offer = _find_one(offers, "offer_code", offer_code)
         if not offer or not offer.get("is_active"):
             return _error(f"Offer '{offer_code}' not found or inactive.")
 
-        cart_items = cart_items if cart_items is not None else data.get("cart_items", {}).values()
-        pricebook_entries = pricebook_entries if pricebook_entries is not None else data.get("pricebook_entries", {}).values()
-        accounts = accounts if accounts is not None else data.get("accounts", {}).values()
+        cart_items = data.get("cart_items", [])
+        pricebook_entries = data.get("pricebook_entries", [])
+        accounts = list(data.get("accounts", {}).values())
 
-        cart_line_items = [
-            ci for ci in cart_items if f"{ci.get('cart_id')}" == f"{cart_id}"
-        ]
+        cart_line_items = [ci for ci in cart_items if f"{ci.get('cart_id')}" == f"{cart_id}"]
         account = _find_one(accounts, "account_id", cart.get("account_id"))
         pricebook_id = account.get("default_pricebook_id") if account else "1"
 
@@ -66,9 +49,7 @@ class ApplyDiscountBundle(Tool):
 
         discount_amount = 0.0
         if offer.get("discount_type") == "PERCENTAGE":
-            discount_amount = round(
-                subtotal * (float(offer.get("discount_value", 0.0)) / 100.0), 2
-            )
+            discount_amount = round(subtotal * (float(offer.get("discount_value", 0.0)) / 100.0), 2)
         elif offer.get("discount_type") == "FIXED_AMOUNT":
             discount_amount = min(float(offer.get("discount_value", 0.0)), subtotal)
 
@@ -81,28 +62,18 @@ class ApplyDiscountBundle(Tool):
             "discount_amount": round(discount_amount, 2),
             "total_amount": round(subtotal - discount_amount, 2),
         }
-        _append_audit(
-            data,
-            "discount_applied",
-            cart_id,
-            {"offer_code": offer_code, "discount_amount": discount_amount},
-        )
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(result, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ApplyDiscountBundle",
+                "name": "apply_discount_bundle",
                 "description": "Apply a discount to a cart and calculate total savings.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "cart_id": {"type": "string"},
-                        "offer_code": {"type": "string"},
-                    },
+                    "properties": {"cart_id": {"type": "string"}, "offer_code": {"type": "string"}},
                     "required": ["cart_id", "offer_code"],
                 },
             },

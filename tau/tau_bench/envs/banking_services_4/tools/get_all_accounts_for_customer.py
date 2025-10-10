@@ -1,18 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any, Dict, List
-import os
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetAllAccountsForCustomer(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
         if not customer_id:
             return json.dumps({"error": "customer_id is required"})
 
         accounts = load_json("accounts.json")
         customer_accounts = [
-            account for account in accounts.values() if account.get("customer_id") == customer_id
+            account for account in accounts if account.get("customer_id") == customer_id
         ]
 
         return json.dumps({
@@ -27,12 +29,13 @@ class GetAllAccountsForCustomer(Tool):
                 for acct in customer_accounts
             ]
         })
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             'type': 'function',
             'function': {
-                'name': 'getAllAccountsForCustomer',
+                'name': 'get_all_accounts_for_customer',
                 'description': 'Retrieves all accounts (with type, currency, and balance) associated with a given customer ID.',
                 'parameters': {
                     'type': 'object',

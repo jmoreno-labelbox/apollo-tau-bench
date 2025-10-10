@@ -1,49 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ProposeFixPatch(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        run_id: str,
-        logs_uri: str | None = None,
-        first_bad_commit: str | None = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], run_id: str, logs_uri: Optional[str] = None, first_bad_commit: Optional[str] = None) -> str:
         fixes = _get_table(data, "fix_proposals")
         existing = next((f for f in fixes if f.get("run_id") == run_id), None)
         if existing:
-            payload = existing
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps(existing, indent=2)
         patch_id = f"FP-{run_id}"
-        proposal = {
-            "patch_id": patch_id,
-            "run_id": run_id,
-            "logs_uri": logs_uri or f"artifact://logs/{run_id}",
-            "first_bad_commit": first_bad_commit,
-            "status": "proposed",
-        }
+        proposal = {"patch_id": patch_id, "run_id": run_id, "logs_uri": logs_uri or f"artifact://logs/{run_id}", "first_bad_commit": first_bad_commit, "status": "proposed"}
         fixes.append(proposal)
-        payload = proposal
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(proposal, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ProposeFixPatch",
-                "description": "Creates a deterministic fix proposal entry for a run.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "run_id": {"type": "string"},
-                        "logs_uri": {"type": "string"},
-                        "first_bad_commit": {"type": "string"},
-                    },
-                    "required": ["run_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "propose_fix_patch", "description": "Creates a deterministic fix proposal entry for a run.", "parameters": {"type": "object", "properties": {"run_id": {"type": "string"}, "logs_uri": {"type": "string"}, "first_bad_commit": {"type": "string"}}, "required": ["run_id"]}}}

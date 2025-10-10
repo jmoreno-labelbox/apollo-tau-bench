@@ -1,39 +1,29 @@
-from tau_bench.envs.tool import Tool
-import csv
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAdsetFromPlan(Tool):
-    """Deliver allocation details for a single ad set from a particular plan."""
-
+    """Return allocation info for one ad set from a specific plan."""
     @staticmethod
-    def invoke(data: dict[str, Any], plan_id: str = None, adset_id: str = None) -> str:
-        for plan in data.get("plans", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        plan_id = kwargs.get("plan_id")
+        adset_id = kwargs.get("adset_id")
+        for plan in data.get("plans", []):
             if plan.get("plan_id") == plan_id:
                 for a in plan.get("allocations", []):
                     if a.get("adset_id") == adset_id:
-                        payload = a
-                        out = json.dumps(payload)
-                        return out
-        payload = {"error": f"Adset {adset_id} not in plan {plan_id}"}
-        out = json.dumps(payload)
-        return out
+                        return json.dumps(a)
+        return json.dumps({"error": f"Adset {adset_id} not in plan {plan_id}"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAdsetFromPlan",
+                "name": "get_adset_from_plan",
                 "description": "Return allocation info for a single ad set from a plan.",
                 "parameters": {
                     "type": "object",

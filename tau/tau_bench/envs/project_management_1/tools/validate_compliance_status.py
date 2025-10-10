@@ -1,31 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ValidateComplianceStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: str = None, required_clearance: str = "secret") -> str:
-        if not project_id:
-            payload = {"error": "project_id is required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        required_clearance = kwargs.get("required_clearance", "secret")
 
-        allocations = data.get("allocations", {}).values()
-        employees = data.get("employees", {}).values()
+        if not project_id:
+            return json.dumps({"error": "project_id is required"})
+
+        allocations = data.get("allocations", [])
+        employees = list(data.get("employees", {}).values())
 
         project_allocations = [
             alloc
-            for alloc in allocations.values() if alloc.get("project_id") == project_id and alloc.get("status") == "active"
+            for alloc in allocations
+            if alloc.get("project_id") == project_id and alloc.get("status") == "active"
         ]
 
         cleared_resources = 0
@@ -35,7 +30,7 @@ class ValidateComplianceStatus(Tool):
             employee_id = allocation.get("employee_id")
 
             employee = None
-            for emp in employees.values():
+            for emp in employees:
                 if emp.get("employee_id") == employee_id:
                     employee = emp
                     break
@@ -54,7 +49,9 @@ class ValidateComplianceStatus(Tool):
                     )
 
         compliance_achieved = len(compliance_violations) == 0
-        payload = {
+
+        return json.dumps(
+            {
                 "project_id": project_id,
                 "required_clearance": required_clearance,
                 "compliance_achieved": compliance_achieved,
@@ -67,14 +64,14 @@ class ValidateComplianceStatus(Tool):
                     "violation_count": len(compliance_violations),
                 },
             }
-        out = json.dumps(payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ValidateComplianceStatus",
+                "name": "validate_compliance_status",
                 "description": "Validate security clearance compliance for a project and return compliance status",
                 "parameters": {
                     "type": "object",

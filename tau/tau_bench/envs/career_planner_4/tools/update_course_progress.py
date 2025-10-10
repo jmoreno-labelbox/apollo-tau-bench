@@ -1,10 +1,11 @@
-from tau_bench.envs.tool import Tool
-import json
-import uuid
-from datetime import datetime
-from typing import Any
+# Copyright Sierra
 
-class UpdateCourseProgress(Tool):
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class update_course_progress(Tool):
     @staticmethod
     def invoke(data, user_id: str, course_id: str, progress_percent: int) -> str:
         record = {
@@ -13,20 +14,19 @@ class UpdateCourseProgress(Tool):
             "progress_percent": progress_percent,
         }
         data.setdefault("course_progress_updates", []).append(record)
-        payload = {
-            "success": f"Course {course_id} progress for {user_id} updated to {progress_percent}%."
-        }
-        out = json.dumps(
-            payload, indent=2,
+        return json.dumps(
+            {
+                "success": f"Course {course_id} progress for {user_id} updated to {progress_percent}%."
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "updateCourseProgress",
+                "name": "update_course_progress",
                 "description": "Update the progress percentage for a user in a specific course.",
                 "parameters": {
                     "type": "object",

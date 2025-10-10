@@ -1,34 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAutomationRuns(Tool):
-    """Fetches all IDs of automation runs."""
+    """Retrieves all automation run IDs."""
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        runs = data.get("automation_runs", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        runs = data.get("automation_runs", [])
         ids_ = []
         for i in runs:
             ids_ += [i.get("run_id")]
-        payload = {"automation_run_ids": ids_}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"automation_run_ids": ids_})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getAutomationRuns",
+                "name": "get_automation_runs",
                 "description": "Retrieves all automation run IDs.",
                 "parameters": {},
             },

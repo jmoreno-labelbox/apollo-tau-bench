@@ -1,14 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class InitialCommit(Tool):
     """
@@ -19,59 +14,33 @@ class InitialCommit(Tool):
     """
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        owner: str = "",
-        repo_name: str = "",
-        branch_name: str = "",
-        commit_message: str = "",
-        commit_author: str = ""
-    ) -> str:
-        owner = owner.strip()
-        repo_name = repo_name.strip()
-        branch_name = branch_name.strip()
-        commit_message = commit_message.strip()
-        commit_author = commit_author.strip()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner = kwargs.get("owner", "").strip()
+        repo_name = kwargs.get("repo_name", "").strip()
+        branch_name = kwargs.get("branch_name", "").strip()
+        commit_message = kwargs.get("commit_message", "").strip()
+        commit_author = kwargs.get("commit_author", "").strip()
 
-        if (
-            not owner
-            or not repo_name
-            or not branch_name
-            or not commit_message
-            or not commit_author
-        ):
-            payload = {
-                "error": "Parameters 'owner', 'repo_name', 'branch_name', 'commit_message', and 'commit_author' are required."
-            }
-            out = json.dumps(
-                payload, indent=2,
+        if not owner or not repo_name or not branch_name or not commit_message or not commit_author:
+            return json.dumps(
+                {"error": "Parameters 'owner', 'repo_name', 'branch_name', 'commit_message', and 'commit_author' are required."},
+                indent=2
             )
-            return out
 
         # Load commits DB (supports either {"commits": [...]} or a top-level list)
-        commits_db = _convert_db_to_list(data.get("commits", {}).values())
+        commits_db = list(data.get("commits", {}).values())
         if isinstance(commits_db, list):
             pass
         elif isinstance(data, list):
             commits_db = data
         else:
-            payload = {
-                "error": "Invalid database format: expected a list or a dict with 'commits'."
-            }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": "Invalid database format: expected a list or a dict with 'commits'."},
+                indent=2
             )
-            return out
 
         # Find or create the repo record
-        rec = next(
-            (
-                r
-                for r in commits_db
-                if r.get("owner") == owner and r.get("repo_name") == repo_name
-            ),
-            None,
-        )
+        rec = next((r for r in commits_db if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
         if rec is None:
             rec = {
                 "owner": owner,
@@ -80,15 +49,15 @@ class InitialCommit(Tool):
                 "commit_shas": [],
                 "commit_messages": [],
                 "commit_authors": [],
-                "commit_timestamps": [],
+                "commit_timestamps": []
             }
             commits_db.append(rec)
 
-        branch_names: list[str] = rec.get("branch_names", [])
-        commit_shas: list[list[str]] = rec.get("commit_shas", [])
-        commit_messages: list[list[str]] = rec.get("commit_messages", [])
-        commit_authors: list[list[str]] = rec.get("commit_authors", [])
-        commit_timestamps: list[list[str]] = rec.get("commit_timestamps", [])
+        branch_names: List[str] = rec.get("branch_names", [])
+        commit_shas: List[List[str]] = rec.get("commit_shas", [])
+        commit_messages: List[List[str]] = rec.get("commit_messages", [])
+        commit_authors: List[List[str]] = rec.get("commit_authors", [])
+        commit_timestamps: List[List[str]] = rec.get("commit_timestamps", [])
 
         # Ensure branch exists and arrays are aligned
         if branch_name not in branch_names:
@@ -117,63 +86,39 @@ class InitialCommit(Tool):
         rec["commit_authors"] = commit_authors
         rec["commit_timestamps"] = commit_timestamps
 
-        add_terminal_message(
-            data,
-            f"Initial commit added to {owner}/{repo_name}@{branch_name}.",
-            get_current_timestamp(),
-        )
-        payload = {
-            "success": f"Initial commit added to {owner}/{repo_name}@{branch_name}.",
-            "commit": {
-                "sha": new_sha,
-                "message": commit_message,
-                "author": commit_author,
-                "timestamp": new_ts,
+        add_terminal_message(data, f"Initial commit added to {owner}/{repo_name}@{branch_name}.", get_current_timestamp())
+
+        return json.dumps(
+            {
+                "success": f"Initial commit added to {owner}/{repo_name}@{branch_name}.",
+                "commit": {
+                    "sha": new_sha,
+                    "message": commit_message,
+                    "author": commit_author,
+                    "timestamp": new_ts
+                },
+                "branch_commit_count": len(commit_shas[idx])
             },
-            "branch_commit_count": len(commit_shas[idx]),
-        }
-        out = json.dumps(
-            payload, indent=2,
+            indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "InitialCommit",
+                "name": "initial_commit",
                 "description": "Add a new commit to commits DB (creates repo/branch buckets if needed) with deterministic SHA and timestamp.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "owner": {
-                            "type": "string",
-                            "description": "Repository owner (account/team).",
-                        },
-                        "repo_name": {
-                            "type": "string",
-                            "description": "Repository name.",
-                        },
-                        "branch_name": {
-                            "type": "string",
-                            "description": "Branch name to commit to.",
-                        },
-                        "commit_message": {
-                            "type": "string",
-                            "description": "Commit message.",
-                        },
-                        "commit_author": {
-                            "type": "string",
-                            "description": "Author username for the commit.",
-                        },
+                        "owner": {"type": "string", "description": "Repository owner (account/team)."},
+                        "repo_name": {"type": "string", "description": "Repository name."},
+                        "branch_name": {"type": "string", "description": "Branch name to commit to."},
+                        "commit_message": {"type": "string", "description": "Commit message."},
+                        "commit_author": {"type": "string", "description": "Author username for the commit."}
                     },
-                    "required": [
-                        "owner",
-                        "repo_name",
-                        "branch_name",
-                        "commit_message",
-                        "commit_author",
-                    ],
-                },
-            },
+                    "required": ["owner", "repo_name", "branch_name", "commit_message", "commit_author"]
+                }
+            }
         }

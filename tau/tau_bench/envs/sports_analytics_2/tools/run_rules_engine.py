@@ -1,31 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class RunRulesEngine(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], **kwargs) -> str:
-        pass
-        payload = {"flagged_insights_dataframe": "flags_table"}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        return json.dumps({"flagged_insights_dataframe": "flags_table"}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "RunRulesEngine",
-                "description": "Runs the rules engine over computed metrics.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "dbt_output_tables": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                        }
-                    },
-                    "required": ["dbt_output_tables"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "run_rules_engine", "description": "Runs the rules engine over computed metrics.", "parameters": {"type": "object", "properties": {"dbt_output_tables": {"type": "array", "items": {"type": "string"}}}, "required": ["dbt_output_tables"]}}}

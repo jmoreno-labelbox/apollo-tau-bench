@@ -1,32 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class MaintenanceLogs(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        MaintenanceLogs: list = None
-    ) -> str:
-        return _j(MaintenanceLogs or [])
-        return _j(data.get("MaintenanceLogs", {}))
+    def invoke(data: Dict[str, Any], ) -> str:
+        return _j(data.get("maintenance_logs", []))
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "MaintenanceLogs",
-                "description": "List maintenance logs for a given aircraft_id.",
-                "parameters": {"type": "object", "properties": {}, "required": []},
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "maintenance_logs",
+            "description": "List maintenance logs for a given aircraft_id.",
+            "parameters": {"type": "object", "properties": {},
+                           "required": []}
+        }}

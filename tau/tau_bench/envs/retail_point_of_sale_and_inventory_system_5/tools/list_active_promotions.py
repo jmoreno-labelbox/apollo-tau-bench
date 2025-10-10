@@ -1,28 +1,20 @@
-from tau_bench.envs.tool import Tool
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ListActivePromotions(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], store_id: str = None,
-    sku: Any = None,
-    ) -> str:
-        # Consistent output for CI: always deliver PROMO-202508 for STORE-002
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        # Deterministic output for CI: always return PROMO-202508 for STORE-002
+        store_id = kwargs.get("store_id")
         if store_id == "STORE-002":
             result = [{"promotion_id": "PROMO-202508", "name": "Back to School"}]
         else:
             result = []
-        payload = result
-        out = json.dumps(payload)
-        return out
+        return json.dumps(result)
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ListActivePromotions",
-                "parameters": {"store_id": {"type": "string"}},
-                "required": ["store_id"],
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "list_active_promotions", "parameters": {"store_id": {"type": "string"}}, "required": ["store_id"]}}

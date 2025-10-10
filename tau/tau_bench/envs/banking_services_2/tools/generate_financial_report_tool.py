@@ -1,22 +1,21 @@
-from tau_bench.envs.tool import Tool
-from typing import Any, Dict
+# Copyright Sierra
+
 import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GenerateFinancialReportTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, start_date: str = None, end_date: str = None) -> str:
-        transactions = data.get('transactions', {}).values()
-        scheduled_payments = data.get('scheduled_payments', {}).values()
-        support_tickets = data.get('support_tickets', {}).values()
-        loans = data.get('loans', {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        start_date = kwargs.get('start_date')
+        end_date = kwargs.get('end_date')
+
+        transactions = list(data.get('transactions', {}).values())
+        scheduled_payments = data.get('scheduled_payments', [])
+        support_tickets = list(data.get('support_tickets', {}).values())
+        loans = list(data.get('loans', {}).values())
 
         total_deposits = 0
         total_withdrawals = 0
@@ -31,7 +30,7 @@ class GenerateFinancialReportTool(Tool):
         bill_payment_count = 0
         atm_withdrawal_count = 0
 
-        for txn in transactions.values():
+        for txn in transactions:
             if txn.get('account_id') != account_id:
                 continue
             txn_date = txn.get('transaction_date', '')
@@ -64,7 +63,7 @@ class GenerateFinancialReportTool(Tool):
                 atm_withdrawal_count += 1
 
         scheduled_count = 0
-        for payment in scheduled_payments.values():
+        for payment in scheduled_payments:
             if payment.get('from_account_id', None) != account_id:
                 continue
             payment_date = payment.get('next_payment_date', '')
@@ -76,7 +75,7 @@ class GenerateFinancialReportTool(Tool):
             scheduled_count += 1
 
         support_ticket_count = 0
-        for ticket in support_tickets.values():
+        for ticket in support_tickets:
             if ticket.get('account_id', '') != account_id:
                 continue
             ticket_date = ticket.get('created_date', '')
@@ -88,7 +87,7 @@ class GenerateFinancialReportTool(Tool):
             support_ticket_count += 1
 
         loans_for_account = []
-        for loan in loans.values():
+        for loan in loans:
             if loan.get('account_id', '') != account_id:
                 continue
             loan_date = loan.get('issue_date', '')
@@ -125,12 +124,13 @@ class GenerateFinancialReportTool(Tool):
             "loans": loans_for_account
         }
         return json.dumps(report, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GenerateFinancialReport",
+                "name": "generate_financial_report",
                 "description": "Generate a comprehensive financial report for an account, including totals and counts for deposits, withdrawals, purchases, payments, bill payments, ATM withdrawals, scheduled payments, support tickets, and loans over a given period.",
                 "parameters": {
                     "type": "object",

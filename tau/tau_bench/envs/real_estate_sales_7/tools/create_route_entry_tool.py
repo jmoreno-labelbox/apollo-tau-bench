@@ -1,21 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateRouteEntryTool(Tool):
-    """Inserts a record into the routes table."""
+    """Creates entry in routes table."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        client_id: int = None,
-        route_date: str = None,
-        stops_ordered_json: list = None,
-        map_url: str = None,
-        created_by_broker_id: int = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        client_id = kwargs.get("client_id")
+        route_date = kwargs.get("route_date")
+        stops_ordered_json = kwargs.get("stops_ordered_json")
+        map_url = kwargs.get("map_url")
+        created_by_broker_id = kwargs.get("created_by_broker_id")
+
         if (
             client_id is None
             or not route_date
@@ -38,16 +38,15 @@ class CreateRouteEntryTool(Tool):
             "created_by_broker_id": int(created_by_broker_id),
             "created_at": HARD_TS,
         }
-        data["routes"][rec["route_id"]] = rec
-        payload = rec
-        out = json.dumps(payload, indent=2)
-        return out
+        rows.append(rec)
+        return json.dumps(rec, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateRouteEntry",
+                "name": "create_route_entry",
                 "description": "Creates entry in routes table.",
                 "parameters": {
                     "type": "object",

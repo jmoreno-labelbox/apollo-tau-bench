@@ -1,75 +1,55 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ExecuteInventoryTransfer(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], sku: str = None, quantity: int = None, from_store_id: int = None, to_store_id: int = None) -> str:
-        inventory = data.get("inventory", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        sku = kwargs.get('sku')
+        quantity = kwargs.get('quantity')
+        from_store_id = kwargs.get('from_store_id')
+        to_store_id = kwargs.get('to_store_id')
+
+        inventory = list(data.get("inventory", {}).values())  # Corrigido para lista
         from_item = None
         to_item = None
 
-        for item in inventory.values():
-            if item["store_id"] == from_store_id and item["sku"] == sku:
+        for item in inventory:
+            if item['store_id'] == from_store_id and item['sku'] == sku:
                 from_item = item
-            if item["store_id"] == to_store_id and item["sku"] == sku:
+            if item['store_id'] == to_store_id and item['sku'] == sku:
                 to_item = item
 
         if from_item and to_item:
-            from_item["quantity"] -= quantity
-            to_item["quantity"] += quantity
-            payload = {
+            from_item['quantity'] -= quantity
+            to_item['quantity'] += quantity
+            return json.dumps({
                 "status": "success",
                 "sku": sku,
                 "quantity": quantity,
                 "from_store": from_store_id,
-                "to_store": to_store_id,
-            }
-            out = json.dumps(payload)
-            return out
-        payload = {
-            "status": "failed",
-            "reason": "Inventory item not found in one or both stores.",
-        }
-        out = json.dumps(payload)
-        return out
+                "to_store": to_store_id
+            })
+
+        return json.dumps({"status": "failed", "reason": "Inventory item not found in one or both stores."})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ExecuteInventoryTransfer",
+                "name": "execute_inventory_transfer",
                 "description": "Executes a stock transfer of a specific SKU from one store to another.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "sku": {
-                            "type": "string",
-                            "description": "The SKU of the product to transfer.",
-                        },
-                        "quantity": {
-                            "type": "integer",
-                            "description": "The quantity of stock to transfer.",
-                        },
-                        "from_store_id": {
-                            "type": "string",
-                            "description": "The ID of the origin store.",
-                        },
-                        "to_store_id": {
-                            "type": "string",
-                            "description": "The ID of the destination store.",
-                        },
+                        "sku": {"type": "string", "description": "The SKU of the product to transfer."},
+                        "quantity": {"type": "integer", "description": "The quantity of stock to transfer."},
+                        "from_store_id": {"type": "string", "description": "The ID of the origin store."},
+                        "to_store_id": {"type": "string", "description": "The ID of the destination store."},
                     },
                     "required": ["sku", "quantity", "from_store_id", "to_store_id"],
                 },

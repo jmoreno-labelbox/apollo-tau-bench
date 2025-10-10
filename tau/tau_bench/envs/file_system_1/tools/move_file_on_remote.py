@@ -1,33 +1,17 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class MoveFileOnRemote(Tool):
-    """Imitates transferring a file from one location to another on the same remote server."""
+    """Simulates moving a file from a source to a destination on the same remote server."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        return json.dumps({
+            "status": "success", "message": f"Moved {kwargs.get('source_path')} to {kwargs.get('destination_path')} on {kwargs.get('hostname')}."})
 
     @staticmethod
-    def invoke(data: dict[str, Any], source_path: str = None, destination_path: str = None, hostname: str = None) -> str:
-        payload = {
-            "status": "success",
-            "message": f"Moved {source_path} to {destination_path} on {hostname}.",
-        }
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "MoveFileOnRemote",
-                "description": "Moves a file on a remote server.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "hostname": {"type": "string"},
-                        "source_path": {"type": "string"},
-                        "destination_path": {"type": "string"},
-                    },
-                    "required": ["hostname", "source_path", "destination_path"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "move_file_on_remote", "description": "Moves a file on a remote server.", "parameters": {"type": "object", "properties": {"hostname": {"type": "string"}, "source_path": {"type": "string"}, "destination_path": {"type": "string"}}, "required": ["hostname", "source_path", "destination_path"]}}}

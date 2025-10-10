@@ -1,22 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AssignUserRoleTool(Tool):
-    """AssignUserRole"""
+    """assign_user_role"""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        user_role_id: str,
-        user_id: str,
-        role_id: str,
-        assigned_by: str,
-        expires_on: str = None,
-        assigned_on: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_role_id = kwargs["user_role_id"]
+        user_id = kwargs["user_id"]
+        role_id = kwargs["role_id"]
+        assigned_by = kwargs["assigned_by"]
+        expires_on = kwargs.get("expires_on")
         roles = data.setdefault("user_roles", [])
         existing_active = next(
             (
@@ -45,16 +43,15 @@ class AssignUserRoleTool(Tool):
                     "assigned_on": _HARD_TS,
                     "expires_on": expires_on,
                 }
-                data["roles"][role_id] = record
-        payload = record
-        out = json.dumps(payload, indent=2)
-        return out
+                roles.append(record)
+        return json.dumps(record, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AssignUserRole",
+                "name": "assign_user_role",
                 "description": "Create a user_role assignment if not already active.",
                 "parameters": {
                     "type": "object",

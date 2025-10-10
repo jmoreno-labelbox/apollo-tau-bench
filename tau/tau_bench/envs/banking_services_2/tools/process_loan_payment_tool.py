@@ -1,24 +1,23 @@
-from tau_bench.envs.tool import Tool
-from typing import Any, Dict
+# Copyright Sierra
+
 import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ProcessLoanPaymentTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], loan_id: str = None, payment_amount: float = None, from_account_id: str = None) -> str:
-        loans = data.get('loans', {}).values()
-        accounts = data.get('accounts', {}).values()
-        transactions = data.get('transactions', {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        loan_id = kwargs.get('loan_id')
+        payment_amount = kwargs.get('payment_amount')
+        from_account_id = kwargs.get('from_account_id')
+
+        loans = list(data.get('loans', {}).values())
+        accounts = list(data.get('accounts', {}).values())
+        transactions = list(data.get('transactions', {}).values())
 
         loan = None
-        for l in loans.values():
+        for l in loans:
             if l['loan_id'] == loan_id:
                 loan = l
                 break
@@ -27,7 +26,7 @@ class ProcessLoanPaymentTool(Tool):
             return json.dumps({"error": f"Loan {loan_id} not found"}, indent=2)
 
         account = None
-        for a in accounts.values():
+        for a in accounts:
             if a['account_id'] == from_account_id:
                 account = a
                 break
@@ -50,7 +49,7 @@ class ProcessLoanPaymentTool(Tool):
             "channel": "Online"
         }
 
-        data["transactions"][transaction_id] = transaction
+        transactions.append(transaction)
 
         return json.dumps({
             "loan_id": loan_id,
@@ -59,12 +58,13 @@ class ProcessLoanPaymentTool(Tool):
             "new_account_balance": account['balance'],
             "transaction_id": transaction['transaction_id']
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ProcessLoanPayment",
+                "name": "process_loan_payment",
                 "description": "Make a payment towards a loan",
                 "parameters": {
                     "type": "object",

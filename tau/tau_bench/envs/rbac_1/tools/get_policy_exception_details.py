@@ -1,38 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetPolicyExceptionDetails(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], exception_id: str = None) -> str:
-        for ex in data.get("policy_exceptions", {}).values():
-            if ex.get("exception_id") == exception_id:
-                payload = ex
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Policy exception not found"}
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        exception_id = kwargs.get("exception_id")
+        for ex in data.get('policy_exceptions', []):
+            if ex.get('exception_id') == exception_id:
+                return json.dumps(ex)
+        return json.dumps({"error": "Policy exception not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "GetPolicyExceptionDetails",
-                "description": "Retrieves details for a specific policy exception.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"exception_id": {"type": "string"}},
-                    "required": ["exception_id"],
-                },
-            },
+                "type": "function",
+                "function": {
+                        "name": "get_policy_exception_details",
+                        "description": "Retrieves details for a specific policy exception.",
+                        "parameters": {
+                                "type": "object",
+                                "properties": {
+                                        "exception_id": {"type": "string"}
+                                },
+                                "required": ["exception_id"]
+                        }
+                }
         }

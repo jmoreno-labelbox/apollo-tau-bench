@@ -1,151 +1,96 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ManageMemberInDatabase(Tool):
-    """Consolidated CRUD for members: retrieve, add, modify, and delete."""
-
+    """Unified CRUD for members: get, add, update, delete."""
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         action: str = "get",
         member_id: str = "",
-        member: dict[str, Any] | None = None,
-        updates: dict[str, Any] | None = None,
-        filters: dict[str, Any] | None = None
+        member: Optional[Dict[str, Any]] = None,
+        updates: Optional[Dict[str, Any]] = None,
+        filters: Optional[Dict[str, Any]] = None
     ) -> str:
-        members = data.get("members", {}).values()
+        members = data.get('members', [])
         if action == "get":
             if member_id:
-                result = [m for m in members.values() if m.get("id") == member_id]
+                result = [m for m in members if m.get("id") == member_id]
             elif filters:
-                result = [
-                    m for m in members.values() if all(m.get(k) == v for k, v in filters.items())
-                ]
+                result = [m for m in members if all(m.get(k) == v for k, v in filters.items())]
             else:
                 result = members
-            payload = result
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps(result, indent=2)
         elif action == "add":
             if not member:
-                payload = {"error": "'member' parameter is required for add"}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
-            if any(m["id"] == member.get("id") for m in members.values()):
-                payload = {"error": "Member with this id already exists"}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
-            data["members"][member_id] = member
-            payload = {"success": "Member added", "member": member, "members": members}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+                return json.dumps({"error": "'member' parameter is required for add"}, indent=2)
+            if any(m["id"] == member.get("id") for m in members):
+                return json.dumps({"error": "Member with this id already exists"}, indent=2)
+            members.append(member)
+            return json.dumps({"success": "Member added", "member": member, "members": members}, indent=2)
         elif action == "update":
             if not member_id or not updates:
-                payload = {
-                        "error": "'member_id' and 'updates' parameters are required for update"
-                    }
-                out = json.dumps(
-                    payload, indent=2,
-                )
-                return out
+                return json.dumps({"error": "'member_id' and 'updates' parameters are required for update"}, indent=2)
             found = False
-            for m in members.values():
+            for m in members:
                 if m["id"] == member_id:
                     for k, v in updates.items():
                         m[k] = v
                     found = True
                     break
             if not found:
-                payload = {"error": "Member not found"}
-                out = json.dumps(payload, indent=2)
-                return out
-            payload = {
-                    "success": "Member updated",
-                    "member_id": member_id,
-                    "updates": updates,
-                    "members": members,
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+                return json.dumps({"error": "Member not found"}, indent=2)
+            return json.dumps({"success": "Member updated", "member_id": member_id, "updates": updates, "members": members}, indent=2)
         elif action == "delete":
             if not member_id:
-                payload = {"error": "'member_id' parameter is required for delete"}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
-            new_list = [m for m in members.values() if m["id"] != member_id]
+                return json.dumps({"error": "'member_id' parameter is required for delete"}, indent=2)
+            new_list = [m for m in members if m["id"] != member_id]
             if len(new_list) == len(members):
-                payload = {"error": "Member not found"}
-                out = json.dumps(payload, indent=2)
-                return out
-            payload = {
-                    "success": "Member deleted",
-                    "member_id": member_id,
-                    "members": new_list,
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+                return json.dumps({"error": "Member not found"}, indent=2)
+            return json.dumps({"success": "Member deleted", "member_id": member_id, "members": new_list}, indent=2)
         else:
-            payload = {"error": f"Unknown action: {action}"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"Unknown action: {action}"}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ManageMemberInDatabase",
+                "name": "manage_member_in_database",
                 "description": "Get member info, add, update, or delete a member.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "action": {
                             "type": "string",
-                            "description": "Action to perform: get, add, update, delete",
+                            "description": "Action to perform: get, add, update, delete"
                         },
                         "member_id": {
                             "type": "string",
-                            "description": "Member id to operate on (required for get, update, delete)",
+                            "description": "Member id to operate on (required for get, update, delete)"
                         },
                         "member": {
                             "type": "object",
                             "description": "The full member object to add (required for add)",
-                            "additionalProperties": True,
+                            "additionalProperties": True
                         },
                         "updates": {
                             "type": "object",
                             "description": "Key-value pairs of fields to update (required for update)",
-                            "additionalProperties": True,
+                            "additionalProperties": True
                         },
                         "filters": {
                             "type": "object",
                             "description": "Key-value pairs to filter members (optional for get)",
-                            "additionalProperties": True,
-                        },
+                            "additionalProperties": True
+                        }
                     },
                     "required": ["action"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

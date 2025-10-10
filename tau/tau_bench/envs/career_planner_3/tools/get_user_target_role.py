@@ -1,42 +1,36 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetUserTargetRole(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        goals_data = data.get("goals", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        goals_data = data.get("goals", [])
 
-        user_goals = [g for g in goals_data.values() if g.get("user_id") == user_id]
+        user_goals = [g for g in goals_data if g.get("user_id") == user_id]
 
         if not user_goals:
-            payload = {"error": f"No goals found for user {user_id}."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"No goals found for user {user_id}."})
 
-        # Locate the initial goal categorized as "Role Transition"
+        # Find the first goal with the type "Role Transition"
         for goal in user_goals[0].get("goals", []):
             if goal.get("goal_type") == "Role Transition" and "target_role" in goal:
-                payload = {"target_role": goal.get("target_role")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"No 'Role Transition' goal found for user {user_id}."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"target_role": goal.get("target_role")})
+
+        return json.dumps(
+            {"error": f"No 'Role Transition' goal found for user {user_id}."}
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetUserTargetRole",
+                "name": "get_user_target_role",
                 "description": "Retrieves the formal target role from a user's 'Role Transition' career goal.",
                 "parameters": {
                     "type": "object",

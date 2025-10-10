@@ -1,46 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetGeocodingResultByCity(Tool):
-    """Fetches geocoding_results based on query_city."""
-
+    """
+    Retrieves geocoding_results by query_city.
+    """
     @staticmethod
-    def invoke(data: dict[str, Any], query_city: str) -> str:
-        rows = data.get("geocoding_results", {}).values()
+    def invoke(data: Dict[str, Any], query_city: str) -> str:
+        rows = data.get("geocoding_results", [])
         for row in rows:
             if row.get("query_city") == query_city:
-                payload = row
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "geocoding result not found", "query_city": query_city}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(row)
+        return json.dumps({"error": "geocoding result not found", "query_city": query_city})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetGeocodingResultByCity",
+                "name": "get_geocoding_result_by_city",
                 "description": "Retrieves a geocoding result by query_city.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "query_city": {
-                            "type": "string",
-                            "description": "City name used in geocoding query.",
-                        }
+                        "query_city": {"type": "string", "description": "City name used in geocoding query."}
                     },
-                    "required": ["query_city"],
-                },
-            },
+                    "required": ["query_city"]
+                }
+            }
         }

@@ -1,39 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ResolveCitySlug(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], city: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        city = kwargs.get("city")
         if not city or not isinstance(city, str):
-            payload = {"error": "Missing city"}
-            out = json.dumps(payload)
-            return out
-        mapping = {
-            "San Francisco": "sf",
-            "Miami": "miami",
-            "Boston": "boston",
-            "Seattle": "seattle",
-            "Charleston": "charleston",
-            "New York": "new_york",
-            "Los Angeles": "los_angeles",
-        }
+            return json.dumps({"error": "Missing city"})
+        mapping = {"San Francisco": "sf", "Miami": "miami", "Boston": "boston", "Seattle": "seattle", "Charleston": "charleston", "New York": "new_york", "Los Angeles": "los_angeles"}
         slug = mapping.get(city, city.strip().lower().replace(" ", "_"))
-        payload = {"city": city, "city_slug": slug}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"city": city, "city_slug": slug})
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ResolveCitySlug",
-                "description": "Returns canonical city_slug used by file paths (e.g., 'San Francisco' -> 'sf').",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"city": {"type": "string"}},
-                    "required": ["city"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{"name":"resolve_city_slug","description":"Returns canonical city_slug used by file paths (e.g., 'San Francisco' -> 'sf').","parameters":{"type":"object","properties":{"city":{"type":"string"}},"required":["city"]}}}

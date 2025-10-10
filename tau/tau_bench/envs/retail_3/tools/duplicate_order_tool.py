@@ -1,26 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class DuplicateOrderTool(Tool):
     """
-    Create a duplicate of an existing order as a new one for the same user.
+    Duplicate an existing order into a new one for the same user.
 
     Behavior:
-    - Confirms the source order exists.
-    - Copies user_id, address, items; resets fulfillments to [] and payment_history to [].
-    - Changes status to "pending" and generates a new order_id and timestamp.
-    - Adds the new order to orders.json.
+    - Validates the source order exists.
+    - Clones user_id, address, items; resets fulfillments to [] and payment_history to [].
+    - Sets status to "pending" and generates a new order_id and timestamp.
+    - Appends the new order to orders.json.
 
     Input (kwargs):
         source_order_id (str, required)
@@ -30,21 +23,15 @@ class DuplicateOrderTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], source_order_id: str = None) -> str:
-        src_id = source_order_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        src_id = kwargs.get("source_order_id")
         if not src_id:
-            payload = {"error": "source_order_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "source_order_id is required"}, indent=2)
 
-        orders = data.get("orders", {}).values()
-        src = next((o for o in orders.values() if o.get("order_id") == src_id), None)
+        orders = list(data.get("orders", {}).values())
+        src = next((o for o in orders if o.get("order_id") == src_id), None)
         if not src:
-            payload = {"error": f"source_order_id '{src_id}' not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"source_order_id '{src_id}' not found"}, indent=2)
 
         new_order = {
             "order_id": _gen_order_id(),
@@ -56,22 +43,23 @@ class DuplicateOrderTool(Tool):
             "payment_history": [],
             "timestamp": _now_iso(),
         }
-        data["orders"][order_id] = new_order
-        payload = {
+        orders.append(new_order)
+
+        return json.dumps(
+            {
                 "source_order_id": src_id,
                 "new_order_id": new_order["order_id"],
                 "items_count": len(new_order.get("items", [])),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "duplicateOrder",
+                "name": "duplicate_order",
                 "description": "Duplicate an existing order (same user/address/items) with a fresh id, pending status, and no payments/fulfillments.",
                 "parameters": {
                     "type": "object",

@@ -1,35 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetUserByName(Tool):
-    """Obtains a user based on their name."""
+    """Retrieves a user by their name."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name = kwargs.get("name")
+        users = list(data.get("users", {}).values())
+        for user in users:
+            if user.get("name") == name:
+                return json.dumps(user)
+        return json.dumps({"error": f"User with name '{name}' not found."})
 
     @staticmethod
-    def invoke(data: dict[str, Any], name: str = None) -> str:
-        users = data.get("users", {}).values()
-        for user in users.values():
-            if user.get("name") == name:
-                payload = user
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"User with name '{name}' not found."}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetUserByName",
+                "name": "get_user_by_name",
                 "description": "Retrieves a user by their name.",
                 "parameters": {
                     "type": "object",

@@ -1,41 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class RegisterQcFigure(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        created_ts: str = None,
-        description: str = None,
-        figure_path: str = None
-    ) -> str:
-        err = _require({"figure_path": figure_path}, ["figure_path"])
-        if err:
-            return err
-        row = {
-            "figure_path": figure_path,
-            "description": description,
-            "created_ts": created_ts,
-        }
-        payload = _append(data.setdefault("qc_figures", []), row)
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        err = _require(kwargs, ["figure_path"])
+        if err: return err
+        row = {"figure_path": kwargs["figure_path"], "description": kwargs.get("description"),
+               "created_ts": kwargs.get("created_ts")}
+        return json.dumps(_append(data.setdefault("qc_figures", []), row), indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "RegisterQcFigure",
-                "description": "Registers a QC figure path and description.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "figure_path": {"type": "string"},
-                        "description": {"type": "string"},
-                        "created_ts": {"type": "string"},
-                    },
-                    "required": ["figure_path"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "register_qc_figure",
+            "description": "Registers a QC figure path and description.",
+            "parameters": {"type": "object", "properties": {
+                "figure_path": {"type": "string"}, "description": {"type": "string"}, "created_ts": {"type": "string"}},
+                "required": ["figure_path"]}}}

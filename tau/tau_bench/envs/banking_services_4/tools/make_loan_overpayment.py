@@ -1,19 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any, Dict, List
-import os
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class MakeLoanOverpayment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], loan_id: str = None, from_account_id: str = None, amount: float = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        loan_id = kwargs.get('loan_id')
+        from_account_id = kwargs.get('from_account_id')
+        amount = kwargs.get('amount')
         if not loan_id or not from_account_id or amount is None:
             return json.dumps({'error': 'loan_id, from_account_id, and amount are required'})
         loans = load_json('loans.json')
         accounts = load_json('accounts.json')
         transactions = load_json('transactions.json')
-        loan = next((l for l in loans.values() if l['loan_id'] == loan_id), None)
-        acct = next((a for a in accounts.values() if a['account_id'] == from_account_id and a['status'] == 'Active'), None)
+        loan = next((l for l in loans if l['loan_id'] == loan_id), None)
+        acct = next((a for a in accounts if a['account_id'] == from_account_id and a['status'] == 'Active'), None)
         if not loan or 'current_balance' not in loan:
             return json.dumps({'error': 'Loan not found or missing current_balance.'})
         if not acct or 'balance' not in acct:
@@ -36,12 +40,13 @@ class MakeLoanOverpayment(Tool):
         }
         transactions.append(txn)
         return json.dumps({'success': True, 'transaction': txn, 'loan_id': loan_id, 'new_balance': loan['current_balance']})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             'type': 'function',
             'function': {
-                'name': 'makeLoanOverpayment',
+                'name': 'make_loan_overpayment',
                 'description': 'Applies an additional payment to a loan outside the regular schedule.',
                 'parameters': {
                     'type': 'object',

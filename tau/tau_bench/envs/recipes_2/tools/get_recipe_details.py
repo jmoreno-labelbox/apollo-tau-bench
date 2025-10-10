@@ -1,45 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetRecipeDetails(Tool):
-    """Fetches complete information for a particular recipe ID."""
+    """Retrieves the full details for a specific recipe ID."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        recipe_id = kwargs.get("recipe_id")
+        recipes = list(data.get("recipes", {}).values())
+        for recipe in recipes:
+            if recipe.get("recipe_id") == recipe_id:
+                return json.dumps(recipe)
+        return json.dumps({"error": f"Recipe with ID '{recipe_id}' not found."})
 
     @staticmethod
-    def invoke(data: dict[str, Any], recipe_id: str = None) -> str:
-        recipes = data.get("recipes", {}).values()
-        for recipe in recipes.values():
-            if recipe.get("recipe_id") == recipe_id:
-                payload = recipe
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Recipe with ID '{recipe_id}' not found."}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getRecipeDetails",
+                "name": "get_recipe_details",
                 "description": "Retrieves the full details for a specific recipe ID.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "recipe_id": {
-                            "type": "integer",
-                            "description": "The unique ID of the recipe.",
-                        }
-                    },
+                    "properties": {"recipe_id": {"type": "integer", "description": "The unique ID of the recipe."}},
                     "required": ["recipe_id"],
                 },
             },

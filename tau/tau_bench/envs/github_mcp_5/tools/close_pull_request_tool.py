@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ClosePullRequestTool(Tool):
     """
@@ -40,47 +28,29 @@ class ClosePullRequestTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str, pr_id: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            pr_id = _validate_param({"pr_id": pr_id}, "pr_id", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            pr_id = _validate_param(kwargs, "pr_id", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        prs = data.get("pull_requests", {}).values()
-        pr = next(
-            (
-                p
-                for p in prs.values() if p.get("repo") == repo_name
-                and _safe_id(
-                    p,
-                    "pr_id",
-                    f"PR_{repo_name}_",
-                    ["title", "head_branch", "base_branch"],
-                )
-                == pr_id
-            ),
-            None,
-        )
+        prs = list(data.get("pull_requests", {}).values())
+        pr = next((p for p in prs if p.get("repo") == repo_name and _safe_id(p, "pr_id", f"PR_{repo_name}_", ["title", "head_branch", "base_branch"]) == pr_id), None)
 
         if not pr:
-            return _response(
-                "error",
-                ERROR_MESSAGES["NOT_FOUND"].format(
-                    entity="Pull Request", entity_id=pr_id
-                ),
-                "NOT_FOUND",
-            )
+            return _response("error", ERROR_MESSAGES["NOT_FOUND"].format(entity="Pull Request", entity_id=pr_id), "NOT_FOUND")
 
         pr["state"] = "closed"
         pr["updated_at"] = CURRENT_DATE
         return _response("ok", pr)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "closePullRequest",
+                "name": "close_pull_request",
                 "description": "Close a pull request deterministically (in-memory only).",
                 "parameters": {
                     "type": "object",

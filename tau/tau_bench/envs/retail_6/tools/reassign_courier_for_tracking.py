@@ -1,46 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ReassignCourierForTracking(Tool):
-    """Modify the delivery_carrier for a current tracking record."""
-
+    """Change the delivery_carrier for an existing tracking record."""
     @staticmethod
-    def invoke(data, tracking_id: str = None, courier_id: str = None) -> str:
+    def invoke(data, **kwargs) -> str:
+        tracking_id = kwargs.get('tracking_id')
+        courier_id = kwargs.get('courier_id')
         if not tracking_id or not courier_id:
-            payload = {"error": "tracking_id and courier_id are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error":"tracking_id and courier_id are required"}, indent=2)
         tr = _find_tracking(data, tracking_id)
         if not tr:
-            payload = {"error": f"tracking_id {tracking_id} not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        tr["delivery_carrier"] = courier_id
-        payload = {"success": True, "tracking_id": tracking_id, "courier_id": courier_id}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+            return json.dumps({"error": f"tracking_id {tracking_id} not found"}, indent=2)
+        tr['delivery_carrier'] = courier_id
+        return json.dumps({"success": True, "tracking_id": tracking_id, "courier_id": courier_id}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "reassignCourierForTracking",
-                "description": "Update delivery_carrier for a tracking record.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "tracking_id": {"type": "string"},
-                        "courier_id": {"type": "string"},
-                    },
-                    "required": ["tracking_id", "courier_id"],
-                },
-            },
-        }
+        return {"type":"function","function":{"name":"reassign_courier_for_tracking","description":"Update delivery_carrier for a tracking record.","parameters":{"type":"object","properties":{"tracking_id":{"type":"string"},"courier_id":{"type":"string"}},"required":["tracking_id","courier_id"]}}}

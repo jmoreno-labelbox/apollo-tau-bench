@@ -1,31 +1,16 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class list_tms_jobs(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        pass
-        tms_jobs = data.get("tms_jobs", {}).values()
-        payload = {"count": len(tms_jobs), "results": tms_jobs}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any]) -> str:
+        tms_jobs = data.get("tms_jobs", [])
+        return json.dumps({"count": len(tms_jobs), "results": tms_jobs}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ListTmsJobs",
-                "description": "Retrieves a list of all jobs in the Translation Management System (TMS).",
-                "parameters": {"type": "object", "properties": {}},
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return { "type": "function", "function": { "name": "list_tms_jobs", "description": "Retrieves a list of all jobs in the Translation Management System (TMS).", "parameters": { "type": "object", "properties": {} } } }

@@ -1,21 +1,17 @@
-from tau_bench.envs.tool import Tool
-from typing import Any, Dict
+# Copyright Sierra
+
 import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CalculateAccountBalanceTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None) -> str:
-        accounts = data.get('accounts', {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        accounts = list(data.get('accounts', {}).values())
 
-        for account in accounts.values():
+        for account in accounts:
             if account['account_id'] == account_id:
                 return json.dumps({
                     "account_id": account_id,
@@ -25,12 +21,13 @@ class CalculateAccountBalanceTool(Tool):
                 }, indent=2)
 
         return json.dumps({"error": f"Account {account_id} not found"}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateAccountBalance",
+                "name": "calculate_account_balance",
                 "description": "Get current balance for a specific account",
                 "parameters": {
                     "type": "object",

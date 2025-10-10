@@ -1,121 +1,89 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ApplyPaymentToOrder(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str = None, payment_method_id: str = None, shipping_address: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get('order_id')
+        payment_method_id = kwargs.get('payment_method_id')
+        shipping_address = kwargs.get('shipping_address')
         if not all([order_id, payment_method_id, shipping_address]):
-            payload = {
-                    "error": "order_id, payment_method_id, and shipping_address are required"
-                }
-            out = json.dumps(
-                payload)
-            return out
+            return json.dumps({'error': 'order_id, payment_method_id, and shipping_address are required'})
 
-        order = next((o for o in data["orders"].values() if o["order_id"] == order_id), None)
-        if not order:
-            payload = {"error": "Order not found"}
-            out = json.dumps(payload)
-            return out
-        if order["status"] != "pending":
-            payload = {"error": f'Order status is not pending, but {order["status"]}'}
-            out = json.dumps(
-                payload)
-            return out
+        order = next((o for o in data['orders'] if o['order_id'] == order_id), None)
+        if not order: return json.dumps({'error': 'Order not found'})
+        if order['status'] != 'pending': return json.dumps({'error': f'Order status is not pending, but {order["status"]}'})
 
-        user = next(
-            (u for u in data["users"].values() if u["user_id"] == order["user_id"]), None
-        )
-        if not user or payment_method_id not in user["payment_methods"]:
-            payload = {"error": "Invalid payment method for user"}
-            out = json.dumps(payload)
-            return out
+        user = next((u for u in data['users'] if u['user_id'] == order['user_id']), None)
+        if not user or payment_method_id not in user['payment_methods']:
+            return json.dumps({'error': 'Invalid payment method for user'})
 
-        total_amount = sum(item["price"] for item in order["items"])
+        total_amount = sum(item['price'] for item in order['items'])
 
-        #Process gift card payments independently
-        if payment_method_id.startswith("gift_card"):
-            #Retrieve details of the gift card payment method
-            gift_card = user["payment_methods"][payment_method_id]
-            gift_card_balance = gift_card.get("balance", 0)
+        # Handle gift card payments separately
+        if payment_method_id.startswith('gift_card'):
+            # Get gift card payment method details
+            gift_card = user['payment_methods'][payment_method_id]
+            gift_card_balance = gift_card.get('balance', 0)
 
             if gift_card_balance >= total_amount:
-                #Adequate balance - subtract the amount and proceed as usual
-                gift_card["balance"] = gift_card_balance - total_amount
-                order["payment_history"].append(
-                    {
-                        "transaction_type": "payment",
-                        "amount": total_amount,
-                        "payment_method_id": payment_method_id,
-                        "timestamp": get_current_timestamp(),
-                    }
-                )
-                order["address"] = shipping_address
-                order["status"] = "processing"
-                payload = {"success": True, "order_id": order_id, "new_status": "processing"}
-                out = json.dumps(
-                    payload, indent=2,
-                )
-                return out
+                # Sufficient balance - deduct the amount and process normally
+                gift_card['balance'] = gift_card_balance - total_amount
+                order['payment_history'].append({
+                    'transaction_type': 'payment',
+                    'amount': total_amount,
+                    'payment_method_id': payment_method_id,
+                    'timestamp': get_current_timestamp()
+                })
+                order['address'] = shipping_address
+                order['status'] = 'processing'
+                return json.dumps({'success': True, 'order_id': order_id, 'new_status': 'processing'}, indent=2)
             else:
-                #Insufficient balance - utilize the entire available balance and maintain the order in pending status
+                # Insufficient balance - use all available balance and keep order pending
                 if gift_card_balance > 0:
-                    order["payment_history"].append(
-                        {
-                            "transaction_type": "partial_payment",
-                            "amount": gift_card_balance,
-                            "payment_method_id": payment_method_id,
-                            "timestamp": get_current_timestamp(),
-                        }
-                    )
-                    order["address"] = shipping_address
-                    order["status"] = "pending"
-                    gift_card["balance"] = 0
-                payload = {
-                        "success": False,
-                        "reason": "Insufficient gift card balance",
-                        "order_id": order_id,
-                        "status": "pending",
-                        "remaining_amount": total_amount - gift_card_balance,
-                    }
-                out = json.dumps(
-                    payload, indent=2,
-                )
-                return out
+                    order['payment_history'].append({
+                        'transaction_type': 'partial_payment',
+                        'amount': gift_card_balance,
+                        'payment_method_id': payment_method_id,
+                        'timestamp': get_current_timestamp()
+                    })
+                    order['address'] = shipping_address
+                    order['status'] = 'pending'
+                    gift_card['balance'] = 0
+
+                return json.dumps({
+                    'success': False,
+                    'reason': 'Insufficient gift card balance',
+                    'order_id': order_id,
+                    'status': 'pending',
+                    'remaining_amount': total_amount - gift_card_balance
+                }, indent=2)
         else:
-            #Standard payment method handling
-            order["payment_history"].append(
-                {
-                    "transaction_type": "payment",
-                    "amount": total_amount,
-                    "payment_method_id": payment_method_id,
-                    "timestamp": get_current_timestamp(),
-                }
-            )
-            order["address"] = shipping_address
-            order["status"] = "processing"
-            payload = {"success": True, "order_id": order_id, "new_status": "processing"}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            # Regular payment method processing
+            order['payment_history'].append({'transaction_type': 'payment', 'amount': total_amount, 'payment_method_id': payment_method_id, 'timestamp': get_current_timestamp()})
+            order['address'] = shipping_address
+            order['status'] = 'processing'
+            return json.dumps({'success': True, 'order_id': order_id, 'new_status': 'processing'}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "applyPaymentToOrder",
-                "description": "Applies a payment method and shipping address to a pending order.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "order_id": {"type": "string"},
-                        "payment_method_id": {"type": "string"},
-                        "shipping_address": {"type": "object"},
+            'type': 'function',
+            'function': {
+                'name': 'apply_payment_to_order',
+                'description': 'Applies a payment method and shipping address to a pending order.',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'order_id': {'type': 'string'},
+                        'payment_method_id': {'type': 'string'},
+                        'shipping_address': {'type': 'object'}
                     },
-                    "required": ["order_id", "payment_method_id", "shipping_address"],
-                },
-            },
+                    'required': ['order_id', 'payment_method_id', 'shipping_address']
+                }
+            }
         }

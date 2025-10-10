@@ -1,44 +1,36 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GenerateAndSendEmail(Tool):
     @staticmethod
-    def invoke(
-        db,
-        to_emails,
-        subject,
-        body="",
-        cc_emails=None,
-        candidate_id=None,
-        thread_id=None,
-        in_reply_to=None,
-        label_names=None,
-        attach_paths=None,
-        date_ts=None,
-        task: Any = None,
-        attachment_file_paths: Any = None,
-        add_names: Any = None,
-    ) -> str:
+    def invoke(db, **kw) -> str:
+        to_emails = kw.get("to_emails")
+        subject   = kw.get("subject")
         if not to_emails or not subject:
-            payload = {"error": "to_emails and subject are required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "to_emails and subject are required"}, indent=2)
 
-        label_names = label_names or []
-        attach_paths = attach_paths or []
+        body      = kw.get("body", "")
+        cc_emails = kw.get("cc_emails")
+        candidate_id = kw.get("candidate_id")
+        thread_id    = kw.get("thread_id")
+        in_reply_to  = kw.get("in_reply_to_message_id")
+        label_names  = kw.get("label_names") or []
+        attach_paths = kw.get("attachment_file_paths") or []
+        date_ts_in   = kw.get("date_ts")
 
         try:
-            dts = _fixed_ts(date_ts)
+            dts = _fixed_ts(date_ts_in)
         except Exception:
-            dts = date_ts or datetime.now(timezone.utc).isoformat()
+            dts = date_ts_in or datetime.now(timezone.utc).isoformat()
 
-        emails = db.setdefault("emails", [])
+        emails      = db.setdefault("emails", [])
         attachments = db.setdefault("attachments", [])
-        labels_tbl = db.setdefault("email_labels", [])
-        files_tbl = db.setdefault("onboarding_files", [])
+        labels_tbl  = db.setdefault("email_labels", [])
+        files_tbl   = db.setdefault("onboarding_files", [])
 
         def _ensure_list(x):
             return x if isinstance(x, list) else ([] if x is None else [x])
@@ -47,7 +39,7 @@ class GenerateAndSendEmail(Tool):
             mx = 0
             pat = re.compile(rf"^{re.escape(prefix)}_(\d+)$")
             for r in rows:
-                v = r.get(key) or ""
+                v = (r.get(key) or "")
                 m = pat.match(v)
                 if m:
                     mx = max(mx, int(m.group(1)))
@@ -73,34 +65,24 @@ class GenerateAndSendEmail(Tool):
         emails.append(email_row)
 
         for path in _ensure_list(attach_paths):
-            file_row = next((f for f in files_tbl if f.get("file_path") == path), None)
+            file_row = next((f for f in files_tbl if f.get("file_path")==path), None)
             att_id = _next_id(attachments, "attachment_id", "att")
-            attachments.append(
-                {
-                    "attachment_id": att_id,
-                    "message_id": message_id,
-                    "filename": (
-                        file_row["file_path"].split("/")[-1]
-                        if file_row
-                        else (path.split("/")[-1] or "attachment")
-                    ),
-                    "mime_type": (
-                        file_row.get("mime_type")
-                        if file_row
-                        else "application/octet-stream"
-                    ),
-                    "file_path": (file_row.get("file_path") if file_row else path),
-                    "size_bytes": 0,
-                    "stored_ts": dts,
-                }
-            )
+            attachments.append({
+                "attachment_id": att_id,
+                "message_id": message_id,
+                "filename": (file_row["file_path"].split("/")[-1] if file_row else (path.split("/")[-1] or "attachment")),
+                "mime_type": (file_row.get("mime_type") if file_row else "application/octet-stream"),
+                "file_path": (file_row.get("file_path") if file_row else path),
+                "size_bytes": 0,
+                "stored_ts": dts
+            })
             email_row["attachments_ids"].append(att_id)
 
         label_ids = []
         for name in _ensure_list(label_names):
             if not name:
                 continue
-            lab = next((l for l in labels_tbl if l.get("name") == name), None)
+            lab = next((l for l in labels_tbl if l.get("name")==name), None)
             if not lab:
                 lid = _next_id(labels_tbl, "label_id", "label")
                 lab = {"label_id": lid, "name": name}
@@ -110,20 +92,17 @@ class GenerateAndSendEmail(Tool):
             label_ids.append(lab["label_id"])
 
         email_row["draft_flag"] = False
-        email_row["sent_flag"] = True
-        email_row["date_ts"] = dts
-        payload = {"message_id": message_id, "status": "sent", "label_ids": label_ids}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        email_row["sent_flag"]  = True
+        email_row["date_ts"]    = dts
+
+        return json.dumps({"message_id": message_id, "status": "sent", "label_ids": label_ids}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GenerateAndSendEmail",
+                "name": "generate_and_send_email",
                 "description": "Draft, optionally label, and send an email in a single step. No nested tool calls.",
                 "parameters": {
                     "type": "object",
@@ -132,17 +111,14 @@ class GenerateAndSendEmail(Tool):
                         "subject": {"type": "string"},
                         "body": {"type": "string"},
                         "label_names": {"type": "array", "items": {"type": "string"}},
-                        "attachment_file_paths": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                        },
+                        "attachment_file_paths": {"type": "array", "items": {"type": "string"}},
                         "cc_emails": {"type": "array", "items": {"type": "string"}},
                         "candidate_id": {"type": "string"},
                         "thread_id": {"type": "string"},
                         "in_reply_to_message_id": {"type": "string"},
-                        "date_ts": {"type": "string"},
+                        "date_ts": {"type": "string"}
                     },
-                    "required": ["to_emails", "subject"],
-                },
-            },
+                    "required": ["to_emails", "subject"]
+                }
+            }
         }

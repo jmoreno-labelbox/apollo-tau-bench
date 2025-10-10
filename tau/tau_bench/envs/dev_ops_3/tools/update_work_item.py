@@ -1,50 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class update_work_item(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], work_item_id: str, updates: dict[str, Any]) -> str:
-        pass
-        work_items = data.get("work_items", {}).values()
-        for item in work_items.values():
-            if item.get("id") == work_item_id:
+    def invoke(data: Dict[str, Any], work_item_id: str, updates: Dict[str, Any]) -> str:
+        work_items = data.get("work_items", [])
+        for item in work_items:
+            if item.get('id') == work_item_id:
                 item.update(updates)
                 data["work_items"] = work_items
-                payload = {"success": f"Work item '{work_item_id}' was updated."}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
-        payload = {"error": f"Work item '{work_item_id}' not found."}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps({"success": f"Work item '{work_item_id}' was updated."}, indent=2)
+        return json.dumps({"error": f"Work item '{work_item_id}' not found."}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "UpdateWorkItem",
-                "description": "Updates one or more fields of an existing work item.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "work_item_id": {"type": "string"},
-                        "updates": {
-                            "type": "object",
-                            "description": "A dictionary of fields to update.",
-                        },
-                    },
-                    "required": ["work_item_id", "updates"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return { "type": "function", "function": { "name": "update_work_item", "description": "Updates one or more fields of an existing work item.", "parameters": { "type": "object", "properties": { "work_item_id": { "type": "string" }, "updates": { "type": "object", "description": "A dictionary of fields to update." } }, "required": ["work_item_id", "updates"] } } }

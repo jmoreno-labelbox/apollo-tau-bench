@@ -1,55 +1,48 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAllVenueInCity(Tool):
-    """Retrieve all venues situated in a specific city (exact, case-sensitive)."""
+    """Fetch all venues located in a given city (exact, case-sensitive)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], city: str = None) -> str:
-        #1) Confirm validity
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        city = kwargs.get("city")
+
+        # 1) Validate
         if not isinstance(city, str) or city == "":
-            payload = {"error": "Missing required field: city"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Missing required field: city"}, indent=2)
 
-        #2) Retrieve DB
-        venues: list[dict[str, Any]] = data.get("venues", {}).values()
+        # 2) Get DB
+        venues: List[Dict[str, Any]] = data.get("venues", [])
 
-        #3) Filter for exact city
-        matching = [v for v in venues.values() if v.get("city") == city]
+        # 3) Filter by exact city
+        matching = [v for v in venues if v.get("city") == city]
 
         if not matching:
-            payload = {"error": f"No venues found in city {city}"}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = matching
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": f"No venues found in city {city}"}, indent=2)
+
+        return json.dumps(matching, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAllVenueInCity",
+                "name": "get_all_venue_in_city",
                 "description": "Fetch all venue records whose city exactly matches the provided value (case-sensitive).",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "city": {
                             "type": "string",
-                            "description": "Exact city name (e.g., 'Kansas City').",
+                            "description": "Exact city name (e.g., 'Boston')."
                         }
                     },
-                    "required": ["city"],
-                },
-            },
+                    "required": ["city"]
+                }
+            }
         }

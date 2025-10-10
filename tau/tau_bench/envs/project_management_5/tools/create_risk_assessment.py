@@ -1,64 +1,52 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateRiskAssessment(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        cr_id: str = None,
-        assessed_by: str = None,
-        risk_categories: dict = {},
-        identified_risks: list = [],
-        mitigation_strategies: list = [],
-        contingency_plans: dict = {},
-        rollback_procedure: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
+        assessed_by = kwargs.get("assessed_by")
+        risk_categories = kwargs.get("risk_categories", {})
+        identified_risks = kwargs.get("identified_risks", [])
+        mitigation_strategies = kwargs.get("mitigation_strategies", [])
+        contingency_plans = kwargs.get("contingency_plans", {})
+        rollback_procedure = kwargs.get("rollback_procedure")
+
         if not all([cr_id, assessed_by]):
-            payload = {"error": "cr_id and assessed_by are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "cr_id and assessed_by are required"})
 
-        change_requests = data.get("change_requests", {}).values()
-        risk_assessments = data.get("risk_assessments", {}).values()
+        change_requests = data.get("change_requests", [])
+        risk_assessments = data.get("risk_assessments", [])
 
-        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:
-            payload = {"error": f"Change request '{cr_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Change request '{cr_id}' not found"})
 
         if cr.get("requires_risk_assessment") or (
-            cr.get("impact_assessment", {}).values().get("affects_critical_path")
+            cr.get("impact_assessment", {}).get("affects_critical_path")
         ):
             if not mitigation_strategies:
-                payload = {
-                    "error": "RULE 5: Mitigation strategies are required for critical path changes"
-                }
-                out = json.dumps(payload)
-                return out
+                return json.dumps(
+                    {
+                        "error": "RULE 5: Mitigation strategies are required for critical path changes"
+                    }
+                )
             if not contingency_plans:
-                payload = {
-                    "error": "RULE 5: Contingency plans are required for critical path changes"
-                }
-                out = json.dumps(payload)
-                return out
+                return json.dumps(
+                    {
+                        "error": "RULE 5: Contingency plans are required for critical path changes"
+                    }
+                )
             if not rollback_procedure:
-                payload = {
-                    "error": "RULE 5: Rollback procedure is required for critical path changes"
-                }
-                out = json.dumps(payload)
-                return out
+                return json.dumps(
+                    {
+                        "error": "RULE 5: Rollback procedure is required for critical path changes"
+                    }
+                )
 
         risk_scores = {"critical": 4, "high": 3, "medium": 2, "low": 1}
         total_score = sum(
@@ -69,7 +57,11 @@ class CreateRiskAssessment(Tool):
         overall_risk_level = (
             "critical"
             if avg_score >= 3.5
-            else "high" if avg_score >= 2.5 else "medium" if avg_score >= 1.5 else "low"
+            else "high"
+            if avg_score >= 2.5
+            else "medium"
+            if avg_score >= 1.5
+            else "low"
         )
 
         requires_contingency_budget = (
@@ -80,11 +72,11 @@ class CreateRiskAssessment(Tool):
         monitoring_frequency = (
             "continuous"
             if overall_risk_level == "critical"
-            else (
-                "daily"
-                if overall_risk_level == "high"
-                else "weekly" if overall_risk_level == "medium" else "bi-weekly"
-            )
+            else "daily"
+            if overall_risk_level == "high"
+            else "weekly"
+            if overall_risk_level == "medium"
+            else "bi-weekly"
         )
 
         assessment_id = f"ra_{uuid.uuid4().hex[:8]}"
@@ -104,20 +96,20 @@ class CreateRiskAssessment(Tool):
             "monitoring_frequency": monitoring_frequency,
         }
 
-        data["risk_assessments"][risk_assessment["risk_assessment_id"]] = risk_assessment
+        risk_assessments.append(risk_assessment)
 
         if cr.get("status") == "in_review":
             cr["risk_assessment_id"] = assessment_id
             cr["risk_level"] = overall_risk_level
-        payload = {"success": True, "risk_assessment": risk_assessment}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"success": True, "risk_assessment": risk_assessment})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateRiskAssessment",
+                "name": "create_risk_assessment",
                 "description": "Create risk assessment for a change request",
                 "parameters": {
                     "type": "object",

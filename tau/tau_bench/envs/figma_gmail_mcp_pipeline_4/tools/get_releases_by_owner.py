@@ -1,108 +1,83 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetReleasesByOwner(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        owner_email: str = None,
-        release_id: str = None,
-        version_tag: str = None,
-        created_after: str = None,
-        created_before: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
-        Obtains releases filtered by owner and additional criteria.
+        Retrieves releases filtered by owner and other criteria.
         """
+        owner_email = kwargs.get('owner_email')
+        release_id = kwargs.get('release_id')
+        version_tag = kwargs.get('version_tag')
+        created_after = kwargs.get('created_after')
+        created_before = kwargs.get('created_before')
+
         if not owner_email:
-            payload = {"error": "owner_email is required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "owner_email is required."})
 
-        releases = data.get("releases", {}).values()
+        releases = data.get('releases', [])
 
-        # Sort releases based on specified criteria
+        # Filter releases by criteria
         results = []
-        for release in releases.values():
-            # Main filter - owner email
-            if release.get("owner_email") != owner_email:
+        for release in releases:
+            # Primary filter - owner email
+            if release.get('owner_email') != owner_email:
                 continue
 
-            # Implement optional filters
+            # Apply optional filters
             if release_id:
-                if release.get("release_id") != release_id:
+                if release.get('release_id') != release_id:
                     continue
 
             if version_tag:
-                if version_tag not in release.get("version_tag", ""):
+                if version_tag not in release.get('version_tag', ''):
                     continue
 
-            # Enforce date filters
+            # Apply date filters
             if created_after:
-                release_created = release.get("created_ts", "")
+                release_created = release.get('created_ts', '')
                 if release_created < created_after:
                     continue
 
             if created_before:
-                release_created = release.get("created_ts", "")
+                release_created = release.get('created_ts', '')
                 if release_created > created_before:
                     continue
 
             results.append(release)
 
-        # Generate a summary
+        # Create summary
         summary = {
             "owner_email": owner_email,
             "total_releases": len(results),
-            "version_tags": list({r.get("version_tag", "") for r in results}),
-            "releases": results,
+            "version_tags": list(set(r.get('version_tag', '') for r in results)),
+            "releases": results
         }
-        payload = summary
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(summary, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetReleasesByOwner",
+                "name": "get_releases_by_owner",
                 "description": "Retrieves releases filtered by owner email with optional filtering by release ID, version tag, and date ranges.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "owner_email": {
-                            "type": "string",
-                            "description": "The owner email to filter releases by.",
-                        },
-                        "release_id": {
-                            "type": "string",
-                            "description": "Optional specific release ID to retrieve.",
-                        },
-                        "version_tag": {
-                            "type": "string",
-                            "description": "Optional version tag pattern to filter by.",
-                        },
-                        "created_after": {
-                            "type": "string",
-                            "description": "Filter releases created after this ISO timestamp.",
-                        },
-                        "created_before": {
-                            "type": "string",
-                            "description": "Filter releases created before this ISO timestamp.",
-                        },
+                        "owner_email": {"type": "string", "description": "The owner email to filter releases by."},
+                        "release_id": {"type": "string", "description": "Optional specific release ID to retrieve."},
+                        "version_tag": {"type": "string", "description": "Optional version tag pattern to filter by."},
+                        "created_after": {"type": "string", "description": "Filter releases created after this ISO timestamp."},
+                        "created_before": {"type": "string", "description": "Filter releases created before this ISO timestamp."}
                     },
-                    "required": ["owner_email"],
-                },
-            },
+                    "required": ["owner_email"]
+                }
+            }
         }

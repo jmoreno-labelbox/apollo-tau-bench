@@ -1,19 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SetCoastalMeteorology(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], station_id: str = None) -> str:
-        # This is a mockup; in an actual setting, this would retrieve data from NOAA.
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        station_id = kwargs.get("station_id")
+        # This is a simulation; in a real environment, this would fetch data from NOAA.
 
         coastal_meteorology_data = {
             "station_id": station_id,
@@ -31,16 +27,15 @@ class SetCoastalMeteorology(Tool):
             ],
             "raw_json_path_nullable": f"/data/raw/coastal_meteorology_{station_id}.json",
         }
-        data["coastal_meteorology_data"][coastal_meteorology_data["coastal_meteorology_data_id"]] = coastal_meteorology_data
-        payload = coastal_meteorology_data
-        out = json.dumps(payload)
-        return out
+        data.get("coastal_meteorology_data", []).append(coastal_meteorology_data)
+        return json.dumps(coastal_meteorology_data)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "setCoastalMeteorology",
+                "name": "SetCoastalMeteorology",
                 "parameters": {
                     "type": "object",
                     "properties": {

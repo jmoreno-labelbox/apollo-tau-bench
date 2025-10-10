@@ -1,22 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RunAndRecordSystemAccessChecksTool(Tool):
-    """Verifies required system access for one or more candidates according to their role and logs the outcomes."""
+    """Checks necessary system access for one or more candidates based on their role and records the results."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str = None, candidate_ids: list[str] = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
+        candidate_ids = kwargs.get("candidate_ids")
+
         ids_to_process = []
         if candidate_ids:
             ids_to_process.extend(candidate_ids)
@@ -26,9 +22,7 @@ class RunAndRecordSystemAccessChecksTool(Tool):
         if not ids_to_process:
             return _err("candidate_id or candidate_ids is required.")
 
-        candidates_map = {
-            str(c.get("candidate_id")): c for c in data.get("candidates", {}).values()
-        }
+        candidates_map = {str(c.get("candidate_id")): c for c in data.get("candidates", [])}
         access_checks = data.setdefault("access_checks", [])
         all_created_records = []
 
@@ -50,42 +44,33 @@ class RunAndRecordSystemAccessChecksTool(Tool):
                 note_nullable = None
                 if (sum(ord(c) for c in cid) + len(system_name)) % 7 == 0:
                     status = "Failed"
-                    note_nullable = (
-                        f"Automated check failed. Code: {sum(ord(c) for c in cid[:5])}."
-                    )
+                    note_nullable = f"Automated check failed. Code: {sum(ord(c) for c in cid[:5])}."
 
                 new_check = {
                     "candidate_id": cid,
                     "system_name": system_name,
                     "status": status,
                     "note_nullable": note_nullable,
-                    "checked_ts": HARD_TS,
+                    "checked_ts": HARD_TS
                 }
                 access_checks.append(new_check)
                 created_records.append(new_check)
             all_created_records.extend(created_records)
-        payload = all_created_records
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(all_created_records, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RunAndRecordSystemAccessChecks",
+                "name": "run_and_record_system_access_checks",
                 "description": "Checks necessary system access for one or more candidates based on their role and records the results.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "candidate_id": {
-                            "type": "string",
-                            "description": "A single target candidate identifier.",
-                        },
-                        "candidate_ids": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "A list of target candidate identifiers.",
-                        },
+                        "candidate_id": {"type": "string", "description": "A single target candidate identifier."},
+                        "candidate_ids": {"type": "array", "items": {"type": "string"}, "description": "A list of target candidate identifiers."}
                     },
                 },
             },

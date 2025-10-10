@@ -1,18 +1,19 @@
-from tau_bench.envs.tool import Tool
-import datetime
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class SendSlackNotificationTool(Tool):
-    """Versatile tool for sending notifications to a Slack channel."""
+    """General-purpose tool to send a notification to a Slack channel."""
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SendSlackNotification",
+                "name": "send_slack_notification",
                 "description": "Sends a message to a specified Slack channel.",
                 "parameters": {
                     "type": "object",
@@ -32,16 +33,11 @@ class SendSlackNotificationTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: dict[str, Any], channel: str, message: str,
-    priority: Any = None,
-    mention_users: Any = None,
-    include_timestamp: Any = None,
-    thread_ts: Any = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        channel = kwargs["channel"]
+        message = kwargs["message"]
         if "slack_log" not in data:
             data["slack_log"] = []
         log_entry = {"channel": channel, "message": message}
         data["slack_log"].append(log_entry)
-        payload = {"status": "success", "log_entry": log_entry}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "success", "log_entry": log_entry})

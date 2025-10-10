@@ -1,20 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateJiraTicket(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         jira_id: str,
         issue_type: str,
         summary: str,
         priority: str,
         status: str,
         created_at: str,
-        updated_at: str | None = None,
+        updated_at: Optional[str] = None,
     ) -> str:
-        pass
         row = {
             "jira_id": jira_id,
             "issue_type": issue_type,
@@ -25,17 +27,15 @@ class CreateJiraTicket(Tool):
             "updated_at": updated_at or created_at,
         }
         _append_row(data["jira_tickets"], row)
-        payload = {"status": "ok", "jira": row}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "jira": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateJiraTicket",
-                "description": "Create a TaskTrack ticket (e.g., License Shortage, Hardware Shortage, Incident).",
+                "name": "create_jira_ticket",
+                "description": "Create a Jira ticket (e.g., License Shortage, Hardware Shortage, Incident).",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -47,14 +47,7 @@ class CreateJiraTicket(Tool):
                         "created_at": {"type": "string"},
                         "updated_at": {"type": "string"},
                     },
-                    "required": [
-                        "jira_id",
-                        "issue_type",
-                        "summary",
-                        "priority",
-                        "status",
-                        "created_at",
-                    ],
+                    "required": ["jira_id", "issue_type", "summary", "priority", "status", "created_at"],
                 },
             },
         }

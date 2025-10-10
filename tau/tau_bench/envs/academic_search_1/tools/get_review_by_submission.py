@@ -1,52 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetReviewBySubmission(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], *, submission_id: Any = None) -> str:
-        submission_id = submission_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        submission_id = kwargs.get('submission_id')
         if not submission_id:
-            payload = {"error": "submission_id is required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "submission_id is required."})
 
-        reviews = data.get("reviews", {}).values()
-        for review in reviews.values():
-            if review.get("proposal_id") == submission_id:
-                payload = review
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"No review found for submission_id '{submission_id}'."}
-        out = json.dumps(
-            payload)
-        return out
+        reviews = list(data.get('reviews', {}).values())
+        for review in reviews:
+            if review.get('submission_id') == submission_id:
+                return json.dumps(review, indent=2)
+
+        return json.dumps({"error": f"No review found for submission_id '{submission_id}'."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetReviewBySubmission",
-                "description": "Retrieves a review's details using the ID of the submission.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "submission_id": {
-                            "type": "string",
-                            "description": "The unique ID of the submission to find the review for.",
-                        }
-                    },
-                    "required": ["submission_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "get_review_by_submission", "description": "Retrieves a review's details using the ID of the submission.", "parameters": {"type": "object", "properties": {"submission_id": {"type": "string", "description": "The unique ID of the submission to find the review for."}}, "required": ["submission_id"]}}}

@@ -1,30 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetDirectoryAccount(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        employee_id: str | None = None,
-        account_id: str | None = None,
-    ) -> str:
-        pass
+    def invoke(data: Dict[str, Any], employee_id: Optional[str] = None, account_id: Optional[str] = None) -> str:
         acct = None
         if account_id:
             acct = _find_one(data["directory_accounts"], account_id=account_id)
         elif employee_id:
             acct = _find_one(data["directory_accounts"], employee_id=employee_id)
-        payload = {"status": "ok", "account": acct}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "account": acct})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetDirectoryAccount",
+                "name": "get_directory_account",
                 "description": "Get a directory account by employee_id or account_id.",
                 "parameters": {
                     "type": "object",

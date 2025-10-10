@@ -1,42 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class DeleteAllocation(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], allocation_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        allocation_id = kwargs.get("allocation_id")
         if not allocation_id:
-            payload = {"error": "allocation_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "allocation_id is required"})
 
-        allocations = data.get("allocations", {}).values()
+        allocations = data.get("allocations", [])
 
-        for i, allocation in enumerate(allocations.values()):
+        for i, allocation in enumerate(allocations):
             if allocation.get("allocation_id") == allocation_id:
                 removed_allocation = allocations.pop(i)
-                payload = {"success": True, "removed_allocation": removed_allocation}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Allocation with ID '{allocation_id}' not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(
+                    {"success": True, "removed_allocation": removed_allocation}
+                )
+
+        return json.dumps({"error": f"Allocation with ID '{allocation_id}' not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "DeleteAllocation",
+                "name": "delete_allocation",
                 "description": "Remove an allocation",
                 "parameters": {
                     "type": "object",

@@ -1,37 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class CheckGoalProgressThreshold(Tool):
+class check_goal_progress_threshold(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         user_id: str,
         goal_id: str,
         threshold: int,
         comparison: str,
     ) -> str:
-        goals_data = data.get("goals", {}).values()
-        user_goals = next((g for g in goals_data.values() if g.get("user_id") == user_id), {}).values()
+        goals_data = data.get("goals", [])
+        user_goals = next((g for g in goals_data if g.get("user_id") == user_id), {})
         goals = user_goals.get("goals", [])
         goal = next((g for g in goals if g.get("goal_id") == goal_id), None)
 
         if not goal:
-            payload = {"meets_threshold": False, "error": "Goal not found"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"meets_threshold": False, "error": "Goal not found"}, indent=2
             )
-            return out
 
         progress = goal.get("progress_percent", 0)
         meets_threshold = False
@@ -42,25 +33,23 @@ class CheckGoalProgressThreshold(Tool):
             meets_threshold = progress > threshold
         elif comparison == "equal":
             meets_threshold = progress == threshold
-        payload = {
+
+        return json.dumps(
+            {
                 "meets_threshold": meets_threshold,
                 "current_progress": progress,
                 "threshold": threshold,
                 "comparison": comparison,
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
-            
 
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "checkGoalProgressThreshold",
+                "name": "check_goal_progress_threshold",
                 "description": "Check if a goal's progress meets a threshold condition",
                 "parameters": {
                     "type": "object",

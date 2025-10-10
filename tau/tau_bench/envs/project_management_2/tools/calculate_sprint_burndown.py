@@ -1,37 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CalculateSprintBurndown(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], sprint_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        sprint_id = kwargs.get("sprint_id")
+
         if not sprint_id:
-            payload = {"error": "sprint_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "sprint_id is required"})
 
-        sprints = data.get("sprints", {}).values()
-        tasks = data.get("tasks", {}).values()
+        sprints = data.get("sprints", [])
+        tasks = list(data.get("tasks", {}).values())
 
-        sprint = next((s for s in sprints.values() if s.get("sprint_id") == sprint_id), None)
+        sprint = next((s for s in sprints if s.get("sprint_id") == sprint_id), None)
         if not sprint:
-            payload = {"error": f"Sprint '{sprint_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Sprint '{sprint_id}' not found"})
 
-        sprint_tasks = [t for t in tasks.values() if t.get("sprint_id") == sprint_id]
+        sprint_tasks = [t for t in tasks if t.get("sprint_id") == sprint_id]
 
-        total_points = sum(t.get("story_points", 0) for t in sprint_tasks.values())
+        total_points = sum(t.get("story_points", 0) for t in sprint_tasks)
         completed_points = sum(
             t.get("story_points", 0) for t in sprint_tasks if t.get("status") == "done"
         )
@@ -47,7 +38,7 @@ class CalculateSprintBurndown(Tool):
             for t in sprint_tasks
             if t.get("status") == "blocked"
         )
-        blocked_tasks = [t for t in sprint_tasks.values() if t.get("status") == "blocked"]
+        blocked_tasks = [t for t in sprint_tasks if t.get("status") == "blocked"]
 
         completion_percentage = (
             round((completed_points / total_points * 100), 1) if total_points > 0 else 0
@@ -94,14 +85,14 @@ class CalculateSprintBurndown(Tool):
             "task_breakdown": {
                 "total_tasks": len(sprint_tasks),
                 "completed_tasks": len(
-                    [t for t in sprint_tasks.values() if t.get("status") == "done"]
+                    [t for t in sprint_tasks if t.get("status") == "done"]
                 ),
                 "in_progress_tasks": len(
-                    [t for t in sprint_tasks.values() if t.get("status") == "in_progress"]
+                    [t for t in sprint_tasks if t.get("status") == "in_progress"]
                 ),
                 "blocked_tasks": len(blocked_tasks),
                 "todo_tasks": len(
-                    [t for t in sprint_tasks.values() if t.get("status") == "todo"]
+                    [t for t in sprint_tasks if t.get("status") == "todo"]
                 ),
             },
         }
@@ -116,15 +107,15 @@ class CalculateSprintBurndown(Tool):
                 }
                 for t in blocked_tasks
             ]
-        payload = burndown_data
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(burndown_data, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateSprintBurndown",
+                "name": "calculate_sprint_burndown",
                 "description": "Calculate burndown metrics for a sprint",
                 "parameters": {
                     "type": "object",

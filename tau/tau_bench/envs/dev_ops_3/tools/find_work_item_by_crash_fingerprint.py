@@ -1,44 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class find_work_item_by_crash_fingerprint(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], fingerprint: str) -> str:
-        pass
-        work_items = data.get("work_items", {}).values()
-        for item in work_items.values():
-            if item.get("metadata") and fingerprint in item["metadata"].get(
-                "crash_fingerprint", ""
-            ):
-                payload = item
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Work item with crash fingerprint '{fingerprint}' not found"}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+    def invoke(data: Dict[str, Any], fingerprint: str) -> str:
+        work_items = data.get("work_items", [])
+        for item in work_items:
+            if item.get("metadata") and fingerprint in item["metadata"].get("crash_fingerprint", ""):
+                return json.dumps(item, indent=2)
+        return json.dumps({"error": f"Work item with crash fingerprint '{fingerprint}' not found"}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "FindWorkItemByCrashFingerprint",
-                "description": "Finds a work item by its associated crash fingerprint.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"fingerprint": {"type": "string"}},
-                    "required": ["fingerprint"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return { "type": "function", "function": { "name": "find_work_item_by_crash_fingerprint", "description": "Finds a work item by its associated crash fingerprint.", "parameters": { "type": "object", "properties": { "fingerprint": { "type": "string" } }, "required": ["fingerprint"] } } }

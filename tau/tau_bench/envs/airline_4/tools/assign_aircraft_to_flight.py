@@ -1,89 +1,42 @@
-from __future__ import annotations
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, timedelta  #required for fallback window enlargement
-from decimal import ROUND_HALF_UP, Decimal
-from typing import Any
-import re
-from datetime import date as _date
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AssignAircraftToFlight(Tool):
     """
-    A utility to allocate a specific aircraft to a flight on a specified date.
+    A tool to assign a specific aircraft to a flight on a given date.
     """
+    @staticmethod
+    def invoke(data: Dict[str, Any], flight_number: str, date: str, new_aircraft_id: str) -> str:
+        flights_data = list(data.get("flights", {}).values())
+        for flight in flights_data:
+            if flight.get("flight_number") == flight_number:
+                if date in flight.get("dates", {}):
+                    flight["dates"][date]["notes"] = f"Aircraft reassigned to {new_aircraft_id}"
+                    return json.dumps({"status": "success",
+                                       "flight_number": flight_number,
+                                       "date": date,
+                                       "new_aircraft_id": new_aircraft_id})
+        return json.dumps({"error": "Flight not found on the specified date."})
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any], flight_number: str, date: str, new_aircraft_id: str
-    ) -> str:
-        flights_data = data.get("flights", {}).values()
-        for flight in flights_data.values():
-            if flight.get("flight_number") == flight_number:
-                if date in flight.get("dates", {}).values():
-                    flight["dates"][date][
-                        "notes"
-                    ] = f"Aircraft reassigned to {new_aircraft_id}"
-                    payload = {
-                        "status": "success",
-                        "flight_number": flight_number,
-                        "date": date,
-                        "new_aircraft_id": new_aircraft_id,
-                    }
-                    out = json.dumps(payload)
-                    return out
-        payload = {"error": "Flight not found on the specified date."}
-        out = json.dumps(payload)
-        return out
-        pass
-        flights_data = data.get("flights", {}).values()
-        for flight in flights_data.values():
-            if flight.get("flight_number") == flight_number:
-                if date in flight.get("dates", {}).values():
-                    flight["dates"][date][
-                        "notes"
-                    ] = f"Aircraft reassigned to {new_aircraft_id}"
-                    payload = {
-                            "status": "success",
-                            "flight_number": flight_number,
-                            "date": date,
-                            "new_aircraft_id": new_aircraft_id,
-                        }
-                    out = json.dumps(
-                        payload)
-                    return out
-        payload = {"error": "Flight not found on the specified date."}
-        out = json.dumps(payload)
-        return out
-
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AssignAircraftToFlight",
+                "name": "assign_aircraft_to_flight",
                 "description": "Assigns a new aircraft to a specific flight instance.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "flight_number": {"type": "string"},
-                        "date": {
-                            "type": "string",
-                            "description": "Date in YYYY-MM-DD format.",
-                        },
-                        "new_aircraft_id": {
-                            "type": "string",
-                            "description": "The ID of the new aircraft.",
-                        },
+                        "date": {"type": "string", "description": "Date in YYYY-MM-DD format."},
+                        "new_aircraft_id": {"type": "string", "description": "The ID of the new aircraft."}
                     },
-                    "required": ["flight_number", "date", "new_aircraft_id"],
-                },
-            },
+                    "required": ["flight_number", "date", "new_aircraft_id"]
+                }
+            }
         }

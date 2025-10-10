@@ -1,27 +1,19 @@
-from tau_bench.envs.tool import Tool
-import html
+# Copyright Sierra
+
 import json
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCompleteEmailThread(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], thread_id: str = None) -> str:
-        if not thread_id:
-            payload = {"error": "Missing required field: thread_id"}
-            out = json.dumps(payload, indent=2)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        if not kwargs.get("thread_id"):
+            return json.dumps({"error": "Missing required field: thread_id"}, indent=2)
 
-        threads: list[dict[str, Any]] = data.get("gmail_threads", {}).values()
-        messages: list[dict[str, Any]] = data.get("gmail_messages", {}).values()
+        thread_id = kwargs.get("thread_id")
+        threads: List[Dict[str, Any]] = data.get("gmail_threads", [])
+        messages: List[Dict[str, Any]] = data.get("gmail_messages", [])
 
         thread = None
         for row in threads:
@@ -29,28 +21,25 @@ class GetCompleteEmailThread(Tool):
                 thread = row
                 break
         if not thread:
-            payload = {"error": f"No thread with id '{thread_id}'"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"No thread with id '{thread_id}'"}, indent=2)
 
-        msgs = [m for m in messages.values() if m.get("thread_id") == thread_id]
+        msgs = [m for m in messages if m.get("thread_id") == thread_id]
         msgs.sort(key=lambda r: (str(r.get("sent_ts")), str(r.get("message_id"))))
-        payload = {"thread": thread, "messages": msgs, "count": len(msgs)}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        return json.dumps({"thread": thread, "messages": msgs, "count": len(msgs)}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCompleteEmailThread",
+                "name": "get_complete_email_thread",
                 "description": "Return a Gmail thread and all messages within it.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"thread_id": {"type": "string"}},
-                    "required": ["thread_id"],
-                },
-            },
+                    "properties": {
+                        "thread_id": {"type": "string"}
+                    },
+                    "required": ["thread_id"]
+                }
+            }
         }

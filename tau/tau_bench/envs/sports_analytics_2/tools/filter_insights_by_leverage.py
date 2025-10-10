@@ -1,33 +1,16 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class FilterInsightsByLeverage(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], **kwargs) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         threshold = kwargs.get("leverage_threshold")
-        payload = {
-                "filtered": True,
-                "filtered_table": "flags_leverage",
-                "leverage_threshold": threshold,
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        return json.dumps({"filtered": True, "filtered_table": "flags_leverage", "leverage_threshold": threshold}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "FilterInsightsByLeverage",
-                "description": "Filters insights by leverage threshold.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"leverage_threshold": {"type": "number"}},
-                    "required": ["leverage_threshold"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "filter_insights_by_leverage", "description": "Filters insights by leverage threshold.", "parameters": {"type": "object", "properties": {"leverage_threshold": {"type": "number"}}, "required": ["leverage_threshold"]}}}

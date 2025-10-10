@@ -1,54 +1,39 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateWarehouse(Tool):
-    """Utility for modifying warehouse information."""
+    """Tool to update warehouse details."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], warehouse_id: str = None, updates: dict[str, Any] = None) -> str:
-        warehouses = data.get("warehouses", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        warehouse_id = kwargs.get("warehouse_id")
+        updates = kwargs.get("updates")
+        warehouses = data.get("warehouses", [])
 
-        for warehouse in warehouses.values():
+        for warehouse in warehouses:
             if warehouse["warehouse_id"] == warehouse_id:
                 warehouse.update(updates)
-                payload = {"success": f"warehouse {warehouse_id} updated"}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
-        payload = {"error": f"warehouse_id {warehouse_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps({"success": f"warehouse {warehouse_id} updated"}, indent=2)
+        return json.dumps({"error": f"warehouse_id {warehouse_id} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateWarehouse",
+                "name": "update_warehouse",
                 "description": "Update warehouse by ID",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "warehouse_id": {
-                            "type": "string",
-                            "description": "The warehouse ID to update",
-                        },
-                        "updates": {
-                            "type": "object",
-                            "description": "Fields and values to update",
-                        },
+                        "warehouse_id": {"type": "string", "description": "The warehouse ID to update"},
+                        "updates": {"type": "object", "description": "Fields and values to update"}
                     },
-                    "required": ["warehouse_id", "updates"],
-                },
-            },
+                    "required": ["warehouse_id", "updates"]
+                }
+            }
         }

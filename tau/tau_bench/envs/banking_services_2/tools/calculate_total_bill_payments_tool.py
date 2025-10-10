@@ -1,23 +1,22 @@
-from tau_bench.envs.tool import Tool
-from typing import Any, Dict
+# Copyright Sierra
+
 import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CalculateTotalBillPaymentsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, start_date: str = None, end_date: str = None) -> str:
-        transactions = data.get('transactions', {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        start_date = kwargs.get('start_date')
+        end_date = kwargs.get('end_date')
+
+        transactions = list(data.get('transactions', {}).values())
         total_bill_payments = 0
         bill_payment_count = 0
 
-        for txn in transactions.values():
+        for txn in transactions:
             if txn.get('account_id') != account_id:
                 continue
             txn_date = txn.get('transaction_date', '')
@@ -36,12 +35,13 @@ class CalculateTotalBillPaymentsTool(Tool):
             "total_bill_payments": total_bill_payments,
             "bill_payment_count": bill_payment_count
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateTotalBillPayments",
+                "name": "calculate_total_bill_payments",
                 "description": "Calculate total bill payments for an account in a given date range.",
                 "parameters": {
                     "type": "object",

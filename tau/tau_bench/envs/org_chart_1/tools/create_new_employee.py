@@ -1,43 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class create_new_employee(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], employee: Dict[str, Any]) -> str:
         new_emp = employee
         if not new_emp:
-            payload = {"error": "employee payload required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "employee payload required"}, indent=2)
 
-        employees = data.get("employees", {}).values()
-        if any(e["employee_id"] == new_emp["employee_id"] for e in employees.values()):
-            payload = {"error": "employee_id already exists"}
-            out = json.dumps(payload, indent=2)
-            return out
+        employees = list(data.get("employees", {}).values())
+        if any(e["employee_id"] == new_emp["employee_id"] for e in employees):
+            return json.dumps({"error": "employee_id already exists"}, indent=2)
 
-        data["employees"][employee_id] = new_emp
+        employees.append(new_emp)
         data["employees"] = employees
-        payload = {"success": f'employee {new_emp["employee_id"]} created'}
-        out = json.dumps(
-            payload, indent=2
+        return json.dumps(
+            {"success": f'employee {new_emp["employee_id"]} created'}, indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateNewEmployee",
+                "name": "create_new_employee",
                 "description": "Insert a completely new employee record.",
                 "parameters": {
                     "type": "object",

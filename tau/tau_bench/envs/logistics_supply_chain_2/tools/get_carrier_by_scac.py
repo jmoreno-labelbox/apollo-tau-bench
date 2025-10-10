@@ -1,48 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCarrierBySCAC(Tool):
-    """Utility for obtaining carrier information using the carrier SCAC."""
+    """Tool to retrieve details of a carrier by carrier SCAC."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], carrier_scac: str) -> str:
-        carriers = data.get("carriers", {}).values()
-        for carrier in carriers.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        carrier_scac = kwargs.get("carrier_scac")
+        carriers = data.get("carriers", [])
+        for carrier in carriers:
             if carrier["scac"] == carrier_scac:
-                payload = carrier
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Carrier with scac {carrier_scac} not found."}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+                return json.dumps(carrier, indent=2)
+        return json.dumps({"error": f"Carrier with scac {carrier_scac} not found."}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCarrierByScac",
+                "name": "get_carrier_by_scac",
                 "description": "Retrieve Carrier details by carrier SCAC.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "carrier_scac": {
                             "type": "string",
-                            "description": "Unique Carrier identifier.",
+                            "description": "Unique Carrier identifier."
                         }
                     },
-                    "required": ["carrier_scac"],
-                },
-            },
+                    "required": ["carrier_scac"]
+                }
+            }
         }

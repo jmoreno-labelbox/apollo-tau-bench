@@ -1,43 +1,36 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CancelOrder(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str) -> str:
-        order_id = _sid(order_id)
-        orders = data.get("orders", {}).values()
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
+    def invoke(data: Dict[str, Any], order_id: Any) -> str:
+        order_id = _as_id(order_id)
+        if not order_id:
+            return _err("order_id required.")
+        orders = list(data.get("orders", {}).values())
+        order = next((o for o in orders if _as_id(o.get("order_id")) == order_id), None)
         if not order:
-            payload = {"error": f"order {order_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        if order.get("status") == "Delivered":
-            payload = {"error": "cannot cancel Delivered order"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return _err("Order not found.")
         order["status"] = "Cancelled"
-        payload = order
-        out = json.dumps(payload, indent=2)
-        return out
+        order["cancelled_at"] = FIXED_NOW
+        return json.dumps({"order_id": order_id, "new_status": "Cancelled"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "cancelOrder",
-                "description": "Cancel an order unless it is already Delivered.",
+                "name": "cancel_order",
+                "description": "Cancel an order at a deterministic timestamp.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"order_id": {"type": "string"}},
+                    "properties": {
+                        "order_id": {"type": "string"},
+                    },
                     "required": ["order_id"],
                 },
             },

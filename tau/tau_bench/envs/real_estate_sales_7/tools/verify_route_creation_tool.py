@@ -1,39 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class VerifyRouteCreationTool(Tool):
-    """Confirms that the property viewing route was established successfully."""
+    """Verifies property viewing route was created successfully."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], route_id: int = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        route_id = kwargs.get("route_id")
         if route_id is None:
             return _err("route_id is required")
 
         routes = {
             int(r.get("route_id")): r
-            for r in data.get("routes", {}).values()
+            for r in list(data.get("routes", {}).values())
             if r.get("route_id") is not None
         }
         route = routes.get(int(route_id))
         route_exists = route is not None
         properties_count = len(route.get("stops_ordered_json") or []) if route else 0
 
-        #events = {int(e.get("event_id")): e for e in data.get("calendar_events", {}).values() if e.get("event_id") is not None}
-        #event = events.get(int(event_id))
-        #event_created = event is not None
+        # events = {int(e.get("event_id")): e for e in data.get("calendar_events", []) if e.get("event_id") is not None}
+        # event = events.get(int(event_id))
+        # event_created = event is not None
 
-        #Travel constraints satisfied: if map_url is present and there is at least 1 stop
+        # Travel constraints met: if map_url exists and >= 1 stop
         travel_constraints_met = bool(
             route and route.get("map_url") and properties_count >= 1
         )
@@ -46,19 +40,18 @@ class VerifyRouteCreationTool(Tool):
                 "travel_constraints_met": bool(travel_constraints_met),
                 "broker_notified": (
                     True
-                ),  #presume notification is managed through email/log elsewhere
+                ),  # assume notification handled via email/log elsewhere
                 "schedule_complete": bool(route_exists and travel_constraints_met),
             }
         }
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "verifyRouteCreation",
+                "name": "verify_route_creation",
                 "description": (
                     "Verify viewing route and corresponding calendar event exist."
                 ),

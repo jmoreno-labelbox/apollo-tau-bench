@@ -1,30 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, time, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateLoanBalance(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], loan_id: str = None, amount: float = None) -> str:
-        loan = next((l for l in data.get('loans', {}).values() if l['loan_id'] == loan_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        loan_id = kwargs.get("loan_id")
+        amount = kwargs.get("amount")
+        loan = next((l for l in list(data.get('loans', {}).values()) if l['loan_id'] == loan_id), None)
         if loan:
             loan['current_balance'] += amount
             return json.dumps(loan)
         return json.dumps({"error": "Loan not found."})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "UpdateLoanBalance",
+                        "name": "update_loan_balance",
                         "description": "Updates the current balance of a loan, typically after a payment.",
                         "parameters": {
                                 "type": "object",

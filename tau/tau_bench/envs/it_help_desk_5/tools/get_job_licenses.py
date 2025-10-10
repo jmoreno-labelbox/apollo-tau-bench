@@ -1,54 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetJobLicenses(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], job_title: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        job_title = kwargs.get('job_title')
+
         if job_title is None:
-            payload = {"status": "error", "reason": "The job_title parameter is required."}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({'status': 'error', 'reason': 'The job_title parameter is required.'}, indent=2)
 
-        group_data = data.get("rbac_group_map")
+        group_data = data.get('rbac_group_map')
 
-        for group in group_data.values():
-            if group["job_title"] == job_title:
-                payload = group["default_license_bundle"]
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"status": "error", "reason": "Unable to find specified job_title."}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        for group in group_data:
+            if group['job_title'] == job_title:
+                return json.dumps(group['default_license_bundle'], indent=2)
+        return json.dumps({'status': 'error', 'reason': 'Unable to find specified job_title.'}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "getJobLicenses",
-                "description": "Gets all default licenses for a specific job title.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "job_title": {
-                            "type": "string",
-                            "description": "The name of the job.",
-                        },
+            'type': 'function',
+            'function': {
+                'name': 'get_job_licenses',
+                'description': 'Gets all default licenses for a specific job title.',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'job_title': {'type': 'string', 'description': 'The name of the job.'},
                     },
-                    "required": ["job_title"],
-                },
-            },
+                    'required': ['job_title']
+                }
+            }
         }

@@ -1,28 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ScanFlightsByDate(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        date: str,
-        flight_numbers: list[str] | None = None,
-        origin: str | None = None,
-        destination: str | None = None,
-        status: list[str] | None = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], date: str, flight_numbers: Optional[List[str]]=None, origin: Optional[str]=None, destination: Optional[str]=None, status: Optional[List[str]]=None) -> str:
         out = []
-        for f in data.get("flights", {}).values():
+        for f in list(data.get("flights", {}).values()):
             day = (f.get("dates") or {}).get(date)
             if not isinstance(day, dict):
                 continue
@@ -34,47 +21,26 @@ class ScanFlightsByDate(Tool):
                 continue
             if flight_numbers and f.get("flight_number") not in set(flight_numbers):
                 continue
-            out.append(
-                {
-                    "flight_number": f.get("flight_number"),
-                    "origin": f.get("origin"),
-                    "destination": f.get("destination"),
-                    "date": date,
-                    "status": day.get("status"),
-                    "scheduled_departure_time_est": f.get(
-                        "scheduled_departure_time_est"
-                    ),
-                }
-            )
-        # organize by scheduled time followed by flight number
-        out.sort(
-            key=lambda x: (
-                x.get("scheduled_departure_time_est", ""),
-                x.get("flight_number", ""),
-            )
-        )
+            out.append({"flight_number": f.get("flight_number"),
+                        "origin": f.get("origin"),
+                        "destination": f.get("destination"),
+                        "date": date,
+                        "status": day.get("status"),
+                        "scheduled_departure_time_est": f.get("scheduled_departure_time_est")})
+        # sort by scheduled time then flight number
+        out.sort(key=lambda x: (x.get("scheduled_departure_time_est",""), x.get("flight_number","")))
         return _j(out)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ScanFlightsByDate",
-                "description": "Search flights by date with optional origin/destination/status filters; sorted by scheduled_departure_time_est.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "date": {"type": "string"},
-                        "flight_numbers": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                        },
-                        "origin": {"type": "string"},
-                        "destination": {"type": "string"},
-                        "status": {"type": "array", "items": {"type": "string"}},
-                    },
-                    "required": ["date"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"scan_flights_by_date",
+            "description":"Search flights by date with optional origin(iata_code)/destination(iata_code)/status filters; sorted by scheduled_departure_time_est.",
+            "parameters":{"type":"object","properties":{
+                "date":{"type":"string"},
+                "flight_numbers":{"type":"array","items":{"type":"string"}},
+                "origin":{"type":"string"},
+                "destination":{"type":"string"},
+                "status":{"type":"array","items":{"type":"string"}}
+            },"required":["date"]}
+        }}

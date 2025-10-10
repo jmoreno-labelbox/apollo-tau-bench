@@ -1,48 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import OrderedDict, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class find_items(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        id: str = None,
-        sku: str = None,
-        store_id: str = None,
-        status: str = None,
-        last_stock_count: str = None,
-        location: str = None
-    ) -> str:
-        inventory = data.get("inventory", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        inventory = list(data.get("inventory", {}).values())
 
-        # These columns will match precisely with the provided value
+        # These columns will be matched exactly to the value sent
         exact_match_cols = ["id", "sku", "store_id", "status", "last_stock_count"]
-        exact_match_values = {
-            "id": id,
-            "sku": sku,
-            "store_id": store_id,
-            "status": status,
-            "last_stock_count": last_stock_count
-        }
+        exact_match_values = {k: kwargs.get(k) for k in exact_match_cols}
 
-        # These columns will match as long as the database field has the provided value
+        # These columns will be matched as long as the database field contains the sent value
         approximate_match_cols = ["location"]
-        approximate_match_values = {
-            "location": location
-        }
+        approximate_match_values = {k: kwargs.get(k) for k in approximate_match_cols}
 
         matches = []
-        for item in inventory.values():
-            # Include in the return list if all provided criteria match
+        for item in inventory:
+            # If all sent criteria match, then add it to the return list
             if all(
                 [
                     exact_match_values[k] == item[k]
@@ -57,15 +35,15 @@ class find_items(Tool):
                 ]
             ):
                 matches.append(item)
-        payload = matches
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(matches, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindItems",
+                "name": "find_items",
                 "description": "Finds items matching the sent criteria. Returns an empty list if there are none",
                 "parameters": {
                     "type": "object",

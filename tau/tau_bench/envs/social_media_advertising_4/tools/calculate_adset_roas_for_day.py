@@ -1,48 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CalculateAdsetRoasForDay(Tool):
-    """Computes Return On Ad Spend for an ad set."""
+    """Calculates Return On Ad Spend for an ad set."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id, report_date = kwargs.get("adset_id"), kwargs.get("date")
+        for insight in data.get('f_insights', []):
+            if insight.get('adset_id') == adset_id and insight.get('date') == report_date:
+                spend, revenue = insight.get('spend', 0), insight.get('revenue', 0)
+                roas = round(revenue / spend, 2) if spend > 0 else 0
+                return json.dumps({"adset_id": adset_id, "roas": roas})
+        return json.dumps({"error": "Could not calculate ROAS, insights not found."})
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None, date: str = None) -> str:
-        for insight in data.get("f_insights", {}).values():
-            if (
-                insight.get("adset_id") == adset_id
-                and insight.get("date") == date
-            ):
-                spend, revenue = insight.get("spend", 0), insight.get("revenue", 0)
-                roas = round(revenue / spend, 2) if spend > 0 else 0
-                payload = {"adset_id": adset_id, "roas": roas}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Could not calculate ROAS, insights not found."}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "CalculateAdsetRoasForDay",
-                "description": "Calculates the Return On Ad Spend (Revenue / Spend) for an ad set on a specific date.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "adset_id": {"type": "string"},
-                        "date": {"type": "string"},
-                    },
-                    "required": ["adset_id", "date"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "calculate_adset_roas_for_day", "description": "Calculates the Return On Ad Spend (Revenue / Spend) for an ad set on a specific date.", "parameters": {"type": "object", "properties": {"adset_id": {"type": "string"}, "date": {"type": "string"}}, "required": ["adset_id", "date"]}}}

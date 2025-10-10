@@ -1,25 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any, Dict
-from datetime import timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AddMonthlyRevenue(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], snapshot_id: str, month: str, revenue: float) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
         Insert or update monthly revenue for a given snapshot.
         """
 
         record = {
-            "row_id": "MON_" + snapshot_id,
-            "snapshot_id": snapshot_id,
-            "month_year": month,
-            "revenue": revenue
+            "row_id": "MON_"+kwargs["snapshot_id"],
+            "snapshot_id": kwargs["snapshot_id"],
+            "month_year": kwargs["month"],
+            "revenue": kwargs["revenue"]
         }
         data["monthly_revenue"].append(record)
 
         return json.dumps(record["row_id"])
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
@@ -30,6 +32,7 @@ class AddMonthlyRevenue(Tool):
                 "parameters": {
                     "type": "object",
                     "properties": {
+                        "row_id": {"type": "string"},
                         "snapshot_id": {"type": "string"},
                         "month": {"type": "string", "description": "Month in YYYY-MM format"},
                         "revenue": {"type": "number"}

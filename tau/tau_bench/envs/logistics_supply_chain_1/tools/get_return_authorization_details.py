@@ -1,57 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import random
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetReturnAuthorizationDetails(Tool):
-    """Fetches details for a particular RMA."""
-
+    """Retrieves details of a specific RMA."""
     @staticmethod
-    def invoke(data: dict[str, Any], rma_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        rma_id = kwargs.get('rma_id')
         if not rma_id:
-            payload = {"error": "rma_id is required."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "rma_id is required."}, indent=2)
 
-        rma = next(
-            (
-                r
-                for r in data.get("rma_authorizations", {}).values()
-                if r.get("rma_id") == rma_id
-            ),
-            None,
-        )
+        rma = next((r for r in data.get('rma_authorizations', []) if r.get('rma_id') == rma_id), None)
         if not rma:
-            payload = {"error": f"RMA '{rma_id}' not found."}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = rma
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": f"RMA '{rma_id}' not found."}, indent=2)
+
+        return json.dumps(rma, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetReturnAuthorizationDetails",
+                "name": "get_return_authorization_details",
                 "description": "Retrieves the details of a specific Return Merchandise Authorization (RMA) by its ID.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "rma_id": {
-                            "type": "string",
-                            "description": "The RMA ID to search for.",
-                        }
-                    },
-                    "required": ["rma_id"],
-                },
-            },
+                    "properties": {"rma_id": {"type": "string", "description": "The RMA ID to search for."}},
+                    "required": ["rma_id"]
+                }
+            }
         }

@@ -1,25 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SetProjectConfig(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], target_city: str = None, forecast_horizon_days: int = None, max_station_distance_km_nullable: float = None) -> str:
-        target_city = target_city
-        horizon = forecast_horizon_days
-        max_radius = max_station_distance_km_nullable
-        configs = data.get("project_config", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        target_city = kwargs.get("target_city")
+        horizon = kwargs.get("forecast_horizon_days")
+        max_radius = kwargs.get("max_station_distance_km_nullable")
+        configs = data.get("project_config", [])
 
         timezone = "America/New_York"
-        for config in configs.values():
+        for config in configs:
             if config.get("target_city") == target_city:
                 timezone = config.get("timezone_default")
                 break
@@ -30,16 +25,15 @@ class SetProjectConfig(Tool):
             "forecast_horizon_days": horizon,
             "max_station_distance_km_nullable": max_radius,
         }
-        data["project_config"][config["project_config_id"]] = config
-        payload = {"config_id": "CONFIG_001", **config}
-        out = json.dumps(payload)
-        return out
+        data.get("project_config", []).append(config)
+        return json.dumps({"config_id": "CONFIG_001", **config})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "setProjectConfig",
+                "name": "SetProjectConfig",
                 "parameters": {
                     "type": "object",
                     "properties": {

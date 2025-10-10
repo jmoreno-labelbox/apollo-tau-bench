@@ -1,30 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ReportRun(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], report_type: str = None, run_data: Any = None) -> str:
-        if report_type is None or run_data is None:
-            payload = {
-                "status": "error",
-                "description": "The report_type and data fields are required.",
-            }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        report_type = kwargs.get('report_type')
+        run_data = kwargs.get('run_data')
 
-        run_date = FIXED_NOW.split("T")[0].replace("-", "_")
+        if report_type is None or run_data is None:
+            return json.dumps({'status': 'error', 'description': 'The report_type and data fields are required.'}, indent=2)
+
+        run_date = FIXED_NOW.split('T')[0].replace('-','_')
         new_report = {
             "run_id": f"rpt_{run_date}_0000",
             "report_type": report_type,
@@ -33,38 +23,25 @@ class ReportRun(Tool):
             "output_path_pdf": f"s3://reports/{report_type}_{run_date}.pdf",
         }
 
-        reports = data.get("report_runs")
-        data["report_runs"][new_report["report_run_id"]] = new_report
-        payload = {
-            "status": "ok",
-            "description": "Successfully created report pdf and saved a log in report_runs.",
-        }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        reports = data.get('report_runs')
+        reports.append(new_report)
+
+        return json.dumps({'status': 'ok', 'description': 'Successfully created report pdf and saved a log in report_runs.'}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "reportRun",
-                "description": "Creates a report log in report_runs.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "report_type": {
-                            "type": "string",
-                            "description": "The type of the report to write.",
-                        },
-                        "run_data": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "item": {"type": "string"},
-                            "description": "The data to include in the run.",
-                        },
+            'type': 'function',
+            'function': {
+                'name': 'report_run',
+                'description': 'Creates a report log in report_runs.',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'report_type': {'type': 'string', 'description': 'The type of the report to write.'},
+                        'run_data': {'type': 'array', 'item': {'type': 'string'}, 'description': 'The data to include in the run.'}
                     },
-                    "required": ["report_type", "run_data"],
-                },
-            },
+                    'required': ['report_type', 'run_data']
+                }
+            }
         }

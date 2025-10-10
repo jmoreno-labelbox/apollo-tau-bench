@@ -1,18 +1,19 @@
-from tau_bench.envs.tool import Tool
-import datetime
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class LocalCleanupTool(Tool):
-    """Removes local files, including downloaded logs and checksums."""
+    """Deletes local files, such as downloaded logs and checksums."""
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "localCleanup",
+                "name": "local_cleanup",
                 "description": "Deletes specified files from the local environment simulation.",
                 "parameters": {
                     "type": "object",
@@ -29,12 +30,10 @@ class LocalCleanupTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: dict[str, Any], files_to_delete: list[str]) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         deleted = [
             f_key
-            for f_key in files_to_delete
+            for f_key in kwargs["files_to_delete"]
             if data.pop(f_key, None) is not None
         ]
-        payload = {"deleted_local_files": deleted}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"deleted_local_files": deleted})

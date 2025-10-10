@@ -1,33 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetTrends(Tool):
     @staticmethod
-    #primary invocation function
-    def invoke(data: dict[str, Any], time_windows: list = None, min_sample_size: int = 25) -> str:
-        if time_windows is None:
-            time_windows = []
-        payload = {"trend_analysis": f"trends_min_{min_sample_size}"}
-        out = json.dumps(payload, indent=2)
-        return out
+        # main invoke function
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        time_windows = kwargs.get("time_windows", [])
+        min_sample_size = kwargs.get("min_sample_size", 25)
+        # return result
+        return json.dumps({"trend_analysis": f"trends_min_{min_sample_size}"}, indent=2)
+
     @staticmethod
-    #metadata information
-    def get_info() -> dict[str, Any]:
-        pass
-        #return result
-        return {
-            "type": "function",
-            "function": {
-                "name": "findTrends",
-                "description": "Examines performance trends across multiple time windows.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "time_windows": {"type": "array", "items": {"type": "integer"}},
-                        "min_sample_size": {"type": "integer"},
-                    },
-                    "required": ["time_windows"],
-                },
-            },
-        }
+        # info metadata
+    def get_info() -> Dict[str, Any]:
+        # return result
+        return {"type": "function", "function": {"name": "findTrends", "description": "Examines performance trends across multiple time windows.", "parameters": {"type": "object", "properties": {"time_windows": {"type": "array", "items": {"type": "integer"}}, "min_sample_size": {"type": "integer"}}, "required": ["time_windows"]}}}

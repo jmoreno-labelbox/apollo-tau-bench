@@ -1,62 +1,49 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AllocateTaskExpenses(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        task_id: str = None,
-        expense_amount: float = None,
-        expense_category: str = None,
-        description: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        task_id = kwargs.get("task_id")
+        expense_amount = kwargs.get("expense_amount")
+        expense_category = kwargs.get("expense_category")
+        description = kwargs.get("description")
+
         if not all([task_id, expense_amount, expense_category, description]):
-            payload = {"error": "All fields are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "All fields are required"})
 
-        tasks = data.get("tasks", {}).values()
-        expenses = data.get("expenses", {}).values()
-        allocations = data.get("allocations", {}).values()
-        budgets = data.get("budgets", {}).values()
+        tasks = list(data.get("tasks", {}).values())
+        expenses = data.get("expenses", [])
+        allocations = data.get("allocations", [])
+        budgets = data.get("budgets", [])
 
-        task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
+        task = next((t for t in tasks if t.get("task_id") == task_id), None)
         if not task:
-            payload = {"error": f"Task {task_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Task {task_id} not found"})
 
         employee_id = task.get("assignee_id")
         employee_allocation = next(
             (
                 a
-                for a in allocations.values() if a.get("employee_id") == employee_id and a.get("status") == "active"
+                for a in allocations
+                if a.get("employee_id") == employee_id and a.get("status") == "active"
             ),
             None,
         )
 
         if not employee_allocation:
-            payload = {"error": "Cannot determine project for task expense"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Cannot determine project for task expense"})
 
         project_id = employee_allocation.get("project_id")
 
         if task.get("status") not in ["in_progress", "done"]:
-            payload = {"error": "Expenses can only be allocated to active or completed tasks"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "Expenses can only be allocated to active or completed tasks"}
+            )
 
         expense_id = f"exp_{uuid.uuid4().hex[:8]}"
 
@@ -84,12 +71,13 @@ class AllocateTaskExpenses(Tool):
             },
         }
 
-        data["expenses"][expense_id] = new_expense
+        expenses.append(new_expense)
 
         budget = next(
             (
                 b
-                for b in budgets.values() if b.get("project_id") == project_id
+                for b in budgets
+                if b.get("project_id") == project_id
                 and b.get("fiscal_year") == current_time.year
             ),
             None,
@@ -100,19 +88,21 @@ class AllocateTaskExpenses(Tool):
             budget["last_modified"] = current_time.isoformat()
 
         cost_per_point = expense_amount / task.get("story_points", 1)
-        payload = {
-            "success": True,
-            "expense": new_expense,
-            "cost_per_story_point": round(cost_per_point, 2),
-        }
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(
+            {
+                "success": True,
+                "expense": new_expense,
+                "cost_per_story_point": round(cost_per_point, 2),
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AllocateTaskExpenses",
+                "name": "allocate_task_expenses",
                 "description": "Allocate expenses directly to specific tasks",
                 "parameters": {
                     "type": "object",

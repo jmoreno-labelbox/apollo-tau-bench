@@ -1,33 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class Pitchers(Tool):
     @staticmethod
-    #primary invocation function
-    def invoke(data: dict[str, Any], team_id: int = None) -> str:
-        #Deterministic placeholder: provide two pitchers for team 13, otherwise return empty
+        # main invoke function
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        team_id = kwargs.get("team_id")
+        # Deterministic stub: return two pitchers for team 13, else empty
         if team_id == 13:
-            payload = {"probable_pitcher_ids": [101, 102]}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"probable_pitcher_ids": []}
-        out = json.dumps(payload, indent=2)
-        return out
+        # return result
+            return json.dumps({"probable_pitcher_ids": [101, 102]}, indent=2)
+        # return result
+        return json.dumps({"probable_pitcher_ids": []}, indent=2)
+
     @staticmethod
-    #metadata information
-    def get_info() -> dict[str, Any]:
-        pass
-        #return result
-        return {
-            "type": "function",
-            "function": {
-                "name": "findPitch",
-                "description": "Provides opponent probable pitcher IDs.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"team_id": {"type": "string"}},
-                    "required": ["team_id"],
-                },
-            },
-        }
+        # info metadata
+    def get_info() -> Dict[str, Any]:
+        # return result
+        return {"type": "function", "function": {"name": "findPitch", "description": "Provides opponent probable pitcher IDs.", "parameters": {"type": "object", "properties": {"team_id": {"type": "string"}}, "required": ["team_id"]}}}

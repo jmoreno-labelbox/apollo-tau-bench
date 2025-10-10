@@ -1,35 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ExportRecentTickets(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], days: int = 30) -> str:
-        tickets = data.get("tickets", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        days = kwargs.get("days", 30)
+        tickets = list(data.get("tickets", {}).values())
         report_path = f"\\\\IT\\Reports\\DailyReports\\{FIXED_NOW.split('T')[0]}\\Tickets_Export.csv"
-        payload = {"export_path": report_path, "ticket_count": len(tickets)}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"export_path": report_path, "ticket_count": len(tickets)}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ExportRecentTickets",
-                "description": "Exports all tickets updated in the last N days to a CSV file.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"days": {"type": "integer"}},
-                    "required": ["days"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "export_recent_tickets", "description": "Exports all tickets updated in the last N days to a CSV file.", "parameters": {"type": "object", "properties": {"days": {"type": "integer"}}, "required": ["days"]}}}

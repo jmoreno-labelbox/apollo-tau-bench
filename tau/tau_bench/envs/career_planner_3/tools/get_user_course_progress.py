@@ -1,30 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetUserCourseProgress(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        progress_data = data.get("user_course_progress", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        progress_data = data.get("user_course_progress", [])
 
-        user_progress = [p for p in progress_data.values() if p.get("user_id") == user_id]
-        payload = user_progress
-        out = json.dumps(payload, indent=2)
-        return out
+        user_progress = [p for p in progress_data if p.get("user_id") == user_id]
+
+        return json.dumps(user_progress, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getUserCourseProgress",
+                "name": "get_user_course_progress",
                 "description": "Retrieves the course progress for a given user, including completed, in-progress, and assigned courses.",
                 "parameters": {
                     "type": "object",

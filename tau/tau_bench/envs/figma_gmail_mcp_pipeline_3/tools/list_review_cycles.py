@@ -1,21 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class list_review_cycles(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs)->str:
         return _ok({"rows": list(_ensure(data, "review_cycles", []))})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ListReviewCycles",
-                "description": "List review cycles.",
-                "parameters": {"type": "object", "properties": {}},
-            },
-        }
+    def get_info()->Dict[str,Any]:
+        return {"type":"function","function":{
+            "name":"list_review_cycles",
+            "description":"List review cycles.",
+            "parameters":{"type":"object","properties":{}}
+        }}

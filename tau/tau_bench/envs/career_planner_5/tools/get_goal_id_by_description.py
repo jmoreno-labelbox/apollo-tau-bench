@@ -1,26 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class GetGoalIdByDescription(Tool):
+class get_goal_id_by_description(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str, keyword: str) -> str:
-        _keywordL = keyword or ''.lower()
-        pass
-        goals_data = data.get("goals", {}).values()
+    def invoke(data: Dict[str, Any], user_id: str, keyword: str) -> str:
+        goals_data = data.get("goals", [])
         user_goals_obj = next(
-            (g for g in goals_data.values() if g.get("user_id") == user_id), None
+            (g for g in goals_data if g.get("user_id") == user_id), None
         )
         if user_goals_obj:
-            # Identify a goal with a description that includes the keyword (case-insensitive)
+            # Find a goal where the description contains the keyword (case-insensitive)
             goal = next(
                 (
                     g
@@ -30,23 +23,20 @@ class GetGoalIdByDescription(Tool):
                 None,
             )
             if goal:
-                payload = {"goal_id": goal["goal_id"]}
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {
-            "error": f"Goal for user {user_id} containing keyword '{keyword}' not found"
-        }
-        out = json.dumps(
-            payload, indent=2,
+                return json.dumps({"goal_id": goal["goal_id"]}, indent=2)
+        return json.dumps(
+            {
+                "error": f"Goal for user {user_id} containing keyword '{keyword}' not found"
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "getGoalIdByDescription",
+                "name": "get_goal_id_by_description",
                 "description": "Find a user's goal ID by searching for a keyword in the goal's description.",
                 "parameters": {
                     "type": "object",

@@ -1,105 +1,81 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetSystemConfigByCategory(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        config_key: str = None, 
-        config_category: str = None,
-        category: str = None,
-        key_pattern: str = None, 
-        include_history: bool = False
-    ) -> str:
-        # Support 'category' as an alternative to 'config_category'
-        if category is not None:
-            config_category = category
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
-        Obtains system configuration entries filtered by category and key patterns.
+        Retrieves system configuration entries filtered by category and key patterns.
         """
-        system_config = data.get("system_config", {}).values()
+        config_key = kwargs.get('config_key')
+        config_category = kwargs.get('config_category')
+        key_pattern = kwargs.get('key_pattern')
+        include_history = kwargs.get('include_history', False)
 
-        # Return the specific configuration if config_key is supplied
+        system_config = data.get('system_config', [])
+
+        # If config_key is provided, return specific config
         if config_key:
-            for config in system_config.values():
-                if config.get("config_key") == config_key:
+            for config in system_config:
+                if config.get('config_key') == config_key:
                     config_copy = config.copy()
-                    if not include_history and "change_history" in config_copy:
-                        del config_copy["change_history"]
-                    payload = config_copy
-                    out = json.dumps(payload, indent=2)
-                    return out
-            payload = {"error": f"Config with key '{config_key}' not found."}
-            out = json.dumps(payload)
-            return out
+                    if not include_history and 'change_history' in config_copy:
+                        del config_copy['change_history']
+                    return json.dumps(config_copy, indent=2)
+            return json.dumps({"error": f"Config with key '{config_key}' not found."})
 
-        # Sort configurations based on specified criteria
+        # Filter configs by criteria
         results = []
-        for config in system_config.values():
-            # Implement filters
+        for config in system_config:
+            # Apply filters
             if config_category:
-                if config.get("category") != config_category:
+                if config.get('category') != config_category:
                     continue
 
             if key_pattern:
-                if key_pattern.lower() not in config.get("config_key", "").lower():
+                if key_pattern.lower() not in config.get('config_key', '').lower():
                     continue
 
             config_copy = config.copy()
-            if not include_history and "change_history" in config_copy:
-                del config_copy["change_history"]
+            if not include_history and 'change_history' in config_copy:
+                del config_copy['change_history']
 
             results.append(config_copy)
 
-        # Categorize results for summary
-        summary = {"total_configs": len(results), "by_category": {}, "configs": results}
+        # Group results by category for summary
+        summary = {
+            "total_configs": len(results),
+            "by_category": {},
+            "configs": results
+        }
 
         for config in results:
-            category = config.get("category", "uncategorized")
+            category = config.get('category', 'uncategorized')
             if category not in summary["by_category"]:
                 summary["by_category"][category] = 0
             summary["by_category"][category] += 1
-        payload = summary
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(summary, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetSystemConfigByCategory",
+                "name": "get_system_config_by_category",
                 "description": "Retrieves system configuration entries filtered by category, key patterns, and optionally includes change history for workflow management.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "config_key": {
-                            "type": "string",
-                            "description": "The specific configuration key to retrieve.",
-                        },
-                        "config_category": {
-                            "type": "string",
-                            "description": "Filter configurations by category (e.g., 'workflow', 'email', 'system').",
-                        },
-                        "key_pattern": {
-                            "type": "string",
-                            "description": "Filter configurations by key pattern (e.g., 'email' to find email-related configs).",
-                        },
-                        "include_history": {
-                            "type": "boolean",
-                            "description": "Include change history in the results (default: false).",
-                        },
-                    },
-                },
-            },
+                        "config_key": {"type": "string", "description": "The specific configuration key to retrieve."},
+                        "config_category": {"type": "string", "description": "Filter configurations by category (e.g., 'workflow', 'email', 'system')."},
+                        "key_pattern": {"type": "string", "description": "Filter configurations by key pattern (e.g., 'email' to find email-related configs)."},
+                        "include_history": {"type": "boolean", "description": "Include change history in the results (default: false)."}
+                    }
+                }
+            }
         }

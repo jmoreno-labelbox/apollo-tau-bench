@@ -1,43 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ValidateSubtitleTiming(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], line_id: str, locale: str) -> str:
+    def invoke(data: Dict[str, Any], line_id: str, locale: str) -> str:
         timing = _get_table(data, "subtitle_timing")
-        row = next(
-            (
-                r
-                for r in timing
-                if (r.get("line_id") or r.get("id")) == line_id
-                and r.get("locale") == locale
-            ),
-            None,
-        )
+        # Support either 'line_id' or 'id' for record identification and nested timing status
+        row = next((r for r in timing if (r.get("line_id") or r.get("id")) == line_id and r.get("locale") == locale), None)
         status = "unknown"
         if row:
-            status = row.get("validation_status") or (
-                (row.get("timing_validation") or {}).get("status") or "unknown"
-            )
-        payload = {"validation_status": status}
-        out = json.dumps(payload, indent=2)
-        return out
+            # Prefer flat 'validation_status' if present; otherwise read nested timing_validation.status
+            status = row.get("validation_status") or ((row.get("timing_validation") or {}).get("status") or "unknown")
+        return json.dumps({"validation_status": status}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ValidateSubtitleTiming",
-                "description": "Returns stored validation status for a subtitle line and locale.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "line_id": {"type": "string"},
-                        "locale": {"type": "string"},
-                    },
-                    "required": ["line_id", "locale"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "validate_subtitle_timing", "description": "Returns stored validation status for a subtitle line and locale.", "parameters": {"type": "object", "properties": {"line_id": {"type": "string"}, "locale": {"type": "string"}}, "required": ["line_id", "locale"]}}}

@@ -1,58 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpsertCandidateRecord(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        candidate_email: str,
-        start_date: str,
-        candidate_name: str,
-        role_title: str = None,
-        manager_email: str = None,
-        onboarding_status: str = "Created",
-        created_ts: Any = None, due_date_lte: Any = None) -> str:
-        pass
-        email = candidate_email
-        start = start_date
-        name = candidate_name
-        role = role_title
-        manager_email = manager_email
-        onboarding_status = onboarding_status
-        created_ts = _fixed_ts(created_ts)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        email = kwargs["candidate_email"]
+        start = kwargs["start_date"]
+        name = kwargs["candidate_name"]
+        role = kwargs.get("role_title")
+        manager_email = kwargs.get("manager_email")
+        onboarding_status = kwargs.get("onboarding_status", "Created")
+        created_ts = _fixed_ts(kwargs.get("created_ts"))
 
         candidates = data.setdefault("candidates", [])
         row = {}
-        for _row in data.get("candidates", {}).values():
+        for _row in data.get("candidates", []):
             if _row.get("candidate_email") == email and _row.get("start_date") == start:
                 row = _row
         if row:
             row["candidate_name"] = name
-            if role is not None:
-                row["role_title"] = role
-            if manager_email is not None:
-                row["manager_email_nullable"] = manager_email
+            if role is not None: row["role_title"] = role
+            if manager_email is not None: row["manager_email_nullable"] = manager_email
             row["onboarding_status"] = onboarding_status
-            payload = {"candidate_id": row["candidate_id"], "status": "updated"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"candidate_id": row["candidate_id"], "status": "updated"}, indent=2)
 
-        candidate_id = _get_or_create_label_id(
-            "cand", {"email": email, "start": start, "name": name}
-        )
+        candidate_id = _get_or_create_label_id("cand", {"email": email, "start": start, "name": name})
         new_row = {
             "candidate_id": candidate_id,
             "candidate_name": name,
@@ -66,18 +42,17 @@ class UpsertCandidateRecord(Tool):
             "manager_email_nullable": manager_email,
             "orientation_invite_ts_nullable": None,
             "manager_intro_invite_ts_nullable": None,
-            "welcome_email_message_id_nullable": None,
+            "welcome_email_message_id_nullable": None
         }
-        data["candidates"][candidate_id] = new_row
-        payload = {"candidate_id": candidate_id, "status": "created"}
-        out = json.dumps(payload, indent=2)
-        return out
+        candidates.append(new_row)
+        return json.dumps({"candidate_id": candidate_id, "status": "created"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "upsertCandidateRecord",
+                "name": "upsert_candidate_record",
                 "description": "Create/update candidate keyed by (candidate_email, start_date).",
                 "parameters": {
                     "type": "object",
@@ -88,9 +63,9 @@ class UpsertCandidateRecord(Tool):
                         "candidate_email": {"type": "string"},
                         "manager_email": {"type": "string"},
                         "onboarding_status": {"type": "string"},
-                        "created_ts": {"type": "string"},
+                        "created_ts": {"type": "string"}
                     },
-                    "required": ["candidate_name", "start_date", "candidate_email"],
-                },
-            },
+                    "required": ["candidate_name", "start_date", "candidate_email"]
+                }
+            }
         }

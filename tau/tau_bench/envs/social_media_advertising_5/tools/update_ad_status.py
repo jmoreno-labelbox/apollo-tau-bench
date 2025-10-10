@@ -1,45 +1,25 @@
-from tau_bench.envs.tool import Tool
-import ast
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateAdStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], ad_id: str = None, status: str = None, request_id: Any = None,
-    timestamp: Any = None,
-    ) -> str:
-        for ad in data.get("ads", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ad_id = kwargs.get("ad_id")
+        st = kwargs.get("status")
+        for ad in list(data.get("ads", {}).values()):
             if ad.get("ad_id") == ad_id:
-                ad["status"] = status
-                payload = ad
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"ad {ad_id} not found"}
-        out = json.dumps(payload)
-        return out
+                ad["status"] = st
+                return json.dumps(ad)
+        return json.dumps({"error": f"ad {ad_id} not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "updateAdStatus",
-                "description": "Updates ad status.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "ad_id": {"type": "string"},
-                        "status": {"type": "string"},
-                    },
-                    "required": ["ad_id", "status"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "update_ad_status", "description": "Updates ad status.",
+                                                 "parameters": {"type": "object",
+                                                                "properties": {"ad_id": {"type": "string"},
+                                                                               "status": {"type": "string"}},
+                                                                "required": ["ad_id", "status"]}}}

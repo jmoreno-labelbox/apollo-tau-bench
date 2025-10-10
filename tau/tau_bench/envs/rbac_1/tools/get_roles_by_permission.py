@@ -1,54 +1,49 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetRolesByPermission(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], permission_id: str = None) -> str:
-        if not permission_id:
-            payload = {"error": "permission_id must be provided."}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        permission_id = kwargs.get("permission_id")
 
-        role_permissions = data.get("role_permissions", {}).values()
-        roles = data.get("roles", {}).values()
+        if not permission_id:
+            return json.dumps({"error": "permission_id must be provided."})
+
+        role_permissions = data.get('role_permissions', [])
+        roles = list(data.get('roles', {}).values())
 
         matching_role_ids = {
-            rp["role_id"]
-            for rp in role_permissions.values() if rp.get("permission_id") == permission_id
+                rp['role_id'] for rp in role_permissions
+                if rp.get('permission_id') == permission_id
         }
 
         matching_roles = [
-            role for role in roles.values() if role.get("role_id") in matching_role_ids
+                role for role in roles
+                if role.get('role_id') in matching_role_ids
         ]
-        payload = {"roles": matching_roles}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"roles": matching_roles})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "GetRolesByPermission",
-                "description": "Retrieves a list of roles that have a specific permission assigned.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "permission_id": {
-                            "type": "string",
-                            "description": "The ID of the permission to look up.",
+                "type": "function",
+                "function": {
+                        "name": "get_roles_by_permission",
+                        "description": "Retrieves a list of roles that have a specific permission assigned.",
+                        "parameters": {
+                                "type": "object",
+                                "properties": {
+                                        "permission_id": {
+                                                "type": "string",
+                                                "description": "The ID of the permission to look up."
+                                        }
+                                },
+                                "required": ["permission_id"]
                         }
-                    },
-                    "required": ["permission_id"],
-                },
-            },
+                }
         }

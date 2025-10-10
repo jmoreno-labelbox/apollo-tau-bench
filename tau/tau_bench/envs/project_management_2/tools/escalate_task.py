@@ -1,45 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class EscalateTask(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], task_id: str = None, escalate_to: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        task_id = kwargs.get("task_id")
+        escalate_to = kwargs.get("escalate_to")
+
         if not all([task_id, escalate_to]):
-            payload = {"error": "task_id  and escalate_to are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "task_id  and escalate_to are required"}
+            )
 
-        tasks = data.get("tasks", {}).values()
-        escalations = data.get("escalations", {}).values()
+        tasks = list(data.get("tasks", {}).values())
+        escalations = data.get("escalations", [])
 
-        task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
+        task = next((t for t in tasks if t.get("task_id") == task_id), None)
         if not task:
-            payload = {"error": f"Task '{task_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Task '{task_id}' not found"})
 
         if task.get("escalated"):
-            payload = {
+            return json.dumps(
+                {
                     "success": True,
                     "already_escalated": True,
                     "message": f"Task '{task_id}' is already escalated",
                     "existing_escalation_id": task.get("escalation_id"),
-                    #"new_escalation_created": False,
+                    # "new_escalation_created": False,
                 }
-            out = json.dumps(
-                payload)
-            return out
+            )
 
         escalation = {
             "escalation_id": f"esc_{uuid.uuid4().hex[:8]}",
@@ -50,7 +43,7 @@ class EscalateTask(Tool):
             "created_date": datetime.now().isoformat(),
             "resolved": False,
         }
-        data["escalations"][escalation["escalation_id"]] = escalation
+        escalations.append(escalation)
 
         if task.get("priority") != "critical":
             task["previous_priority"] = task.get("priority")
@@ -59,21 +52,22 @@ class EscalateTask(Tool):
         task["escalated"] = True
         task["escalation_id"] = escalation["escalation_id"]
         task["updated_date"] = datetime.now().isoformat()
-        payload = {
+
+        return json.dumps(
+            {
                 "success": True,
                 "escalation": escalation,
                 "task_priority": task["priority"],
-                #"new_escalation_created": True,
+                # "new_escalation_created": True,
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "EscalateTask",
+                "name": "escalate_task",
                 "description": "Escalate a task to management",
                 "parameters": {
                     "type": "object",

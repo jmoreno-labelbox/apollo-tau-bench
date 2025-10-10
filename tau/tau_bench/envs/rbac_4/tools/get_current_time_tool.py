@@ -1,25 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetCurrentTimeTool(Tool):
     """
-    Provides the fixed canonical current time utilized in evaluation.
+    Returns the fixed canonical current time used in evaluation.
     """
 
     @staticmethod
-    def invoke(data: dict) -> str:
-        payload = {"current_time": "2025-08-17T00:00:00Z"}
-        out = json.dumps(payload)
-        return out
+    def invoke(data: dict, **kwargs) -> str:
+        # always return the same canonical time
+        return json.dumps({"current_time": "2025-08-17T00:00:00Z"})
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GetCurrentTime",
+                "name": "get_current_time",
                 "description": "Return the canonical current time for use in audit logs and decisions.",
-                "parameters": {"type": "object", "properties": {}},
-            },
+                "parameters": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
         }

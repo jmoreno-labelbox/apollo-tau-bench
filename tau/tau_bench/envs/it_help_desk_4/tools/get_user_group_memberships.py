@@ -1,46 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetUserGroupMemberships(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], account_id: str = None) -> str:
-        account = next(
-            (
-                a
-                for a in data.get("directory_accounts", {}).values()
-                if a.get("account_id") == account_id
-            ),
-            None,
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get("account_id")
+        account = next((a for a in data.get("directory_accounts", []) if a.get("account_id") == account_id), None)
         if account and "group_ids" in account:
-            payload = {"account_id": account_id, "group_ids": account["group_ids"]}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        payload = {"account_id": account_id, "group_ids": []}
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"account_id": account_id, "group_ids": account["group_ids"]}, indent=2)
+        return json.dumps({"account_id": account_id, "group_ids": []}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetUserGroupMemberships",
-                "description": "Takes a snapshot of a user's current access groups for auditing.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"account_id": {"type": "string"}},
-                    "required": ["account_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "get_user_group_memberships", "description": "Takes a snapshot of a user's current access groups for auditing.", "parameters": {"type": "object", "properties": {"account_id": {"type": "string"}}, "required": ["account_id"]}}}

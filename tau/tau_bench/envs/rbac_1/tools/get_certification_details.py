@@ -1,41 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCertificationDetails(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], certification_id: str = None,
-    user_id: Any = None,
-    ) -> str:
-        cert_id = certification_id
-        for cert in data.get("certifications", {}).values():
-            if cert.get("certification_id") == cert_id:
-                payload = cert
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Certification not found"}
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cert_id = kwargs.get("certification_id")
+        for cert in data.get('certifications', []):
+            if cert.get('certification_id') == cert_id:
+                return json.dumps(cert)
+        return json.dumps({"error": "Certification not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "GetCertificationDetails",
-                "description": "Retrieves details for a specific certification.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"certification_id": {"type": "string"}},
-                    "required": ["certification_id"],
-                },
-            },
+                "type": "function",
+                "function": {
+                        "name": "get_certification_details",
+                        "description": "Retrieves details for a specific certification.",
+                        "parameters": {
+                                "type": "object",
+                                "properties": {
+                                        "certification_id": {"type": "string"}
+                                },
+                                "required": ["certification_id"]
+                        }
+                }
         }

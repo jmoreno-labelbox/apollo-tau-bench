@@ -1,25 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RemoveItemsByIndexTool(Tool):
     """
-    Remove items from an order based on index positions within order['items'].
+    Remove items from an order by index positions within order['items'].
 
     Behavior:
-    - Confirms the order exists and 'indices' is a list of unique integers.
-    - Deletes items at the specified indices (0-based) that are present in the current list.
-    - Silently ignores out-of-range indices to ensure robustness.
+    - Validates the order exists and 'indices' is a list of distinct integers.
+    - Removes items at the provided indices (0-based) present in the current list.
+    - Ignores out-of-range indices silently to be robust.
 
     Input (kwargs):
         order_id (str, required)
@@ -30,29 +23,22 @@ class RemoveItemsByIndexTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str = None, indices: list = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get("order_id")
+        indices = kwargs.get("indices")
+
         if not order_id or not isinstance(indices, list) or not indices:
-            payload = {"error": "order_id and non-empty indices are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "order_id and non-empty indices are required"}, indent=2)
 
         try:
             idxs = sorted({int(i) for i in indices if int(i) >= 0}, reverse=True)
         except Exception:
-            payload = {"error": "indices must be a list of integers >= 0"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "indices must be a list of integers >= 0"}, indent=2)
 
-        orders = data.get("orders", {}).values()
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
+        orders = list(data.get("orders", {}).values())
+        order = next((o for o in orders if o.get("order_id") == order_id), None)
         if not order:
-            payload = {"error": f"order_id '{order_id}' not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"order_id '{order_id}' not found"}, indent=2)
 
         items = order.get("items", [])
         removed_count = 0
@@ -69,21 +55,17 @@ class RemoveItemsByIndexTool(Tool):
                 removed_count += 1
 
         order["items"] = items
-        payload = {
-                "order_id": order_id,
-                "removed_count": removed_count,
-                "items_len": len(items),
-            }
-        out = json.dumps(
-            payload, indent=2,
+        return json.dumps(
+            {"order_id": order_id, "removed_count": removed_count, "items_len": len(items)},
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RemoveItemsByIndex",
+                "name": "remove_items_by_index",
                 "description": "Remove items from an order by zero-based indices within order['items'].",
                 "parameters": {
                     "type": "object",

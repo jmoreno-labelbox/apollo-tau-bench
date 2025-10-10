@@ -1,24 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class add_department(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], department_id: str) -> str:
+    def invoke(data: Dict[str, Any], department: dict) -> str:
         departments = data.setdefault("departments", [])
-        department = {"department_id": department_id}
-        data["departments"][department_id] = department
-        payload = {"success": True, "department_id": department_id}
-        out = json.dumps(
-            payload, indent=2,
+        departments.append(department)
+        return json.dumps(
+            {"success": True, "department_id": department.get("department_id")},
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "addDepartment",
+                "name": "add_department",
                 "description": "Add a new department record. The department object must contain all required fields.",
                 "parameters": {
                     "type": "object",

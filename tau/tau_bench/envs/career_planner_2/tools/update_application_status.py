@@ -1,37 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateApplicationStatus(Tool):
-    """Update the status of a job application."""
+    """Set a new status on a job application."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], application_id: str = None, status: str = None) -> str:
-        for a in data.get("job_applications", {}).values():
-            if a.get("application_id") == application_id:
-                a["status"] = status
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        aid = kwargs.get("application_id")
+        st = kwargs.get("status")
+        for a in data.get("job_applications", []):
+            if a.get("application_id") == aid:
+                a["status"] = st
                 a["last_updated"] = datetime.utcnow().date().isoformat()
-                payload = {"success": f"{application_id} status {status}"}
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": "Application not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"success": f"{aid} status {st}"}, indent=2)
+        return json.dumps({"error": "Application not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateApplicationStatus",
+                "name": "update_application_status",
                 "description": "Update app status.",
                 "parameters": {
                     "type": "object",

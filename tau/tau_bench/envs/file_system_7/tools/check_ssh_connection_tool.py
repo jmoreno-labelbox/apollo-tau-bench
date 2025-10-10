@@ -1,18 +1,19 @@
-from tau_bench.envs.tool import Tool
-import datetime
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CheckSshConnectionTool(Tool):
-    """Emulates the process of verifying SSH connectivity to a remote server."""
+    """Simulates checking SSH connectivity to a remote server."""
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CheckSshConnection",
+                "name": "check_ssh_connection",
                 "description": "Verifies that a remote address is accessible. For simulation, this always succeeds.",
                 "parameters": {
                     "type": "object",
@@ -28,8 +29,7 @@ class CheckSshConnectionTool(Tool):
         }
 
     @staticmethod
-
-    def invoke(data: dict[str, Any], remote_address: str = None) -> str:
-        payload = {"status": "connected", "remote_address": remote_address}
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        return json.dumps(
+            {"status": "connected", "remote_address": kwargs["remote_address"]}
+        )

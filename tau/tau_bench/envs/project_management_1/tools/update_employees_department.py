@@ -1,42 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateEmployeesDepartment(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None, department: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        department = kwargs.get("department")
+
         if not all([employee_id, department]):
-            payload = {"error": "employee_id and department are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "employee_id and department are required"})
 
-        employees = data.get("employees", {}).values()
+        employees = list(data.get("employees", {}).values())
 
-        for employee in employees.values():
+        for employee in employees:
             if employee.get("employee_id") == employee_id:
                 employee["department"] = department
-                payload = {"success": True, "employee": employee}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Employee with ID '{employee_id}' not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"success": True, "employee": employee})
+
+        return json.dumps({"error": f"Employee with ID '{employee_id}' not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateEmployeesDepartment",
+                "name": "update_employees_department",
                 "description": "Update employee department",
                 "parameters": {
                     "type": "object",

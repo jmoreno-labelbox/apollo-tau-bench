@@ -1,34 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class PerformInventoryAdjustment(Tool):
     """
-    Conducts a complete inventory adjustment for a product at a designated warehouse.
-    It revises the quantity on hand, available quantity, last counted date, and appends an audit note.
+    Performs a full inventory adjustment for a product at a specific warehouse.
+    It updates quantity on hand, available quantity, last counted date, and adds an audit note.
     """
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        sku: str,
-        warehouse_id: str,
-        new_physical_count: int,
-        current_date: str,
-        reason_note: str = ""
-,
-    current_allocated_quantity: Any = None,
-    ) -> str:
-        inventory_items = data.get("inventory", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        inventory_items = list(data.get("inventory", {}).values())
+        sku = kwargs.get("sku")
+        warehouse_id = kwargs.get("warehouse_id")
+        new_physical_count = kwargs.get("new_physical_count")
+        current_date = kwargs.get("current_date")
+        reason_note = kwargs.get("reason_note", "")
 
         if not all(
             [
@@ -38,45 +28,44 @@ class PerformInventoryAdjustment(Tool):
                 current_date,
             ]
         ):
-            payload = {"error": "One or more required arguments are missing."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "One or more required arguments are missing."})
 
         for item in inventory_items:
             if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id:
                 original_on_hand = item.get("quantity_on_hand", 0)
                 discrepancy = new_physical_count - original_on_hand
 
+                # Update core quantities
                 item["quantity_on_hand"] = new_physical_count
                 item["quantity_available"] = max(
                     0, new_physical_count - item.get("quantity_allocated", 0)
                 )
                 item["last_counted_date"] = current_date
 
+                # Append a detailed note for audit trail
                 if reason_note:
                     adjustment_log = f"Adjustment on {current_date}: Count changed from {original_on_hand} to {new_physical_count} (Discrepancy: {discrepancy}). Reason: {reason_note}."
                     if item.get("notes"):
                         item["notes"] = f"{item['notes']} | {adjustment_log}"
                     else:
                         item["notes"] = adjustment_log
-                payload = {
-                    "status": "success",
-                    "inventory_id": item.get("inventory_id"),
-                    "new_on_hand_quantity": item["quantity_on_hand"],
-                    "new_available_quantity": item["quantity_available"],
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Inventory record not found to adjust"}
-        out = json.dumps(payload)
-        return out
+
+                return json.dumps(
+                    {
+                        "status": "success",
+                        "inventory_id": item.get("inventory_id"),
+                        "new_on_hand_quantity": item["quantity_on_hand"],
+                        "new_available_quantity": item["quantity_available"],
+                    }
+                )
+        return json.dumps({"error": "Inventory record not found to adjust"})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "PerformInventoryAdjustment",
+                "name": "perform_inventory_adjustment",
                 "description": "Updates inventory quantities based on a physical count, adjusts available stock, updates the count date, and logs the reason.",
                 "parameters": {
                     "type": "object",

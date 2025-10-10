@@ -1,38 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from itertools import islice
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class EstimateMortgagePayment(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        client_id: str,
-        list_price: float,
-        term_years: int = 30,
-        region_override: str = None
-,
-    region: Any = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        client_id = kwargs.get("client_id")
+        list_price = kwargs.get("list_price")
+        term_years = kwargs.get("term_years", 30)
+        region_override = kwargs.get("region")
+
         profiles = data.get("mortgage_profiles") or data.get("mortage_profiles") or []
-        profile = next((m for m in profiles.values() if m.get("client_id") == client_id), {}).values()
+        profile = next((m for m in profiles if m.get("client_id") == client_id), {})
         credit_score = profile.get("credit_score", 720)
         down_payment = profile.get("down_payment", int(0.2 * (list_price or 0)))
-        loan_amount = profile.get(
-            "desired_loan_amount", (list_price or 0) - down_payment
-        )
+        loan_amount = profile.get("desired_loan_amount", (list_price or 0) - down_payment)
         region = region_override or profile.get("region")
 
         best = None
-        for r in data.get("mortgage_rates", {}).values() or []:
+        for r in (data.get("mortgage_rates", []) or []):
             if region and r.get("region") != region:
                 continue
             if r.get("term_years") != term_years:
@@ -47,29 +36,26 @@ class EstimateMortgagePayment(Tool):
         if monthly_rate == 0 or n == 0:
             monthly_payment = loan_amount / max(1, n)
         else:
-            monthly_payment = (
-                loan_amount
-                * (monthly_rate * (1 + monthly_rate) ** n)
-                / ((1 + monthly_rate) ** n - 1)
-            )
-        payload = {
+            monthly_payment = loan_amount * (monthly_rate * (1 + monthly_rate) ** n) / ((1 + monthly_rate) ** n - 1)
+
+        return json.dumps(
+            {
                 "client_id": client_id,
                 "loan_amount": round(loan_amount, 2),
                 "apr_percent": round(apr * 100, 3),
                 "term_years": term_years,
                 "estimated_monthly_payment": round(monthly_payment, 2),
                 "lender_rate_used": best,
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "EstimateMortgagePayment",
+                "name": "estimate_mortgage_payment",
                 "description": "Estimate monthly payment for a client given list_price (prefers client profile + lender rates).",
                 "parameters": {
                     "type": "object",

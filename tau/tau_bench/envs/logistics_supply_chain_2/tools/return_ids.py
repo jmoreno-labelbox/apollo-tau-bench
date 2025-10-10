@@ -1,35 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ReturnIds(Tool):
-    """Utility for providing a list of identifiers."""
+    """Tool to return list of ids."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], list_of_ids: list = None) -> str:
-        if list_of_ids is None:
-            list_of_ids = []
-        payload = list_of_ids
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        list_of_ids = kwargs.get("list_of_ids", [])
+        return json.dumps(list_of_ids, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ReturnIds",
+                "name": "return_ids",
                 "description": "Return List of Ids",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "list_of_ids": {
                             "type": "array",
-                            "items": {"type": "string"},
-                            "description": "List of suppliers to choose from.",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "List of suppliers to choose from."
                         }
                     },
-                    "required": [],
-                },
-            },
+                    "required": []
+                }
+            }
         }

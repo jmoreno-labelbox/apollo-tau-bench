@@ -1,36 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetUsersByRoleTool(Tool):
-    """get_users_by_role: enumerate user_ids with an assigned role (active only)."""
+    """get_users_by_role: list user_ids having a role assigned (active only)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], role_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        role_id = kwargs.get("role_id")
         result = [
             ur.get("user_id")
-            for ur in data.get("user_roles", {}).values()
+            for ur in data.get("user_roles", [])
             if ur.get("role_id") == role_id and not ur.get("expires_on")
         ]
-        payload = {"role_id": role_id, "user_ids": sorted(result)}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"role_id": role_id, "user_ids": sorted(result)}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getUsersByRole",
+                "name": "get_users_by_role",
                 "description": (
                     "List users with an active assignment of the given role."
                 ),

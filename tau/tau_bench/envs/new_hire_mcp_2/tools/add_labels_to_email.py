@@ -1,43 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AddLabelsToEmail(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], message_id: str, label_ids: list[str] = []) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        message_id = kwargs.get("message_id")
+        label_ids = kwargs.get("label_ids", [])
         rows = _ensure_list(data, "emails")
         row = _find_by_key(rows, "message_id", message_id)
         if row is None:
-            payload = {
-                "message_id": message_id,
-                "updated": False,
-                "reason": "email_not_found",
-            }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({"message_id": message_id, "updated": False, "reason": "email_not_found"}, indent=2)
         dst = row.setdefault("labels_ids", [])
         for lid in label_ids:
             if lid not in dst:
                 dst.append(lid)
-        payload = {"message_id": message_id, "labels_ids": dst}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"message_id": message_id, "labels_ids": dst}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "AddLabelsToEmail",
-                "description": "Union-add label_ids onto an email.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "message_id": {"type": "string"},
-                        "label_ids": {"type": "array", "items": {"type": "string"}},
-                    },
-                    "required": ["message_id", "label_ids"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function",
+                "function": {"name": "add_labels_to_email", "description": "Union-add label_ids onto an email.",
+                             "parameters": {"type": "object", "properties": {"message_id": {"type": "string"},
+                                                                             "label_ids": {"type": "array", "items": {
+                                                                                 "type": "string"}}},
+                                            "required": ["message_id", "label_ids"]}}}

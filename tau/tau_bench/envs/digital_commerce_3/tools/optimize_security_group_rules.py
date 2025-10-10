@@ -1,27 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class OptimizeSecurityGroupRules(Tool):
-    """Enhance security group regulations by eliminating excessive access and incorporating precise rules."""
+    """Optimize security group rules by removing overly permissive access and adding specific rules."""
 
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         security_group_id: Any,
         allowed_cidr: Any = None,
         target_port: Any = 6379,
-        aws_security_group_rules: list[dict[str, Any]] = None
     ) -> str:
-        pass
         security_group_id = _idstr(security_group_id)
         allowed_cidr = f"{allowed_cidr}" if allowed_cidr is not None else None
         target_port = int(target_port)
@@ -30,11 +23,11 @@ class OptimizeSecurityGroupRules(Tool):
             return _error("security_group_id is required.")
 
         allowed_cidrs = [allowed_cidr] if allowed_cidr else []
-        rules = aws_security_group_rules if aws_security_group_rules is not None else []
+        rules = data.get("aws_security_group_rules", [])
         changes = []
 
         rules_to_remove = []
-        for rule in rules.values():
+        for rule in rules:
             if (
                 f"{rule.get('security_group_id')}" == f"{security_group_id}"
                 and int(rule.get("port")) == target_port
@@ -49,15 +42,14 @@ class OptimizeSecurityGroupRules(Tool):
 
         existing_cidrs = {
             r.get("source_ip")
-            for r in rules.values() if f"{r.get('security_group_id')}" == f"{security_group_id}"
+            for r in rules
+            if f"{r.get('security_group_id')}" == f"{security_group_id}"
             and int(r.get("port")) == target_port
         }
 
         for cidr in allowed_cidrs:
             if cidr not in existing_cidrs:
-                new_rule_id = (
-                    f"sgr-{security_group_id}-{cidr.replace('/', '_')}-{target_port}"
-                )
+                new_rule_id = f"sgr-{security_group_id}-{cidr.replace('/', '_')}-{target_port}"
                 rules.append(
                     {
                         "rule_id": new_rule_id,
@@ -76,86 +68,14 @@ class OptimizeSecurityGroupRules(Tool):
             "changes": changes,
             "allowed_cidrs": allowed_cidrs,
         }
-        _append_audit(
-            data,
-            "security_group_optimized",
-            security_group_id,
-            {"target_port": target_port, "changes_count": len(changes)},
-        )
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
-        pass
-        security_group_id = _idstr(security_group_id)
-        allowed_cidr = f"{allowed_cidr}" if allowed_cidr is not None else None
-        target_port = int(target_port)
-
-        if not security_group_id:
-            return _error("security_group_id is required.")
-
-        allowed_cidrs = [allowed_cidr] if allowed_cidr else []
-        rules = data.get("aws_security_group_rules", {}).values()
-        changes = []
-
-        rules_to_remove = []
-        for rule in rules.values():
-            if (
-                f"{rule.get('security_group_id')}" == f"{security_group_id}"
-                and int(rule.get("port")) == target_port
-                and rule.get("protocol") == "TCP"
-                and rule.get("source_ip") == "0.0.0.0/0"
-            ):
-                rules_to_remove.append(rule)
-                changes.append(f"Removed overly permissive rule: {rule.get('rule_id')}")
-
-        for rule in rules_to_remove:
-            rules.remove(rule)
-
-        existing_cidrs = {
-            r.get("source_ip")
-            for r in rules.values() if f"{r.get('security_group_id')}" == f"{security_group_id}"
-            and int(r.get("port")) == target_port
-        }
-
-        for cidr in allowed_cidrs:
-            if cidr not in existing_cidrs:
-                new_rule_id = (
-                    f"sgr-{security_group_id}-{cidr.replace('/', '_')}-{target_port}"
-                )
-                rules.append(
-                    {
-                        "rule_id": new_rule_id,
-                        "security_group_id": security_group_id,
-                        "port": target_port,
-                        "protocol": "TCP",
-                        "source_ip": cidr,
-                        "description": f"Allow {target_port} access from approved CIDR {cidr}",
-                    }
-                )
-                changes.append(f"Added rule for CIDR: {cidr}")
-
-        result = {
-            "security_group_id": security_group_id,
-            "target_port": target_port,
-            "changes": changes,
-            "allowed_cidrs": allowed_cidrs,
-        }
-        _append_audit(
-            data,
-            "security_group_optimized",
-            security_group_id,
-            {"target_port": target_port, "changes_count": len(changes)},
-        )
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(result, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "OptimizeSecurityGroupRules",
+                "name": "optimize_security_group_rules",
                 "description": "Optimize security group rules by removing overly permissive access and adding specific rules.",
                 "parameters": {
                     "type": "object",

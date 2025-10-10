@@ -1,40 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindMentor(Tool):
-    """Identify an available mentor based on expertise."""
+    """Find an available mentor by expertise."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], expertise: list[str] = None) -> str:
-        mentors = data.get("user_mentorship", {}).values()
-        # Deterministic choice: the first mentor from the list who meets all expertise criteria and is available.
-        for m in sorted(mentors, key=lambda x: x["mentor_id"]):  # Sort to ensure determinism
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        expertise = kwargs.get("expertise")
+        mentors = data.get("user_mentorship", [])
+        # Deterministic selection: first mentor in the list that matches all expertise areas and has capacity.
+        for m in sorted(mentors, key=lambda x: x["mentor_id"]):  # Sort for determinism
             if m.get("availability") != "Full" and all(
                 e.lower() in [exp.lower() for exp in m.get("expertise", [])]
                 for e in expertise
             ):
-                payload = {"mentor_id": m.get("mentor_id")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "No suitable mentor found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"mentor_id": m.get("mentor_id")})
+        return json.dumps({"error": "No suitable mentor found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindMentor",
+                "name": "find_mentor",
                 "description": "Find an available mentor by expertise.",
                 "parameters": {
                     "type": "object",

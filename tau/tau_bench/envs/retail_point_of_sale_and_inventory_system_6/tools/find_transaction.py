@@ -1,42 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import OrderedDict, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class find_transaction(Tool):
-    """Searches for and retrieves a transaction. If the transaction_id is known, it returns that specific row. If other parameters are provided, it searches for and returns all transactions that match those parameters."""
+    """
+    Searches for and returns a transaction. If the transaction_id is known, it will return that exact row. If the other parameters are sent, then it will search for and return all transactions matching those parameters
+    """
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        transaction_id: str = None,
-        store_id: str = None,
-        employee_id: str = None,
-        customer_id: str = None,
-        status: str = None,
-        date: str = None
-    ) -> str:
-        transactions = data.get("transactions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        transaction_id = kwargs.get("transaction_id")
+        store_id = kwargs.get("store_id")
+        employee_id = kwargs.get("employee_id")
+        customer_id = kwargs.get("customer_id")
+        status = kwargs.get("status")
+        date = kwargs.get("date")
+
+        transactions = list(data.get("transactions", {}).values())
 
         matches = []
-        for transaction in transactions.values():
-            # Utilize transaction_id if provided, prioritizing it over other parameters
+        for transaction in transactions:
+            # If transaction_id is sent, then use it over the other parameters
             if (transaction_id is not None) and (
                 transaction["transaction_id"] == transaction_id
             ):
                 return transaction
 
-            # If not, include in the matches list if any search parameters align
+            # Otherwise, add to the list of matches if any of the search parameters matches
             else:
-                # Retrieve matches
+                # Get matches
                 store_id_match = (store_id is not None) and (
                     transaction["store_id"] == store_id
                 )
@@ -53,8 +48,8 @@ class find_transaction(Tool):
                     transaction["timestamp"][:10] == date
                 )
 
-                # Assess if the row is a match
-                # It must satisfy all provided criteria
+                # Determine if row is a match
+                # It should match all criteria that have been sent
                 is_match = all(
                     [
                         bool_out
@@ -74,15 +69,15 @@ class find_transaction(Tool):
 
                 if is_match:
                     matches.append(json.dumps(transaction))
-        payload = matches
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(matches)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindTransaction",
+                "name": "find_transaction",
                 "description": "Finds a transaction. Will return 1 row if transaction_id is sent, otherwise it will return rows that match the other parameters",
                 "parameters": {
                     "type": "object",

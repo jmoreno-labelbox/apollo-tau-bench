@@ -1,43 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchProductsByFilter(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        category: str = None,
-        min_price: float = None,
-        max_price: float = None,
-        available_only: bool = True,
-        options: dict[str, Any] = None,
-        show_all: bool = False,
-        limit: int = None,
-        price_flag: str = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], category: str = None, min_price: float = None, max_price: float = None, available_only: bool = True, options: Dict[str, Any] = None, **kwargs) -> str:
         """
         Search products by category, price range, and availability status
 
         Data Sources: products.json (product_id, name, variants with price/available fields)
         """
-        _categoryL = (category or '').lower()
-        products = data.get("products", {}).values()
+        products = list(data.get("products", {}).values())
         matching_products = []
+        show_all = kwargs.get("show_all", False)
 
         # Rule: Check product availability status before allocation - never allocate unavailable items
-        for product in products.values():
+        for product in products:
             product_name = product.get("name", "").lower()
             product_id = product.get("product_id")
-            variants = product.get("variants", {}).values()
+            variants = product.get("variants", {})
+            limit = kwargs.get("limit", None)
 
             # Filter by category if specified
             if category and category.lower() not in product_name:
@@ -48,7 +33,7 @@ class SearchProductsByFilter(Tool):
             for variant_id, variant in variants.items():
                 variant_price = variant.get("price", 0)
                 variant_available = variant.get("available", False)
-                variant_options = variant.get("options", {}).values()
+                variant_options = variant.get("options", {})
 
                 # Rule: Check product availability status before allocation
                 if not show_all:
@@ -75,9 +60,7 @@ class SearchProductsByFilter(Tool):
                         # Handle multiple values for the same option (e.g., color: ["red", "blue"])
                         if isinstance(option_value, list):
                             # Check if variant's option value matches any of the provided values
-                            variant_value_str = (
-                                str(variant_option_value).lower().strip()
-                            )
+                            variant_value_str = str(variant_option_value).lower().strip()
                             value_matches = any(
                                 variant_value_str == str(val).lower().strip()
                                 for val in option_value
@@ -87,9 +70,7 @@ class SearchProductsByFilter(Tool):
                                 break
                         else:
                             # Single value comparison (existing logic)
-                            variant_value_str = (
-                                str(variant_option_value).lower().strip()
-                            )
+                            variant_value_str = str(variant_option_value).lower().strip()
                             search_value_str = str(option_value).lower().strip()
 
                             if variant_value_str != search_value_str:
@@ -99,46 +80,40 @@ class SearchProductsByFilter(Tool):
                     if not options_match:
                         continue
 
-                valid_variants.append(
-                    {
-                        "item_id": variant_id,
-                        "price": variant_price,
-                        "available": variant_available,
-                        "options": variant_options,
-                    }
-                )
+                valid_variants.append({
+                    "item_id": variant_id,
+                    "price": variant_price,
+                    "available": variant_available,
+                    "options": variant_options
+                })
 
             if valid_variants:
-                matching_products.append(
-                    {
-                        "product_id": product_id,
-                        "name": product.get("name"),
-                        "variants_count": len(valid_variants),
-                        "price_range": {
-                            "min": min(v["price"] for v in valid_variants.values()),
-                            "max": max(v["price"] for v in valid_variants.values()),
-                        },
-                        "sample_variants": valid_variants,
-                    }
-                )
+                matching_products.append({
+                    "product_id": product_id,
+                    "name": product.get("name"),
+                    "variants_count": len(valid_variants),
+                    "price_range": {
+                        "min": min(v["price"] for v in valid_variants),
+                        "max": max(v["price"] for v in valid_variants)
+                    },
+                    "sample_variants": valid_variants
+                })
 
         # Filter based on price flag if provided and return only a single product
+        price_flag = kwargs.get("price_flag")
+
         if price_flag == "cheapest":
             # Sort sample_variants within each product by price
             for product in matching_products:
                 if "sample_variants" in product:
                     product["sample_variants"].sort(key=lambda v: v["price"])
-                    product["sample_variants"] = product["sample_variants"][
-                        :limit
-                    ]  # Limit to cheapest variant
+                    product["sample_variants"] = product["sample_variants"][:limit]  # Limit to cheapest variant
 
         elif price_flag == "expensive":
             # Sort sample_variants within each product by price in descending order
             for product in matching_products:
                 if "sample_variants" in product:
-                    product["sample_variants"].sort(
-                        key=lambda v: v["price"], reverse=True
-                    )
+                    product["sample_variants"].sort(key=lambda v: v["price"], reverse=True)
                     product["sample_variants"] = product["sample_variants"][:limit]
 
         result = {
@@ -148,63 +123,50 @@ class SearchProductsByFilter(Tool):
                 "min_price": min_price,
                 "max_price": max_price,
                 "available_only": available_only,
-                "options_filter": options,
+                "options_filter": options
             },
             "total_products_found": len(matching_products),
-            "products": matching_products[:10],
+            "products": matching_products[:10]
         }
-        payload = result
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(result)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchProductsByFilter",
+                "name": "search_products_by_filter",
                 "description": "Search products by category, price range, availability, and specific variant options from product catalog",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "category": {
-                            "type": "string",
-                            "description": "Product category filter (e.g., 'laptop', 't-shirt', 'bluetooth speaker')",
-                        },
-                        "min_price": {
-                            "type": "number",
-                            "description": "Minimum price filter",
-                        },
-                        "max_price": {
-                            "type": "number",
-                            "description": "Maximum price filter",
-                        },
-                        "available_only": {
-                            "type": "boolean",
-                            "description": "Show only available products",
-                            "default": True,
-                        },
+                        "category": {"type": "string", "description": "Product category filter (e.g., 'laptop', 't-shirt', 'bluetooth speaker')"},
+                        "min_price": {"type": "number", "description": "Minimum price filter"},
+                        "max_price": {"type": "number", "description": "Maximum price filter"},
+                        "available_only": {"type": "boolean", "description": "Show only available products", "default": True},
                         "options": {
                             "type": "object",
                             "description": "Filter by specific variant options. Values can be strings or arrays for multiple options (e.g., {'color': ['red', 'blue'], 'battery life': '20 hours', 'size': ['large', 'medium']})",
                             "additionalProperties": {
-},
+                                "oneOf": [
+                                    {"type": "string"},
+                                    {"type": "array", "items": {"type": "string"}}
+                                ]
+                            }
                         },
-                        "price_flag": {
-                            "type": "string",
-                            "description": "Flag to indicate price preference (e.g., 'cheapest', 'expensive')",
-                        },
+                        "price_flag": {"type": "string", "description": "Flag to indicate price preference (e.g., 'cheapest', 'expensive')"},
                         "limit": {
                             "type": "integer",
                             "description": "Maximum number of variants to return per product",
-                            "default": 1,
+                            "default": 1
                         },
                         "show_all": {
                             "type": "boolean",
                             "description": "Flag to indicate if all matching products should be returned",
-                            "default": False,
-                        },
-                    },
-                },
-            },
+                            "default": False
+                        }
+                    }
+                }
+            }
         }

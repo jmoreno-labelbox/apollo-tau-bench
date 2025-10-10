@@ -1,40 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class find_team_by_name(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], name: str) -> str:
-        pass
-        teams = data.get("teams", {}).values()
-        for team in teams.values():
+    def invoke(data: Dict[str, Any], name: str) -> str:
+        teams = data.get("teams", [])
+        for team in teams:
             if team.get("name") == name:
-                payload = team
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Team with name '{name}' not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(team, indent=2)
+        return json.dumps({"error": f"Team with name '{name}' not found"}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "FindTeamByName",
-                "description": "Finds a team by its exact name.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"name": {"type": "string"}},
-                    "required": ["name"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return { "type": "function", "function": { "name": "find_team_by_name", "description": "Finds a team by its exact name.", "parameters": { "type": "object", "properties": { "name": { "type": "string" } }, "required": ["name"] } } }

@@ -1,39 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetInventoryAnalytics(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], store_id: str | None = None) -> str:
-        inventory = data.get("inventory", {}).values()
-        products = data.get("products", {}).values()
+    def invoke(data: Dict[str, Any], store_id: Optional[str] = None) -> str:
+        inventory = list(data.get("inventory", {}).values())
+        products = list(data.get("products", {}).values())
 
         if store_id:
-            inventory = [inv for inv in inventory.values() if inv.get("store_id") == store_id]
+            inventory = [inv for inv in inventory if inv.get("store_id") == store_id]
 
         total_items = len(inventory)
-        total_quantity = sum(inv.get("quantity", 0) for inv in inventory.values())
+        total_quantity = sum(inv.get("quantity", 0) for inv in inventory)
         total_value = 0.0
 
-        for inv_record in inventory.values():
-            product = next(
-                (p for p in products.values() if p.get("sku") == inv_record.get("sku")), None
-            )
+        for inv_record in inventory:
+            product = next((p for p in products if p.get("sku") == inv_record.get("sku")), None)
             if product:
                 total_value += inv_record.get("quantity", 0) * product.get("price", 0)
 
-        low_stock_items = len(
-            [inv for inv in inventory.values() if inv.get("quantity", 0) <= 10]
-        )
+        low_stock_items = len([inv for inv in inventory if inv.get("quantity", 0) <= 10])
 
         analytics = {
             "store_id": store_id,
@@ -41,29 +31,24 @@ class GetInventoryAnalytics(Tool):
             "total_quantity": total_quantity,
             "total_value": round(total_value, 2),
             "low_stock_items": low_stock_items,
-            "average_quantity": (
-                round(total_quantity / total_items, 2) if total_items > 0 else 0
-            ),
+            "average_quantity": round(total_quantity / total_items, 2) if total_items > 0 else 0
         }
-        payload = analytics
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(analytics, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getInventoryAnalytics",
+                "name": "get_inventory_analytics",
                 "description": "Get inventory analytics for a store or all stores.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "store_id": {
-                            "type": "string",
-                            "description": "Optional: Store ID to filter analytics.",
-                        }
+                        "store_id": {"type": "string", "description": "Optional: Store ID to filter analytics."}
                     },
-                    "required": [],
-                },
-            },
+                    "required": []
+                }
+            }
         }

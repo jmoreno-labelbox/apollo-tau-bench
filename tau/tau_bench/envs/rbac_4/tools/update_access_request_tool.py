@@ -1,94 +1,66 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateAccessRequestTool(Tool):
-    """Fundamental: modify an access request's status and metadata (no side effects)."""
+    """Basic: update an access request's status and metadata (no side effects)."""
 
     _ALLOWED = {"PENDING", "APPROVED", "REJECTED", "DEFERRED"}
 
     @staticmethod
-    def invoke(data: dict[str, Any], request_id: str = None, status: str = None, updated_on: str = None, updated_by: str = None) -> str:
-        # Mandatory parameters
-        params_dict = {k: v for k, v in locals().items() if k != "data"}
-        missing = [
-            k
-            for k in ("request_id", "status", "updated_on", "updated_by")
-            if params_dict.get(k) is None
-        ]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        request_id = kwargs.get("request_id")
+        status = kwargs.get("status")
+        updated_on = kwargs.get("updated_on")
+        updated_by = kwargs.get("updated_by")
+
+        # Required parameters
+        missing = [k for k in ("request_id","status","updated_on","updated_by") if kwargs.get(k) is None]
         if missing:
-            payload = {"error": f"Missing: {', '.join(missing)}"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"Missing: {', '.join(missing)}"}, indent=2)
 
-        # Simple status verification
+        # Basic status check
         if status not in UpdateAccessRequestTool._ALLOWED:
-            payload = {
-                    "error": f"Invalid status '{status}'. Allowed: {sorted(UpdateAccessRequestTool._ALLOWED)}"
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({"error": f"Invalid status '{status}'. Allowed: {sorted(UpdateAccessRequestTool._ALLOWED)}"}, indent=2)
 
-        # Import tables
-        access_requests = data.get("access_requests", {}).values()
-        users = data.get("users", {}).values()
+        # Load tables
+        access_requests = data.get("access_requests", [])
+        users = list(data.get("users", {}).values())
 
-        # References
-        req = next(
-            (r for r in access_requests.values() if r.get("request_id") == request_id), None
-        )
+        # Anchors
+        req = next((r for r in access_requests if r.get("request_id") == request_id), None)
         if not req:
-            payload = {"error": f"Unknown request_id '{request_id}'"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"Unknown request_id '{request_id}'"}, indent=2)
 
-        if not any(u.get("user_id") == updated_by for u in users.values()):
-            payload = {"error": f"Unknown updated_by '{updated_by}'"}
-            out = json.dumps(payload, indent=2)
-            return out
+        if not any(u.get("user_id") == updated_by for u in users):
+            return json.dumps({"error": f"Unknown updated_by '{updated_by}'"}, indent=2)
 
-        # Modify in place (basic)
+        # Update in place (basic)
         req["status"] = status
         req["updated_on"] = updated_on
         req["updated_by"] = updated_by
-        payload = req
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(req, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateAccessRequest",
+                "name": "update_access_request",
                 "description": "Basic update of an access request's status and metadata (no side effects).",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "request_id": {"type": "string", "description": "e.g., AR-007"},
-                        "status": {
-                            "type": "string",
-                            "enum": ["PENDING", "APPROVED", "REJECTED", "DEFERRED"],
-                        },
-                        "updated_on": {
-                            "type": "string",
-                            "description": "ISO 8601 timestamp",
-                        },
-                        "updated_by": {
-                            "type": "string",
-                            "description": "User ID performing the update",
-                        },
+                        "status": {"type": "string", "enum": ["PENDING","APPROVED","REJECTED","DEFERRED"]},
+                        "updated_on": {"type": "string", "description": "ISO 8601 timestamp"},
+                        "updated_by": {"type": "string", "description": "User ID performing the update"}
                     },
-                    "required": ["request_id", "status", "updated_on", "updated_by"],
-                },
-            },
+                    "required": ["request_id","status","updated_on","updated_by"]
+                }
+            }
         }

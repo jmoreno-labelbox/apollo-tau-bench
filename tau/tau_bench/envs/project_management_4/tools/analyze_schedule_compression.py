@@ -1,42 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AnalyzeScheduleCompression(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_id: str,
-        target_reduction: int,
-        compression_type: str = "crashing"
-    ) -> str:
-        if not all([project_id, target_reduction]):
-            payload = {"error": "project_id and target_reduction are required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        target_reduction = kwargs.get("target_reduction")
+        compression_type = kwargs.get("compression_type", "crashing")
 
-        milestones = data.get("milestones", {}).values()
-        compression_analyses = data.get("compression_analyses", {}).values()
+        if not all([project_id, target_reduction]):
+            return json.dumps({"error": "project_id and target_reduction are required"})
+
+        milestones = list(data.get("milestones", {}).values())
+        compression_analyses = data.get("compression_analyses", [])
 
         project_milestones = [
-            m for m in milestones.values() if m.get("project_id") == project_id
+            m for m in milestones if m.get("project_id") == project_id
         ]
 
         if not project_milestones:
-            payload = {"error": f"No milestones found for project '{project_id}'"}
-            out = json.dumps(
-                payload)
-            return out
+            return json.dumps(
+                {"error": f"No milestones found for project '{project_id}'"}
+            )
 
         analysis_id = f"comp_{uuid.uuid4().hex[:8]}"
 
@@ -120,21 +109,22 @@ class AnalyzeScheduleCompression(Tool):
             "created_date": datetime.now(timezone.utc).isoformat(),
         }
 
-        data["compression_analyses"][new_analysis["compression_analyse_id"]] = new_analysis
-        payload = {
+        compression_analyses.append(new_analysis)
+
+        return json.dumps(
+            {
                 "success": True,
                 "analysis": new_analysis,
                 "feasible": achieved_reduction >= target_reduction * 0.8,
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AnalyzeScheduleCompression",
+                "name": "analyze_schedule_compression",
                 "description": "Analyze schedule compression options for a project",
                 "parameters": {
                     "type": "object",

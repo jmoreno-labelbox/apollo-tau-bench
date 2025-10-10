@@ -1,42 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateUserMfaStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, mfa_enabled: bool = None) -> str:
-        for user in data.get("users", {}).values():
-            if user.get("user_id") == user_id:
-                user["mfa_enabled"] = mfa_enabled
-                payload = user
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "User not found"}
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        mfa_enabled = kwargs.get("mfa_enabled")
+        for user in list(data.get('users', {}).values()):
+            if user.get('user_id') == user_id:
+                user['mfa_enabled'] = mfa_enabled
+                return json.dumps(user)
+        return json.dumps({"error": "User not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "UpdateUserMfaStatus",
-                "description": "Enables or disables multi-factor authentication for a user.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "user_id": {"type": "string"},
-                        "mfa_enabled": {"type": "boolean"},
-                    },
-                    "required": ["user_id", "mfa_enabled"],
-                },
-            },
+                "type": "function",
+                "function": {
+                        "name": "update_user_mfa_status",
+                        "description": "Enables or disables multi-factor authentication for a user.",
+                        "parameters": {
+                                "type": "object",
+                                "properties": {
+                                        "user_id": {"type": "string"},
+                                        "mfa_enabled": {"type": "boolean"}
+                                },
+                                "required": ["user_id", "mfa_enabled"]
+                        }
+                }
         }

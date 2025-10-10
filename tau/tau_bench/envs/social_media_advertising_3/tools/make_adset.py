@@ -1,46 +1,34 @@
-from tau_bench.envs.tool import Tool
-import csv
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class MakeAdset(Tool):
-    """Establish a new ad set within a campaign."""
-
+    """Create a new ad set inside a campaign."""
     @staticmethod
-    def invoke(data: dict[str, Any], campaign_id: str = None, name: str = None, budget: float = None, bid_type: str = None,
-    status: Any = None,
-    ) -> str:
-        all_adsets = data.get("adsets", {}).values()
-        new_id = str(max((int(a["adset_id"]) for a in all_adsets.values()), default=100) + 1)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        all_adsets = data.get("adsets", [])
+        new_id = str(max((int(a["adset_id"]) for a in all_adsets), default=100) + 1)
         new = {
             "adset_id": new_id,
-            "campaign_id": campaign_id,
-            "name": name,
-            "budget": budget,
-            "bid_type": bid_type,
+            "campaign_id": kwargs.get("campaign_id"),
+            "name": kwargs.get("name"),
+            "budget": kwargs.get("budget"),
+            "bid_type": kwargs.get("bid_type"),
             "status": "paused",
         }
-        data["adsets"][new["adset_id"]] = new
+        all_adsets.append(new)
         data["adsets"] = all_adsets
-        payload = new
-        out = json.dumps(payload)
-        return out
+        return json.dumps(new)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "makeAdset",
+                "name": "make_adset",
                 "description": "Create a new ad set in a campaign.",
                 "parameters": {
                     "type": "object",

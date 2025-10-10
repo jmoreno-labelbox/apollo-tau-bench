@@ -1,41 +1,36 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetSalesForCategoryInPeriod(Tool):
-    """Fetches sales statistics for a specific category within a date range."""
+    """Retrieves sales data for a specific category and date range."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], category: str = None, start_date: str = None, end_date: str = None) -> str:
-        sales_data = data.get("f_sales", {}).values()
-
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        category = kwargs.get("category")
+        start_date = kwargs.get("start_date")
+        end_date = kwargs.get("end_date")
+        sales_data = data.get("f_sales", [])
+        
         matching_sales = []
-
+        
         for entry in sales_data:
-            if (
-                entry.get("category") == category
-                and entry.get("start_date") >= start_date
-                and entry.get("end_date") <= end_date
-            ):
+            if (entry.get("category") == category and 
+                entry.get("start_date") >= start_date and 
+                entry.get("end_date") <= end_date):
                 matching_sales.append(entry)
-        payload = {"sales_data": matching_sales}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"sales_data": matching_sales})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetSalesForCategoryInPeriod",
+                "name": "get_sales_for_category_in_period",
                 "description": "Retrieves sales data for a specific category and date range.",
                 "parameters": {
                     "type": "object",
@@ -51,7 +46,7 @@ class GetSalesForCategoryInPeriod(Tool):
                         "end_date": {
                             "type": "string",
                             "description": "The end date of the period (YYYY-MM-DD format).",
-                        },
+                        }
                     },
                     "required": ["category", "start_date", "end_date"],
                 },

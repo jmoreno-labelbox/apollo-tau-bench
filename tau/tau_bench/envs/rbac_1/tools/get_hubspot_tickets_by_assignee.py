@@ -1,43 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetHubspotTicketsByAssignee(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], assignee_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        assignee_id = kwargs.get("assignee_id")
+
         matching_tickets = [
-            ticket
-            for ticket in data.get("hubspot_tickets", {}).values()
-            if ticket.get("assignee_id") == assignee_id
+                ticket for ticket in data.get('hubspot_tickets', [])
+                if ticket.get('assignee_id') == assignee_id
         ]
-        payload = {"tickets": matching_tickets}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"tickets": matching_tickets})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "GetHubspotTicketsByAssignee",
-                "description": "Retrieves a list of HubSpot tickets based on the assignee's user ID.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "assignee_id": {
-                            "type": "string",
-                            "description": "The user_id of the person to whom the tickets are assigned.",
+                "type": "function",
+                "function": {
+                        "name": "get_hubspot_tickets_by_assignee",
+                        "description": "Retrieves a list of HubSpot tickets based on the assignee's user ID.",
+                        "parameters": {
+                                "type": "object",
+                                "properties": {
+                                        "assignee_id": {
+                                                "type": "string",
+                                                "description": "The user_id of the person to whom the tickets are assigned."
+                                        }
+                                },
+                                "required": ["assignee_id"]
                         }
-                    },
-                    "required": ["assignee_id"],
-                },
-            },
+                }
         }

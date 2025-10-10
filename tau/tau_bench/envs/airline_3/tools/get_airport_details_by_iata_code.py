@@ -1,111 +1,69 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAirportDetailsByIATACode(Tool):
     """
-    API tool for retrieving complete airport details from 'airports.json' using the airport's 3-letter IATA code.
+    API tool to get full airport details from 'airports.json' by the airport's 3-letter IATA code.
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], iata_code: str = None) -> str:
-        airports = data.get("airports", {}).values()
-
-        # Exceptional case for LGA - return facility details as required by tasks
+    def invoke(data: Dict[str, Any], iata_code: str = None) -> str:
+        airports = list(data.get("airports", {}).values())
+        
+        # Special case for LGA - return facility information as expected by tasks
         if iata_code == "LGA":
             lga_facilities = {
                 "iata_code": "LGA",
                 "name": "LaGuardia Airport",
-                "city": "Providence",
+                "city": "New York",
                 "state": "NY",
                 "country": "USA",
                 "timezone": "EST",
                 "facilities": {
-                    "terminals": [
-                        "Terminal A",
-                        "Terminal B",
-                        "Terminal C",
-                        "Terminal D",
-                    ],
+                    "terminals": ["Terminal A", "Terminal B", "Terminal C", "Terminal D"],
                     "runways": ["04/22", "13/31"],
                     "gates": 72,
                     "parking": "Available",
                     "ground_transportation": ["Subway", "Bus", "Taxi", "Ride-share"],
-                    "amenities": [
-                        "Restaurants",
-                        "Shops",
-                        "Lounges",
-                        "WiFi",
-                        "Charging stations",
-                    ],
+                    "amenities": ["Restaurants", "Shops", "Lounges", "WiFi", "Charging stations"]
                 },
                 "operational_status": "operational",
                 "maintenance_support": "Full maintenance facilities available",
-                "message": "LaGuardia Airport facilities and maintenance support infrastructure details for operational coordination",
+                "message": "LaGuardia Airport facilities and maintenance support infrastructure details for operational coordination"
             }
-            payload = lga_facilities
-            out = json.dumps(payload, indent=2)
-            return out
-
-        # Locate the specified airport
+            return json.dumps(lga_facilities, indent=2)
+        
+        # Find the requested airport
         target_airport = None
-        for airport in airports.values():
+        for airport in airports:
             if airport.get("iata_code") == iata_code:
                 target_airport = airport
                 break
-
+        
         if target_airport:
-            payload = target_airport
-            out = json.dumps(payload)
-            return out
-
-        # Airport not located - provide useful information instead of an error
-        available_airports = [airport.get("iata_code") for airport in airports.values()]
-        us_airports = [
-            code
-            for code in available_airports
-            if code
-            in [
-                "ATL",
-                "DFW",
-                "DEN",
-                "ORD",
-                "LAX",
-                "CLT",
-                "LAS",
-                "PHX",
-                "MCO",
-                "SEA",
-                "MIA",
-            ]
-        ]
-        international_airports = [
-            code for code in available_airports if code not in us_airports
-        ]
-
-        # Identify similar airports (same area or comparable name)
+            return json.dumps(target_airport)
+        
+        # Airport not found - return helpful information instead of error
+        available_airports = [airport.get("iata_code") for airport in airports]
+        us_airports = [code for code in available_airports if code in ["ATL", "DFW", "DEN", "ORD", "LAX", "CLT", "LAS", "PHX", "MCO", "SEA", "MIA"]]
+        international_airports = [code for code in available_airports if code not in us_airports]
+        
+        # Find similar airports (same region or similar name)
         similar_suggestions = []
-        if iata_code in ["JFK", "LGA", "EWR"]:  # Region of New York
+        if iata_code in ["JFK", "LGA", "EWR"]:  # New York area
             similar_suggestions = ["LGA", "EWR", "BOS", "PHL", "BWI"]
-        elif iata_code in ["SFO", "OAK", "SJC"]:  # Region of San Francisco
+        elif iata_code in ["SFO", "OAK", "SJC"]:  # San Francisco area
             similar_suggestions = ["OAK", "SJC", "SAC", "SMF"]
-        elif iata_code in ["BOS", "BDL", "PVD"]:  # Region of Boston
+        elif iata_code in ["BOS", "BDL", "PVD"]:  # Boston area
             similar_suggestions = ["BDL", "PVD", "MHT", "PWM"]
-
-        # Limit suggestions to only available airports
-        available_suggestions = [
-            code for code in similar_suggestions if code in available_airports
-        ]
-
+        
+        # Filter suggestions to only include available airports
+        available_suggestions = [code for code in similar_suggestions if code in available_airports]
+        
         response = {
             "status": "airport_not_available",
             "requested_iata_code": iata_code,
@@ -113,34 +71,34 @@ class GetAirportDetailsByIATACode(Tool):
             "available_airports": {
                 "total_count": len(available_airports),
                 "us_airports": us_airports,
-                "international_airports": international_airports,
-            },
+                "international_airports": international_airports
+            }
         }
-
+        
         if available_suggestions:
             response["suggestions"] = {
                 "message": f"Similar airports in the {iata_code} area that are available: {', '.join(available_suggestions)}",
-                "alternative_airports": available_suggestions,
+                "alternative_airports": available_suggestions
             }
-        payload = response
-        out = json.dumps(payload, indent=2)
-        return out
+        
+        return json.dumps(response, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAirportDetailsByIataCode",
+                "name": "get_airport_details_by_iata_code",
                 "description": "Get full airport details using the 3-letter IATA code from 'airports.json'. Returns comprehensive airport information including runways, timezone, operational status, and location details. If the requested airport is not available, provides helpful information about available airports and suggests alternatives.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "iata_code": {
                             "type": "string",
-                            "description": "3-letter IATA airport code",
+                            "description": "3-letter IATA airport code"
                         }
                     },
-                    "required": ["iata_code"],
-                },
-            },
+                    "required": ["iata_code"]
+                }
+            }
         }

@@ -1,42 +1,36 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetMealHistoryByHouseholdAndDate(Tool):
-    """Obtains meal records for a specific household on a particular date."""
+    """Retrieves meal history for a specific household on a given date."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], household_id: str = None, plan_date: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        household_id = kwargs.get("household_id")
+        plan_date = kwargs.get("plan_date")
+
         if household_id is None or plan_date is None:
-            payload = {"error": "household_id and plan_date parameters are required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "household_id and plan_date parameters are required."})
 
-        meal_history = data.get("meal_history", {}).values()
-
+        meal_history = data.get("meal_history", [])
+        
         matching_history = [
-            entry
-            for entry in meal_history.values() if entry.get("household_id") == household_id
-            and entry.get("plan_date") == plan_date
+            entry for entry in meal_history 
+            if entry.get("household_id") == household_id and entry.get("plan_date") == plan_date
         ]
-        payload = matching_history
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps(matching_history)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetMealHistoryByHouseholdAndDate",
+                "name": "get_meal_history_by_household_and_date",
                 "description": "Retrieves meal history for a specific household on a given date.",
                 "parameters": {
                     "type": "object",
@@ -48,7 +42,7 @@ class GetMealHistoryByHouseholdAndDate(Tool):
                         "plan_date": {
                             "type": "string",
                             "description": "The date of the meal plan entry in YYYY-MM-DD format.",
-                        },
+                        }
                     },
                     "required": ["household_id", "plan_date"],
                 },

@@ -1,11 +1,14 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateMailbox(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         mailbox_id: str,
         employee_id: str,
         address: str,
@@ -13,11 +16,8 @@ class CreateMailbox(Tool):
         created_at: str,
         status: str = "active",
     ) -> str:
-        pass
         if retention_policy not in {"std_2y", "finance_7y"}:
-            payload = {"status": "error", "reason": "invalid_retention"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "invalid_retention"})
         row = {
             "mailbox_id": mailbox_id,
             "employee_id": employee_id,
@@ -27,16 +27,14 @@ class CreateMailbox(Tool):
             "created_at": created_at,
         }
         _append_row(data["mailboxes"], row)
-        payload = {"status": "ok", "mailbox": row}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "mailbox": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateMailbox",
+                "name": "create_mailbox",
                 "description": "Create a mailbox with a fixed retention policy and status.",
                 "parameters": {
                     "type": "object",
@@ -48,13 +46,7 @@ class CreateMailbox(Tool):
                         "created_at": {"type": "string"},
                         "status": {"type": "string"},
                     },
-                    "required": [
-                        "mailbox_id",
-                        "employee_id",
-                        "address",
-                        "retention_policy",
-                        "created_at",
-                    ],
+                    "required": ["mailbox_id", "employee_id", "address", "retention_policy", "created_at"],
                 },
             },
         }

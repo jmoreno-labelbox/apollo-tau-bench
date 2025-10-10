@@ -435,7 +435,7 @@ class CreateDashboardSnapshotWithInvoiceId(Tool):
             "notes": kwargs.get("notes", "Year-end snapshot"),
             "ytd_revenue": kwargs.get("ytd_revenue"),
             "ytd_tax_reserve": kwargs.get("ytd_tax_reserve"),
-            "pdf_path": kwargs.get("pdf_path", f"/dashboards/2024/SNAP_{kwargs["snapshot_date"]}.pdf")
+            "pdf_path": kwargs.get("pdf_path", f"/dashboards/2024/SNAP_{kwargs['snapshot_date']}.pdf")
 
         }
         data["dashboard_snapshots"].append(new_snapshot)

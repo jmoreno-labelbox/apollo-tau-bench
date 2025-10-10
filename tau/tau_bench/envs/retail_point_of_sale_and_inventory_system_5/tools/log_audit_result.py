@@ -1,37 +1,21 @@
-from tau_bench.envs.tool import Tool
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class LogAuditResult(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], store_id: str, sku: str, auditor_id: str, result: str = "discrepancy_logged",
-        timestamp: Any = None,
-        photo: Any = None,
-        digital_signature: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         entry = {
-            "store_id": store_id,
-            "sku": sku,
-            "auditor_id": auditor_id,
-            "result": result,
+            "store_id": kwargs["store_id"],
+            "sku": kwargs["sku"],
+            "auditor_id": kwargs["auditor_id"],
+            "result": kwargs.get("result", "discrepancy_logged")
         }
         data.setdefault("audit_logs", []).append(entry)
-        payload = {"message": "Audit result logged.", "entry": entry}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"message": "Audit result logged.", "entry": entry})
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "LogAuditResult",
-                "parameters": {
-                    "store_id": {"type": "string"},
-                    "sku": {"type": "string"},
-                    "auditor_id": {"type": "string"},
-                    "result": {"type": "string"},
-                },
-                "required": ["store_id", "sku", "auditor_id"],
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "log_audit_result", "parameters": {"store_id": {"type": "string"}, "sku": {"type": "string"}, "auditor_id": {"type": "string"}, "result": {"type": "string"}}, "required": ["store_id", "sku", "auditor_id"]}}

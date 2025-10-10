@@ -1,52 +1,41 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class QueryInvoices(Tool):
-    """Sort invoices based on status/publisher/date range."""
-
+    """Filter invoices by status/publisher/date range."""
     @staticmethod
-    def invoke(data: dict[str, Any], status: str = None, publisher_id: str = None, date_from: str = None, date_to: str = None) -> str:
-        rows = data.get("invoices", {}).values() or []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        rows = data.get("invoices", []) or []
+        status = kwargs.get("status")
+        pid = kwargs.get("publisher_id")
+        start = kwargs.get("date_from")
+        end = kwargs.get("date_to")
         out = []
         for r in rows:
             if status == "open" and r.get("paid_at") is not None:
                 continue
-            if publisher_id and r.get("publisher_id") != publisher_id:
+            if pid and r.get("publisher_id") != pid:
                 continue
-            if date_from and r.get("invoice_date", "") < date_from:
+            if start and r.get("invoice_date", "") < start:
                 continue
-            if date_to and r.get("invoice_date", "") > date_to:
+            if end and r.get("invoice_date", "") > end:
                 continue
             out.append(r)
-        payload = {"invoices": out}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"invoices": out}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "QueryInvoices",
-                "description": "Fetch invoices with filters.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "status": {"type": "string"},
-                        "publisher_id": {"type": "string"},
-                        "date_from": {"type": "string"},
-                        "date_to": {"type": "string"},
-                    },
-                    "required": [],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "query_invoices",
+            "description": "Fetch invoices with filters.",
+            "parameters": {"type": "object", "properties": {
+                "status": {"type": "string"},
+                "publisher_id": {"type": "string"},
+                "date_from": {"type": "string"},
+                "date_to": {"type": "string"}
+            }, "required": []}
+        }}

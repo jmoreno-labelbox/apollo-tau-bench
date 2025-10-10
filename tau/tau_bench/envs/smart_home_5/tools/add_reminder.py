@@ -1,36 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AddReminder(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], new_reminder: dict[str, Any]) -> str:
-        reminders = data.get("reminders", {}).values()
-        if "reminder_id" not in new_reminder:
-            payload = {"error": "New reminder must have a 'reminder_id'."}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+    def invoke(data: Dict[str, Any], new_reminder: Dict[str, Any]) -> str:
+        reminders = data.get('reminders', [])
+        if 'reminder_id' not in new_reminder:
+            return json.dumps({"error": "New reminder must have a 'reminder_id'."}, indent=2)
 
-        data["reminders"][new_reminder["reminder_id"]] = new_reminder
-        payload = {"success": "Reminder added."}
-        out = json.dumps(payload, indent=2)
-        return out
+        reminders.append(new_reminder)
+        return json.dumps({"success": "Reminder added."}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddReminder",
+                "name": "add_reminder",
                 "description": "Add a new reminder.",
                 "parameters": {
                     "type": "object",
@@ -38,11 +28,11 @@ class AddReminder(Tool):
                         "new_reminder": {
                             "type": "object",
                             "description": "A dictionary representing the new reminder.",
-                            "additionalProperties": True,
+                            "additionalProperties": True
                         }
                     },
                     "required": ["new_reminder"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

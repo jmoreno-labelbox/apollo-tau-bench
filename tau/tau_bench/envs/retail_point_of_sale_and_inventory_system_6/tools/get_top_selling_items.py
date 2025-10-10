@@ -1,28 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import OrderedDict, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class get_top_selling_items(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], n_values: int = None, store_id: str = None, payment_method: str = None, customer_id: str = None) -> str:
-        transactions = data.get("transactions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        transactions = list(data.get("transactions", {}).values())
+
+        n_values = kwargs.get("n_values")
 
         filter_cols = ["store_id", "payment_method", "customer_id"]
-        params_dict = {k: v for k, v in locals().items() if k != "data"}
-        filter_values = {k: params_dict.get(k) for k in filter_cols if params_dict.get(k) is not None}
+        filter_values = {k: kwargs.get(k) for k in filter_cols if k in kwargs}
 
         item_tracker = defaultdict(int)
-        for transaction in transactions.values():
-            # Apply filters based on any provided values
+        for transaction in transactions:
+            # Filter on any sent values
             if all([filter_values[k] == transaction[k] for k in filter_values.keys()]):
                 line_items = transaction["line_items"]
                 for item in line_items:
@@ -30,21 +25,21 @@ class get_top_selling_items(Tool):
 
         out = OrderedDict()
 
-        # Arrange the values by total and retrieve the top n items
+        # Sort the values by total and get the top n items
         sort = sorted(item_tracker, key=item_tracker.get, reverse=True)
         if n_values is not None:
             sort = sort[:n_values]
-        for sku in sort:
+        for sku in sorted(item_tracker, key=item_tracker.get, reverse=True)[:n_values]:
             out[sku] = item_tracker[sku]
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetTopSellingItems",
+                "name": "get_top_selling_items",
                 "description": "Gets top selling items. Can filter values to narrow the scope",
                 "parameters": {
                     "type": "object",

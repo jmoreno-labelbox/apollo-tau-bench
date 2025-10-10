@@ -1,32 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class add_bonus_payment(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], bonus: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], bonus: Dict[str, Any]) -> str:
         bonuses = data.setdefault("bonus_payments", [])
         bonuses.append(bonus)
-        payload = bonus
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(bonus, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddBonusPayment",
+                "name": "add_bonus_payment",
                 "description": "Insert a one-time bonus payment record for an employee.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "bonus": {
                             "type": "object",
-                            "description": "Complete bonus payment object including bonus_id, employee_id, amount, currency, payment_date, and reason.",
+                            "description": "Complete bonus payment object including bonus_id, employee_id, amount, currency, payment_date, and reason."
                         }
                     },
                     "required": ["bonus"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

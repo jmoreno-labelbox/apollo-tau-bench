@@ -1,11 +1,14 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ArchiveMailbox(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         archive_id: str,
         mailbox_id: str,
         employee_id: str,
@@ -13,7 +16,6 @@ class ArchiveMailbox(Tool):
         retention_policy: str,
         created_at: str,
     ) -> str:
-        pass
         row = {
             "archive_id": archive_id,
             "employee_id": employee_id,
@@ -23,16 +25,14 @@ class ArchiveMailbox(Tool):
             "created_at": created_at,
         }
         _append_row(data["data_archives"], row)
-        payload = {"status": "ok", "archive": row}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "archive": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ArchiveMailbox",
+                "name": "archive_mailbox",
                 "description": "Archive a mailbox to a storage path with retention policy.",
                 "parameters": {
                     "type": "object",
@@ -44,14 +44,7 @@ class ArchiveMailbox(Tool):
                         "retention_policy": {"type": "string"},
                         "created_at": {"type": "string"},
                     },
-                    "required": [
-                        "archive_id",
-                        "mailbox_id",
-                        "employee_id",
-                        "archive_path",
-                        "retention_policy",
-                        "created_at",
-                    ],
+                    "required": ["archive_id", "mailbox_id", "employee_id", "archive_path", "retention_policy", "created_at"],
                 },
             },
         }

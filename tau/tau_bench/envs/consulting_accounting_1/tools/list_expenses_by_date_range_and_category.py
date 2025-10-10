@@ -1,47 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListExpensesByDateRangeAndCategory(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], start_date: str = None, end_date: str = None, categories: list = None) -> str:
-        if not start_date or not end_date or not categories:
-            payload = {"error": "start_date, end_date, categories are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        start = kwargs.get("start_date")
+        end = kwargs.get("end_date")
+        cats = kwargs.get("categories", [])
+        if not start or not end or not cats:
+            return json.dumps({"error":"start_date, end_date, categories are required"}, indent=2)
         exp = []
-        for e in data.get("expenses", {}).values():
-            d = str(e.get("expense_date", ""))
-            if start_date <= d <= end_date and e.get("category_code") in categories:
+        for e in data.get("expenses", []):
+            d = str(e.get("expense_date",""))
+            if start <= d <= end and e.get("category_code") in cats:
                 exp.append(e)
-        payload = {"expenses": exp}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"expenses": exp}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ListExpensesByDateRangeAndCategory",
-                "description": "Return expenses in [start_date, end_date] for given categories.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "start_date": {"type": "string"},
-                        "end_date": {"type": "string"},
-                        "categories": {"type": "array", "items": {"type": "string"}},
-                    },
-                    "required": ["start_date", "end_date", "categories"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"list_expenses_by_date_range_and_category",
+            "description":"Return expenses in [start_date, end_date] for given categories.",
+            "parameters":{"type":"object","properties":{
+                "start_date":{"type":"string"},
+                "end_date":{"type":"string"},
+                "categories":{"type":"array","items":{"type":"string"}}
+            },"required":["start_date","end_date","categories"]}
+        }}

@@ -1,50 +1,41 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetUserByName(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], first_name: str = "", last_name: str = "") -> str:
-        first_name = first_name.lower()
-        last_name = last_name.lower()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        first_name = kwargs.get("first_name", "").lower()
+        last_name = kwargs.get("last_name", "").lower()
         username_to_find = f"{first_name[0]}{last_name}" if first_name else last_name
-        for user in data.get("users", {}).values():
-            if user.get("username") == username_to_find:
-                payload = user
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "User not found"}
-        out = json.dumps(payload)
-        return out
+        for user in list(data.get('users', {}).values()):
+            if user.get('username') == username_to_find:
+                return json.dumps(user)
+        return json.dumps({"error": "User not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "GetUserByName",
-                "description": "Retrieves user details based on their first and last name.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "first_name": {
-                            "type": "string",
-                            "description": "The first name of the user.",
-                        },
-                        "last_name": {
-                            "type": "string",
-                            "description": "The last name of the user.",
-                        },
-                    },
-                    "required": ["first_name", "last_name"],
-                },
-            },
+                "type": "function",
+                "function": {
+                        "name": "get_user_by_name",
+                        "description": "Retrieves user details based on their first and last name.",
+                        "parameters": {
+                                "type": "object",
+                                "properties": {
+                                        "first_name": {
+                                                "type": "string",
+                                                "description": "The first name of the user."
+                                        },
+                                        "last_name": {
+                                                "type": "string",
+                                                "description": "The last name of the user."
+                                        }
+                                },
+                                "required": ["first_name", "last_name"]
+                        }
+                }
         }

@@ -1,37 +1,41 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class RecordTerminalLog(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], event_type: str = None, message: str = None, candidate_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        event_type = kwargs.get("event_type")
+        message = kwargs.get("message")
+        candidate_id = kwargs.get("candidate_id")
         terminal_logs = data.setdefault("terminal_logs", [])
         log_entry = {
             "event_type": event_type,
             "message": message,
             "candidate_id": candidate_id,
-            "timestamp": _fixed_now_iso(),
+            "timestamp": _fixed_now_iso()
         }
         terminal_logs.append(log_entry)
-        payload = {"logged_event": log_entry}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"logged_event": log_entry}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RecordTerminalLog",
+                "name": "record_terminal_log",
                 "description": "Logs a terminal event for audit/debug purposes.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "event_type": {"type": "string"},
                         "message": {"type": "string"},
-                        "candidate_id": {"type": "string"},
+                        "candidate_id": {"type": "string"}
                     },
-                    "required": ["event_type", "message"],
-                },
-            },
+                    "required": ["event_type", "message"]
+                }
+            }
         }

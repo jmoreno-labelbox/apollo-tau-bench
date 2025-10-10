@@ -1,53 +1,39 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class DeleteSceneFromDatabase(Tool):
-    """Delete a scene using its id."""
-
+    """Remove a scene by id."""
     @staticmethod
-    def invoke(data: dict[str, Any], scene_id: str = "") -> str:
+    def invoke(data: Dict[str, Any], scene_id: str = "") -> str:
         if not scene_id:
-            payload = {"error": "'scene_id' parameter is required"}
-            out = json.dumps(payload, indent=2)
-            return out
-        scenes = data.get("scenes", {}).values()
-        new_list = [s for s in scenes.values() if s["id"] != scene_id]
+            return json.dumps({"error": "'scene_id' parameter is required"}, indent=2)
+        scenes = list(data.get('scenes', {}).values())
+        new_list = [s for s in scenes if s["id"] != scene_id]
         if len(new_list) == len(scenes):
-            payload = {"error": "Scene not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"success": "Scene deleted", "scene_id": scene_id, "scenes": new_list}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+            return json.dumps({"error": "Scene not found"}, indent=2)
+        return json.dumps({"success": "Scene deleted", "scene_id": scene_id, "scenes": new_list}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "DeleteSceneFromDatabase",
+                "name": "delete_scene_from_database",
                 "description": "Remove a scene by id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "scene_id": {
                             "type": "string",
-                            "description": "The id of the scene to delete.",
+                            "description": "The id of the scene to delete."
                         }
                     },
                     "required": ["scene_id"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

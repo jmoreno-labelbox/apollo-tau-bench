@@ -1,25 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListCertificationsByStatusTool(Tool):
-    """ListCertificationsByStatus"""
+    """list_certifications_by_status"""
 
     @staticmethod
-    def invoke(data: dict[str, Any], status: str = None, certification_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        status = kwargs.get("status")
+        certification_id = kwargs.get("certification_id")
+
         out = [
             c
-            for c in data.get("certifications", {}).values()
+            for c in data.get("certifications", [])
             if (status is None or c.get("status") == status)
             and (
                 certification_id is None
@@ -27,15 +23,14 @@ class ListCertificationsByStatusTool(Tool):
             )
         ]
         out = sorted(out, key=lambda c: (c.get("certification_id") or ""))
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListCertificationsByStatus",
+                "name": "list_certifications_by_status",
                 "description": (
                     "Filter certifications by optional status and/or certification_id."
                 ),

@@ -1,35 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AddGoal(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str, goal: dict[str, Any]) -> str:
-        """Add a new goal to a user's record."""
-        for entry in data.get("goals", {}).values():
+    def invoke(data: Dict[str, Any], user_id: str, goal: Dict[str, Any]) -> str:
+        """Append a new goal to a user's record."""
+        for entry in data.get("goals", []):
             if entry["user_id"] == user_id:
                 entry["goals"].append(goal)
                 break
-        else:  # no current goal list for this user
+        else:  # no existing goal list for this user
             data.setdefault("goals", []).append({"user_id": user_id, "goals": [goal]})
-        payload = {"success": f"goal {goal['goal_id']} added for {user_id}"}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"success": f"goal {goal['goal_id']} added for {user_id}"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddGoal",
+                "name": "add_goal",
                 "description": "Add a new goal object to the specified user.",
                 "parameters": {
                     "type": "object",

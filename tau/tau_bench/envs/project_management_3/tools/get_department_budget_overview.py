@@ -1,39 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetDepartmentBudgetOverview(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], department_name: str, fiscal_year: int = datetime.now().year) -> str:
-        if not department_name:
-            payload = {"error": "department_name is required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        department_name = kwargs.get("department_name")
+        fiscal_year = kwargs.get("fiscal_year", datetime.now().year)
 
-        departments = data.get("departments", {}).values()
-        projects = data.get("projects", {}).values()
-        budgets = data.get("budgets", {}).values()
+        if not department_name:
+            return json.dumps({"error": "department_name is required"})
+
+        departments = list(data.get("departments", {}).values())
+        projects = list(data.get("projects", {}).values())
+        budgets = data.get("budgets", [])
 
         department = next(
-            (d for d in departments.values() if d.get("department_name") == department_name),
+            (d for d in departments if d.get("department_name") == department_name),
             None,
         )
         if not department:
-            payload = {"error": f"Department {department_name} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Department {department_name} not found"})
 
-        dept_projects = [p for p in projects.values() if p.get("department") == department_name]
+        dept_projects = [p for p in projects if p.get("department") == department_name]
 
         total_budget = 0
         total_spent = 0
@@ -43,7 +35,8 @@ class GetDepartmentBudgetOverview(Tool):
             project_budget = next(
                 (
                     b
-                    for b in budgets.values() if b.get("project_id") == project["project_id"]
+                    for b in budgets
+                    if b.get("project_id") == project["project_id"]
                     and b.get("fiscal_year") == fiscal_year
                 ),
                 None,
@@ -72,11 +65,9 @@ class GetDepartmentBudgetOverview(Tool):
                 "total_department_budget": total_budget,
                 "total_spent": total_spent,
                 "total_remaining": total_budget - total_spent,
-                "utilization_percentage": (
-                    round((total_spent / total_budget * 100), 2)
-                    if total_budget > 0
-                    else 0
-                ),
+                "utilization_percentage": round((total_spent / total_budget * 100), 2)
+                if total_budget > 0
+                else 0,
                 "project_count": len(dept_projects),
                 "projects_with_budget": len(project_budgets),
             },
@@ -88,15 +79,15 @@ class GetDepartmentBudgetOverview(Tool):
                 "available_hours": department.get("available_hours", 0),
             },
         }
-        payload = overview
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(overview, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetDepartmentBudgetOverview",
+                "name": "get_department_budget_overview",
                 "description": "Get budget overview for all projects in a department",
                 "parameters": {
                     "type": "object",

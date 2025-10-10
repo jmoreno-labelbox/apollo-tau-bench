@@ -1,42 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListInvoiceAudit(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], invoice_id: str = None, invoice_number: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        inv_id = kwargs.get("invoice_id")
+        inv_num = kwargs.get("invoice_number")
         rows = []
-        for a in data.get("invoice_audit", {}).values() or []:
-            if invoice_id and str(a.get("invoice_id")) == str(invoice_id):
+        for a in data.get("invoice_audit", []) or []:
+            if inv_id and str(a.get("invoice_id")) == str(inv_id):
                 rows.append(a)
-            elif invoice_number and a.get("invoice_number") == invoice_number:
+            elif inv_num and a.get("invoice_number")==inv_num:
                 rows.append(a)
-        payload = {"events": rows}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"events": rows}, indent=2)
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ListInvoiceAudit",
-                "description": "List audit events for an invoice by id or number.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "invoice_id": {"type": "string"},
-                        "invoice_number": {"type": "string"},
-                    },
-                    "required": [],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"list_invoice_audit",
+            "description":"List audit events for an invoice by id or number.",
+            "parameters":{"type":"object","properties":{"invoice_id":{"type":"string"},"invoice_number":{"type":"string"}},"required":[]}
+        }}

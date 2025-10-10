@@ -1,55 +1,47 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindCandidateByEmail(Tool):
     """
-    Retrieve a candidate using (candidate_email, start_date).
+    Look up a candidate by (candidate_email, start_date).
     Returns: {"found": bool, "candidate_id": str|None, "candidate": dict|None}
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_email: str, start_date: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        email = kwargs["candidate_email"]
+        start = kwargs["start_date"]
         row = {}
-        for _row in data.get("candidates", {}).values():
-            if _row.get("candidate_email") == candidate_email and _row.get("start_date") == start_date:
+        for _row in data.get("candidates", []):
+            if _row.get("candidate_email") == email and _row.get("start_date") == start:
                 row = _row
 
         if row:
-            payload = {"found": True, "candidate_id": row["candidate_id"], "candidate": row}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
-        payload = {"found": False, "candidate_id": None, "candidate": None}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+            return json.dumps({
+                "found": True,
+                "candidate_id": row["candidate_id"],
+                "candidate": row
+            }, indent=2)
+        return json.dumps({"found": False, "candidate_id": None, "candidate": None}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindCandidateByEmail",
+                "name": "find_candidate_by_email",
                 "description": "Find candidate by (candidate_email, start_date). Returns full candidate row too.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "candidate_email": {"type": "string"},
-                        "start_date": {"type": "string"},
+                        "start_date": {"type": "string"}
                     },
-                    "required": ["candidate_email", "start_date"],
-                },
-            },
+                    "required": ["candidate_email", "start_date"]
+                }
+            }
         }

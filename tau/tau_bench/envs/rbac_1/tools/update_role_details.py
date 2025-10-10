@@ -1,52 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateRoleDetails(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], role_id: str = None, new_name: str = None, new_description: str = None) -> str:
-        for role in data.get("roles", {}).values():
-            if role.get("role_id") == role_id:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        role_id = kwargs.get("role_id")
+        new_name = kwargs.get("new_name")
+        new_description = kwargs.get("new_description")
+        for role in list(data.get('roles', {}).values()):
+            if role.get('role_id') == role_id:
                 if new_name:
-                    role["role_name"] = new_name
+                    role['role_name'] = new_name
                 if new_description:
-                    role["description"] = new_description
-                payload = role
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Role not found"}
-        out = json.dumps(payload)
-        return out
+                    role['description'] = new_description
+                return json.dumps(role)
+        return json.dumps({"error": "Role not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "UpdateRoleDetails",
-                "description": "Updates the name and/or description of an existing role.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "role_id": {"type": "string"},
-                        "new_name": {
-                            "type": "string",
-                            "description": "The new name for the role.",
-                        },
-                        "new_description": {
-                            "type": "string",
-                            "description": "The new description for the role.",
-                        },
-                    },
-                    "required": ["role_id"],
-                },
-            },
+                "type": "function",
+                "function": {
+                        "name": "update_role_details",
+                        "description": "Updates the name and/or description of an existing role.",
+                        "parameters": {
+                                "type": "object",
+                                "properties": {
+                                        "role_id": {"type": "string"},
+                                        "new_name": {"type": "string", "description": "The new name for the role."},
+                                        "new_description": {"type": "string", "description": "The new description for the role."}
+                                },
+                                "required": ["role_id"]
+                        }
+                }
         }

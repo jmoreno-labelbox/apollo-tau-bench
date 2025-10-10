@@ -1,48 +1,42 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import OrderedDict, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class cancel_promotion(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], promotion_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        promotion_id = kwargs.get("promotion_id")
+
         if promotion_id is None:
-            payload = {"error": "promotion_id must be sent"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "promotion_id must be sent"})
 
-        promotions = data.get("promotions", {}).values()
-        products = data.get("products", {}).values()
+        promotions = data.get("promotions", [])
+        products = list(data.get("products", {}).values())
 
-        for promotion in promotions.values():
-            # Narrow down to the appropriate promotion
+        for promotion in promotions:
+            # Filter to the correct promotion
             if promotion["promotion_id"] == promotion_id:
-                # Eliminate discounts from the products
-                # TODO: investigate the possibility of multiple promotions for each product
+                # Remove discounts from products
+                # TODO: check if there can be multiple promotions per product
                 applicable_skus = promotion["applicable_skus"]
-                for product in products.values():
+                for product in products:
                     if product["sku"] in applicable_skus:
                         product["is_discountable"] = False
 
-                # TODO: consider if the row should simply be deleted?
+                # TODO: should the row just be removed?
                 promotion["status"] = "canceled"
-        payload = {"success": "complete"}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"success": "complete"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CancelPromotion",
+                "name": "cancel_promotion",
                 "description": "Cancels a current promotion",
                 "parameters": {
                     "type": "object",

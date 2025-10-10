@@ -1,22 +1,16 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateOrderStatus(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], order_id: str, new_status: str) -> str:
-        orders = data.get("outbound_orders", {}).values()
+        orders = data.get("outbound_orders", [])
 
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
+        order = next((o for o in orders if o.get("order_id") == order_id), None)
         if not order:
             return json.dumps({"error": f"Order {order_id} not found"})
 
@@ -33,12 +27,13 @@ class UpdateOrderStatus(Tool):
             "new_status": new_status,
             "updated_timestamp": order["last_updated"]
         })
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateOrderStatus",
+                "name": "update_order_status",
                 "description": "Update the status of an order",
                 "parameters": {
                     "type": "object",

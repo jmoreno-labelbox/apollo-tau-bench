@@ -1,44 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetInventoryInWarehouse(Tool):
-    """Utility for retrieving inventory from a particular warehouse."""
+    """Tool to get inventory for a specific warehouse."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], warehouse_id: str, sku: str | None = None) -> str:
-        """Run the tool with the provided parameters."""
-        inventory = data.get("inventory", {}).values()
+    def invoke(data: Dict[str, Any], warehouse_id: str, sku: Optional[str] = None) -> str:
+        """Execute the tool with given parameters."""
+        inventory = list(data.get("inventory", {}).values())
         results = []
-        for item in inventory.values():
+        for item in inventory:
             if item.get("warehouse_id") == warehouse_id:
                 if not sku or item.get("sku") == sku:
                     results.append(item)
         if not results:
-            payload = {"error": f"No inventory found for warehouse {warehouse_id}"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": f"No inventory found for warehouse {warehouse_id}"}, indent=2)
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        """Provide the specifications of the tool for the AI agent."""
-        pass
+    def get_info() -> Dict[str, Any]:
+        """Return tool specification for AI agent."""
         return {
             "type": "function",
             "function": {
-                "name": "GetInventoryInWarehouse",
+                "name": "get_inventory_in_warehouse",
                 "description": "Retrieves all inventory items or a specific SKU's inventory from a single warehouse.",
                 "parameters": {
                     "type": "object",

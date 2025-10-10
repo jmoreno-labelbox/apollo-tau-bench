@@ -1,37 +1,31 @@
-from tau_bench.envs.tool import Tool
-import datetime
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ComputeChecksumTool(Tool):
-    """Calculates a sha256sum for a data object, emulating checksum creation."""
+    """Computes a sha256sum for a data object, simulating checksum generation."""
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ComputeChecksum",
+                "name": "compute_checksum",
                 "description": "Computes and returns a sha256 checksum for a given log file.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"log_name": {"type": "string"}},
-                    "required": ["log_name"],
-                },
+                "parameters": {"type": "object", "properties": {"log_name": {"type": "string"}}, "required": ["log_name"]},
             },
         }
 
     @staticmethod
-    def invoke(data: dict[str, Any], log_name: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        log_name = kwargs["log_name"]
         if log_name not in data:
-            payload = {"error": f"Log '{log_name}' not found."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Log '{log_name}' not found."})
         content_str = json.dumps(data[log_name], sort_keys=True)
         checksum = hashlib.sha256(content_str.encode()).hexdigest()
-        #store checksum using a deterministic key '<log_name>.sha256'.
+        # persist checksum under a deterministic key '<log_name>.sha256'
         data[f"{log_name}.sha256"] = checksum
-        payload = {"log_name": log_name, "checksum": checksum}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"log_name": log_name, "checksum": checksum})

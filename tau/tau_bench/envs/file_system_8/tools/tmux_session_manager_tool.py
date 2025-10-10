@@ -1,18 +1,19 @@
-from tau_bench.envs.tool import Tool
-import datetime
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class TmuxSessionManagerTool(Tool):
-    """Oversees tmux session creation for ongoing remote processes."""
+    """Manages tmux session creation for persistent remote processes."""
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createTmuxSession",
+                "name": "create_tmux_session",
                 "description": "Creates a named tmux session to ensure process persistence.",
                 "parameters": {
                     "type": "object",
@@ -28,20 +29,23 @@ class TmuxSessionManagerTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: dict[str, Any], session_name: str) -> str:
-        requested_session = session_name
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        requested_session = kwargs["session_name"]
 
-        # Establish session tracking
+        # Set up session tracking
         data.setdefault("tmux_sessions", [])
 
-        # Verify if a session is already present
+        # Check if session already exists
         if requested_session in data["tmux_sessions"]:
-            payload = {"status": "exists", "session_name": requested_session}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({
+                "status": "exists",
+                "session_name": requested_session
+            })
 
-        # Create a new session
+        # Register new session
         data["tmux_sessions"].append(requested_session)
-        payload = {"status": "created", "session_name": requested_session}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({
+            "status": "created",
+            "session_name": requested_session
+        })

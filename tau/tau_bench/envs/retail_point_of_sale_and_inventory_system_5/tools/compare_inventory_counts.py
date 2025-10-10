@@ -1,25 +1,14 @@
-from tau_bench.envs.tool import Tool
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CompareInventoryCounts(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], store_id: Any = None, auditor_id: Any = None) -> str:
-        payload = {"discrepancy": 6, "percent": 6.0}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        return json.dumps({"discrepancy": 6, "percent": 6.0}, indent=2)
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "compareInventoryCounts",
-                "parameters": {
-                    "store_id": {"type": "string"},
-                    "sku": {"type": "string"},
-                    "threshold_percent": {"type": "number"},
-                },
-                "required": ["store_id", "sku", "threshold_percent"],
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "compare_inventory_counts", "parameters": {"store_id": {"type": "string"}, "sku": {"type": "string"}, "threshold_percent": {"type": "number"}}, "required": ["store_id", "sku", "threshold_percent"]}}

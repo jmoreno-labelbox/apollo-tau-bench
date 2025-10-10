@@ -1,20 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SetWaterLevels(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], station_id: str = None) -> str:
-        pass
-        # This is a mockup; in an actual setting, this would retrieve data from NOAA.
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        station_id = kwargs.get("station_id")
+        # This is a simulation; in a real environment, this would fetch data from NOAA.
 
         water_level_data = {
             "station_id": station_id,
@@ -24,16 +19,15 @@ class SetWaterLevels(Tool):
             ],
             "raw_json_path_nullable": f"/data/raw/water_levels_{station_id}.json",
         }
-        data["water_level_data"][water_level_data["water_level_data_id"]] = water_level_data
-        payload = water_level_data
-        out = json.dumps(payload)
-        return out
+        data.get("water_level_data", []).append(water_level_data)
+        return json.dumps(water_level_data)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "setWaterLevels",
+                "name": "SetWaterLevels",
                 "parameters": {
                     "type": "object",
                     "properties": {

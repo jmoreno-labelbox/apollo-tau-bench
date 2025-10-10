@@ -1,68 +1,45 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AppointReviewer(Tool):
-    """Utility for designating a reviewer for a submission."""
-
+    """Tool to assign a reviewer to a submission."""
     @staticmethod
-    def invoke(data: dict[str, Any], submission_id: Any = None, reviewer_user_id: Any = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        submission_id = kwargs.get('submission_id')
+        reviewer_user_id = kwargs.get('reviewer_user_id')
         if not submission_id or not reviewer_user_id:
-            payload = {"error": "submission_id and reviewer_user_id are required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "submission_id and reviewer_user_id are required."})
 
-        submissions = data.get("submissions", {}).values()
-        for submission in submissions.values():
-            if submission.get("submission_id") == submission_id:
-                if "assigned_reviewers" not in submission:
-                    submission["assigned_reviewers"] = []
-                if reviewer_user_id not in submission["assigned_reviewers"]:
-                    submission["assigned_reviewers"].append(reviewer_user_id)
-                    payload = {
-                        "success": True,
-                        "submission_id": submission_id,
-                        "reviewer_id": reviewer_user_id,
-                    }
-                    out = json.dumps(payload)
-                    return out
+        submissions = list(data.get('submissions', {}).values())
+        for submission in submissions:
+            if submission.get('submission_id') == submission_id:
+                if 'assigned_reviewers' not in submission:
+                    submission['assigned_reviewers'] = []
+                if reviewer_user_id not in submission['assigned_reviewers']:
+                    submission['assigned_reviewers'].append(reviewer_user_id)
+                    return json.dumps({"success": True, "submission_id": submission_id, "reviewer_id": reviewer_user_id})
                 else:
-                    payload = {"error": "Reviewer already assigned to this submission."}
-                    out = json.dumps(payload)
-                    return out
-        payload = {"error": "Submission not found."}
-        out = json.dumps(payload)
-        return out
+                    return json.dumps({"error": "Reviewer already assigned to this submission."})
+        return json.dumps({"error": "Submission not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AppointReviewer",
+                "name": "appoint_reviewer",
                 "description": "Assigns a researcher to review a submission.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "submission_id": {
-                            "type": "string",
-                            "description": "The ID of the submission.",
-                        },
-                        "reviewer_user_id": {
-                            "type": "string",
-                            "description": "The user ID of the reviewer to assign.",
-                        },
+                        "submission_id": {"type": "string", "description": "The ID of the submission."},
+                        "reviewer_user_id": {"type": "string", "description": "The user ID of the reviewer to assign."}
                     },
-                    "required": ["submission_id", "reviewer_user_id"],
-                },
-            },
+                    "required": ["submission_id", "reviewer_user_id"]
+                }
+            }
         }

@@ -1,40 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CompareProjectPriorities(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], project_id_1: str = None, project_id_2: str = None) -> str:
-        if not all([project_id_1, project_id_2]):
-            payload = {"error": "project_id_1 and project_id_2 are required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id_1 = kwargs.get("project_id_1")
+        project_id_2 = kwargs.get("project_id_2")
 
-        projects = data.get("projects", {}).values()
+        if not all([project_id_1, project_id_2]):
+            return json.dumps({"error": "project_id_1 and project_id_2 are required"})
+
+        projects = list(data.get("projects", {}).values())
 
         project_1 = None
         project_2 = None
 
-        for project in projects.values():
+        for project in projects:
             if project.get("project_id") == project_id_1:
                 project_1 = project
             elif project.get("project_id") == project_id_2:
                 project_2 = project
 
         if not project_1 or not project_2:
-            payload = {"error": "One or both projects not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "One or both projects not found"})
 
         priority_1 = project_1.get("priority", 3)
         priority_2 = project_2.get("priority", 3)
@@ -48,20 +40,21 @@ class CompareProjectPriorities(Tool):
         else:
             higher_priority = project_id_1
             lower_priority = project_id_2
-        payload = {
+
+        return json.dumps(
+            {
                 "higher_priority_project": higher_priority,
                 "lower_priority_project": lower_priority,
                 "priority_values": {project_id_1: priority_1, project_id_2: priority_2},
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CompareProjectPriorities",
+                "name": "compare_project_priorities",
                 "description": "Compare priorities of two projects to determine which has higher priority",
                 "parameters": {
                     "type": "object",

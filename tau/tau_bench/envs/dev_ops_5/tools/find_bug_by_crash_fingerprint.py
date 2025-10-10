@@ -1,35 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindBugByCrashFingerprint(Tool):
-    """Locates a bug/work item linked to a crash fingerprint."""
+    """Finds a bug/work item associated with a crash fingerprint."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        fingerprint = kwargs.get("crash_fingerprint")
+        work_items = data.get("work_items", [])
+        for item in work_items:
+            if item.get("metadata", {}).get("crash_fingerprint") == fingerprint:
+                return json.dumps(item)
+        return json.dumps({"info": f"No bug found for crash fingerprint '{fingerprint}'."})
 
     @staticmethod
-    def invoke(data: dict[str, Any], crash_fingerprint: str = None) -> str:
-        work_items = data.get("work_items", {}).values()
-        for item in work_items:
-            if item.get("metadata", {}).values().get("crash_fingerprint") == crash_fingerprint:
-                payload = item
-                out = json.dumps(payload)
-                return out
-        payload = {"info": f"No bug found for crash fingerprint '{crash_fingerprint}'."}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindBugByCrashFingerprint",
+                "name": "find_bug_by_crash_fingerprint",
                 "description": "Finds a bug associated with a crash fingerprint.",
                 "parameters": {
                     "type": "object",

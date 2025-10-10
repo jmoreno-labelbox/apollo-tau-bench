@@ -1,12 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any, Dict, List
-import os
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AddEmployerToCustomerProfile(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, employer: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get('customer_id')
+        employer = kwargs.get('employer')
         if not customer_id or not employer:
             return json.dumps({'error': 'customer_id and employer are required'})
         customers = load_json('customers.json')
@@ -20,12 +23,13 @@ class AddEmployerToCustomerProfile(Tool):
         if not updated:
             return json.dumps({'error': 'Customer not found or employer update not supported.'})
         return json.dumps({'success': True, 'customer_id': customer_id, 'employer': employer})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             'type': 'function',
             'function': {
-                'name': 'addEmployerToCustomerProfile',
+                'name': 'add_employer_to_customer_profile',
                 'description': 'Updates the employer field for an existing customer (only if employer field exists).',
                 'parameters': {
                     'type': 'object',

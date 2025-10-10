@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchRepositoriesTool(Tool):
     """
@@ -33,44 +21,40 @@ class SearchRepositoriesTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], query: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        query = kwargs.get("query")
+
         if not query:
-            payload = {
+            return json.dumps(
+                {
                     "status": "error",
                     "message": "Missing required parameters: 'query'.",
                     "required": ["query"],
-                }
-            out = json.dumps(
-                payload, indent=2,
+                },
+                indent=2,
             )
-            return out
 
-        repos = data.get("repositories", {}).values()
-        repo = next((c for c in repos.values() if c["repo_name"] == query), None)
-        #repo = get_data(repos, query)
+        repos = list(data.get('repositories', {}).values())
+        repo = next((c for c in repos if c["repo_name"] == query), None)
+        # repo = get_data(repos, query)
 
         if not repo:
-            payload = {
-                    "status": "success",
-                    "exists": False,
-                    "message": "Target repo not found",
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"status": "success", "exists": False, "message": "Target repo not found"},
+                indent=2,
             )
-            return out
         else:
-            payload = {"status": "success", "exists": True, "message": "Target repo found"}
-            out = json.dumps(
-                payload, indent=2,
+            # Simulate document verification logic
+            return json.dumps(
+                {"status": "success", "exists": True, "message": "Target repo found"}, indent=2
             )
-            return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "searchRepositories",
+                "name": "search_repositories",
                 "description": "Search if the target repository already exists in the database.",
                 "parameters": {
                     "type": "object",

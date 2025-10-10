@@ -1,61 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ModifySubmissionStatus(Tool):
-    """Utility for modifying the status of a submission."""
-
+    """Tool to update the status of a submission."""
     @staticmethod
-    def invoke(data: dict[str, Any], submission_id: Any = None, new_status: Any = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        submission_id = kwargs.get('submission_id')
+        new_status = kwargs.get('new_status')
         if not submission_id or not new_status:
-            payload = {"error": "submission_id and new_status are required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "submission_id and new_status are required."})
 
-        submissions = data.get("submissions", {}).values()
-        for submission in submissions.values():
-            if submission.get("submission_id") == submission_id:
-                submission["status"] = new_status
-                payload = {
-                    "success": True,
-                    "submission_id": submission_id,
-                    "new_status": new_status,
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Submission not found."}
-        out = json.dumps(payload)
-        return out
+        submissions = list(data.get('submissions', {}).values())
+        for submission in submissions:
+            if submission.get('submission_id') == submission_id:
+                submission['status'] = new_status
+                return json.dumps({"success": True, "submission_id": submission_id, "new_status": new_status})
+        return json.dumps({"error": "Submission not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ModifySubmissionStatus",
+                "name": "modify_submission_status",
                 "description": "Updates the status of a submission (e.g., 'under_review', 'accepted', 'rejected').",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "submission_id": {
-                            "type": "string",
-                            "description": "The ID of the submission to update.",
-                        },
-                        "new_status": {
-                            "type": "string",
-                            "description": "The new status for the submission.",
-                        },
+                        "submission_id": {"type": "string", "description": "The ID of the submission to update."},
+                        "new_status": {"type": "string", "description": "The new status for the submission."}
                     },
-                    "required": ["submission_id", "new_status"],
-                },
-            },
+                    "required": ["submission_id", "new_status"]
+                }
+            }
         }

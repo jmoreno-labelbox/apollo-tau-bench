@@ -1,41 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateFinancialAlert(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        alert_type: str,
-        entity_type: str,
-        entity_id: str,
-        threshold_value: Any = None,
-        notify_list: list = None,
-        alert_id: str = None
-    ) -> str:
-        if notify_list is None:
-            notify_list = []
-        if alert_id is None:
-            alert_id = f"alert_{uuid.uuid4().hex[:8]}"
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        alert_type = kwargs.get("alert_type")
+        entity_type = kwargs.get("entity_type")
+        entity_id = kwargs.get("entity_id")
+        threshold_value = kwargs.get("threshold_value")
+        notify_list = kwargs.get("notify_list", [])
+        alert_id = kwargs.get("alert_id", f"alert_{uuid.uuid4().hex[:8]}")
 
         if not all([alert_type, entity_type, entity_id, notify_list]):
-            payload = {
-                "error": "alert_type, entity_type, entity_id, and notify_list are required"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": "alert_type, entity_type, entity_id, and notify_list are required"
+                }
+            )
 
-        financial_alerts = data.get("financial_alerts", {}).values()
+        financial_alerts = data.get("financial_alerts", [])
 
         new_alert = {
             "alert_id": alert_id,
@@ -50,16 +37,16 @@ class CreateFinancialAlert(Tool):
             "last_triggered": None,
         }
 
-        data["financial_alerts"][new_alert["financial_alert_id"]] = new_alert
-        payload = {"success": True, "alert": new_alert}
-        out = json.dumps(payload)
-        return out
+        financial_alerts.append(new_alert)
+
+        return json.dumps({"success": True, "alert": new_alert})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateFinancialAlert",
+                "name": "create_financial_alert",
                 "description": "Create automated financial alerts",
                 "parameters": {
                     "type": "object",

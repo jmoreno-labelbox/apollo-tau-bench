@@ -1,43 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetRoleByName(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], role_name: str = None) -> str:
-        for role in data.get("roles", {}).values():
-            if role.get("role_name") == role_name:
-                payload = role
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Role not found"}
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        role_name = kwargs.get("role_name")
+        for role in list(data.get('roles', {}).values()):
+            if role.get('role_name') == role_name:
+                return json.dumps(role)
+        return json.dumps({"error": "Role not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "GetRoleByName",
-                "description": "Retrieves role details based on the role name.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "role_name": {
-                            "type": "string",
-                            "description": "The name of the role to search for.",
+                "type": "function",
+                "function": {
+                        "name": "get_role_by_name",
+                        "description": "Retrieves role details based on the role name.",
+                        "parameters": {
+                                "type": "object",
+                                "properties": {
+                                        "role_name": {
+                                                "type": "string",
+                                                "description": "The name of the role to search for."
+                                        }
+                                },
+                                "required": ["role_name"]
                         }
-                    },
-                    "required": ["role_name"],
-                },
-            },
+                }
         }

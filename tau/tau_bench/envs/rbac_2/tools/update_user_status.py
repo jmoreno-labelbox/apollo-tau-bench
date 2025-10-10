@@ -1,68 +1,56 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateUserStatus(Tool):
-    """Modifying the 'status' field for a particular user in the database."""
+    """ Updating the 'status' field of a specific user in the database. """
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, new_status: str = None,
-    updated_by: Any = None,
-    ) -> str:
-        user_id_to_update = user_id
-        new_status = new_status
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id_to_update = kwargs.get("user_id")
+        new_status = kwargs.get("new_status")
 
         try:
-            users = data.get("users", {}).values()
+            users = list(data.get('users', {}).values())
         except:
             users = []
 
         user_to_update = None
-        for user in users.values():
+        for user in users:
             if user.get("user_id") == user_id_to_update:
                 user["status"] = new_status
                 user_to_update = user
                 break
 
         if not user_to_update:
-            payload = {"error": f"User with ID '{user_id_to_update}' not found."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"User with ID '{user_id_to_update}' not found."})
 
-        data["users"] = users
-        payload = user_to_update
-        out = json.dumps(payload)
-        return out
+        data['users'] = users
+        return json.dumps(user_to_update)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateUserStatus",
+                "name": "update_user_status",
                 "description": "Updates the status of a user account (e.g., to ACTIVE, DISABLED, SUSPENDED).",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "user_id": {
                             "type": "string",
-                            "description": "The unique ID of the user whose status needs to be updated.",
+                            "description": "The unique ID of the user whose status needs to be updated."
                         },
                         "new_status": {
                             "type": "string",
-                            "description": "The new status to set for the user. Must be one of: ACTIVE, INACTIVE, SUSPENDED, DISABLED.",
-                        },
+                            "description": "The new status to set for the user. Must be one of: ACTIVE, INACTIVE, SUSPENDED, DISABLED."
+                        }
                     },
-                    "required": ["user_id", "new_status"],
-                },
-            },
+                    "required": ["user_id", "new_status"]
+                }
+            }
         }

@@ -1,80 +1,54 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListCommitsTool(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], owner: str = None, repo: str = None, path: str = None) -> str:
-        # This parameter seems unused in the provided data structure for commits, but kept for consistency if needed later.
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner = kwargs.get('owner')
+        repo = kwargs.get('repo')
+        path = kwargs.get('path') # This parameter seems unused in the provided data structure for commits, but kept for consistency if needed later.
 
         if not all([owner, repo]):
-            payload = {
-                    "status": "error",
-                    "message": "Missing required parameters for list_commits.",
-                    "required": ["owner", "repo"],
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({
+                "status": "error",
+                "message": "Missing required parameters for list_commits.",
+                "required": ["owner", "repo"]
+            }, indent=2)
 
-        repositories = data.get("repositories", {}).values()
-        repository = next(
-            (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
-            None,
-        )
+        repositories = list(data.get('repositories', {}).values())
+        repository = next((r for r in repositories if r['repo_name'] == repo and r['owner'] == owner), None)
 
         if not repository:
-            payload = {
-                    "status": "error",
-                    "message": f"Repository '{repo}' not found for owner '{owner}'.",
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({
+                "status": "error",
+                "message": f"Repository '{repo}' not found for owner '{owner}'.",
+            }, indent=2)
 
-        commits_data = repository.get("commits", [])
-        payload = {"status": "success", "commits": commits_data}
-        out = json.dumps(payload, indent=2)
-        return out
+        commits_data = repository.get('commits', [])
+        # In a real scenario, you might filter commits by branch, path, etc.
+        # For this simulation, we return all commits associated with the repository.
+        return json.dumps({
+            "status": "success",
+            "commits": commits_data
+        }, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "listCommits",
+                "name": "list_commits",
                 "description": "Lists the commits in a repository.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "owner": {
-                            "type": "string",
-                            "description": "The owner of the repository.",
-                        },
-                        "repo": {
-                            "type": "string",
-                            "description": "The name of the repository.",
-                        },
-                        "path": {
-                            "type": "string",
-                            "description": "The path to filter commits by (optional).",
-                        },
+                        "owner": {"type": "string", "description": "The owner of the repository."},
+                        "repo": {"type": "string", "description": "The name of the repository."},
+                        "path": {"type": "string", "description": "The path to filter commits by (optional)."}
                     },
                     "required": ["owner", "repo"],
                 },

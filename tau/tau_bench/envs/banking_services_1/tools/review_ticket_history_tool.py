@@ -1,8 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ReviewTicketHistoryTool(Tool):
     """
@@ -20,24 +21,26 @@ class ReviewTicketHistoryTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
         if not customer_id:
             return json.dumps({"error": "customer_id is required"})
 
         tickets = load_json("support_tickets.json")
-        customer_tickets = [t for t in tickets.values() if t["customer_id"] == customer_id]
+        customer_tickets = [t for t in tickets if t["customer_id"] == customer_id]
         open_tickets = sum(1 for t in customer_tickets if t["status"] != "Resolved")
         summary = (
             f"Total tickets: {len(customer_tickets)}. Open tickets: {open_tickets}."
         )
 
         return json.dumps({"summary": summary, "open_tickets": open_tickets}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ReviewTicketHistory",
+                "name": "review_ticket_history",
                 "description": "Review historical support tickets and unresolved issues.",
                 "parameters": {
                     "type": "object",

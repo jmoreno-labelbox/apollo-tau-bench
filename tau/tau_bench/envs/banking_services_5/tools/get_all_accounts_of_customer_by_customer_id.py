@@ -1,40 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone, date, timedelta
-import calendar
-from typing import Any, Dict
-import random
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAllAccountsOfCustomerByCustomerId(Tool):
+    """Returns all account IDs associated with a given customer ID."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
         if not customer_id:
             return json.dumps({"error": "customer_id is required."}, indent=2)
 
-        customers = data.get("customers", {}).values()
-        for customer in customers.values():
+        customers = list(data.get("customers", {}).values())
+        for customer in customers:
             if customer.get("customer_id") == customer_id:
                 return json.dumps({
                     "account_ids": customer.get("account_ids", [])
                 }, indent=2)
 
         return json.dumps({"error": "Customer not found."}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAllAccountsOfCustomerByCustomerId",
+                "name": "get_all_accounts_of_customer_by_customer_id",
                 "description": "Returns all account IDs associated with a given customer ID.",
                 "parameters": {
                     "type": "object",

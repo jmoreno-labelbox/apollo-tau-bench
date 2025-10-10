@@ -1,92 +1,80 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetTerminalLogsSummary(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        log_level: str = None,
-        source_component: str = None,
-        component: str = None,
-        workflow_id: str = None,
-        message_keywords: list[str] = [],
-        created_after: str = None,
-        created_before: str = None,
-        limit: int = 100
-    ) -> str:
-        # Support 'component' as an alternative to 'source_component'
-        if component is not None:
-            source_component = component
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
-        Obtains terminal logs with filtering and summarization features.
+        Retrieves terminal logs with filtering and summarization capabilities.
         """
-        terminal_logs = data.get("terminal_logs", {}).values()
+        log_level = kwargs.get('log_level')
+        source_component = kwargs.get('source_component')
+        workflow_id = kwargs.get('workflow_id')
+        message_keywords = kwargs.get('message_keywords', [])
+        created_after = kwargs.get('created_after')
+        created_before = kwargs.get('created_before')
+        limit = kwargs.get('limit', 100)
 
-        # Sort logs based on specified criteria
+        terminal_logs = data.get('terminal_logs', [])
+
+        # Filter logs by criteria
         results = []
-        for log in terminal_logs.values():
-            # Implement filters
+        for log in terminal_logs:
+            # Apply filters
             if log_level:
-                log_message = log.get("message", "")
+                log_message = log.get('message', '')
                 if not log_message.startswith(f"{log_level}:"):
                     continue
 
             if source_component:
-                if log.get("component") != source_component:
+                if log.get('component') != source_component:
                     continue
 
             if workflow_id:
-                if log.get("workflow_id") != workflow_id:
+                if log.get('workflow_id') != workflow_id:
                     continue
 
             if message_keywords:
-                message = log.get("message", "").lower()
-                if not any(keyword.lower() in message for keyword in message_keywords.values()):
+                message = log.get('message', '').lower()
+                if not any(keyword.lower() in message for keyword in message_keywords):
                     continue
 
-            # Enforce date filters
+            # Apply date filters
             if created_after:
-                log_ts = log.get("log_ts", "")
+                log_ts = log.get('log_ts', '')
                 if log_ts < created_after:
                     continue
 
             if created_before:
-                log_ts = log.get("log_ts", "")
+                log_ts = log.get('log_ts', '')
                 if log_ts > created_before:
                     continue
 
             results.append(log)
 
-        # Order by timestamp (latest first) and enforce limit
-        results.sort(key=lambda x: x.get("log_ts", ""), reverse=True)
+        # Sort by timestamp (most recent first) and apply limit
+        results.sort(key=lambda x: x.get('log_ts', ''), reverse=True)
         if limit:
             results = results[:limit]
 
-        # Generate a summary showing log level distribution
+        # Create summary with log level distribution
         summary = {
             "total_matching_logs": len(results),
             "by_level": {},
             "by_component": {},
             "by_workflow": {},
-            "logs": results,
+            "logs": results
         }
 
         for log in results:
-            # Retrieve log level from the message
-            message = log.get("message", "")
-            level = "UNKNOWN"
-            for lvl in ["DEBUG", "INFO", "WARN", "ERROR", "CRITICAL"]:
+            # Extract log level from message
+            message = log.get('message', '')
+            level = 'UNKNOWN'
+            for lvl in ['DEBUG', 'INFO', 'WARN', 'ERROR', 'CRITICAL']:
                 if message.startswith(f"{lvl}:"):
                     level = lvl
                     break
@@ -95,60 +83,38 @@ class GetTerminalLogsSummary(Tool):
                 summary["by_level"][level] = 0
             summary["by_level"][level] += 1
 
-            # Categorize by component
-            component = log.get("component", "unknown")
+            # Group by component
+            component = log.get('component', 'unknown')
             if component not in summary["by_component"]:
                 summary["by_component"][component] = 0
             summary["by_component"][component] += 1
 
-            # Classify by workflow
-            workflow = log.get("workflow_id", "unknown")
+            # Group by workflow
+            workflow = log.get('workflow_id', 'unknown')
             if workflow not in summary["by_workflow"]:
                 summary["by_workflow"][workflow] = 0
             summary["by_workflow"][workflow] += 1
-        payload = summary
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(summary, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetTerminalLogsSummary",
+                "name": "get_terminal_logs_summary",
                 "description": "Retrieves terminal logs with filtering and summarization capabilities including log level distribution, component breakdown, and workflow tracking.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "log_level": {
-                            "type": "string",
-                            "description": "Filter logs by level (e.g., 'INFO', 'ERROR', 'WARN').",
-                        },
-                        "source_component": {
-                            "type": "string",
-                            "description": "Filter logs by source component or service.",
-                        },
-                        "workflow_id": {
-                            "type": "string",
-                            "description": "Filter logs by workflow ID.",
-                        },
-                        "message_keywords": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "Filter logs by keywords in the message content.",
-                        },
-                        "created_after": {
-                            "type": "string",
-                            "description": "Filter logs created after this ISO timestamp.",
-                        },
-                        "created_before": {
-                            "type": "string",
-                            "description": "Filter logs created before this ISO timestamp.",
-                        },
-                        "limit": {
-                            "type": "integer",
-                            "description": "Maximum number of log entries to return (default: 100).",
-                        },
-                    },
-                },
-            },
+                        "log_level": {"type": "string", "description": "Filter logs by level (e.g., 'INFO', 'ERROR', 'WARN')."},
+                        "source_component": {"type": "string", "description": "Filter logs by source component or service."},
+                        "workflow_id": {"type": "string", "description": "Filter logs by workflow ID."},
+                        "message_keywords": {"type": "array", "items": {"type": "string"}, "description": "Filter logs by keywords in the message content."},
+                        "created_after": {"type": "string", "description": "Filter logs created after this ISO timestamp."},
+                        "created_before": {"type": "string", "description": "Filter logs created before this ISO timestamp."},
+                        "limit": {"type": "integer", "description": "Maximum number of log entries to return (default: 100)."}
+                    }
+                }
+            }
         }

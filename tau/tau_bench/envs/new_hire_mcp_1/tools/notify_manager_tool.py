@@ -1,33 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class NotifyManagerTool(Tool):
-    """Dispatches a standardized notification email to the manager of a candidate."""
+    """Sends a standardized notification email to a candidate's manager."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str = None, notification_type: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
+        notification_type = kwargs.get("notification_type")
+
         if not candidate_id or not notification_type:
             return _err("candidate_id and notification_type are required.")
 
-        candidate = next(
-            (
-                c
-                for c in data.get("candidates", {}).values()
-                if str(c.get("candidate_id")) == str(candidate_id)
-            ),
-            None,
-        )
+        candidate = next((c for c in data.get("candidates", []) if str(c.get("candidate_id")) == str(candidate_id)), None)
         if not candidate:
             return _err(f"Candidate '{candidate_id}' not found.", code="not_found")
 
@@ -38,7 +27,7 @@ class NotifyManagerTool(Tool):
         template_name = f"manager_{notification_type}_notification"
 
         context = candidate.copy()
-        context["manager_name"] = manager_email.split("@")[0]
+        context["manager_name"] = manager_email.split('@')[0]
 
         rendered = _get_hardcoded_template_and_render(template_name, context)
 
@@ -53,31 +42,27 @@ class NotifyManagerTool(Tool):
             "date_ts": HARD_TS,
             "labels_ids": [],
             "attachments_ids": [],
-            "draft_flag": False,
-            "sent_flag": True,
+            "draft_flag": False, "sent_flag": True,
             "candidate_id_nullable": candidate_id,
             "thread_id_nullable": _generate_new_thread_id(emails),
-            "in_reply_to_message_id_nullable": None,
+            "in_reply_to_message_id_nullable": None
         }
         emails.append(new_email)
-        payload = new_email
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(new_email, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "NotifyManager",
+                "name": "notify_manager",
                 "description": "Sends a standardized notification email to a candidate's manager.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "candidate_id": {"type": "string"},
-                        "notification_type": {
-                            "type": "string",
-                            "description": "e.g., 'access_issue', 'overdue_escalation'",
-                        },
+                        "notification_type": {"type": "string", "description": "e.g., 'access_issue', 'overdue_escalation'"}
                     },
                     "required": ["candidate_id", "notification_type"],
                 },

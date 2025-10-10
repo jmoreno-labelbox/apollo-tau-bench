@@ -1,34 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class ListUserCertifications(Tool):
+class list_user_certifications(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        user_certification = data.get("user_certification", {}).values()
+    def invoke(data: Dict[str, Any], user_id: str) -> str:
         certs = [
-            c for c in user_certification.values() if c.get("user_id") == user_id
+            c for c in data.get("user_certification", []) if c.get("user_id") == user_id
         ]
-        payload = {"certifications": certs}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"certifications": certs}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "listUserCertifications",
+                "name": "list_user_certifications",
                 "description": "List certifications for a user",
                 "parameters": {
                     "type": "object",

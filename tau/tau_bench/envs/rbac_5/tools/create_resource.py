@@ -1,77 +1,50 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateResource(Tool):
     """
-    Establish a new resource with consistent ID generation.
+    Create a new resource with deterministic ID generation.
 
     kwargs:
-      name: str (mandatory)
-      owner_id: str (mandatory)
-      criticality: str (mandatory) - CRITICAL, HIGH, MEDIUM, LOW
+      name: str (required)
+      owner_id: str (required)
+      criticality: str (required) - CRITICAL, HIGH, MEDIUM, LOW
       compliance_scope: str (optional) - ISO-27001, GDPR, SOX, PCI-DSS, ALL, or null
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], name: str = "", owner_id: str = "", criticality: str = "", compliance_scope: str = None) -> str:
-        name = name.strip()
-        owner_id = owner_id.strip()
-        criticality = criticality.strip().upper()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name = (kwargs.get("name", "") or "").strip()
+        owner_id = (kwargs.get("owner_id", "") or "").strip()
+        criticality = (kwargs.get("criticality", "") or "").strip().upper()
+        compliance_scope = kwargs.get("compliance_scope")
 
         if not name or not owner_id or not criticality:
-            payload = {"error": "name, owner_id, and criticality are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "name, owner_id, and criticality are required"})
 
-        # Confirm criticality
+        # Validate criticality
         valid_criticalities = ["CRITICAL", "HIGH", "MEDIUM", "LOW"]
         if criticality not in valid_criticalities:
-            payload = {
-                "error": f"criticality must be one of: {', '.join(valid_criticalities)}"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"criticality must be one of: {', '.join(valid_criticalities)}"})
 
-        # Check compliance_scope if it is supplied
+        # Validate compliance_scope if provided
         if compliance_scope is not None:
-            valid_compliance_scopes = [
-                "ISO-27001",
-                "GDPR",
-                "SOX",
-                "PCI-DSS",
-                "ALL",
-                "All",
-            ]
+            valid_compliance_scopes = ["ISO-27001", "GDPR", "SOX", "PCI-DSS", "ALL", "All"]
             if compliance_scope not in valid_compliance_scopes:
-                payload = {
-                    "error": f"compliance_scope must be one of: {', '.join(valid_compliance_scopes)} or null"
-                }
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"error": f"compliance_scope must be one of: {', '.join(valid_compliance_scopes)} or null"})
 
-        # Confirm the existence of the owner
-        if not _find_by_id(data.get("users", {}).values(), "user_id", owner_id):
-            payload = {"error": f"owner_id {owner_id} not found"}
-            out = json.dumps(payload)
-            return out
+        # Validate owner exists
+        if not _find_by_id(list(data.get("users", {}).values()), "user_id", owner_id):
+            return json.dumps({"error": f"owner_id {owner_id} not found"})
 
-        # Ensure uniqueness based on name (case-insensitive)
-        existing_resources = data.get("resources", {}).values()
-        for r in existing_resources.values():
+        # Enforce uniqueness by name (case-insensitive)
+        existing_resources = data.get("resources", [])
+        for r in existing_resources:
             if str(r.get("name", "")).strip().lower() == name.lower():
-                payload = {"error": f"resource name '{name}' already exists"}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"error": f"resource name '{name}' already exists"})
 
         new_resource = {
             "resource_id": _next_id(data, "resources", "RES"),
@@ -82,48 +55,25 @@ class CreateResource(Tool):
         }
 
         data.setdefault("resources", []).append(new_resource)
-        payload = {"ok": True, "resource": new_resource}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"ok": True, "resource": new_resource})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateResource",
+                "name": "create_resource",
                 "description": "Create a new resource with deterministic ID generation.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "name": {
-                            "type": "string",
-                            "description": "Unique resource name (case-insensitive).",
-                        },
-                        "owner_id": {
-                            "type": "string",
-                            "description": "User ID of the resource owner.",
-                        },
-                        "criticality": {
-                            "type": "string",
-                            "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW"],
-                            "description": "Resource criticality level.",
-                        },
-                        "compliance_scope": {
-                            "type": ["string", "null"],
-                            "description": "Compliance scope (ISO-27001, GDPR, SOX, PCI-DSS, ALL) or null.",
-                            "enum": [
-                                "ISO-27001",
-                                "GDPR",
-                                "SOX",
-                                "PCI-DSS",
-                                "ALL",
-                                "All",
-                                None,
-                            ],
-                        },
+                        "name": {"type": "string", "description": "Unique resource name (case-insensitive)."},
+                        "owner_id": {"type": "string", "description": "User ID of the resource owner."},
+                        "criticality": {"type": "string", "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW"], "description": "Resource criticality level."},
+                        "compliance_scope": {"type": ["string", "null"], "description": "Compliance scope (ISO-27001, GDPR, SOX, PCI-DSS, ALL) or null.", "enum": ["ISO-27001", "GDPR", "SOX", "PCI-DSS", "ALL", "All", None]}
                     },
                     "required": ["name", "owner_id", "criticality"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

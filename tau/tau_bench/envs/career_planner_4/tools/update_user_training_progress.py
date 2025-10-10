@@ -1,32 +1,32 @@
-from tau_bench.envs.tool import Tool
-import json
-import uuid
-from datetime import datetime
-from typing import Any
+# Copyright Sierra
 
-class UpdateUserTrainingProgress(Tool):
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class update_user_training_progress(Tool):
     @staticmethod
-    def invoke(data: dict, user_id: str, training_session_id: str, progress: int) -> str:
+    def invoke(data, user_id: str, training_session_id: str, progress: int) -> str:
         record = {
             "user_id": user_id,
             "training_session_id": training_session_id,
             "progress": progress,
         }
         data.setdefault("user_training_progress", []).append(record)
-        payload = {
-            "success": f"Training progress for {user_id} on session {training_session_id} set to {progress}"
-        }
-        out = json.dumps(
-            payload, indent=2,
+        return json.dumps(
+            {
+                "success": f"Training progress for {user_id} on session {training_session_id} set to {progress}"
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "updateUserTrainingProgress",
+                "name": "update_user_training_progress",
                 "description": "Update the training progress for a given user and training session.",
                 "parameters": {
                     "type": "object",

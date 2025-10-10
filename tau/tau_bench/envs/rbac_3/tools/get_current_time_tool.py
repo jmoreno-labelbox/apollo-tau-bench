@@ -1,23 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetCurrentTimeTool(Tool):
-    """get_current_time: provides a consistent timestamp utilized across writes."""
+    """get_current_time: returns deterministic timestamp used across writes."""
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        payload = {"timestamp": _HARD_TS}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        return json.dumps({"timestamp": _HARD_TS}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getCurrentTime",
+                "name": "get_current_time",
                 "description": "Return deterministic current time used for writes.",
                 "parameters": {"type": "object", "properties": {}, "required": []},
             },

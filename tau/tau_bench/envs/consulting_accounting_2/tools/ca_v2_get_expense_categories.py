@@ -1,32 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CaV2GetExpenseCategories(Tool):
-    """Retrieve all expense categories along with their deductibility guidelines."""
+    """Get all expense categories with deductibility rules."""
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        expense_categories = data.get("expense_categories", {}).values()
-        payload = expense_categories
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        expense_categories = data.get("expense_categories", [])
+        return json.dumps(expense_categories)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CaV2GetExpenseCategories",
+                "name": "ca_v2_get_expense_categories",
                 "description": "Get all expense categories with their deductibility percentages and rules.",
                 "parameters": {"type": "object", "properties": {}, "required": []},
             },

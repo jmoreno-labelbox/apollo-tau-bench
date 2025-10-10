@@ -1,43 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ApplyResourceLeveling(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_id: str,
-        resource_constraints: dict = {},
-        priority_method: str = "critical_path"
-    ) -> str:
-        if not all([project_id, resource_constraints]):
-            payload = {"error": "project_id and resource_constraints are required"}
-            out = json.dumps(
-                payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        resource_constraints = kwargs.get("resource_constraints", {})
+        priority_method = kwargs.get("priority_method", "critical_path")
 
-        milestones = data.get("milestones", {}).values()
-        leveling_results = data.get("leveling_results", {}).values()
+        if not all([project_id, resource_constraints]):
+            return json.dumps(
+                {"error": "project_id and resource_constraints are required"}
+            )
+
+        milestones = list(data.get("milestones", {}).values())
+        leveling_results = data.get("leveling_results", [])
 
         project_milestones = [
-            m for m in milestones.values() if m.get("project_id") == project_id
+            m for m in milestones if m.get("project_id") == project_id
         ]
 
         if not project_milestones:
-            payload = {"error": f"No milestones found for project '{project_id}'"}
-            out = json.dumps(
-                payload)
-            return out
+            return json.dumps(
+                {"error": f"No milestones found for project '{project_id}'"}
+            )
 
         result_id = f"level_{uuid.uuid4().hex[:8]}"
 
@@ -62,12 +52,11 @@ class ApplyResourceLeveling(Tool):
                 milestone.get("is_critical_path")
                 and milestone.get("resource_allocation", 100) < 100
             ):
-                payload = {
+                return json.dumps(
+                    {
                         "error": f"Critical path milestone '{milestone.get('milestone_name')}' cannot have resource allocation below 100%"
                     }
-                out = json.dumps(
-                    payload)
-                return out
+                )
 
             if i % 3 == 0 and milestones_shifted < 3:
 
@@ -126,21 +115,22 @@ class ApplyResourceLeveling(Tool):
             "created_date": datetime.now(timezone.utc).isoformat(),
         }
 
-        data["leveling_results"][new_result["leveling_result_id"]] = new_result
-        payload = {
+        leveling_results.append(new_result)
+
+        return json.dumps(
+            {
                 "success": True,
                 "leveling_result": new_result,
                 "requires_approval": requires_approval,
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ApplyResourceLeveling",
+                "name": "apply_resource_leveling",
                 "description": "Apply resource leveling to resolve resource conflicts",
                 "parameters": {
                     "type": "object",

@@ -1,51 +1,44 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListUserSessions(Tool):
-    """Identify all recent login sessions associated with a specific user."""
+    """ Find all recent login sessions for a specific user. """
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        user_id_to_find = user_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id_to_find = kwargs.get("user_id")
         try:
-            all_sessions = data.get("sessions", {}).values()
+            all_sessions = data.get('sessions', [])
         except:
             all_sessions = []
 
         user_sessions = [
-            session
-            for session in all_sessions.values() if session.get("user_id") == user_id_to_find
+            session for session in all_sessions
+            if session.get("user_id") == user_id_to_find
         ]
-        payload = user_sessions
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(user_sessions)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListUserSessions",
+                "name": "list_user_sessions",
                 "description": "Retrieves a list of all recent login sessions for a specific user by their user ID.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "user_id": {
                             "type": "string",
-                            "description": "The unique ID of the user whose sessions are to be retrieved.",
+                            "description": "The unique ID of the user whose sessions are to be retrieved."
                         }
                     },
-                    "required": ["user_id"],
-                },
-            },
+                    "required": ["user_id"]
+                }
+            }
         }

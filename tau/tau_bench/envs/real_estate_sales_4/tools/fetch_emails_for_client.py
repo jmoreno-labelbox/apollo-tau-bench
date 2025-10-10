@@ -1,50 +1,42 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FetchEmailsForClient(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], client_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        client_id = kwargs.get('client_id')
         if not client_id:
-            payload = {"error": "client_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
-
-        emails = data.get("emails", {}).values()
-        client_emails = [e for e in emails.values() if e.get("client_id") == client_id]
-        payload = {
-                "client_id": client_id,
-                "email_count": len(client_emails),
-                "emails": client_emails,
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+            return json.dumps({"error": "client_id is required"}, indent=2)
+        
+        emails = data.get('emails', [])
+        client_emails = [e for e in emails if e.get('client_id') == client_id]
+        
+        return json.dumps({
+            "client_id": client_id,
+            "email_count": len(client_emails),
+            "emails": client_emails
+        }, indent=2)
+    
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "fetchEmailsForClient",
+                "name": "fetch_emails_for_client",
                 "description": "Retrieve all emails sent to a specific client",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "client_id": {
                             "type": "integer",
-                            "description": "Client ID to get emails for",
+                            "description": "Client ID to get emails for"
                         }
                     },
-                    "required": ["client_id"],
-                },
-            },
+                    "required": ["client_id"]
+                }
+            }
         }

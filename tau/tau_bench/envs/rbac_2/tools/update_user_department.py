@@ -1,66 +1,56 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateUserDepartment(Tool):
-    """Modifies the 'department' field for a specific user in the database."""
+    """ Updates the 'department' field for a specific user in the database. """
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, new_department: str = None) -> str:
-        user_id_to_update = user_id
-        new_department = new_department
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id_to_update = kwargs.get("user_id")
+        new_department = kwargs.get("new_department")
 
         try:
-            users = data.get("users", {}).values()
+            users = list(data.get('users', {}).values())
         except (KeyError, json.JSONDecodeError):
             users = []
 
         user_to_update = None
-        for user in users.values():
+        for user in users:
             if user.get("user_id") == user_id_to_update:
                 user["department"] = new_department
                 user_to_update = user
                 break
 
         if not user_to_update:
-            payload = {"error": f"User with ID '{user_id_to_update}' not found."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"User with ID '{user_id_to_update}' not found."})
 
-        data["users"] = users
-        payload = user_to_update
-        out = json.dumps(payload)
-        return out
+        data['users'] = users
+        return json.dumps(user_to_update)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateUserDepartment",
+                "name": "update_user_department",
                 "description": "Updates the department for a specific user.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "user_id": {
                             "type": "string",
-                            "description": "The unique ID of the user whose department needs to be updated.",
+                            "description": "The unique ID of the user whose department needs to be updated."
                         },
                         "new_department": {
                             "type": "string",
-                            "description": "The new department to assign to the user.",
-                        },
+                            "description": "The new department to assign to the user."
+                        }
                     },
-                    "required": ["user_id", "new_department"],
-                },
-            },
+                    "required": ["user_id", "new_department"]
+                }
+            }
         }

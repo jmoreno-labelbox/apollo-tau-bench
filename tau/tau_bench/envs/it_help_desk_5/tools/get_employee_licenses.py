@@ -1,51 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetEmployeeLicenses(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get('employee_id')
         if employee_id is None:
-            payload = {"status": "error", "reason": "The employee_id field is required."}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({'status': 'error', 'reason': 'The employee_id field is required.'}, indent=2)
 
-        license_assignments = data.get("license_assignments", {}).values()
+        license_assignments = data.get('license_assignments', [])
         licenses = []
 
-        for assignment in license_assignments.values():
-            if assignment["employee_id"] == employee_id:
-                licenses.append(assignment["license_id"])
-        payload = licenses
-        out = json.dumps(payload, indent=2)
-        return out
+        for assignment in license_assignments:
+            if assignment['employee_id'] == employee_id:
+                licenses.append(assignment['license_id'])
+        return json.dumps(licenses, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "getEmployeeLicenses",
-                "description": "Finds licenses associated with a specified employee.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "employee_id": {
-                            "type": "string",
-                            "description": "The id of the employee to search for.",
-                        },
+            'type': 'function',
+            'function': {
+                'name': 'get_employee_licenses',
+                'description': 'Finds licenses associated with a specified employee.',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'employee_id': {'type': 'string', 'description': 'The id of the employee to search for.'},
                     },
-                    "required": ["employee_id"],
-                },
-            },
+                    'required': ['employee_id']
+                }
+            }
         }

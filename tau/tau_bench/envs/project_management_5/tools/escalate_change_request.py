@@ -1,34 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class EscalateChangeRequest(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], cr_id: str = None, escalate_to_level: str = None, escalated_by: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
+        escalate_to_level = kwargs.get("escalate_to_level")
+        escalated_by = kwargs.get("escalated_by")
+
         if not all([cr_id, escalate_to_level, escalated_by]):
-            payload = {"error": "cr_id, escalate_to_level, and escalated_by are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": "cr_id, escalate_to_level, and escalated_by are required"
+                }
+            )
 
-        change_requests = data.get("change_requests", {}).values()
-        approval_workflows = data.get("approval_workflows", {}).values()
-        change_history = data.get("change_history", {}).values()
+        change_requests = data.get("change_requests", [])
+        approval_workflows = data.get("approval_workflows", [])
+        change_history = data.get("change_history", [])
 
-        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:
-            payload = {"error": f"Change request '{cr_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Change request '{cr_id}' not found"})
 
         old_priority = cr.get("priority")
         if escalate_to_level in ["executive", "critical"]:
@@ -43,11 +40,13 @@ class EscalateChangeRequest(Tool):
         workflow = next(
             (
                 w
-                for w in approval_workflows.values() if w.get("cr_id") == cr_id and w.get("status") == "active"
+                for w in approval_workflows
+                if w.get("cr_id") == cr_id and w.get("status") == "active"
             ),
             None,
         )
         if workflow:
+
             if escalate_to_level == "executive":
                 new_step = {
                     "step_number": len(workflow.get("steps", [])) + 1,
@@ -72,24 +71,26 @@ class EscalateChangeRequest(Tool):
             "priority_change": f"{old_priority} -> {cr.get('priority')}",
             "timestamp": datetime.now().isoformat(),
         }
-        data["change_history"][history_entry["change_history_id"]] = history_entry
-        payload = {
-            "success": True,
-            "escalation": {
-                "cr_id": cr_id,
-                "escalated_to": escalate_to_level,
-                "new_priority": cr.get("priority"),
-                "workflow_updated": workflow is not None,
-            },
-        }
-        out = json.dumps(payload)
-        return out
+        change_history.append(history_entry)
+
+        return json.dumps(
+            {
+                "success": True,
+                "escalation": {
+                    "cr_id": cr_id,
+                    "escalated_to": escalate_to_level,
+                    "new_priority": cr.get("priority"),
+                    "workflow_updated": workflow is not None,
+                },
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "EscalateChangeRequest",
+                "name": "escalate_change_request",
                 "description": "Escalate a change request to higher management",
                 "parameters": {
                     "type": "object",

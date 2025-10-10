@@ -1,35 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class get_unused_employee_id(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employees: list[dict[str, Any]] = None) -> str:
-        employees = employees if employees is not None else data.get("employees", {}).values()
+    def invoke(data: Dict[str, Any]) -> str:
+        employees = list(data.get("employees", {}).values())
         used_ids = [e["employee_id"] for e in employees]
         for i in range(10000, 100000):
             if f"E{i:05d}" not in used_ids:
-                payload = f"E{i:05d}"
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": "no unused employee ID found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(f"E{i:05d}", indent=2)
+        return json.dumps({"error": "no unused employee ID found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getUnusedEmployeeId",
+                "name": "get_unused_employee_id",
                 "description": "Return an employee ID that is not currently in use.",
-                "parameters": {},
-            },
+                "parameters": {}
+            }
         }

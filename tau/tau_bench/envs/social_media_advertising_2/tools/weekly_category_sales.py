@@ -1,38 +1,27 @@
-from tau_bench.envs.tool import Tool
-import csv
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class WeeklyCategorySales(Tool):
-    """Provide weekly sales figures for a specific product category."""
+    """Return weekly sales for a product category."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], category: str = None, start_date: str = None, campaign_id: Any = None) -> str:
-        cat, week = category, start_date
-        for s in data.get("f_sales", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cat, week = kwargs.get("category"), kwargs.get("start_date")
+        for s in data.get("f_sales", []):
             if s.get("category") == cat and s.get("start_date") == week:
-                payload = s
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Sales not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(s)
+        return json.dumps({"error": "Sales not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "WeeklyCategorySales",
+                "name": "weekly_category_sales",
                 "description": "Return weekly sales totals for a category and week.",
                 "parameters": {
                     "type": "object",

@@ -1,28 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CheckAllocationDuration(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None, project_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        project_id = kwargs.get("project_id")
+
         if not all([employee_id, project_id]):
-            payload = {"error": "employee_id and project_id are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "employee_id and project_id are required"})
 
-        allocations = data.get("allocations", {}).values()
+        allocations = data.get("allocations", [])
 
-        for allocation in allocations.values():
+        for allocation in allocations:
             if (
                 allocation.get("employee_id") == employee_id
                 and allocation.get("project_id") == project_id
@@ -30,24 +24,25 @@ class CheckAllocationDuration(Tool):
                 start_date = datetime.fromisoformat(allocation.get("start_date"))
                 duration_days = (datetime.now() - start_date).days
                 duration_months = duration_days / 30
-                payload = {
-                    "employee_id": employee_id,
-                    "project_id": project_id,
-                    "start_date": allocation.get("start_date"),
-                    "duration_days": duration_days,
-                    "duration_months": round(duration_months, 1),
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Allocation not found"}
-        out = json.dumps(payload)
-        return out
+
+                return json.dumps(
+                    {
+                        "employee_id": employee_id,
+                        "project_id": project_id,
+                        "start_date": allocation.get("start_date"),
+                        "duration_days": duration_days,
+                        "duration_months": round(duration_months, 1),
+                    }
+                )
+
+        return json.dumps({"error": "Allocation not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CheckAllocationDuration",
+                "name": "check_allocation_duration",
                 "description": "Check how long an employee has been allocated to a project",
                 "parameters": {
                     "type": "object",

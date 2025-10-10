@@ -1,45 +1,29 @@
-from tau_bench.envs.tool import Tool
-import csv
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RangeSpend(Tool):
-    """Provide the total expenditure for an ad set over a specified date range."""
-
+    """Return total spend for an adset across a date range."""
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None, start_date: str = None, end_date: str = None,
-    campaign_id: Any = None,
-    ) -> str:
-        aid, start, end = adset_id, start_date, end_date
-        s, e = (
-            datetime.strptime(start, "%Y-%m-%d").date(),
-            datetime.strptime(end, "%Y-%m-%d").date(),
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        aid, start, end = kwargs.get("adset_id"), kwargs.get("start_date"), kwargs.get("end_date")
+        s, e = datetime.strptime(start, "%Y-%m-%d").date(), datetime.strptime(end, "%Y-%m-%d").date()
         total = sum(
             i.get("spend", 0)
-            for i in data.get("insights", {}).values()
-            if i.get("adset_id") == aid
-            and s <= datetime.strptime(i["date"], "%Y-%m-%d").date() <= e
+            for i in data.get("insights", [])
+            if i.get("adset_id") == aid and s <= datetime.strptime(i["date"], "%Y-%m-%d").date() <= e
         )
-        payload = {"adset_id": aid, "total_spend": total, "range": [start, end]}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"adset_id": aid, "total_spend": total, "range": [start, end]})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RangeSpend",
+                "name": "range_spend",
                 "description": "Return total spend for an adset across a date range.",
                 "parameters": {
                     "type": "object",

@@ -1,38 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, time, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateCustomerAddress(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, street_address: str = None, city: str = None, state: str = None, postal_code: str = None, country: str = None) -> str:
-        for customer in data.get("customers", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        for customer in list(data.get("customers", {}).values()):
             if customer.get("customer_id") == customer_id:
                 new_address = {
-                    "street_address": street_address,
-                    "city": city,
-                    "state": state,
-                    "postal_code": postal_code,
-                    "country": country
+                        "street_address": kwargs.get("street_address"),
+                        "city": kwargs.get("city"),
+                        "state": kwargs.get("state"),
+                        "postal_code": kwargs.get("postal_code"),
+                        "country": kwargs.get("country")
                 }
                 customer["contact_info"]["mailing_address"] = new_address
                 customer["contact_info"]["residential_address"] = new_address
                 return json.dumps(customer)
         return json.dumps({"error": "Customer not found."})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "UpdateCustomerAddress",
+                        "name": "update_customer_address",
                         "description": "Updates the mailing and residential address for a customer.",
                         "parameters": {
                                 "type": "object",

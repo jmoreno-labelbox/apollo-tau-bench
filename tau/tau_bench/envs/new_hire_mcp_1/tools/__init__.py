@@ -1,15 +1,75 @@
-# Re-export TOOLS from the adjacent tools.py file
-import sys
-from pathlib import Path
+# Copyright Sierra
 
-# Add parent directory to path to import tools.py as a module
-_parent = Path(__file__).parent.parent
-_tools_module_path = _parent / "tools.py"
+from .get_candidate_with_full_context_tool import GetCandidateWithFullContextTool
+from .find_candidates_by_onboarding_status_tool import FindCandidatesByOnboardingStatusTool
+from .get_overdue_checklist_items_tool import GetOverdueChecklistItemsTool
+from .check_email_communication_gaps_tool import CheckEmailCommunicationGapsTool
+from .query_available_assets_by_type_tool import QueryAvailableAssetsByTypeTool
+from .get_pending_asset_requests_tool import GetPendingAssetRequestsTool
+from .analyze_system_access_failures_tool import AnalyzeSystemAccessFailuresTool
+from .get_draft_emails_requiring_action_tool import GetDraftEmailsRequiringActionTool
+from .find_template_files_by_type_tool import FindTemplateFilesByTypeTool
+from .get_candidates_needing_orientation_scheduling_tool import GetCandidatesNeedingOrientationSchedulingTool
+from .analyze_attachment_file_inventory_tool import AnalyzeAttachmentFileInventoryTool
+from .get_email_thread_conversations_tool import GetEmailThreadConversationsTool
+from .query_label_usage_patterns_tool import QueryLabelUsagePatternsTool
+from .check_file_storage_organization_tool import CheckFileStorageOrganizationTool
+from .get_manager_candidate_assignments_tool import GetManagerCandidateAssignmentsTool
+from .create_new_candidate_record_tool import CreateNewCandidateRecordTool
+from .update_candidate_onboarding_status_tool import UpdateCandidateOnboardingStatusTool
+from .generate_personalized_welcome_file_tool import GeneratePersonalizedWelcomeFileTool
+from .create_role_based_checklist_tasks_tool import CreateRoleBasedChecklistTasksTool
+from .assign_asset_to_candidate_tool import AssignAssetToCandidateTool
+from .send_email_with_attachments_tool import SendEmailWithAttachmentsTool
+from .run_and_record_system_access_checks_tool import RunAndRecordSystemAccessChecksTool
+from .update_task_completion_status_tool import UpdateTaskCompletionStatusTool
+from .create_asset_request_with_notification_tool import CreateAssetRequestWithNotificationTool
+from .apply_email_labels_and_threading_tool import ApplyEmailLabelsAndThreadingTool
+from .send_batch_reminder_emails_tool import SendBatchReminderEmailsTool
+from .update_asset_request_status_tool import UpdateAssetRequestStatusTool
+from .create_orientation_invitation_emails_tool import CreateOrientationInvitationEmailsTool
+from .archive_completed_candidate_files_tool import ArchiveCompletedCandidateFilesTool
+from .consolidate_email_threads_and_cleanup_tool import ConsolidateEmailThreadsAndCleanupTool
+from .update_candidates_record_tool import UpdateCandidatesRecordTool
+from .notify_manager_tool import NotifyManagerTool
+from .get_available_email_types_tool import GetAvailableEmailTypesTool
+from .resolve_sso_access_issue_tool import ResolveSSOAccessIssueTool
+from .update_access_check_status_tool import UpdateAccessCheckStatusTool
 
-import importlib.util
-spec = importlib.util.spec_from_file_location("_tools_module", _tools_module_path)
-_tools_module = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(_tools_module)
-
-# Re-export TOOLS
-TOOLS = _tools_module.TOOLS
+ALL_TOOLS = [
+    GetCandidateWithFullContextTool,
+    FindCandidatesByOnboardingStatusTool,
+    GetOverdueChecklistItemsTool,
+    CheckEmailCommunicationGapsTool,
+    QueryAvailableAssetsByTypeTool,
+    GetPendingAssetRequestsTool,
+    AnalyzeSystemAccessFailuresTool,
+    GetDraftEmailsRequiringActionTool,
+    FindTemplateFilesByTypeTool,
+    GetCandidatesNeedingOrientationSchedulingTool,
+    AnalyzeAttachmentFileInventoryTool,
+    GetEmailThreadConversationsTool,
+    QueryLabelUsagePatternsTool,
+    CheckFileStorageOrganizationTool,
+    GetManagerCandidateAssignmentsTool,
+    CreateNewCandidateRecordTool,
+    UpdateCandidateOnboardingStatusTool,
+    GeneratePersonalizedWelcomeFileTool,
+    CreateRoleBasedChecklistTasksTool,
+    AssignAssetToCandidateTool,
+    SendEmailWithAttachmentsTool,
+    RunAndRecordSystemAccessChecksTool,
+    UpdateTaskCompletionStatusTool,
+    CreateAssetRequestWithNotificationTool,
+    ApplyEmailLabelsAndThreadingTool,
+    SendBatchReminderEmailsTool,
+    UpdateAssetRequestStatusTool,
+    CreateOrientationInvitationEmailsTool,
+    ArchiveCompletedCandidateFilesTool,
+    ConsolidateEmailThreadsAndCleanupTool,
+    UpdateCandidatesRecordTool,
+    NotifyManagerTool,
+    GetAvailableEmailTypesTool,
+    ResolveSSOAccessIssueTool,
+    UpdateAccessCheckStatusTool,
+]

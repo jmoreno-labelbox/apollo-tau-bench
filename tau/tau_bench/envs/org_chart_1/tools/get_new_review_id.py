@@ -1,18 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class get_new_review_id(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], reviews: list[dict[str, Any]] = None) -> str:
-        reviews = reviews if reviews is not None else []
+    def invoke(data: Dict[str, Any]) -> str:
+        reviews = list(data.get("reviews", {}).values())
         prefix = "PR"
         start_num = 10000
 
         if not reviews:
-            payload = f"{prefix}{start_num}"
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps(f"{prefix}{start_num}", indent=2)
 
         max_id_num = 0
         for review in reviews:
@@ -26,15 +27,14 @@ class get_new_review_id(Tool):
                     continue
 
         next_id = f"{prefix}{max(start_num, max_id_num) + 1}"
-        payload = next_id
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(next_id, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetNewReviewId",
+                "name": "get_new_review_id",
                 "description": "Return a performance review ID that is not currently in use.",
                 "parameters": {},
             },

@@ -1,85 +1,47 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ScheduleDeviceUpdate(Tool):
-    """Insert or substitute a forthcoming scheduled update for a device."""
+    """Add or replace a future scheduled update for a device."""
 
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         device_id: str,
         timestamp: str,
-        update: dict[str, Any],
+        update: Dict[str, Any],
         replace: bool = False,
-        rrule: str | None = None
+        rrule: Optional[str] = None,
     ) -> str:
-        devices: list[dict[str, Any]] = data.get("devices", {}).values()
+        devices: List[Dict[str, Any]] = list(data.get("devices", {}).values())
         for dev in devices:
             if dev.get("id") == device_id:
-                sched: list[dict[str, Any]] = dev.setdefault("scheduled_updates", [])
+                sched: List[Dict[str, Any]] = dev.setdefault("scheduled_updates", [])
                 if replace:
-                    sched[:] = [s for s in sched.values() if s.get("timestamp") != timestamp]
+                    sched[:] = [s for s in sched if s.get("timestamp") != timestamp]
                 if rrule:
-                    sched.append(
-                        {"timestamp": timestamp, "update": update, "rrule": rrule}
-                    )
+                    sched.append({"timestamp": timestamp, "update": update, "rrule": rrule})
                 else:
                     sched.append({"timestamp": timestamp, "update": update})
-                sched.sort(key=lambda x: x["timestamp"])  # maintain chronological order
-                payload = {"success": True, "scheduled_updates": sched}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
-        payload = {"error": f"Device '{device_id}' not found"}
-        out = json.dumps(payload, indent=2)
-        return out
-        pass
-        devices: list[dict[str, Any]] = data.get("devices", {}).values()
-        for dev in devices:
-            if dev.get("id") == device_id:
-                sched: list[dict[str, Any]] = dev.setdefault("scheduled_updates", [])
-                if replace:
-                    sched[:] = [s for s in sched.values() if s.get("timestamp") != timestamp]
-                if rrule:
-                    sched.append(
-                        {"timestamp": timestamp, "update": update, "rrule": rrule}
-                    )
-                else:
-                    sched.append({"timestamp": timestamp, "update": update})
-                sched.sort(key=lambda x: x["timestamp"])  #maintain chronological order
-                payload = {"success": True, "scheduled_updates": sched}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
-        payload = {"error": f"Device '{device_id}' not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                sched.sort(key=lambda x: x["timestamp"])  # keep chronologically ordered
+                return json.dumps({"success": True, "scheduled_updates": sched}, indent=2)
+        return json.dumps({"error": f"Device '{device_id}' not found"}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ScheduleDeviceUpdate",
+                "name": "schedule_device_update",
                 "description": "Add or replace a future scheduled update for a device.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "device_id": {
-                            "type": "string",
-                            "description": "Device identifier.",
-                        },
+                        "device_id": {"type": "string", "description": "Device identifier."},
                         "timestamp": {
                             "type": "string",
                             "description": "ISO‑8601 timestamp in device local tz.",

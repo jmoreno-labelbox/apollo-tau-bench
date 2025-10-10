@@ -1,44 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAllPitchesByHitterIds(Tool):
-    """Retrieve all pitches encountered by any hitter in the supplied list of hitter_ids."""
+    """Fetch all pitches faced by any hitter in the provided list of hitter_ids."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], hitter_ids: list[int] = None) -> str:
-        #1) Confirm validity
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        hitter_ids = kwargs.get("hitter_ids")
+
+        # 1) Validate
         if not isinstance(hitter_ids, list) or len(hitter_ids) == 0:
-            payload = {
-                    "error": "Missing required field: hitter_ids (non-empty list of integers)"
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": "Missing required field: hitter_ids (non-empty list of integers)"},
+                indent=2
             )
-            return out
 
-        #2) Retrieve DB
-        pitches: list[dict[str, Any]] = data.get("pitches", {}).values()
+        # 2) Get DB
+        pitches: List[Dict[str, Any]] = data.get("pitches", [])
 
-        #3) Apply filter
+        # 3) Filter
         id_set = set(hitter_ids)
-        matches = [p for p in pitches.values() if p.get("hitter_id") in id_set]
+        matches = [p for p in pitches if p.get("hitter_id") in id_set]
         if not matches:
-            payload = {"error": f"No pitches found for hitter_ids {hitter_ids}"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"No pitches found for hitter_ids {hitter_ids}"}, indent=2)
 
-        #4) Order deterministically: game_pk, at_bat_index, pitch_number, pitch_id (ASC)
+        # 4) Deterministic order: game_pk, at_bat_index, pitch_number, pitch_id (ASC)
         matches.sort(
             key=lambda p: (
                 int(p.get("game_pk", 0)),
@@ -47,15 +37,16 @@ class GetAllPitchesByHitterIds(Tool):
                 int(p.get("pitch_id", 0)),
             )
         )
-        payload = matches
-        out = json.dumps(payload, indent=2)
-        return out
+
+        # 5) Return list of pitch records only
+        return json.dumps(matches, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAllPitchesByHitterIds",
+                "name": "get_all_pitches_by_hitter_ids",
                 "description": "Fetch all pitches where hitter_id is in the provided list. Returns a list of pitch records.",
                 "parameters": {
                     "type": "object",
@@ -63,10 +54,10 @@ class GetAllPitchesByHitterIds(Tool):
                         "hitter_ids": {
                             "type": "array",
                             "items": {"type": "integer"},
-                            "description": "Non-empty list of hitter IDs.",
+                            "description": "Non-empty list of hitter IDs."
                         }
                     },
-                    "required": ["hitter_ids"],
-                },
-            },
+                    "required": ["hitter_ids"]
+                }
+            }
         }

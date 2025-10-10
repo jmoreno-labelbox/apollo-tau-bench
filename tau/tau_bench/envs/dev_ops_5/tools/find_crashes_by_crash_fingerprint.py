@@ -1,35 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindCrashesByCrashFingerprint(Tool):
-    """Locates all crash events that correspond to a specific crash fingerprint."""
+    """Finds all crash events that match a specific crash fingerprint."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], crash_fingerprint: str = None) -> str:
-        crash_events = data.get("crash_events", {}).values()
-
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        crash_fingerprint = kwargs.get("crash_fingerprint")
+        crash_events = data.get("crash_events", [])
+        
         matching_crashes = [
-            crash
-            for crash in crash_events.values() if crash.get("crash_fingerprint") == crash_fingerprint
+            crash for crash in crash_events if crash.get("crash_fingerprint") == crash_fingerprint
         ]
-        payload = {"crashes": matching_crashes}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"crashes": matching_crashes})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindCrashesByCrashFingerprint",
+                "name": "find_crashes_by_crash_fingerprint",
                 "description": "Finds all crash events that match a specific crash fingerprint.",
                 "parameters": {
                     "type": "object",

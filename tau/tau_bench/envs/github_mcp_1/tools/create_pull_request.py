@@ -1,14 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreatePullRequest(Tool):
     """
@@ -22,65 +17,30 @@ class CreatePullRequest(Tool):
     """
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        owner: str = "",
-        repo_name: str = "",
-        pr_title: str = "",
-        pr_body: str = "",
-        head_branch_name: str = "",
-        base_branch_name: str = "",
-        head_sha: str = "",
-        pr_files: list[str] = None,
-    ) -> str:
-        if pr_files is None:
-            pr_files = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner = kwargs.get("owner", "").strip()
+        repo_name = (kwargs.get("repo_name") or kwargs.get("repo_name") or "").strip()
+        pr_title = (kwargs.get("pr_title") or kwargs.get("pr_titile") or "").strip()
+        pr_body = (kwargs.get("pr_body") or "").strip()
+        head_branch_name = (kwargs.get("head_branch_name") or kwargs.get("head_branch") or "").strip()
+        base_branch_name = (kwargs.get("base_branch_name") or kwargs.get("base_branch") or "").strip()
+        head_sha = (kwargs.get("head_sha") or kwargs.get("head_sha_value") or "").strip()
+        pr_files_input = kwargs.get("pr_files", [])
 
-        owner = owner.strip()
-        repo_name = repo_name.strip()
-        pr_title = pr_title.strip()
-        pr_body = pr_body.strip()
-        head_branch_name = head_branch_name.strip()
-        base_branch_name = base_branch_name.strip()
-        head_sha = head_sha.strip()
-
-        if (
-            not owner
-            or not repo_name
-            or not pr_title
-            or not head_branch_name
-            or not base_branch_name
-            or not head_sha
-        ):
-            payload = {
+        if not owner or not repo_name or not pr_title or not head_branch_name or not base_branch_name or not head_sha:
+            return json.dumps({
                 "error": "Required: owner, repo_name, pr_title, head_branch_name, base_branch_name, head_sha."
-            }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            }, indent=2)
 
-        if not isinstance(pr_files, list) or not all(
-            isinstance(x, str) for x in pr_files
-        ):
-            payload = {"error": "pr_files must be a list of filenames (strings)."}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+        if not isinstance(pr_files_input, list) or not all(isinstance(x, str) for x in pr_files_input):
+            return json.dumps({"error": "pr_files must be a list of filenames (strings)."}, indent=2)
 
         # Load PR DB (supports dict with 'pull_requests' or top-level list)
-        pr_db = _convert_db_to_list(data.get("pull_requests", {}).values())
+        pr_db = list(data.get("pull_requests", {}).values())
+
 
         # Find or create repo bucket
-        rec = next(
-            (
-                r
-                for r in pr_db
-                if r.get("owner") == owner and r.get("repo_name") == repo_name
-            ),
-            None,
-        )
+        rec = next((r for r in pr_db if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
         if rec is None:
             rec = {
                 "owner": owner,
@@ -101,7 +61,7 @@ class CreatePullRequest(Tool):
                 "review_states": [],
                 "review_events": [],
                 "created_ts": [],
-                "updated_ts": [],
+                "updated_ts": []
             }
             pr_db.append(rec)
 
@@ -140,7 +100,7 @@ class CreatePullRequest(Tool):
         rec["merged_flags"].append(False)
 
         # DB shape expects a nested list per PR: [ [ "fileA", "fileB" ] ]
-        rec["pr_files"].append([list(pr_files)])
+        rec["pr_files"].append([list(pr_files_input)])
 
         # Empty placeholders for comments/reviews (match nested shapes)
         rec["pr_comments"].append([[]])
@@ -152,12 +112,9 @@ class CreatePullRequest(Tool):
         rec["created_ts"].append(new_ts)
         rec["updated_ts"].append(new_ts)
 
-        add_terminal_message(
-            data,
-            f"Pull request #{new_pr_number} created for {owner}/{repo_name}.",
-            get_current_timestamp(),
-        )
-        payload = {
+        add_terminal_message(data, f"Pull request #{new_pr_number} created for {owner}/{repo_name}.", get_current_timestamp())
+
+        return json.dumps({
             "success": f"Pull request #{new_pr_number} created for {owner}/{repo_name}.",
             "pull_request": {
                 "number": new_pr_number,
@@ -167,66 +124,32 @@ class CreatePullRequest(Tool):
                 "base": base_branch_name,
                 "head": head_branch_name,
                 "head_sha": head_sha,
-                "files": pr_files,
+                "files": pr_files_input,
                 "created_ts": new_ts,
-                "updated_ts": new_ts,
-            },
-        }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+                "updated_ts": new_ts
+            }
+        }, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreatePullRequest",
+                "name": "create_pull_request",
                 "description": "Create a new pull request entry with deterministic PR number and timestamps; creates repo bucket if needed.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "owner": {"type": "string", "description": "Repository owner."},
-                        "repo_name": {
-                            "type": "string",
-                            "description": "Repository name.",
-                        },
-                        "pr_title": {
-                            "type": "string",
-                            "description": "Pull request title.",
-                        },
-                        "pr_body": {
-                            "type": "string",
-                            "description": "Pull request description/body.",
-                        },
-                        "head_branch_name": {
-                            "type": "string",
-                            "description": "Source (head) branch name.",
-                        },
-                        "base_branch_name": {
-                            "type": "string",
-                            "description": "Target (base) branch name.",
-                        },
-                        "head_sha": {
-                            "type": "string",
-                            "description": "Head commit SHA for the PR.",
-                        },
-                        "pr_files": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "List of file paths included in the PR.",
-                        },
+                        "repo_name": {"type": "string", "description": "Repository name."},
+                        "pr_title": {"type": "string", "description": "Pull request title."},
+                        "pr_body": {"type": "string", "description": "Pull request description/body."},
+                        "head_branch_name": {"type": "string", "description": "Source (head) branch name."},
+                        "base_branch_name": {"type": "string", "description": "Target (base) branch name."},
+                        "head_sha": {"type": "string", "description": "Head commit SHA for the PR."},
+                        "pr_files": {"type": "array", "items": {"type": "string"}, "description": "List of file paths included in the PR."}
                     },
-                    "required": [
-                        "owner",
-                        "repo_name",
-                        "pr_title",
-                        "pr_body",
-                        "head_branch_name",
-                        "base_branch_name",
-                        "head_sha",
-                        "pr_files",
-                    ],
-                },
-            },
+                    "required": ["owner", "repo_name", "pr_title", "pr_body", "head_branch_name", "base_branch_name", "head_sha", "pr_files"]
+                }
+            }
         }

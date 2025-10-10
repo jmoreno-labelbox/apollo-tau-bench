@@ -1,22 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateRoleBasedChecklistTasksTool(Tool):
-    """Adds several checklist_items records according to the roles of one or more candidates."""
+    """Inserts multiple checklist_items records based on the roles of one or more candidates."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str = None, candidate_ids: list[str] = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
+        candidate_ids = kwargs.get("candidate_ids")
+
         ids_to_process = []
         if candidate_ids:
             ids_to_process.extend(candidate_ids)
@@ -26,9 +22,7 @@ class CreateRoleBasedChecklistTasksTool(Tool):
         if not ids_to_process:
             return _err("candidate_id or candidate_ids is required.")
 
-        candidates_map = {
-            str(c.get("candidate_id")): c for c in data.get("candidates", {}).values()
-        }
+        candidates_map = {str(c.get("candidate_id")): c for c in data.get("candidates", [])}
         checklist_items = data.setdefault("checklist_items", [])
         all_created_tasks = []
 
@@ -42,9 +36,7 @@ class CreateRoleBasedChecklistTasksTool(Tool):
             start_date_str = candidate.get("start_date")
             if not start_date_str:
                 if len(ids_to_process) == 1:
-                    return _err(
-                        "Candidate start_date is required for due date calculation."
-                    )
+                    return _err("Candidate start_date is required for due date calculation.")
                 continue
 
             start_date = datetime.fromisoformat(start_date_str)
@@ -59,9 +51,7 @@ class CreateRoleBasedChecklistTasksTool(Tool):
 
             if not task_list:
                 if len(ids_to_process) == 1:
-                    return _err(
-                        f"No task template found for role '{candidate.get('role_title', '')}'."
-                    )
+                    return _err(f"No task template found for role '{candidate.get('role_title', '')}'.")
                 continue
 
             created_tasks = []
@@ -76,33 +66,26 @@ class CreateRoleBasedChecklistTasksTool(Tool):
                     "created_ts": HARD_TS,
                     "updated_ts": HARD_TS,
                     "reminder_sent_flag": False,
-                    "reminder_email_message_id_nullable": None,
+                    "reminder_email_message_id_nullable": None
                 }
                 checklist_items.append(new_task)
                 created_tasks.append(new_task)
             all_created_tasks.extend(created_tasks)
-        payload = all_created_tasks
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(all_created_tasks, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateRoleBasedChecklistTasks",
+                "name": "create_role_based_checklist_tasks",
                 "description": "Inserts multiple checklist_items records based on the roles of one or more candidates.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "candidate_id": {
-                            "type": "string",
-                            "description": "A single target candidate identifier.",
-                        },
-                        "candidate_ids": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "A list of target candidate identifiers.",
-                        },
+                        "candidate_id": {"type": "string", "description": "A single target candidate identifier."},
+                        "candidate_ids": {"type": "array", "items": {"type": "string"}, "description": "A list of target candidate identifiers."}
                     },
                 },
             },

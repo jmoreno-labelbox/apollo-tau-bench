@@ -1,23 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetAccessRequestDetailsTool(Tool):
-    """GetAccessRequest_details: enhanced alias for retrieving AR details."""
+    """get_access_request_details: richer alias for getting AR details."""
 
     @staticmethod
-    def invoke(data: dict[str, Any],
-    request_id: Any = None,
-    ) -> str:
-        return GetAccessRequestTool.invoke(data)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        return GetAccessRequestTool.invoke(data, **kwargs)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAccessRequestDetails",
+                "name": "get_access_request_details",
                 "description": "Return detailed access request info by ID.",
                 "parameters": {
                     "type": "object",

@@ -1,53 +1,49 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ListCommits(Tool):
-    """Enumerates commits for a specified repository and optional branch."""
+    """Lists commits for a given repository and optional branch."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str = None, branch: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        repo_name = kwargs.get("repo_name")
+        branch = kwargs.get("branch")
         commits = _commits(data)
 
         for entry in commits:
             if entry["repo_name"] == repo_name:
                 if not branch:
-                    payload = entry
-                    out = json.dumps(payload, indent=2)
-                    return out
+                    return json.dumps(entry, indent=2)
 
                 if branch in entry["branch_names"]:
                     idx = entry["branch_names"].index(branch)
-                    payload = {
+                    return json.dumps({
                         "branch": branch,
                         "commit_shas": entry["commit_shas"][idx],
                         "messages": entry["commit_messages"][idx],
                         "authors": entry["commit_authors"][idx],
                         "timestamps": entry["commit_timestamps"][idx],
-                    }
-                    out = json.dumps(
-                        payload, indent=2,
-                    )
-                    return out
-        payload = {
+                    }, indent=2)
+
+        return json.dumps({
             "branch": branch,
             "commit_shas": [],
             "messages": [],
             "authors": [],
             "timestamps": [],
-        }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        }, indent=2)
+
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "ListCommits",
+                "name": "list_commits",
                 "description": "Lists commits in a repository and branch.",
                 "parameters": {
                     "type": "object",
@@ -55,7 +51,7 @@ class ListCommits(Tool):
                         "repo_name": {"type": "string"},
                         "branch": {"type": "string"},
                     },
-                    "required": ["repo_name"],
-                },
-            },
+                    "required": ["repo_name"]
+                }
+            }
         }

@@ -1,44 +1,39 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpsertProjectConfig(Tool):
-    """Adds or modifies a project_config record based on target_city."""
-
+    """
+    Inserts or updates a project_config record by target_city.
+    """
     @staticmethod
-    def invoke(data: dict[str, Any], record: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], record: Dict[str, Any]) -> str:
         if "target_city" not in record:
-            payload = {"error": "missing target_city"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "missing target_city"})
         rows = data.setdefault("project_config", [])
         for row in rows:
             if row.get("target_city") == record["target_city"]:
                 row.update(record)
-                payload = {"status": "updated", "record": row}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"status": "updated", "record": row})
         rows.append(record)
-        payload = {"status": "inserted", "record": record}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "inserted", "record": record})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "upsertProjectConfig",
+                "name": "upsert_project_config",
                 "description": "Inserts or updates a project_config record by target_city.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "record": {
-                            "type": "object",
-                            "description": "Full project_config record with target_city as key.",
-                        }
+                        "record": {"type": "object", "description": "Full project_config record with target_city as key."}
                     },
-                    "required": ["record"],
-                },
-            },
+                    "required": ["record"]
+                }
+            }
         }

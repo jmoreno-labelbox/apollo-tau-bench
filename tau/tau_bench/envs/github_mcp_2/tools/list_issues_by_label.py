@@ -1,19 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ListIssuesByLabel(Tool):
-    """Delivers all issues that possess a specific label (e.g., 'bug')"""
+    """Returns all issues that have a given label (e.g., 'bug')"""
 
     @staticmethod
-    def invoke(data: dict[str, Any], label: str = None,
-    repo_name: Any = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        label = kwargs.get("label")
         if not label:
-            payload = {"error": "label is required."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "label is required."}, indent=2)
 
         issues = _issues(data)
         result = []
@@ -25,21 +24,22 @@ class ListIssuesByLabel(Tool):
             for idx, lbls in enumerate(labels_list):
                 if label in lbls:
                     result.append(numbers[idx])
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(result, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "ListIssuesByLabel",
+                "name": "list_issues_by_label",
                 "description": "Returns all issues containing the given label.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"label": {"type": "string"}},
-                    "required": ["label"],
-                },
-            },
+                    "properties": {
+                        "label": {"type": "string"}
+                    },
+                    "required": ["label"]
+                }
+            }
         }

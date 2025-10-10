@@ -1,185 +1,61 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ManageReminders(Tool):
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        action: str,
-        reminder_id: str | None = None,
-        reminder: dict[str, Any] | None = None,
-        updates: dict[str, Any] | None = None
-    ) -> str:
-        reminders = data.get("reminders", {}).values()
+    def invoke(data: Dict[str, Any], action: str, reminder_id: Optional[str] = None, reminder: Optional[Dict[str, Any]] = None, updates: Optional[Dict[str, Any]] = None) -> str:
+        reminders = data.get("reminders", [])
         if action == "list_all_names_ids":
-            payload = {
-                "reminders": [
-                    {"name": r["name"], "reminder_id": r["reminder_id"]}
-                    for r in reminders.values()
-                ]
-            }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({"reminders": [{"name": r["name"], "reminder_id": r["reminder_id"]} for r in reminders]}, indent=2)
         if action == "get":
-            r = next((r for r in reminders.values() if r["reminder_id"] == reminder_id), None)
-            payload = {"reminder": r} if r else {"error": "not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            r = next((r for r in reminders if r["reminder_id"] == reminder_id), None)
+            return json.dumps({"reminder": r} if r else {"error": "not found"}, indent=2)
         if action == "delete":
-            new_doc = [r for r in reminders.values() if r["reminder_id"] != reminder_id]
+            new_doc = [r for r in reminders if r["reminder_id"] != reminder_id]
             if len(new_doc) == len(reminders):
-                payload = {"error": "not found"}
-                out = json.dumps(payload, indent=2)
-                return out
+                return json.dumps({"error": "not found"}, indent=2)
             data["reminders"] = new_doc
-            payload = {"success": True}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"success": True}, indent=2)
         if action == "create":
             if not reminder or "reminder_id" not in reminder:
-                payload = {"error": "reminder object with reminder_id required"}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
-            if any(r["reminder_id"] == reminder["reminder_id"] for r in reminders.values()):
-                payload = {"error": "Duplicate id"}
-                out = json.dumps(payload, indent=2)
-                return out
-            data["reminders"][reminder_id] = reminder
+                return json.dumps({"error": "reminder object with reminder_id required"}, indent=2)
+            if any(r["reminder_id"] == reminder["reminder_id"] for r in reminders):
+                return json.dumps({"error": "Duplicate id"}, indent=2)
+            reminders.append(reminder)
             data["reminders"] = reminders
-            payload = {"success": True}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"success": True}, indent=2)
         if action == "update":
             modified = False
-            for r in reminders.values():
+            for r in reminders:
                 if r["reminder_id"] == reminder_id:
                     r.update(updates)
                     modified = True
                     break
             if not modified:
-                payload = {"error": "not found"}
-                out = json.dumps(payload, indent=2)
-                return out
+                return json.dumps({"error": "not found"}, indent=2)
             data["reminders"] = reminders
-            payload = {"success": True}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"error": "Unknown action"}
-        out = json.dumps(payload, indent=2)
-        return out
-        pass
-        reminders = data.get("reminders", {}).values()
-        if action == "list_all_names_ids":
-            payload = {
-                    "reminders": [
-                        {"name": r["name"], "reminder_id": r["reminder_id"]}
-                        for r in reminders.values()
-                    ]
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
-        if action == "get":
-            r = next((r for r in reminders.values() if r["reminder_id"] == reminder_id), None)
-            payload = {"reminder": r} if r else {"error": "not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        if action == "delete":
-            new_doc = [r for r in reminders.values() if r["reminder_id"] != reminder_id]
-            if len(new_doc) == len(reminders):
-                payload = {"error": "not found"}
-                out = json.dumps(payload, indent=2)
-                return out
-            data["reminders"] = new_doc
-            payload = {"success": True}
-            out = json.dumps(payload, indent=2)
-            return out
-        if action == "create":
-            if not reminder or "reminder_id" not in reminder:
-                payload = {"error": "reminder object with reminder_id required"}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
-            if any(r["reminder_id"] == reminder["reminder_id"] for r in reminders.values()):
-                payload = {"error": "Duplicate id"}
-                out = json.dumps(payload, indent=2)
-                return out
-            data["reminders"][reminder_id] = reminder
-            data["reminders"] = reminders
-            payload = {"success": True}
-            out = json.dumps(payload, indent=2)
-            return out
-        if action == "update":
-            modified = False
-            for r in reminders.values():
-                if r["reminder_id"] == reminder_id:
-                    r.update(updates)
-                    modified = True
-                    break
-            if not modified:
-                payload = {"error": "not found"}
-                out = json.dumps(payload, indent=2)
-                return out
-            data["reminders"] = reminders
-            payload = {"success": True}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"error": "Unknown action"}
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"success": True}, indent=2)
+        return json.dumps({"error": "Unknown action"}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ManageReminders",
+                "name": "manage_reminders",
                 "description": "Create, list, get, update, or delete reminders.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "action": {
-                            "type": "string",
-                            "enum": [
-                                "list_all_names_ids",
-                                "get (requires reminder_id)",
-                                "create (requires reminder_id, reminder)",
-                                "update (requires reminder_id, updates)",
-                                "delete (requires reminder_id)",
-                            ],
-                        },
-                        "reminder_id": {
-                            "type": "string",
-                            "description": "Reminder identifier.",
-                        },
-                        "reminder": {
-                            "type": "object",
-                            "description": "Key/value pairs of reminder.",
-                        },
-                        "updates": {
-                            "type": "object",
-                            "description": "Key/value pairs of updates.",
-                        },
+                        "action": {"type": "string", "enum": ["list_all_names_ids", "get (requires reminder_id)", "create (requires reminder_id, reminder)", "update (requires reminder_id, updates)", "delete (requires reminder_id)"]},
+                        "reminder_id": {"type": "string", "description": "Reminder identifier."},
+                        "reminder": {"type": "object", "description": "Key/value pairs of reminder."},
+                        "updates": {"type": "object", "description": "Key/value pairs of updates."},
                     },
                     "required": ["action"],
                     "additionalProperties": False,

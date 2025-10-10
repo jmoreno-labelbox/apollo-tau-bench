@@ -1,64 +1,53 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpdateAuditFindingSeverity(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], finding_id: str = None, new_severity: str = None, updated_by: str = None, notes: str = "", updated_ts: str = "2024-08-23T15:00:00Z") -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
-        Modifies the severity level of an audit finding.
+        Updates the severity level of an audit finding.
         """
-        if not all([finding_id, new_severity]):
-            payload = {"error": "finding_id and new_severity are required."}
-            out = json.dumps(payload)
-            return out
+        finding_id = kwargs.get("finding_id")
+        new_severity = kwargs.get("new_severity")
 
-        payload = {
-                "status": "SUCCESS",
-                "finding_id": finding_id,
-                "previous_severity": "MEDIUM",
-                "new_severity": new_severity,
-                "updated_by": updated_by,
-                "notes": notes,
-                "updated_ts": updated_ts,
-            }
-        out = json.dumps(
-            payload)
-        return out
+        if not all([finding_id, new_severity]):
+            return json.dumps({"error": "finding_id and new_severity are required."})
+
+        updated_by = kwargs.get("updated_by")
+        notes = kwargs.get("notes", "")
+        updated_ts = kwargs.get("updated_ts", "2024-08-23T15:00:00Z")
+
+        return json.dumps({
+            "status": "SUCCESS",
+            "finding_id": finding_id,
+            "previous_severity": "MEDIUM",
+            "new_severity": new_severity,
+            "updated_by": updated_by,
+            "notes": notes,
+            "updated_ts": updated_ts
+        })
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateAuditFindingSeverity",
+                "name": "update_audit_finding_severity",
                 "description": "Updates the severity level of an audit finding (DS or A11y).",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "finding_id": {
-                            "type": "string",
-                            "description": "The ID of the audit finding to update.",
-                        },
-                        "new_severity": {
-                            "type": "string",
-                            "description": "The new severity level (LOW, MEDIUM, HIGH, CRITICAL).",
-                        },
-                        "updated_by": {
-                            "type": "string",
-                            "description": "Email of the user updating the severity.",
-                        },
-                        "notes": {
-                            "type": "string",
-                            "description": "Optional notes about the severity change.",
-                        },
-                        "updated_ts": {
-                            "type": "string",
-                            "description": "Timestamp of the update.",
-                        },
+                        "finding_id": {"type": "string", "description": "The ID of the audit finding to update."},
+                        "new_severity": {"type": "string", "description": "The new severity level (LOW, MEDIUM, HIGH, CRITICAL)."},
+                        "updated_by": {"type": "string", "description": "Email of the user updating the severity."},
+                        "notes": {"type": "string", "description": "Optional notes about the severity change."},
+                        "updated_ts": {"type": "string", "description": "Timestamp of the update."}
                     },
-                    "required": ["finding_id", "new_severity"],
-                },
-            },
+                    "required": ["finding_id", "new_severity"]
+                }
+            }
         }

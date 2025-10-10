@@ -1,60 +1,46 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListPermissionsForRoleTool(Tool):
-    """Display permissions associated with a role_id (read operation, predictable)."""
+    """List permissions bound to a role_id (read operation, deterministic)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], role_id: str = None) -> str:
-        role_permissions = data.get("role_permissions", {}).values()
-        permissions = data.get("permissions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        role_permissions = data.get("role_permissions", [])
+        permissions = list(data.get("permissions", {}).values())
         if not isinstance(role_permissions, list):
-            payload = {"error": "role_permissions must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "role_permissions must be a list"}, indent=2)
         if not isinstance(permissions, list):
-            payload = {"error": "permissions must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "permissions must be a list"}, indent=2)
 
-        roles = data.get("roles", {}).values()
-        if not any(r.get("role_id") == role_id for r in roles.values()):
-            payload = {"error": f"role_id {role_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+        role_id = kwargs.get("role_id")
+        roles = list(data.get("roles", {}).values())
+        if not any(r.get("role_id")==role_id for r in roles):
+            return json.dumps({"error": f"role_id {role_id} not found"}, indent=2)
         if not isinstance(role_id, str) or not role_id.strip():
-            payload = {"error": "role_id must be a non-empty string"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "role_id must be a non-empty string"}, indent=2)
 
-        perm_ids = [
-            rp.get("permission_id")
-            for rp in role_permissions.values() if rp.get("role_id") == role_id
-        ]
-        results = [p for p in permissions.values() if p.get("permission_id") in perm_ids]
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+        perm_ids = [rp.get("permission_id") for rp in role_permissions if rp.get("role_id") == role_id]
+        results = [p for p in permissions if p.get("permission_id") in perm_ids]
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListPermissionsForRole",
+                "name": "list_permissions_for_role",
                 "description": "List permission records attached to the given role_id.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"role_id": {"type": "string"}},
-                    "required": ["role_id"],
-                },
-            },
+                    "properties": {
+                        "role_id": {"type": "string"}
+                    },
+                    "required": ["role_id"]
+                }
+            }
         }

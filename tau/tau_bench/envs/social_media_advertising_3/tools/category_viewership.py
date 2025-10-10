@@ -1,38 +1,26 @@
-from tau_bench.envs.tool import Tool
-import csv
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CategoryViewership(Tool):
-    """Deliver viewership statistics for a product category on a specific date."""
+    """Return viewership metrics for a product category on a date."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cat, date = kwargs.get("category"), kwargs.get("date")
+        for v in data.get("f_viewership", []):
+            if v.get("category") == cat and v.get("date") == date:
+                return json.dumps(v)
+        return json.dumps({"error": "Viewership not found"})
 
     @staticmethod
-    def invoke(data: dict[str, Any], category: str = None, date: str = None) -> str:
-        cat, date = category, date
-        for v in data.get("f_viewership", {}).values():
-            if v.get("category") == cat and v.get("date") == date:
-                payload = v
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Viewership not found"}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "categoryViewership",
+                "name": "category_viewership",
                 "description": "Return viewership metrics for a product category on a date.",
                 "parameters": {
                     "type": "object",

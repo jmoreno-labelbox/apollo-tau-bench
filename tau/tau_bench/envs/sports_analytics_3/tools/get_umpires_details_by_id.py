@@ -1,54 +1,47 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetUmpiresDetailsById(Tool):
-    """Retrieve an umpire record using umpire_id."""
+    """Fetch an umpire record by umpire_id."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], umpire_id: str = None) -> str:
-        #1) Confirm validity
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        umpire_id = kwargs.get("umpire_id")
+
+        # 1) Validate
         if umpire_id is None:
-            payload = {"error": "Missing required field: umpire_id"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Missing required field: umpire_id"}, indent=2)
 
-        #2) Retrieve DB
-        umpires: list[dict[str, Any]] = data.get("umpires", {}).values()
+        # 2) Get DB
+        umpires: List[Dict[str, Any]] = data.get("umpires", [])
 
-        #3) Lookup for exact matches
+        # 3) Exact match
         for ump in umpires:
             if ump.get("umpire_id") == umpire_id:
-                payload = ump
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"No umpire found with ID {umpire_id}"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(ump, indent=2)
+
+        return json.dumps({"error": f"No umpire found with ID {umpire_id}"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetUmpiresDetailsById",
+                "name": "get_umpires_details_by_id",
                 "description": "Fetch a single umpire's full details by umpire_id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "umpire_id": {
                             "type": "integer",
-                            "description": "Exact umpire ID to retrieve.",
+                            "description": "Exact umpire ID to retrieve."
                         }
                     },
-                    "required": ["umpire_id"],
-                },
-            },
+                    "required": ["umpire_id"]
+                }
+            }
         }

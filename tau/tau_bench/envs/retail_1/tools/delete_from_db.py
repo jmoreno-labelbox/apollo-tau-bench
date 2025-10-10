@@ -1,57 +1,42 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
-from tau_bench.envs.retail_1.tools import _match, _apply_delete
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class DeleteFromDB(Tool):  #WRITE
+class DeleteFromDB(Tool): # WRITE
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        database_name: str,
-        filter_params: dict[str, Any],
-        delete_params: dict[str, Any],
-    ) -> str:
-        pass
-        db = _convert_db_to_list(data.get(database_name, {}))
-        filtered_db = [row for row in db.values() if _match(row, filter_params)]
+    def invoke(data: Dict[str, Any], database_name:str, filter_params: Dict[str, Any], delete_params: Dict[str, Any]) -> str:
+        db = data.get(database_name, [])
+        filtered_db = [row for row in db if _match(row, filter_params)]
         filtered_db = _apply_delete(filtered_db, delete_params)
-        payload = filtered_db
-        out = json.dumps(payload)
-        return out
+        return json.dumps(filtered_db)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "deleteFromDb",
+                "name": "delete_from_db",
                 "description": "Delete entries from the database based on filter parameters and delete parameters.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "database_name": {
                             "type": "string",
-                            "description": "The name of the database to delete from. This should match the key in the data dictionary.",
+                            "description": "The name of the database to delete from. This should match the key in the data dictionary."
                         },
                         "filter_params": {
                             "type": "object",
-                            "description": "Dictionary/List of ways to filter items in the database. Dictionaries are AND conditions, lists are OR conditions.",
+                            "description": "Dictionary/List of ways to filter items in the database. Dictionaries are AND conditions, lists are OR conditions."
                         },
                         "delete_params": {
                             "type": "object",
-                            "description": "Dictionary of fields to delete and their values.",
-                        },
+                            "description": "Dictionary of fields to delete and their values."
+                        }
                     },
-                    "required": ["database_name", "filter_params", "delete_params"],
-                },
-            },
+                    "required": ["database_name","filter_params", "delete_params"]
+                }
+            }
         }

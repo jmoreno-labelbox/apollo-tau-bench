@@ -1,44 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateAllocation(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], allocation_id: str = None, hours_per_week: int = None, end_date: str = None) -> str:
-        if not allocation_id:
-            payload = {"error": "allocation_id is required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        allocation_id = kwargs.get("allocation_id")
+        hours_per_week = kwargs.get("hours_per_week")
+        end_date = kwargs.get("end_date")
 
-        allocations = data.get("allocations", {}).values()
-        for allocation in allocations.values():
+        if not allocation_id:
+            return json.dumps({"error": "allocation_id is required"})
+
+        allocations = data.get("allocations", [])
+        for allocation in allocations:
             if allocation.get("allocation_id") == allocation_id:
                 if hours_per_week is not None:
                     allocation["hours_per_week"] = hours_per_week
                 if end_date is not None:
                     allocation["end_date"] = end_date
-                payload = {"success": True, "allocation": allocation}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Allocation with ID '{allocation_id}' not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"success": True, "allocation": allocation})
+
+        return json.dumps({"error": f"Allocation with ID '{allocation_id}' not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateAllocation",
+                "name": "update_allocation",
                 "description": "Update an existing allocation's hours or end date",
                 "parameters": {
                     "type": "object",

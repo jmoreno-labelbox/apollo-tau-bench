@@ -1,49 +1,44 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class RenameRepository(Tool):
-    """Changes the name of a repository owned by the acting user."""
+    """Renames a repository owned by the acting user."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], old_name: str = None, new_name: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         me = _auth(data)["username"]
+        old_name = kwargs.get("old_name")
+        new_name = kwargs.get("new_name")
 
         if not all([old_name, new_name]):
-            payload = {"error": "old_name and new_name are required."}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "old_name and new_name are required."}, indent=2)
 
         repos = _repos(data)
         for r in repos:
             if r.get("owner") == me and r.get("repo_name") == old_name:
                 r["repo_name"] = new_name
-                payload = {"message": "Repository renamed", "new_name": new_name}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
-        payload = {"error": f"Repository '{old_name}' not found."}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps({"message": "Repository renamed", "new_name": new_name}, indent=2)
+
+        return json.dumps({"error": f"Repository '{old_name}' not found."}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "RenameRepository",
+                "name": "rename_repository",
                 "description": "Renames an existing repository.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "old_name": {"type": "string"},
-                        "new_name": {"type": "string"},
+                        "new_name": {"type": "string"}
                     },
-                    "required": ["old_name", "new_name"],
-                },
-            },
+                    "required": ["old_name", "new_name"]
+                }
+            }
         }

@@ -1,47 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone, date, timedelta
-import calendar
-from typing import Any, Dict
-import random
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CalculateTotalBalance(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, account_ids: list = None) -> str:
-        if account_ids is None:
-            account_ids = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        account_ids = kwargs.get("account_ids", [])
         if not customer_id or not isinstance(account_ids, list) or not account_ids:
             return json.dumps(
                 {"error": "customer_id and a non-empty list of account_ids are required."},
                 indent=2
             )
 
-        customers = data.get("customers", {}).values()
-        if not any(c.get("customer_id") == customer_id for c in customers.values()):
+        customers = list(data.get("customers", {}).values())
+        if not any(c.get("customer_id") == customer_id for c in customers):
             return json.dumps({"error": "Customer not found."}, indent=2)
 
-        accounts = data.get("accounts", {}).values()
+        accounts = list(data.get("accounts", {}).values())
         total = 0.0
-        for acc in accounts.values():
+        for acc in accounts:
             if acc.get("account_id") in account_ids and acc.get("customer_id") == customer_id:
+
                 total += acc.get("balance", 0.0)
 
         return json.dumps({"total_balance": total}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateTotalBalance",
+                "name": "calculate_total_balance",
                 "description": "Calculates the sum of balances for the specified accounts of a given customer.",
                 "parameters": {
                     "type": "object",

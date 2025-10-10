@@ -1,37 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListDevicesInDatabase(Tool):
-    """Display all devices, with optional filtering."""
-
+    """List all devices, with optional filters."""
     @staticmethod
-    def invoke(data: dict[str, Any], filters: dict[str, Any] | None = None) -> str:
-        device_list = data.get("devices", {}).values()
+    def invoke(data: Dict[str, Any], filters: Optional[Dict[str, Any]] = None) -> str:
+        device_list = list(data.get('devices', {}).values())
         if filters:
-            result = [
-                d for d in device_list.values() if all(d.get(k) == v for k, v in filters.items())
-            ]
+            result = [d for d in device_list if all(d.get(k) == v for k, v in filters.items())]
         else:
             result = device_list
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(result, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "listDevicesInDatabase",
+                "name": "list_devices_in_database",
                 "description": "List all devices, or filter by any field.",
                 "parameters": {
                     "type": "object",
@@ -39,11 +29,11 @@ class ListDevicesInDatabase(Tool):
                         "filters": {
                             "type": "object",
                             "description": "Key-value pairs to filter devices (optional)",
-                            "additionalProperties": True,
+                            "additionalProperties": True
                         }
                     },
                     "required": [],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

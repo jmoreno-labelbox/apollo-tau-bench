@@ -1,34 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetNextOrderId(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], orders: list = None) -> str:
-        if orders is None:
-            orders = data.get("orders", {}).values()
+    def invoke(data: Dict[str, Any]) -> str:
+        orders = list(data.get("orders", {}).values())
         if not orders:
             next_id = 9017
         else:
-            max_id = max(int(o.get("order_id", "0")) for o in orders.values())
+            max_id = max(int(o.get("order_id", "0")) for o in orders)
             next_id = max_id + 1
-        payload = {"next_order_id": f"{next_id}"}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"next_order_id": f"{next_id}"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetNextOrderId",
+                "name": "get_next_order_id",
                 "description": "Return the next available order_id as a zero-padded string.",
                 "parameters": {"type": "object", "properties": {}},
             },

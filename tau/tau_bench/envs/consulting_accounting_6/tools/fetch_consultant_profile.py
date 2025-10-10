@@ -1,43 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FetchConsultantProfile(Tool):
-    """Fetch the consultant profile entry using consultant_id."""
+    """Return the consultant profile row by consultant_id."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cid = kwargs.get("consultant_id")
+        row = next((c for c in data.get("consultants", []) if c.get("consultant_id") == cid), None)
+        if not row:
+            return json.dumps({"error": f"consultant_id '{cid}' not found"}, indent=2)
+        return json.dumps(row, indent=2)
 
     @staticmethod
-    def invoke(data: dict[str, Any], consultant_id: str = None) -> str:
-        row = next(
-            (c for c in data.get("consultants", {}).values() if c.get("consultant_id") == consultant_id),
-            None,
-        )
-        if not row:
-            payload = {"error": f"consultant_id '{consultant_id}' not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = row
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "FetchConsultantProfile",
-                "description": "Fetch a consultant profile.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"consultant_id": {"type": "string"}},
-                    "required": ["consultant_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "fetch_consultant_profile",
+            "description": "Fetch a consultant profile.",
+            "parameters": {"type": "object", "properties": {"consultant_id": {"type": "string"}}, "required": ["consultant_id"]}
+        }}

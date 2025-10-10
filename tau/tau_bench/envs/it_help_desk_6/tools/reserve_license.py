@@ -1,39 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ReserveLicense(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], license_id: str, count: int, reason: str) -> str:
-        pass
+    def invoke(data: Dict[str, Any], license_id: str, count: int, reason: str) -> str:
         inv = _find_one(data["license_inventory"], license_id=license_id)
         if not inv:
-            payload = {"status": "error", "reason": "license_not_found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "license_not_found"})
         if inv["used_seats"] + inv["reserved_seats"] + count > inv["total_seats"]:
-            payload = {"status": "error", "reason": "no_capacity"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "no_capacity"})
         inv["reserved_seats"] += count
-        payload = {"status": "ok", "inventory": inv, "reason": reason}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "inventory": inv, "reason": reason})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ReserveLicense",
+                "name": "reserve_license",
                 "description": "Reserve seats for a license (inventory reserved_seats).",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "license_id": {"type": "string"},
-                        "count": {"type": "integer"},
-                        "reason": {"type": "string"},
-                    },
+                    "properties": {"license_id": {"type": "string"}, "count": {"type": "integer"}, "reason": {"type": "string"}},
                     "required": ["license_id", "count", "reason"],
                 },
             },

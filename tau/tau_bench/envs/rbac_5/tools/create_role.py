@@ -1,42 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateRole(Tool):
     """
-    Establish a new role with consistent ID generation.
+    Create a new role with deterministic ID generation.
 
     kwargs:
-      role_name: str (mandatory)
-      description: str (mandatory)
+      role_name: str (required)
+      description: str (required)
       is_temporary: bool = False (optional)
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], role_name: str = "", description: str = "", is_temporary: bool = False) -> str:
-        role_name = role_name.strip()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        role_name = (kwargs.get("role_name", "") or "").strip()
+        description = kwargs.get("description", "")
+        is_temporary = kwargs.get("is_temporary", False)
 
         if not role_name or not description:
-            payload = {"error": "role_name and description are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "role_name and description are required"})
 
-        # Ensure uniqueness based on role_name (case-insensitive)
-        existing_roles = data.get("roles", {}).values()
-        for r in existing_roles.values():
+        # Enforce uniqueness by role_name (case-insensitive)
+        existing_roles = list(data.get("roles", {}).values())
+        for r in existing_roles:
             if str(r.get("role_name", "")).strip().lower() == role_name.lower():
-                payload = {"error": f"role_name '{role_name}' already exists"}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"error": f"role_name '{role_name}' already exists"})
 
         new_role = {
             "role_id": _next_id(data, "roles", "ROL"),
@@ -46,35 +37,24 @@ class CreateRole(Tool):
         }
 
         data.setdefault("roles", []).append(new_role)
-        payload = {"ok": True, "role": new_role}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"ok": True, "role": new_role})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateRole",
+                "name": "create_role",
                 "description": "Create a new role with deterministic ID generation.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "role_name": {
-                            "type": "string",
-                            "description": "Unique role name (case-insensitive).",
-                        },
-                        "description": {
-                            "type": "string",
-                            "description": "Role description.",
-                        },
-                        "is_temporary": {
-                            "type": "boolean",
-                            "description": "Whether the role is temporary.",
-                            "default": False,
-                        },
+                        "role_name": {"type": "string", "description": "Unique role name (case-insensitive)."},
+                        "description": {"type": "string", "description": "Role description."},
+                        "is_temporary": {"type": "boolean", "description": "Whether the role is temporary.", "default": False}
                     },
                     "required": ["role_name", "description"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

@@ -1,56 +1,44 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetPitchDetailsById(Tool):
-    """Retrieve a single pitch using its pitch_id."""
+    """Fetch a single pitch by its pitch_id."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], pitch_id: str = None) -> str:
-        #1) Confirm validity
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        pitch_id = kwargs.get("pitch_id")
+
+        # 1) Validate
         if pitch_id is None:
-            payload = {"error": "Missing required field: pitch_id"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Missing required field: pitch_id"}, indent=2)
 
-        #2) Retrieve DB
-        pitches: list[dict[str, Any]] = data.get("pitches", {}).values()
+        # 2) Get DB
+        pitches: List[Dict[str, Any]] = data.get("pitches", [])
 
-        #3) Lookup for exact matches
+        # 3) Exact match
         for p in pitches:
             if p.get("pitch_id") == pitch_id:
-                payload = p
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"No pitch found with pitch_id {pitch_id}"}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+                return json.dumps(p, indent=2)
+
+        return json.dumps({"error": f"No pitch found with pitch_id {pitch_id}"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getPitchDetailsById",
+                "name": "get_pitch_details_by_id",
                 "description": "Fetch a single pitch's full details by pitch_id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "pitch_id": {
-                            "type": "integer",
-                            "description": "Exact pitch ID to retrieve.",
-                        }
+                        "pitch_id": {"type": "integer", "description": "Exact pitch ID to retrieve."}
                     },
-                    "required": ["pitch_id"],
-                },
-            },
+                    "required": ["pitch_id"]
+                }
+            }
         }

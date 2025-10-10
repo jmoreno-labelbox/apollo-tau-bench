@@ -1,35 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindApplication(Tool):
-    """Locate a job application ID using the user ID and job ID."""
+    """Find a job application ID by user ID and job ID."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, job_id: str = None) -> str:
-        for a in data.get("job_applications", {}).values():
-            if a.get("applicant_id") == user_id and a.get("job_id") == job_id:
-                payload = {"application_id": a.get("application_id")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Application not found"}
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        uid = kwargs.get("user_id")
+        jid = kwargs.get("job_id")
+        for a in data.get("job_applications", []):
+            if a.get("applicant_id") == uid and a.get("job_id") == jid:
+                return json.dumps({"application_id": a.get("application_id")})
+        return json.dumps({"error": "Application not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindApplication",
+                "name": "find_application",
                 "description": "Find a job application ID by user and job ID.",
                 "parameters": {
                     "type": "object",

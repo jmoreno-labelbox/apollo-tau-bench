@@ -1,23 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class LogTaskCompletion(Tool):
-    """Generates a log entry for a task that has been successfully completed."""
-
+    """Creates a log entry for a successfully completed task."""
     @staticmethod
-    def invoke(data: dict[str, Any], task_type: str = None, task_id: str = None, user_id: str = None) -> str:
-        task_logs = data.get("task_logs", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        task_logs = data.get('task_logs', [])
 
-        # Automatically create notes according to the type of task
+        # Automatically generate notes based on task type
+        task_type = kwargs.get("task_type")
+        task_id = kwargs.get("task_id")
+
         if task_type == "archive":
             notes = f"Archive task {task_id} completed successfully"
         elif task_type == "file_check":
@@ -28,33 +25,11 @@ class LogTaskCompletion(Tool):
             notes = f"{task_type.title()} task {task_id} completed successfully"
 
         new_log = {
-            "task_id": task_id,
-            "task_type": task_type,
-            "user_id": user_id,
-            "result": "success",
-            "completed_at": "2024-01-20T13:00:00Z",
-            "notes": notes,
-        }
-        data["task_logs"][new_log["task_log_id"]] = new_log
-        data["task_logs"] = task_logs
-        payload = new_log
-        out = json.dumps(payload)
-        return out
+            "task_id": task_id, "task_type": task_type, "user_id": kwargs.get("user_id"), "result": "success", "completed_at": "2024-01-20T13:00:00Z", "notes": notes}
+        task_logs.append(new_log)
+        data['task_logs'] = task_logs
+        return json.dumps(new_log)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "LogTaskCompletion",
-                "description": "Writes a record to the main task log for a successfully completed task.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "task_id": {"type": "string"},
-                        "task_type": {"type": "string"},
-                        "user_id": {"type": "string"},
-                    },
-                    "required": ["task_id", "task_type", "user_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "log_task_completion", "description": "Writes a record to the main task log for a successfully completed task.", "parameters": {"type": "object", "properties": {"task_id": {"type": "string"}, "task_type": {"type": "string"}, "user_id": {"type": "string"}}, "required": ["task_id", "task_type", "user_id"]}}}

@@ -1,12 +1,17 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, time, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpdateAccountStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, new_status: str = None) -> str:
-        account = next((acc for acc in data["accounts"].values() if acc["account_id"] == account_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get("account_id")
+        new_status = kwargs.get("new_status")
+
+        account = next((acc for acc in data["accounts"] if acc["account_id"] == account_id), None)
         if not account:
             return json.dumps({"error": "Account not found."})
 
@@ -15,12 +20,13 @@ class UpdateAccountStatus(Tool):
 
         account["status"] = new_status
         return json.dumps(account)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "UpdateAccountStatus",
+                        "name": "update_account_status",
                         "description": "Updates the status of an account (e.g., Active, Frozen, Closed).",
                         "parameters": {
                                 "type": "object",

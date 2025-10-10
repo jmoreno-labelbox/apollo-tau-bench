@@ -1,51 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AppendTerminalLog(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        command: str = None,
-        exit_code: int = 0,
-        printed_message: str = "",
-        printed_ts: str = "1970-01-01T00:00:00Z",
-        stderr: str = "",
-        stdout: str = ""
-    ) -> str:
-        err = _require({"command": command}, ["command"])
-        if err:
-            return err
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        err = _require(kwargs, ["command"])
+        if err: return err
         tbl = data.setdefault("terminal_log", [])
         row = {
-            "command": command,
-            "exit_code": exit_code,
-            "stdout": stdout,
-            "stderr": stderr,
-            "printed_message": printed_message,
-            "printed_ts": printed_ts,
+            "command": kwargs["command"], "exit_code": kwargs.get("exit_code", 0),
+            "stdout": kwargs.get("stdout", ""), "stderr": kwargs.get("stderr", ""),
+            "printed_message": kwargs.get("printed_message", ""),
+            "printed_ts": kwargs.get("printed_ts", "1970-01-01T00:00:00Z")
         }
-        payload = _append(tbl, row)
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(_append(tbl, row), indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "AppendTerminalLog",
-                "description": "Appends a terminal log row (deterministic fields only).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "command": {"type": "string"},
-                        "exit_code": {"type": "integer"},
-                        "stdout": {"type": "string"},
-                        "stderr": {"type": "string"},
-                        "printed_message": {"type": "string"},
-                        "printed_ts": {"type": "string"},
-                    },
-                    "required": ["command"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "append_terminal_log",
+            "description": "Appends a terminal log row (deterministic fields only).",
+            "parameters": {"type": "object", "properties": {
+                "command": {"type": "string"}, "exit_code": {"type": "integer"},
+                "stdout": {"type": "string"}, "stderr": {"type": "string"},
+                "printed_message": {"type": "string"}, "printed_ts": {"type": "string"}},
+                "required": ["command"]}}}

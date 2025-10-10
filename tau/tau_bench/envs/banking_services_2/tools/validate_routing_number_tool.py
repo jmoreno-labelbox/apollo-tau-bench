@@ -1,10 +1,15 @@
-from tau_bench.envs.tool import Tool
-from typing import Any, Dict
+# Copyright Sierra
+
 import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ValidateRoutingNumberTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], routing_number: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        routing_number = kwargs.get('routing_number')
+
         valid_routing_numbers = {
             "021000021": "Chase Bank",
             "011401533": "Wells Fargo",
@@ -23,12 +28,13 @@ class ValidateRoutingNumberTool(Tool):
             "is_valid": is_valid,
             "bank_name": bank_name if is_valid else "Invalid routing number"
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ValidateRoutingNumber",
+                "name": "validate_routing_number",
                 "description": "Validate a bank routing number",
                 "parameters": {
                     "type": "object",

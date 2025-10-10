@@ -1,23 +1,22 @@
-from tau_bench.envs.tool import Tool
-from typing import Any, Dict
+# Copyright Sierra
+
 import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GenerateAccountStatementTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, start_date: str = None, end_date: str = None) -> str:
-        accounts = data.get('accounts', {}).values()
-        transactions = data.get('transactions', {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        start_date = kwargs.get('start_date')
+        end_date = kwargs.get('end_date')
+
+        accounts = list(data.get('accounts', {}).values())
+        transactions = list(data.get('transactions', {}).values())
 
         account = None
-        for a in accounts.values():
+        for a in accounts:
             if a['account_id'] == account_id:
                 account = a
                 break
@@ -29,7 +28,7 @@ class GenerateAccountStatementTool(Tool):
         total_credits = 0
         total_debits = 0
 
-        for transaction in transactions.values():
+        for transaction in transactions:
             if (transaction['account_id'] == account_id and
                 start_date <= transaction['transaction_date'] <= end_date):
 
@@ -56,12 +55,13 @@ class GenerateAccountStatementTool(Tool):
             "transaction_count": len(statement_transactions),
             "transactions": statement_transactions
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GenerateAccountStatement",
+                "name": "generate_account_statement",
                 "description": "Generate account statement for a date range",
                 "parameters": {
                     "type": "object",

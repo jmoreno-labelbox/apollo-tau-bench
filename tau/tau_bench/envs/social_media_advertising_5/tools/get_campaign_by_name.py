@@ -1,39 +1,22 @@
-from tau_bench.envs.tool import Tool
-import ast
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCampaignByName(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], name: str = None) -> str:
-        for c in data.get("campaigns", {}).values():
-            if c.get("name") == name:
-                payload = c
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"campaign {name} not found"}
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        n = kwargs.get("name")
+        for c in list(data.get("campaigns", {}).values()):
+            if c.get("name") == n:
+                return json.dumps(c)
+        return json.dumps({"error": f"campaign {n} not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetCampaignByName",
-                "description": "Retrieves a campaign by name.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"name": {"type": "string"}},
-                    "required": ["name"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function",
+                "function": {"name": "get_campaign_by_name", "description": "Retrieves a campaign by name.",
+                             "parameters": {"type": "object", "properties": {"name": {"type": "string"}},
+                                            "required": ["name"]}}}

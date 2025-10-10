@@ -1,37 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetUserSessions(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
         user_sessions = [
-            s for s in data.get("sessions", {}).values() if s.get("user_id") == user_id
+                s for s in data.get('sessions', []) if s.get('user_id') == user_id
         ]
-        user_sessions.sort(key=lambda x: x["start_time"], reverse=True)
-        payload = {"sessions": user_sessions}
-        out = json.dumps(payload)
-        return out
+        user_sessions.sort(key=lambda x: x['start_time'], reverse=True)
+        return json.dumps({"sessions": user_sessions})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "GetUserSessions",
-                "description": "Retrieves recent session information for a user.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"user_id": {"type": "string"}},
-                    "required": ["user_id"],
-                },
-            },
+                "type": "function",
+                "function": {
+                        "name": "get_user_sessions",
+                        "description": "Retrieves recent session information for a user.",
+                        "parameters": {
+                                "type": "object",
+                                "properties": {
+                                        "user_id": {"type": "string"}
+                                },
+                                "required": ["user_id"]
+                        }
+                }
         }

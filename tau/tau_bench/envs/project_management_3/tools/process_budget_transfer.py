@@ -1,46 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ProcessBudgetTransfer(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        transfer_id: str = None,
-        approval_action: str = None,
-        approver_id: str = None,
-        approver_role: str = None
-    ) -> str:
-        if not all([transfer_id, approval_action, approver_id, approver_role]):
-            payload = {"error": "All fields are required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        transfer_id = kwargs.get("transfer_id")
+        approval_action = kwargs.get("approval_action")
+        approver_id = kwargs.get("approver_id")
+        approver_role = kwargs.get("approver_role")
 
-        budget_transfers = data.get("budget_transfers", {}).values()
-        budgets = data.get("budgets", {}).values()
+        if not all([transfer_id, approval_action, approver_id, approver_role]):
+            return json.dumps({"error": "All fields are required"})
+
+        budget_transfers = data.get("budget_transfers", [])
+        budgets = data.get("budgets", [])
 
         transfer = next(
-            (t for t in budget_transfers.values() if t.get("transfer_id") == transfer_id), None
+            (t for t in budget_transfers if t.get("transfer_id") == transfer_id), None
         )
         if not transfer:
-            payload = {"error": f"Transfer {transfer_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Transfer {transfer_id} not found"})
 
         if transfer.get("status") != "pending_approval":
-            payload = {"error": "Transfer is not pending approval"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Transfer is not pending approval"})
 
         if "approvals" not in transfer:
             transfer["approvals"] = {}
@@ -52,12 +38,12 @@ class ProcessBudgetTransfer(Tool):
         }
 
         all_approved = all(
-            transfer["approvals"].get(role, {}).values().get("action") == "approve"
+            transfer["approvals"].get(role, {}).get("action") == "approve"
             for role in transfer["approvals_required"]
         )
 
         any_rejected = any(
-            transfer["approvals"].get(role, {}).values().get("action") == "reject"
+            transfer["approvals"].get(role, {}).get("action") == "reject"
             for role in transfer["approvals_required"]
         )
 
@@ -69,7 +55,8 @@ class ProcessBudgetTransfer(Tool):
             source_budget = next(
                 (
                     b
-                    for b in budgets.values() if b.get("project_id") == transfer["source_project_id"]
+                    for b in budgets
+                    if b.get("project_id") == transfer["source_project_id"]
                     and b.get("fiscal_year") == transfer["fiscal_year"]
                 ),
                 None,
@@ -77,7 +64,8 @@ class ProcessBudgetTransfer(Tool):
             target_budget = next(
                 (
                     b
-                    for b in budgets.values() if b.get("project_id") == transfer["target_project_id"]
+                    for b in budgets
+                    if b.get("project_id") == transfer["target_project_id"]
                     and b.get("fiscal_year") == transfer["fiscal_year"]
                 ),
                 None,
@@ -90,19 +78,22 @@ class ProcessBudgetTransfer(Tool):
                 target_budget["last_modified"] = datetime.now().isoformat()
 
         transfer["last_updated"] = datetime.now().isoformat()
-        payload = {
-            "success": True,
-            "transfer": transfer,
-            "all_approvals_complete": transfer["status"] in ["approved", "rejected"],
-        }
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(
+            {
+                "success": True,
+                "transfer": transfer,
+                "all_approvals_complete": transfer["status"]
+                in ["approved", "rejected"],
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "processBudgetTransfer",
+                "name": "process_budget_transfer",
                 "description": "Approve or reject a budget transfer request",
                 "parameters": {
                     "type": "object",

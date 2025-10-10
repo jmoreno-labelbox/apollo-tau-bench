@@ -1,0 +1,364 @@
+[
+  {
+    "task_id": 0,
+    "reward": 1.0,
+    "info": {
+      "task": {
+        "user_id": "task_100",
+        "actions": [
+          {
+            "name": "ExportAssets",
+            "kwargs": {
+              "artifact_id": "art_003",
+              "export_profile": "PNG 2x",
+              "timestamp": "2024-08-24T11:15:00Z",
+              "request_id": "en-001"
+            }
+          },
+          {
+            "name": "GovernanceUpdate",
+            "kwargs": {
+              "artifact_id": "art_003",
+              "add_tags": [
+                "needs-review"
+              ],
+              "remove_tags": [],
+              "timestamp": "2024-08-24T11:15:00Z",
+              "request_id": "up-001"
+            }
+          },
+          {
+            "name": "CreateGmailThread",
+            "kwargs": {
+              "subject": "Review Request \u2014 art_003 \u2014 2024-08-24",
+              "sender_email": "emma.creative@company.com",
+              "recipients": [
+                "jake.design@company.com",
+                "chris.engineer@company.com",
+                "anna.brand@company.com"
+              ],
+              "timestamp": "2024-08-24T11:15:00Z",
+              "request_id": "em-001"
+            }
+          },
+          {
+            "name": "AppendGmailMessage",
+            "kwargs": {
+              "thread_id": "thr_em-001",
+              "sender_email": "emma.creative@company.com",
+              "body_html": "Hi team,\nPlease review the attached PNG 2x export for art_003.\nThanks.",
+              "attachments_asset_ids": [
+                "asset_en-001"
+              ],
+              "timestamp": "2024-08-24T11:15:00Z",
+              "request_id": "em-002"
+            }
+          },
+          {
+            "name": "RecordAutomationRun",
+            "kwargs": {
+              "task_name": "review_kickoff",
+              "status": "completed",
+              "started_at": "2024-08-24T11:15:00Z",
+              "ended_at": "2024-08-24T11:15:00Z",
+              "timestamp": "2024-08-24T11:15:00Z",
+              "request_id": "rl-001"
+            }
+          }
+        ],
+        "instruction": "As the design review coordinator for the Web UX team on 2024-08-24T11:15:00Z, commence an email-based design review of Figma artifact art_003 utilizing export profile 'PNG 2x'. Dispatch from emma.creative@company.com to [jake.design@company.com, chris.engineer@company.com, anna.brand@company.com]. Confirm the email for review includes the exported asset.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": 0.003075,
+      "reward_info": {
+        "reward": 1.0,
+        "info": {
+          "r_actions": 1.0,
+          "gt_data_hash": "34f935e3053d8eeb84c29c38993f6851060de6fffffe0bc065724f5a87f20369"
+        },
+        "actions": [
+          {
+            "name": "ExportAssets",
+            "kwargs": {
+              "artifact_id": "art_003",
+              "export_profile": "PNG 2x",
+              "timestamp": "2024-08-24T11:15:00Z",
+              "request_id": "en-001"
+            }
+          },
+          {
+            "name": "GovernanceUpdate",
+            "kwargs": {
+              "artifact_id": "art_003",
+              "add_tags": [
+                "needs-review"
+              ],
+              "remove_tags": [],
+              "timestamp": "2024-08-24T11:15:00Z",
+              "request_id": "up-001"
+            }
+          },
+          {
+            "name": "CreateGmailThread",
+            "kwargs": {
+              "subject": "Review Request \u2014 art_003 \u2014 2024-08-24",
+              "sender_email": "emma.creative@company.com",
+              "recipients": [
+                "jake.design@company.com",
+                "chris.engineer@company.com",
+                "anna.brand@company.com"
+              ],
+              "timestamp": "2024-08-24T11:15:00Z",
+              "request_id": "em-001"
+            }
+          },
+          {
+            "name": "AppendGmailMessage",
+            "kwargs": {
+              "thread_id": "thr_em-001",
+              "sender_email": "emma.creative@company.com",
+              "body_html": "Hi team,\nPlease review the attached PNG 2x export for art_003.\nThanks.",
+              "attachments_asset_ids": [
+                "asset_en-001"
+              ],
+              "timestamp": "2024-08-24T11:15:00Z",
+              "request_id": "em-002"
+            }
+          },
+          {
+            "name": "RecordAutomationRun",
+            "kwargs": {
+              "task_name": "review_kickoff",
+              "status": "completed",
+              "started_at": "2024-08-24T11:15:00Z",
+              "ended_at": "2024-08-24T11:15:00Z",
+              "timestamp": "2024-08-24T11:15:00Z",
+              "request_id": "rl-001"
+            }
+          }
+        ]
+      }
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"WORKFLOW: review_kickoff \u2014 initiate a review for a Figma artifact; export assets utilizing the designated profile; send an email to stakeholders with the asset attached; at kickoff, apply the 'needs-review' tag; log the run.\",\n    \"WORKFLOW: changes_requested_escalation \u2014 indicate that changes have been requested during a review cycle; escalate to the specified recipients using the provided labels; maintain the discussion within the same thread; log the run.\",\n    \"WORKFLOW: approvals_append \u2014 add one or more approvals to a review cycle at specified timestamps; if the quorum for the day is achieved, update the cycle status and replace the 'needs-review' tag with 'approved/<YYYYMMDD>'; log the run.\",\n    \"WORKFLOW: rereview_kickoff \u2014 initiate a re-review following the completion of fixes; send notifications to the specified recipients utilizing the re-review notice template; proceed within the current day's thread; log the run.\",\n    \"WORKFLOW: release_handoff \u2014 retrieve all changes made since the last release tag; include a new export; send a handoff email to stakeholders; apply the tag 'released/<YYYYMMDD>' to the artifact; log the run.\",\n    \"WORKFLOW: sync_email_to_figma \u2014 transfer the most recent message from the Gmail thread into the designated Figma artifact as a comment; maintain a reference to the thread; log the run.\",\n    \"WORKFLOW: a11y_audit_report \u2014 retrieve accessibility findings for the specified audit within the given categories only; generate a PDF report based on those findings; log the execution.\",\n    \"WORKFLOW: ds_audit_report \u2014 retrieve design-system findings for the specified audit within the given categories only; generate a PDF report based on those findings; log the execution.\",\n    \"WORKFLOW: combined_audit_report \u2014 retrieve both A11Y and DS findings for the specified audit; generate a single, combined PDF report; log the execution.\",\n    \"WORKFLOW: fixplan_create_and_deliver \u2014 generate a minimal fix plan using the available findings; if there are no applicable findings, provide an empty plan (without synthesized items); deliver using one of {COMMENTS, TICKETS, PDF, EMAIL} as specified; log the execution. For the 'content' field in create_figma_comment, apply the deliver method.\",\n    \"WORKFLOW: fix_item_status_update \u2014 once a plan has been delivered, modify the status of one or more fix items (such as APPLIED/DEFERRED) utilizing the references generated during delivery (comment id or ticket id); log the execution.\",\n    \"THREAD_POLICY: Except for changes_requested_escalation, keep a single Gmail thread per artifact per <YYYYMMDD>; if a thread for the same artifact and date already exists, continue using it; if not, initiate a new thread.\",\n    \"SUBJECT_OVERRIDE_RULE: If responding within an ongoing thread on the same day for the identical artifact, refrain from creating a new subject; respond within the existing thread.\",\n    \"EMAIL_LABEL_RULE: Use solely the labels specified in the instruction or templates; do not create additional labels.\",\n    \"EMAIL_CHECKLIST_RULE: Prior to sending emails, verify that attachments are included whenever the instruction specifies the exported asset.\",\n    \"ASSET_ATTACHMENT_RULE: When the instruction requires the exported asset to be included in the review email, ensure that the specified asset is attached; do not omit it or replace it with another.\",\n    \"EXPORT_PROFILE_RULE: Apply precisely the export profile indicated in the instruction; do not create new profiles or alter the specified one.\",\n    \"SYNC_POLICY: During email synchronization to Figma as a comment, utilize the thread_id supplied by the dataset; do not generate or modify thread identifiers.\",\n    \"QUORUM_RULE: A quorum is considered achieved when a minimum of 2 approvals are logged for the identical review cycle and share the same <YYYYMMDD> as the instruction\u2019s timestamp.\",\n    \"CHANGES_REQUESTED_SLA_RULE: When an SLA is referenced by the instruction, consider it elapsed solely if the supplied timestamps confirm that the delay period has expired; escalate only to the specified recipients using the provided labels; do not generate additional recipients or labels.\",\n    \"A11Y_CATEGORIES_ALLOWED: {COLOR_CONTRAST, ALT_TEXT, FOCUS_ORDER}\",\n    \"DS_CATEGORIES_ALLOWED: {COMPONENT_MISMATCH, SPACING, TOKENS, UNMAPPED, AMBIGUOUS}\",\n    \"AUDIT_SCOPE_RULE: If the instruction specifies a list of categories, restrict the report to findings from those categories exclusively; exclude findings from any other categories.\",\n    \"RELEASE_DIFF_RULE: When requested to summarize changes since the last release, identify the most recent preceding tag that starts with 'release/' and generate the summary based on the differences from that tag; do not assume or fabricate a previous tag.\",\n    \"RELEASE_TAGGING_RULE: Once a handoff is completed successfully, assign the tag 'released/<YYYYMMDD>' to the artifact, using the date from the instruction timestamp as <YYYYMMDD>.\",\n    \"ID_RULE: request_id \u2014 use the following prefixes by operation: en- for provisioning/creates, rv- for review, au- for audit, rl- for release, em- for email, and up- for updates. The format is <prefix><seq>, where seq is a three-digit, zero-padded sequence beginning at 001 for each task (for example, rv-001). Do not require request_id for tools that do not utilize this field.\",\n    \"ID_RULE: review_cycle_id \u2014 format as rev-<artifact_id>-<YYYYMMDD>-<seq>, where seq begins at 1 for each artifact_id on each <YYYYMMDD>.\",\n    \"ID_RULE: audit_id \u2014 The format should be aud-<artifact_id>-<YYYYMMDD>-<seq>.\",\n    \"ID_RULE: export_id \u2014 The structure must be exp-<artifact_id>-<YYYYMMDD>-<format>-<seq>, where format is one of {png, pdf, zip}.\",\n    \"ID_RULE: fixplan_id \u2014 The identifier must follow the pattern fp-<artifact_id>-<YYYYMMDD>-<seq>.\",\n    \"ID_RULE: fix_item_id \u2014 fpi-<fixplan_id>-<seq>.\",\n    \"ID_RULE: release_id \u2014 rel-<artifact_id>-<YYYYMMDD>-<seq>.\",\n    \"ID_RULE: email_draft_id \u2014 ed-<thread_or_artifact>-<YYYYMMDDThhmmssZ>.\",\n    \"ID_RULE: gmail_thread_id \u2014 The thread_id supplied by the dataset MUST be used; do not generate or invent this value.\",\n    \"ID_RULE: timestamp_derivation \u2014 All ISO8601Z timestamps utilized by tools must be explicitly present in the instruction; the <YYYYMMDD> portion of IDs is derived from this timestamp.\",\n    \"ID_RULE: sequencing \u2014 By default, seq increases by one for each new ID generated within the SAME task and namespace, unless specified otherwise.\",\n    \"CYCLE_ALIAS_RULE: For legacy cycle ids, apply dataset aliases \u2014 for example, cycle_001 becomes art_001. OVERRIDE: Tool-generated IDs must always be accepted and treated as valid IDs, regardless of whether they adhere to the aforementioned rules. TEMPLATE_FAMILY: email.review_request \u2014 ACTIVE=v2; SUBJECT=email.review_request.v2_subject; BODY=email.review_request.v2_body; FALLBACK_SUBJECT=email.generic_plain.v1_subject; FALLBACK_BODY=email.generic_plain.v1\",\n    \"TEMPLATE_FAMILY: email.rereview_notice \u2014 ACTIVE=v1; SUBJECT=email.rereview_notice.v1_subject; BODY=email.rereview_notice.v1\",\n    \"TEMPLATE_FAMILY: email.release_handoff \u2014 ACTIVE=v1; SUBJECT=email.release_handoff.v1_subject; BODY=email.release_handoff.v1\",\n    \"TEMPLATE_FAMILY: email.fixplan_delivery \u2014 ACTIVE=v1; SUBJECT=email.fixplan_delivery.v1_subject; BODY=email.fixplan_delivery.v1\",\n    \"TEMPLATE_FAMILY: email.generic_plain \u2014 ACTIVE=v1; SUBJECT=email.generic_plain.v1_subject; BODY=email.generic_plain.v1\",\n    \"TEMPLATE_SELECTION_RULE: When an explicit subject or body is specified in the instruction, apply it exactly as given and disregard any templates.\",\n    \"TEMPLATE_SELECTION_RULE: Otherwise, when the instruction specifies a particular template key, select that exact key.\",\n    \"TEMPLATE_SELECTION_RULE: Otherwise, determine the route based on the intent phrase found in the instruction: if 'email-based design review', then use email.review_request (ACTIVE version); if 're-review', then use email.rereview_notice; if 'release handoff', then use email.release_handoff; if 'email the plan', then use email.fixplan_delivery; if none of these, default to email.generic_plain (ACTIVE).\",\n    \"TEMPLATE_SELECTION_RULE: When there are multiple ACTIVE versions within a family, select the one with the highest semantic version (v3 takes precedence over v2, which takes precedence over v1).\",\n    \"TEMPLATE_VERSIONING_RULE: Each template family may have a single ACTIVE version at any given time; all previous versions are required to be set as DEPRECATED.\",\n    \"TEMPLATE_DEPRECATED: email.review_request.v1\",\n    \"TEMPLATE_DEPRECATED: email.generic_plain.v0\",\n    \"TEMPLATE_DEPRECATED: email.release_handoff.v0\",\n    \"TEMPLATE_TOKENS_ALLOWED: The permitted tokens for templates are: {artifact_id}, {date}, {export_profile}, {release_id}, {prev_tag}, {owner_email}, {recipients}, {audit_id}, {asset_id}, {thread_id}\",\n    \"TEMPLATE_TOKEN_SOURCE_RULE: The value for {date} comes from the instruction timestamp, formatted as YYYY-MM-DD.\",\n    \"DATE_FORMAT_RULE: The {date} field should follow the YYYY-MM-DD format, based on the ISO8601Z instruction time.\",\n    \"MISSING_TOKEN_RULE: When a required token is missing, either leave it empty or exclude the phrase; never generate or fabricate content.\",\n    \"TEMPLATE: email.review_request.v2_subject = \"Review Request \u2014 {artifact_id} \u2014 {date}\"\",\n    \"TEMPLATE: email.review_request.v2_body = \"Hello team,\nKindly review the attached {export_profile} export related to {artifact_id}.\nThank you.\"\",\n    \"TEMPLATE: email.rereview_notice.v1_subject = \"Re-review Required \u2014 {artifact_id} \u2014 {date}\"\",\n    \"TEMPLATE: email.rereview_notice.v1 = \"Updates have been made to {artifact_id}; please conduct a re-review of the most recent assets.\"\",\n    \"TEMPLATE: email.release_handoff.v1_subject = \"Release Handoff \u2014 {release_id} \u2014 {date}\"\",\n    \"TEMPLATE: email.release_handoff.v1 = \"Greetings stakeholders,\nAttached are the release notes for {release_id}, detailing the changes.\nBest regards.\"\",\n    \"TEMPLATE: email.fixplan_delivery.v1_subject = \"Fix Plan \u2014 {artifact_id} \u2014 {date}\"\",\n    \"TEMPLATE: email.fixplan_delivery.v1 = \"Hello,\nAs requested, the fix plan for {artifact_id} is attached/delivered.\nThank you.\"\",\n    \"TEMPLATE: email.generic_plain.v1_subject = \"Notification \u2014 {date}\"\",\n    \"TEMPLATE: email.generic_plain.v1 = \"Hello,\nKindly find the attached details.\nThank you.\"\",\n    \"TEMPLATE_FAMILY: figma.comment.sync \u2014 ACTIVE=v1; BODY=figma.comment.sync.v1\",\n    \"TEMPLATE: figma.comment.sync.v1 = \"Imported from Gmail thread {thread_id} on {date}.\"\",\n    \"TEMPLATE_FAMILY: figma.comment.sync \u2014 ACTIVE=v1; BODY=figma.comment.sync.v1\",\n    \"TEMPLATE: figma.comment.sync.v1 = \"Imported from Gmail thread {thread_id} on {date}.\"\",\n    \"COMMENT_AUTHOR_RULE: In sync_email_to_figma, assign author_email as design-review@company.com if no specific value is given.\",\n    \"TEMPLATE_FAMILY: figma.comment.audit_report_sent \u2014 ACTIVE=v1; BODY=figma.comment.audit_report_sent.v1\",\n    \"TEMPLATE_SELECTION_RULE: When recording the delivery of an audit report in Figma comments, select figma.comment.audit_report_sent (ACTIVE).\",\n    \"TEMPLATE: figma.comment.audit_report_sent.v1 = 'Audit report sent \u2014 {artifact_id} \u2014 {audit_id} \u2014 {date} \u2014 asset {asset_id}'\",\n    \"TEMPLATE_FAMILY: email.sync_confirmation \u2014 ACTIVE=v1; SUBJECT=email.sync_confirmation.v1_subject; BODY=email.sync_confirmation.v1\",\n    \"TEMPLATE: email.sync_confirmation.v1_subject = \"Figma Sync \u2014 {artifact_id} \u2014 {date}\"\",\n    \"TEMPLATE: email.sync_confirmation.v1 = \"Thread {thread_id} was synced with {artifact_id} on {date}.\"\",\n    \"TEMPLATE_SELECTION_RULE: Select email.sync_confirmation (ACTIVE) as the template for a post-sync acknowledgement email.\",\n    \"SENDER_SELECTION_RULE: When the instruction lacks a specified sender, assign the sender based on role using SENDER_ROLE_MAP.\",\n    \"SENDER_ROLE_MAP: {'design review coordinator':'emma.creative@company.com','review program manager':'design-review@company.com', 'design systems triage lead':'emma.creative@company.com', 'governance steward' : 'emma.creative@company.com' , 'accessibility audit lead': 'design-review@company.com'}\",\n    \"TEMPLATE_SELECTION_RULE: When the instruction includes either 'changes-requested' or 'escalate' for a review cycle, select email.changes_requested (ACTIVE). Choose user v1 if 'artifact_id' exists in the context; otherwise, select v2 if 'artifact_id' is not present in the context.\",\n    \"TEMPLATE: email.changes_requested.v1_subject = \"Requested Changes \u2014 {date}\"\",\n    \"TEMPLATE: email.changes_requested.v1 = \"Requested changes for {artifact_id}. This conversation continues in today\u2019s thread.\"\",\n    \"TEMPLATE: email.changes_requested.v2 = \"Requested changes. This conversation continues in today\u2019s thread.\"\",\n    \"TEMPLATE_FAMILY: email.review_request_consolidated \u2014 ACTIVE=v1; SUBJECT=email.review_request_consolidated.v1_subject; BODY=email.review_request_consolidated.v1\",\n    \"TEMPLATE: email.review_request_consolidated.v1_subject = \"Consolidated Review Request \u2014 {date}\"\",\n    \"TEMPLATE: email.review_request_consolidated.v1 = \"Hello team,\nKindly review the {export_profile} exports attached.\nThank you.\"\",\n    \"TEMPLATE_FAMILY: figma.comment.sync \u2014 ACTIVE=v1; BODY=figma.comment.sync.v1\",\n    \"TEMPLATE: figma.comment.sync.v1 = \"This was synchronized from Gmail thread {thread_id} on {date}.\"\",\n    \"CYCLE_ALIAS: {'cycle_008':'art_001','cycle_005':'art_003'}\",\n    \"DATA_RULE: Do not create artifacts, audits, releases, threads, or recipients that do not exist; utilize only IDs provided in the instruction or supplied by tools.\",\n    \"DATA_RULE: When generating fix plans, refrain from producing items if there are no applicable findings; returning an empty plan is permitted.\",\n    \"ERROR_RULE: In cases where mandatory data is absent (such as export profile, recipients, or audit categories), return a clear error message and avoid substituting any values.\",\n    \"OUTPUT_RULE: Task outputs must be generated directly from tool results; avoid repeating keys; ensure all status values are normalized to lowercase (for example, 'completed'). This rule excludes tool and action outputs.\",\n"
+      },
+      {
+        "role": "user",
+        "content": "Hello! I'd like to send a design review email and I need to include an asset from our Figma artifact. Could you assist me with this?"
+      },
+      {
+        "content": "Sure! To assist you with sending a design review email, I'll need a few details:\n\n1. The artifact ID of the Figma design you want to review.\n2. The export profile you want to use for the asset.\n3. The recipients' email addresses for the review.\n4. The timestamp for the email (if you have a specific date in mind).\n\nOnce I have this information, I can proceed with the workflow to send the email.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "The artifact ID is art_003. Can you help me with the rest?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"artifact_type\":\"figma\",\"tag\":\"art_003\"}",
+              "name": "list_artifacts"
+            },
+            "id": "call_Qr4d3S4wtJ9CodnYO5qnjL7y",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_Qr4d3S4wtJ9CodnYO5qnjL7y",
+        "name": "list_artifacts",
+        "content": "Error: name '_params' is not defined"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"artifact_type\":\"figma\"}",
+              "name": "list_artifacts"
+            },
+            "id": "call_3AWYiaxkEjiL5ZR7FOtBjQlx",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_3AWYiaxkEjiL5ZR7FOtBjQlx",
+        "name": "list_artifacts",
+        "content": "Error: name '_params' is not defined"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"artifact_type\":\"figma\"}",
+              "name": "list_artifacts"
+            },
+            "id": "call_3SyrA0GUGPFxzDqpiNF9sMiV",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_3SyrA0GUGPFxzDqpiNF9sMiV",
+        "name": "list_artifacts",
+        "content": "Error: name '_params' is not defined"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"artifact_type\":\"figma\"}",
+              "name": "list_artifacts"
+            },
+            "id": "call_7F8lsKOkbhvjb1vSO7CSABql",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_7F8lsKOkbhvjb1vSO7CSABql",
+        "name": "list_artifacts",
+        "content": "Error: name '_params' is not defined"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{}",
+              "name": "list_artifacts"
+            },
+            "id": "call_AtYLqaHTyrbDsqx8l8fsNRff",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_AtYLqaHTyrbDsqx8l8fsNRff",
+        "name": "list_artifacts",
+        "content": "Error: name '_params' is not defined"
+      },
+      {
+        "content": "It seems there is an issue retrieving the artifacts from Figma. However, I can guide you through the process.\n\nTo proceed with sending the design review email, I still need the following information:\n\n1. The export profile you want to use for the asset (e.g., PNG, PDF).\n2. The recipients' email addresses for the review.\n3. The timestamp for the email (if you have a specific date in mind).\n\nIf you can provide this information, I can help you draft the email.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Let's use the 'PNG 2x' export profile. The recipients are jake.design@company.com, chris.engineer@company.com, and anna.brand@company.com. As for the timestamp, the email is to be sent on August 24, 2024, at 11:15 AM. Could you guide me on how to draft the email?"
+      },
+      {
+        "content": "Great! Here\u2019s how we can draft the design review email using the provided details:\n\n### Email Details\n- **Subject**: Review Request \u2014 art_003 \u2014 2024-08-24\n- **Body**:\n  ```\n  Hello team,\n  \n  Kindly review the attached PNG 2x export related to art_003.\n  \n  Thank you.\n  ```\n\n### Recipients\n- jake.design@company.com\n- chris.engineer@company.com\n- anna.brand@company.com\n\n### Next Steps\n1. **Export the Asset**: I will export the asset from the Figma artifact using the 'PNG 2x' profile.\n2. **Send the Email**: After exporting, I will send the email with the asset attached.\n\nLet me proceed with exporting the asset first. Please hold on.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"artifact_id\":\"art_003\",\"export_profile\":\"PNG 2x\",\"timestamp\":\"2024-08-24T11:15:00Z\",\"request_id\":\"exp-003-20240824-001\"}",
+              "name": "export_assets"
+            },
+            "id": "call_HN5PxeorbaAagF8PThZYWYtB",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_HN5PxeorbaAagF8PThZYWYtB",
+        "name": "export_assets",
+        "content": "Error: name '_params' is not defined"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{}",
+              "name": "list_assets"
+            },
+            "id": "call_wN10tFor59JnOjwjsAzGGcSg",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_wN10tFor59JnOjwjsAzGGcSg",
+        "name": "list_assets",
+        "content": "Error: name '_ensure' is not defined"
+      },
+      {
+        "content": "It seems I'm currently unable to export the asset from the Figma artifact due to a technical issue. However, I can still help you draft the email, and you can manually attach the asset once it's exported.\n\n### Draft Email\n- **Subject**: Review Request \u2014 art_003 \u2014 2024-08-24\n- **Body**:\n  ```\n  Hello team,\n\n  Kindly review the attached PNG 2x export related to art_003.\n\n  Thank you.\n  ```\n\n### Recipients\n- jake.design@company.com\n- chris.engineer@company.com\n- anna.brand@company.com\n\n### Instructions for Sending\n1. Export the asset from Figma using the 'PNG 2x' profile.\n2. Create a new email with the above subject and body.\n3. Attach the exported asset.\n4. Send the email to the listed recipients.\n\nIf you need further assistance or if there's anything else I can help you with, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "That's helpful, thanks! I'll draft the email using this information and once I have the asset exported, I'll attach it before sending. Is there anything else I should keep in mind?"
+      },
+      {
+        "content": "You're welcome! Here are a few additional tips to keep in mind while preparing and sending your design review email:\n\n1. **Check the Export**: Ensure that the exported asset is in the correct format (PNG 2x) and that it meets the quality standards for review.\n\n2. **Review the Email**: Before sending, double-check the email for any typos or errors in the subject and body.\n\n3. **Follow Up**: If you don't receive responses within a reasonable timeframe, consider sending a follow-up email to remind the recipients about the review.\n\n4. **Keep a Record**: Save a copy of the email and the asset for your records, in case you need to refer back to them later.\n\n5. **Use the Correct Thread**: If you're continuing a conversation from a previous email thread, make sure to reply within that thread to maintain context.\n\nIf you have any other questions or need further assistance, feel free to ask. Good luck with your design review!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Great, thanks for the reminders! I'll make sure to keep those points in mind. If there's nothing else, I think I'm all set to proceed."
+      },
+      {
+        "content": "You're welcome! I'm glad I could help. If you have everything you need and feel ready to proceed, that's fantastic! Don't hesitate to reach out if you have any more questions in the future or need assistance with anything else. Good luck with your design review, and have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! I appreciate the help. Have a wonderful day too! ###STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

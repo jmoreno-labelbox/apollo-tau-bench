@@ -1,28 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CheckNoPurchases(Tool):
-    """Verifies if a list of purchase counts consists solely of zeros."""
+    """Checks if a list of purchase counts contains only zeros."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], purchases_list: list[int] = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        purchases_list = kwargs.get("purchases_list")
+        
         if purchases_list is None:
-            payload = {"error": "purchases_list is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "purchases_list is a required parameter."})
+        
+        all_zeros = all(purchase == 0 for purchase in purchases_list)
+        return json.dumps({"all_zeros": all_zeros})
 
-        all_zeros = all(purchase == 0 for purchase in purchases_list.values())
-        payload = {"all_zeros": all_zeros}
-        out = json.dumps(payload)
-        return out
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "checkNoPurchases",
+                "name": "check_no_purchases",
                 "description": "Checks if a list of purchase counts contains only zeros.",
                 "parameters": {
                     "type": "object",
@@ -30,7 +31,9 @@ class CheckNoPurchases(Tool):
                         "purchases_list": {
                             "type": "array",
                             "description": "List of purchase counts.",
-                            "items": {"type": "number"},
+                            "items": {
+                                "type": "number"
+                            }
                         }
                     },
                     "required": ["purchases_list"],

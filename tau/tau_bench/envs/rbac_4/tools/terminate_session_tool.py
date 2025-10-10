@@ -1,45 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class TerminateSessionTool(Tool):
-    """End a particular user session."""
+    """Terminate a specific user session."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], session_id: str = None, terminated_on: str = None) -> str:
-        sid = session_id
-        term_time = terminated_on
-        for s in data.get("sessions", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        sid = kwargs.get("session_id")
+        term_time = kwargs.get("terminated_on")
+        for s in data.get("sessions", []):
             if s["session_id"] == sid:
                 s["end_time"] = term_time
-                payload = {"success": f"Session {sid} terminated"}
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Session {sid} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps({"success": f"Session {sid} terminated"}, indent=2)
+        return json.dumps({"error": f"Session {sid} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "TerminateSession",
+                "name": "terminate_session",
                 "description": "Force terminate a session by ID",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "session_id": {"type": "string"},
-                        "terminated_on": {"type": "string"},
+                        "terminated_on": {"type": "string"}
                     },
-                    "required": ["session_id", "terminated_on"],
-                },
-            },
+                    "required": ["session_id", "terminated_on"]
+                }
+            }
         }

@@ -1,45 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateRotationSchedule(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        employee_id: str = None,
-        from_project: str = None,
-        to_project: str = None,
-        rotation_date: str = None,
-        hours_to_rotate: int = None,
-        holiday_coverage: str = "false",
-        skill_development_rotation: str = "false"
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        from_project = kwargs.get("from_project")
+        to_project = kwargs.get("to_project")
+        rotation_date = kwargs.get("rotation_date")
+        hours_to_rotate = kwargs.get("hours_to_rotate")
+        holiday_coverage = kwargs.get("holiday_coverage", "false")
+        skill_development_rotation = kwargs.get("skill_development_rotation", "false")
+
         if not all(
             [employee_id, from_project, to_project, rotation_date, hours_to_rotate]
         ):
-            payload = {
-                "error": "The fields employee_id, from_project, to_project, rotation_date, hours_to_rotate are required"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "The fields employee_id, from_project, to_project, rotation_date, hours_to_rotate are required"})
 
-        rotation_schedules = data.get("rotation_schedules", {}).values()
-        allocations = data.get("allocations", {}).values()
-        projects = data.get("projects", {}).values()
+        rotation_schedules = data.get("rotation_schedules", [])
+        allocations = data.get("allocations", [])
+        projects = list(data.get("projects", {}).values())
 
         from_project_allocations = [
             alloc
-            for alloc in allocations.values() if alloc.get("project_id") == from_project
+            for alloc in allocations
+            if alloc.get("project_id") == from_project
             and alloc.get("status") == "active"
         ]
 
@@ -53,12 +42,12 @@ class CreateRotationSchedule(Tool):
         )
 
         if not employee_from_allocation:
-            payload = {"error": f"Employee {employee_id} not found on project {from_project}"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": f"Employee {employee_id} not found on project {from_project}"}
+            )
 
         from_project_data = next(
-            (p for p in projects.values() if p.get("project_id") == from_project), None
+            (p for p in projects if p.get("project_id") == from_project), None
         )
         if from_project_data:
             required_hours = from_project_data.get("required_hours_per_week", 0)
@@ -75,6 +64,7 @@ class CreateRotationSchedule(Tool):
             other_team_members = len(from_project_allocations) - 1
 
             if holiday_coverage.lower() == "true":
+
                 coverage_maintained = (
                     hours_after_rotation >= required_hours * 0.3
                     or other_team_members > 0
@@ -86,6 +76,7 @@ class CreateRotationSchedule(Tool):
                     and hours_after_rotation >= required_hours * 0.5
                 )
         else:
+
             if holiday_coverage.lower() == "true":
                 coverage_maintained = True
             else:
@@ -107,43 +98,44 @@ class CreateRotationSchedule(Tool):
             "status": "scheduled",
         }
 
-        data["rotation_schedules"][new_rotation["rotation_schedule_id"]] = new_rotation
+        rotation_schedules.append(new_rotation)
 
         existing_rotations = [
             rot
-            for rot in rotation_schedules.values() if rot.get("status") == "scheduled"
+            for rot in rotation_schedules
+            if rot.get("status") == "scheduled"
             and skill_development_rotation.lower() == "true"
         ]
 
         developers_in_rotation = len(existing_rotations)
         skill_development_hours = hours_to_rotate
-        payload = {
-            "success": True,
-            "rotation": new_rotation,
-            "rotation_created": True,
-            "coverage_maintained": coverage_maintained,
-            "developers_in_rotation": developers_in_rotation,
-            "skill_development_hours": skill_development_hours,
-            "coverage_details": {
-                "from_project_allocations": len(from_project_allocations),
-                "other_team_members": (
-                    other_team_members if "other_team_members" in locals() else 0
-                ),
-                "coverage_percentage": (
-                    round(coverage_percentage, 1)
+
+        return json.dumps(
+            {
+                "success": True,
+                "rotation": new_rotation,
+                "rotation_created": True,
+                "coverage_maintained": coverage_maintained,
+                "developers_in_rotation": developers_in_rotation,
+                "skill_development_hours": skill_development_hours,
+                "coverage_details": {
+                    "from_project_allocations": len(from_project_allocations),
+                    "other_team_members": other_team_members
+                    if "other_team_members" in locals()
+                    else 0,
+                    "coverage_percentage": round(coverage_percentage, 1)
                     if "coverage_percentage" in locals()
-                    else 0
-                ),
-            },
-        }
-        out = json.dumps(payload)
-        return out
+                    else 0,
+                },
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateRotationSchedule",
+                "name": "create_rotation_schedule",
                 "description": "Create a rotation schedule for an employee",
                 "parameters": {
                     "type": "object",
@@ -169,11 +161,11 @@ class CreateRotationSchedule(Tool):
                             "description": "Hours to rotate",
                         },
                         "holiday_coverage": {
-                            "type": "boolean",
+                            "type": "bool",
                             "description": "Flag if the rotation is holiday coverage",
                         },
                         "skill_development_rotation": {
-                            "type": "boolean",
+                            "type": "bool",
                             "description": "Flag if the rotation is skill development rotation",
                         },
                     },

@@ -1,28 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class DecreaseValueWithPercent(Tool):
-    """Reduces a value by a defined percentage."""
+    """Decreases a value by a specified percentage."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], value: float = None, percent: float = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        value = kwargs.get("value")
+        percent = kwargs.get("percent")
+        
         if value is None or percent is None:
-            payload = {"error": "value and percent are required parameters."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({"error": "value and percent are required parameters."})
+        
         new_value = value * (100 - percent) / 100
-        payload = {"new_value": new_value}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"new_value": new_value})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "DecreaseValueWithPercent",
+                "name": "decrease_value_with_percent",
                 "description": "Decreases a value by a specified percentage.",
                 "parameters": {
                     "type": "object",
@@ -34,7 +36,7 @@ class DecreaseValueWithPercent(Tool):
                         "percent": {
                             "type": "number",
                             "description": "The percentage to decrease by.",
-                        },
+                        }
                     },
                     "required": ["value", "percent"],
                 },

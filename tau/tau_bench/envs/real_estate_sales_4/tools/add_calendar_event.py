@@ -1,35 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AddCalendarEvent(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], title: str = None, start_time: str = None, end_time: str = None) -> str:
-        payload = {
-            "status": "success",
-            "event_title": title,
-            "start": start_time,
-            "end": end_time,
-        }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        title = kwargs.get("title")
+        start_time = kwargs.get("start_time")
+        end_time = kwargs.get("end_time")
+        return json.dumps({"status": "success", "event_title": title, "start": start_time, "end": end_time}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "addCalendarEvent",
-                "description": "Adds a new event to the calendar.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "title": {"type": "string"},
-                        "start_time": {"type": "string"},
-                        "end_time": {"type": "string"},
-                    },
-                    "required": ["title", "start_time", "end_time"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"add_calendar_event",
+            "description":"Adds a new event to the calendar.",
+            "parameters":{"type":"object","properties":{"title": {"type":"string"}, "start_time": {"type":"string"}, "end_time": {"type":"string"}},"required":["title", "start_time", "end_time"]}
+        }}

@@ -1,26 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreatePullRequest(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str, title: str, head: str, base: str, body: str = "") -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        repo_name = kwargs["repo_name"]
+        title = kwargs["title"]
+        body = kwargs.get("body", "")
+        head = kwargs["head"]
+        base = kwargs["base"]
+
         me = _auth(data)["username"]
         repo = _find_repo_record(data, repo_name)
-        #print("repo:", repo)
+        # print("repooo:", repo)
 
-        #Verify that the pull request record is present
+        # Ensure pull request record exists
         pr_block = next(
-            (
-                b
-                for b in _prs(data)
-                if b.get("owner") == me and b.get("repo_name") == repo_name
-            ),
+            (b for b in _prs(data) if b.get("owner") == me and b.get("repo_name") == repo_name),
             None,
         )
         if not pr_block:
-            #✅ Generate PR block if it is absent
+            # ✅ Create PR block if it doesn't exist
             pr_block = {
                 "owner": me,
                 "repo_name": repo_name,
@@ -44,7 +48,7 @@ class CreatePullRequest(Tool):
             }
             _prs(data).append(pr_block)
 
-        #Add PR metadata
+        # Append PR metadata
         pr_number = 1
         pr_block["pr_numbers"].append(pr_number)
         pr_block["pr_titles"].append(title)
@@ -58,85 +62,60 @@ class CreatePullRequest(Tool):
         pr_block["created_ts"].append("2025-08-23T12:00:00Z")
         pr_block["updated_ts"].append("2025-08-23T12:00:00Z")
 
-        #Identify modified files based on their names and content
+        # Detect changed files based on filenames and content
         try:
             head_idx = repo["branches"].index(head)
             base_idx = repo["branches"].index(base)
         except ValueError:
-            payload = {"error": "Invalid head or base branch."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Invalid head or base branch."}, indent=2)
 
         head_files = set(repo["branch_files"][head_idx])
         base_files = set(repo["branch_files"][base_idx])
         file_diff = head_files.symmetric_difference(base_files)
 
-        #Additionally verify for content alterations if filenames match
+        # Also check for content changes if filenames are same
         if not file_diff:
             file_diff = set()
             for path in repo["branch_files"][head_idx]:
                 if path in repo["branch_files"][base_idx]:
-                    head_i = next(
-                        (
-                            i
-                            for i, p in enumerate(repo["branch_files"][head_idx])
-                            if p == path
-                        ),
-                        None,
-                    )
-                    base_i = next(
-                        (
-                            i
-                            for i, p in enumerate(repo["branch_files"][base_idx])
-                            if p == path
-                        ),
-                        None,
-                    )
+                    head_i = next((i for i, p in enumerate(repo["branch_files"][head_idx]) if p == path), None)
+                    base_i = next((i for i, p in enumerate(repo["branch_files"][base_idx]) if p == path), None)
 
                     if head_i is not None and base_i is not None:
-                        if (
-                            repo["branch_contents"][head_idx][head_i]
-                            != repo["branch_contents"][base_idx][base_i]
-                        ):
+                        if repo["branch_contents"][head_idx][head_i] != repo["branch_contents"][base_idx][base_i]:
                             file_diff.add(path)
 
-                    if (
-                        repo["branch_contents"][head_idx][head_i]
-                        != repo["branch_contents"][base_idx][base_i]
-                    ):
+                    if repo["branch_contents"][head_idx][head_i] != repo["branch_contents"][base_idx][base_i]:
                         file_diff.add(path)
 
         changed_files = sorted(list(file_diff))
 
-        #Add the list of changed files as a nested list (List[List[str]])
+        # Append changed file list as nested list (List[List[str]])
         if "pr_files" not in pr_block:
             pr_block["pr_files"] = []
         pr_block["pr_files"].append([changed_files])
 
-        #Set up empty nested structures for comments/reviews if required
+        # Initialize empty nested structures for comments/reviews if needed
         pr_block.setdefault("pr_comments", []).append([[]])
         pr_block.setdefault("pr_comment_users", []).append([[]])
         pr_block.setdefault("reviewers", []).append([[]])
         pr_block.setdefault("review_states", []).append([[]])
         pr_block.setdefault("review_events", []).append([[]])
-        payload = {
-                "message": "Pull request opened",
-                "title": title,
-                "base": base,
-                "head": head,
-                "pr_number": pr_number,
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+
+        return json.dumps({
+            "message": "Pull request opened",
+            "title": title,
+            "base": base,
+            "head": head,
+            "pr_number": pr_number
+        }, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "CreatePullRequest",
+                "name": "create_pull_request",
                 "description": "Creates a pull request from head to base branch.",
                 "parameters": {
                     "type": "object",
@@ -147,7 +126,7 @@ class CreatePullRequest(Tool):
                         "base": {"type": "string"},
                         "head": {"type": "string"},
                     },
-                    "required": ["repo_name", "title", "base", "head"],
-                },
-            },
+                    "required": ["repo_name", "title", "base", "head"]
+                }
+            }
         }

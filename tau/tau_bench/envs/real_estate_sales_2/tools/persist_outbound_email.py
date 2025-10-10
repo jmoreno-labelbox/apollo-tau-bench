@@ -1,20 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from itertools import islice
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class PersistOutboundEmail(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], client_id: str = None, broker_id: str = None, subject: str = None, body_uri: str = None, template_code: str = None, campaign_id: str = None) -> str:
-        emails = data.get("emails", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        client_id = kwargs.get("client_id")
+        broker_id = kwargs.get("broker_id")
+        subject = kwargs.get("subject")
+        body_uri = kwargs.get("body_uri")
+        template_code = kwargs.get("template_code")
+        campaign_id = kwargs.get("campaign_id")
+        emails = data.get("emails", [])
         new_email_id = _next_auto_id(emails, "email_id")
         row = {
             "email_id": new_email_id,
@@ -26,16 +26,15 @@ class PersistOutboundEmail(Tool):
             "sent_at": _now_iso_fixed(),
             "campaign_id": campaign_id,
         }
-        data["emails"][email_id] = row
-        payload = row
-        out = json.dumps(payload, indent=2)
-        return out
+        emails.append(row)
+        return json.dumps(row, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "PersistOutboundEmail",
+                "name": "persist_outbound_email",
                 "description": "Persist an outbound email.",
                 "parameters": {
                     "type": "object",
@@ -47,13 +46,7 @@ class PersistOutboundEmail(Tool):
                         "template_code": {"type": "string"},
                         "campaign_id": {"type": ["integer", "null"]},
                     },
-                    "required": [
-                        "client_id",
-                        "broker_id",
-                        "subject",
-                        "body_uri",
-                        "template_code",
-                    ],
+                    "required": ["client_id", "broker_id", "subject", "body_uri", "template_code"],
                 },
             },
         }

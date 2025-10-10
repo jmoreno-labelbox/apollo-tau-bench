@@ -1,21 +1,13 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateDeliveryAddress(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], user_id: str, order_id: str, new_address: dict[str, str]
-    ) -> str:
+    def invoke(data: Dict[str, Any], user_id: str, order_id: str, new_address: Dict[str, str]) -> str:
         """
         Update delivery address for an existing order (if not yet shipped)
 
@@ -23,43 +15,37 @@ class UpdateDeliveryAddress(Tool):
         Data Sources: couriers.json for delivery validation
         """
         # Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", {}).values()
-        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
+        users = list(data.get("users", {}).values())
+        user = next((u for u in users if u.get("user_id") == user_id), None)
 
         if not user:
-            payload = {"error": f"User {user_id} not found", "status": "failed"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"User {user_id} not found", "status": "failed"})
 
         # Find the order to update
-        orders = data.get("orders", {}).values()
+        orders = list(data.get("orders", {}).values())
         order_to_update = None
         order_index = None
 
-        for i, order in enumerate(orders.values()):
+        for i, order in enumerate(orders):
             if order.get("order_id") == order_id and order.get("user_id") == user_id:
                 order_to_update = order
                 order_index = i
                 break
 
         if not order_to_update:
-            payload = {
+            return json.dumps({
                 "error": f"Order {order_id} not found or does not belong to user {user_id}",
-                "status": "failed",
-            }
-            out = json.dumps(payload)
-            return out
+                "status": "failed"
+            })
 
         current_status = order_to_update.get("status")
 
         # Can only update address for pending orders
         if current_status not in ["pending"]:
-            payload = {
+            return json.dumps({
                 "error": f"Cannot update address for order with status '{current_status}'. Address can only be changed for pending orders.",
-                "status": "failed",
-            }
-            out = json.dumps(payload)
-            return out
+                "status": "failed"
+            })
 
         # Rule: Validate all required address fields: address1, city, country, state, zip
         required_fields = ["address1", "city", "country", "state", "zip"]
@@ -70,35 +56,31 @@ class UpdateDeliveryAddress(Tool):
                 missing_fields.append(field)
 
         if missing_fields:
-            payload = {
+            return json.dumps({
                 "error": f"Missing required address fields: {', '.join(missing_fields)}",
-                "status": "failed",
-            }
-            out = json.dumps(payload)
-            return out
+                "status": "failed"
+            })
 
         # Rule: Assign couriers only if destination country matches their coverage areas
-        couriers = data.get("couriers", {}).values()
+        couriers = data.get("couriers", [])
         supported_countries = set()
-        for courier in couriers.values():
+        for courier in couriers:
             supported_countries.update(courier.get("coverage_area", []))
 
         destination_country = new_address.get("country")
         if destination_country not in supported_countries:
-            payload = {
+            return json.dumps({
                 "error": f"No delivery service available to {destination_country}",
-                "status": "failed",
-            }
-            out = json.dumps(payload)
-            return out
+                "status": "failed"
+            })
 
         # WRITE OPERATION: Update order address
-        old_address = order_to_update.get("address", {}).values()
+        old_address = order_to_update.get("address", {})
         order_to_update["address"] = new_address
         order_to_update["address_updated"] = {
             "updated_date": datetime.now().isoformat(),
             "updated_by": "customer",
-            "previous_address": old_address,
+            "previous_address": old_address
         }
         order_to_update["last_updated"] = datetime.now().isoformat()
 
@@ -113,31 +95,24 @@ class UpdateDeliveryAddress(Tool):
                 "previous_address": old_address,
                 "new_address": new_address,
                 "delivery_available": True,
-                "destination_country": destination_country,
+                "destination_country": destination_country
             },
         }
-        payload = result
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(result)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateDeliveryAddress",
+                "name": "update_delivery_address",
                 "description": "Update delivery address for a pending order",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "user_id": {
-                            "type": "string",
-                            "description": "Customer identifier",
-                        },
-                        "order_id": {
-                            "type": "string",
-                            "description": "Order identifier to update",
-                        },
+                        "user_id": {"type": "string", "description": "Customer identifier"},
+                        "order_id": {"type": "string", "description": "Order identifier to update"},
                         "new_address": {
                             "type": "object",
                             "properties": {
@@ -146,13 +121,13 @@ class UpdateDeliveryAddress(Tool):
                                 "city": {"type": "string"},
                                 "country": {"type": "string"},
                                 "state": {"type": "string"},
-                                "zip": {"type": "string"},
+                                "zip": {"type": "string"}
                             },
                             "required": ["address1", "city", "country", "state", "zip"],
-                            "description": "New delivery address",
-                        },
+                            "description": "New delivery address"
+                        }
                     },
-                    "required": ["user_id", "order_id", "new_address"],
-                },
-            },
+                    "required": ["user_id", "order_id", "new_address"]
+                }
+            }
         }

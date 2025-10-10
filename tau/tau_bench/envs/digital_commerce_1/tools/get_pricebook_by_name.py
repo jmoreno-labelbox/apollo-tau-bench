@@ -1,6 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetPricebookByName(Tool):
     @staticmethod
@@ -17,21 +20,21 @@ class GetPricebookByName(Tool):
         )
         if not row:
             raise ValueError(f"pricebook not found: {pricebook_name}")
-        payload = {
-            "pricebook_id": row.get("pricebook_id") or row.get("id"),
-            "pricebook_name": row.get("pricebook_name") or row.get("name"),
-            "is_active": bool(row.get("is_active", True)),
-            "is_standard": bool(row.get("is_standard", False)),
-        }
-        out = json.dumps(payload)
-        return out
+        return json.dumps(
+            {
+                "pricebook_id": row.get("pricebook_id") or row.get("id"),
+                "pricebook_name": row.get("pricebook_name") or row.get("name"),
+                "is_active": bool(row.get("is_active", True)),
+                "is_standard": bool(row.get("is_standard", False)),
+            }
+        )
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GetPricebookByName",
+                "name": "get_pricebook_by_name",
                 "description": "Read an existing pricebook by name.",
                 "parameters": {
                     "type": "object",

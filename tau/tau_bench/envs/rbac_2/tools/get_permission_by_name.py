@@ -1,64 +1,57 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetPermissionByName(Tool):
     """
-    Locate a specific permission by its action name, with the option to filter by a resource ID.
-    If resource_id is not provided, it will return the first permission that matches the name.
+    Find a specific permission using its action name. Can be filtered by a resource ID.
+    If resource_id is omitted, it will return the first permission matching the name.
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], permission_name: str = None, resource_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        permission_name = kwargs.get("permission_name")
+        resource_id = kwargs.get("resource_id") 
         try:
-            permissions = data.get("permissions", {}).values()
+            permissions = list(data.get('permissions', {}).values())
         except (KeyError, json.JSONDecodeError):
             permissions = []
 
-        for perm in permissions.values():
+        for perm in permissions:
             if perm.get("action") == permission_name:
                 if resource_id and perm.get("resource_id") != resource_id:
                     continue
-                payload = perm
-                out = json.dumps(payload)
-                return out
+                return json.dumps(perm)
 
         error_message = f"Permission '{permission_name}' not found."
         if resource_id:
             error_message += f" on resource '{resource_id}'"
-        payload = {"error": error_message}
-        out = json.dumps(payload)
-        return out
+            
+        return json.dumps({"error": error_message})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPermissionByName",
+                "name": "get_permission_by_name",
                 "description": "Retrieves the details of a specific permission by its action name (e.g., 'admin-db-cluster'). Can be optionally filtered by the resource it applies to.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "permission_name": {
                             "type": "string",
-                            "description": "The name of the action the permission allows (e.g., 'read-repo', 'admin-db-cluster').",
+                            "description": "The name of the action the permission allows (e.g., 'read-repo', 'admin-db-cluster')."
                         },
                         "resource_id": {
                             "type": "string",
-                            "description": "Optional. The ID of the resource to filter by (e.g., 'RES-025').",
-                        },
+                            "description": "Optional. The ID of the resource to filter by (e.g., 'RES-025')." 
+                        }
                     },
-                    "required": ["permission_name"],
-                },
-            },
+                    "required": ["permission_name"] 
+                }
+            }
         }

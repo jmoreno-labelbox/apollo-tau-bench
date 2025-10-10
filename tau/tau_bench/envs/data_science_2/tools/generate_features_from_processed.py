@@ -1,41 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GenerateFeaturesFromProcessed(Tool):
-    """Creates a features record from an existing processed_timeseries csv_path following deterministic rules."""
-
+    """
+    Generates a features record from an existing processed_timeseries csv_path using deterministic rules.
+    """
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        processed_csv_path: str,
-        features_csv_path: str,
-        generated_ts: str,
-    ) -> str:
-        rows = data.get("processed_timeseries", {}).values()
+    def invoke(data: Dict[str, Any], processed_csv_path: str, features_csv_path: str, generated_ts: str) -> str:
+        rows = data.get("processed_timeseries", [])
         target = None
         for row in rows:
             if row.get("csv_path") == processed_csv_path:
                 target = row
                 break
         if not target:
-            payload = {
-                "error": "processed_timeseries not found",
-                "csv_path": processed_csv_path,
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "processed_timeseries not found", "csv_path": processed_csv_path})
         cols = target.get("columns", [])
-        feature_names: list[str] = []
-        definitions: list[str] = []
+        feature_names: List[str] = []
+        definitions: List[str] = []
         if "precipitation_mm_hr" in cols:
             feature_names.append("precip_24h_mm")
             definitions.append("24-hour rolling sum of precipitation in millimeters")
@@ -52,32 +38,26 @@ class GenerateFeaturesFromProcessed(Tool):
             "csv_path": features_csv_path,
             "feature_names": feature_names,
             "definitions_nullable": definitions,
-            "generated_ts": generated_ts,
+            "generated_ts": generated_ts
         }
         data.setdefault("features", []).append(rec)
-        payload = {"status": "inserted", "record": rec}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "inserted", "record": rec})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "generateFeaturesFromProcessed",
+                "name": "generate_features_from_processed",
                 "description": "Generates a features record from an existing processed_timeseries csv_path using deterministic rules.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "processed_csv_path": {"type": "string"},
                         "features_csv_path": {"type": "string"},
-                        "generated_ts": {"type": "string"},
+                        "generated_ts": {"type": "string"}
                     },
-                    "required": [
-                        "processed_csv_path",
-                        "features_csv_path",
-                        "generated_ts",
-                    ],
-                },
-            },
+                    "required": ["processed_csv_path", "features_csv_path", "generated_ts"]
+                }
+            }
         }

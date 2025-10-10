@@ -1,21 +1,18 @@
-from tau_bench.envs.tool import Tool
-from typing import Any, Dict
+# Copyright Sierra
+
 import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FreezeAccountTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str, reason: str = 'Customer request') -> str:
-        accounts = data.get('accounts', {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        reason = kwargs.get('reason', 'Customer request')
+        accounts = list(data.get('accounts', {}).values())
 
-        for account in accounts.values():
+        for account in accounts:
             if account['account_id'] == account_id:
                 old_status = account['status']
                 account['status'] = 'Frozen'
@@ -31,12 +28,13 @@ class FreezeAccountTool(Tool):
                 }, indent=2)
 
         return json.dumps({"error": f"Account {account_id} not found"}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FreezeAccount",
+                "name": "freeze_account",
                 "description": "Freeze an account to prevent transactions",
                 "parameters": {
                     "type": "object",

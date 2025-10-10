@@ -1,25 +1,17 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SendBatchReminderEmailsTool(Tool):
-    """Generates several reminder emails from a template and refreshes the related `checklist_items`."""
+    """Creates multiple reminder emails from a template and updates corresponding `checklist_items`."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_ids: list = None, days_overdue_threshold: int = 0) -> str:
-        if candidate_ids is None:
-            candidate_ids = []
-        days_overdue_threshold = _as_int(days_overdue_threshold)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_ids = kwargs.get("candidate_ids", [])
+        days_overdue_threshold = _as_int(kwargs.get("days_overdue_threshold", 0))
         template_name = "overdue_task_reminder"
 
         if not candidate_ids:
@@ -28,17 +20,16 @@ class SendBatchReminderEmailsTool(Tool):
             return _err("days_overdue_threshold must be an integer.")
 
         emails = data.setdefault("emails", [])
-        candidates_map = {c.get("candidate_id"): c for c in data.get("candidates", {}).values()}
-        all_checklist_items = data.get("checklist_items", {}).values()
+        candidates_map = {c.get("candidate_id"): c for c in data.get("candidates", [])}
+        all_checklist_items = data.get("checklist_items", [])
 
         results = []
         for candidate_id in candidate_ids:
             candidate = candidates_map.get(candidate_id)
-            if not candidate:
-                continue
+            if not candidate: continue
 
             overdue_tasks = []
-            for item in all_checklist_items.values():
+            for item in all_checklist_items:
                 if str(item.get("candidate_id")) != str(candidate_id):
                     continue
                 due_date = item.get("due_date")
@@ -51,13 +42,10 @@ class SendBatchReminderEmailsTool(Tool):
             if not overdue_tasks:
                 continue
 
-            context = {
-                "name": candidate.get("candidate_name"),
-                "tasks": ", ".join([t.get("task_name", "") for t in overdue_tasks]),
-            }
+            context = { "name": candidate.get("candidate_name"), "tasks": ", ".join([t.get("task_name", "") for t in overdue_tasks]) }
             rendered = _get_hardcoded_template_and_render(template_name, context)
 
-            # Generate Email
+            # Create Email
             new_email_id = _next_str_id(emails, "message_id", "msg_")
             new_email = {
                 "message_id": new_email_id,
@@ -65,23 +53,15 @@ class SendBatchReminderEmailsTool(Tool):
                 "body": rendered["body"],
                 "from_email": "hr@company.com",
                 "to_emails": [candidate.get("candidate_email")],
-                "cc_emails": (
-                    [candidate.get("manager_email_nullable")]
-                    if candidate.get("manager_email_nullable")
-                    else []
-                ),
-                "date_ts": HARD_TS,
-                "labels_ids": ["label_2"],
-                "attachments_ids": [],
-                "draft_flag": False,
-                "sent_flag": True,
+                "cc_emails": [candidate.get("manager_email_nullable")] if candidate.get("manager_email_nullable") else [],
+                "date_ts": HARD_TS, "labels_ids": ["label_2"], "attachments_ids": [],
+                "draft_flag": False, "sent_flag": True,
                 "candidate_id_nullable": candidate.get("candidate_id"),
-                "thread_id_nullable": None,
-                "in_reply_to_message_id_nullable": None,
+                "thread_id_nullable": None, "in_reply_to_message_id_nullable": None
             }
             emails.append(new_email)
 
-            # Refresh checklist items
+            # Update checklist items
             updated_items = []
             for item in overdue_tasks:
                 item["reminder_sent_flag"] = True
@@ -89,37 +69,16 @@ class SendBatchReminderEmailsTool(Tool):
                 item["updated_ts"] = HARD_TS
                 updated_items.append(item)
 
-            results.append(
-                {
-                    "created_email": new_email,
-                    "updated_checklist_items": updated_items,
-                    "results": {"system_name": "Email", "status": "Success"},
-                }
-            )
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+            results.append({"created_email": new_email, "updated_checklist_items": updated_items, "results": {'system_name': 'Email', 'status': 'Success'}})
+
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "SendBatchReminderEmails",
-                "description": "Sends batch reminder emails for overdue tasks.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "candidate_ids": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "List of candidate IDs to send reminders to.",
-                        },
-                        "days_overdue_threshold": {
-                            "type": "integer",
-                            "description": "Minimum days past due date to trigger a reminder.",
-                        },
-                    },
-                    "required": ["candidate_ids", "days_overdue_threshold"],
-                },
-            },
-        }
+            "type": "function", "function": {"name": "send_batch_reminder_emails",
+            "description": "Sends batch reminder emails for overdue tasks.",
+            "parameters": {"type": "object", "properties": {
+                "candidate_ids": {"type": "array", "items": {"type": "string"}, "description": "List of candidate IDs to send reminders to."},
+                "days_overdue_threshold": {"type": "integer", "description": "Minimum days past due date to trigger a reminder."}
+            }, "required": ["candidate_ids", "days_overdue_threshold"]}}}

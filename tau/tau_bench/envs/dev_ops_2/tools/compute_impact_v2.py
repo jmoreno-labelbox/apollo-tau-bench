@@ -1,13 +1,13 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ComputeImpactV2(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], ticket_key: str, fingerprint: str | None = None
-    ) -> str:
-        pass
+    def invoke(data: Dict[str, Any], ticket_key: str, fingerprint: Optional[str] = None) -> str:
         work_items = _get_table(data, "work_items")
         crashes = _get_table(data, "crash_events")
         item = next((w for w in work_items if w.get("ticket_key") == ticket_key), None)
@@ -17,32 +17,11 @@ class ComputeImpactV2(Tool):
         sev_weight = {"Low": 1, "Medium": 2, "High": 3, "Critical": 4}.get(sev, 2)
         crash_count = 0
         if fingerprint:
-            crash_count = sum(
-                1
-                for c in crashes
-                if c.get("crash_fingerprint") == fingerprint
-                or c.get("fingerprint") == fingerprint
-            )
+            crash_count = sum(1 for c in crashes if c.get("crash_fingerprint") == fingerprint or c.get("fingerprint") == fingerprint)
         impact = sev_weight * (1 + crash_count)
         item["impact_score"] = impact
-        payload = {"impact_score": impact}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"impact_score": impact}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ComputeImpactV2",
-                "description": "Deterministically computes an impact score from severity weight and optional crash fingerprint count.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "ticket_key": {"type": "string"},
-                        "fingerprint": {"type": "string"},
-                    },
-                    "required": ["ticket_key"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "compute_impact_v2", "description": "Deterministically computes an impact score from severity weight and optional crash fingerprint count.", "parameters": {"type": "object", "properties": {"ticket_key": {"type": "string"}, "fingerprint": {"type": "string"}}, "required": ["ticket_key"]}}}

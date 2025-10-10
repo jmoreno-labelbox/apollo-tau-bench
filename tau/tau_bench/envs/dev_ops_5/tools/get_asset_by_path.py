@@ -1,36 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAssetByPath(Tool):
-    """Fetches an asset using its file path."""
+    """Retrieves an asset by its file path."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        path = kwargs.get("asset_path")
+        assets = data.get("asset_catalog", [])
+        for asset in assets:
+            if asset.get("asset_path") == path:
+                return json.dumps(asset)
+        return json.dumps({"error": f"Asset with path '{path}' not found."})
 
     @staticmethod
-    def invoke(data: dict[str, Any], asset_path: str = None) -> str:
-        path = asset_path
-        assets = data.get("asset_catalog", {}).values()
-        for asset in assets.values():
-            if asset.get("asset_path") == path:
-                payload = asset
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Asset with path '{path}' not found."}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getAssetByPath",
+                "name": "get_asset_by_path",
                 "description": "Retrieves an asset by its file path.",
                 "parameters": {
                     "type": "object",

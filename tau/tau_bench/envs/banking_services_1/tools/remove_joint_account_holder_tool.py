@@ -1,8 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class RemoveJointAccountHolderTool(Tool):
     """
@@ -20,7 +21,9 @@ class RemoveJointAccountHolderTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, holder_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get("account_id")
+        holder_id = kwargs.get("holder_id")
         if not account_id or not holder_id:
             return json.dumps({"error": "Missing required parameters"}, indent=2)
         accounts = load_json("accounts_joint_holders.json")
@@ -36,12 +39,13 @@ class RemoveJointAccountHolderTool(Tool):
                 indent=2,
             )
         return json.dumps({"error": "Holder not found or account invalid"}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RemoveJointAccountHolder",
+                "name": "remove_joint_account_holder",
                 "description": "Remove a joint account holder if no pending operations are linked.",
                 "parameters": {
                     "type": "object",

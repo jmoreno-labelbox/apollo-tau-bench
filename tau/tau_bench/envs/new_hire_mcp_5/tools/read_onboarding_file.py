@@ -1,41 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ReadOnboardingFile(Tool):
-    """Access a file from onboarding_files using file_path."""
+    """Read a file from onboarding_files by file_path."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], file_path: str) -> str:
-        for f in data.get("onboarding_files", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        file_path = kwargs["file_path"]
+        for f in data.get("onboarding_files", []):
             if f.get("file_path") == file_path:
-                payload = {"file": f}
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"file_path {file_path} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps({"file": f}, indent=2)
+        return json.dumps({"error": f"file_path {file_path} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ReadOnboardingFile",
+                "name": "read_onboarding_file",
                 "description": "Read an onboarding file by file_path.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"file_path": {"type": "string"}},
-                    "required": ["file_path"],
-                },
-            },
+                    "properties": {
+                        "file_path": {"type": "string"}
+                    },
+                    "required": ["file_path"]
+                }
+            }
         }

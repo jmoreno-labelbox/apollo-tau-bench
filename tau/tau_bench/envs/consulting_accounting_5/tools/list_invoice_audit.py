@@ -1,20 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any, Dict
-from datetime import timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ListInvoiceAudit(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], audit_id: str = None, invoice_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        audit_id = kwargs.get("audit_id")
         results = []
         if audit_id:
-            results = [a for a in data["invoice_audit"].values() if a["audit_id"] == audit_id]
+            results = [a for a in data["invoice_audit"] if a["audit_id"] == audit_id]
 
+        invoice_id = kwargs.get("invoice_id")
         if invoice_id:
-            results = [a for a in data["invoice_audit"].values() if a["invoice_id"] == invoice_id]
+            results = [a for a in data["invoice_audit"] if a["invoice_id"] == invoice_id]
 
         return json.dumps(results)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
@@ -27,7 +31,7 @@ class ListInvoiceAudit(Tool):
                     "properties": {
                         "audit_id": {"type": "string"},
                     },
-                    "required": ["audit_id"],
+                    "required": ["audit_id" ],
                 },
             },
         }

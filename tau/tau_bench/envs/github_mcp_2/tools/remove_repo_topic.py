@@ -1,38 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class RemoveRepoTopic(Tool):
-    """Detaches a topic from a repository."""
+    """Removes a topic from a repository."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str = None, topic: str = None) -> str:
-        repo = _find_repo_record(data, repo_name)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        repo = _find_repo_record(data, kwargs.get("repo_name"))
+        topic = kwargs.get("topic")
         if not topic:
-            payload = {"error": "topic is required."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "topic is required."}, indent=2)
 
         repo["topics"] = [t for t in repo.get("topics", []) if t != topic]
-        payload = {"message": f"Topic '{topic}' removed."}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"message": f"Topic '{topic}' removed."}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "RemoveRepoTopic",
+                "name": "remove_repo_topic",
                 "description": "Removes a topic from a repository.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "repo_name": {"type": "string"},
-                        "topic": {"type": "string"},
+                        "topic": {"type": "string"}
                     },
-                    "required": ["repo_name", "topic"],
-                },
-            },
+                    "required": ["repo_name", "topic"]
+                }
+            }
         }

@@ -1,62 +1,46 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreatePolicyException(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        user_id: str = None,
-        permission_id: str = None,
-        reviewed_by: str = None,
-        reason: str = None,
-        expires_on: str = None
-    ) -> str:
-        exceptions = data.get("policy_exceptions", {}).values()
-        new_id_num = (
-            max((int(e["exception_id"][3:]) for e in exceptions.values()), default=0) + 1
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        exceptions = data.get('policy_exceptions', [])
+        new_id_num = max((int(e['exception_id'][3:]) for e in exceptions), default=0) + 1
         new_exception_id = f"PE-{new_id_num:03d}"
         new_exception = {
-            "exception_id": new_exception_id,
-            "user_id": user_id,
-            "permission_id": permission_id,
-            "reviewed_by": reviewed_by,
-            "reason": reason,
-            "expires_on": expires_on,
-            "status": "PENDING_REVIEW",
+                "exception_id": new_exception_id,
+                "user_id": kwargs.get("user_id"),
+                "permission_id": kwargs.get("permission_id"),
+                "reviewed_by": kwargs.get("reviewed_by"),
+                "reason": kwargs.get("reason"),
+                "expires_on": kwargs.get("expires_on"),
+                "status": "PENDING_REVIEW"
         }
-        data["policy_exceptions"][new_exception["policy_exception_id"]] = new_exception
-        data["policy_exceptions"] = exceptions
-        payload = new_exception
-        out = json.dumps(payload)
-        return out
+        exceptions.append(new_exception)
+        data['policy_exceptions'] = exceptions
+        return json.dumps(new_exception)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "CreatePolicyException",
-                "description": "Creates a policy exception for a user and permission.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "user_id": {"type": "string"},
-                        "permission_id": {"type": "string"},
-                        "reviewed_by": {"type": "string"},
-                        "reason": {"type": "string"},
-                        "expires_on": {"type": "string", "format": "date-time"},
-                    },
-                    "required": ["user_id", "permission_id", "reason"],
-                },
-            },
+                "type": "function",
+                "function": {
+                        "name": "create_policy_exception",
+                        "description": "Creates a policy exception for a user and permission.",
+                        "parameters": {
+                                "type": "object",
+                                "properties": {
+                                        "user_id": {"type": "string"},
+                                        "permission_id": {"type": "string"},
+                                        "reviewed_by": {"type": "string"},
+                                        "reason": {"type": "string"},
+                                        "expires_on": {"type": "string", "format": "date-time"}
+                                },
+                                "required": ["user_id", "permission_id", "reason"]
+                        }
+                }
         }

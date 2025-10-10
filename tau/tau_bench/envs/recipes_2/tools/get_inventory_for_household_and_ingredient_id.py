@@ -1,42 +1,36 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetInventoryForHouseholdAndIngredientId(Tool):
-    """Fetches all stock items for a specific household ID and a particular ingredient ID."""
+    """Retrieves all inventory items for a given household ID and a specific ingredient ID."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], household_id: str = None, ingredient_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        household_id = kwargs.get("household_id")
+        ingredient_id = kwargs.get("ingredient_id")
+
         if household_id is None or ingredient_id is None:
-            payload = {"error": "household_id and ingredient_id parameters are required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "household_id and ingredient_id parameters are required."})
 
-        inventory = data.get("inventory_items", {}).values()
-
+        inventory = data.get("inventory_items", [])
+        
         household_ingredient_inventory = [
-            item
-            for item in inventory.values() if item.get("household_id") == household_id
-            and item.get("ingredient_id") == ingredient_id
+            item for item in inventory 
+            if item.get("household_id") == household_id and item.get("ingredient_id") == ingredient_id
         ]
-        payload = household_ingredient_inventory
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps(household_ingredient_inventory)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetInventoryForHouseholdAndIngredientId",
+                "name": "get_inventory_for_household_and_ingredient_id",
                 "description": "Retrieves inventory items for a specific household and ingredient.",
                 "parameters": {
                     "type": "object",
@@ -48,7 +42,7 @@ class GetInventoryForHouseholdAndIngredientId(Tool):
                         "ingredient_id": {
                             "type": "integer",
                             "description": "The unique ID of the ingredient to find in the inventory.",
-                        },
+                        }
                     },
                     "required": ["household_id", "ingredient_id"],
                 },

@@ -1,36 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetBuildRunDetails(Tool):
-    """Retrieve complete information for a build run using its identifier."""
+    """Return full details for a build run by its id."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        run_id = kwargs.get("run_id")
+        runs = data.get("build_runs", [])
+        run = _find_by_id(runs, run_id)
+        return json.dumps({"run": run}, indent=2)
 
     @staticmethod
-    def invoke(data: dict[str, Any], run_id: str = None) -> str:
-        runs = data.get("build_runs", {}).values()
-        run = _find_by_id(runs, run_id)
-        payload = {"run": run}
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetBuildRunDetails",
+                "name": "get_build_run_details",
                 "description": "Fetch a single build run by id.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"run_id": {"type": "string"}},
-                    "required": ["run_id"],
-                },
-            },
+                    "properties": {
+                        "run_id": {"type": "string"}
+                    },
+                    "required": ["run_id"]
+                }
+            }
         }

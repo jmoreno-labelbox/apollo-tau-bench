@@ -1,32 +1,17 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateDirectoryOnRemote(Tool):
-    """Imitates the creation of a directory on a remote server."""
+    """Simulates creating a directory on a remote server."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        return json.dumps({
+            "status": "success", "message": f"Directory '{kwargs.get('directory_path')}' created on {kwargs.get('hostname')}."})
 
     @staticmethod
-    def invoke(data: dict[str, Any], directory_path: str = None, hostname: str = None) -> str:
-        payload = {
-            "status": "success",
-            "message": f"Directory '{directory_path}' created on {hostname}.",
-        }
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "CreateDirectoryOnRemote",
-                "description": "Creates a new directory at the specified path on a remote server.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "hostname": {"type": "string"},
-                        "directory_path": {"type": "string"},
-                    },
-                    "required": ["hostname", "directory_path"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "create_directory_on_remote", "description": "Creates a new directory at the specified path on a remote server.", "parameters": {"type": "object", "properties": {"hostname": {"type": "string"}, "directory_path": {"type": "string"}}, "required": ["hostname", "directory_path"]}}}

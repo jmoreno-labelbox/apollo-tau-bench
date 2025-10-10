@@ -1,12 +1,14 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ProvisionElastiCacheCluster(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         cluster_id: Any,
         engine: Any,
         node_type: Any,
@@ -22,13 +24,9 @@ class ProvisionElastiCacheCluster(Tool):
     ) -> str:
         cluster_id = _as_id(cluster_id)
         clusters = data.setdefault("aws_elasticache_clusters", [])
-        existing = next(
-            (c for c in clusters if _as_id(c.get("cluster_id")) == cluster_id), None
-        )
+        existing = next((c for c in clusters if _as_id(c.get("cluster_id")) == cluster_id), None)
         if existing:
-            payload = existing
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps(existing, indent=2)
 
         rec = {
             "cluster_id": cluster_id,
@@ -47,17 +45,14 @@ class ProvisionElastiCacheCluster(Tool):
             "last_modified_at": str(created_at),
         }
         clusters.append(rec)
-        payload = rec
-        out = json.dumps(payload, indent=2)
-        return out
-        
+        return json.dumps(rec, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ProvisionElasticacheCluster",
+                "name": "provision_elasticache_cluster",
                 "description": "Create a new ElastiCache cluster record with configuration.",
                 "parameters": {
                     "type": "object",

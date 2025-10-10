@@ -1,41 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FetchModelConfig(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], model_name: str = None, config_name: str = None) -> str:
-        cfgs = data.get("model_config", {}).values() or []
-        rows = [
-            c
-            for c in cfgs.values() if (not model_name or c.get("model_name") == model_name)
-            and (not config_name or c.get("config_name") == config_name)
-        ]
-        payload = {"configs": rows}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cfgs = data.get("model_config", []) or []
+        model_name = kwargs.get("model_name")
+        config_name = kwargs.get("config_name")
+        rows = [c for c in cfgs if (not model_name or c.get("model_name")==model_name) and (not config_name or c.get("config_name")==config_name)]
+        return json.dumps({"configs": rows}, indent=2)
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetModelConfig",
-                "description": "List model configs (optionally filtered by model_name and/or config_name).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "model_name": {"type": "string"},
-                        "config_name": {"type": "string"},
-                    },
-                    "required": [],
-                },
-            },
-        }
+    def get_info()->Dict[str,Any]:
+        return {"type":"function","function":{
+            "name":"get_model_config",
+            "description":"List model configs (optionally filtered by model_name and/or config_name).",
+            "parameters":{"type":"object","properties":{
+                "model_name":{"type":"string"},"config_name":{"type":"string"}
+            },"required":[]}
+        }}

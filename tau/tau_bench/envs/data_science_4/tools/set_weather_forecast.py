@@ -1,41 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SetWeatherForecast(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        city: str = None,
-        city_name: str = None,
-        latitude: Any = None
-    ) -> str:
-        # Accept either city or city_name
-        if city_name is not None:
-            city = city_name
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        city = kwargs.get("city")
         id = "WEATHER_FORECAST_001"
         weather_forecast_json = {
             "forecast_id": id,
             "raw_json_path_nullable": f"/data/raw/weather_forecast_{id}.json",
         }
-        data["weather_forecasts"][weather_forecast_json["weather_forecast_id"]] = weather_forecast_json
-        payload = weather_forecast_json
-        out = json.dumps(payload)
-        return out
+        data.get("weather_forecasts", []).append(weather_forecast_json)
+        return json.dumps(weather_forecast_json)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "setWeatherForecast",
+                "name": "SetWeatherForecast",
                 "parameters": {
                     "type": "object",
                     "properties": {

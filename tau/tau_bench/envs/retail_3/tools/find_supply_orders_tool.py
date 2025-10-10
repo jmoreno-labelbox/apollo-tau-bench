@@ -1,25 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindSupplyOrdersTool(Tool):
     """
-    Locate supply orders filtered by optional supplier_id and/or status.
+    Find supply orders filtered by optional supplier_id and/or status.
 
     Behavior:
-    - If supplier_id is provided, only returns matching entries.
-    - If status is provided, only returns entries with an exact match.
-    - Returns a concise view: supply_order_id, supplier_id, status, items_count, created_at.
+    - If supplier_id is provided, only returns matching records.
+    - If status is provided, only returns records with exact status.
+    - Returns a compact view: supply_order_id, supplier_id, status, items_count, created_at.
 
     Input (kwargs):
         supplier_id (str, optional)
@@ -30,10 +23,13 @@ class FindSupplyOrdersTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], supplier_id: str = None, status: str = None) -> str:
-        supply_orders = data.get("supply_orders", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        supplier_id = kwargs.get("supplier_id")
+        status = kwargs.get("status")
+
+        supply_orders = data.get("supply_orders", [])
         filtered = []
-        for so in supply_orders.values():
+        for so in supply_orders:
             if supplier_id and so.get("supplier_id") != supplier_id:
                 continue
             if status and so.get("status") != status:
@@ -47,15 +43,15 @@ class FindSupplyOrdersTool(Tool):
                     "created_at": so.get("created_at"),
                 }
             )
-        payload = {"count": len(filtered), "supply_orders": filtered}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"count": len(filtered), "supply_orders": filtered}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindSupplyOrders",
+                "name": "find_supply_orders",
                 "description": "Find supply orders filtered by optional supplier_id and/or status from supply_orders.json.",
                 "parameters": {
                     "type": "object",

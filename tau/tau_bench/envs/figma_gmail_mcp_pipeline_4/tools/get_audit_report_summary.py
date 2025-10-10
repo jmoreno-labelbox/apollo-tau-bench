@@ -1,51 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAuditReportSummary(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], audit_id: str = None, include_details: bool = False, audit_type: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
-        Obtains a detailed summary of the audit report with a breakdown of findings.
+        Retrieves comprehensive audit report summary with findings breakdown.
         """
+        audit_id = kwargs.get("audit_id")
+
         if not audit_id:
-            payload = {"error": "audit_id is required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "audit_id is required."})
 
-        audits = data.get("audits", {}).values()
-        audit_findings_ds = data.get("audit_findings_ds", {}).values()
-        audit_findings_a11y = data.get("audit_findings_a11y", {}).values()
+        audits = data.get("audits", [])
+        audit_findings_ds = data.get("audit_findings_ds", [])
+        audit_findings_a11y = data.get("audit_findings_a11y", [])
 
-        #Locate the audit
+        # Find the audit
         audit_info = None
-        for audit in audits.values():
+        for audit in audits:
             if audit.get("audit_id") == audit_id:
                 audit_info = audit
                 break
 
         if not audit_info:
-            payload = {"error": f"Audit with ID {audit_id} not found."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Audit with ID {audit_id} not found."})
 
-        #Retrieve findings related to this audit
-        ds_findings = [f for f in audit_findings_ds.values() if f.get("audit_id") == audit_id]
-        a11y_findings = [
-            f for f in audit_findings_a11y.values() if f.get("audit_id") == audit_id
-        ]
+        # Get findings for this audit
+        ds_findings = [f for f in audit_findings_ds if f.get("audit_id") == audit_id]
+        a11y_findings = [f for f in audit_findings_a11y if f.get("audit_id") == audit_id]
 
-        #Tally findings based on severity
+        # Count findings by severity
         severity_counts = {"LOW": 0, "MEDIUM": 0, "HIGH": 0, "CRITICAL": 0}
 
         for finding in ds_findings + a11y_findings:
@@ -53,40 +42,36 @@ class GetAuditReportSummary(Tool):
             if severity in severity_counts:
                 severity_counts[severity] += 1
 
+        include_details = kwargs.get("include_details", False)
+
         summary = {
             "audit_info": audit_info,
             "ds_findings_count": len(ds_findings),
             "a11y_findings_count": len(a11y_findings),
             "total_findings": len(ds_findings) + len(a11y_findings),
-            "severity_breakdown": severity_counts,
+            "severity_breakdown": severity_counts
         }
 
         if include_details:
             summary["ds_findings"] = ds_findings
             summary["a11y_findings"] = a11y_findings
-        payload = summary
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(summary, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAuditReportSummary",
+                "name": "get_audit_report_summary",
                 "description": "Retrieves comprehensive audit report summary with findings breakdown.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "audit_id": {
-                            "type": "string",
-                            "description": "The ID of the audit to generate summary for.",
-                        },
-                        "include_details": {
-                            "type": "boolean",
-                            "description": "Include detailed finding information (default false).",
-                        },
+                        "audit_id": {"type": "string", "description": "The ID of the audit to generate summary for."},
+                        "include_details": {"type": "boolean", "description": "Include detailed finding information (default false)."}
                     },
-                    "required": ["audit_id"],
-                },
-            },
+                    "required": ["audit_id"]
+                }
+            }
         }

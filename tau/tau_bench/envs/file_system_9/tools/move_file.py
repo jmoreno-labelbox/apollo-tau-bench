@@ -1,24 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class MoveFile(Tool):
-    """Transfers a file from a source location to a target location."""
-
+    """Moves a file from a source path to a destination path."""
     @staticmethod
-    def invoke(data: dict[str, Any], source_path: str = None, destination_path: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        source_path = kwargs.get("source_path")
+        destination_path = kwargs.get("destination_path")
+        
         file_to_move = None
         source_directory = None
 
-        for server in data.get("file_system", {}).values():
+        for server in data.get("file_system", []):
             for directory in server.get("directories", []):
                 for file in directory.get("files", []):
                     if f"{directory.get('path')}/{file.get('filename')}" == source_path:
@@ -29,44 +26,31 @@ class MoveFile(Tool):
                     break
             if file_to_move:
                 break
-
+        
         if not file_to_move:
-            payload = {"error": f"Source file not found: {source_path}"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Source file not found: {source_path}"})
 
-        source_directory["files"] = [
-            f
-            for f in source_directory["files"]
-            if f"{source_directory.get('path')}/{f.get('filename')}" != source_path
-        ]
+        source_directory["files"] = [f for f in source_directory["files"] if f"{source_directory.get('path')}/{f.get('filename')}" != source_path]
 
         dest_dir_path = "/".join(destination_path.split("/")[:-1])
         dest_filename = destination_path.split("/")[-1]
-
+        
         file_to_move["filename"] = dest_filename
 
-        for server in data.get("file_system", {}).values():
+        for server in data.get("file_system", []):
             for directory in server.get("directories", []):
                 if directory.get("path") == dest_dir_path:
                     directory["files"].append(file_to_move)
-                    payload = {
-                            "status": "success",
-                            "message": f"File moved from {source_path} to {destination_path}.",
-                        }
-                    out = json.dumps(
-                        payload)
-                    return out
-        payload = {"error": f"Destination directory not found: {dest_dir_path}"}
-        out = json.dumps(
-            payload)
-        return out
+                    return json.dumps({"status": "success", "message": f"File moved from {source_path} to {destination_path}."})
+
+        return json.dumps({"error": f"Destination directory not found: {dest_dir_path}"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "MoveFile",
+                "name": "move_file",
                 "description": "Moves a file from a source path to a destination path.",
                 "parameters": {
                     "type": "object",

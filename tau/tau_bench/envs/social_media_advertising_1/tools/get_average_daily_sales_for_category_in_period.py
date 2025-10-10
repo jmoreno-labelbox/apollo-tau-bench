@@ -1,56 +1,51 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAverageDailySalesForCategoryInPeriod(Tool):
-    """Computes average daily sales for a category during a date range."""
+    """Calculates average daily sales for a category over a date range."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], category: str = None, start_date: str = None, end_date: str = None) -> str:
-        sales_data = data.get("f_sales", {}).values()
-
-        # Determine the total days within the timeframe
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        category = kwargs.get("category")
+        start_date = kwargs.get("start_date")
+        end_date = kwargs.get("end_date")
+        sales_data = data.get("f_sales", [])
+        
+        # Calculate the number of days in the period
         start = datetime.strptime(start_date, "%Y-%m-%d")
         end = datetime.strptime(end_date, "%Y-%m-%d")
         days_in_period = (end - start).days + 1
-
+        
         total_units = 0
         total_revenue = 0
-
+        
         for entry in sales_data:
-            if (
-                entry.get("category") == category
-                and entry.get("start_date") >= start_date
-                and entry.get("end_date") <= end_date
-            ):
+            if (entry.get("category") == category and 
+                entry.get("start_date") >= start_date and 
+                entry.get("end_date") <= end_date):
                 total_units += entry.get("units", 0)
                 total_revenue += entry.get("revenue", 0)
-
-        # Compute averages
+        
+        # Calculate averages
         avg_units = total_units / days_in_period if days_in_period > 0 else 0
         avg_revenue = total_revenue / days_in_period if days_in_period > 0 else 0
-        payload = {
+        
+        return json.dumps({
             "average_units": avg_units,
             "average_revenue": avg_revenue,
-            "days_in_period": days_in_period,
-        }
-        out = json.dumps(payload)
-        return out
+            "days_in_period": days_in_period
+        })
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getAverageDailySalesForCategoryInPeriod",
+                "name": "get_average_daily_sales_for_category_in_period",
                 "description": "Calculates average daily sales for a category over a date range.",
                 "parameters": {
                     "type": "object",
@@ -66,7 +61,7 @@ class GetAverageDailySalesForCategoryInPeriod(Tool):
                         "end_date": {
                             "type": "string",
                             "description": "The end date of the period (YYYY-MM-DD format).",
-                        },
+                        }
                     },
                     "required": ["category", "start_date", "end_date"],
                 },

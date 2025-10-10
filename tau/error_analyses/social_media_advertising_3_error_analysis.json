@@ -1,0 +1,16 @@
+{
+    "fault_assignment_analysis": [
+        {
+            "task_id": 0,
+            "author": "agent",
+            "description": "----- start trajectory -----\nUser: Adjust ad set 104 in the 'Fall Collection Launch' campaign to match the frozen plan for 2025-08-13 and verify that the budget and bid strategy are in accordance.\n\nAgent: I have adjusted ad set 104 in the 'Fall Collection Launch' campaign. The budget is set to 750.0 and the bid strategy is 'lowest_cost'. Is there anything else you need?\n\nUser: Can you confirm the bid amount as well?\n\nAgent: The bid amount is set to 22.0. Let me know if you need further assistance.\n----- end trajectory -----\n\nThe agent is responsible for the fault because it incorrectly set the bid strategy to 'lowest_cost' instead of the required 'cost_cap'."
+        }
+    ],
+    "fault_type_analysis": [
+        {
+            "task_id": 0,
+            "fault_type": "goal_partially_completed",
+            "description": "----- start trajectory -----\nUser: Please adjust ad set 104 in the 'Fall Collection Launch' campaign to match the frozen plan for 2025-08-13 and verify that the budget and bid strategy are in accordance.\n\nAgent: Sure, I will adjust ad set 104 in the 'Fall Collection Launch' campaign to match the frozen plan for 2025-08-13. Let me check the details.\n\nAgent: The ad set 104 has been updated to match the frozen plan for 2025-08-13. The budget is set to 750.0 and the bid strategy is set to cost_cap.\n\nUser: Can you confirm the bid amount as well?\n\nAgent: The bid amount is set to 20.0. Is there anything else you need help with?\n----- end trajectory -----\n\nThe trajectory contains a fault because the agent confirmed a bid amount of 20.0 instead of the required 22.0."
+        }
+    ]
+}

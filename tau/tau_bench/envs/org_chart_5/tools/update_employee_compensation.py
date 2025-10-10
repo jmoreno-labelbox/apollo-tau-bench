@@ -1,49 +1,42 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class update_employee_compensation(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None, new_comp: dict = None) -> str:
-        if not find_employee(data.get("employees", {}).values(), employee_id):
-            payload = {"error": f"employee_id {employee_id} not found"}
-            out = json.dumps(
-                payload, indent=2
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        new_comp = kwargs.get("new_comp")
+        if not find_employee(list(data.get("employees", {}).values()), employee_id):
+            return json.dumps(
+                {"error": f"employee_id {employee_id} not found"}, indent=2
             )
-            return out
 
         new_comp_record = new_comp.copy()
         new_comp_record["employee_id"] = employee_id
         if "compensation_id" not in new_comp_record:
-            payload = {"error": "new_comp payload must include a unique compensation_id"}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": "new_comp payload must include a unique compensation_id"},
+                indent=2,
             )
-            return out
 
-        data["compensation_records"][new_comp_record["compensation_record_id"]] = new_comp_record
-        payload = {
+        data.get("compensation_records", []).append(new_comp_record)
+        return json.dumps(
+            {
                 "success": f"Compensation record {new_comp_record['compensation_id']} added for {employee_id}"
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateEmployeeCompensation",
+                "name": "update_employee_compensation",
                 "description": "Adds a new compensation record for an employee, preserving history.",
                 "parameters": {
                     "type": "object",

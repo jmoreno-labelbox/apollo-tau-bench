@@ -1,18 +1,13 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetGradesByGradeForGame(Tool):
     """
-    Retrieve all pitch execution grade records for a specified game that match any of the
+    Return all pitch execution grade records for a given game that match any of the
     provided grade values.
 
     Inputs:
@@ -21,72 +16,63 @@ class GetGradesByGradeForGame(Tool):
 
     Behavior:
       - Exact (case-sensitive) match on execution_grade.
-      - Filters records where record.game_pk equals game_pk AND record.execution_grade is in grades.
-      - Deterministic ordering by pitch_id in ascending order, then grade_id in ascending order.
+      - Filters records where record.game_pk == game_pk AND record.execution_grade in grades.
+      - Deterministic ordering by pitch_id ASC, then grade_id ASC.
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], game_pk: int = None, grades: list[str] = None) -> str:
-        #1) Confirm validity
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        game_pk = kwargs.get("game_pk")
+        grades_filter = kwargs.get("grades")
+
+        # 1) Validate
         if game_pk is None:
-            payload = {"error": "Missing required field: game_pk"}
-            out = json.dumps(payload, indent=2)
-            return out
-        if not isinstance(grades, list) or len(grades) == 0:
-            payload = {"error": "Missing required field: grades (non-empty list of strings)"}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({"error": "Missing required field: game_pk"}, indent=2)
+        if not isinstance(grades_filter, list) or len(grades_filter) == 0:
+            return json.dumps({"error": "Missing required field: grades (non-empty list of strings)"}, indent=2)
 
-        #2) Retrieve DB
-        records: list[dict[str, Any]] = data.get("pitch_execution_grades", {}).values()
+        # 2) Get DB
+        records: List[Dict[str, Any]] = data.get("pitch_execution_grades", [])
 
-        #3) Apply filter (exact, case-sensitive)
-        allowed = set(grades)
+        # 3) Filter (exact, case-sensitive)
+        allowed = set(grades_filter)
         matches = [
-            r
-            for r in records
+            r for r in records
             if r.get("game_pk") == game_pk and r.get("execution_grade") in allowed
         ]
 
         if not matches:
-            payload = {
-                    "error": f"No grades found for game_pk {game_pk} with execution_grade in {grades}"
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"No grades found for game_pk {game_pk} with execution_grade in {grades_filter}"},
+                indent=2
             )
-            return out
 
-        #4) Order deterministically
-        matches.sort(
-            key=lambda r: (int(r.get("pitch_id", 0)), int(r.get("grade_id", 0)))
-        )
-        payload = matches
-        out = json.dumps(payload, indent=2)
-        return out
+        # 4) Deterministic ordering
+        matches.sort(key=lambda r: (int(r.get("pitch_id", 0)), int(r.get("grade_id", 0))))
+
+        return json.dumps(matches, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getGradesByGradeForGame",
+                "name": "get_grades_by_grade_for_game",
                 "description": "Fetch pitch execution grade records for a game where execution_grade matches any of the provided values.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "game_pk": {
                             "type": "integer",
-                            "description": "Game primary key to filter on.",
+                            "description": "Game primary key to filter on."
                         },
                         "grades": {
                             "type": "array",
                             "items": {"type": "string"},
-                            "description": "List of execution_grade values to match (case-sensitive).",
-                        },
+                            "description": "List of execution_grade values to match (case-sensitive)."
+                        }
                     },
-                    "required": ["game_pk", "grades"],
-                },
-            },
+                    "required": ["game_pk", "grades"]
+                }
+            }
         }

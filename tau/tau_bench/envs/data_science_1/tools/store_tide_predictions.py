@@ -1,66 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class StoreTidePredictions(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        end_ts: str = None,
-        fetched_ts: str = None,
-        method_nullable: str = None,
-        raw_json_path_nullable: str = None,
-        start_ts: str = None,
-        station_id: str = None,
-        station_name_nullable: str = None,
-        tide_pred_m: float = None,
-        timestamps: list = None,
-        units: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         req = ["station_id", "timestamps", "tide_pred_m", "units"]
-        err = _require(locals(), req)
-        if err:
-            return err
-        row = {
-            "station_id": station_id,
-            "station_name_nullable": station_name_nullable,
-            "start_ts": start_ts,
-            "end_ts": end_ts,
-            "timestamps": timestamps,
-            "tide_pred_m": tide_pred_m,
-            "units": units,
-            "method_nullable": method_nullable,
-            "provider": "noaa-tides-currents",
-            "raw_json_path_nullable": raw_json_path_nullable,
-            "fetched_ts": fetched_ts,
-        }
-        payload = _append(data.setdefault("tide_predictions", []), row)
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        err = _require(kwargs, req)
+        if err: return err
+        row = {"station_id": kwargs["station_id"], "station_name_nullable": kwargs.get("station_name_nullable"),
+               "start_ts": kwargs.get("start_ts"), "end_ts": kwargs.get("end_ts"),
+               "timestamps": kwargs["timestamps"], "tide_pred_m": kwargs["tide_pred_m"], "units": kwargs["units"],
+               "method_nullable": kwargs.get("method_nullable"), "provider": "noaa-tides-currents",
+               "raw_json_path_nullable": kwargs.get("raw_json_path_nullable"), "fetched_ts": kwargs.get("fetched_ts")}
+        return json.dumps(_append(data.setdefault("tide_predictions", []), row), indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "StoreTidePredictions",
-                "description": "Stores tide predictions for a station and window.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "station_id": {"type": "string"},
-                        "station_name_nullable": {"type": "string"},
-                        "start_ts": {"type": "string"},
-                        "end_ts": {"type": "string"},
-                        "timestamps": {"type": "array", "items": {"type": "string"}},
-                        "tide_pred_m": {"type": "array", "items": {"type": "number"}},
-                        "units": {"type": "string"},
-                        "method_nullable": {"type": "string"},
-                        "raw_json_path_nullable": {"type": "string"},
-                        "fetched_ts": {"type": "string"},
-                    },
-                    "required": ["station_id", "timestamps", "tide_pred_m", "units"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "store_tide_predictions",
+            "description": "Stores tide predictions for a station and window.",
+            "parameters": {"type": "object", "properties": {
+                "station_id": {"type": "string"}, "station_name_nullable": {"type": "string"},
+                "start_ts": {"type": "string"}, "end_ts": {"type": "string"},
+                "timestamps": {"type": "array", "items": {"type": "string"}},
+                "tide_pred_m": {"type": "array", "items": {"type": "number"}},
+                "units": {"type": "string"}, "method_nullable": {"type": "string"},
+                "raw_json_path_nullable": {"type": "string"}, "fetched_ts": {"type": "string"}},
+                "required": ["station_id", "timestamps", "tide_pred_m", "units"]}}}

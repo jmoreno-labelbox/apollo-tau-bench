@@ -1,35 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindJobByTitle(Tool):
-    """Determine a job posting's ID using its title."""
+    """Find a job posting's ID by its title."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], title: str = None) -> str:
-        for j in data.get("job_postings", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        title = kwargs.get("title")
+        for j in data.get("job_postings", []):
             if j.get("title").lower() == title.lower():
-                payload = {"job_id": j.get("job_id")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Job not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"job_id": j.get("job_id")})
+        return json.dumps({"error": "Job not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindJobByTitle",
+                "name": "find_job_by_title",
                 "description": "Find a job posting's ID by its title.",
                 "parameters": {
                     "type": "object",

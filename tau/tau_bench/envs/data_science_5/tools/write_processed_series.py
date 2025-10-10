@@ -1,20 +1,16 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class WriteProcessedSeries(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], series_name: str = None, items: list = None) -> str:
-        table = data.get("processed_timeseries", {}).values()
-        items = items or []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        table = data.get("processed_timeseries", [])
+        series_name = kwargs.get("series_name")
+        items = kwargs.get("items") or []
         inserted = []
         max_id = 0
         for r in table:
@@ -34,27 +30,17 @@ class WriteProcessedSeries(Tool):
                 "value": it.get("value"),
                 "source": it.get("source"),
             }
-            data["processed_timeseries"][row["processed_timeserie_id"]] = row
+            table.append(row)
             inserted.append(rid)
-        payload = {"series_name": series_name, "inserted_row_ids": inserted}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        return json.dumps({"series_name": series_name, "inserted_row_ids": inserted}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "WriteProcessedSeries",
-                "description": "Insert derived/processed time-series points.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "series_name": {"type": "string"},
-                        "items": {"type": "array", "items": {"type": "object"}},
-                    },
-                    "required": ["series_name", "items"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "write_processed_series",
+            "description": "Insert derived/processed time-series points.",
+            "parameters": {"type": "object", "properties": {
+                "series_name": {"type": "string"},
+                "items": {"type": "array", "items": {"type": "object"}}
+            }, "required": ["series_name", "items"]}
+        }}

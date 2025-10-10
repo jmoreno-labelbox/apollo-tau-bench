@@ -1,59 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import OrderedDict, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class create_customer(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        timestamp: str = None,
-        name: str = None,
-        phone_number: str = None,
-        email: str = None,
-        address: str = None,
-        birthdate: str = None,
-        loyalty_points: int = 0,
-        membership_level: str = "basic",
-        opt_in_marketing: bool = False,
-    ) -> str:
-        pass
-        customers = data.get("customers", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customers = list(data.get("customers", {}).values())
 
-        # A timestamp must be included for database entries
+        # Timestamp needs to be sent for database records
+        timestamp = kwargs.get("timestamp")
 
-        # These values are required to be sent
+        # These values must be sent
         required_cols = ["name", "phone_number", "email", "address", "birthdate"]
 
-        # Default values apply if these are not provided
+        # These values have defaults if not sent
         optional_cols = ["loyalty_points", "membership_level", "opt_in_marketing"]
 
-        required_values = {
-            "name": name,
-            "phone_number": phone_number,
-            "email": email,
-            "address": address,
-            "birthdate": birthdate,
-        }
+        required_values = {k: kwargs.get(k) for k in required_cols}
         optional_values = {
-            "loyalty_points": loyalty_points,
-            "membership_level": membership_level,
-            "opt_in_marketing": opt_in_marketing,
+            "loyalty_points": 0,
+            "membership_level": "basic",
+            "opt_in_marketing": False,
         }
+        optional_values.update({k: kwargs[k] for k in optional_cols if k in kwargs})
 
-        # The function computes these values
+        # These values are calculated by the function
         fill_in = {
             "customer_id": "CUST-5{customer_id:03}".format(
                 customer_id=max(
-                    [int(x["customer_id"].split("-")[1][1:]) for x in customers.values()]
+                    [int(x["customer_id"].split("-")[1][1:]) for x in customers]
                 )
                 + 1
             ),
@@ -62,21 +40,20 @@ class create_customer(Tool):
             "status": "active",
         }
 
-        # Raise an error if any required values are absent
+        # Throw an error if any of the required values are missing
         if any([required_values[k] is None for k in required_values.keys()]):
-            payload = {
-                "error": "required values not sent: "
-                + ", ".join(
-                    [k for k in required_values.values() if required_values[k] is None]
-                )
-            }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {
+                    "error": "required values not sent: "
+                    + ", ".join(
+                        [k for k in required_values if required_values[k] is None]
+                    )
+                },
+                indent=2,
             )
-            return out
 
-        # This indicates the sequence of items in the database
-        # Although not essential due to the unordered nature of dictionaries, maintaining the same order can simplify validation
+        # This is the order that the items appear in the database
+        # May not be necessary since dictionaries are unordered, but it can make valiation easier if the items appear in the same order everytime
         col_order = [
             "customer_id",
             "name",
@@ -92,23 +69,24 @@ class create_customer(Tool):
             "status",
         ]
 
-        # Arrange the items
+        # Order the items
         row = required_values | optional_values | fill_in
         row_final = OrderedDict()
         for k in col_order:
             row_final[k] = row[k]
 
-        # Insert into the database
+        # Add to the database
         customers.append(json.dumps(row_final, indent=2))
-        payload = row_final
-        out = json.dumps(payload, indent=2)
-        return out
+
+        # Return the whole row for reference
+        return json.dumps(row_final, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateCustomer",
+                "name": "create_customer",
                 "description": "Creates a new customer record",
                 "parameters": {
                     "type": "object",
@@ -138,7 +116,7 @@ class create_customer(Tool):
                             "description": "The customer's birthdate. YYYY-MM-DD",
                         },
                         "loyalty_points": {
-                            "type": "integer",
+                            "type": "int",
                             "description": "OPTIONAL. The number of loyalty points the customer has. This will normally be 0, but sometimes they can start with points as an incentive to create an account.",
                         },
                         "memebership_level": {
@@ -146,7 +124,7 @@ class create_customer(Tool):
                             "description": "OPTIONAL. The membership tier the customer is starting on. This will default to 'basic'.",
                         },
                         "opt_in_marketing": {
-                            "type": "boolean",
+                            "type": "bool",
                             "description": "OPTIONAL. If the customer is opting into marketing. This will default to False",
                         },
                     },

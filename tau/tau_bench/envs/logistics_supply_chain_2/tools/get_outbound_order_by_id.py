@@ -1,46 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetOutboundOrderById(Tool):
-    """Utility for obtaining an outbound order using its order ID."""
+    """Tool to retrieve an outbound order by order ID."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str) -> str:
-        orders = data.get("outbound_orders", {}).values()
-        for order in orders.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get("order_id")
+        orders = data.get("outbound_orders", [])
+        for order in orders:
             if order["order_id"] == order_id:
-                payload = order
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Order with ID {order_id} not found."}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(order, indent=2)
+        return json.dumps({"error": f"Order with ID {order_id} not found."}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetOutboundOrderById",
+                "name": "get_outbound_order_by_id",
                 "description": "Retrieve outbound order using order ID.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "order_id": {
                             "type": "string",
-                            "description": "Order ID (e.g., 'ORD-0004')",
+                            "description": "Order ID (e.g., 'ORD-0004')"
                         }
                     },
-                    "required": ["order_id"],
-                },
-            },
+                    "required": ["order_id"]
+                }
+            }
         }

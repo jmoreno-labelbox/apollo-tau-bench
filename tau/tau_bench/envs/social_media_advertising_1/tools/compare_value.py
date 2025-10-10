@@ -1,18 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CompareValue(Tool):
-    """Evaluates a value against a threshold with a defined operator."""
+    """Compares a value with a threshold using a specified operator."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], value: Any = None, threshold: Any = None, operator: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        value = kwargs.get("value")
+        threshold = kwargs.get("threshold")
+        operator = kwargs.get("operator")
+        
         if value is None or threshold is None or operator is None:
-            payload = {"error": "value, threshold, and operator are required parameters."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({"error": "value, threshold, and operator are required parameters."})
+        
         result = False
         if operator == "greater":
             result = value > threshold
@@ -25,18 +29,16 @@ class CompareValue(Tool):
         elif operator == "equal":
             result = value == threshold
         else:
-            payload = {"error": f"Unknown operator: {operator}"}
-            out = json.dumps(payload)
-            return out
-        payload = {"result": result}
-        out = json.dumps(payload)
-        return out
+            return json.dumps({"error": f"Unknown operator: {operator}"})
+        
+        return json.dumps({"result": result})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CompareValue",
+                "name": "compare_value",
                 "description": "Compares a value with a threshold using a specified operator.",
                 "parameters": {
                     "type": "object",
@@ -52,7 +54,7 @@ class CompareValue(Tool):
                         "operator": {
                             "type": "string",
                             "description": "The comparison operator (greater, greater_equal, less, less_equal, equal).",
-                        },
+                        }
                     },
                     "required": ["value", "threshold", "operator"],
                 },

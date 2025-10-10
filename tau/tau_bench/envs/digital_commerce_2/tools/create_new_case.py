@@ -1,21 +1,16 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
-from decimal import ROUND_HALF_UP, Decimal
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateNewCase(Tool):
+    """Create a new case and append it to the cases DB."""
 
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         contact_id: Any,
         account_id: Any,
         subject: Any,
@@ -27,17 +22,12 @@ class CreateNewCase(Tool):
         order_id = _idstr(order_id)
         subject = subject
         priority = priority
-
-        #1) Confirm
         if not contact_id or not account_id or not subject or not priority:
-            payload = {
-                    "error": "Missing required fields: contact_id, account_id, subject, priority"
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": "Missing required fields: contact_id, account_id, subject, priority"},
+                indent=2,
             )
-            return out
-        cases = data.get("cases", {}).values()
+        cases = data.get("cases", [])
         case_id = get_next_case_id(data)
         new_case = {
             "case_id": case_id,
@@ -48,19 +38,16 @@ class CreateNewCase(Tool):
             "status": "New",
             "priority": priority,
         }
-        data["cases"][case_id] = new_case
-        payload = new_case
-        out = json.dumps(payload, indent=2)
-        return out
-         
+        cases.append(new_case)
+        return json.dumps(new_case, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateNewCase",
-                "description": "Create a new case and append it to the cases DB.",
+                "name": "create_new_case",
+                "description": "Create a new case and append it to the cases DB. Default status is 'New'.",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -76,10 +63,7 @@ class CreateNewCase(Tool):
                             "type": ["string", "null"],
                             "description": "Order ID related to the case, if any.",
                         },
-                        "subject": {
-                            "type": "string",
-                            "description": "Subject line for the case.",
-                        },
+                        "subject": {"type": "string", "description": "Subject line for the case."},
                         "priority": {
                             "type": "string",
                             "description": "Priority level (e.g., Low, Medium, High).",

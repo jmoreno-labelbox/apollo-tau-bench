@@ -1,44 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListSessionsTool(Tool):
-    """Display user sessions with optional filtering."""
+    """List user sessions with optional filters."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, active_only: bool = None) -> str:
-        sessions = data.get("sessions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        uid = kwargs.get("user_id")
+        active_only = kwargs.get("active_only")
+        sessions = data.get("sessions", [])
         results = []
-        for s in sessions.values():
-            if user_id and s["user_id"] != user_id:
+        for s in sessions:
+            if uid and s["user_id"] != uid:
                 continue
             if active_only and s.get("end_time") is not None:
                 continue
             results.append(s)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListSessions",
+                "name": "list_sessions",
                 "description": "List login sessions with optional user_id and active_only flag",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "user_id": {"type": "string"},
-                        "active_only": {"type": "boolean"},
-                    },
-                },
-            },
+                        "active_only": {"type": "boolean"}
+                    }
+                }
+            }
         }

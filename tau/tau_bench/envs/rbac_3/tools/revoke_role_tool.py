@@ -1,21 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class RevokeRoleTool(Tool):
-    """revoke_role: rescind a role and create a deterministic audit log."""
+    """revoke_role: revoke a role and write a deterministic audit log."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, role_id: str = None, actor_id: str = None, revoked_by: str = None) -> str:
-        actor_id = actor_id or revoked_by
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        role_id = kwargs.get("role_id")
+        actor_id = kwargs.get("actor_id") or kwargs.get("revoked_by")
         base = json.loads(
             RevokeUserRoleTool.invoke(
                 data, user_id=user_id, role_id=role_id, revoked_by=actor_id
             )
         )
-        details = base.get("log_info", {}).values().get("details") or (
+        details = base.get("log_info", {}).get("details") or (
             "REMOVED" if base.get("removed") else "NOOP"
         )
         audit = json.loads(
@@ -24,7 +27,7 @@ class RevokeRoleTool(Tool):
                 log_id=f"LOG-{user_id}-{role_id}-revoke",
                 access_request=f"{user_id}-{role_id}-revoke",
                 actor_id=actor_id,
-                action_type="RevokeRole",
+                action_type="revoke_role",
                 target_id=f"{user_id}:{role_id}",
                 timestamp=_HARD_TS,
                 details=details,
@@ -32,21 +35,20 @@ class RevokeRoleTool(Tool):
         )
         out = dict(base)
         out["audit_log_id"] = audit.get("log_id")
-        #Expose action_type for downstream validators to view the literal prior to utilization
-        out["action_type"] = "RevokeRole"
-        #Incorporate subject and body as requested
-        #In revocation actions, we utilize APPROVED as the revocation was completed successfully
+        # Surface action_type so downstream validators see the literal before use
+        out["action_type"] = "revoke_role"
+        # Add subject and body as requested
+        # For revoke operations, we use APPROVED since the revocation was successfully processed
         out["subject"] = f"{role_id} APPROVED"
         out["body"] = f"{actor_id} {_HARD_TS}"
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RevokeRole",
+                "name": "revoke_role",
                 "description": (
                     "Revoke a role from a user and record a deterministic audit log."
                 ),

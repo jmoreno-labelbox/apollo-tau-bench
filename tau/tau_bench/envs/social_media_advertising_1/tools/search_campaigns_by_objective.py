@@ -1,36 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchCampaignsByObjective(Tool):
-    """Looks for campaigns that have a particular objective."""
+    """Searches for campaigns with a specific objective."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], objective: str = None) -> str:
-        campaigns = data.get("campaigns", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        objective = kwargs.get("objective")
+        campaigns = list(data.get("campaigns", {}).values())
         matching_campaigns = []
-
-        for campaign in campaigns.values():
+        
+        for campaign in campaigns:
             if campaign.get("objective") == objective:
                 matching_campaigns.append(campaign.get("campaign_id"))
-        payload = {"campaign_ids": matching_campaigns}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"campaign_ids": matching_campaigns})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchCampaignsByObjective",
+                "name": "search_campaigns_by_objective",
                 "description": "Searches for campaigns with a specific objective.",
                 "parameters": {
                     "type": "object",

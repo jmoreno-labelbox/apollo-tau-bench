@@ -1,53 +1,39 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CloneTask(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        source_task_id: str = None,
-        new_title: str = None,
-        new_assignee_id: str = None,
-        sprint_id: str = None,
-        new_task_id: str = None
-    ) -> str:
-        if not all([source_task_id, new_title]):
-            payload = {"error": "source_task_id and new_title are required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        source_task_id = kwargs.get("source_task_id")
+        new_title = kwargs.get("new_title")
+        new_assignee_id = kwargs.get("new_assignee_id")
+        sprint_id = kwargs.get("sprint_id")
+        new_task_id = kwargs.get("new_task_id")
 
-        tasks = data.get("tasks", {}).values()
-        employees = data.get("employees", {}).values()
-        sprints = data.get("sprints", {}).values()
+        if not all([source_task_id, new_title]):
+            return json.dumps({"error": "source_task_id and new_title are required"})
+
+        tasks = list(data.get("tasks", {}).values())
+        employees = list(data.get("employees", {}).values())
+        sprints = data.get("sprints", [])
 
         source_task = next(
-            (t for t in tasks.values() if t.get("task_id") == source_task_id), None
+            (t for t in tasks if t.get("task_id") == source_task_id), None
         )
         if not source_task:
-            payload = {"error": f"Source task '{source_task_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Source task '{source_task_id}' not found"})
 
         assignee_id = new_assignee_id or source_task.get("assignee_id")
 
         assignee = next(
-            (emp for emp in employees.values() if emp.get("employee_id") == assignee_id), None
+            (emp for emp in employees if emp.get("employee_id") == assignee_id), None
         )
         if not assignee:
-            payload = {"error": f"Assignee '{assignee_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Assignee '{assignee_id}' not found"})
 
         if source_task.get("priority") == "critical":
             is_senior = any(
@@ -56,56 +42,51 @@ class CloneTask(Tool):
             if not is_senior:
                 senior_members = [
                     emp
-                    for emp in employees.values() if any(
+                    for emp in employees
+                    if any(
                         skill.get("proficiency", 0) >= 4
                         for skill in emp.get("skills", [])
                     )
                 ]
                 if senior_members:
-                    payload = {
+                    return json.dumps(
+                        {
                             "error": "Critical tasks must be assigned to senior team members",
                             "available_seniors": [
                                 {"id": emp["employee_id"], "name": emp["name"]}
                                 for emp in senior_members[:5]
                             ],
                         }
-                    out = json.dumps(
-                        payload)
-                    return out
+                    )
 
         story_points = source_task.get("story_points", 3)
         if sprint_id:
-            sprint = next((s for s in sprints.values() if s.get("sprint_id") == sprint_id), None)
+            sprint = next((s for s in sprints if s.get("sprint_id") == sprint_id), None)
             if sprint and sprint.get("status") == "active":
                 assignee_tasks = [
                     t
-                    for t in tasks.values() if t.get("assignee_id") == assignee_id
+                    for t in tasks
+                    if t.get("assignee_id") == assignee_id
                     and t.get("sprint_id") == sprint_id
                     and t.get("status") != "done"
                 ]
-                current_points = sum(t.get("story_points", 0) for t in assignee_tasks.values())
+                current_points = sum(t.get("story_points", 0) for t in assignee_tasks)
 
                 if current_points + story_points > 25:
-                    payload = {
-                            "error": "Cannot assign task. Would exceed 25 story point limit",
+                    return json.dumps(
+                        {
+                            "error": f"Cannot assign task. Would exceed 25 story point limit",
                             "current_points": current_points,
                             "new_task_points": story_points,
                         }
-                    out = json.dumps(
-                        payload)
-                    return out
+                    )
 
         task_id = f"task_{uuid.uuid4().hex[:8]}"
 
         if new_task_id:
-            for t in tasks.values():
+            for t in tasks:
                 if t.get("task_id") == new_task_id:
-                    payload = {
-                            "error": f"new_task_id {new_task_id} exists. Please enter a unique task_id."
-                        }
-                    out = json.dumps(
-                        payload)
-                    return out
+                    return json.dumps({"error": f"new_task_id {new_task_id} exists. Please enter a unique task_id."})
             task_id = new_task_id
 
         new_task = {
@@ -126,17 +107,18 @@ class CloneTask(Tool):
             "cloned_from": source_task_id,
         }
 
-        data["tasks"][task_id] = new_task
-        payload = {"success": True, "new_task": new_task, "source_task_id": source_task_id}
-        out = json.dumps(
-            payload)
-        return out
+        tasks.append(new_task)
+
+        return json.dumps(
+            {"success": True, "new_task": new_task, "source_task_id": source_task_id}
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CloneTask",
+                "name": "clone_task",
                 "description": "Create a copy of an existing task",
                 "parameters": {
                     "type": "object",

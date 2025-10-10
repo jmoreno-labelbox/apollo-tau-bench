@@ -1,52 +1,43 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetSlackMessageById(Tool):
-    """Fetch the details of a specific Slack message by its ID."""
+    """ Retrieve the details of a specific Slack message using its ID. """
 
     @staticmethod
-    def invoke(data: dict[str, Any], message_id: str = None) -> str:
-        message_id_to_find = message_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        message_id_to_find = kwargs.get("message_id")
         try:
-            slack_messages = data.get("slack_messages", {}).values()
+            slack_messages = data.get('slack_messages', [])
         except:
             slack_messages = []
 
         for message in slack_messages:
             if message.get("message_id") == message_id_to_find:
-                payload = message
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Slack message with ID '{message_id_to_find}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(message)
+
+        return json.dumps({"error": f"Slack message with ID '{message_id_to_find}' not found."})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetSlackMessageById",
+                "name": "get_slack_message_by_id",
                 "description": "Retrieves the full details of a Slack message, including its content and channel, by its unique ID.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "message_id": {
                             "type": "string",
-                            "description": "The unique ID of the Slack message (e.g., 'SL-007').",
+                            "description": "The unique ID of the Slack message (e.g., 'SL-007')."
                         }
                     },
-                    "required": ["message_id"],
-                },
-            },
+                    "required": ["message_id"]
+                }
+            }
         }

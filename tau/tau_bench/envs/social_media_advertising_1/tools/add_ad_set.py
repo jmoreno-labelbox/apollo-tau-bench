@@ -1,56 +1,41 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AddAdSet(Tool):
-    """Creates a new ad set."""
+    """Adds a new ad set."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        adset_id: str = None,
-        campaign_id: str = None,
-        name: str = None,
-        category: str = None,
-        daily_budget: float = None,
-        bid_strategy: str = None,
-        bid_amount: float = None,
-        status: str = None,
-        updated_at: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
+        campaign_id = kwargs.get("campaign_id")
+        name = kwargs.get("name")
+        category = kwargs.get("category")
+        daily_budget = kwargs.get("daily_budget")
+        bid_strategy = kwargs.get("bid_strategy")
+        bid_amount = kwargs.get("bid_amount")
+        status = kwargs.get("status")
+        updated_at = kwargs.get("updated_at")
+
         if not adset_id:
-            payload = {"error": "adset_id is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "adset_id is a required parameter."})
         if not campaign_id:
-            payload = {"error": "campaign_id is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "campaign_id is a required parameter."})
         if not name:
-            payload = {"error": "name is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "name is a required parameter."})
         if not category:
-            payload = {"error": "category is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "category is a required parameter."})
         if not daily_budget:
-            payload = {"error": "daily_budget is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "daily_budget is a required parameter."})
         if not bid_strategy:
-            payload = {"error": "bid_strategy is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "bid_strategy is a required parameter."})
         if not status:
-            payload = {"error": "status is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "status is a required parameter."})
         if not updated_at:
-            payload = {"error": "updated_at is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "updated_at is a required parameter."})
 
         new_adset = {
             "adset_id": adset_id,
@@ -61,21 +46,23 @@ class AddAdSet(Tool):
             "bid_strategy": bid_strategy,
             "bid_amount": bid_amount,
             "status": status,
-            "updated_at": updated_at,
+            "updated_at": updated_at
         }
-        data["adsets"] += [new_adset]
-        payload = {
-            "status": "success",
-            "message": f"New ad set was added: {new_adset}",
-        }
-        out = json.dumps(payload)
-        return out
+        data['adsets'] += [new_adset]
+
+        return json.dumps(
+            {
+                "status": "success",
+                "message": f"New ad set was added: {new_adset}",
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddAdset",
+                "name": "add_adset",
                 "description": "Adds a new ad set.",
                 "parameters": {
                     "type": "object",
@@ -115,18 +102,9 @@ class AddAdSet(Tool):
                         "updated_at": {
                             "type": "string",
                             "description": "The last update timestamp (ISO format).",
-                        },
+                        }
                     },
-                    "required": [
-                        "adset_id",
-                        "campaign_id",
-                        "name",
-                        "category",
-                        "daily_budget",
-                        "bid_strategy",
-                        "status",
-                        "updated_at",
-                    ],
+                    "required": ["adset_id", "campaign_id", "name", "category", "daily_budget", "bid_strategy", "status", "updated_at"],
                 },
             },
         }

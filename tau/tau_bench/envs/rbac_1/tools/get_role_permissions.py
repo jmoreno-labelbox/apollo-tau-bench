@@ -1,38 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetRolePermissions(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], role_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        role_id = kwargs.get("role_id")
         permission_ids = [
-            rp["permission_id"]
-            for rp in data.get("role_permissions", {}).values()
-            if rp.get("role_id") == role_id
+                rp['permission_id'] for rp in data.get('role_permissions', [])
+                if rp.get('role_id') == role_id
         ]
-        payload = {"role_id": role_id, "permissions": permission_ids}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"role_id": role_id, "permissions": permission_ids})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "GetRolePermissions",
-                "description": "Retrieves all permissions associated with a role.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"role_id": {"type": "string"}},
-                    "required": ["role_id"],
-                },
-            },
+                "type": "function",
+                "function": {
+                        "name": "get_role_permissions",
+                        "description": "Retrieves all permissions associated with a role.",
+                        "parameters": {
+                                "type": "object",
+                                "properties": {
+                                        "role_id": {"type": "string"}
+                                },
+                                "required": ["role_id"]
+                        }
+                }
         }

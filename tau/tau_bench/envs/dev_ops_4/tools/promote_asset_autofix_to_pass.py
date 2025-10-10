@@ -1,44 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class PromoteAssetAutofixToPass(Tool):
-    """Upgrade an autofixed QA record to 'passed' in a deterministic way."""
-
+    """Promote an autofixed QA record to 'passed' deterministically."""
     @staticmethod
-    def invoke(data: dict[str, Any], qa_id: str = None) -> str:
-        results = data.get("asset_qa_results", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        qa_id = kwargs.get("qa_id")
+        results = data.get("asset_qa_results", [])
         idx = _idx_by_id(results, qa_id)
         if idx is None:
-            payload = {"asset_qa_result": None}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"asset_qa_result": None}, indent=2)
         rec = results[idx]
         if rec.get("autofix_applied"):
             rec["validation_status"] = "passed"
         results[idx] = rec
-        payload = {"asset_qa_result": rec}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"asset_qa_result": rec}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "PromoteAssetAutofixToPass",
+                "name": "promote_asset_autofix_to_pass",
                 "description": "If autofix_applied is true, set validation_status='passed'.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"qa_id": {"type": "string"}},
-                    "required": ["qa_id"],
-                },
-            },
+                    "properties": {
+                        "qa_id": {"type": "string"}
+                    },
+                    "required": ["qa_id"]
+                }
+            }
         }

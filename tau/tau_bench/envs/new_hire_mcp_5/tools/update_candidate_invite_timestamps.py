@@ -1,44 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpdateCandidateInviteTimestamps(Tool):
-    """Transfer invitation timestamps (orientation, manager introduction) into the candidate row."""
+    """Copy invite timestamps (orientation, manager intro) into candidate row."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        candidate_id: str, 
-        orientation_invite_ts: str = None, 
-        manager_intro_invite_ts: str = None
-,
-    message_id: Any = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cand_id = kwargs["candidate_id"]
         fields = {}
-        if orientation_invite_ts is not None:
-            fields["orientation_invite_ts_nullable"] = _fixed_ts(orientation_invite_ts)
-        if manager_intro_invite_ts is not None:
-            fields["manager_intro_invite_ts_nullable"] = _fixed_ts(manager_intro_invite_ts)
-        return UpdateCandidateStatusFields.invoke(
-            data, candidate_id=candidate_id, fields=fields
-        )
+        if "orientation_invite_ts" in kwargs:
+            fields["orientation_invite_ts_nullable"] = _fixed_ts(kwargs["orientation_invite_ts"])
+        if "manager_intro_invite_ts" in kwargs:
+            fields["manager_intro_invite_ts_nullable"] = _fixed_ts(kwargs["manager_intro_invite_ts"])
+        return UpdateCandidateStatusFields.invoke(data, candidate_id=cand_id, fields=fields)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateCandidateInviteTimestamps",
+                "name": "update_candidate_invite_timestamps",
                 "description": "Set candidate invite timestamps.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "candidate_id": {"type": "string"},
                         "orientation_invite_ts": {"type": "string"},
-                        "manager_intro_invite_ts": {"type": "string"},
+                        "manager_intro_invite_ts": {"type": "string"}
                     },
-                    "required": ["candidate_id"],
-                },
-            },
+                    "required": ["candidate_id"]
+                }
+            }
         }

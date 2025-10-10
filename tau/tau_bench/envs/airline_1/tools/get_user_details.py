@@ -1,75 +1,48 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetUserDetails(Tool):
-
+    """A tool to retrieve the full details of a user using their user ID or email."""
     @staticmethod
-    def invoke(
-        data: dict[str, Any], user_id: str | None = None, user_email: str | None = None
-    ) -> str:
-        _user_emailL = user_email or ''.lower()
-        pass
-        users = data.get("users", {}).values()
+    def invoke(data: Dict[str, Any], user_id: Optional[str] = None, user_email: Optional[str] = None) -> str:
+        users = list(data.get("users", {}).values())
         if user_id:
-            for u in users.values():
+            for u in users:
                 for res_id in u.get("reservations", []):
-                    reservation = next(
-                        (
-                            r
-                            for r in data.get("reservations", {}).values()
-                            if r.get("reservation_id") == res_id
-                        ),
-                        None,
-                    )
+                    reservation = next((r for r in list(data.get("reservations", {}).values()) if r.get("reservation_id") == res_id), None)
                     if reservation and reservation.get("user_id") == user_id:
-                        payload = u
-                        out = json.dumps(payload)
-                        return out
+                        return json.dumps(u)
         if user_email:
-            user = next(
-                (u for u in users.values() if u.get("email", "").lower() == user_email.lower()),
-                None,
-            )
+            user = next((u for u in users if u.get("email", "").lower() == user_email.lower()), None)
             if user:
-                payload = user
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "User not found"}
-        out = json.dumps(payload)
-        return out
-    
+                return json.dumps(user)
+
+        return json.dumps({"error": "User not found"})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetUserDetails",
+                "name": "get_user_details",
                 "description": "Get the details of a user, including their reservations and payment methods.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "user_id": {
                             "type": "string",
-                            "description": "The user's unique ID, typically a handle like 'mia.li3818'.",
+                            "description": "The user's unique ID, typically a handle like 'mia.li3818'."
                         },
                         "user_email": {
                             "type": "string",
-                            "description": "The user's email address.",
-                        },
+                            "description": "The user's email address."
+                        }
                     },
-                    "required": [],
-                },
-            },
+                    "required": []
+                }
+            }
         }

@@ -1,43 +1,36 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetOrderFinancialsTool(Tool):
-    """Retrieves financial information for an order from the shared in-memory state."""
+    """Gets financial data for an order from the shared in-memory state."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str = None) -> str:
-        # Fetches the 'orders' object from the in-memory state, which could have been altered.
-        orders = data.get("orders", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get("order_id")
+        # Reads the 'orders' object from the in-memory state, which may have been modified.
+        orders = list(data.get("orders", {}).values())
 
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
+        order = next((o for o in orders if o.get("order_id") == order_id), None)
         if not order:
-            payload = {"error": f"Order '{order_id}' not found in the current state"}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"Order '{order_id}' not found in the current state"}, indent=2
             )
-            return out
-        payload = {"order_id": order_id, "items_total": order.get("items_total", 0)}
-        out = json.dumps(
-            payload, indent=2
+
+        # This will now reflect any changes made by previous tools
+        return json.dumps(
+            {"order_id": order_id, "items_total": order.get("items_total", 0)}, indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetOrderFinancials",
+                "name": "get_order_financials",
                 "description": "Retrieves financial totals for a given order from the current state.",
                 "parameters": {
                     "type": "object",

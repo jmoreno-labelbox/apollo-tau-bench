@@ -1,60 +1,36 @@
-from tau_bench.envs.tool import Tool
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListReleasesTool(Tool):
-    """Enumerate releases filtered by version_tag prefix or artifact_id reference."""
+    """List releases filtered by version_tag prefix or artifact_id reference."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], version_prefix: str = "release/", artifact_id: str = None) -> str:
-        releases = data.get("releases", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        prefix = kwargs.get("version_prefix", "release/")
+        artifact_id = kwargs.get("artifact_id")
+
+        releases = data.get("releases", [])
         out = []
-        for r in releases.values():
-            if version_prefix and not str(r.get("version_tag", "")).startswith(version_prefix):
+        for r in releases:
+            if prefix and not str(r.get("version_tag","")).startswith(prefix):
                 continue
             if artifact_id and r.get("artifact_id") != artifact_id:
                 continue
-            out.append(
-                _small_fields(
-                    r,
-                    [
-                        "release_id",
-                        "version_tag",
-                        "artifact_id",
-                        "created_ts",
-                        "thread_id_nullable",
-                    ],
-                )
-            )
-        out.sort(key=lambda r: r.get("version_tag", ""))
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+            out.append(_small_fields(r, ["release_id","version_tag","artifact_id","created_ts","thread_id_nullable"]))
+        out.sort(key=lambda r: r.get("version_tag",""))
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ListReleases",
-                "description": "List releases with optional version prefix and artifact filter.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "version_prefix": {
-                            "type": "string",
-                            "description": "Default 'release/'.",
-                        },
-                        "artifact_id": {"type": "string"},
-                    },
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"list_releases",
+            "description":"List releases with optional version prefix and artifact filter.",
+            "parameters":{"type":"object","properties":{
+                "version_prefix":{"type":"string","description":"Default 'release/'."},
+                "artifact_id":{"type":"string"}
+            }}
+        }}

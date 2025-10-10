@@ -1,26 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class get_new_leave_id(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        leaves = data.get("leaves", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        leaves = data.get("leaves", [])
         prefix = "LV"
         start_num = 10000
 
         if not leaves:
-            payload = f"{prefix}{start_num}"
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps(f"{prefix}{start_num}", indent=2)
 
         max_id_num = 0
         for leave in leaves:
@@ -34,15 +27,14 @@ class get_new_leave_id(Tool):
                     continue
 
         next_id_num = max(start_num, max_id_num) + 1
-        payload = f"{prefix}{next_id_num}"
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(f"{prefix}{next_id_num}", indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetNewLeaveId",
+                "name": "get_new_leave_id",
                 "description": "Return a leave ID that is not currently in use.",
                 "parameters": {},
             },

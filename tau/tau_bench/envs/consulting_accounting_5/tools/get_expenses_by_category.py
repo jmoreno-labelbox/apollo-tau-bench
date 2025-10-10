@@ -1,17 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any, Dict
-from datetime import timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetExpensesByCategory(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], category_code: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
         Returns expense_ids for all expenses under a given category_code.
         """
-        expense_ids = [exp["expense_id"] for exp in data["expenses"].values() if exp["category_code"] == category_code]
+        category_code = kwargs["category_code"]
+        expense_ids = [exp["expense_id"] for exp in data["expenses"] if exp["category_code"] == category_code]
         return json.dumps(expense_ids)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {

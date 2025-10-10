@@ -1,57 +1,48 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAllGoalsByForPlayer(Tool):
-    """Retrieve all development goals associated with a specific player_id."""
+    """Fetch all development goals for a given player_id."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], player_id: str = None) -> str:
-        #1) Confirm validity
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        player_id = kwargs.get("player_id")
+
+        # 1) Validate
         if player_id is None:
-            payload = {"error": "Missing required field: player_id"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Missing required field: player_id"}, indent=2)
 
-        #2) Retrieve DB
-        goals: list[dict[str, Any]] = data.get("player_dev_goals", {}).values()
+        # 2) Get DB
+        goals: List[Dict[str, Any]] = data.get("player_dev_goals", [])
 
-        #3) Filter goals related to player
-        matching = [g for g in goals.values() if g.get("player_id") == player_id]
+        # 3) Filter goals for player
+        matching = [g for g in goals if g.get("player_id") == player_id]
 
         if not matching:
-            payload = {"error": f"No goals found for player_id {player_id}"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        payload = matching
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": f"No goals found for player_id {player_id}"}, indent=2)
+
+        return json.dumps(matching, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getAllGoalsByForPlayer",
+                "name": "get_all_goals_by_for_player",
                 "description": "Fetch all development goals for a given player_id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "player_id": {
                             "type": "integer",
-                            "description": "Exact player ID to retrieve goals for.",
+                            "description": "Exact player ID to retrieve goals for."
                         }
                     },
-                    "required": ["player_id"],
-                },
-            },
+                    "required": ["player_id"]
+                }
+            }
         }

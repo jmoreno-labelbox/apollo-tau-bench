@@ -1,38 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetLicenseAssignments(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        employee_id: str | None = None,
-        account_id: str | None = None
-    ) -> str:
-        results: list[dict[str, Any]] = []
-        for a in data["license_assignments"].values():
+    def invoke(data: Dict[str, Any], employee_id: Optional[str] = None, account_id: Optional[str] = None) -> str:
+        results: List[Dict[str, Any]] = []
+        for a in data["license_assignments"]:
             if employee_id and a["employee_id"] != employee_id:
                 continue
             if account_id and a["account_id"] != account_id:
                 continue
             results.append(a)
-        payload = {"status": "ok", "assignments": results}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "assignments": results})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetLicenseAssignments",
+                "name": "get_license_assignments",
                 "description": "List license assignments filtered by employee_id or account_id.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "employee_id": {"type": "string"},
-                        "account_id": {"type": "string"},
-                    },
+                    "properties": {"employee_id": {"type": "string"}, "account_id": {"type": "string"}},
                     "required": [],
                 },
             },

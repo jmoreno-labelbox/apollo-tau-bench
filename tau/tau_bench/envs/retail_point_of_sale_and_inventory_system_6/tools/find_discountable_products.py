@@ -1,40 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import OrderedDict, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class FindDiscountableProducts(Tool):
-    """Tool for searching all products eligible for discounts"""
+class find_discountable_products(Tool):
+    """
+    Tool to search for all products that can be discounted
+    """
 
     @staticmethod
-    def invoke(data: dict[str, Any], supplier_id: str = None) -> str:
-        products = data.get("products", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        supplier_id = kwargs.get("supplier_id")
+
+        products = list(data.get("products", {}).values())
 
         out = []
 
-        for product in products.values():
-            # Include only products from the specified supplier if supplier_id is provided
+        for product in products:
+            # If supplier_id is sent, only include products from that supplier
             if (supplier_id is None) or (product["supplier_id"] == supplier_id):
-                # Select discountable products and append them to the return list
+                # Filter to discountable products and add to the return list
                 if product["is_discountable"]:
                     out.append(product["name"])
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "findDiscountableProducts",
+                "name": "find_discountable_products",
                 "description": "Gets the names of products that are considered discountable. If supplier_id is sent, then it will return only products for that supplier, otherwise it will return for all suppliers",
                 "parameters": {
                     "type": "object",

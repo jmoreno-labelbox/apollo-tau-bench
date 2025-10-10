@@ -1,40 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetProductDetails(Tool):
-    """Obtain product information from products.json using product_id."""
+    """Retrieve product details from products.json by product_id."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], product_id: str) -> str:
-        products = data.get("products", {}).values()
-        for product in products.values():
+    def invoke(data: Dict[str, Any], product_id: str) -> str:
+        products = list(data.get("products", {}).values())
+        for product in products:
             if product.get("product_id") == product_id:
-                payload = product
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Product not found", "product_id": product_id}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(product)
+        return json.dumps({"error": "Product not found", "product_id": product_id})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetProductDetails",
+                "name": "get_product_details",
                 "description": "Get product details by product_id from products.json.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"product_id": {"type": "string"}},
-                    "required": ["product_id"],
-                },
-            },
+                    "properties": {
+                        "product_id": {"type": "string"}
+                    },
+                    "required": ["product_id"]
+                }
+            }
         }

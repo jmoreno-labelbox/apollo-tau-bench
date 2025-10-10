@@ -1,43 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
-from decimal import ROUND_HALF_UP, Decimal
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetAllItemsInCart(Tool):
+    """Fetch all items in a cart by cart_id in simplified format."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], cart_id: Any, cart_items: list[dict[str, Any]] = None) -> str:
+    def invoke(data: Dict[str, Any], cart_id: Any) -> str:
         cart_id = _idstr(cart_id)
         if not cart_id:
-            payload = {"error": "Missing required field: cart_id"}
-            out = json.dumps(payload, indent=2)
-            return out
-        cart_items = cart_items or []
+            return json.dumps({"error": "Missing required field: cart_id"}, indent=2)
+        cart_items = data.get("cart_items", [])
         items_list = []
         for item in cart_items:
             if item.get("cart_id") == cart_id:
                 items_list.append(
-                    {
-                        "product_id": item.get("product_id"),
-                        "quantity": item.get("quantity"),
-                    }
+                    {"product_id": item.get("product_id"), "quantity": item.get("quantity")}
                 )
 
         if not items_list:
-            payload = {"error": f"No items found for cart_id '{cart_id}'"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        payload = items_list
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": f"No items found for cart_id '{cart_id}'"}, indent=2)
+
+        return json.dumps(items_list, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAllItemsInCart",
+                "name": "get_all_items_in_cart",
                 "description": "Fetch all items in a cart by cart_id.",
                 "parameters": {
                     "type": "object",

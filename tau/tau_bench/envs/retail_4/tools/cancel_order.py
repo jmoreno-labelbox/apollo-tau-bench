@@ -1,24 +1,13 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CancelOrder(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        user_id: str,
-        order_id: str,
-        cancellation_reason: str = "customer_request",
-    ) -> str:
+    def invoke(data: Dict[str, Any], user_id: str, order_id: str, cancellation_reason: str = "customer_request") -> str:
         """
         Cancel a customer order and process refund if applicable
 
@@ -26,56 +15,47 @@ class CancelOrder(Tool):
         Data Sources: users.json for validation
         """
         # Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", {}).values()
-        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
+        users = list(data.get("users", {}).values())
+        user = next((u for u in users if u.get("user_id") == user_id), None)
 
         if not user:
-            payload = {"error": f"User {user_id} not found", "status": "failed"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"User {user_id} not found", "status": "failed"})
 
         # Find the order to cancel
-        orders = data.get("orders", {}).values()
+        orders = list(data.get("orders", {}).values())
         order_to_cancel = None
         order_index = None
 
-        for i, order in enumerate(orders.values()):
+        for i, order in enumerate(orders):
             if order.get("order_id") == order_id and order.get("user_id") == user_id:
                 order_to_cancel = order
                 order_index = i
                 break
 
         if not order_to_cancel:
-            payload = {
+            return json.dumps({
                 "error": f"Order {order_id} not found or does not belong to user {user_id}",
-                "status": "failed",
-            }
-            out = json.dumps(payload)
-            return out
+                "status": "failed"
+            })
 
         current_status = order_to_cancel.get("status")
 
         # Rule: Only process orders with valid status - can't cancel delivered orders
         if current_status == "cancelled":
-            payload = {"error": f"Order {order_id} is already cancelled", "status": "failed"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({
+                "error": f"Order {order_id} is already cancelled",
+                "status": "failed"
+            })
 
         if current_status == "delivered":
-            payload = {
+            return json.dumps({
                 "error": f"Cannot cancel delivered order {order_id}. Please contact customer service for returns.",
-                "status": "failed",
-            }
-            out = json.dumps(payload)
-            return out
+                "status": "failed"
+            })
 
         # Calculate refund amount from payment history
         payment_history = order_to_cancel.get("payment_history", [])
-        total_paid = sum(
-            payment.get("amount", 0)
-            for payment in payment_history
-            if payment.get("transaction_type") == "payment"
-        )
+        total_paid = sum(payment.get("amount", 0) for payment in payment_history if payment.get("transaction_type") == "payment")
 
         # WRITE OPERATION: Update order status to cancelled
         order_to_cancel["status"] = "cancelled"
@@ -83,7 +63,7 @@ class CancelOrder(Tool):
             "cancelled_by": "customer",
             "cancellation_reason": cancellation_reason,
             "cancelled_date": datetime.now().isoformat(),
-            "previous_status": current_status,
+            "previous_status": current_status
         }
 
         # Add refund transaction to payment history
@@ -92,7 +72,7 @@ class CancelOrder(Tool):
                 "transaction_type": "refund",
                 "amount": total_paid,
                 "refund_reason": "order_cancellation",
-                "processed_date": datetime.now().isoformat(),
+                "processed_date": datetime.now().isoformat()
             }
             order_to_cancel["payment_history"].append(refund_transaction)
 
@@ -109,39 +89,29 @@ class CancelOrder(Tool):
             "previous_order_status": current_status,
             "refund_info": {
                 "refund_amount": total_paid,
-                "refund_processed": total_paid > 0,
+                "refund_processed": total_paid > 0
             },
             "cancellation_reason": cancellation_reason,
-            "cancelled_date": order_to_cancel["cancellation_info"]["cancelled_date"],
+            "cancelled_date": order_to_cancel["cancellation_info"]["cancelled_date"]
         }
-        payload = result
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(result)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CancelOrder",
+                "name": "cancel_order",
                 "description": "Cancel a customer order and process refund",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "user_id": {
-                            "type": "string",
-                            "description": "Customer identifier",
-                        },
-                        "order_id": {
-                            "type": "string",
-                            "description": "Order identifier to cancel",
-                        },
-                        "cancellation_reason": {
-                            "type": "string",
-                            "description": "Reason for cancellation (optional)",
-                        },
+                        "user_id": {"type": "string", "description": "Customer identifier"},
+                        "order_id": {"type": "string", "description": "Order identifier to cancel"},
+                        "cancellation_reason": {"type": "string", "description": "Reason for cancellation (optional)"}
                     },
-                    "required": ["user_id", "order_id"],
-                },
-            },
+                    "required": ["user_id", "order_id"]
+                }
+            }
         }

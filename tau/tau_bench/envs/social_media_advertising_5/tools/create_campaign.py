@@ -1,49 +1,27 @@
-from tau_bench.envs.tool import Tool
-import ast
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateCampaign(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], name: str = None, objective: str = None, created_date: str = None) -> str:
-        campaigns = data.get("campaigns", {}).values()
-        nid = max((int(c["campaign_id"]) for c in campaigns.values()), default=0) + 1
-        rec = {
-            "campaign_id": str(nid),
-            "name": name,
-            "objective": objective,
-            "created_date": created_date,
-            "status": "paused",
-        }
-        data["campaigns"][campaign_id] = rec
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        campaigns = list(data.get("campaigns", {}).values())
+        nid = max((int(c["campaign_id"]) for c in campaigns), default=0) + 1
+        rec = {"campaign_id": str(nid), "name": kwargs.get("name"), "objective": kwargs.get("objective"),
+               "created_date": kwargs.get("created_date"), "status": "paused"}
+        campaigns.append(rec)
         data["campaigns"] = campaigns
-        payload = rec
-        out = json.dumps(payload)
-        return out
+        return json.dumps(rec)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "createCampaign",
-                "description": "Creates a paused campaign with a provided created_date.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "name": {"type": "string"},
-                        "objective": {"type": "string"},
-                        "created_date": {"type": "string"},
-                    },
-                    "required": ["name", "objective", "created_date"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "create_campaign",
+                                                 "description": "Creates a paused campaign with a provided created_date.",
+                                                 "parameters": {"type": "object",
+                                                                "properties": {"name": {"type": "string"},
+                                                                               "objective": {"type": "string"},
+                                                                               "created_date": {"type": "string"}},
+                                                                "required": ["name", "objective", "created_date"]}}}

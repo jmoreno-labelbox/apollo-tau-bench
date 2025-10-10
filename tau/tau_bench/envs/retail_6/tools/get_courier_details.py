@@ -1,34 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetCourierDetails(Tool):
-    """Retrieve courier record."""
+    """Read courier record."""
+    @staticmethod
+    def invoke(data, **kwargs) -> str:
+        courier_id = kwargs.get('courier_id')
+        if not courier_id:
+            return json.dumps({"error":"courier_id is required"}, indent=2)
+        c = _find_courier(data, courier_id)
+        return json.dumps(c or {"error": f"courier_id {courier_id} not found"}, indent=2)
 
     @staticmethod
-    def invoke(data, courier_id: str = None) -> str:
-        if not courier_id:
-            payload = {"error": "courier_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
-        c = _find_courier(data, courier_id)
-        payload = c or {"error": f"courier_id {courier_id} not found"}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
-    @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "getCourierDetails",
-                "description": "Fetch courier record by ID.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"courier_id": {"type": "string"}},
-                    "required": ["courier_id"],
-                },
-            },
-        }
+        return {"type":"function","function":{"name":"get_courier_details","description":"Fetch courier record by ID.","parameters":{"type":"object","properties":{"courier_id":{"type":"string"}},"required":["courier_id"]}}}

@@ -1,60 +1,53 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAverageViewershipForCategoryInPeriod(Tool):
-    """Computes average daily viewership for a category across a date range."""
+    """Calculates average daily viewership for a category over a date range."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], category: str, start_date: str, end_date: str) -> str:
-        viewership_data = data.get("f_viewership", {}).values()
-
-        # Determine the total days within the timeframe
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        category = kwargs.get("category")
+        start_date = kwargs.get("start_date")
+        end_date = kwargs.get("end_date")
+        viewership_data = data.get("f_viewership", [])
+        
+        # Calculate the number of days in the period
         start = datetime.strptime(start_date, "%Y-%m-%d")
         end = datetime.strptime(end_date, "%Y-%m-%d")
         days_in_period = (end - start).days + 1
-
+        
         total_sessions = 0
         total_active_users = 0
         days_with_data = 0
-
+        
         for entry in viewership_data:
-            if (
-                entry.get("category") == category
-                and start_date <= entry.get("date") <= end_date
-            ):
+            if (entry.get("category") == category and 
+                start_date <= entry.get("date") <= end_date):
                 total_sessions += entry.get("sessions", 0)
                 total_active_users += entry.get("active_users", 0)
                 days_with_data += 1
-
-        # Compute averages
+        
+        # Calculate averages
         avg_sessions = total_sessions / days_in_period if days_in_period > 0 else 0
-        avg_active_users = (
-            total_active_users / days_in_period if days_in_period > 0 else 0
-        )
-        payload = {
+        avg_active_users = total_active_users / days_in_period if days_in_period > 0 else 0
+        
+        return json.dumps({
             "average_sessions": avg_sessions,
             "average_active_users": avg_active_users,
             "days_in_period": days_in_period,
-            "days_with_data": days_with_data,
-        }
-        out = json.dumps(payload)
-        return out
+            "days_with_data": days_with_data
+        })
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAverageViewershipForCategoryInPeriod",
+                "name": "get_average_viewership_for_category_in_period",
                 "description": "Calculates average daily viewership for a category over a date range.",
                 "parameters": {
                     "type": "object",
@@ -70,7 +63,7 @@ class GetAverageViewershipForCategoryInPeriod(Tool):
                         "end_date": {
                             "type": "string",
                             "description": "The end date of the period (YYYY-MM-DD format).",
-                        },
+                        }
                     },
                     "required": ["category", "start_date", "end_date"],
                 },

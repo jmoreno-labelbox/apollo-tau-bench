@@ -1,14 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateComparableEntryTool(Tool):
-    """Inserts a single comparable record into the comparables table."""
+    """Creates single comparable entry in comparables table."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], report_id: int = None, comp_property_id: str = None, similarity_score: float = None, selection_reason: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        report_id = kwargs.get("report_id")
+        comp_property_id = kwargs.get("comp_property_id")
+        similarity_score = kwargs.get("similarity_score")
+        selection_reason = kwargs.get("selection_reason")
+
         if report_id is None or not comp_property_id or similarity_score is None:
             return _err("report_id, comp_property_id, similarity_score are required")
 
@@ -23,15 +29,14 @@ class CreateComparableEntryTool(Tool):
             "tie_breaker_notes": None,
         }
         rows.append(rec)
-        payload = rec
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(rec, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createComparableEntry",
+                "name": "create_comparable_entry",
                 "description": "Creates single comparable entry in comparables table.",
                 "parameters": {
                     "type": "object",

@@ -1,13 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class FindReposWithDockerCompose(Tool):
-    """Provides repositories that include a 'docker-compose.yml' file in any branch."""
+    """Returns repositories that contain a 'docker-compose.yml' file in any branch."""
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         me = _auth(data)["username"]
         results = []
 
@@ -18,17 +20,19 @@ class FindReposWithDockerCompose(Tool):
                 if "docker-compose.yml" in files:
                     results.append(r["repo_name"])
                     break
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(results, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "findReposWithDockerCompose",
+                "name": "find_repos_with_docker_compose",
                 "description": "Finds repositories that contain 'docker-compose.yml'.",
-                "parameters": {"type": "object", "properties": {}},
-            },
+                "parameters": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
         }

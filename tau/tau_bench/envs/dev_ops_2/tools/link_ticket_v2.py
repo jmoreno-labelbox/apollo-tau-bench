@@ -1,29 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class LinkTicketV2(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], project_key: str, run_id: str) -> str:
-        pass
+    def invoke(data: Dict[str, Any], project_key: str, run_id: str) -> str:
         work_items = _get_table(data, "work_items")
         prs = _get_table(data, "pull_requests")
-        pr = next(
-            (p for p in prs if (p.get("links") or {}).get("run_id") == run_id), None
-        )
-        existing = next(
-            (
-                w
-                for w in work_items
-                if w.get("run_id") == run_id and w.get("project_key") == project_key
-            ),
-            None,
-        )
+        pr = next((p for p in prs if (p.get("links") or {}).get("run_id") == run_id), None)
+        existing = next((w for w in work_items if w.get("run_id") == run_id and w.get("project_key") == project_key), None)
         if existing:
             existing.update({"pr_number": pr.get("pr_number") if pr else None})
-            payload = {"ticket_key": existing.get("ticket_key")}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"ticket_key": existing.get("ticket_key")}, indent=2)
         max_id = _max_int_suffix(work_items, "ticket_key", project_key, 0)
         ticket_key = f"{project_key}-{max_id + 1}"
         rec = {
@@ -36,24 +27,8 @@ class LinkTicketV2(Tool):
             "state": "Open",
         }
         work_items.append(rec)
-        payload = {"ticket_key": ticket_key}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"ticket_key": ticket_key}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "linkTicketV2",
-                "description": "Creates or updates a work item linked deterministically to the run and PR.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "project_key": {"type": "string"},
-                        "run_id": {"type": "string"},
-                    },
-                    "required": ["project_key", "run_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "link_ticket_v2", "description": "Creates or updates a work item linked deterministically to the run and PR.", "parameters": {"type": "object", "properties": {"project_key": {"type": "string"}, "run_id": {"type": "string"}}, "required": ["project_key", "run_id"]}}}

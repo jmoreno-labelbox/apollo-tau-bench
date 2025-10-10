@@ -1,34 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CaV2GetConsultantProfile(Tool):
-    """Fetch consultant profile details."""
+    """Retrieve consultant profile information."""
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        consultants = data.get("consultants", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        consultants = data.get("consultants", [])
         if not consultants:
             return _error("No consultant profile found.")
-        payload = consultants[0]
-        out = json.dumps(payload)
-        return out
+        return json.dumps(consultants[0])
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CaV2GetConsultantProfile",
+                "name": "ca_v2_get_consultant_profile",
                 "description": "Retrieve the consultant's profile information including contact details and GST number.",
                 "parameters": {"type": "object", "properties": {}, "required": []},
             },

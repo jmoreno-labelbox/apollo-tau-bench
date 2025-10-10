@@ -1,64 +1,55 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ReplaceItemVariantInOrderTool(Tool):
     """
-    Substitutes an item in an order, recalculates financials, and refreshes tracking,
-    with all modifications taking place in the shared in-memory state.
+    Replaces an item in an order, recalculates financials, and updates tracking,
+    with all changes occurring in the shared in-memory state.
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str, index: int, product_id: str, item_id: str) -> str:
-        orders = data.get("orders", {}).values()
-        products = data.get("products", {}).values()
-        tracking_data = data.get("tracking", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get("order_id")
+        index = kwargs.get("index")
+        product_id = kwargs.get("product_id")
+        item_id = kwargs.get("item_id")
 
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
+        orders = list(data.get("orders", {}).values())
+        products = list(data.get("products", {}).values())
+        tracking_data = data.get("tracking", [])
+
+        order = next((o for o in orders if o.get("order_id") == order_id), None)
         if not order:
-            payload = {"error": f"Order '{order_id}' not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"Order '{order_id}' not found"}, indent=2)
 
         new_variant = None
-        for p in products.values():
+        for p in products:
             if p.get("product_id") == product_id:
-                variant_details = p.get("variants", {}).values().get(item_id)
+                variant_details = p.get("variants", {}).get(item_id)
                 if variant_details:
                     new_variant = {
                         "name": p.get("name"),
                         "product_id": product_id,
                         "item_id": item_id,
                         "price": variant_details.get("price"),
-                        "options": list(variant_details.get("options", {}).values()),
+                        "options": variant_details.get("options", {}),
                     }
                     break
         if not new_variant:
-            payload = {"error": f"Variant '{item_id}' for product '{product_id}' not found"}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"Variant '{item_id}' for product '{product_id}' not found"}, indent=2
             )
-            return out
 
         items = order.get("items", [])
         if not 0 <= index < len(items):
-            payload = {
-                    "error": f"Index {index} is out of bounds for the items in order '{order_id}'"
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"Index {index} is out of bounds for the items in order '{order_id}'"},
+                indent=2,
             )
-            return out
 
         old_item = items[index]
         old_product_id = old_item.get("product_id")
@@ -73,27 +64,28 @@ class ReplaceItemVariantInOrderTool(Tool):
 
         _recalculate_financials(order)
 
-        tr = next((t for t in tracking_data.values() if t.get("order_id") == order_id), None)
+        tr = next((t for t in tracking_data if t.get("order_id") == order_id), None)
         if tr and old_item_id and "item_ids" in tr:
             try:
                 id_index = tr["item_ids"].index(old_item_id)
                 tr["item_ids"][id_index] = item_id
             except ValueError:
                 pass
-        payload = {
+
+        return json.dumps(
+            {
                 "status": "success",
                 "message": f"Order {order_id} was successfully modified in memory.",
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ReplaceItemVariantInOrder",
+                "name": "replace_item_variant_in_order",
                 "description": "Replaces an item in an order with a new variant and updates financials and tracking in memory.",
                 "parameters": {
                     "type": "object",

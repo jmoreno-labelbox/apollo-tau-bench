@@ -1,55 +1,54 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AddPlan(Tool):
-    """Creates a new plan."""
+    """Adds a new plan."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], plan_id: str = None, date: str = None, author: str = None, allocations: list = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        plan_id = kwargs.get("plan_id")
+        date = kwargs.get("date")
+        author = kwargs.get("author")
+        allocations = kwargs.get("allocations")
+
         if not all([plan_id, date, author, allocations]):
-            payload = {
-                    "error": "plan_id, date, author, and allocations are required parameters."
-                }
-            out = json.dumps(
-                payload)
-            return out
+            return json.dumps({"error": "plan_id, date, author, and allocations are required parameters."})
 
-        # Fundamental checks for allocations
+        # Basic validation for allocations
         if not isinstance(allocations, list):
-            payload = {"error": "allocations must be a list."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "allocations must be a list."})
 
-        total_budget = sum(alloc.get("budget", 0) for alloc in allocations.values())
+        total_budget = sum(alloc.get('budget', 0) for alloc in allocations)
 
         new_plan = {
             "plan_id": plan_id,
             "date": date,
             "total_budget": total_budget,
             "author": author,
-            "created_at": "2025-08-13T01:01:01Z",  # Employing a fixed timestamp for uniformity
+            "created_at": "2025-08-13T01:01:01Z",  # Using hardcoded timestamp for consistency
             "checksum": "manual_override_checksum",
-            "allocations": allocations,
+            "allocations": allocations
         }
 
         if "plans" not in data:
             data["plans"] = []
-        data["plans"].append(new_plan)
-        payload = {
-                "status": "success",
-                "message": f"New plan was added: {new_plan}",
-            }
-        out = json.dumps(
-            payload)
-        return out
+        data['plans'].append(new_plan)
+
+        return json.dumps({
+            "status": "success",
+            "message": f"New plan was added: {new_plan}",
+        })
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "addPlan",
+                "name": "add_plan",
                 "description": "Adds a new plan.",
                 "parameters": {
                     "type": "object",
@@ -57,7 +56,7 @@ class AddPlan(Tool):
                         "plan_id": {"type": "string"},
                         "date": {"type": "string"},
                         "author": {"type": "string"},
-                        "allocations": {"type": "array", "items": {"type": "object"}},
+                        "allocations": {"type": "array", "items": {"type": "object"}}
                     },
                     "required": ["plan_id", "date", "author", "allocations"],
                 },

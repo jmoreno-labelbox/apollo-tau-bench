@@ -1,21 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AssessSoftSkillAlignment(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, target_role: str = None) -> str:
-        soft_skills = data.get("soft_skills", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        target_role = kwargs.get("target_role")
+        soft_skills = data.get("soft_skills", [])
 
-        # Identify relevant soft skills for the desired position
+        # Find soft skills that are applicable to the target role
         applicable_skills = []
         for s in soft_skills:
             if target_role in s.get("applicable_roles", []):
@@ -27,18 +24,16 @@ class AssessSoftSkillAlignment(Tool):
                 "role": target_role,
                 "required_soft_skills": applicable_skills,
             }
-            payload = aligned
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"error": "No soft skills found for role."}
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps(aligned, indent=2)
+
+        return json.dumps({"error": "No soft skills found for role."}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AssessSoftSkillAlignment",
+                "name": "assess_soft_skill_alignment",
                 "description": "Gets soft skill expectations for a role and compares them to user development plans.",
                 "parameters": {
                     "type": "object",

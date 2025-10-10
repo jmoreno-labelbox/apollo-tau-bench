@@ -1,33 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CalculateSpendVariance(Tool):
-    """Computes the percentage variance between projected and actual expenditure."""
+    """Calculates the variance percentage between planned and actual spend."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], planned_spend: float = None, actual_spend: float = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        planned_spend = kwargs.get("planned_spend")
+        actual_spend = kwargs.get("actual_spend")
+        
         if planned_spend is None or actual_spend is None:
-            payload = {"error": "planned_spend and actual_spend are required parameters."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({"error": "planned_spend and actual_spend are required parameters."})
+        
         if planned_spend == 0:
-            payload = {"error": "planned_spend cannot be zero."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({"error": "planned_spend cannot be zero."})
+        
         variance_percent = ((actual_spend - planned_spend) / planned_spend) * 100
-        payload = {"variance_percent": variance_percent}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"variance_percent": variance_percent})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateSpendVariance",
+                "name": "calculate_spend_variance",
                 "description": "Calculates the variance percentage between planned and actual spend.",
                 "parameters": {
                     "type": "object",
@@ -39,7 +39,7 @@ class CalculateSpendVariance(Tool):
                         "actual_spend": {
                             "type": "number",
                             "description": "The actual spend amount.",
-                        },
+                        }
                     },
                     "required": ["planned_spend", "actual_spend"],
                 },

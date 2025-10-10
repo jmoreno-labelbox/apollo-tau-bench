@@ -1,50 +1,43 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindAccessRequestsByUserId(Tool):
-    """Identifies all access requests made by a specific user."""
+    """Finds all access requests submitted by a specific user."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        user_id_to_find = user_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id_to_find = kwargs.get("user_id")
         try:
-            all_requests = data.get("access_requests", {}).values()
+            all_requests = data.get('access_requests', [])
         except (KeyError, json.JSONDecodeError):
             all_requests = []
 
         user_requests = [
-            request
-            for request in all_requests.values() if request.get("user_id") == user_id_to_find
+            request for request in all_requests
+            if request.get("user_id") == user_id_to_find
         ]
-        payload = user_requests
-        out = json.dumps(payload)
-        return out
+        return json.dumps(user_requests)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindAccessRequestsByUserId",
+                "name": "find_access_requests_by_user_id",
                 "description": "Retrieves a list of all historical access requests submitted by a specific user, which can then be reviewed for patterns.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "user_id": {
                             "type": "string",
-                            "description": "The unique ID of the user whose access requests are to be retrieved.",
+                            "description": "The unique ID of the user whose access requests are to be retrieved."
                         }
                     },
-                    "required": ["user_id"],
-                },
-            },
+                    "required": ["user_id"]
+                }
+            }
         }

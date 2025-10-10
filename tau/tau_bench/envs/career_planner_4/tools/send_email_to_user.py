@@ -1,12 +1,13 @@
-from tau_bench.envs.tool import Tool
-import json
-import uuid
-from datetime import datetime
-from typing import Any
+# Copyright Sierra
 
-class SendEmailToUser(Tool):
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class send_email_to_user(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str, subject: str, body: str) -> str:
+    def invoke(data: Dict[str, Any], user_id: str, subject: str, body: str) -> str:
         email = {
             "user_id": user_id,
             "subject": subject,
@@ -14,16 +15,14 @@ class SendEmailToUser(Tool):
             "timestamp": "2025-07-04",
         }
         data.setdefault("emails_sent", []).append(email)
-        payload = {"success": f"Email sent to user {user_id}"}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"success": f"Email sent to user {user_id}"}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "sendEmailToUser",
+                "name": "send_email_to_user",
                 "description": "Send an email to a user",
                 "parameters": {
                     "type": "object",

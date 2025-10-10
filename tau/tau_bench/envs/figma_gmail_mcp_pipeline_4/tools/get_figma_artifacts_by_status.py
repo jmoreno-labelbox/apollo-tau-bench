@@ -1,118 +1,87 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetFigmaArtifactsByStatus(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        artifact_id: str = None,
-        status: str = None,
-        tags: list[str] = None,
-        review_status: str = None,
-        artifact_type: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
-        Obtains Figma artifacts filtered by different criteria such as status, tags, and review state.
+        Retrieves Figma artifacts filtered by various criteria including status, tags, and review state.
         """
-        if tags is None:
-            tags = []
+        artifact_id = kwargs.get('artifact_id')
+        status = kwargs.get('status')
+        tags = kwargs.get('tags', [])
+        review_status = kwargs.get('review_status')
+        artifact_type = kwargs.get('artifact_type')
 
-        figma_artifacts = data.get("figma_artifacts", {}).values()
-        review_cycles = data.get("review_cycles", {}).values()
+        figma_artifacts = data.get('figma_artifacts', [])
+        review_cycles = data.get('review_cycles', [])
 
-        # Return the specific artifact if artifact_id is given
+        # If artifact_id is provided, return specific artifact
         if artifact_id:
-            for artifact in figma_artifacts.values():
-                if artifact.get("artifact_id") == artifact_id:
-                    # Enhance with details from the review cycle
+            for artifact in figma_artifacts:
+                if artifact.get('artifact_id') == artifact_id:
+                    # Enrich with review cycle information
                     artifact_copy = artifact.copy()
-                    for cycle in review_cycles.values():
-                        if cycle.get("artifact_id") == artifact_id:
-                            artifact_copy["review_cycle"] = cycle
+                    for cycle in review_cycles:
+                        if cycle.get('artifact_id') == artifact_id:
+                            artifact_copy['review_cycle'] = cycle
                             break
-                    payload = artifact_copy
-                    out = json.dumps(payload, indent=2)
-                    return out
-            payload = {"error": f"Artifact with ID '{artifact_id}' not found."}
-            out = json.dumps(payload)
-            return out
+                    return json.dumps(artifact_copy, indent=2)
+            return json.dumps({"error": f"Artifact with ID '{artifact_id}' not found."})
 
-        # Sort artifacts based on specified criteria
+        # Filter artifacts by criteria
         results = []
-        for artifact in figma_artifacts.values():
-            # Implement filters
-            if status and artifact.get("status") != status:
+        for artifact in figma_artifacts:
+            # Apply filters
+            if status and artifact.get('status') != status:
                 continue
 
-            if artifact_type and artifact.get("artifact_type") != artifact_type:
+            if artifact_type and artifact.get('artifact_type') != artifact_type:
                 continue
 
             if tags:
-                artifact_tags = artifact.get("current_tags", [])
-                if not any(tag in artifact_tags for tag in tags.values()):
+                artifact_tags = artifact.get('current_tags', [])
+                if not any(tag in artifact_tags for tag in tags):
                     continue
 
-            # Augment with review cycle details
+            # Enrich with review cycle information
             artifact_copy = artifact.copy()
-            for cycle in review_cycles.values():
-                if cycle.get("artifact_id") == artifact.get("artifact_id"):
-                    artifact_copy["review_cycle"] = cycle
+            for cycle in review_cycles:
+                if cycle.get('artifact_id') == artifact.get('artifact_id'):
+                    artifact_copy['review_cycle'] = cycle
                     break
 
-            # Implement filter for review status
+            # Apply review status filter
             if review_status:
-                if "review_cycle" not in artifact_copy:
+                if 'review_cycle' not in artifact_copy:
                     continue
-                if artifact_copy["review_cycle"].get("status") != review_status:
+                if artifact_copy['review_cycle'].get('status') != review_status:
                     continue
 
             results.append(artifact_copy)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetFigmaArtifactsByStatus",
+                "name": "get_figma_artifacts_by_status",
                 "description": "Retrieves Figma artifacts filtered by various criteria including status, tags, review state, and artifact type. Enriches results with review cycle information.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "artifact_id": {
-                            "type": "string",
-                            "description": "The ID of a specific artifact to retrieve.",
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "Filter by artifact status (e.g., 'active', 'archived').",
-                        },
-                        "tags": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "Filter by tags (e.g., ['needs-review', 'design-system']).",
-                        },
-                        "review_status": {
-                            "type": "string",
-                            "description": "Filter by review cycle status (e.g., 'NEEDS_REVIEW', 'APPROVED').",
-                        },
-                        "artifact_type": {
-                            "type": "string",
-                            "description": "Filter by artifact type (e.g., 'frame', 'component', 'page').",
-                        },
-                    },
-                },
-            },
+                        "artifact_id": {"type": "string", "description": "The ID of a specific artifact to retrieve."},
+                        "status": {"type": "string", "description": "Filter by artifact status (e.g., 'active', 'archived')."},
+                        "tags": {"type": "array", "items": {"type": "string"}, "description": "Filter by tags (e.g., ['needs-review', 'design-system'])."},
+                        "review_status": {"type": "string", "description": "Filter by review cycle status (e.g., 'NEEDS_REVIEW', 'APPROVED')."},
+                        "artifact_type": {"type": "string", "description": "Filter by artifact type (e.g., 'frame', 'component', 'page')."}
+                    }
+                }
+            }
         }

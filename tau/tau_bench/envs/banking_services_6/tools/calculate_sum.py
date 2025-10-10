@@ -1,22 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, time, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CalculateSum(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], values: list = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        val = kwargs.get("values")
         total = 0
-        if values:
-            total = sum([float(v) for v in values])
+        if val:
+            total = sum([float(v) for v in val])
 
         return json.dumps({"total": f"{total}"})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "CalculateSum",
+                        "name": "calculate_sum",
                         "description": "Calculate the total sum for a list of numerical values.",
                         "parameters": {
                                 "type": "object",

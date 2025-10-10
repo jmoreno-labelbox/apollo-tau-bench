@@ -1,49 +1,31 @@
-from tau_bench.envs.tool import Tool
-import copy
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpdateAdsetStatus(Tool):
-    """Specify adset status (active/paused) with a defined timestamp."""
+    """Set adset status (active/paused) with explicit timestamp."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str, status: str, timestamp: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         req = ["adset_id", "status", "timestamp"]
-        err = _require({"adset_id": adset_id, "status": status, "timestamp": timestamp}, req)
-        if err:
-            return _fail(err)
+        err = _require(kwargs, req)
+        if err: return _fail(err)
         adsets = _assert_table(data, "adsets")
-        row = next(
-            (r for r in adsets if str(r.get("adset_id")) == str(adset_id)),
-            None,
-        )
-        if not row:
-            return _fail("adset_not_found")
-        row["status"] = status
-        row["updated_at"] = timestamp
-        payload = {
-                "ok": True,
-                "adset_id": str(adset_id),
-                "status": status,
-            }
-        out = json.dumps(
-            payload)
-        return out
+        row = next((r for r in adsets if str(r.get("adset_id")) == str(kwargs["adset_id"])), None)
+        if not row: return _fail("adset_not_found")
+        row["status"] = kwargs["status"]
+        row["updated_at"] = kwargs["timestamp"]
+        return json.dumps({"ok": True, "adset_id": str(kwargs["adset_id"]), "status": kwargs["status"]})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "updateAdsetStatus",
-                "description": "Activate/Pause an adset (explicit timestamp).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "adset_id": {"type": "string"},
-                        "status": {"type": "string"},
-                        "timestamp": {"type": "string"},
-                    },
-                    "required": ["adset_id", "status", "timestamp"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "update_adset_status",
+                                                 "description": "Activate/Pause an adset (explicit timestamp).",
+                                                 "parameters": {"type": "object",
+                                                                "properties": {"adset_id": {"type": "string"},
+                                                                               "status": {"type": "string"},
+                                                                               "timestamp": {"type": "string"}},
+                                                                "required": ["adset_id", "status", "timestamp"]}}}

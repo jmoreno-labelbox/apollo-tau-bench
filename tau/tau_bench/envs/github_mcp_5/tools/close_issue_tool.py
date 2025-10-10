@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CloseIssueTool(Tool):
     """
@@ -39,41 +27,30 @@ class CloseIssueTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str, issue_number: int) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            issue_number = _validate_param({"issue_number": issue_number}, "issue_number", int)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            issue_number = _validate_param(kwargs, "issue_number", int)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        issues = data.get("issues", {}).values()
-        issue = next(
-            (
-                i
-                for i in issues.values() if i.get("repo") == repo_name and i.get("number") == issue_number
-            ),
-            None,
-        )
+        issues = list(data.get("issues", {}).values())
+        issue = next((i for i in issues if i.get("repo") == repo_name and i.get("number") == issue_number), None)
 
         if not issue:
-            return _response(
-                "error",
-                ERROR_MESSAGES["NOT_FOUND"].format(
-                    entity="Issue", entity_id=issue_number
-                ),
-                "NOT_FOUND",
-            )
+            return _response("error", ERROR_MESSAGES["NOT_FOUND"].format(entity="Issue", entity_id=issue_number), "NOT_FOUND")
 
         issue["state"] = "closed"
         issue["closed_at"] = CURRENT_DATE
         issue["updated_at"] = CURRENT_DATE
         return _response("ok", issue)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CloseIssue",
+                "name": "close_issue",
                 "description": "Close an existing issue deterministically (in-memory only).",
                 "parameters": {
                     "type": "object",

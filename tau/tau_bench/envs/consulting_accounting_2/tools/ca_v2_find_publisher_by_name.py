@@ -1,37 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CaV2FindPublisherByName(Tool):
-    """Locate publisher using name."""
+    """Find publisher by name."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], publisher_name: str = None) -> str:
-        if not publisher_name:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name = kwargs.get("publisher_name")
+        if not name:
             return _error("publisher_name is required.")
-        publishers = data.get("publishers", {}).values()
-        publisher = _find_one(list(publishers.values()), "name", publisher_name)
-        return (
-            json.dumps(publisher)
-            if publisher
-            else _error(f"Publisher '{publisher_name}' not found.")
-        )
+        publishers = data.get("publishers", [])
+        publisher = _find_one(publishers, "name", name)
+        return json.dumps(publisher) if publisher else _error(f"Publisher '{name}' not found.")
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CaV2FindPublisherByName",
+                "name": "ca_v2_find_publisher_by_name",
                 "description": "Find a publisher by their name.",
                 "parameters": {
                     "type": "object",

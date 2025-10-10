@@ -1,49 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class create_gmail_thread(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], subject: str = None, sender_email: str = None, recipients: list = None, request_id: str = None, timestamp: str = None, initial_labels: list = None) -> str:
-        p = _params(data, {
-            "subject": subject,
-            "sender_email": sender_email,
-            "recipients": recipients,
-            "request_id": request_id
-        })
-        miss = _require(p, ["subject", "sender_email", "recipients", "request_id"])
-        if miss:
-            return miss
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        p = _params(data, kwargs)
+        miss = _require(p, ["subject","sender_email","recipients","request_id"])
+        if miss: return miss
         threads = _ensure(data, "gmail_threads", [])
         thread_id = f"thr_{p['request_id']}"
         thread = {
             "thread_id": thread_id,
-            "subject": p.get("subject", ""),
-            "participants": list({p["sender_email"], *p.get("recipients", [])}),
+            "subject": p.get("subject",""),
+            "participants": list({p["sender_email"], *p.get("recipients",[])}),
             "labels": [],
-            "messages": [],
+            "messages": []
         }
-        thredata["ads"][ad_id] = thread
+        threads.append(thread)
         return _ok({"thread_id": thread_id})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "CreateGmailThread",
-                "description": "Create a new Gmail thread.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "subject": {"type": "string"},
-                        "sender_email": {"type": "string"},
-                        "recipients": {"type": "array", "items": {"type": "string"}},
-                        "timestamp": {"type": "string"},
-                        "request_id": {"type": "string"},
-                    },
-                    "required": ["subject", "sender_email", "recipients", "request_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"create_gmail_thread",
+            "description":"Create a new Gmail thread.",
+            "parameters":{"type":"object","properties":{
+                "subject":{"type":"string"},
+                "sender_email":{"type":"string"},
+                "recipients":{"type":"array","items":{"type":"string"}},
+                "timestamp":{"type":"string"},
+                "request_id":{"type":"string"}
+            },"required":["subject","sender_email","recipients","request_id"]}
+        }}

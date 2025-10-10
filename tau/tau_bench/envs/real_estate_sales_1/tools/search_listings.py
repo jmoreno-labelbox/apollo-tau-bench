@@ -1,67 +1,67 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchListings(Tool):
-    """Look for property listings based on different criteria."""
-
+    """Search for property listings by various criteria."""
+    
     @staticmethod
-    def invoke(data: dict[str, Any], status: str = None, min_price: float = 0, max_price: float = float("inf"), property_id: str = None) -> str:
-        listings = data.get("listings", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        listings = list(data.get('listings', {}).values())
         results = []
-
-        # Retrieve search parameters
-        for listing in listings.values():
-            # Apply filtering based on criteria
-            if property_id and listing.get("property_id") != property_id:
+        
+        # Get search criteria
+        status = kwargs.get('status')
+        min_price = kwargs.get('min_price', 0)
+        max_price = kwargs.get('max_price', float('inf'))
+        property_id = kwargs.get('property_id')
+        
+        for listing in listings:
+            # Filter by criteria
+            if property_id and listing.get('property_id') != property_id:
                 continue
-            if status and listing.get("status") != status:
+            if status and listing.get('status') != status:
                 continue
-
-            price = listing.get("list_price", 0)
+            
+            price = listing.get('list_price', 0)
             if not (min_price <= price <= max_price):
                 continue
-
+                
             results.append(listing)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+        
+        return json.dumps(results, indent=2)
+    
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "searchListings",
+                "name": "search_listings",
                 "description": "Search for property listings matching specific criteria",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "status": {
                             "type": "string",
-                            "description": "Listing status (for_sale, sold, pending, etc.)",
+                            "description": "Listing status (for_sale, sold, pending, etc.)"
                         },
                         "min_price": {
                             "type": "number",
-                            "description": "Minimum price range",
+                            "description": "Minimum price range"
                         },
                         "max_price": {
                             "type": "number",
-                            "description": "Maximum price range",
+                            "description": "Maximum price range"
                         },
                         "property_id": {
                             "type": "string",
-                            "description": "Specific property ID to search for",
-                        },
+                            "description": "Specific property ID to search for"
+                        }
                     },
-                    "required": [],
-                },
-            },
+                    "required": []
+                }
+            }
         }

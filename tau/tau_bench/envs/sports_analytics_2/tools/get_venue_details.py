@@ -1,43 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetVenueDetails(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], **kwargs) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         game_pk = kwargs.get("game_pk")
-        game = next(
-            (g for g in data.get("games", {}).values() if g.get("game_pk") == int(game_pk)), None
-        )
-        venues = data.get("venues", {}).values()
-        venue = next(
-            (v for v in venues.values() if v.get("venue_id") == (game or {}).get("venue_id")),
-            None,
-        )
-        payload = venue or {}
-        out = json.dumps(payload, indent=2)
-        return out
+        game = next((g for g in data.get("games", []) if g.get("game_pk") == int(game_pk)), None)
+        venues = data.get("venues", [])
+        venue = next((v for v in venues if v.get("venue_id") == (game or {}).get("venue_id")), None)
+        return json.dumps(venue or {}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "getVenueDetails",
-                "description": "Gets venue details for a game.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"game_pk": {"type": "string"}},
-                    "required": ["game_pk"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "get_venue_details", "description": "Gets venue details for a game.", "parameters": {"type": "object", "properties": {"game_pk": {"type": "string"}}, "required": ["game_pk"]}}}

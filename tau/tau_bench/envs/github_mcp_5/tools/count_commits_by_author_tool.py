@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CountCommitsByAuthorTool(Tool):
     """
@@ -45,15 +33,15 @@ class CountCommitsByAuthorTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        commits = data.get("commits", {}).values()
+        commits = list(data.get("commits", {}).values())
         author_counts = {}
-        for c in commits.values():
+        for c in commits:
             if c.get("repo") == repo_name:
                 author = _normalize_user(c.get("author"))
                 author_counts[author] = author_counts.get(author, 0) + 1
@@ -64,12 +52,13 @@ class CountCommitsByAuthorTool(Tool):
             "report_date": CURRENT_DATE,
         }
         return _response("ok", result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CountCommitsByAuthor",
+                "name": "count_commits_by_author",
                 "description": "Count commits per author for a repository.",
                 "parameters": {
                     "type": "object",

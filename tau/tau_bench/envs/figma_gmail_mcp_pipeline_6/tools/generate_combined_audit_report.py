@@ -1,69 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class generate_combined_audit_report(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        audit_id: str,
-        artifact_id: str,
-        output_format: str,
-        timestamp: str,
-        request_id: str,
-    ) -> str:
-        audits = data.get("audits", {}).values()
-        arts = data.get("figma_artifacts", {}).values()
-        if not any(
-            isinstance(a, dict) and a.get("audit_id") == audit_id for a in audits
-        ):
-            payload = {"error": f"audit_id '{audit_id}' not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        if not any(
-            isinstance(a, dict) and a.get("artifact_id") == artifact_id for a in arts.values()
-        ):
-            payload = {"error": f"artifact_id '{artifact_id}' not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+    def invoke(data: Dict[str, Any], audit_id: str, artifact_id: str, output_format: str, timestamp: str, request_id: str) -> str:
+        audits = data.get("audits", [])
+        arts = data.get("figma_artifacts", [])
+        if not any(isinstance(a, dict) and a.get("audit_id") == audit_id for a in audits):
+            return json.dumps({"error": f"audit_id '{audit_id}' not found"}, indent=2)
+        if not any(isinstance(a, dict) and a.get("artifact_id") == artifact_id for a in arts):
+            return json.dumps({"error": f"artifact_id '{artifact_id}' not found"}, indent=2)
 
         reports = data.setdefault("audit_reports", [])
         assets = data.setdefault("assets", [])
 
-        report_id = _id_from_request("rep", request_id) or _get_next_id(
-            "rep", [r.get("report_id", "") for r in reports if isinstance(r, dict)]
-        )
-        existing_report = next(
-            (
-                r
-                for r in reports
-                if isinstance(r, dict) and r.get("report_id") == report_id
-            ),
-            None,
-        )
+        report_id = _id_from_request("rep", request_id) or _get_next_id("rep", [r.get("report_id", "") for r in reports if isinstance(r, dict)])
+        existing_report = next((r for r in reports if isinstance(r, dict) and r.get("report_id") == report_id), None)
         if existing_report:
-            payload = existing_report
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps(existing_report, indent=2)
 
-        asset_id = _id_from_request("asset", request_id) or _get_next_id(
-            "asset", [r.get("asset_id", "") for r in assets if isinstance(r, dict)]
-        )
-        mime = (
-            "application/pdf"
-            if (output_format or "").upper() == "PDF"
-            else "application/octet-stream"
-        )
+        asset_id = _id_from_request("asset", request_id) or _get_next_id("asset", [r.get("asset_id", "") for r in assets if isinstance(r, dict)])
+        mime = "application/pdf" if (output_format or "").upper() == "PDF" else "application/octet-stream"
         asset_row = {
             "asset_id": asset_id,
             "artifact_id_nullable": artifact_id,
@@ -73,7 +34,7 @@ class generate_combined_audit_report(Tool):
             "size_bytes": 0,
             "day": _ymd(timestamp),
         }
-        data["assets"][asset_id] = asset_row
+        assets.append(asset_row)
 
         report_row = {
             "report_id": report_id,
@@ -84,16 +45,15 @@ class generate_combined_audit_report(Tool):
             "day": _ymd(timestamp),
         }
         reports.append(report_row)
-        payload = report_row
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(report_row, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GenerateCombinedAuditReport",
+                "name": "generate_combined_audit_report",
                 "description": "Produce a combined DS + A11Y audit report for an artifact and persist a report asset deterministically.",
                 "parameters": {
                     "type": "object",
@@ -104,13 +64,7 @@ class generate_combined_audit_report(Tool):
                         "timestamp": {"type": "string"},
                         "request_id": {"type": "string"},
                     },
-                    "required": [
-                        "audit_id",
-                        "artifact_id",
-                        "output_format",
-                        "timestamp",
-                        "request_id",
-                    ],
+                    "required": ["audit_id", "artifact_id", "output_format", "timestamp", "request_id"],
                 },
             },
         }

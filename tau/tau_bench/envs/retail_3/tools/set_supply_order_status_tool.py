@@ -1,25 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SetSupplyOrderStatusTool(Tool):
     """
-    Set or change the status of a supply order in supply_orders.json.
+    Set or override the status of a supply order in supply_orders.json.
 
     Behavior:
-    - Confirms that the supply_order_id exists.
-    - Updates entry['status'] to the provided value.
-    - If status == "received", sets 'received_at' timestamp (UTC ISO) if not already present.
+    - Validates that the supply_order_id exists.
+    - Sets entry['status'] = provided value.
+    - If status == "received", sets 'received_at' timestamp (UTC ISO) when not present.
 
     Input (kwargs):
         supply_order_id (str, required)
@@ -30,37 +23,32 @@ class SetSupplyOrderStatusTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], supply_order_id: str = None, status: str = None) -> str:
-        so_id = supply_order_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        so_id = kwargs.get("supply_order_id")
+        status = kwargs.get("status")
 
         if not so_id or not isinstance(status, str) or not status:
-            payload = {"error": "supply_order_id and non-empty status are required"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": "supply_order_id and non-empty status are required"}, indent=2
             )
-            return out
 
-        supply_orders = data.get("supply_orders", {}).values()
-        so = next((s for s in supply_orders.values() if s.get("supply_order_id") == so_id), None)
+        supply_orders = data.get("supply_orders", [])
+        so = next((s for s in supply_orders if s.get("supply_order_id") == so_id), None)
         if not so:
-            payload = {"error": f"supply_order_id '{so_id}' not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"supply_order_id '{so_id}' not found"}, indent=2)
 
         so["status"] = status
         if status == "received" and not so.get("received_at"):
             so["received_at"] = _now_iso()
-        payload = {"supply_order_id": so_id, "status": status}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"supply_order_id": so_id, "status": status}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SetSupplyOrderStatus",
+                "name": "set_supply_order_status",
                 "description": "Set or override the 'status' of an existing supply order (supply_orders.json).",
                 "parameters": {
                     "type": "object",

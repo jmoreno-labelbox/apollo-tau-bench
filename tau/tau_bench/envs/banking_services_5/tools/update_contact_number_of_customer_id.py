@@ -1,54 +1,53 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone, date, timedelta
-import calendar
-from typing import Any, Dict
-import random
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateContactNumberOfCustomerId(Tool):
+    """Adds a new contact number for a customer and optionally sets it as the primary number."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, new_phone_number: str = None, set_as_primary: bool = False) -> str:
-        if not customer_id or not new_phone_number:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        new_number = kwargs.get("new_phone_number")
+        is_primary = kwargs.get("set_as_primary", False)
+
+
+        if not customer_id or not new_number:
             return json.dumps({
                 "error": "Both customer_id and new_phone_number are required."
             }, indent=2)
 
-        customers = data.get("customers", {}).values()
-        for customer in customers.values():
+        customers = list(data.get("customers", {}).values())
+        for customer in customers:
             if customer.get("customer_id") == customer_id:
-                contact_info = customer.setdefault("contact_info", {}).values()
+                contact_info = customer.setdefault("contact_info", {})
                 phone_numbers = contact_info.setdefault("phone_numbers", [])
 
-                if set_as_primary:
+                if is_primary:
                     for phone in phone_numbers:
                         phone["is_primary"] = False
 
+
                 phone_entry = {
                     "type": "Mobile",
-                    "number": new_phone_number,
-                    "is_primary": set_as_primary
+                    "number": new_number,
+                    "is_primary": is_primary
                 }
                 phone_numbers.append(phone_entry)
 
                 return json.dumps({"status": "Phone number updated successfully."}, indent=2)
 
         return json.dumps({"error": "Customer not found."}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateContactNumberOfCustomerId",
+                "name": "update_contact_number_of_customer_id",
                 "description": "Adds a new phone number for a customer and sets it as primary if specified.",
                 "parameters": {
                     "type": "object",

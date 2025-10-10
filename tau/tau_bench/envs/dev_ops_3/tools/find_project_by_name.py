@@ -1,40 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class find_project_by_name(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], name: str) -> str:
-        pass
-        projects = data.get("projects", {}).values()
-        for project in projects.values():
+    def invoke(data: Dict[str, Any], name: str) -> str:
+        projects = list(data.get("projects", {}).values())
+        for project in projects:
             if project.get("name") == name:
-                payload = project
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Project with name '{name}' not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(project, indent=2)
+        return json.dumps({"error": f"Project with name '{name}' not found"}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "findProjectByName",
-                "description": "Finds a project by its exact name.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"name": {"type": "string"}},
-                    "required": ["name"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return { "type": "function", "function": { "name": "find_project_by_name", "description": "Finds a project by its exact name.", "parameters": { "type": "object", "properties": { "name": { "type": "string" } }, "required": ["name"] } } }

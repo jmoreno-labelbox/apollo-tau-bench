@@ -1,27 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AdvanceTrackingStatusTool(Tool):
     """
-    Update the tracking status for an order in tracking.json and reflect the change in orders.json.
+    Advance tracking status for an order in tracking.json and mirror the change to orders.json.
 
     Behavior:
-    - Confirms that the specified tracking_id exists in tracking.json.
-    - Adds a new status entry to status_history.
-    - If order_status is provided, also adds a fulfillment update to the order.
-      Suggested status progression: label_created -> shipped -> in_transit -> out_for_delivery -> delivered.
-    - If status == "delivered", optionally set order.status = "completed".
+    - Validates that the given tracking_id exists in tracking.json.
+    - Appends a new status entry into status_history.
+    - If provided with order_status, also appends a fulfillment update on the order.
+      Suggested status flow: label_created -> shipped -> in_transit -> out_for_delivery -> delivered.
+    - If status == "delivered", optionally mark order.status = "completed".
 
     Input (kwargs):
         tracking_id (str, required)
@@ -33,36 +26,31 @@ class AdvanceTrackingStatusTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], tracking_id: str = None, status: str = None, order_status: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        tracking_id = kwargs.get("tracking_id")
+        status = kwargs.get("status")
+        order_status = kwargs.get("order_status")
+
         if not tracking_id or not status:
-            payload = {"error": "tracking_id and status are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "tracking_id and status are required"}, indent=2)
 
-        tracking = data.get("tracking", {}).values()
-        tr = next(
-            (t for t in tracking.values() if tracking_id in (t.get("tracking_id") or [])), None
-        )
+        tracking = data.get("tracking", [])
+        tr = next((t for t in tracking if tracking_id in (t.get("tracking_id") or [])), None)
         if not tr:
-            payload = {"error": f"tracking_id '{tracking_id}' not found in tracking.json"}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"tracking_id '{tracking_id}' not found in tracking.json"},
+                indent=2,
             )
-            return out
 
-        # Verify that tracking_history is present prior to adding
+        # Ensure tracking_history exists before appending
         if "tracking_history" not in tr:
             tr["tracking_history"] = {}
 
         tr["tracking_history"][status] = _now_iso()
 
-        # Replicate into orders.json if relevant
-        orders = data.get("orders", {}).values()
-        order = next(
-            (o for o in orders.values() if o.get("order_id") == tr.get("order_id")), None
-        )
+        # Mirror into orders.json if applicable
+        orders = list(data.get("orders", {}).values())
+        order = next((o for o in orders if o.get("order_id") == tr.get("order_id")), None)
         if order:
             if "fulfillments" not in order:
                 order["fulfillments"] = []
@@ -78,21 +66,22 @@ class AdvanceTrackingStatusTool(Tool):
                 order["status"] = "completed"
             if order_status:
                 order["status"] = order_status
-        payload = {
+
+        return json.dumps(
+            {
                 "tracking_id": tracking_id,
                 "new_status": status,
                 "history_len": len(tr["tracking_history"]),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AdvanceTrackingStatus",
+                "name": "advance_tracking_status",
                 "description": "Append a new tracking status and optionally update the order status.",
                 "parameters": {
                     "type": "object",

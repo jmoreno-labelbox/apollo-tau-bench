@@ -1,24 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SetGeocodeCity(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], city_name: str) -> str:
-        results = data.get("geocoding_results", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        city_name = kwargs.get("city_name")
+
+        results = data.get("geocoding_results", [])
         for result in results:
             if result.get("query_city") == city_name:
-                payload = result
-                out = json.dumps(payload)
-                return out
+                return json.dumps(result)
         json_city_path = "_".join(city_name.split()).lower()
         result = {
             "geo_id": "GEO_001",
@@ -27,16 +22,15 @@ class SetGeocodeCity(Tool):
             "longitude": LONG,
             "raw_json_path_nullable": f"/data/raw/geocoding_{json_city_path}.json",
         }
-        data["geocoding_results"][result["geocoding_result_id"]] = result
-        payload = result
-        out = json.dumps(payload)
-        return out
+        data.get("geocoding_results", []).append(result)
+        return json.dumps(result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "setGeocodeCity",
+                "name": "SetGeocodeCity",
                 "parameters": {
                     "type": "object",
                     "properties": {

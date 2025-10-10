@@ -1,30 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GenerateChildModifications(Tool):
-    """Provide notes for each recipe_id regarding child-friendly modifications (mild spice, bite-sized)."""
-
+    """Return note per recipe_id for child-friendly changes (mild spice, bite-size)."""
     @staticmethod
-    def invoke(data: dict[str, Any], recipe_ids_json: str = "[]") -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        recipe_ids_json = kwargs.get("recipe_ids_json", "[]")
         ids = _parse_json_list_ids(recipe_ids_json)
-        notes: dict[str, str] = {}
+        notes: Dict[str, str] = {}
         for rid in ids:
             base = (_recipe_by_id(data, rid) or {}).get("notes") or ""
             add = " Child-friendly: mild seasoning; cut to bite-size; soft textures."
             notes[str(rid)] = (str(base) + add).strip()
         return _json_dump({"child_mod_notes": notes})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GenerateChildModifications",
-                "description": "Create deterministic child-friendly notes for recipes.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"recipe_ids_json": {"type": "string"}},
-                    "required": ["recipe_ids_json"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"generate_child_modifications",
+            "description":"Create deterministic child-friendly notes for recipes.",
+            "parameters":{"type":"object","properties":{"recipe_ids_json":{"type":"string"}},"required":["recipe_ids_json"]}
+        }}

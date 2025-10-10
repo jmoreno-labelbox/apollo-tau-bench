@@ -1,39 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class set_compensation(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], compensation: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], compensation: Dict[str, Any]) -> str:
         if not compensation:
-            payload = {"error": "compensation record required"}
-            out = json.dumps(payload, indent=2)
-            return out
-        comp = data.get("compensation_records", {}).values()
+            return json.dumps({"error": "compensation record required"}, indent=2)
+        comp = data.get("compensation_records", [])
         comp = [
-            c for c in comp.values() if c["compensation_id"] != compensation["compensation_id"]
+            c for c in comp if c["compensation_id"] != compensation["compensation_id"]
         ]
-        data["compensation_records"][compensation["compensation_record_id"]] = compensation
+        comp.append(compensation)
         data["compensation_records"] = comp
-        payload = {"success": f'compensation {compensation["compensation_id"]} recorded'}
-        out = json.dumps(
-            payload, indent=2,
+        return json.dumps(
+            {"success": f'compensation {compensation["compensation_id"]} recorded'},
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SetCompensation",
+                "name": "set_compensation",
                 "description": "Insert a new compensation record with all necessary fields (overwrites prior record if compensation_id already exists).",
                 "parameters": {
                     "type": "object",

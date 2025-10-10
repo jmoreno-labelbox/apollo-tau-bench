@@ -1,21 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CalculateUtilizationPercentage(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], warehouse_id: str) -> str:
-        warehouses = data.get("warehouses", {}).values()
-        warehouse = next((w for w in warehouses.values() if w.get("warehouse_id") == warehouse_id), None)
+        warehouses = data.get("warehouses", [])
+        warehouse = next((w for w in warehouses if w.get("warehouse_id") == warehouse_id), None)
 
         if not warehouse:
             return json.dumps({"error": f"Warehouse {warehouse_id} not found"})
@@ -27,12 +21,13 @@ class CalculateUtilizationPercentage(Tool):
             "utilization_percentage": utilization,
             "status": "under_capacity" if utilization < 90 else "approaching_capacity"
         })
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateUtilizationPercentage",
+                "name": "calculate_utilization_percentage",
                 "description": "Calculate current warehouse utilization percentage",
                 "parameters": {
                     "type": "object",

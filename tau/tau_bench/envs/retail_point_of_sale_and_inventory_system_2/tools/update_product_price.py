@@ -1,50 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateProductPrice(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], sku: str, new_price: float) -> str:
-        products = data.get("products", {}).values()
+    def invoke(data: Dict[str, Any], sku: str, new_price: float) -> str:
+        products = list(data.get("products", {}).values())
         for i, product in enumerate(products):
             if product.get("sku") == sku:
                 products[i]["price"] = new_price
                 data["products"] = products
-                payload = products[i]
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Product with SKU {sku} not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(products[i], indent=2)
+        return json.dumps({"error": f"Product with SKU {sku} not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateProductPrice",
+                "name": "update_product_price",
                 "description": "Update the price for a specific product.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "sku": {
-                            "type": "string",
-                            "description": "Product SKU to update.",
-                        },
-                        "new_price": {
-                            "type": "number",
-                            "description": "New product price.",
-                        },
+                        "sku": {"type": "string", "description": "Product SKU to update."},
+                        "new_price": {"type": "number", "description": "New product price."}
                     },
-                    "required": ["sku", "new_price"],
-                },
-            },
+                    "required": ["sku", "new_price"]
+                }
+            }
         }

@@ -1,39 +1,39 @@
-from tau_bench.envs.tool import Tool
-import csv
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class WriteReport(Tool):
-    """Generate a Markdown report file and return a consistent report_id along with its path."""
+    """Write a Markdown report file and return a stable report_id + path."""
 
     @staticmethod
     def _slug(s: str) -> str:
-        _sL = s or ''.lower()
-        pass
-        s = (s or "").lower().strip()
+        s = s.lower().strip()
         s = re.sub(r"[^a-z0-9]+", "-", s).strip("-")
         return s or "report"
 
     @staticmethod
-    def _auto_title(date: str, tags: list[str]) -> str:
+    def _auto_title(date: str, tags: List[str]) -> str:
         """
-        Create a clear, consistent title if one is not supplied.
-        Utilizes the first available tag (in alphabetical order), or defaults to a generic label.
+        Generate a clean, predictable title if none is provided.
+        Uses the first tag (alphabetically) when available, otherwise a generic label.
         """
-        pass
         primary = sorted(tags)[0] if tags else "Report"
-        return f"{primary} – {date or 'unknown'}"
+        return f"{primary} – {date}"
 
     @staticmethod
-    def invoke(data: dict[str, Any], date: str, title: str = "", body_markdown: str = "", tags: list[str] = []) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        date: str = kwargs["date"]
+        title: str = kwargs.get("title", "")
+        body_markdown: str = kwargs.get("body_markdown", "")
+        tags: List[str] = kwargs.get("tags", [])
+
         final_title = title.strip() if isinstance(title, str) else ""
         if not final_title:
             final_title = WriteReport._auto_title(date, tags)
-        
-        # Ensure final_title is not None
-        final_title = final_title or "Report"
+
         slug = WriteReport._slug(final_title)
         filename = f"report_{date}_{slug}.md"
 
@@ -45,37 +45,28 @@ class WriteReport(Tool):
                 f.write(f"{body_markdown}\n")
 
         report_id = f"rep_{date}_{slug}"
-        payload = {
-                "success": True,
-                "report_id": report_id,
-                "path": filename,
-                "title": final_title,
-                "tags": tags,
-            }
-        out = json.dumps(
-            payload, indent=2,
+        return json.dumps(
+            {"success": True, "report_id": report_id, "path": filename, "title": final_title, "tags": tags},
+            indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "WriteReport",
+                "name": "write_report",
                 "description": "Write a Markdown report to disk and return its id/path.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "date": {"type": "string"},
-                        "title": {
-                            "type": "string",
-                            "description": "Optional. If omitted, a readable title is derived.",
-                        },
+                        "title": {"type": "string", "description": "Optional. If omitted, a readable title is derived."},
                         "body_markdown": {"type": "string"},
-                        "tags": {"type": "array", "items": {"type": "string"}},
+                        "tags": {"type": "array", "items": {"type": "string"}}
                     },
                     "required": ["date"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

@@ -1,19 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class FindTickets(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
-        status: str | None = None,
-        priority: str | None = None,
-        category: str | None = None,
-        employee_id: str | None = None,
+        data: Dict[str, Any],
+        status: Optional[str] = None,
+        priority: Optional[str] = None,
+        category: Optional[str] = None,
+        employee_id: Optional[str] = None,
     ) -> str:
-        pass
         results = []
-        for t in data["tickets"].values():
+        for t in data["tickets"]:
             if status and t["status"] != status:
                 continue
             if priority and t["priority"] != priority:
@@ -23,16 +25,14 @@ class FindTickets(Tool):
             if employee_id and t["employee_id"] != employee_id:
                 continue
             results.append(t)
-        payload = {"status": "ok", "tickets": results}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "tickets": results})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindTickets",
+                "name": "find_tickets",
                 "description": "Find tickets filtered by status, priority, category, and/or employee_id.",
                 "parameters": {
                     "type": "object",

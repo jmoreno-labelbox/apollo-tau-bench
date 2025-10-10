@@ -1,53 +1,36 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreatePermission(Tool):
     """
-    Establish a new permission with consistent ID generation.
+    Create a new permission with deterministic ID generation.
 
     kwargs:
-      action: str (mandatory)
-      resource_id: str (mandatory)
-      description: str (mandatory)
+      action: str (required)
+      resource_id: str (required)
+      description: str (required)
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], action: str = "", resource_id: str = "", description: str = "") -> str:
-        action = action.strip()
-        resource_id = resource_id.strip()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        action = (kwargs.get("action", "") or "").strip()
+        resource_id = (kwargs.get("resource_id", "") or "").strip()
+        description = kwargs.get("description", "")
 
         if not action or not resource_id or not description:
-            payload = {"error": "action, resource_id, and description are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "action, resource_id, and description are required"})
 
-        # Confirm the resource is present
-        if not _find_by_id(data.get("resources", {}).values(), "resource_id", resource_id):
-            payload = {"error": f"resource_id {resource_id} not found"}
-            out = json.dumps(payload)
-            return out
+        # Validate resource exists
+        if not _find_by_id(data.get("resources", []), "resource_id", resource_id):
+            return json.dumps({"error": f"resource_id {resource_id} not found"})
 
-        # Ensure uniqueness based on (action, resource_id)
-        for p in data.get("permissions", {}).values():
-            if (
-                str(p.get("action", "")).strip().lower() == action.lower()
-                and p.get("resource_id") == resource_id
-            ):
-                payload = {
-                    "error": f"permission with action '{action}' for {resource_id} already exists"
-                }
-                out = json.dumps(payload)
-                return out
+        # Enforce uniqueness by (action, resource_id)
+        for p in list(data.get("permissions", {}).values()):
+            if str(p.get("action", "")).strip().lower() == action.lower() and p.get("resource_id") == resource_id:
+                return json.dumps({"error": f"permission with action '{action}' for {resource_id} already exists"})
 
         new_perm = {
             "permission_id": _next_id(data, "permissions", "P"),
@@ -57,34 +40,24 @@ class CreatePermission(Tool):
         }
 
         data.setdefault("permissions", []).append(new_perm)
-        payload = {"ok": True, "permission": new_perm}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"ok": True, "permission": new_perm})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreatePermission",
+                "name": "create_permission",
                 "description": "Create a new permission with deterministic ID generation.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "action": {
-                            "type": "string",
-                            "description": "Permission action (e.g., read, write).",
-                        },
-                        "resource_id": {
-                            "type": "string",
-                            "description": "Resource id the permission applies to.",
-                        },
-                        "description": {
-                            "type": "string",
-                            "description": "Permission description.",
-                        },
+                        "action": {"type": "string", "description": "Permission action (e.g., read, write)."},
+                        "resource_id": {"type": "string", "description": "Resource id the permission applies to."},
+                        "description": {"type": "string", "description": "Permission description."}
                     },
                     "required": ["action", "resource_id", "description"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

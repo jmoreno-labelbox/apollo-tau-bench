@@ -1,43 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AddRevisionHistoryEntry(Tool):
-    """Inserts an entry into the revision history of a translation."""
-
+    """Adds an entry to the revision history of a translation."""
     @staticmethod
-    def invoke(data: dict[str, Any], translation_id: str = None, version: str = None, translation: str = None, translator: str = None, notes: str = None) -> str:
-        translations = data.get("translations", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        translation_id = kwargs.get("translation_id")
+        translations = data.get("translations", [])
         for t in translations:
             if t.get("id") == translation_id:
                 new_entry = {
-                    "version": version,
-                    "translation": translation,
+                    "version": kwargs.get("version"),
+                    "translation": kwargs.get("translation"),
                     "timestamp": "2025-01-28T00:00:00Z",
-                    "translator": translator,
-                    "notes": notes,
+                    "translator": kwargs.get("translator"),
+                    "notes": kwargs.get("notes")
                 }
                 t["revision_history"].append(new_entry)
-                payload = {"status": "success", "message": "Revision history updated."}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Translation with ID '{translation_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"status": "success", "message": "Revision history updated."})
+        return json.dumps({"error": f"Translation with ID '{translation_id}' not found."})
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "addRevisionHistoryEntry",
+                "name": "add_revision_history_entry",
                 "description": "Adds an entry to the revision history of a translation.",
                 "parameters": {
                     "type": "object",
@@ -46,15 +37,9 @@ class AddRevisionHistoryEntry(Tool):
                         "version": {"type": "integer"},
                         "translation": {"type": "string"},
                         "translator": {"type": "string"},
-                        "notes": {"type": "string"},
+                        "notes": {"type": "string"}
                     },
-                    "required": [
-                        "translation_id",
-                        "version",
-                        "translation",
-                        "translator",
-                        "notes",
-                    ],
+                    "required": ["translation_id", "version", "translation", "translator", "notes"],
                 },
             },
         }

@@ -1,48 +1,42 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetInventoryDetails(Tool):
-    """Obtains essential inventory information for a particular product at a specific warehouse."""
+    """Retrieves key inventory details for a specific product at a specific warehouse."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], sku: str = None, warehouse_id: str = None) -> str:
-        inventory_items = data.get("inventory", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        sku = kwargs.get("sku")
+        warehouse_id = kwargs.get("warehouse_id")
+        inventory_items = list(data.get("inventory", {}).values())
         for item in inventory_items:
             if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id:
-                payload = {
-                    "inventory_id": item.get("inventory_id"),
-                    "reorder_point": item.get("reorder_point"),
-                    "quantity_on_hand": item.get("quantity_on_hand"),
-                    "quantity_available": item.get("quantity_available"),
-                    "quantity_allocated": item.get("quantity_allocated"),
-                    "quantity_inbound": item.get("quantity_inbound"),
-                    "unit_cost": item.get("unit_cost"),
-                    "unit_weight_kg": item.get("unit_weight_kg"),
-                    "lot_number": item.get("lot_number"),
-                    "unit_dimensions_cm": item.get("unit_dimensions_cm"),
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Inventory record not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(
+                    {
+                        "inventory_id": item.get("inventory_id"),
+                        "reorder_point": item.get("reorder_point"),
+                        "quantity_on_hand": item.get("quantity_on_hand"),
+                        "quantity_available": item.get("quantity_available"),
+                        "quantity_allocated": item.get("quantity_allocated"),
+                        "quantity_inbound": item.get("quantity_inbound"),
+                        "unit_cost": item.get("unit_cost"),
+                        "unit_weight_kg": item.get("unit_weight_kg"),
+                        "lot_number": item.get("lot_number"),
+                        "unit_dimensions_cm": item.get("unit_dimensions_cm"),
+                    }
+                )
+        return json.dumps({"error": "Inventory record not found"})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetInventoryDetails",
+                "name": "get_inventory_details",
                 "description": "Retrieves key inventory details for a specific product at a specific warehouse.",
                 "parameters": {
                     "type": "object",

@@ -1,44 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateEmployeeStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None, status: str = None, available_from: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        status = kwargs.get("status")
+        available_from = kwargs.get("available_from")
+
         if not all([employee_id, status]):
-            payload = {"error": "employee_id and status are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "employee_id and status are required"})
 
-        employees = data.get("employees", {}).values()
+        employees = list(data.get("employees", {}).values())
 
-        for employee in employees.values():
+        for employee in employees:
             if employee.get("employee_id") == employee_id:
                 employee["status"] = status
                 if available_from:
                     employee["available_from"] = available_from
-                payload = {"success": True, "employee": employee}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Employee with ID '{employee_id}' not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"success": True, "employee": employee})
+
+        return json.dumps({"error": f"Employee with ID '{employee_id}' not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateEmployeeStatus",
+                "name": "update_employee_status",
                 "description": "Update employee status",
                 "parameters": {
                     "type": "object",

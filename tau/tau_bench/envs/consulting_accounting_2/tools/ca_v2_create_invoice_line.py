@@ -1,29 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CaV2CreateInvoiceLine(Tool):
-    """Generate a line item for an invoice."""
+    """Create an invoice line item."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        invoice_line_id: str = None,
-        invoice_id: str = None,
-        project_id: str = None,
-        isbn: str = None,
-        hours_billed: float = None,
-        hourly_rate: float = None
-    ) -> str:
-        # Necessary parameters
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        # Required parameters
+        invoice_line_id = kwargs.get("invoice_line_id")
+        invoice_id = kwargs.get("invoice_id")
+        project_id = kwargs.get("project_id")
+        isbn = kwargs.get("isbn")
+        hours_billed = kwargs.get("hours_billed")
+        hourly_rate = kwargs.get("hourly_rate")
 
-        if not all(
-            [invoice_line_id, invoice_id, project_id, isbn, hours_billed, hourly_rate]
-        ):
-            return _error(
-                "All line item fields are required: invoice_line_id, invoice_id, project_id, isbn, hours_billed, hourly_rate"
-            )
+        if not all([invoice_line_id, invoice_id, project_id, isbn, hours_billed, hourly_rate]):
+            return _error("All line item fields are required: invoice_line_id, invoice_id, project_id, isbn, hours_billed, hourly_rate")
 
         line_amount = round(hours_billed * hourly_rate, 2)
 
@@ -34,20 +30,23 @@ class CaV2CreateInvoiceLine(Tool):
             "isbn": isbn,
             "hours_billed": hours_billed,
             "hourly_rate": hourly_rate,
-            "line_amount": line_amount,
+            "line_amount": line_amount
         }
 
-        # Insert into data
+        # Add to data
         data.setdefault("invoice_lines", []).append(new_line)
 
-        return _ok(invoice_line_id=invoice_line_id, line_amount=line_amount)
+        return _ok(
+            invoice_line_id=invoice_line_id,
+            line_amount=line_amount
+        )
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CaV2CreateInvoiceLine",
+                "name": "ca_v2_create_invoice_line",
                 "description": "Create an invoice line item with automatic amount calculation.",
                 "parameters": {
                     "type": "object",
@@ -57,16 +56,9 @@ class CaV2CreateInvoiceLine(Tool):
                         "project_id": {"type": "string"},
                         "isbn": {"type": "string"},
                         "hours_billed": {"type": "number"},
-                        "hourly_rate": {"type": "number"},
+                        "hourly_rate": {"type": "number"}
                     },
-                    "required": [
-                        "invoice_line_id",
-                        "invoice_id",
-                        "project_id",
-                        "isbn",
-                        "hours_billed",
-                        "hourly_rate",
-                    ],
+                    "required": ["invoice_line_id", "invoice_id", "project_id", "isbn", "hours_billed", "hourly_rate"],
                 },
             },
         }

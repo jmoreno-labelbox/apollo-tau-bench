@@ -1,47 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetLogDetails(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], log_id: Any = None) -> str:
-        log_id = log_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        log_id = kwargs.get('log_id')
         if not log_id:
-            payload = {"error": "log_id is required."}
-            out = json.dumps(payload)
-            return out
-        for log in data.get("research_logs", {}).values():
-            if log["record_log_id"] == log_id:
-                return log.get("annotations", "")
-        payload = {"error": f"Log entry with ID '{log_id}' not found."}
-        out = json.dumps(payload)
-        return out
+            return json.dumps({"error": "log_id is required."})
+        for log in list(data.get('research_logs', {}).values()):
+            if log['log_id'] == log_id:
+                return log.get('notes', '')
+        return json.dumps({"error": f"Log entry with ID '{log_id}' not found."})
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetLogDetails",
-                "description": "Retrieves just the notes from a single log entry by its unique ID.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "log_id": {
-                            "type": "string",
-                            "description": "The unique ID of the log entry to retrieve.",
-                        }
-                    },
-                    "required": ["log_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "get_log_details", "description": "Retrieves just the notes from a single log entry by its unique ID.", "parameters": {"type": "object", "properties": {"log_id": {"type": "string", "description": "The unique ID of the log entry to retrieve."}}, "required": ["log_id"]}}}

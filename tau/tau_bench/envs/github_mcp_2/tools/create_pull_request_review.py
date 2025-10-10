@@ -1,79 +1,57 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreatePullRequestReview(Tool):
-    """Incorporates a review (approval, requested changes, or merely a comment) into a pull request."""
+    """Adds a review (approve or changes requested or just a comment) to a pull request."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str = None, pr_number: int = None, review_decision: str = None, comment: str = "",
-    body: Any = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        repo_name = kwargs.get("repo_name")
+        pr_number = kwargs.get("pr_number")
+        review_decision = kwargs.get("review_decision")  # approve | request_changes | comment
+        comment = kwargs.get("comment", "")
+
         if not all([repo_name, pr_number, review_decision]):
-            payload = {"error": "repo_name, pr_number, and review_decision are required."}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({"error": "repo_name, pr_number, and review_decision are required."}, indent=2)
 
         if review_decision not in ["approve", "request_changes", "comment"]:
-            payload = {
-                    "error": "Invalid review_decision (must be 'approve' or 'request_changes' or 'comment)."
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({"error": "Invalid review_decision (must be 'approve' or 'request_changes' or 'comment)."}, indent=2)
 
         me = _auth(data)["username"]
-        pr = next(
-            (
-                p
-                for p in _prs(data)
-                if p["owner"] == me
-                and p["repo_name"] == repo_name
-                and int(pr_number) in p["pr_numbers"]
-            ),
-            None,
-        )
+        pr = next((p for p in _prs(data) if p["owner"] == me and p["repo_name"] == repo_name and int(pr_number) in p["pr_numbers"]), None)
 
         if not pr:
-            payload = {"error": "Pull request not found."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Pull request not found."}, indent=2)
 
-        pr.setdefault("reviews", []).append(
-            {
-                "author": me,
-                "decision": review_decision,
-                "comment": comment,
-                "timestamp": get_current_timestamp(),
-            }
-        )
-        payload = {"message": "Review submitted."}
-        out = json.dumps(payload, indent=2)
-        return out
+        pr.setdefault("reviews", []).append({
+            "author": me,
+            "decision": review_decision,
+            "comment": comment,
+            "timestamp": get_current_timestamp()
+        })
+
+        return json.dumps({"message": "Review submitted."}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "CreatePullRequestReview",
+                "name": "create_pull_request_review",
                 "description": "Adds a review (approve or request_changes or comment) to a pull request.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "repo_name": {"type": "string"},
                         "pr_number": {"type": "integer"},
-                        "review_decision": {
-                            "type": "string",
-                            "enum": ["approve", "request_changes", "comment"],
-                        },
-                        "comment": {"type": "string"},
+                        "review_decision": {"type": "string", "enum": ["approve", "request_changes", "comment"]},
+                        "comment": {"type": "string"}
                     },
-                    "required": ["repo_name", "pr_number", "review_decision"],
-                },
-            },
+                    "required": ["repo_name", "pr_number", "review_decision"]
+                }
+            }
         }

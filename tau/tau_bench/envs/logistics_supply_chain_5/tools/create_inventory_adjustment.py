@@ -1,26 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateInventoryAdjustment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], sku: str = None, warehouse_id: str = None, adjustment_quantity: int = None, reason: str = None,
-    variance_percentage: Any = None,
-    unit_cost: Any = None,
-    ) -> str:
-        inventory = data.get("inventory", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        sku = kwargs.get("sku")
+        warehouse_id = kwargs.get("warehouse_id")
+        adjustment_quantity = kwargs.get("adjustment_quantity")
+        reason = kwargs.get("reason")
+
+        inventory = list(data.get("inventory", {}).values())
 
         inventory_item = next(
-            (item for item in inventory.values() if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id),
+            (item for item in inventory
+             if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id),
             None
         )
 
@@ -29,14 +26,14 @@ class CreateInventoryAdjustment(Tool):
 
         adjustment_id = f"ADJ-{warehouse_id}"
 
-        # Revise inventory counts
+        # Update inventory quantities
         old_quantity = inventory_item.get("quantity_on_hand", 0)
         new_quantity = old_quantity + adjustment_quantity
         inventory_item["quantity_on_hand"] = new_quantity
         inventory_item["quantity_available"] = inventory_item.get("quantity_available", 0) + adjustment_quantity
         inventory_item["last_counted_date"] = get_current_year_month_day()
 
-        # Generate a record for adjustments
+        # Create adjustment record
         adjustment_record = {
             "adjustment_id": adjustment_id,
             "sku": sku,
@@ -53,9 +50,9 @@ class CreateInventoryAdjustment(Tool):
             data["inventory_adjustments"] = []
         data["inventory_adjustments"].append(adjustment_record)
 
-        # Compute the overall adjustment value
-        product_master = data.get("inventory", {}).values()
-        product = next((p for p in product_master.values() if p.get("sku") == sku), None)
+        # Calculate total adjustment value
+        product_master = list(data.get("inventory", {}).values())
+        product = next((p for p in product_master if p.get("sku") == sku), None)
         unit_price = product.get("unit_cost", 0) if product else 0
 
         total_adjustment_value = abs(adjustment_quantity) * unit_price
@@ -67,12 +64,13 @@ class CreateInventoryAdjustment(Tool):
             "adjustment_amount": adjustment_quantity,
             "total_adjustment_value": total_adjustment_value
         })
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateInventoryAdjustment",
+                "name": "create_inventory_adjustment",
                 "description": "Create inventory adjustment record and update quantities",
                 "parameters": {
                     "type": "object",

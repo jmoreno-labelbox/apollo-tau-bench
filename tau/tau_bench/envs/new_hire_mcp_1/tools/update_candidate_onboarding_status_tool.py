@@ -1,22 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateCandidateOnboardingStatusTool(Tool):
-    """Refreshes status and associated timestamp fields for one or more candidates."""
+    """Updates status and related timestamp fields for one or more candidates."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str = None, candidate_ids: list = None, new_status: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
+        candidate_ids = kwargs.get("candidate_ids")
+        new_status = kwargs.get("new_status")
+
         if not new_status:
             return _err("new_status is required.")
 
@@ -29,13 +26,11 @@ class UpdateCandidateOnboardingStatusTool(Tool):
         if not ids_to_process:
             return _err("candidate_id or candidate_ids is required.")
 
-        candidates = data.get("candidates", {}).values()
+        candidates = data.get("candidates", [])
         updated_candidates = []
 
         for cid in ids_to_process:
-            candidate = next(
-                (c for c in candidates.values() if str(c.get("candidate_id")) == str(cid)), None
-            )
+            candidate = next((c for c in candidates if str(c.get("candidate_id")) == str(cid)), None)
 
             if not candidate:
                 if len(ids_to_process) == 1:
@@ -43,33 +38,23 @@ class UpdateCandidateOnboardingStatusTool(Tool):
                 continue
 
             candidate["onboarding_status"] = new_status
-            updated_data["candidates"][candidate_id] = candidate
-        payload = updated_candidates
-        out = json.dumps(payload, indent=2)
-        return out
+            updated_candidates.append(candidate)
+
+        return json.dumps(updated_candidates, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateCandidateOnboardingStatus",
+                "name": "update_candidate_onboarding_status",
                 "description": "Updates status and related timestamp fields for one or more candidates.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "candidate_id": {
-                            "type": "string",
-                            "description": "A single target candidate identifier.",
-                        },
-                        "candidate_ids": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "A list of target candidate identifiers.",
-                        },
-                        "new_status": {
-                            "type": "string",
-                            "description": "Status from workflow analysis",
-                        },
+                        "candidate_id": {"type": "string", "description": "A single target candidate identifier."},
+                        "candidate_ids": {"type": "array", "items": {"type": "string"}, "description": "A list of target candidate identifiers."},
+                        "new_status": {"type": "string", "description": "Status from workflow analysis"},
                     },
                     "required": ["new_status"],
                 },

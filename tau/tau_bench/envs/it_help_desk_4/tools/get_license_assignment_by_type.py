@@ -1,53 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetLicenseAssignmentByType(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None, license_type: str = None) -> str:
-        assignments = data.get("license_assignments", {}).values()
-        assignment = next(
-            (
-                a
-                for a in assignments.values() if a.get("employee_id") == employee_id
-                and a.get("license_id") == license_type
-                and a.get("status") == "active"
-            ),
-            None,
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        license_type = kwargs.get("license_type")
+        assignments = data.get("license_assignments", [])
+        assignment = next((a for a in assignments if a.get("employee_id") == employee_id and a.get("license_id") == license_type and a.get("status") == "active"), None)
         if not assignment:
-            payload = {
-                    "error": f"Active assignment for license {license_type} not found for employee {employee_id}."
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
-        payload = assignment
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": f"Active assignment for license {license_type} not found for employee {employee_id}."}, indent=2)
+        return json.dumps(assignment, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "getLicenseAssignmentByType",
-                "description": "Get a specific active license assignment for a user by license ID.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "employee_id": {"type": "string"},
-                        "license_type": {"type": "string"},
-                    },
-                    "required": ["employee_id", "license_type"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "get_license_assignment_by_type", "description": "Get a specific active license assignment for a user by license ID.", "parameters": {"type": "object", "properties": {"employee_id": {"type": "string"}, "license_type": {"type": "string"}}, "required": ["employee_id", "license_type"]}}}

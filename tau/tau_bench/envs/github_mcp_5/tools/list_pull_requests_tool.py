@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListPullRequestsTool(Tool):
     """
@@ -44,37 +32,33 @@ class ListPullRequestsTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str, state: str = None) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            state = kwargs.get("state")  # optional
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        prs = data.get("pull_requests", {}).values()
+        prs = list(data.get("pull_requests", {}).values())
         repo_prs = [
             {
-                "pr_id": _safe_id(
-                    pr,
-                    "pr_id",
-                    f"PR_{repo_name}_",
-                    ["title", "head_branch", "base_branch"],
-                ),
+                "pr_id": _safe_id(pr, "pr_id", f"PR_{repo_name}_", ["title", "head_branch", "base_branch"]),
                 "title": pr.get("title"),
                 "state": pr.get("state"),
                 "created_at": pr.get("created_at"),
                 "report_date": CURRENT_DATE,
             }
-            for pr in prs.values() if pr.get("repo") == repo_name
-            and (state is None or pr.get("state") == state)
+            for pr in prs
+            if pr.get("repo") == repo_name and (state is None or pr.get("state") == state)
         ]
         return _response("ok", repo_prs)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListPullRequests",
+                "name": "list_pull_requests",
                 "description": "List pull requests for a repository (optionally filter by state).",
                 "parameters": {
                     "type": "object",

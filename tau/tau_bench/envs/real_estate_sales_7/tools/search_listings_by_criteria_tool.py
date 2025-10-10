@@ -1,42 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchListingsByCriteriaTool(Tool):
-    """Queries the listings table to match client specifications."""
+    """Searches listings table matching client criteria."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        neighborhoods_json: list[str] = None,
-        price_min: int = 0,
-        price_max: int = None,
-        status_filter: list[str] = None,
-        max_results: int = None
-    ) -> str:
-        pass
-        neighborhoods = neighborhoods_json or []
-        price_min = price_min or 0
-        price_max = price_max
-        status_filter = status_filter
-        max_results = _as_int(max_results)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        neighborhoods = kwargs.get("neighborhoods_json") or []
+        price_min = kwargs.get("price_min") or 0
+        price_max = kwargs.get("price_max")
+        status_filter = kwargs.get("status_filter")
+        max_results = _as_int(kwargs.get("max_results"))
 
         valid_status = {"sold", "for_sale", "off_market", "active", "pending", "rented"}
 
-        # Process status_filter as a string or a list
+        # Handle status_filter as either string or list
         if status_filter:
             if isinstance(status_filter, list):
-                # Check all statuses within the list for validity
+                # Validate all statuses in the list
                 for status in status_filter:
                     if status not in valid_status:
                         return _err(
@@ -45,7 +30,7 @@ class SearchListingsByCriteriaTool(Tool):
                             valid=list(sorted(valid_status)),
                         )
             else:
-                # Validation for an individual status
+                # Single status validation
                 if status_filter not in valid_status:
                     return _err(
                         f"invalid status_filter '{status_filter}'",
@@ -53,21 +38,21 @@ class SearchListingsByCriteriaTool(Tool):
                         valid=list(sorted(valid_status)),
                     )
 
-        # Note: Neighborhood filtering has been eliminated - no mapping from property to neighborhood in the data
-        matches: list[dict[str, Any]] = []
-        for l in data.get("listings", {}).values():
+        # Note: Neighborhood filtering removed - no property-to-neighborhood mapping in data
+        matches: List[Dict[str, Any]] = []
+        for l in list(data.get("listings", {}).values()):
             pid = str(l.get("property_id"))
 
-            # Omit listings that lack a property_id
+            # Skip listings without property_id
             if not pid:
                 continue
 
-            # Note: Neighborhood filtering bypassed - no mapping for neighborhoods available
+            # Note: Neighborhood filtering skipped - no neighborhood mapping available
             if neighborhoods:
-                # Record a warning indicating that neighborhood filtering is unsupported
+                # Log warning that neighborhood filtering is not supported
                 pass
 
-            # Implement status filter (using OR logic for the list)
+            # Apply status filter (OR logic for list)
             if status_filter:
                 listing_status = l.get("status")
                 if isinstance(status_filter, list):
@@ -87,12 +72,12 @@ class SearchListingsByCriteriaTool(Tool):
                     "list_price": l.get("list_price"),
                     "price_per_sqft": l.get(
                         "price_per_sqft"
-                    ),  # Utilize pre-calculated values from listings
+                    ),  # Use pre-calculated value from listings
                     "status": l.get("status"),
                 }
             )
 
-            # Enforce max_results limit if defined
+            # Apply max_results limit if specified
             if max_results is not None and len(matches) >= max_results:
                 break
 
@@ -106,16 +91,15 @@ class SearchListingsByCriteriaTool(Tool):
             "matching_listings": matches,
             "total_matches": len(matches),
         }
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        #status_filter is mandated by prompt; permit null for adaptability
+    def get_info() -> Dict[str, Any]:
+        # status_filter required by prompt; allow null for flexibility
         return {
             "type": "function",
             "function": {
-                "name": "SearchListingsByCriteria",
+                "name": "search_listings_by_criteria",
                 "description": (
                     "Search listings by neighborhoods, price range, and status."
                 ),

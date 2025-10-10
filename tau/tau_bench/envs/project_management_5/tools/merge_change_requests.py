@@ -1,40 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class MergeChangeRequests(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], primary_cr_id: str = None, secondary_cr_ids: list = None, merged_by: str = None) -> str:
-        if secondary_cr_ids is None:
-            secondary_cr_ids = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        primary_cr_id = kwargs.get("primary_cr_id")
+        secondary_cr_ids = kwargs.get("secondary_cr_ids", [])
+        merged_by = kwargs.get("merged_by")
 
         if not all([primary_cr_id, secondary_cr_ids, merged_by]):
-            payload = {"error": "primary_cr_id, secondary_cr_ids, and merged_by are required"}
-            out = json.dumps(
-                payload)
-            return out
+            return json.dumps(
+                {
+                    "error": "primary_cr_id, secondary_cr_ids, and merged_by are required"
+                }
+            )
 
-        change_requests = data.get("change_requests", {}).values()
-        change_history = data.get("change_history", {}).values()
+        change_requests = data.get("change_requests", [])
+        change_history = data.get("change_history", [])
 
         primary_cr = next(
-            (c for c in change_requests.values() if c.get("cr_id") == primary_cr_id), None
+            (c for c in change_requests if c.get("cr_id") == primary_cr_id), None
         )
         if not primary_cr:
-            payload = {"error": f"Primary change request '{primary_cr_id}' not found"}
-            out = json.dumps(
-                payload)
-            return out
+            return json.dumps(
+                {"error": f"Primary change request '{primary_cr_id}' not found"}
+            )
 
         project_id = primary_cr.get("project_id")
         merged_deliverables = set(primary_cr.get("affected_deliverables", []))
@@ -42,19 +36,17 @@ class MergeChangeRequests(Tool):
 
         for cr_id in secondary_cr_ids:
             secondary_cr = next(
-                (c for c in change_requests.values() if c.get("cr_id") == cr_id), None
+                (c for c in change_requests if c.get("cr_id") == cr_id), None
             )
             if not secondary_cr:
-                payload = {"error": f"Secondary change request '{cr_id}' not found"}
-                out = json.dumps(
-                    payload)
-                return out
+                return json.dumps(
+                    {"error": f"Secondary change request '{cr_id}' not found"}
+                )
 
             if secondary_cr.get("project_id") != project_id:
-                payload = {"error": "All change requests must be for the same project"}
-                out = json.dumps(
-                    payload)
-                return out
+                return json.dumps(
+                    {"error": "All change requests must be for the same project"}
+                )
 
             merged_deliverables.update(secondary_cr.get("affected_deliverables", []))
             merged_justifications.append(secondary_cr.get("business_justification"))
@@ -71,18 +63,20 @@ class MergeChangeRequests(Tool):
                 "performed_by": merged_by,
                 "timestamp": datetime.now().isoformat(),
             }
-            data["change_history"][history_entry["change_history_id"]] = history_entry
+            change_history.append(history_entry)
 
         primary_cr["affected_deliverables"] = list(merged_deliverables)
-        primary_cr["business_justification"] = (
-            f"{primary_cr.get('business_justification')}. MERGED: {'; '.join(merged_justifications[1:])}"
-        )
+        primary_cr[
+            "business_justification"
+        ] = f"{primary_cr.get('business_justification')}. MERGED: {'; '.join(merged_justifications[1:])}"
         primary_cr["merged_from"] = secondary_cr_ids
         primary_cr["merge_date"] = datetime.now().isoformat()
 
         if len(secondary_cr_ids) >= 2 and primary_cr.get("priority") == "medium":
             primary_cr["priority"] = "high"
-        payload = {
+
+        return json.dumps(
+            {
                 "success": True,
                 "merge_result": {
                     "primary_cr": primary_cr_id,
@@ -91,15 +85,14 @@ class MergeChangeRequests(Tool):
                     "new_priority": primary_cr.get("priority"),
                 },
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "MergeChangeRequests",
+                "name": "merge_change_requests",
                 "description": "Merge duplicate or related change requests",
                 "parameters": {
                     "type": "object",

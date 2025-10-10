@@ -1,60 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdatePublisherContact(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        publisher_id: str,
-        address: str = None,
-        contact_email: str = None,
-        gst_number: str = None
-    ) -> str:
-        row = next(
-            (p for p in data.get("publishers", {}).values() if p.get("publisher_id") == publisher_id),
-            None,
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        pid = kwargs.get("publisher_id")
+        row = next((p for p in data.get("publishers", []) if p.get("publisher_id") == pid), None)
         if not row:
-            payload = {"error": f"Publisher '{publisher_id}' not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        updates = {
-            "address": address,
-            "contact_email": contact_email,
-            "gst_number": gst_number
-        }
-        updates = {k: v for k, v in updates.items() if v is not None}
+            return json.dumps({"error": f"Publisher '{pid}' not found"}, indent=2)
+        updates = {k:v for k,v in kwargs.items() if k in {"address","contact_email","gst_number"}}
         row.update(updates)
         row["updated_at"] = _fixed_now_iso()
-        payload = {"publisher_id": publisher_id, "updated": updates}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"publisher_id": pid, "updated": updates}, indent=2)
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "UpdatePublisherContact",
-                "description": "Update a publisher’s contact fields.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "publisher_id": {"type": "string"},
-                        "address": {"type": "string"},
-                        "contact_email": {"type": "string"},
-                        "gst_number": {"type": "string"},
-                    },
-                    "required": ["publisher_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"update_publisher_contact",
+            "description":"Update a publisher’s contact fields.",
+            "parameters":{"type":"object","properties":{
+                "publisher_id":{"type":"string"},
+                "address":{"type":"string"},"contact_email":{"type":"string"},"gst_number":{"type":"string"}
+            },"required":["publisher_id"]}
+        }}

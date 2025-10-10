@@ -1,50 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindCustomersByCriteria(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], membership_levels: list = None, purchase_history_skus: list = None) -> str:
-        if membership_levels is None:
-            membership_levels = []
-        if purchase_history_skus is None:
-            purchase_history_skus = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        membership_levels = kwargs.get('membership_levels', [])
+        purchase_history_skus = kwargs.get('purchase_history_skus', [])
 
-        customers = data.get("customers", {}).values()
-        transactions = data.get("transactions", {}).values()
+        customers = list(data.get("customers", {}).values())  # Corrigido para lista
+        transactions = list(data.get("transactions", {}).values())  # Corrigido para lista
 
         qualified_customers = []
 
-        for customer in customers.values():
+        for customer in customers:
             if customer.get("membership_level") in membership_levels:
                 customer_id = customer.get("customer_id")
-                for txn in transactions.values():
+                for txn in transactions:
                     if txn.get("customer_id") == customer_id:
                         for item in txn.get("line_items", []):
                             if item.get("sku") in purchase_history_skus:
-                                qualified_data["customers"][customer_id] = customer
+                                qualified_customers.append(customer)
                                 break
                         break
-        payload = qualified_customers
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(qualified_customers)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindCustomersByCriteria",
+                "name": "find_customers_by_criteria",
                 "description": "Finds customers based on multiple criteria like membership level and purchase history.",
                 "parameters": {
                     "type": "object",

@@ -1,39 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ApproveBaselineUpdate(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], baseline_id: str = None, approved_by: str = None, approval_notes: str = "") -> str:
-        if not all([baseline_id, approved_by]):
-            payload = {"error": "baseline_id and approved_by are required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        baseline_id = kwargs.get("baseline_id")
+        approved_by = kwargs.get("approved_by")
+        approval_notes = kwargs.get("approval_notes", "")
 
-        scope_baselines = data.get("scope_baselines", {}).values()
+        if not all([baseline_id, approved_by]):
+            return json.dumps({"error": "baseline_id and approved_by are required"})
+
+        scope_baselines = data.get("scope_baselines", [])
 
         baseline = next(
-            (b for b in scope_baselines.values() if b.get("baseline_id") == baseline_id), None
+            (b for b in scope_baselines if b.get("baseline_id") == baseline_id), None
         )
         if not baseline:
-            payload = {"error": f"Baseline '{baseline_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Baseline '{baseline_id}' not found"})
 
         if baseline.get("status") != "draft":
-            payload = {"error": f"Baseline is already {baseline.get('status')}"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": f"Baseline is already {baseline.get('status')}"}
+            )
 
         if not all(
             [
@@ -42,17 +35,18 @@ class ApproveBaselineUpdate(Tool):
                 baseline.get("success_metrics"),
             ]
         ):
-            payload = {
-                "error": "RULE 2: Cannot approve incomplete baseline. Must include deliverables, acceptance criteria, and success metrics."
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": "RULE 2: Cannot approve incomplete baseline. Must include deliverables, acceptance criteria, and success metrics."
+                }
+            )
 
         project_id = baseline.get("project_id")
         existing_approved = next(
             (
                 b
-                for b in scope_baselines.values() if b.get("project_id") == project_id
+                for b in scope_baselines
+                if b.get("project_id") == project_id
                 and b.get("status") == "approved"
                 and b.get("baseline_id") != baseline_id
             ),
@@ -60,6 +54,7 @@ class ApproveBaselineUpdate(Tool):
         )
 
         if existing_approved:
+
             existing_approved["status"] = "superseded"
             existing_approved["superseded_by"] = baseline_id
             existing_approved["superseded_date"] = datetime.now().isoformat()
@@ -81,34 +76,34 @@ class ApproveBaselineUpdate(Tool):
             }
         )
 
-        change_requests = data.get("change_requests", {}).values()
-        for cr in change_requests.values():
+        change_requests = data.get("change_requests", [])
+        for cr in change_requests:
             if cr.get("project_id") == project_id and cr.get("status") in [
                 "completed",
                 "approved",
             ]:
                 cr["included_in_baseline"] = baseline.get("version")
-        payload = {
-            "success": True,
-            "baseline": {
-                "baseline_id": baseline_id,
-                "version": baseline.get("version"),
-                "status": "approved",
-                "superseded_baseline": (
-                    existing_approved.get("baseline_id")
+
+        return json.dumps(
+            {
+                "success": True,
+                "baseline": {
+                    "baseline_id": baseline_id,
+                    "version": baseline.get("version"),
+                    "status": "approved",
+                    "superseded_baseline": existing_approved.get("baseline_id")
                     if existing_approved
-                    else None
-                ),
-            },
-        }
-        out = json.dumps(payload)
-        return out
+                    else None,
+                },
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ApproveBaselineUpdate",
+                "name": "approve_baseline_update",
                 "description": "Approve a new scope baseline, superseding the previous one",
                 "parameters": {
                     "type": "object",

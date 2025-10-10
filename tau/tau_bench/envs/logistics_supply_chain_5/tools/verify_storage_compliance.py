@@ -1,21 +1,16 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class VerifyStorageCompliance(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], warehouse_id: str, storage_type: str, compliant_flag: bool = True) -> str:
-        warehouses = data.get("warehouses", {}).values()
-        warehouse = next((w for w in warehouses.values() if w.get("warehouse_id") == warehouse_id), None)
+    def invoke(data: Dict[str, Any], warehouse_id: str, storage_type: str, **kwargs) -> str:
+        warehouses = data.get("warehouses", [])
+        warehouse = next((w for w in warehouses if w.get("warehouse_id") == warehouse_id), None)
+        compliant_flag = kwargs.get("compliant_flag", True)
 
         if not warehouse:
             return json.dumps({"error": f"Warehouse {warehouse_id} not found"})
@@ -38,6 +33,7 @@ class VerifyStorageCompliance(Tool):
             compliance_status = "non_compliant"
             compliance_issues.append("Compliance required but not met")
 
+
         return json.dumps({
             "warehouse_id": warehouse_id,
             "storage_type": storage_type,
@@ -48,12 +44,13 @@ class VerifyStorageCompliance(Tool):
             "compliance_issues": compliance_issues,
             "verification_date": get_current_timestamp()
         })
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "VerifyStorageCompliance",
+                "name": "verify_storage_compliance",
                 "description": "Verify warehouse compliance for specific storage requirements",
                 "parameters": {
                     "type": "object",

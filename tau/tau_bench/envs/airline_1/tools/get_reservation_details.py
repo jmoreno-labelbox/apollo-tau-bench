@@ -1,47 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetReservationDetails(Tool):
-
+    """
+    A tool to retrieve the full details of a reservation using its reservation ID.
+    """
     @staticmethod
-    def invoke(data: dict[str, Any], reservation_id: str) -> str:
-        reservations = data.get("reservations", {}).values()
+    def invoke(data: Dict[str, Any], reservation_id: str) -> str:
+        reservations = list(data.get("reservations", {}).values())
         for reservation in reservations:
             if reservation.get("reservation_id") == reservation_id:
-                payload = reservation
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Reservation not found", "reservation_id": reservation_id}
-        out = json.dumps(payload)
-        return out
-    
+                return json.dumps(reservation)
+        return json.dumps({"error": "Reservation not found", "reservation_id": reservation_id})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetReservationDetails",
+                "name": "get_reservation_details",
                 "description": "Retrieve the details of a reservation using its reservation ID.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "reservation_id": {
                             "type": "string",
-                            "description": "The unique ID of the reservation (e.g., 'RNL6HR').",
+                            "description": "The unique ID of the reservation (e.g., 'RNL6HR')."
                         }
                     },
-                    "required": ["reservation_id"],
-                },
-            },
+                    "required": ["reservation_id"]
+                }
+            }
         }

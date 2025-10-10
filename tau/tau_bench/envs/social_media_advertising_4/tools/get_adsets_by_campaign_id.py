@@ -1,40 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAdsetsByCampaignID(Tool):
-    """Fetches all ad sets associated with a particular campaign."""
+    """Retrieves all ad sets belonging to a specific campaign."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        campaign_id = kwargs.get("campaign_id")
+        adsets = [adset for adset in data.get('adsets', []) if adset.get('campaign_id') == campaign_id]
+        return json.dumps({"adsets": adsets})
 
     @staticmethod
-    def invoke(data: dict[str, Any], campaign_id: str = None) -> str:
-        adsets = [
-            adset
-            for adset in data.get("adsets", {}).values()
-            if adset.get("campaign_id") == campaign_id
-        ]
-        payload = {"adsets": adsets}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetAdsetsByCampaignId",
-                "description": "Retrieves a list of all ad sets that belong to a specific campaign ID.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"campaign_id": {"type": "string"}},
-                    "required": ["campaign_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "get_adsets_by_campaign_id", "description": "Retrieves a list of all ad sets that belong to a specific campaign ID.", "parameters": {"type": "object", "properties": {"campaign_id": {"type": "string"}}, "required": ["campaign_id"]}}}

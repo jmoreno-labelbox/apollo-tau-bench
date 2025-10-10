@@ -1,11 +1,14 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class EnsureLicenseCapacityOrOpenJira(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         license_id: str,
         needed_count: int,
         jira_id: str,
@@ -14,16 +17,9 @@ class EnsureLicenseCapacityOrOpenJira(Tool):
     ) -> str:
         inv = _find_one(data["license_inventory"], license_id=license_id)
         if not inv:
-            payload = {"status": "error", "reason": "license_not_found"}
-            out = json.dumps(payload)
-            return out
-        if (
-            inv["used_seats"] + inv["reserved_seats"] + needed_count
-            <= inv["total_seats"]
-        ):
-            payload = {"status": "ok", "capacity": True}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "license_not_found"})
+        if inv["used_seats"] + inv["reserved_seats"] + needed_count <= inv["total_seats"]:
+            return json.dumps({"status": "ok", "capacity": True})
         jira = {
             "jira_id": jira_id,
             "issue_type": "License Shortage",
@@ -34,18 +30,16 @@ class EnsureLicenseCapacityOrOpenJira(Tool):
             "updated_at": created_at,
         }
         _append_row(data["jira_tickets"], jira)
-        payload = {"status": "ok", "capacity": False, "jira": jira}
-        out = json.dumps(payload)
-        return out
-        
+        return json.dumps({"status": "ok", "capacity": False, "jira": jira})
+
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ensureLicenseCapacityOrOpenJira",
-                "description": "Check capacity for a license; otherwise create a TaskTrack 'License Shortage'.",
+                "name": "ensure_license_capacity_or_open_jira",
+                "description": "Check capacity for a license; otherwise create a Jira 'License Shortage'.",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -55,13 +49,7 @@ class EnsureLicenseCapacityOrOpenJira(Tool):
                         "priority": {"type": "string"},
                         "created_at": {"type": "string"},
                     },
-                    "required": [
-                        "license_id",
-                        "needed_count",
-                        "jira_id",
-                        "priority",
-                        "created_at",
-                    ],
+                    "required": ["license_id", "needed_count", "jira_id", "priority", "created_at"],
                 },
             },
         }

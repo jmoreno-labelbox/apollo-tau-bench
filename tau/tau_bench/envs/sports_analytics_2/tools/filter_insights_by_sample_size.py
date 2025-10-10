@@ -1,31 +1,17 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class FilterInsightsBySampleSize(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], **kwargs) -> str:
-        pass
-        kwargs.get("min_sample_size", 25)
-        kwargs.get("source_table", "")
-        payload = {"filtered_insights": "flags_filtered_sample"}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        min_sample_size = kwargs.get("min_sample_size", 25)
+        source_table = kwargs.get("source_table", "")
+        return json.dumps({"filtered_insights": "flags_filtered_sample"}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "FilterInsightsBySampleSize",
-                "description": "Filters insights by minimum sample size.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "min_sample_size": {"type": "integer"},
-                        "source_table": {"type": "string"},
-                    },
-                    "required": ["min_sample_size"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "filter_insights_by_sample_size", "description": "Filters insights by minimum sample size.", "parameters": {"type": "object", "properties": {"min_sample_size": {"type": "integer"}, "source_table": {"type": "string"}}, "required": ["min_sample_size"]}}}

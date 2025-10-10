@@ -1,27 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ReceiveSupplyOrderAndCloseTool(Tool):
     """
-    Designate a supply order as 'received' and finalize it with a terminal timestamp.
+    Mark a supply order as 'received' and close it with a terminal timestamp.
 
     Behavior:
-    - Confirms the supply order exists.
-    - Changes status to 'received' and records 'received_at' with UTC ISO (if not already present).
-    - Adds an event {type: "received", message: <optional note>, timestamp: UTC ISO} to events.
-    - Updates inventory of received items.
-    - Changes status to 'closed' and records 'closed_at' with UTC ISO.
+    - Validates the supply order exists.
+    - Sets status to 'received' and stamps 'received_at' with UTC ISO (if not present).
+    - Appends an event {type: "received", message: <optional note>, timestamp: UTC ISO} to events.
+    - Updates stock of received items.
+    - Sets status to 'closed' and stamps 'closed_at' with UTC ISO.
 
     Input (kwargs):
         supply_order_id (str, required)
@@ -32,31 +25,26 @@ class ReceiveSupplyOrderAndCloseTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], supply_order_id: str = None, note: str = None) -> str:
-        so_id = supply_order_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        so_id = kwargs.get("supply_order_id")
+        note = kwargs.get("note")
 
         if not so_id:
-            payload = {"error": "supply_order_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "supply_order_id is required"}, indent=2)
 
-        supply_orders = data.get("supply_orders", {}).values()
-        products = data.get("products", {}).values()
+        supply_orders = data.get("supply_orders", [])
+        products = list(data.get("products", {}).values())
 
-        so = next((s for s in supply_orders.values() if s.get("supply_order_id") == so_id), None)
+        so = next((s for s in supply_orders if s.get("supply_order_id") == so_id), None)
         if not so:
-            payload = {"error": f"supply_order_id '{so_id}' not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"supply_order_id '{so_id}' not found"}, indent=2)
 
-        #1. Change status to 'received' and include received_at timestamp
+        # 1. Update status to 'received' and add received_at timestamp
         so["status"] = "received"
         if not so.get("received_at"):
             so["received_at"] = _now_iso()
 
-        #Add 'received' event
+        # Append 'received' event
         event = {
             "type": "received",
             "message": (note or "supply order received"),
@@ -64,40 +52,37 @@ class ReceiveSupplyOrderAndCloseTool(Tool):
         }
         (so.setdefault("events", [])).append(event)
 
-        #2. Adjust product inventory for every item in the supply order
+        # 2. Update product stock for each item in the supply order
         for so_item in so.get("items", []):
             product_id = so_item.get("product_id")
             quantity = so_item.get("quantity", 0)
 
-            product = next(
-                (p for p in products.values() if p.get("product_id") == product_id), None
-            )
+            product = next((p for p in products if p.get("product_id") == product_id), None)
             if product:
                 product["quantity"] = product.get("quantity", 0) + quantity
-                product["reserved_quantity"] = (
-                    product.get("reserved_quantity", 0) + quantity
-                )
+                product["reserved_quantity"] = product.get("reserved_quantity", 0) + quantity
 
-        #3. Change final status to 'closed' and include closed_at timestamp
+        # 3. Set final status to 'closed' and add closed_at timestamp
         so["status"] = "closed"
         so["closed_at"] = _now_iso()
-        payload = {
+
+        return json.dumps(
+            {
                 "supply_order_id": so_id,
                 "status": so["status"],
                 "received_at": so["received_at"],
                 "closed_at": so["closed_at"],
                 "events_len": len(so.get("events", [])),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ReceiveSupplyOrderAndClose",
+                "name": "receive_supply_order_and_close",
                 "description": "Set a supply order to 'received' and 'closed', update product stock, and append events.",
                 "parameters": {
                     "type": "object",

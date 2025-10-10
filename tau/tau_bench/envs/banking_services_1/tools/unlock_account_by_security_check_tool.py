@@ -1,8 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UnlockAccountBySecurityCheckTool(Tool):
     """
@@ -20,7 +21,9 @@ class UnlockAccountBySecurityCheckTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, security_code: str = None, id_document: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        security_code = kwargs.get("security_code")
         if not customer_id or not security_code:
             return json.dumps({"error": "customer_id and security_code are required"})
 
@@ -32,12 +35,13 @@ class UnlockAccountBySecurityCheckTool(Tool):
                 return json.dumps({"status": "Unlocked"}, indent=2)
 
         return json.dumps({"error": "Customer account not found"}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UnlockAccountBySecurityCheck",
+                "name": "unlock_account_by_security_check",
                 "description": "Unlock an account after verifying security code.",
                 "parameters": {
                     "type": "object",

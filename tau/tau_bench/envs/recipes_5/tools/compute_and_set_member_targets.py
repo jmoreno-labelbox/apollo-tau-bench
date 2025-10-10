@@ -1,34 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ComputeAndSetMemberTargets(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], member_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        member_id = kwargs.get("member_id")
         if member_id is None:
             household_id = _default_household_id(data, _first_user_id(data))
-            members = [
-                m
-                for m in data.get("members", {}).values()
-                if m.get("household_id") == household_id
-            ]
+            members = [m for m in data.get("members", []) if m.get("household_id") == household_id]
             if not members:
                 return _json_dump({"error": "no members available"})
-            adults = [m for m in members.values() if not m.get("is_child")]
+            adults = [m for m in members if not m.get("is_child")]
             member_id = adults[0]["member_id"] if adults else members[0]["member_id"]
-        m = next(
-            (x for x in data.get("members", {}).values() if x.get("member_id") == member_id),
-            None,
-        )
+        m = next((x for x in data.get("members", []) if x.get("member_id") == member_id), None)
         if not m:
             return _json_dump({"error": f"member_id {member_id} not found"})
         if m.get("is_child"):
@@ -41,17 +29,7 @@ class ComputeAndSetMemberTargets(Tool):
         m["target_calories"] = calories
         m["target_protein"] = protein
         return _json_dump(m)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "computeAndSetMemberTargets",
-                "description": "Compute and set targets for a member; defaults to first adult member.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"member_id": {"type": "integer"}},
-                    "required": [],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{"name":"compute_and_set_member_targets","description":"Compute and set targets for a member; defaults to first adult member.","parameters":{"type":"object","properties":{"member_id":{"type":"integer"}},"required":[]}}}

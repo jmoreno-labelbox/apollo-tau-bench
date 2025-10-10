@@ -1,28 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateGmailJson(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        to: list[str] = None,
-        cc: list[str] = None,
-        bcc: list[str] = None,
-        subject: str = None,
-        body_text: str = "",
-        body: str = None,
-        body_html_nullable: str = None,
-        attachments_paths: list[str] = None
-    ) -> str:
-        # Accept either body or body_text
-        if body is not None:
-            body_text = body
-        """Generates a Gmail-like JSON draft (without sending email). Helpful for compiling evaluation results and deliverables into an email artifact."""
-        to = to if to is not None else []
-        cc = cc if cc is not None else []
-        bcc = bcc if bcc is not None else []
-        attachments_paths = attachments_paths if attachments_paths is not None else []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        """
+        Creates a Gmail-style JSON draft (not sending email). Useful for packaging
+        evaluation results and deliverables into an email artifact.
+        """
+        to = kwargs.get("to", [])
+        cc = kwargs.get("cc", [])
+        bcc = kwargs.get("bcc", [])
+        subject = kwargs.get("subject")
+        body_text = kwargs.get("body_text", "")
+        body_html_nullable = kwargs.get("body_html_nullable")
+        attachments_paths = kwargs.get("attachments_paths", [])
 
         message_id = "GMAIL_MSG_001"
         json_path = f"/gmail/outbox/{message_id}.json"
@@ -41,15 +37,14 @@ class CreateGmailJson(Tool):
         }
 
         data.setdefault("gmail_outbox.json", []).append(msg_entry)
-        payload = {"message_id": message_id, "json_path": json_path}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"message_id": message_id, "json_path": json_path})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createGmailJson",
+                "name": "CreateGmailJson",
                 "description": "Creates a Gmail-style JSON draft with recipients, subject, body, and attachments.",
                 "parameters": {
                     "type": "object",

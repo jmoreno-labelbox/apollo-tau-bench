@@ -1,13 +1,14 @@
-from tau_bench.envs.tool import Tool
-import json
-import uuid
-from datetime import datetime
-from typing import Any
+# Copyright Sierra
 
-class UpdateTeamTrainingLog(Tool):
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class update_team_training_log(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         training_session_id: str,
         user_id: str,
         status: str,
@@ -22,18 +23,14 @@ class UpdateTeamTrainingLog(Tool):
             "skills_gained": skills_gained,
         }
         data.setdefault("team_training_log", []).append(log_entry)
-        payload = {"success": f"Training log updated for {user_id}"}
-        out = json.dumps(payload, indent=2)
-        return out
-        return out
+        return json.dumps({"success": f"Training log updated for {user_id}"}, indent=2)
 
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "updateTeamTrainingLog",
+                "name": "update_team_training_log",
                 "description": "Update team training log",
                 "parameters": {
                     "type": "object",

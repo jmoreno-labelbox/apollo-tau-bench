@@ -1,48 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class RecordAutomationRunV2(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        automation_type: str,
-        inputs: dict[str, Any],
-        outputs: dict[str, Any],
-        status: str,
-    ) -> str:
-        pass
+    def invoke(data: Dict[str, Any], automation_type: str, inputs: Dict[str, Any], outputs: Dict[str, Any], status: str) -> str:
         runs = _get_table(data, "automation_runs")
         max_id = _max_int_suffix(runs, "run_id", "AR", 0)
         run_id = f"AR-{max_id + 1}"
-        rec = {
-            "run_id": run_id,
-            "automation_type": automation_type,
-            "inputs": inputs,
-            "outputs": outputs,
-            "status": status,
-        }
+        rec = {"run_id": run_id, "automation_type": automation_type, "inputs": inputs, "outputs": outputs, "status": status}
         runs.append(rec)
-        payload = {"automation_run_id": run_id}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"automation_run_id": run_id}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "RecordAutomationRunV2",
-                "description": "Persists a deterministic automation_runs entry with next AR-<n> id.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "automation_type": {"type": "string"},
-                        "inputs": {"type": "object"},
-                        "outputs": {"type": "object"},
-                        "status": {"type": "string"},
-                    },
-                    "required": ["automation_type", "inputs", "outputs", "status"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "record_automation_run_v2", "description": "Persists a deterministic automation_runs entry with next AR-<n> id.", "parameters": {"type": "object", "properties": {"automation_type": {"type": "string"}, "inputs": {"type": "object"}, "outputs": {"type": "object"}, "status": {"type": "string"}}, "required": ["automation_type", "inputs", "outputs", "status"]}}}

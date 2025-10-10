@@ -1,54 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetTicketInfo(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], ticket_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ticket_id = kwargs.get('ticket_id')
         if ticket_id is None:
-            payload = {"status": "error", "description": "The ticket_id field is required."}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({'status': 'error', 'description': 'The ticket_id field is required.'}, indent=2)
 
-        tickets = data.get("tickets")
+        tickets = data.get('tickets')
 
-        for ticket in tickets.values():
-            if ticket["ticket_id"] == ticket_id:
-                payload = ticket
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"status": "error", "description": "The ticket was not found."}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        for ticket in tickets:
+            if ticket['ticket_id'] == ticket_id:
+                return json.dumps(ticket, indent=2)
+        return json.dumps({'status': 'error', 'description': 'The ticket was not found.'}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "getTicketInfo",
-                "description": "Gets info for a ticket based on ticket_id.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "ticket_id": {
-                            "type": "string",
-                            "description": "The id of the ticket to search for.",
-                        },
+            'type': 'function',
+            'function': {
+                'name': 'get_ticket_info',
+                'description': 'Gets info for a ticket based on ticket_id.',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'ticket_id': {'type': 'string', 'description': 'The id of the ticket to search for.'},
                     },
-                    "required": ["ticket_id"],
-                },
-            },
+                    'required': ['ticket_id']
+                }
+            }
         }

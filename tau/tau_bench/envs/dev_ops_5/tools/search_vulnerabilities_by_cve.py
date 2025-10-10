@@ -1,35 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchVulnerabilitiesByCVE(Tool):
-    """Looks for vulnerabilities that correspond to a particular CVE identifier."""
+    """Searches for vulnerabilities matching a specific CVE identifier."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], cve: str = None) -> str:
-        cve_id = cve
-        vulnerabilities = data.get("vulnerabilities", {}).values()
-
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cve_id = kwargs.get("cve")
+        vulnerabilities = data.get("vulnerabilities", [])
+        
         matching_vulnerabilities = [
-            vuln for vuln in vulnerabilities.values() if vuln.get("cve") == cve_id
+            vuln for vuln in vulnerabilities if vuln.get("cve") == cve_id
         ]
-        payload = {"vulnerabilities": matching_vulnerabilities}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"vulnerabilities": matching_vulnerabilities})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchVulnerabilitiesByCve",
+                "name": "search_vulnerabilities_by_cve",
                 "description": "Searches for vulnerabilities matching a specific CVE identifier.",
                 "parameters": {
                     "type": "object",

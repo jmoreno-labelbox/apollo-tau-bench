@@ -1,41 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RemoveRecipeFromMealPlan(Tool):
-    """Deletes a recipe from a meal plan."""
+    """Removes a recipe from a meal plan."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        entry_id = kwargs.get("entry_id")
+        entries = data.get("meal_plan_entries", [])
+        entry_to_remove = next((e for e in entries if e.get("entry_id") == entry_id), None)
+        if entry_to_remove:
+            data["meal_plan_entries"] = [e for e in entries if e.get("entry_id") != entry_id]
+            return json.dumps({"status": "success", "message": f"Entry {entry_id} removed."})
+        return json.dumps({"error": f"Meal plan entry {entry_id} not found."})
 
     @staticmethod
-    def invoke(data: dict[str, Any], entry_id: str = None) -> str:
-        entries = data.get("meal_plan_entries", {}).values()
-        entry_to_remove = next(
-            (e for e in entries.values() if e.get("entry_id") == entry_id), None
-        )
-        if entry_to_remove:
-            data["meal_plan_entries"] = [
-                e for e in entries.values() if e.get("entry_id") != entry_id
-            ]
-            payload = {"status": "success", "message": f"Entry {entry_id} removed."}
-            out = json.dumps(payload)
-            return out
-        payload = {"error": f"Meal plan entry {entry_id} not found."}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RemoveRecipeFromMealPlan",
+                "name": "remove_recipe_from_meal_plan",
                 "description": "Removes a recipe from a meal plan.",
                 "parameters": {
                     "type": "object",

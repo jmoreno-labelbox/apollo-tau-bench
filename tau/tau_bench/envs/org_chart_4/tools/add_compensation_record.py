@@ -1,26 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class add_compensation_record(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], compensation_record: dict, position: Any = None) -> str:
+    def invoke(data: Dict[str, Any], compensation_record: dict) -> str:
         records = data.setdefault("compensation_records", [])
         records.append(compensation_record)
-        payload = {
+        return json.dumps(
+            {
                 "success": True,
                 "compensation_id": compensation_record.get("compensation_id"),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddCompensationRecord",
+                "name": "add_compensation_record",
                 "description": "Add a new compensation record. The compensation_record object must contain all required fields.",
                 "parameters": {
                     "type": "object",

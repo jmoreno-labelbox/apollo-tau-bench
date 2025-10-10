@@ -1,14 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, time, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateScheduledInternalTransfer(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, source_account_id: str = None, 
-               destination_account_id: str = None, amount: float = None, frequency: str = None, 
-               start_date: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         payment_id = _get_next_scheduled_payment_id(data)
+        customer_id = kwargs.get("customer_id")
+        source_account_id = kwargs.get("source_account_id")
+        destination_account_id = kwargs.get("destination_account_id")
+        amount = kwargs.get("amount")
+        frequency = kwargs.get("frequency")
+        start_date = kwargs.get("start_date")
 
         source_account = next((a for a in data['accounts'] if a['account_id'] == source_account_id and a['customer_id'] == customer_id), None)
         dest_account = next((a for a in data['accounts'] if a['account_id'] == destination_account_id and a['customer_id'] == customer_id), None)
@@ -31,12 +37,13 @@ class CreateScheduledInternalTransfer(Tool):
         }
         data['scheduled_payments'].append(new_payment)
         return json.dumps(new_payment)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "CreateScheduledInternalTransfer",
+                        "name": "create_scheduled_internal_transfer",
                         "description": "Schedules a new recurring transfer between a customer's own accounts.",
                         "parameters": {
                                 "type": "object",

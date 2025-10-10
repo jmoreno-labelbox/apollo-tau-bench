@@ -1,42 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpdateOrderStatus(Tool):
-    """Update the order status to the given value."""
-
+    """Set order status to provided value."""
     @staticmethod
-    def invoke(data, order_id=None, status=None) -> str:
+    def invoke(data, **kwargs) -> str:
+        order_id = kwargs.get('order_id')
+        status = kwargs.get('status')
         if not order_id or status is None:
-            payload = {"error": "order_id and status are required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error":"order_id and status are required"}, indent=2)
         o = _find_order(data, order_id)
         if not o:
-            payload = {"error": f"order_id {order_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        o["status"] = status
-        payload = {"success": True, "order_id": order_id, "status": status}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+            return json.dumps({"error":f"order_id {order_id} not found"}, indent=2)
+        o['status'] = status
+        return json.dumps({"success": True, "order_id": order_id, "status": status}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "updateOrderStatus",
-                "description": "Update the status field on an order.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "order_id": {"type": "string"},
-                        "status": {"type": "string"},
-                    },
-                    "required": ["order_id", "status"],
-                },
-            },
-        }
+        return {"type":"function","function":{"name":"update_order_status","description":"Update the status field on an order.","parameters":{"type":"object","properties":{"order_id":{"type":"string"},"status":{"type":"string"}},"required":["order_id","status"]}}}

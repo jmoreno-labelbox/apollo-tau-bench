@@ -1,24 +1,22 @@
-from tau_bench.envs.tool import Tool
-from typing import Any, Dict
+# Copyright Sierra
+
 import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCustomerSupportTicketsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, status: str = None) -> str:
-        support_tickets = data.get('support_tickets', {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get('customer_id')
+        status_filter = kwargs.get('status')
+
+        support_tickets = list(data.get('support_tickets', {}).values())
         customer_tickets = []
 
         for ticket in support_tickets:
             if ticket['customer_id'] == customer_id:
-                if not status or ticket['status'] == status:
+                if not status_filter or ticket['status'] == status_filter:
                     subject = ticket.get('subject', ticket.get('category', 'N/A'))
 
                     customer_tickets.append({
@@ -31,12 +29,13 @@ class GetCustomerSupportTicketsTool(Tool):
                     })
 
         return json.dumps(customer_tickets, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCustomerSupportTickets",
+                "name": "get_customer_support_tickets",
                 "description": "Get support tickets for a customer",
                 "parameters": {
                     "type": "object",

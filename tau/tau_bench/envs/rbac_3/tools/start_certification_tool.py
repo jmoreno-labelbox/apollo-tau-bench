@@ -1,27 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class StartCertificationTool(Tool):
-    """StartCertification"""
+    """start_certification"""
 
     @staticmethod
-    def invoke(data: dict[str, Any], certification_id: str, reviewer_id: str = None) -> str:
-        cert_id = certification_id
-        reviewer_id = reviewer_id
-        certs = data.get("certifications", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cert_id = kwargs["certification_id"]
+        reviewer_id = kwargs.get("reviewer_id")
+        certs = data.get("certifications", [])
         c = None
-        for x in certs.values():
+        for x in certs:
             if x.get("certification_id") == cert_id:
                 c = x
                 break
@@ -29,15 +22,14 @@ class StartCertificationTool(Tool):
         c["completed_on"] = None
         if reviewer_id:
             c["reviewer_id"] = reviewer_id
-        payload = c
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(c, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "StartCertification",
+                "name": "start_certification",
                 "description": "Set a certification status to IN_PROGRESS.",
                 "parameters": {
                     "type": "object",

@@ -1,33 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FetchMortgageRatesForClientTool(Tool):
-    """Retrieves available mortgage rates according to client qualifications."""
+    """Gets available mortgage rates based on client qualification."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], credit_score: int = None, region: str = None) -> str:
-        credit_score = _as_int(credit_score)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        credit_score = _as_int(kwargs.get("credit_score"))
+        region = kwargs.get("region")
         if credit_score is None or not region:
             return _err("credit_score (int) and region (string) are required")
 
         rates = []
-        # Establish a lender lookup map for effective name resolution
+        # Create lender lookup map for efficient name resolution
         lenders_map = {
-            l.get("lender_id"): l.get("name") for l in data.get("lenders", {}).values()
+            l.get("lender_id"): l.get("name") for l in data.get("lenders", [])
         }
 
-        for r in data.get("mortgage_rates", {}).values():
+        for r in data.get("mortgage_rates", []):
             if str(r.get("region")) != str(region):
                 continue
             qualifies = credit_score >= _as_int(r.get("min_credit_score") or 0)
@@ -45,10 +39,10 @@ class FetchMortgageRatesForClientTool(Tool):
                 }
             )
 
-        # Select best_available_rate from qualifying options, otherwise from all (with a higher penalty)
+        # Choose best_available_rate among qualifying, else among all (higher penalty)
         best_rate = None
         best_term_years = None
-        qualifying = [x for x in rates.values() if x["qualifies"]]
+        qualifying = [x for x in rates if x["qualifies"]]
         pool = qualifying if qualifying else rates
         if pool:
             best_rate_entry = min(
@@ -67,16 +61,15 @@ class FetchMortgageRatesForClientTool(Tool):
             "interest_rate": best_rate,
             "best_term_years": best_term_years,
         }
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        #The tool refrains from directly retrieving client profiles to maintain privacy layers
+    def get_info() -> Dict[str, Any]:
+        # Tool does not fetch client profile directly to respect privacy layering
         return {
             "type": "function",
             "function": {
-                "name": "FetchMortgageRatesForClient",
+                "name": "fetch_mortgage_rates_for_client",
                 "description": (
                     "Get available mortgage rates for a given credit score and region."
                 ),

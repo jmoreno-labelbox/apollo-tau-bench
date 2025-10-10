@@ -1,48 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetShipmentById(Tool):
-    """Utility for obtaining shipment information using the shipment ID."""
+    """Tool to retrieve details of a shipment by shipment ID."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], shipment_id: str) -> str:
-        shipments = data.get("inbound_shipments", {}).values()
-        for shipment in shipments.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        shipment_id = kwargs.get("shipment_id")
+        shipments = data.get("inbound_shipments", [])
+        for shipment in shipments:
             if shipment["shipment_id"] == shipment_id:
-                payload = shipment
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Shipment with ID {shipment_id} not found."}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+                return json.dumps(shipment, indent=2)
+        return json.dumps({"error": f"Shipment with ID {shipment_id} not found."}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetShipmentById",
+                "name": "get_shipment_by_id",
                 "description": "Retrieve shipment details by shipment ID.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "shipment_id": {
                             "type": "string",
-                            "description": "Unique shipment identifier (e.g., 'SHIP-0012').",
+                            "description": "Unique shipment identifier (e.g., 'SHIP-0012')."
                         }
                     },
-                    "required": ["shipment_id"],
-                },
-            },
+                    "required": ["shipment_id"]
+                }
+            }
         }

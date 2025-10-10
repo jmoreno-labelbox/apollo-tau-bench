@@ -1,19 +1,15 @@
-from tau_bench.envs.tool import Tool
-from typing import Any, Dict
+# Copyright Sierra
+
 import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAccountChangesFromTicketsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None) -> str:
-        support_tickets = data.get('support_tickets', {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        support_tickets = list(data.get('support_tickets', {}).values())
         changes = []
 
         for ticket in support_tickets:
@@ -25,7 +21,7 @@ class GetAccountChangesFromTicketsTool(Tool):
             category = ticket.get('category', '').lower()
 
             keywords = ["update", "change", "modify", "freeze", "close", "re-open", "unlock", "limit", "restriction", "address", "contact", "status", "name"]
-            if any(kw in subject or kw in description or kw in category for kw in keywords.values()):
+            if any(kw in subject or kw in description or kw in category for kw in keywords):
                 change_types.append("change_detected")
 
             changes.append({
@@ -40,12 +36,13 @@ class GetAccountChangesFromTicketsTool(Tool):
             })
 
         return json.dumps(changes, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAccountChangesFromTickets",
+                "name": "get_account_changes_from_tickets",
                 "description": "Extract tickets that indicate account changes (update, freeze, contact change, etc) for a specific account.",
                 "parameters": {
                     "type": "object",

@@ -1,26 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AttachCourierByNameTool(Tool):
     """
-    Assign a specific courier (by name) to an order and generate a tracking entry.
+    Attach a specific courier (by name) to an order and create a tracking entry.
 
     Behavior:
-    - Confirms the order exists (orders.json).
-    - Confirms the courier exists (couriers.json).
-    - Selects the first available tracking_id from the courier.
-    - Creates a new record in tracking.json and adds a fulfillment entry to the order.
+    - Validates order exists (orders.json).
+    - Validates courier exists (couriers.json).
+    - Picks first unused tracking_id from the courier.
+    - Writes a new record to tracking.json and appends a fulfillment entry to the order.
 
     Input (kwargs):
         order_id (str, required)
@@ -31,42 +24,32 @@ class AttachCourierByNameTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str = None, courier_name: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get("order_id")
+        courier_name = kwargs.get("courier_name")
+
         if not order_id or not courier_name:
-            payload = {"error": "order_id and courier_name are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "order_id and courier_name are required"}, indent=2)
 
-        orders = data.get("orders", {}).values()
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
+        orders = list(data.get("orders", {}).values())
+        order = next((o for o in orders if o.get("order_id") == order_id), None)
         if not order:
-            payload = {"error": f"order_id '{order_id}' not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"order_id '{order_id}' not found"}, indent=2)
 
-        couriers = data.get("couriers", {}).values()
-        courier = next((c for c in couriers.values() if c.get("name") == courier_name), None)
+        couriers = data.get("couriers", [])
+        courier = next((c for c in couriers if c.get("name") == courier_name), None)
         if not courier:
-            payload = {"error": f"courier '{courier_name}' not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"courier '{courier_name}' not found"}, indent=2)
 
-        used_ids = {
-            tid for t in data.get("tracking", {}).values() for tid in t.get("tracking_id", [])
-        }
+        used_ids = {tid for t in data.get("tracking", []) for tid in t.get("tracking_id", [])}
         candidate_ids = courier.get("tracking_ids", [])
         tid = next((tid for tid in candidate_ids if tid not in used_ids), None)
 
         if not tid:
-            payload = {"error": f"No available tracking_id for courier '{courier_name}'"}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"No available tracking_id for courier '{courier_name}'"},
+                indent=2,
             )
-            return out
 
         tracking = data.setdefault("tracking", [])
         tracking.append(
@@ -74,9 +57,7 @@ class AttachCourierByNameTool(Tool):
                 "tracking_id": [tid],
                 "order_id": order_id,
                 "courier_name": courier_name,
-                "status_history": [
-                    {"status": "label_created", "timestamp": _now_iso()}
-                ],
+                "status_history": [{"status": "label_created", "timestamp": _now_iso()}],
             }
         )
 
@@ -88,17 +69,18 @@ class AttachCourierByNameTool(Tool):
                 "timestamp": _now_iso(),
             }
         )
-        payload = {"order_id": order_id, "tracking_id": tid, "courier_name": courier_name}
-        out = json.dumps(
-            payload, indent=2,
+
+        return json.dumps(
+            {"order_id": order_id, "tracking_id": tid, "courier_name": courier_name},
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "attachCourierByName",
+                "name": "attach_courier_by_name",
                 "description": "Attach a specific courier by name to an order and create a new tracking record.",
                 "parameters": {
                     "type": "object",

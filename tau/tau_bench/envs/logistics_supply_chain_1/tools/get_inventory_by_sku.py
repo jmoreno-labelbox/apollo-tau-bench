@@ -1,46 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import random
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetInventoryBySku(Tool):
-    """A utility to obtain all inventory records for a specified SKU across all warehouses."""
+    """A tool to retrieve all inventory records for a given SKU across all warehouses."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        sku = kwargs.get('sku')
+        if not sku:
+            return json.dumps({"error": "sku is a required argument."}, indent=2)
+        inventory = list(data.get('inventory', {}).values())
+        sku_inventory = [item for item in inventory if item.get('sku') == sku]
+        return json.dumps(sku_inventory, indent=2)
 
     @staticmethod
-    def invoke(data: dict[str, Any], sku: str = None) -> str:
-        if not sku:
-            payload = {"error": "sku is a required argument."}
-            out = json.dumps(payload, indent=2)
-            return out
-        inventory = data.get("inventory", {}).values()
-        sku_inventory = [item for item in inventory.values() if item.get("sku") == sku]
-        payload = sku_inventory
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetInventoryBySku",
-                "description": "Retrieves all inventory records for a specific SKU across all warehouses.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "sku": {
-                            "type": "string",
-                            "description": "The SKU to search for inventory records of.",
-                        }
-                    },
-                    "required": ["sku"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "get_inventory_by_sku", "description": "Retrieves all inventory records for a specific SKU across all warehouses.", "parameters": {"type": "object", "properties": {"sku": {"type": "string", "description": "The SKU to search for inventory records of."}}, "required": ["sku"]}}}

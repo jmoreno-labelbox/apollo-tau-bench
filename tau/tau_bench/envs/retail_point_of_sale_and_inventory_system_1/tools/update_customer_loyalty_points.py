@@ -1,39 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateCustomerLoyaltyPoints(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], customer_id: str = None, points_to_add: int = None) -> str:
-        customers = data.get("customers", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get('customer_id')
+        points_to_add = kwargs.get('points_to_add')
+        customers = list(data.get("customers", {}).values())
         updated_customer = None
-        for customer in customers.values():
+        for customer in customers:
             if customer.get("customer_id") == customer_id:
-                customer["loyalty_points"] = (
-                    customer.get("loyalty_points", 0) + points_to_add
-                )
+                customer["loyalty_points"] = customer.get("loyalty_points", 0) + points_to_add
                 updated_customer = customer
                 break
-        payload = {"updated_customer": updated_customer}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"updated_customer": updated_customer})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateCustomerLoyaltyPoints",
+                "name": "update_customer_loyalty_points",
                 "description": "Adds loyalty points to a customer's record.",
                 "parameters": {
                     "type": "object",

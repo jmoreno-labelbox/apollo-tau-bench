@@ -1,63 +1,29 @@
-from tau_bench.envs.tool import Tool
-import ast
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreatePlan(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        plan_id: str = None,
-        date: str = None,
-        total_budget: float = None,
-        author: str = None,
-        created_at: str = None,
-        checksum: str = None,
-        allocations: list = None
-    ) -> str:
-        if allocations is None:
-            allocations = []
-        rec = {
-            "plan_id": plan_id,
-            "date": date,
-            "total_budget": total_budget,
-            "author": author,
-            "created_at": created_at,
-            "checksum": checksum,
-            "allocations": allocations,
-        }
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        rec = {"plan_id": kwargs.get("plan_id"), "date": kwargs.get("date"), "total_budget": kwargs.get("total_budget"),
+               "author": kwargs.get("author"), "created_at": kwargs.get("created_at"),
+               "checksum": kwargs.get("checksum"), "allocations": kwargs.get("allocations", [])}
         data.setdefault("plans", []).append(rec)
-        payload = rec
-        out = json.dumps(payload)
-        return out
+        return json.dumps(rec)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "CreatePlan",
-                "description": "Creates a plan with allocations.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "plan_id": {"type": "string"},
-                        "date": {"type": "string"},
-                        "total_budget": {"type": "number"},
-                        "author": {"type": "string"},
-                        "created_at": {"type": "string"},
-                        "checksum": {"type": "string"},
-                        "allocations": {"type": "array"},
-                    },
-                    "required": [
-                        "plan_id",
-                        "date",
-                        "total_budget",
-                        "author",
-                        "created_at",
-                        "checksum",
-                        "allocations",
-                    ],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function",
+                "function": {"name": "create_plan", "description": "Creates a plan with allocations.",
+                             "parameters": {"type": "object",
+                                            "properties": {"plan_id": {"type": "string"}, "date": {"type": "string"},
+                                                           "total_budget": {"type": "number"},
+                                                           "author": {"type": "string"},
+                                                           "created_at": {"type": "string"},
+                                                           "checksum": {"type": "string"},
+                                                           "allocations": {"type": "array"}},
+                                            "required": ["plan_id", "date", "total_budget", "author", "created_at",
+                                                         "checksum", "allocations"]}}}

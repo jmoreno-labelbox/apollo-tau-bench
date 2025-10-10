@@ -1,42 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetGroceryListDetails(Tool):
-    """Retrieve the grocery_list header and all items associated with list_id."""
-
+    """Return grocery_list header and all items for list_id."""
     @staticmethod
-    def invoke(data: dict[str, Any], list_id: int = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        list_id = kwargs.get("list_id")
         if list_id is None:
             return _json_dump({"error": "list_id is required"})
         header = _require(data, "grocery_lists", "list_id", int(list_id))
         if not header:
             return _json_dump({"error": f"list_id {list_id} not found"})
-        items = [
-            i
-            for i in data.get("grocery_list_items", {}).values()
-            if int(i.get("list_id")) == int(list_id)
-        ]
+        items = [i for i in data.get("grocery_list_items", []) if int(i.get("list_id")) == int(list_id)]
         return _json_dump({"grocery_list": header, "items": items})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetGroceryListDetails",
-                "description": "Get a grocery_list header plus items.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"list_id": {"type": "integer"}},
-                    "required": ["list_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"get_grocery_list_details",
+            "description":"Get a grocery_list header plus items.",
+            "parameters":{"type":"object","properties":{"list_id":{"type":"integer"}},"required":["list_id"]}
+        }}

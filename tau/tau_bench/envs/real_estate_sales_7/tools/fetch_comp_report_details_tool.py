@@ -1,29 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FetchCompReportDetailsTool(Tool):
-    """Fetches a comp report that includes related comparables, documents, email summaries, and audit trails."""
+    """Retrieves a comp report with related comparables, documents, emails summary, and audit trail."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], report_id: int = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        report_id = _as_int(kwargs.get("report_id"))
         if report_id is None:
             return _err("report_id is required")
 
         report = next(
             (
                 r
-                for r in data.get("comp_reports", {}).values()
+                for r in data.get("comp_reports", [])
                 if _as_int(r.get("report_id")) == report_id
             ),
             None,
@@ -33,31 +27,31 @@ class FetchCompReportDetailsTool(Tool):
 
         comps = [
             c
-            for c in data.get("comparables", {}).values()
+            for c in data.get("comparables", [])
             if _as_int(c.get("report_id")) == report_id
         ]
         docs = [
             d
-            for d in data.get("documents", {}).values()
+            for d in data.get("documents", [])
             if d.get("entity_type") == "comp_report"
             and str(d.get("entity_id")) == str(report_id)
         ]
 
-        #emails associated with the report's client (summary only)
+        # related emails sent to the report's client (summary only)
         client_id = _as_int(report.get("client_id"))
         emails = [
             e
-            for e in data.get("emails", {}).values()
+            for e in data.get("emails", [])
             if _as_int(e.get("client_id")) == client_id
         ]
         emails_sorted = sorted(
             emails, key=lambda e: e.get("sent_at") or "", reverse=True
         )
 
-        #audit trail records for this report
+        # audit trail entries for this report
         audits = [
             a
-            for a in data.get("audit_events", {}).values()
+            for a in data.get("audit_events", [])
             if a.get("entity_type") == "comp_report"
             and str(a.get("entity_id")) == str(report_id)
         ]
@@ -75,15 +69,14 @@ class FetchCompReportDetailsTool(Tool):
             },
             "audit_events": audits_sorted[:10],
         }
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FetchCompReportDetails",
+                "name": "fetch_comp_report_details",
                 "description": (
                     "Retrieve a comp report and its related comparables, documents, emails summary, and audit trail."
                 ),

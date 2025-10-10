@@ -1,49 +1,44 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateCampaignStatus(Tool):
-    """Modifies the status of a campaign."""
+    """Updates the status of a campaign."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], campaign_id: str = None, new_status: str = None) -> str:
-        campaigns = data.get("campaigns", {}).values()
-        for campaign in campaigns.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        campaign_id = kwargs.get("campaign_id")
+        new_status = kwargs.get("new_status")
+        
+        campaigns = list(data.get("campaigns", {}).values())
+        for campaign in campaigns:
             if campaign.get("campaign_id") == campaign_id:
-                old_status = campaign["status"]
-                campaign["status"] = new_status
-                payload = {
+                old_status = campaign['status']
+                campaign['status'] = new_status
+                return json.dumps({
                     "status": "success",
-                    "message": f"Campaign status updated from '{old_status}' to '{new_status}'",
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Campaign {campaign_id} not found"}
-        out = json.dumps(payload)
-        return out
+                    "message": f"Campaign status updated from '{old_status}' to '{new_status}'"
+                })
+
+        return json.dumps({"error": f"Campaign {campaign_id} not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "updateCampaignStatus",
+                "name": "update_campaign_status",
                 "description": "Updates the status of a campaign.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "campaign_id": {"type": "string"},
-                        "new_status": {"type": "string"},
+                        "new_status": {"type": "string"}
                     },
-                    "required": ["campaign_id", "new_status"],
-                },
-            },
+                    "required": ["campaign_id", "new_status"]
+                }
+            }
         }

@@ -1,27 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CalculateFinancialImpact(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], product_value: float = 0, liability_estimate: float = 0) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        product_value = kwargs.get("product_value", 0)
+        liability_estimate = kwargs.get("liability_estimate", 0)
+
         financial_impact = {
             "product_value_at_risk": product_value,
             "estimated_liability": liability_estimate,
             "total_financial_impact": product_value + liability_estimate,
-            "insurance_coverage": min(product_value * 0.8, 100000),  # Basic coverage calculation
+            "insurance_coverage": min(product_value * 0.8, 100000),  # Simplified coverage calc
             "net_exposure": max(0, (product_value + liability_estimate) - min(product_value * 0.8, 100000)),
             "calculation_date": get_current_timestamp()
         }
 
         return json.dumps(financial_impact)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateFinancialImpact",
+                "name": "calculate_financial_impact",
                 "description": "Calculate financial impact of supply chain incidents",
                 "parameters": {
                     "type": "object",

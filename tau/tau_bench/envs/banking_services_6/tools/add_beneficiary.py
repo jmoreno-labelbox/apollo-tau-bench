@@ -1,35 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, time, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AddBeneficiary(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, name: str = None, relationship: str = None, iban: str = None, account_number: str = None, sort_code: str = None, routing_number: str = None, bank_name: str = None, country: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         beneficiary_id = _get_next_beneficiary_id(data)
         new_beneficiary = {
                 "beneficiary_id": beneficiary_id,
-                "customer_id": customer_id,
-                "beneficiary_name": name,
-                "relationship": relationship,
+                "customer_id": kwargs.get("customer_id"),
+                "beneficiary_name": kwargs.get("name"),
+                "relationship": kwargs.get("relationship"),
                 "account_details": {
-                        "iban": iban,
-                        "account_number": account_number,
-                        "sort_code": sort_code,
-                        "routing_number": routing_number,
-                        "bank_name": bank_name,
-                        "country": country
+                        "iban": kwargs.get("iban"),
+                        "account_number": kwargs.get("account_number"),
+                        "sort_code": kwargs.get("sort_code"),
+                        "routing_number": kwargs.get("routing_number"),
+                        "bank_name": kwargs.get("bank_name"),
+                        "country": kwargs.get("country")
                 },
                 "date_added": NOW.strftime(DT_STR_FORMAT)
         }
         data['beneficiaries'].append(new_beneficiary)
         return json.dumps(new_beneficiary)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "AddBeneficiary",
+                        "name": "add_beneficiary",
                         "description": "Adds a new beneficiary to a customer's profile.",
                         "parameters": {
                                 "type": "object",

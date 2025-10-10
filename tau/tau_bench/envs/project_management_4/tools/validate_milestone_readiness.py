@@ -1,36 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ValidateMilestoneReadiness(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], milestone_id: str = None) -> str:
-        if not milestone_id:
-            payload = {"error": "milestone_id is required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        milestone_id = kwargs.get("milestone_id")
 
-        milestones = data.get("milestones", {}).values()
-        milestone_dependencies = data.get("milestone_dependencies", {}).values()
-        external_dependencies = data.get("external_dependencies", {}).values()
+        if not milestone_id:
+            return json.dumps({"error": "milestone_id is required"})
+
+        milestones = list(data.get("milestones", {}).values())
+        milestone_dependencies = data.get("milestone_dependencies", [])
+        external_dependencies = data.get("external_dependencies", [])
 
         milestone = next(
-            (m for m in milestones.values() if m.get("milestone_id") == milestone_id), None
+            (m for m in milestones if m.get("milestone_id") == milestone_id), None
         )
         if not milestone:
-            payload = {"error": f"Milestone '{milestone_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Milestone '{milestone_id}' not found"})
 
         readiness_issues = []
 
@@ -58,14 +49,15 @@ class ValidateMilestoneReadiness(Tool):
                     )
 
         predecessor_deps = [
-            d for d in milestone_dependencies.values() if d.get("successor_id") == milestone_id
+            d for d in milestone_dependencies if d.get("successor_id") == milestone_id
         ]
         for dep in predecessor_deps:
             if dep.get("is_mandatory"):
                 pred_milestone = next(
                     (
                         m
-                        for m in milestones.values() if m.get("milestone_id") == dep.get("predecessor_id")
+                        for m in milestones
+                        if m.get("milestone_id") == dep.get("predecessor_id")
                     ),
                     None,
                 )
@@ -80,7 +72,7 @@ class ValidateMilestoneReadiness(Tool):
                     )
 
         ext_deps = [
-            d for d in external_dependencies.values() if d.get("milestone_id") == milestone_id
+            d for d in external_dependencies if d.get("milestone_id") == milestone_id
         ]
         for ext_dep in ext_deps:
             if ext_dep.get("status") not in ["delivered", "confirmed"]:
@@ -118,24 +110,25 @@ class ValidateMilestoneReadiness(Tool):
                 )
 
         is_ready = len(readiness_issues) == 0
-        payload = {
+
+        return json.dumps(
+            {
                 "milestone_id": milestone_id,
                 "milestone_name": milestone.get("milestone_name"),
                 "milestone_type": milestone.get("milestone_type"),
                 "is_ready": is_ready,
                 "readiness_issues": readiness_issues,
                 "readiness_score": max(0, 100 - (len(readiness_issues) * 25)),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ValidateMilestoneReadiness",
+                "name": "validate_milestone_readiness",
                 "description": "Validate if a milestone is ready to start based on dependencies and prerequisites",
                 "parameters": {
                     "type": "object",

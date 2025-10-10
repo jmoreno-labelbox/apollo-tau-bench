@@ -1,51 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateGateReview(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        milestone_id: str,
-        review_date: str,
-        criteria_results: dict[str, str] = {},
-        reviewers: list[str] = [],
-        conditional_pass: bool = False,
-        review_notes: str = "",
-        action_items: list[str] = []
-    ) -> str:
-        if not all([milestone_id, review_date, criteria_results, reviewers]):
-            payload = {
-                "error": "milestone_id, review_date, criteria_results, and reviewers are required"
-            }
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        milestone_id = kwargs.get("milestone_id")
+        review_date = kwargs.get("review_date")
+        criteria_results = kwargs.get("criteria_results", {})
+        reviewers = kwargs.get("reviewers", [])
 
-        milestones = data.get("milestones", {}).values()
-        gate_reviews = data.get("gate_reviews", {}).values()
+        if not all([milestone_id, review_date, criteria_results, reviewers]):
+            return json.dumps(
+                {
+                    "error": "milestone_id, review_date, criteria_results, and reviewers are required"
+                }
+            )
+
+        milestones = list(data.get("milestones", {}).values())
+        gate_reviews = data.get("gate_reviews", [])
 
         milestone = next(
-            (m for m in milestones.values() if m.get("milestone_id") == milestone_id), None
+            (m for m in milestones if m.get("milestone_id") == milestone_id), None
         )
         if not milestone:
-            payload = {"error": f"Milestone '{milestone_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Milestone '{milestone_id}' not found"})
 
         if milestone.get("milestone_type") not in ["phase_gate", "major"]:
-            payload = {"error": "Gate reviews are only for phase_gate or major milestones"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "Gate reviews are only for phase_gate or major milestones"}
+            )
 
         start_date = datetime.fromisoformat(
             milestone.get("start_date").replace("Z", "+00:00")
@@ -53,24 +40,25 @@ class CreateGateReview(Tool):
         review_dt = datetime.fromisoformat(review_date.replace("Z", "+00:00"))
 
         if not milestone.get("gate_criteria") and review_dt >= start_date:
-            payload = {"error": "Gate criteria must be defined before milestone start date"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "Gate criteria must be defined before milestone start date"}
+            )
 
         failed_criteria = [k for k, v in criteria_results.items() if v == "fail"]
         overall_decision = "fail" if failed_criteria else "pass"
 
-        if failed_criteria and conditional_pass:
+        if failed_criteria and kwargs.get("conditional_pass"):
             overall_decision = "conditional_pass"
 
         review_id = f"gate_{uuid.uuid4().hex[:8]}"
 
         previous_reviews = [
-            r for r in gate_reviews.values() if r.get("milestone_id") == milestone_id
+            r for r in gate_reviews if r.get("milestone_id") == milestone_id
         ]
         consecutive_failures = 0
 
         if previous_reviews and overall_decision == "fail":
+
             previous_reviews.sort(key=lambda x: x.get("created_date"), reverse=True)
 
             for review in previous_reviews:
@@ -85,15 +73,15 @@ class CreateGateReview(Tool):
             "review_date": review_date,
             "criteria_results": criteria_results,
             "overall_decision": overall_decision,
-            "review_notes": review_notes,
+            "review_notes": kwargs.get("review_notes", ""),
             "reviewers": reviewers,
-            "action_items": action_items,
+            "action_items": kwargs.get("action_items", []),
             "consecutive_failures": consecutive_failures
             + (1 if overall_decision == "fail" else 0),
             "created_date": datetime.now(timezone.utc).isoformat(),
         }
 
-        gate_data["reviews"][review_id] = new_review
+        gate_reviews.append(new_review)
 
         if overall_decision == "pass":
             milestone["gate_passed"] = True
@@ -109,7 +97,7 @@ class CreateGateReview(Tool):
             milestone["remediation_period"] = True
 
             if new_review["consecutive_failures"] >= 3:
-                escalations = data.get("escalations", {}).values()
+                escalations = data.get("escalations", [])
                 escalation_id = f"esc_{uuid.uuid4().hex[:8]}"
                 escalations.append(
                     {
@@ -121,22 +109,24 @@ class CreateGateReview(Tool):
                 )
 
                 new_review["escalated_to_steering"] = True
-        payload = {
-            "success": True,
-            "gate_review": new_review,
-            "decision": overall_decision,
-            "failed_criteria": failed_criteria,
-            "consecutive_failures": new_review["consecutive_failures"],
-            "escalated": new_review.get("escalated_to_steering", False),
-        }
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(
+            {
+                "success": True,
+                "gate_review": new_review,
+                "decision": overall_decision,
+                "failed_criteria": failed_criteria,
+                "consecutive_failures": new_review["consecutive_failures"],
+                "escalated": new_review.get("escalated_to_steering", False),
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateGateReview",
+                "name": "create_gate_review",
                 "description": "Create a gate review for a milestone",
                 "parameters": {
                     "type": "object",

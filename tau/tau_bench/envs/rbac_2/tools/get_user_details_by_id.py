@@ -1,51 +1,43 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetUserDetailsById(Tool):
-    """Fetches complete details of a user by their unique user_id."""
+    """Retrieves a user's full details using their unique user_id."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, actor_id: Any = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
         try:
-            users = data.get("users", {}).values()
+           users = list(data.get('users', {}).values())
         except (KeyError, json.JSONDecodeError):
             users = []
 
-        for user in users.values():
-            if user.get("user_id") == user_id:
-                payload = user
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "User not found"}
-        out = json.dumps(payload)
-        return out
+        for user in users:
+            if user.get('user_id') == user_id:
+                return json.dumps(user)
+
+        return json.dumps({"error": "User not found"})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetUserDetailsById",
+                "name": "get_user_details_by_id",
                 "description": "Retrieves full user details based on their unique user_id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "user_id": {
                             "type": "string",
-                            "description": "The unique ID of the user (e.g., U-001).",
+                            "description": "The unique ID of the user (e.g., U-001)."
                         }
                     },
-                    "required": ["user_id"],
-                },
-            },
+                    "required": ["user_id"]
+                }
+            }
         }

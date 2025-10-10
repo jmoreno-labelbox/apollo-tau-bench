@@ -1,42 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class MarkSprintAsReviewed(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], sprint_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        sprint_id = kwargs.get("sprint_id")
+
         if not sprint_id:
-            payload = {"error": "sprint_id is a required parameter"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "sprint_id is a required parameter"}
+            )
 
-        sprints = data.get("sprints", {}).values()
+        sprints = data.get("sprints", [])
 
-        for sprint in sprints.values():
+        for sprint in sprints:
             if sprint.get("sprint_id") == sprint_id:
                 sprint["reviewed"] = "True"
-                payload = {"success": True}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"It wasn't found any sprint with the if {sprint_id}"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"success": True})
+
+        return json.dumps({"error": f"It wasn't found any sprint with the if {sprint_id}"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "MarkSprintAsReviewed",
+                "name": "mark_sprint_as_reviewed",
                 "description": "Mark sprint as reviewed",
                 "parameters": {
                     "type": "object",
@@ -46,9 +39,7 @@ class MarkSprintAsReviewed(Tool):
                             "description": "Id of the sprint",
                         },
                     },
-                    "required": [
-                        "sprint_id",
-                    ],
+                    "required": ["sprint_id",],
                 },
             },
         }

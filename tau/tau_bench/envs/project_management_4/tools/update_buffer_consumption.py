@@ -1,46 +1,41 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateBufferConsumption(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_id: str,
-        buffer_type: str,
-        days_consumed: int,
-        milestone_id: str = None,
-        scope: str = "false",
-        change_request_id: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        buffer_type = kwargs.get("buffer_type")
+        days_consumed = kwargs.get("days_consumed")
+        milestone_id = kwargs.get("milestone_id")
+        scope = kwargs.get("scope", "false")
+        change_request_id = kwargs.get("change_request_id")
+
         if not all([project_id, buffer_type, days_consumed]):
-            payload = {"error": "project_id, buffer_type and days_consumed are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": "project_id, buffer_type and days_consumed are required"
+                }
+            )
 
         if scope.lower() == "true" and not change_request_id:
-            payload = {
-                "error": "Buffer cannot be consumed for scope additions without change request approval. Provide change_request_id."
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": "Buffer cannot be consumed for scope additions without change request approval. Provide change_request_id."
+                }
+            )
 
-        schedule_buffers = data.get("schedule_buffers", {}).values()
+        schedule_buffers = data.get("schedule_buffers", [])
 
         buffer = next(
-            (b for b in schedule_buffers.values() if b.get("project_id") == project_id), None
+            (b for b in schedule_buffers if b.get("project_id") == project_id), None
         )
         if not buffer:
+
             total_project_days = 180
             buffer = {
                 "project_id": project_id,
@@ -53,7 +48,7 @@ class UpdateBufferConsumption(Tool):
                 "integration_consumed": 0,
                 "buffer_history": [],
             }
-            data["schedule_buffers"][buffer["schedule_buffer_id"]] = buffer
+            schedule_buffers.append(buffer)
 
         if buffer_type == "project":
             buffer["project_consumed"] = (
@@ -77,11 +72,11 @@ class UpdateBufferConsumption(Tool):
                 buffer["integration_consumed"] / buffer["integration_buffer"]
             ) * 100
         else:
-            payload = {
-                "error": "Invalid buffer_type. Must be: project, phase_gate, or integration"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": "Invalid buffer_type. Must be: project, phase_gate, or integration"
+                }
+            )
 
         if "buffer_history" not in buffer:
             buffer["buffer_history"] = []
@@ -114,7 +109,7 @@ class UpdateBufferConsumption(Tool):
         risk_review_required = total_consumption_percentage > 60
 
         if risk_review_required:
-            risk_reviews = data.get("risk_reviews", {}).values()
+            risk_reviews = data.get("risk_reviews", [])
             review_id = f"risk_{uuid.uuid4().hex[:8]}"
             risk_reviews.append(
                 {
@@ -126,30 +121,32 @@ class UpdateBufferConsumption(Tool):
                     "created_date": datetime.now(timezone.utc).isoformat(),
                 }
             )
-        payload = {
-            "success": True,
-            "buffer_status": {
-                "project_id": project_id,
-                "total_buffer": total_buffer,
-                "total_consumed": total_consumed,
-                "remaining_buffer": remaining_buffer,
-                "consumption_percentage": round(total_consumption_percentage, 1),
-                "buffer_type_consumed": {
-                    "project": buffer.get("project_consumed", 0),
-                    "phase_gate": buffer.get("phase_gate_consumed", 0),
-                    "integration": buffer.get("integration_consumed", 0),
+
+        return json.dumps(
+            {
+                "success": True,
+                "buffer_status": {
+                    "project_id": project_id,
+                    "total_buffer": total_buffer,
+                    "total_consumed": total_consumed,
+                    "remaining_buffer": remaining_buffer,
+                    "consumption_percentage": round(total_consumption_percentage, 1),
+                    "buffer_type_consumed": {
+                        "project": buffer.get("project_consumed", 0),
+                        "phase_gate": buffer.get("phase_gate_consumed", 0),
+                        "integration": buffer.get("integration_consumed", 0),
+                    },
+                    "risk_review_required": risk_review_required,
                 },
-                "risk_review_required": risk_review_required,
-            },
-        }
-        out = json.dumps(payload)
-        return out
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateBufferConsumption",
+                "name": "update_buffer_consumption",
                 "description": "Update buffer consumption for a project",
                 "parameters": {
                     "type": "object",
@@ -168,7 +165,7 @@ class UpdateBufferConsumption(Tool):
                             "description": "Related milestone ID",
                         },
                         "escope": {
-                            "type": "boolean",
+                            "type": "bool",
                             "description": "Flag to indicate if consumption is scope-related",
                         },
                         "change_request_id": {

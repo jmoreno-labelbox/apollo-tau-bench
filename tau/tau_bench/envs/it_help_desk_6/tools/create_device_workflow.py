@@ -1,21 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateDeviceWorkflow(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         workflow_id: str,
         employee_id: str,
         asset_id: str,
         process: str,
         status: str,
-        pickup_code: str | None,
+        pickup_code: Optional[str],
         created_at: str,
-        completed_at: str | None = None,
+        completed_at: Optional[str] = None,
     ) -> str:
-        pass
         row = {
             "workflow_id": workflow_id,
             "employee_id": employee_id,
@@ -27,16 +29,14 @@ class CreateDeviceWorkflow(Tool):
             "completed_at": completed_at,
         }
         _append_row(data["device_workflow"], row)
-        payload = {"status": "ok", "workflow": row}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "workflow": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateDeviceWorkflow",
+                "name": "create_device_workflow",
                 "description": "Create a device workflow record (e.g., provisioning or return).",
                 "parameters": {
                     "type": "object",
@@ -50,14 +50,7 @@ class CreateDeviceWorkflow(Tool):
                         "created_at": {"type": "string"},
                         "completed_at": {"type": "string"},
                     },
-                    "required": [
-                        "workflow_id",
-                        "employee_id",
-                        "asset_id",
-                        "process",
-                        "status",
-                        "created_at",
-                    ],
+                    "required": ["workflow_id", "employee_id", "asset_id", "process", "status", "created_at"],
                 },
             },
         }

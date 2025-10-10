@@ -1,24 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetSecurityGroupRules(Tool):
     @staticmethod
     def invoke(data, security_group_id: str) -> str:
         rows = data.setdefault("aws_security_group_rules", [])
-        rules = [
-            r for r in rows if str(r.get("security_group_id")) == security_group_id
-        ]
-        payload = {"security_group_id": security_group_id, "rules": rules}
-        out = json.dumps(payload)
-        return out
+        rules = [r for r in rows if str(r.get("security_group_id")) == security_group_id]
+        return json.dumps({"security_group_id": security_group_id, "rules": rules})
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "getSecurityGroupRules",
+                "name": "get_security_group_rules",
                 "description": "Read all rules for a given security group.",
                 "parameters": {
                     "type": "object",

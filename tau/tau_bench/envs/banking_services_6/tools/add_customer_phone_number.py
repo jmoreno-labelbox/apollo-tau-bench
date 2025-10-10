@@ -1,20 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, time, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AddCustomerPhoneNumber(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str, phone_type: str, phone_number: str, is_primary: bool = False) -> str:
-        customer = next((c for c in data.get('customers', {}).values() if c['customer_id'] == customer_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        phone_type = kwargs.get("phone_type")
+        phone_number = kwargs.get("phone_number")
+        is_primary = kwargs.get("is_primary", False)
+
+        customer = next((c for c in list(data.get('customers', {}).values()) if c['customer_id'] == customer_id), None)
         if not customer:
             return json.dumps({"error": "Customer not found."})
 
@@ -34,12 +33,13 @@ class AddCustomerPhoneNumber(Tool):
         })
 
         return json.dumps(customer["contact_info"]["phone_numbers"])
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "AddCustomerPhoneNumber",
+                        "name": "add_customer_phone_number",
                         "description": "Adds a new phone number to a customer's profile.",
                         "parameters": {
                                 "type": "object",

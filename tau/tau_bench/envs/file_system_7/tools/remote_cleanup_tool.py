@@ -1,26 +1,19 @@
-from tau_bench.envs.tool import Tool
-import datetime
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RemoteCleanupTool(Tool):
-    """Emulates the deletion of files and termination of a tmux session on the remote server."""
+    """Simulates deleting files and killing a tmux session on the remote server."""
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RemoteCleanup",
+                "name": "remote_cleanup",
                 "description": "Deletes specified files and a tmux session from the remote environment.",
                 "parameters": {
                     "type": "object",
@@ -41,19 +34,19 @@ class RemoteCleanupTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: dict[str, Any], files_to_delete: list[str] = None, session_to_kill: str = None) -> str:
-        files_to_delete = set(files_to_delete or [])
-        deleted: list[str] = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        files_to_delete = set(kwargs.get("files_to_delete", []))
+        deleted: List[str] = []
 
-        # Eliminate top-level keys that correspond to files_to_delete.
+        # Remove top-level keys matching files_to_delete
         for key in list(files_to_delete):
             if data.pop(key, None) is not None:
                 deleted.append(key)
 
-        # Delete entries from remote_storage by matching either path or basename.
+        # Remove entries from remote_storage by matching path or basename
         if "remote_storage" in data:
             remaining = []
-            for item in data["remote_storage"].values():
+            for item in data["remote_storage"]:
                 path = item.get("path")
                 basename = path.split("/")[-1] if path else None
                 if path in files_to_delete or basename in files_to_delete:
@@ -62,22 +55,18 @@ class RemoteCleanupTool(Tool):
                     remaining.append(item)
             data["remote_storage"] = remaining
 
-        # Delete files that exist in server directories.
-        for server in data.get("file_system", {}).values():
+        # Remove files present on server directories
+        for server in data.get("file_system", []):
             for directory in server.get("directories", []):
                 remaining_files = []
                 for f in directory.get("files", []):
-                    # Manage file entries that are either strings or dictionaries.
+                    # Handle both string and dict file entries
                     if isinstance(f, str):
-                        full_path = f"{directory.get('path', '')}/{f}".replace(
-                            "//", "/"
-                        )
+                        full_path = f"{directory.get('path', '')}/{f}".replace("//", "/")
                         name = f
-                    else:  # is a dictionary.
-                        name = f.get("name")  # Retrieve name securely.
-                        full_path = f"{directory.get('path', '')}/{name}".replace(
-                            "//", "/"
-                        )
+                    else: # is a dict
+                        name = f.get("name") # Safely get name
+                        full_path = f"{directory.get('path', '')}/{name}".replace("//", "/")
 
                     if full_path in files_to_delete or name in files_to_delete:
                         deleted.append(full_path)
@@ -85,18 +74,14 @@ class RemoteCleanupTool(Tool):
                         remaining_files.append(f)
                 directory["files"] = remaining_files
 
-        # Terminate tmux session if requested.
+        # Kill tmux session if requested
+        session = kwargs.get("session_to_kill")
         session_killed = False
-        if session_to_kill and "tmux_sessions" in data and session_to_kill in data["tmux_sessions"]:
-            data["tmux_sessions"].remove(session_to_kill)
+        if session and "tmux_sessions" in data and session in data["tmux_sessions"]:
+            data["tmux_sessions"].remove(session)
             session_killed = True
 
-        # Remove duplicates from the deleted list.
+        # Deduplicate deleted list
         deleted = list(dict.fromkeys(deleted))
-        payload = {
-            "status": "success",
-            "deleted_remote_files": deleted,
-            "session_killed": session_killed,
-        }
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"status": "success", "deleted_remote_files": deleted, "session_killed": session_killed})

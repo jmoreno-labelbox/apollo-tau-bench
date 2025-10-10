@@ -1,37 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAdSetIdForBudgetChange(Tool):
-    """Fetches the ad set ID linked to a specific budget change."""
+    """Retrieves the ad set ID for a specific budget change."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], change_id: str = None) -> str:
-        changes = data.get("budget_changes", {}).values()
-
-        for change in changes.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        change_id = kwargs.get("change_id")
+        changes = data.get("budget_changes", [])
+        
+        for change in changes:
             if change.get("change_id") == change_id:
-                payload = {"adset_id": change.get("adset_id")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Budget change with ID '{change_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"adset_id": change.get('adset_id')})
+        
+        return json.dumps({"error": f"Budget change with ID '{change_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getAdsetIdForBudgetChange",
+                "name": "get_adset_id_for_budget_change",
                 "description": "Retrieves the ad set ID for a specific budget change.",
                 "parameters": {
                     "type": "object",

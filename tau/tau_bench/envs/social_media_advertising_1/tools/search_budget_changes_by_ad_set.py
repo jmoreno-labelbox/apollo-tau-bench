@@ -1,36 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchBudgetChangesByAdSet(Tool):
-    """Looks for budget changes related to a specific ad set."""
+    """Searches for budget changes for a specific ad set."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None) -> str:
-        changes = data.get("budget_changes", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
+        changes = data.get("budget_changes", [])
         matching_changes = []
-
-        for change in changes.values():
+        
+        for change in changes:
             if change.get("adset_id") == adset_id:
                 matching_changes.append(change.get("change_id"))
-        payload = {"budget_change_ids": matching_changes}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"budget_change_ids": matching_changes})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "searchBudgetChangesByAdset",
+                "name": "search_budget_changes_by_adset",
                 "description": "Searches for budget changes for a specific ad set.",
                 "parameters": {
                     "type": "object",

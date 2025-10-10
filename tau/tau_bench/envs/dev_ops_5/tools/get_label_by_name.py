@@ -1,35 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetLabelByName(Tool):
-    """Fetches a label using its name."""
-
+    """Retrieves a label by its name."""
     @staticmethod
-    def invoke(data: dict[str, Any], name: str = None) -> str:
-        labels = data.get("labels", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name = kwargs.get("name")
+        labels = data.get("labels", [])
         for label in labels:
             if label.get("name") == name:
-                payload = label
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Label with name '{name}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(label)
+        return json.dumps({"error": f"Label with name '{name}' not found."})
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetLabelByName",
+                "name": "get_label_by_name",
                 "description": "Retrieves a label by its name.",
                 "parameters": {
                     "type": "object",

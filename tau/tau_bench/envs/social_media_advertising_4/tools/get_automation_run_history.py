@@ -1,79 +1,50 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAutomationRunHistory(Tool):
-    """Fetches the history of automation runs for review and monitoring."""
-
+    """Retrieves automation run history for analysis and monitoring."""
     @staticmethod
-    def invoke(data: dict[str, Any], run_type: str = None, status: str = None, limit: int = 10) -> str:
-        runs = data.get("automation_runs", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        run_type = kwargs.get("run_type")
+        status_filter = kwargs.get("status", None)
+        limit = kwargs.get("limit", 10)
 
-        # Apply filter based on run type if provided
+        runs = data.get('automation_runs', [])
+
+        # Filter by run type if specified
         if run_type:
-            runs = [r for r in runs.values() if r.get("run_type") == run_type]
+            runs = [r for r in runs if r.get('run_type') == run_type]
 
-        # Apply filter based on status if provided
-        if status:
-            runs = [r for r in runs.values() if r.get("status") == status]
+        # Filter by status if specified
+        if status_filter:
+            runs = [r for r in runs if r.get('status') == status_filter]
 
-        # Order by started_at (latest first) and restrict results
-        runs.sort(key=lambda x: x.get("started_at", ""), reverse=True)
+        # Sort by started_at (most recent first) and limit results
+        runs.sort(key=lambda x: x.get('started_at', ''), reverse=True)
         runs = runs[:limit]
 
-        # Compute summary statistics
+        # Calculate summary statistics
         total_runs = len(runs)
-        success_count = len([r for r in runs.values() if r.get("status") == "completed"])
-        failure_count = len([r for r in runs.values() if r.get("status") == "failed"])
-        success_rate = (
-            round((success_count / total_runs * 100), 2) if total_runs > 0 else 0
-        )
+        success_count = len([r for r in runs if r.get('status') == 'completed'])
+        failure_count = len([r for r in runs if r.get('status') == 'failed'])
+        success_rate = round((success_count / total_runs * 100), 2) if total_runs > 0 else 0
 
         result = {
             "summary": {
                 "total_runs": total_runs,
                 "success_count": success_count,
                 "failure_count": failure_count,
-                "success_rate_percent": success_rate,
+                "success_rate_percent": success_rate
             },
-            "runs": runs,
+            "runs": runs
         }
-        payload = result
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetAutomationRunHistory",
-                "description": "Retrieves automation run history with filtering and summary statistics for monitoring and analysis.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "run_type": {
-                            "type": "string",
-                            "description": "Filter by specific automation type (e.g., 'plan_freeze', 'budget_apply').",
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "Filter by run status (e.g., 'completed', 'failed', 'started').",
-                        },
-                        "limit": {
-                            "type": "number",
-                            "description": "Maximum number of runs to return (default: 10).",
-                        },
-                    },
-                    "required": [],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "get_automation_run_history", "description": "Retrieves automation run history with filtering and summary statistics for monitoring and analysis.", "parameters": {"type": "object", "properties": {"run_type": {"type": "string", "description": "Filter by specific automation type (e.g., 'plan_freeze', 'budget_apply')."}, "status": {"type": "string", "description": "Filter by run status (e.g., 'completed', 'failed', 'started')."}, "limit": {"type": "number", "description": "Maximum number of runs to return (default: 10)."}}, "required": []}}}

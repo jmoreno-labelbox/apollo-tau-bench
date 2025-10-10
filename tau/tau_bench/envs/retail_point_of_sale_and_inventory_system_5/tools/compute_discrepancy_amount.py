@@ -1,26 +1,29 @@
-from tau_bench.envs.tool import Tool
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ComputeDiscrepancyAmount(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], system_count: int, physical_count: int, unit_cost: float) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        system_count = int(kwargs["system_count"])
+        physical_count = int(kwargs["physical_count"])
+        unit_cost = float(kwargs["unit_cost"])
         discrepancy_amount = abs(system_count - physical_count) * unit_cost
-        payload = {"discrepancy_amount": discrepancy_amount}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"discrepancy_amount": discrepancy_amount}, indent=2)
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ComputeDiscrepancyAmount",
+                "name": "compute_discrepancy_amount",
                 "parameters": {
                     "system_count": {"type": "integer"},
                     "physical_count": {"type": "integer"},
-                    "unit_cost": {"type": "number"},
+                    "unit_cost": {"type": "number"}
                 },
-                "required": ["system_count", "physical_count", "unit_cost"],
-            },
+                "required": ["system_count", "physical_count", "unit_cost"]
+            }
         }

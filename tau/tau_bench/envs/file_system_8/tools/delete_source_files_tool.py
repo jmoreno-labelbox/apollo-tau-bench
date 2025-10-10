@@ -1,26 +1,19 @@
-from tau_bench.envs.tool import Tool
-import datetime
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class DeleteSourceFilesTool(Tool):
-    """Removes the original source files once they have been processed successfully."""
+    """Deletes the original source files after they have been successfully processed."""
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "deleteSourceFiles",
+                "name": "delete_source_files",
                 "description": "Deletes the original source files after they have been successfully archived and transferred.",
                 "parameters": {
                     "type": "object",
@@ -37,15 +30,15 @@ class DeleteSourceFilesTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: dict[str, Any], file_paths: list[str]) -> str:
-        paths_to_delete = set(file_paths)
-        original_count = len(data.get("remote_files", {}))
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        paths_to_delete = set(kwargs["file_paths"])
+        original_count = len(data.get("remote_files", []))
         data["remote_files"] = [
-            f for f in data.get("remote_files", {}).values() if f["path"] not in paths_to_delete
+            f for f in data.get("remote_files", []) if f["path"] not in paths_to_delete
         ]
-        payload = {
-            "status": "success",
-            "deleted_count": original_count - len(data["remote_files"]),
-        }
-        out = json.dumps(payload)
-        return out
+        return json.dumps(
+            {
+                "status": "success",
+                "deleted_count": original_count - len(data["remote_files"]),
+            }
+        )

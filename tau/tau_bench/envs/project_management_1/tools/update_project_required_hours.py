@@ -1,42 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateProjectRequiredHours(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: str = None, required_hours: int = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        required_hours = kwargs.get("required_hours")
+
         if not all([project_id, required_hours]):
-            payload = {"error": "project_id and required hours are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "project_id and required hours are required"})
 
-        projects = data.get("projects", {}).values()
+        projects = list(data.get("projects", {}).values())
 
-        for project in projects.values():
+        for project in projects:
             if project.get("project_id") == project_id:
                 project["required_hours_per_week"] = required_hours
-                payload = {"success": True, "project": project}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Project with ID '{project_id}' not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"success": True, "project": project})
+
+        return json.dumps({"error": f"Project with ID '{project_id}' not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateProjectRequiredHours",
+                "name": "update_project_required_hours",
                 "description": "Update the hours per week required by a project",
                 "parameters": {
                     "type": "object",
@@ -46,7 +38,7 @@ class UpdateProjectRequiredHours(Tool):
                             "description": "The project ID",
                         },
                         "required_hours": {
-                            "type": "integer",
+                            "type": "int",
                             "description": "Hours per week required by the project",
                         },
                     },

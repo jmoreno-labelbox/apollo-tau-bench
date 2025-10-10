@@ -1,50 +1,34 @@
-from tau_bench.envs.tool import Tool
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ReadSystemConfigTool(Tool):
-    """Retrieve a configuration by key and return restricted fields (avoid large blobs)."""
+    """Read a config by key and return limited fields (avoid large blobs)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], config_key: str = None) -> str:
-        config_key = _require_str(config_key, "config_key")
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        config_key = _require_str(kwargs.get("config_key"), "config_key")
         if not config_key:
-            payload = {"error": "config_key is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error":"config_key is required"})
 
-        rows = data.get("system_config", {}).values()
-        for r in rows.values():
+        rows = data.get("system_config", [])
+        for r in rows:
             if r.get("config_key") == config_key:
-                payload = {
+                return json.dumps({
                     "config_key": r.get("config_key"),
-                    "sample": (r.get("config_value_json") or "")[:200],
-                }
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"config_key {config_key} not found"}
-        out = json.dumps(payload)
-        return out
+                    "sample": (r.get("config_value_json") or "")[:200]  # preview only
+                }, indent=2)
+        return json.dumps({"error": f"config_key {config_key} not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ReadSystemConfig",
-                "description": "Return a preview of the config value by key (first 200 chars).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"config_key": {"type": "string"}},
-                    "required": ["config_key"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"read_system_config",
+            "description":"Return a preview of the config value by key (first 200 chars).",
+            "parameters":{"type":"object","properties":{
+                "config_key":{"type":"string"}
+            },"required":["config_key"]}
+        }}

@@ -1,22 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ListRecipeIngredients(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], recipe_id: int) -> str:
-        ri = _get_table(data, "recipe_ingredients")
-        rows = [x for x in ri.values() if x.get("recipe_id") == recipe_id]
-        payload = {"recipe_ingredients": rows}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], recipe_id: int) -> str:
+        rows = [
+            r
+            for r in data.get("recipe_ingredients", [])
+            if int(r.get("recipe_id")) == int(recipe_id)
+        ]
+        return _json({"recipe_ingredients": rows})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "listRecipeIngredients",
-                "description": "Returns recipe_ingredients rows for recipe_id.",
+                "name": "list_recipe_ingredients",
+                "description": "List recipe_ingredients for a recipe.",
                 "parameters": {
                     "type": "object",
                     "properties": {"recipe_id": {"type": "integer"}},

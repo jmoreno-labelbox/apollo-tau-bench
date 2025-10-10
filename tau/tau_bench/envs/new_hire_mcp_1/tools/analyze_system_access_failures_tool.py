@@ -1,35 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AnalyzeSystemAccessFailuresTool(Tool):
-    """Searches the access_checks table for unsuccessful verifications, organized by system and failure patterns."""
+    """Queries access_checks table for failed verifications, grouped by system and failure patterns."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str = None, system_name: str = None) -> str:
-        access_checks = data.get("access_checks", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
+        system_name = kwargs.get("system_name")
 
-        failures = [check for check in access_checks.values() if check.get("status") == "Failed"]
+        access_checks = data.get("access_checks", [])
+
+        failures = [check for check in access_checks if check.get("status") == "Failed"]
 
         if candidate_id:
-            failures = [
-                f for f in failures if str(f.get("candidate_id")) == str(candidate_id)
-            ]
+            failures = [f for f in failures if str(f.get("candidate_id")) == str(candidate_id)]
 
         if system_name:
-            failures = [f for f in failures.values() if f.get("system_name") == system_name]
+            failures = [f for f in failures if f.get("system_name") == system_name]
 
-        # Organize by system
+        # Group by system
         analysis = {}
         for f in failures:
             sys_name = f.get("system_name")
@@ -37,7 +31,7 @@ class AnalyzeSystemAccessFailuresTool(Tool):
                 analysis[sys_name] = {
                     "total_failures": 0,
                     "candidates_affected": set(),
-                    "failure_notes": [],
+                    "failure_notes": []
                 }
 
             analysis[sys_name]["total_failures"] += 1
@@ -45,35 +39,25 @@ class AnalyzeSystemAccessFailuresTool(Tool):
             if f.get("note_nullable"):
                 analysis[sys_name]["failure_notes"].append(f.get("note_nullable"))
 
-        # Transform set into list for JSON serialization
+        # Convert set to list for JSON serialization
         for sys_name in analysis:
-            analysis[sys_name]["candidates_affected"] = list(
-                analysis[sys_name]["candidates_affected"]
-            )
-            analysis[sys_name]["affected_candidate_count"] = len(
-                analysis[sys_name]["candidates_affected"]
-            )
-        payload = analysis
-        out = json.dumps(payload, indent=2)
-        return out
+            analysis[sys_name]["candidates_affected"] = list(analysis[sys_name]["candidates_affected"])
+            analysis[sys_name]["affected_candidate_count"] = len(analysis[sys_name]["candidates_affected"])
+
+        return json.dumps(analysis, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AnalyzeSystemAccessFailures",
+                "name": "analyze_system_access_failures",
                 "description": "Queries access_checks table for failed verifications, grouped by system and failure patterns.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "candidate_id": {
-                            "type": "string",
-                            "description": "Specific candidate or null for system-wide analysis",
-                        },
-                        "system_name": {
-                            "type": "string",
-                            "description": "Specific system to analyze",
-                        },
+                        "candidate_id": {"type": "string", "description": "Specific candidate or null for system-wide analysis"},
+                        "system_name": {"type": "string", "description": "Specific system to analyze"}
                     },
                     "required": [],
                 },

@@ -1,49 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetRemoteFileChecksum(Tool):
-    """Computes the checksum (e.g., SHA256) for a file located on a remote server."""
+    """Calculates the checksum (e.g., SHA256) of a file on a remote server."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        hostname = kwargs.get("hostname")
+        filepath = kwargs.get("filepath")
+        for server in data.get('file_system', []):
+            if server.get('hostname') == hostname:
+                for directory in server.get('directories', []):
+                    for file in directory.get('files', []):
+                        if f"{directory.get('path')}/{file.get('filename')}" == filepath:
+                             return json.dumps({"filepath": filepath, "checksum": file.get("checksum")})
+        return json.dumps({"error": f"File '{filepath}' not found on '{hostname}'."})
 
     @staticmethod
-    def invoke(data: dict[str, Any], hostname: str = None, filepath: str = None) -> str:
-        for server in data.get("file_system", {}).values():
-            if server.get("hostname") == hostname:
-                for directory in server.get("directories", []):
-                    for file in directory.get("files", []):
-                        if (
-                            f"{directory.get('path')}/{file.get('filename')}"
-                            == filepath
-                        ):
-                            payload = {"filepath": filepath, "checksum": file.get("checksum")}
-                            out = json.dumps(
-                                payload)
-                            return out
-        payload = {"error": f"File '{filepath}' not found on '{hostname}'."}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetRemoteFileChecksum",
-                "description": "Calculates and retrieves the checksum of a specific file on a remote server.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "hostname": {"type": "string"},
-                        "filepath": {"type": "string"},
-                    },
-                    "required": ["hostname", "filepath"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "get_remote_file_checksum", "description": "Calculates and retrieves the checksum of a specific file on a remote server.", "parameters": {"type": "object", "properties": {"hostname": {"type": "string"}, "filepath": {"type": "string"}}, "required": ["hostname", "filepath"]}}}

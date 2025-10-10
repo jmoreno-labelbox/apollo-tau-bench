@@ -1,8 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetCustomerProfileTool(Tool):
     """
@@ -20,7 +21,8 @@ class GetCustomerProfileTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
         if not customer_id:
             return json.dumps({"error": "customer_id is required"}, indent=2)
 
@@ -35,12 +37,13 @@ class GetCustomerProfileTool(Tool):
                 return json.dumps(profile, indent=2)
 
         return json.dumps({"error": "Customer not found"}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCustomerProfile",
+                "name": "get_customer_profile",
                 "description": "Retrieve personal and contact details from the customer profile.",
                 "parameters": {
                     "type": "object",

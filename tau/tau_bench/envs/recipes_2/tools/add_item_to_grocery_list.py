@@ -1,33 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AddItemToGroceryList(Tool):
-    """Inserts a new item into a grocery list."""
-
+    """Adds a new item to a grocery list."""
     @staticmethod
-    def invoke(data: dict[str, Any], list_id: int = None, ingredient_id: int = None, quantity: float = None, unit: str = None) -> str:
-        items = data.get("grocery_list_items", {}).values()
-        # Automatically create the next item_id
-        new_id = max([item.get("item_id", 0) for item in items.values()]) + 1 if items else 8101
-
-        ingredients = data.get("ingredients", {}).values()
-        ingredient_info = next(
-            (ing for ing in ingredients.values() if ing["ingredient_id"] == ingredient_id), None
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        list_id = kwargs.get("list_id")
+        ingredient_id = kwargs.get("ingredient_id")
+        quantity = kwargs.get("quantity")
+        unit = kwargs.get("unit")
+        
+        items = data.get("grocery_list_items", [])
+        # Automatically generate the next item_id
+        new_id = max([item.get("item_id", 0) for item in items]) + 1 if items else 8101
+        
+        ingredients = list(data.get("ingredients", {}).values())
+        ingredient_info = next((ing for ing in ingredients if ing["ingredient_id"] == ingredient_id), None)
         if not ingredient_info:
-            payload = {"error": f"Ingredient {ingredient_id} not found."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Ingredient {ingredient_id} not found."})
 
         new_item = {
             "item_id": new_id,
@@ -37,18 +31,17 @@ class AddItemToGroceryList(Tool):
             "unit": unit,
             "grocery_section": ingredient_info.get("grocery_section"),
             "pantry_staple_flag": ingredient_info.get("pantry_staple_flag"),
-            "overlap_last_month_flag": False,
+            "overlap_last_month_flag": False
         }
         data["grocery_list_items"].append(new_item)
-        payload = new_item
-        out = json.dumps(payload)
-        return out
+        return json.dumps(new_item)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddItemToGroceryList",
+                "name": "add_item_to_grocery_list",
                 "description": "Adds a new item to a grocery list.",
                 "parameters": {
                     "type": "object",

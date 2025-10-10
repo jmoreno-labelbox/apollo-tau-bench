@@ -1,8 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetTimeWindowTool(Tool):
     """
@@ -10,18 +11,16 @@ class GetTimeWindowTool(Tool):
     Given an ISO8601 timestamp and one or both of:
       - days:  e.g., "1d", "5d", "-5d"
       - hours: e.g., "1h", "3h", "4.5h", "-1h"
-    returns {"date_from": <ts>, "date_to": <ts + delta>} (both ISO-8601, maintaining offset).
-    If only negative values are supplied, date_to will be the original ts and date_from will be ts + delta.
+    returns {"date_from": <ts>, "date_to": <ts + delta>} (both ISO-8601, preserving offset).
+    If only negative values are provided, date_to will be the original ts and date_from will be ts + delta.
     """
 
     @staticmethod
     def _parse_iso(ts: str) -> datetime:
-        pass
         return datetime.fromisoformat(ts.replace("Z", "+00:00"))
 
     @staticmethod
-    def _parse_offset(s: str | None, unit: str) -> float:
-        pass
+    def _parse_offset(s: Optional[str], unit: str) -> float:
         if not s:
             return 0.0
         s = s.strip().lower()
@@ -29,30 +28,28 @@ class GetTimeWindowTool(Tool):
         return float(s[:-1])
 
     @staticmethod
-    def invoke(data: dict[str, Any], timestamp: str = None, days: float = None, hours: float = None) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         import json
 
-        ts = timestamp
+        ts = kwargs.get("timestamp")
+        days = kwargs.get("days")
+        hours = kwargs.get("hours")
         if not ts:
-            payload = {"error": "timestamp is required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "timestamp is required"}, indent=2)
 
         base = GetTimeWindowTool._parse_iso(ts)
         d = GetTimeWindowTool._parse_offset(days, "d") if days else 0.0
         h = GetTimeWindowTool._parse_offset(hours, "h") if hours else 0.0
         delta = timedelta(days=d, hours=h)
 
-        # Ascertain the direction of the window
+        # Determine window direction
         if d < 0 or h < 0:
             start, end = base + delta, base
         else:
             start, end = base, base + delta
 
-        # Maintain the precise "+00:00" format if included in the input
+        # Keep the exact "+00:00" style if present in input
         def fmt(dt: datetime) -> str:
-            pass
             s = dt.isoformat()
             if s.endswith("+00:00"):
                 return s
@@ -61,15 +58,14 @@ class GetTimeWindowTool(Tool):
             return s
 
         out = {"date_from": fmt(start), "date_to": fmt(end)}
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetTimeWindow",
+                "name": "get_time_window",
                 "description": (
                     "Derive a time window from a base timestamp and offsets (days/hours)."
                 ),

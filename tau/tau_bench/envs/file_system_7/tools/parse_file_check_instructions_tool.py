@@ -1,26 +1,19 @@
-from tau_bench.envs.tool import Tool
-import datetime
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ParseFileCheckInstructionsTool(Tool):
-    """Utility to interpret instructions for a specific task and save them."""
+    """Tool to parse instructions for a given task and store them."""
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "parseFileCheckInstructions",
+                "name": "parse_file_check_instructions",
                 "description": "Parses instructions from file_check_db for a specific task_id and populates the task_instructions table.",
                 "parameters": {
                     "type": "object",
@@ -36,29 +29,28 @@ class ParseFileCheckInstructionsTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: dict[str, Any], task_id: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        task_id = kwargs["task_id"]
         task_details = next(
-            (t for t in data.get("file_check_db", {}).values() if t["task_id"] == task_id), None
+            (t for t in data.get("file_check_db", []) if t["task_id"] == task_id), None
         )
         if not task_details:
-            payload = {"error": f"Task ID {task_id} not found."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Task ID {task_id} not found."})
 
-        # The parsed_instructions field is pre-structured, allowing for direct usage.
-        instructions = task_details.get("parsed_instructions", {}).values()
+        # The parsed_instructions field is already structured, so we can use it directly
+        instructions = task_details.get("parsed_instructions", {})
         if "task_instructions" not in data:
             data["task_instructions"] = []
 
-        # Rebuild the simplified task_instructions format using the detailed parsed_instructions.
+        # Reconstruct the simplified task_instructions format from the detailed parsed_instructions
         parsed_instruction = {
             "task_id": task_id,
             "remote_address": task_details.get("remote_server"),
-            "max_size": instructions.get("size_filter", {}).values().get("max_bytes"),
-            "last_access_days": instructions.get("time_filter", {}).values().get("days"),
+            "max_size": instructions.get("size_filter", {}).get("max_bytes"),
+            "last_access_days": instructions.get("time_filter", {}).get("days"),
             "users": instructions.get("user_filter", []),
         }
         data["task_instructions"].append(parsed_instruction)
-        payload = {"status": "success", "parsed_instruction": parsed_instruction}
-        out = json.dumps(payload)
-        return out
+        return json.dumps(
+            {"status": "success", "parsed_instruction": parsed_instruction}
+        )

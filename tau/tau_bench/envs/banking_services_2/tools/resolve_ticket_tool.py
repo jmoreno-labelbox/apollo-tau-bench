@@ -1,19 +1,18 @@
-from tau_bench.envs.tool import Tool
-from typing import Any, Dict
+# Copyright Sierra
+
 import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ResolveTicketTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], ticket_id: str, resolution: str, agent_id: str = 'SYSTEM') -> str:
-        support_tickets = data.get('support_tickets', {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ticket_id = kwargs.get('ticket_id')
+        resolution = kwargs.get('resolution')
+        agent_id = kwargs.get('agent_id', 'SYSTEM')
+
+        support_tickets = list(data.get('support_tickets', {}).values())
 
         for ticket in support_tickets:
             if ticket['ticket_id'] == ticket_id:
@@ -31,12 +30,13 @@ class ResolveTicketTool(Tool):
                 }, indent=2)
 
         return json.dumps({"error": f"Ticket {ticket_id} not found"}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "resolveTicket",
+                "name": "resolve_ticket",
                 "description": "Resolve a customer support ticket",
                 "parameters": {
                     "type": "object",

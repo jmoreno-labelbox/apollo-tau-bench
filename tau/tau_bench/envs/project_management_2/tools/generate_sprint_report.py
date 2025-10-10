@@ -1,46 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GenerateSprintReport(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], sprint_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        sprint_id = kwargs.get("sprint_id")
+
         if not sprint_id:
-            payload = {"error": "sprint_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "sprint_id is required"})
 
-        sprints = data.get("sprints", {}).values()
-        tasks = data.get("tasks", {}).values()
-        time_logs = data.get("time_logs", {}).values()
+        sprints = data.get("sprints", [])
+        tasks = list(data.get("tasks", {}).values())
+        time_logs = data.get("time_logs", [])
 
-        sprint = next((s for s in sprints.values() if s.get("sprint_id") == sprint_id), None)
+        sprint = next((s for s in sprints if s.get("sprint_id") == sprint_id), None)
         if not sprint:
-            payload = {"error": f"Sprint '{sprint_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Sprint '{sprint_id}' not found"})
 
-        sprint_tasks = [t for t in tasks.values() if t.get("sprint_id") == sprint_id]
+        sprint_tasks = [t for t in tasks if t.get("sprint_id") == sprint_id]
 
         total_tasks = len(sprint_tasks)
-        completed_tasks = [t for t in sprint_tasks.values() if t.get("status") == "done"]
-        blocked_tasks = [t for t in sprint_tasks.values() if t.get("status") == "blocked"]
+        completed_tasks = [t for t in sprint_tasks if t.get("status") == "done"]
+        blocked_tasks = [t for t in sprint_tasks if t.get("status") == "blocked"]
 
         sprint_time_logs = [
             log
-            for log in time_logs.values() if any(t.get("task_id") == log.get("task_id") for t in sprint_tasks.values())
+            for log in time_logs
+            if any(t.get("task_id") == log.get("task_id") for t in sprint_tasks)
         ]
-        #total_hours_logged = sum(log.get("hours", 0) for log in sprint_time_logs.values()
+        # total_hours_logged = sum(log.get("hours", 0) for log in sprint_time_logs)
 
         assignee_performance = {}
         for task in sprint_tasks:
@@ -75,7 +67,7 @@ class GenerateSprintReport(Tool):
                 ]
                 if task.get("status") == "done":
                     required_hours = task.get("story_points", 0) * 2 * 0.5
-                    logged_hours = sum(log.get("hours", 0) for log in task_logs.values())
+                    logged_hours = sum(log.get("hours", 0) for log in task_logs)
                     if logged_hours < required_hours:
                         compliance_issues.append(
                             {
@@ -103,15 +95,15 @@ class GenerateSprintReport(Tool):
             "status": sprint.get("status"),
             "metrics": {
                 "planned_story_points": sprint.get("planned_story_points", 0),
-                #"total_hours_logged": total_hours_logged,
+                # "total_hours_logged": total_hours_logged,
                 "total_tasks": total_tasks,
                 "completed_tasks": len(completed_tasks),
                 "blocked_tasks": len(blocked_tasks),
-                "completion_percentage": (
-                    round((len(completed_tasks) / total_tasks * 100), 1)
-                    if total_tasks > 0
-                    else 0
-                ),
+                "completion_percentage": round(
+                    (len(completed_tasks) / total_tasks * 100), 1
+                )
+                if total_tasks > 0
+                else 0,
                 "completed_story_points": sprint.get("completed_story_points", 0),
                 "velocity": sprint.get("velocity", 0),
             },
@@ -127,15 +119,15 @@ class GenerateSprintReport(Tool):
             "risks": risks,
             "report_generated": datetime.now().isoformat(),
         }
-        payload = report
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(report, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GenerateSprintReport",
+                "name": "generate_sprint_report",
                 "description": "Generate a comprehensive report for a sprint",
                 "parameters": {
                     "type": "object",

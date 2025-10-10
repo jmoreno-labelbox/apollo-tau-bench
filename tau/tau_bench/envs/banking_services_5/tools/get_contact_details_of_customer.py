@@ -1,30 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone, date, timedelta
-import calendar
-from typing import Any, Dict
-import random
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetContactDetailsOfCustomer(Tool):
+    """Returns the email and primary phone number of a customer by customer ID."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
         if not customer_id:
             return json.dumps({"error": "customer_id is required."}, indent=2)
 
-        customers = data.get("customers", {}).values()
-        for customer in customers.values():
+        customers = list(data.get("customers", {}).values())
+        for customer in customers:
             if customer.get("customer_id") == customer_id:
-                contact_info = customer.get("contact_info", {}).values()
+                contact_info = customer.get("contact_info", {})
                 email = contact_info.get("email_address")
                 phone_list = contact_info.get("phone_numbers", [])
                 primary_phone = next((p["number"] for p in phone_list if p.get("is_primary")), None)
@@ -35,12 +28,13 @@ class GetContactDetailsOfCustomer(Tool):
                 }, indent=2)
 
         return json.dumps({"error": "Customer not found."}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getContactDetailsOfCustomer",
+                "name": "get_contact_details_of_customer",
                 "description": "Returns the email and primary phone number of a customer given their customer ID.",
                 "parameters": {
                     "type": "object",

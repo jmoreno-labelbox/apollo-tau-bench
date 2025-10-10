@@ -1,45 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCertification(Tool):
     """
-    Retrieve certifications based on ID, reviewer, resource, or status.
+    Retrieve certifications by ID, reviewer, resource, or status.
 
     kwargs:
       certification_id: str (optional) - Specific certification ID to retrieve
-      reviewer_id: str (optional) - Filter by the reviewer user ID
+      reviewer_id: str (optional) - Filter by reviewer user ID
       resource_id: str (optional) - Filter by resource ID
       status: str (optional) - Filter by status (PENDING, IN_PROGRESS, COMPLETED)
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], certification_id: str = None, reviewer_id: str = None, resource_id: str = None, status: str = None,
-    user_id: Any = None,
-    ) -> str:
-        certifications = data.get("certifications", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        certification_id = kwargs.get("certification_id")
+        reviewer_id = kwargs.get("reviewer_id")
+        resource_id = kwargs.get("resource_id")
+        status = kwargs.get("status")
 
-        # If certification_id is supplied, return the specific certification
+        certifications = data.get("certifications", [])
+
+        # If certification_id is provided, return single certification
         if certification_id:
             cert = _find_by_id(certifications, "certification_id", certification_id)
             if not cert:
-                payload = {"error": f"certification_id {certification_id} not found"}
-                out = json.dumps(payload)
-                return out
-            payload = {"ok": True, "certification": cert}
-            out = json.dumps(payload)
-            return out
+                return json.dumps({"error": f"certification_id {certification_id} not found"})
+            return json.dumps({"ok": True, "certification": cert})
 
-        # Narrow down certifications according to the supplied criteria
+        # Filter certifications based on provided criteria
         filtered_certifications = []
         for cert in certifications:
             if reviewer_id and cert.get("reviewer_id") != reviewer_id:
@@ -48,39 +40,27 @@ class GetCertification(Tool):
                 continue
             if status and cert.get("status") != status:
                 continue
-            filtered_data["certifications"][certification_id] = cert
-        payload = {"ok": True, "certifications": filtered_certifications}
-        out = json.dumps(payload)
-        return out
+            filtered_certifications.append(cert)
+
+        return json.dumps({"ok": True, "certifications": filtered_certifications})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCertification",
+                "name": "get_certification",
                 "description": "Retrieve certifications by ID, reviewer, resource, or status.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "certification_id": {
-                            "type": "string",
-                            "description": "Specific certification ID to retrieve.",
-                        },
-                        "reviewer_id": {
-                            "type": "string",
-                            "description": "Filter by reviewer user ID.",
-                        },
-                        "resource_id": {
-                            "type": "string",
-                            "description": "Filter by resource ID.",
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "Filter by status (PENDING, IN_PROGRESS, COMPLETED).",
-                        },
+                        "certification_id": {"type": "string", "description": "Specific certification ID to retrieve."},
+                        "reviewer_id": {"type": "string", "description": "Filter by reviewer user ID."},
+                        "resource_id": {"type": "string", "description": "Filter by resource ID."},
+                        "status": {"type": "string", "description": "Filter by status (PENDING, IN_PROGRESS, COMPLETED)."}
                     },
                     "required": [],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

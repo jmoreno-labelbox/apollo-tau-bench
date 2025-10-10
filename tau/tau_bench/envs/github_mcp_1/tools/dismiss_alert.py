@@ -1,14 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class DismissAlert(Tool):
     """
@@ -20,134 +15,103 @@ class DismissAlert(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], owner: str = None, repo_name: str = None, alert_number: Any = None, alertnumber: Any = None,
-    dismiss_reason: Any = None,
-    ) -> str:
-        owner = (owner or "").strip()
-        repo_name = (repo_name or repo_name or "").strip()
-        alert_number_raw = alert_number if alert_number is not None else alertnumber
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner = (kwargs.get("owner") or "").strip()
+        repo_name = (kwargs.get("repo_name") or kwargs.get("repo_name") or "").strip()
+        alert_number_raw = kwargs.get("alert_number", kwargs.get("alertnumber", None))
 
         if not owner or not repo_name or alert_number_raw is None:
-            payload = {"error": "Required: owner, repo_name (or repo_name), alert_number."}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": "Required: owner, repo_name (or repo_name), alert_number."},
+                indent=2
             )
-            return out
 
         # Normalize alert_number
         try:
             alert_number = int(alert_number_raw)
         except Exception:
-            payload = {"error": "alert_number must be an integer."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "alert_number must be an integer."}, indent=2)
 
         # Load alerts DB
-        alerts_db = _convert_db_to_list(data.get("code_scanning_alerts", {}).values())
+        alerts_db = data.get("code_scanning_alerts", [])
         if not isinstance(alerts_db, list):
-            payload = {
-                    "error": "Invalid DB: expected a list at data['code_scanning_alerts']."
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": "Invalid DB: expected a list at data['code_scanning_alerts']."},
+                indent=2
             )
-            return out
 
         # Find repo bucket
-        rec = next(
-            (
-                r
-                for r in alerts_db
-                if r.get("owner") == owner and r.get("repo_name") == repo_name
-            ),
-            None,
-        )
+        rec = next((r for r in alerts_db if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
         if rec is None:
-            payload = {"error": f"No alerts found for repository '{owner}/{repo_name}'."}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"No alerts found for repository '{owner}/{repo_name}'."},
+                indent=2
             )
-            return out
 
-        alert_numbers: list[int] = rec.get("alert_numbers", [])
+        alert_numbers: List[int] = rec.get("alert_numbers", [])
         if alert_number not in alert_numbers:
-            payload = {
-                    "error": f"Alert #{alert_number} not found for '{owner}/{repo_name}'."
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"Alert #{alert_number} not found for '{owner}/{repo_name}'."},
+                indent=2
             )
-            return out
 
         idx = alert_numbers.index(alert_number)
 
         # Ensure required arrays exist/padded
         rec.setdefault("states", [])
         rec.setdefault("dismissed_ts_nullables", [])
-        while len(rec["states"]) <= idx:
-            rec["states"].append("open")
-        while len(rec["dismissed_ts_nullables"]) <= idx:
-            rec["dismissed_ts_nullables"].append(None)
+        while len(rec["states"]) <= idx: rec["states"].append("open")
+        while len(rec["dismissed_ts_nullables"]) <= idx: rec["dismissed_ts_nullables"].append(None)
 
         current_state = rec["states"][idx]
         current_dismissed_ts = rec["dismissed_ts_nullables"][idx]
 
         # Idempotent behavior if already dismissed
         if current_state == "dismissed":
-            payload = {
+            return json.dumps(
+                {
                     "success": f"Alert #{alert_number} is already dismissed for {owner}/{repo_name}.",
                     "repo": f"{owner}/{repo_name}",
                     "alert_number": alert_number,
                     "state": "dismissed",
-                    "dismissed_ts": current_dismissed_ts,
-                }
-            out = json.dumps(
-                payload, indent=2,
+                    "dismissed_ts": current_dismissed_ts
+                },
+                indent=2
             )
-            return out
 
         # Dismiss the alert
         rec["states"][idx] = "dismissed"
         new_dismissed_ts = get_current_updated_timestamp()
         rec["dismissed_ts_nullables"][idx] = new_dismissed_ts
 
-        add_terminal_message(
-            data,
-            f"Alert #{alert_number} dismissed for {owner}/{repo_name}.",
-            get_current_updated_timestamp(),
-        )
-        payload = {
+        add_terminal_message(data, f"Alert #{alert_number} dismissed for {owner}/{repo_name}.", get_current_updated_timestamp())
+
+        return json.dumps(
+            {
                 "success": f"Alert #{alert_number} dismissed for {owner}/{repo_name}.",
                 "repo": f"{owner}/{repo_name}",
                 "alert_number": alert_number,
                 "state": "dismissed",
-                "dismissed_ts": new_dismissed_ts,
-            }
-        out = json.dumps(
-            payload, indent=2,
+                "dismissed_ts": new_dismissed_ts
+            },
+            indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "DismissAlert",
+                "name": "dismiss_alert",
                 "description": "Dismiss a code scanning alert: sets state='dismissed' and records dismissed timestamp.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "owner": {"type": "string", "description": "Repository owner."},
-                        "repo_name": {
-                            "type": "string",
-                            "description": "Repository name (alias: repo_name).",
-                        },
-                        "alert_number": {
-                            "type": "integer",
-                            "description": "Alert number within the repository.",
-                        },
+                        "repo_name": {"type": "string", "description": "Repository name (alias: repo_name)."},
+                        "alert_number": {"type": "integer", "description": "Alert number within the repository."}
                     },
-                    "required": ["owner", "repo_name", "alert_number"],
-                },
-            },
+                    "required": ["owner", "repo_name", "alert_number"]
+                }
+            }
         }

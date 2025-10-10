@@ -1,33 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class ComputeMentorLoad(Tool):
+class compute_mentor_load(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], mentor_id: str) -> str:
-        """Calculate the number of active mentees for a mentor."""
+    def invoke(data: Dict[str, Any], mentor_id: str) -> str:
+        """Count active mentees for a mentor."""
         count = sum(
             1
-            for rel in data.get("user_mentorship_relationships", {}).values()
+            for rel in data.get("user_mentorship_relationships", [])
             if rel["mentor_id"] == mentor_id and rel["status"] == "Active"
         )
-        payload = {"current_mentees": count}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"current_mentees": count})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "computeMentorLoad",
+                "name": "compute_mentor_load",
                 "description": "Return the number of active mentees a mentor currently has.",
                 "parameters": {
                     "type": "object",

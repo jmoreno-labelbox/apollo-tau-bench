@@ -1,17 +1,14 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class find_gmail_threads(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], label_contains: str = None, subject_contains: str = None, participant_email: str = None) -> str:
-        p = _params(data, {
-            "label_contains": label_contains,
-            "subject_contains": subject_contains,
-            "participant_email": participant_email
-        })
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        p = _params(data, kwargs)
         rows = []
         threads = _ensure(data, "gmail_threads", [])
         label_q = p.get("label_contains")
@@ -22,36 +19,29 @@ class find_gmail_threads(Tool):
             ok = True
             if label_q:
                 labels = t.get("labels", [])
-                ok &= any(label_q.lower() in (lab or "").lower() for lab in labels.values())
+                ok &= any(label_q.lower() in (lab or "").lower() for lab in labels)
             if subj_q:
-                ok &= subj_q.lower() in (t.get("subject", "").lower())
+                ok &= subj_q.lower() in (t.get("subject","").lower())
             if party_q:
                 parts = set(t.get("participants", []))
                 ok &= party_q in parts
             if ok:
-                rows.append(
-                    {
-                        "thread_id": t.get("thread_id"),
-                        "subject": t.get("subject"),
-                        "participants": t.get("participants", []),
-                        "current_labels": t.get("labels", []),
-                    }
-                )
+                rows.append({
+                    "thread_id": t.get("thread_id"),
+                    "subject": t.get("subject"),
+                    "participants": t.get("participants", []),
+                    "current_labels": t.get("labels", []),
+                })
         return _ok({"rows": rows})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "FindGmailThreads",
-                "description": "Search Gmail threads by label, subject, or participant.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "label_contains": {"type": "string"},
-                        "subject_contains": {"type": "string"},
-                        "participant_email": {"type": "string"},
-                    },
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"find_gmail_threads",
+            "description":"Search Gmail threads by label, subject, or participant.",
+            "parameters":{"type":"object","properties":{
+                "label_contains":{"type":"string"},
+                "subject_contains":{"type":"string"},
+                "participant_email":{"type":"string"},
+            }}
+        }}

@@ -1,60 +1,52 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetFixPlanById(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], plan_id: str = None, include_items: bool = True) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
-        Obtains a specific fix plan using its ID along with detailed information.
+        Retrieves a specific fix plan by its ID with detailed information.
         """
+        plan_id = kwargs.get('plan_id')
+        include_items = kwargs.get('include_items', True)
+
         if not plan_id:
-            payload = {"error": "plan_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "plan_id is required"})
 
-        fix_plans = data.get("fix_plans", {}).values()
-        fix_items = data.get("fix_items", {}).values()
+        fix_plans = data.get('fix_plans', [])
+        fix_items = data.get('fix_items', [])
 
-        # Locate the requested fix plan
-        plan = next((p for p in fix_plans.values() if p.get("plan_id") == plan_id), None)
+        # Find the requested fix plan
+        plan = next((p for p in fix_plans if p.get('plan_id') == plan_id), None)
         if not plan:
-            payload = {"error": f"Fix plan with ID '{plan_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Fix plan with ID '{plan_id}' not found"})
 
-        result = dict(plan)  # Generate a duplicate of the plan
+        result = dict(plan)  # Create a copy of the plan
 
-        # Add related items if requested
+        # Include related items if requested
         if include_items:
-            result["items"] = [
-                item for item in fix_items.values() if item.get("plan_id") == plan_id
+            result['items'] = [
+                item for item in fix_items
+                if item.get('plan_id') == plan_id
             ]
 
-        # Include extra metadata
-        result["item_count"] = len(result.get("items", []))
-        result["open_item_count"] = len(
-            [i for i in result.get("items", []) if i.get("status") != "RESOLVED"]
-        )
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+        # Add additional metadata
+        result['item_count'] = len(result.get('items', []))
+        result['open_item_count'] = len([i for i in result.get('items', [])
+                                       if i.get('status') != 'RESOLVED'])
+
+        return json.dumps(result, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getFixPlanById",
+                "name": "get_fix_plan_by_id",
                 "description": "Retrieves a specific fix plan by its ID with detailed information.",
                 "parameters": {
                     "type": "object",
@@ -62,14 +54,14 @@ class GetFixPlanById(Tool):
                     "properties": {
                         "plan_id": {
                             "type": "string",
-                            "description": "The ID of the fix plan to retrieve",
+                            "description": "The ID of the fix plan to retrieve"
                         },
                         "include_items": {
                             "type": "boolean",
                             "default": True,
-                            "description": "Whether to include the fix items in the response",
-                        },
-                    },
-                },
-            },
+                            "description": "Whether to include the fix items in the response"
+                        }
+                    }
+                }
+            }
         }

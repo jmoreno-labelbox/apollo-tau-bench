@@ -1,42 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetViewershipForDateAndCategory(Tool):
-    """Fetches viewership statistics for a specific date and category."""
+    """Retrieves viewership data for a specific date and category."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], date: str = None, category: str = None) -> str:
-        viewership_data = data.get("f_viewership", {}).values()
-
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        date = kwargs.get("date")
+        category = kwargs.get("category")
+        viewership_data = data.get("f_viewership", [])
+        
         for entry in viewership_data:
             if entry.get("date") == date and entry.get("category") == category:
-                payload = {
+                return json.dumps({
                     "sessions": entry.get("sessions"),
-                    "active_users": entry.get("active_users"),
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {
-            "error": f"No viewership data found for category '{category}' on date '{date}'."
-        }
-        out = json.dumps(payload)
-        return out
+                    "active_users": entry.get("active_users")
+                })
+        
+        return json.dumps({"error": f"No viewership data found for category '{category}' on date '{date}'."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetViewershipForDateAndCategory",
+                "name": "get_viewership_for_date_and_category",
                 "description": "Retrieves viewership data for a specific date and category.",
                 "parameters": {
                     "type": "object",
@@ -48,7 +40,7 @@ class GetViewershipForDateAndCategory(Tool):
                         "category": {
                             "type": "string",
                             "description": "The category to get viewership for.",
-                        },
+                        }
                     },
                     "required": ["date", "category"],
                 },

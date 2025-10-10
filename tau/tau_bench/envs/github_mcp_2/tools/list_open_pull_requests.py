@@ -1,47 +1,53 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ListOpenPullRequests(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str = None) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        repo_name = kwargs.get("repo_name")
         me = _auth(data)["username"]
 
         prs = _prs(data)
         for block in prs:
-            #print("block:::", block)
+            # print("block:::", block)
             if block["owner"] == me and block["repo_name"] == repo_name:
                 results = [
-                    {"number": n, "title": t, "state": s, "base": b, "head": h}
+                    {
+                        "number": n,
+                        "title": t,
+                        "state": s,
+                        "base": b,
+                        "head": h
+                    }
                     for n, t, s, b, h in zip(
                         block["pr_numbers"],
                         block["pr_titles"],
                         block["pr_states"],
                         block["base_branches"],
-                        block["head_branches"],
-                    )
-                    if s == "open"
+                        block["head_branches"]
+                    ) if s == "open"
                 ]
-                payload = {"pull_requests": results}
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"pull_requests": []}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps({"pull_requests": results}, indent=2)
+
+        return json.dumps({"pull_requests": []}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "ListOpenPullRequests",
+                "name": "list_open_pull_requests",
                 "description": "Lists all open pull requests in a repository.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"repo_name": {"type": "string"}},
-                    "required": ["repo_name"],
-                },
-            },
+                    "properties": {
+                        "repo_name": {"type": "string"}
+                    },
+                    "required": ["repo_name"]
+                }
+            }
         }

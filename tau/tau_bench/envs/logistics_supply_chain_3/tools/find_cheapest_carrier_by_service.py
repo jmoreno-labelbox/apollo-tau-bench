@@ -1,32 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindCheapestCarrierByService(Tool):
-    """Identifies the lowest-cost, active carrier for a specific transport mode and service level."""
+    """Finds the cheapest, active carrier for a specific transport mode and service level."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], mode_of_transport: str = None, service_level: str = None) -> str:
-        carriers = data.get("carriers", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        carriers = data.get("carriers", [])
+        mode_of_transport = kwargs.get("mode_of_transport")
+        service_level = kwargs.get("service_level")
 
         if not mode_of_transport or not service_level:
-            payload = {"error": "Mode of transport and service level are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "Mode of transport and service level are required"}
+            )
 
         cheapest_carrier = None
+        # Initialize with a very high cost
         min_cost = float("inf")
 
-        for carrier in carriers.values():
+        for carrier in carriers:
             is_active = carrier.get("active_status", False)
             supported_modes = [
                 mode.lower() for mode in carrier.get("supported_modes", [])
@@ -40,32 +37,34 @@ class FindCheapestCarrierByService(Tool):
                 and mode_of_transport.lower() in supported_modes
                 and service_level.lower() in supported_services
             ):
+                # This is a mock cost; in a real scenario, this would be a complex calculation or API call
+                # For this simulation, we'll use the length of the carrier name as a proxy for cost.
                 current_cost = len(carrier.get("carrier_name", ""))
                 if current_cost < min_cost:
                     min_cost = current_cost
                     cheapest_carrier = carrier
 
         if cheapest_carrier:
-            payload = {
-                "carrier_id": cheapest_carrier.get("carrier_id"),
-                "carrier_name": cheapest_carrier.get("carrier_name"),
-                "carrier_scac": cheapest_carrier.get("scac"),
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "carrier_id": cheapest_carrier.get("carrier_id"),
+                    "carrier_name": cheapest_carrier.get("carrier_name"),
+                    "carrier_scac": cheapest_carrier.get("scac"),
+                }
+            )
         else:
-            payload = {
-                "error": f"No active carrier found for mode '{mode_of_transport}' and service '{service_level}'"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": f"No active carrier found for mode '{mode_of_transport}' and service '{service_level}'"
+                }
+            )
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindCheapestCarrierByService",
+                "name": "find_cheapest_carrier_by_service",
                 "description": "Finds the active carrier with the lowest cost for a given transport mode and a specific service level (e.g., 'LTL', 'FTL').",
                 "parameters": {
                     "type": "object",

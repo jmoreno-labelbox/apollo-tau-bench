@@ -1,41 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetPendingAssetRequestsTool(Tool):
-    """Fetches asset_requests along with status analysis and associated candidate information for planning fulfillment."""
+    """Retrieves asset_requests with status analysis and linked candidate information for fulfillment planning."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], status_filter: str = None, role_filter: str = None,
-    candidate_id: Any = None,
-    ) -> str:
-        asset_requests = data.get("asset_requests", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        status_filter = kwargs.get("status_filter")
+        role_filter = kwargs.get("candidate_role_filter")
 
-        # Implement status filter
+        asset_requests = data.get("asset_requests", [])
+
+        # Apply status filter
         if status_filter:
             valid_statuses = {"Pending", "Sent", "Reserved", "Completed"}
             if status_filter not in valid_statuses:
-                return _err(
-                    f"Invalid status_filter. Valid statuses are: {sorted(list(valid_statuses))}"
-                )
-            asset_requests = [
-                r for r in asset_requests.values() if r.get("status") == status_filter
-            ]
+                 return _err(f"Invalid status_filter. Valid statuses are: {sorted(list(valid_statuses))}")
+            asset_requests = [r for r in asset_requests if r.get("status") == status_filter]
 
         results = []
-        candidates_map = {
-            str(c.get("candidate_id")): c for c in data.get("candidates", {}).values()
-        }
+        candidates_map = {str(c.get("candidate_id")): c for c in data.get("candidates", [])}
 
         for request in asset_requests:
             candidate_id = str(request.get("candidate_id"))
@@ -44,7 +32,7 @@ class GetPendingAssetRequestsTool(Tool):
             if not candidate:
                 continue
 
-            # Implement role filter
+            # Apply role filter
             if role_filter and candidate.get("role_title") != role_filter:
                 continue
 
@@ -53,30 +41,24 @@ class GetPendingAssetRequestsTool(Tool):
                 "candidate_id": candidate_id,
                 "candidate_name": candidate.get("candidate_name"),
                 "role_title": candidate.get("role_title"),
-                "start_date": candidate.get("start_date"),
+                "start_date": candidate.get("start_date")
             }
             results.append(request_copy)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPendingAssetRequests",
+                "name": "get_pending_asset_requests",
                 "description": "Retrieves asset_requests with status analysis and linked candidate information for fulfillment planning.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "status_filter": {
-                            "type": "string",
-                            "description": "Request status ('Pending', 'Sent', 'Reserved', 'Completed')",
-                        },
-                        "candidate_role_filter": {
-                            "type": "string",
-                            "description": "Filter by candidate role",
-                        },
+                        "status_filter": {"type": "string", "description": "Request status ('Pending', 'Sent', 'Reserved', 'Completed')"},
+                        "candidate_role_filter": {"type": "string", "description": "Filter by candidate role"}
                     },
                     "required": [],
                 },

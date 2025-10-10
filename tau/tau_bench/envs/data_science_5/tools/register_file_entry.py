@@ -1,54 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RegisterFileEntry(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], path: str = None, mime_type: str = None, size: int = None) -> str:
-        files = data.get("file_store", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        files = data.get("file_store", [])
         max_id = 0
-        for f in files.values():
+        for f in files:
             try:
                 fid = int(f.get("file_id", 0))
-                if fid > max_id:
-                    max_id = fid
+                if fid > max_id: max_id = fid
             except (ValueError, TypeError):
                 continue
         new_id = max_id + 1
         row = {
             "file_id": new_id,
-            "path": path,
-            "mime_type": mime_type,
-            "size": size,
-            "created_at": _now_iso_fixed(),
+            "path": kwargs.get("path"),
+            "mime_type": kwargs.get("mime_type"),
+            "size": kwargs.get("size"),
+            "created_at": _now_iso_fixed()
         }
-        data["files"][file_id] = row
-        payload = {"file_id": new_id, "path": row["path"]}
-        out = json.dumps(payload, indent=2)
-        return out
+        files.append(row)
+        return json.dumps({"file_id": new_id, "path": row["path"]}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "RegisterFileEntry",
-                "description": "Create a file metadata record.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "path": {"type": "string"},
-                        "mime_type": {"type": "string"},
-                        "size": {"type": ["integer", "null"]},
-                    },
-                    "required": ["path", "mime_type"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "register_file_entry",
+            "description": "Create a file metadata record.",
+            "parameters": {"type": "object", "properties": {
+                "path": {"type": "string"},
+                "mime_type": {"type": "string"},
+                "size": {"type": ["integer", "null"]}
+            }, "required": ["path", "mime_type"]}
+        }}

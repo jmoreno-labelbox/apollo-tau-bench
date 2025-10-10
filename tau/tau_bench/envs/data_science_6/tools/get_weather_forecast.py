@@ -1,70 +1,59 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetWeatherForecast(Tool):
     @staticmethod
-    def _parse_iso(ts: str) -> datetime | None:
-        pass
+    def _parse_iso(ts: str) -> Optional[datetime]:
         try:
-            #accepts "YYYY-MM-DDTHH:MM:SSZ" and "YYYY-MM-DDTHH:MM:SS"
+            # aceita "YYYY-MM-DDTHH:MM:SSZ" e "YYYY-MM-DDTHH:MM:SS"
             return datetime.fromisoformat(ts.replace("Z", "+00:00"))
         except Exception:
             return None
 
     @staticmethod
-    def invoke(data: dict[str, Any], city: str = None, start_ts: str = None, end_ts: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        city = kwargs.get("city")
+        start_ts = kwargs.get("start_ts")
+        end_ts = kwargs.get("end_ts")
+
         if not city or not start_ts or not end_ts:
-            payload = {"error": "Missing required parameters: city, start_ts, end_ts"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Missing required parameters: city, start_ts, end_ts"})
 
         start_dt = GetWeatherForecast._parse_iso(start_ts)
         end_dt = GetWeatherForecast._parse_iso(end_ts)
         if not start_dt or not end_dt or start_dt >= end_dt:
-            payload = {"error": "Invalid time range. Use ISO 8601 and ensure start < end."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Invalid time range. Use ISO 8601 and ensure start < end."})
 
-        items = data.get("weather_forecasts", {}).values()
-        for rec in items.values():
+        items = data.get("weather_forecasts", [])
+        for rec in items:
             if rec.get("city") != city:
                 continue
             rec_start = GetWeatherForecast._parse_iso(rec.get("start_ts", ""))
             rec_end = GetWeatherForecast._parse_iso(rec.get("end_ts", ""))
             if not rec_start or not rec_end:
                 continue
-            # we require complete coverage of the requested range
+            # exigimos cobertura total do intervalo solicitado
             if rec_start <= start_dt and rec_end >= end_dt:
                 ts_list = rec.get("timestamps") or []
-
-                # sub-selects the range
+                # sub-seleciona o range
                 def in_range(ts):
                     dt = GetWeatherForecast._parse_iso(ts)
                     return dt is not None and (start_dt <= dt <= end_dt)
 
-                out_ts = [t for t in ts_list.values() if in_range(t)]
-                # align series (nullable may exist)
+                out_ts = [t for t in ts_list if in_range(t)]
+                # alinhar séries (pode haver _nullable)
                 precip = rec.get("precipitation_mm_hr_nullable") or []
                 temp = rec.get("temperature_2m_c_nullable") or []
                 wind = rec.get("wind_speed_10m_ms_nullable") or []
 
-                # cut by the same selected indices
-                # (assumes position alignment with timestamps)
+                # cortar pelos mesmos índices selecionados
+                # (assume alinhamento por posição com timestamps)
                 idxs = [i for i, t in enumerate(ts_list) if t in out_ts]
-
-                def sel(arr):
-                    return [arr[i] for i in idxs if i < len(arr)]
-
+                def sel(arr): return [arr[i] for i in idxs if i < len(arr)]
                 result = {
                     "city": city,
                     "start_ts": start_ts,
@@ -72,38 +61,27 @@ class GetWeatherForecast(Tool):
                     "timestamps": out_ts,
                     "temperature_c": sel(temp),
                     "precipitation_mm_hr": sel(precip),
-                    "wind_speed_10m_ms": sel(wind),
+                    "wind_speed_10m_ms": sel(wind)
                 }
-                payload = result
-                out = json.dumps(payload)
-                return out
-        payload = {}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(result)
+
+        return json.dumps({})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetWeatherForecast",
+                "name": "get_weather_forecast",
                 "description": "Returns hourly weather forecast series for a city within a given ISO-8601 time window.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "city": {
-                            "type": "string",
-                            "description": "City name exactly as stored in the database.",
-                        },
-                        "start_ts": {
-                            "type": "string",
-                            "description": "Start timestamp (ISO 8601).",
-                        },
-                        "end_ts": {
-                            "type": "string",
-                            "description": "End timestamp (ISO 8601).",
-                        },
+                        "city": {"type": "string", "description": "City name exactly as stored in the database."},
+                        "start_ts": {"type": "string", "description": "Start timestamp (ISO 8601)."},
+                        "end_ts": {"type": "string", "description": "End timestamp (ISO 8601)."}
                     },
-                    "required": ["city", "start_ts", "end_ts"],
-                },
-            },
+                    "required": ["city", "start_ts", "end_ts"]
+                }
+            }
         }

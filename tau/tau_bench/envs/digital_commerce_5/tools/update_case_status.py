@@ -1,36 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateCaseStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], case_id: Any, status: Any) -> str:
+    def invoke(data: Dict[str, Any], case_id: str, status: Any) -> str:
         if not case_id or not status:
             return _err("case_id and status are required.")
         case_id = _as_id(case_id)
-        cases = data.get("cases", {}).values()
-        case = next((c for c in cases.values() if _as_id(c.get("case_id")) == case_id), None)
+        cases = data.get("cases", [])
+        case = next((c for c in cases if _as_id(c.get("case_id")) == case_id), None)
         if not case:
             return _err("Case not found.")
         case["status"] = status
-        payload = {"case_id": case_id, "status": status}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"case_id": case_id, "status": status}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateCaseStatus",
+                "name": "update_case_status",
                 "description": "Update the status of a support case.",
                 "parameters": {
                     "type": "object",

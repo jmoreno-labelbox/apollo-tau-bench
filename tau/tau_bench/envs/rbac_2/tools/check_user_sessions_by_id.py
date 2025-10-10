@@ -1,50 +1,43 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CheckUserSessionsById(Tool):
-    """Identifies all recent login sessions for a specific user to assist in security investigations."""
+    """Finds all recent login sessions for a specific user to aid in security investigations."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        user_id_to_find = user_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id_to_find = kwargs.get("user_id")
         try:
-            all_sessions = data.get("sessions", {}).values()
+            all_sessions = data.get('sessions', [])
         except (KeyError, json.JSONDecodeError):
             all_sessions = []
 
         user_sessions = [
-            session
-            for session in all_sessions.values() if session.get("user_id") == user_id_to_find
+            session for session in all_sessions
+            if session.get("user_id") == user_id_to_find
         ]
-        payload = user_sessions
-        out = json.dumps(payload)
-        return out
+        return json.dumps(user_sessions)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CheckUserSessionsById",
+                "name": "check_user_sessions_by_id",
                 "description": "Retrieves a list of all recent login sessions for a specific user ID as part of a security investigation.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "user_id": {
                             "type": "string",
-                            "description": "The unique ID of the user whose sessions are to be checked.",
+                            "description": "The unique ID of the user whose sessions are to be checked."
                         }
                     },
-                    "required": ["user_id"],
-                },
-            },
+                    "required": ["user_id"]
+                }
+            }
         }

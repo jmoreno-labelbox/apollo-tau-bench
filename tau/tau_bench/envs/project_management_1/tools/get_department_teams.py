@@ -1,36 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetDepartmentTeams(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], department: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        department = kwargs.get("department")
         if not department:
-            payload = {"error": "department is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "department is required"})
 
-        teams = data.get("teams", {}).values()
-        dept_teams = [team for team in teams.values() if team.get("department") == department]
-        payload = dept_teams
-        out = json.dumps(payload, indent=2)
-        return out
+        teams = data.get("teams", [])
+        dept_teams = [team for team in teams if team.get("department") == department]
+
+        return json.dumps(dept_teams, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetDepartmentTeams",
+                "name": "get_department_teams",
                 "description": "Get all teams in a department",
                 "parameters": {
                     "type": "object",

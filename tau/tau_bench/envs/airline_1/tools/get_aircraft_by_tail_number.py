@@ -1,46 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAircraftByTailNumber(Tool):
-
+    """
+    A tool to retrieve aircraft details using its tail number.
+    """
     @staticmethod
-    def invoke(data: dict[str, Any], tail_number: str) -> str:
-        aircraft_list = data.get("aircraft", {}).values()
+    def invoke(data: Dict[str, Any], tail_number: str) -> str:
+        aircraft_list = list(data.get("aircraft", {}).values())
         for aircraft in aircraft_list:
             if aircraft.get("tail_number") == tail_number:
-                payload = aircraft
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Aircraft not found", "tail_number": tail_number}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(aircraft)
+        return json.dumps({"error": "Aircraft not found", "tail_number": tail_number})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAircraftByTailNumber",
+                "name": "get_aircraft_by_tail_number",
                 "description": "Retrieves the full details of an aircraft using its unique tail number.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "tail_number": {
                             "type": "string",
-                            "description": "The unique tail number of the aircraft (e.g., 'G-ZNKH').",
+                            "description": "The unique tail number of the aircraft (e.g., 'G-ZNKH')."
                         }
                     },
-                    "required": ["tail_number"],
-                },
-            },
+                    "required": ["tail_number"]
+                }
+            }
         }

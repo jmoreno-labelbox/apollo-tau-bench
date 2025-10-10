@@ -1,45 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class FindHrWorkflowForUser(Tool):
+class find_hr_workflow_for_user(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        user_id: Any = None
-    ) -> str:
-        hr_workflows = data.get("hr_workflows", {}).values()
-        # A user may serve as the main employee or a candidate within a workflow
+    def invoke(data: Dict[str, Any], user_id: str) -> str:
+        workflows = data.get("hr_workflows", [])
+        # A user can be the primary employee or a candidate in a workflow
         workflow = next(
             (
                 w
-                for w in hr_workflows.values() if w.get("employee_id") == user_id
+                for w in workflows
+                if w.get("employee_id") == user_id
                 or user_id in [c.get("employee_id") for c in w.get("candidates", [])]
             ),
             None,
         )
         if workflow:
-            payload = {"workflow_id": workflow["workflow_id"]}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"error": f"Workflow for user {user_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"workflow_id": workflow["workflow_id"]}, indent=2)
+        return json.dumps({"error": f"Workflow for user {user_id} not found"}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "findHrWorkflowForUser",
+                "name": "find_hr_workflow_for_user",
                 "description": "Find an HR workflow associated with a specific user ID.",
                 "parameters": {
                     "type": "object",

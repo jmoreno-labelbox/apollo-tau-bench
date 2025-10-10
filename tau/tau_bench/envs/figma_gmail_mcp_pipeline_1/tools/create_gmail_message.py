@@ -1,42 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class CreateGmailMessage(Tool):  #WRITE
+class CreateGmailMessage(Tool):  # WRITE
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         sender_email: str,
         workflow_type: str,
         thread_id: str = None,
-        attachments_asset_ids: list[str] = None,
+        attachments_asset_ids: List[str] = None
     ) -> str:
-        pass
-        #Check the input for validity
+        # Validate input
         if not isinstance(sender_email, str) or not sender_email:
-            payload = {"error": "sender_email must be a non-empty string"}
-            out = json.dumps(payload)
-            return out
-        if (
-            not isinstance(workflow_type, str)
-            or not workflow_type
-            or workflow_type not in ["review", "release"]
-        ):
-            payload = {"error": "workflow_type must be a non-empty string"}
-            out = json.dumps(payload)
-            return out
-        gmail_messages = data.get("gmail_messages", {}).values()
+            return json.dumps({"error": "sender_email must be a non-empty string"})
+        if not isinstance(workflow_type, str) or not workflow_type or workflow_type not in ['review', 'release']:
+            return json.dumps({"error": "workflow_type must be a non-empty string"})
+        gmail_messages = data.get("gmail_messages", [])
         next_num = len(gmail_messages) + 1
         message_id = f"msg_{next_num:03d}"
-        sent_ts = "2025-08-26T12:00:00Z"  #Utilize the current date/time in production
+        sent_ts = "2025-08-26T12:00:00Z"  # Use current date/time in production
         if workflow_type == "review":
             body_text_stripped = "Hi, please review the attached design."
         elif workflow_type == "release":
@@ -48,44 +34,31 @@ class CreateGmailMessage(Tool):  #WRITE
             "body_html": f"<p>{body_text_stripped.replace(',', ',</p><p>', 1)}</p>",
             "body_text_stripped": body_text_stripped,
             "sent_ts": sent_ts,
-            "attachments_asset_ids": (
-                attachments_asset_ids if attachments_asset_ids else []
-            ),
+            "attachments_asset_ids": attachments_asset_ids if attachments_asset_ids else []
         }
-        data["gmail_messages"][new_message["gmail_message_id"]] = new_message
-        payload = {"new_message": new_message}
-        out = json.dumps(payload)
-        return out
+        gmail_messages.append(new_message)
+        return json.dumps({"new_message": new_message})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateGmailMessage",
+                "name": "create_gmail_message",
                 "description": "Create a new Gmail message.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "sender_email": {
-                            "type": "string",
-                            "description": "Sender's email address.",
-                        },
-                        "body_text_stripped": {
-                            "type": "string",
-                            "description": "Plain text body of the message.",
-                        },
-                        "thread_id": {
-                            "type": "string",
-                            "description": "Optional thread ID for the message.",
-                        },
+                        "sender_email": {"type": "string", "description": "Sender's email address."},
+                        "body_text_stripped": {"type": "string", "description": "Plain text body of the message."},
+                        "thread_id": {"type": "string", "description": "Optional thread ID for the message."},
                         "attachments_asset_ids": {
                             "type": "array",
                             "items": {"type": "string"},
-                            "description": "Optional list of asset IDs for attachments.",
-                        },
+                            "description": "Optional list of asset IDs for attachments."
+                        }
                     },
-                    "required": ["sender_email", "body_text_stripped"],
-                },
-            },
+                    "required": ["sender_email", "body_text_stripped"]
+                }
+            }
         }

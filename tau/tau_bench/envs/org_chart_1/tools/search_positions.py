@@ -1,29 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class search_positions(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], title: str = None) -> str:
-        positions = data.get("positions", {}).values()
-        hits = [p for p in positions.values() if p["title"] == title]
-        payload = hits
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], title: str) -> str:
+        positions = data.get("positions", [])
+        hits = [p for p in positions if p["title"] == title]
+        return json.dumps(hits, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "searchPositions",
+                "name": "search_positions",
                 "description": "Return all positions that match the title. If no match, return an empty list.",
                 "parameters": {
                     "type": "object",

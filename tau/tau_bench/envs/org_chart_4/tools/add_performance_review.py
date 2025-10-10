@@ -1,23 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class add_performance_review(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], performance_review: dict) -> str:
+    def invoke(data: Dict[str, Any], performance_review: dict) -> str:
         reviews = data.setdefault("performance_reviews", [])
-        data["reviews"][review_id] = performance_review
-        payload = {"success": True, "review_id": performance_review.get("review_id")}
-        out = json.dumps(
-            payload, indent=2,
+        reviews.append(performance_review)
+        return json.dumps(
+            {"success": True, "review_id": performance_review.get("review_id")},
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddPerformanceReview",
+                "name": "add_performance_review",
                 "description": "Add a new performance review record. The performance_review object must contain all required fields.",
                 "parameters": {
                     "type": "object",

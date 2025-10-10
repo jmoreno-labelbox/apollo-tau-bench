@@ -1,53 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateAircraftStatus(Tool):
     """
-    A tool for updating the status of an aircraft.
+    A tool to update aircraft status.
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], aircraft_id: str, new_status: str) -> str:
-        aircraft_list = data.get("aircraft", {}).values()
+    def invoke(data: Dict[str, Any], aircraft_id: str, new_status: str) -> str:
+        aircraft_list = list(data.get("aircraft", {}).values())
         for aircraft in aircraft_list:
             if aircraft.get("aircraft_id") == aircraft_id:
                 aircraft["status"] = new_status
-                payload = aircraft
-                out = json.dumps(payload)
-                return out
-        payload = {"status": "Aircraft not found", "aircraft_id": aircraft_id}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(aircraft)
+        return json.dumps({"status": "Aircraft not found", "aircraft_id": aircraft_id})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateAircraftStatus",
+                "name": "update_aircraft_status",
                 "description": "Update aircraft status.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "aircraft_id": {
-                            "type": "string",
-                            "description": "The aircraft ID.",
-                        },
-                        "new_status": {
-                            "type": "string",
-                            "description": "New status for the aircraft.",
-                        },
+                        "aircraft_id": {"type": "string", "description": "The aircraft ID."},
+                        "new_status": {"type": "string", "description": "New status for the aircraft."}
                     },
-                    "required": ["aircraft_id", "new_status"],
-                },
-            },
+                    "required": ["aircraft_id", "new_status"]
+                }
+            }
         }

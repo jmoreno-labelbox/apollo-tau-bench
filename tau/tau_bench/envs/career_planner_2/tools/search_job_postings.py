@@ -1,38 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchJobPostings(Tool):
-    """Provide job postings that align with specified keywords and location."""
+    """Return job postings matching keywords and location."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], skill_keywords: list[str] = None, location: str = None) -> str:
-        if skill_keywords is None:
-            skill_keywords = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        kws = kwargs.get("skill_keywords", [])
+        loc = kwargs.get("location")
         res = [
             p
-            for p in data.get("job_postings", {}).values()
-            if (not location or location.lower() in p.get("location", ""))
-            and all(kw.lower() in json.dumps(p).lower() for kw in skill_keywords.values())
+            for p in data.get("job_postings", [])
+            if (not loc or loc.lower() in p.get("location", ""))
+            and all(kw.lower() in json.dumps(p).lower() for kw in kws)
         ]
-        payload = res
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(res, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "searchJobPostings",
+                "name": "search_job_postings",
                 "description": "Search postings.",
                 "parameters": {
                     "type": "object",

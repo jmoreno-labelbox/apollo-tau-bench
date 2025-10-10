@@ -1,30 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListUsersByMfaTool(Tool):
-    """ListUsersByMfa"""
+    """list_users_by_mfa"""
 
     @staticmethod
-    def invoke(data: dict[str, Any], enabled: bool = None, status: str = None,
-    user_id: Any = None,
-    ) -> str:
-        users: list[dict[str, Any]] = data.get("users", {}).values()
-        out: list[dict[str, Any]] = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        enabled = kwargs.get("enabled")
+        status = kwargs.get("status")
+
+        users: List[Dict[str, Any]] = list(data.get("users", {}).values())
+        out: List[Dict[str, Any]] = []
 
         def _effective_enabled_and_source(
-            u: dict[str, Any],
-        ) -> tuple[bool | None, str]:
+            u: Dict[str, Any],
+        ) -> Tuple[Optional[bool], str]:
             mfa = u.get("mfa")
             if isinstance(mfa, dict) and "enabled" in mfa:
                 return bool(mfa.get("enabled")), "new"
@@ -42,7 +36,7 @@ class ListUsersByMfaTool(Tool):
                     continue
 
             rec = dict(u)
-            rec.setdefault("mfa", {}).values()
+            rec.setdefault("mfa", {})
             rec["mfa"] = dict(rec["mfa"]) if isinstance(rec["mfa"], dict) else {}
             if eff is not None:
                 rec["mfa"]["enabled"] = bool(eff)
@@ -50,15 +44,14 @@ class ListUsersByMfaTool(Tool):
             out.append(rec)
 
         out.sort(key=lambda r: (r.get("user_id") or ""))
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListUsersByMfa",
+                "name": "list_users_by_mfa",
                 "description": "Find users by MFA state and optional account status.",
                 "parameters": {
                     "type": "object",

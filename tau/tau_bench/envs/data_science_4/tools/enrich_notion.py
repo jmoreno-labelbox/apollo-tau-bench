@@ -1,10 +1,16 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class EnrichNotion(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], page_id: str = None, model_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        page_id = kwargs.get("page_id")
+        model_id = kwargs.get("model_id")
+
         zotero_id = "ZOTERO_001"
         entry = {
             "page_id": page_id,
@@ -13,15 +19,15 @@ class EnrichNotion(Tool):
         }
 
         data.setdefault("zotero_metadata", []).append(entry)
-        payload = entry
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(entry)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "enrichNotion",
+                "name": "EnrichNotion",
                 "parameters": {
                     "type": "object",
                     "properties": {

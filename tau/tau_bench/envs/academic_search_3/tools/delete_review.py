@@ -1,53 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class DeleteReview(Tool):
-    """Utility for removing a review record."""
-
+    """Tool to delete a review record."""
     @staticmethod
-    def invoke(data: dict[str, Any], review_id: Any = None) -> str:
-        reviews = data.get("reviews", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        review_id = kwargs.get('review_id')
+        reviews = list(data.get('reviews', {}).values())
         original_count = len(reviews)
-        data["reviews"] = [r for r in reviews.values() if r.get("review_id") != review_id]
-        if len(data["reviews"]) < original_count:
-            payload = {
-                "status": "success",
-                "review_id": review_id,
-                "message": "Review deleted.",
-            }
-            out = json.dumps(payload)
-            return out
+        data['reviews'] = [r for r in reviews if r.get('review_id') != review_id]
+        if len(data['reviews']) < original_count:
+            return json.dumps({"status": "success", "review_id": review_id, "message": "Review deleted."})
         else:
-            payload = {"error": f"Review with ID {review_id} not found."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Review with ID {review_id} not found."})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "DeleteReview",
-                "description": "Deletes a specific review record by its ID.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "review_id": {
-                            "type": "string",
-                            "description": "The unique ID of the review to delete.",
-                        }
-                    },
-                    "required": ["review_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "delete_review", "description": "Deletes a specific review record by its ID.", "parameters": {"type": "object", "properties": {
+            "review_id": {"type": "string", "description": "The unique ID of the review to delete."}
+        }, "required": ["review_id"]}}}

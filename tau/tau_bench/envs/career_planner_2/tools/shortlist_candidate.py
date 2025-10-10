@@ -1,40 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ShortlistCandidate(Tool):
-    """Include a candidate in the shortlist for a job posting."""
+    """Add a candidate to a posting's shortlist."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], job_id: str = None, candidate_id: str = None) -> str:
-        jid = job_id
-        cid = candidate_id
-        for p in data.get("job_postings", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        jid = kwargs.get("job_id")
+        cid = kwargs.get("candidate_id")
+        for p in data.get("job_postings", []):
             if p.get("job_id") == jid:
                 sl = p.setdefault("shortlist", [])
                 if cid not in sl:
                     sl.append(cid)
-                payload = {"success": f"{cid} shortlisted for {jid}"}
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": "Job not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"success": f"{cid} shortlisted for {jid}"}, indent=2)
+        return json.dumps({"error": "Job not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ShortlistCandidate",
+                "name": "shortlist_candidate",
                 "description": "Shortlist candidate.",
                 "parameters": {
                     "type": "object",

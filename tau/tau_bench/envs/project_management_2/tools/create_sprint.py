@@ -1,41 +1,39 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateSprint(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], sprint_id: str = None, sprint_name: str = None, start_date: str = None, end_date: str = None, sprint_goal: str = None, team_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        sprint_id = kwargs.get("sprint_id")
+        sprint_name = kwargs.get("sprint_name")
+        start_date = kwargs.get("start_date")
+        end_date = kwargs.get("end_date")
+        sprint_goal = kwargs.get("sprint_goal")
+        team_id = kwargs.get("team_id")
+
         if not all([sprint_name, start_date, end_date, team_id]):
-            payload = {"error": "sprint_name, start_date, end_date, and team_id are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "sprint_name, start_date, end_date, and team_id are required"}
+            )
 
-        sprints = data.get("sprints", {}).values()
-        teams = data.get("teams", {}).values()
+        sprints = data.get("sprints", [])
+        teams = data.get("teams", [])
 
-        team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
+        team = next((t for t in teams if t.get("team_id") == team_id), None)
         if not team:
-            payload = {"error": f"Team '{team_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Team '{team_id}' not found"})
 
-        for s in sprints.values():
+        for s in sprints:
             if s.get("sprint_id") == sprint_id:
-                payload = {
-                    "error": f"sprint_id {sprint_id} exists. Please enter a unique sprint_id.",
-                }
-                out = json.dumps(payload)
-                return out
+                return json.dumps(
+                    {
+                        "error": f"sprint_id {sprint_id} exists. Please enter a unique sprint_id.",
+                    }
+                )
 
         new_sprint = {
             "sprint_id": sprint_id,
@@ -50,16 +48,16 @@ class CreateSprint(Tool):
             "velocity": 0,
         }
 
-        data["sprints"][sprint_id] = new_sprint
-        payload = {"success": True, "sprint": new_sprint}
-        out = json.dumps(payload)
-        return out
+        sprints.append(new_sprint)
+
+        return json.dumps({"success": True, "sprint": new_sprint})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateSprint",
+                "name": "create_sprint",
                 "description": "Create a new sprint",
                 "parameters": {
                     "type": "object",

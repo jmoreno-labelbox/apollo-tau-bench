@@ -1,29 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FetchCalendarEventsForClientTool(Tool):
-    """Delivers calendar events for a client, optionally constrained to a date range."""
+    """Returns calendar events for a client, optionally within a date range."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], client_id: int = None, start_at: str = None, end_at: str = None, date: Any = None) -> str:
-        client_id = _as_int(client_id)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        client_id = _as_int(kwargs.get("client_id"))
         if client_id is None:
             return _err("client_id is required")
 
+        start_at = kwargs.get("start_at")
+        end_at = kwargs.get("end_at")
+
         events = [
             e
-            for e in data.get("calendar_events", {}).values()
+            for e in data.get("calendar_events", [])
             if _as_int(e.get("client_id")) == client_id
         ]
         if start_at:
@@ -49,15 +45,14 @@ class FetchCalendarEventsForClientTool(Tool):
             "total": len(events_sorted),
             "events": events_sorted[:100],
         }
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FetchCalendarEventsForClient",
+                "name": "fetch_calendar_events_for_client",
                 "description": (
                     "Fetch calendar events for a client with optional date range."
                 ),

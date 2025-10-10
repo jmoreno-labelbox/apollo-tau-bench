@@ -1,14 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateNewIssue(Tool):
     """
@@ -22,84 +17,45 @@ class CreateNewIssue(Tool):
     """
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        owner: str = "",
-        repo_name: str = "",
-        title: str = "",
-        issue_title: str = "",
-        body: str = "",
-        issue_body: str = "",
-        labels: Any = None,
-        label: Any = None,
-        lable: Any = None,
-        assignees: Any = None,
-        assignee: Any = None,
-    ) -> str:
-        owner = owner.strip()
-        repo_name = (repo_name or repo_name or "").strip()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner = kwargs.get("owner", "").strip()
+        repo_name = (kwargs.get("repo_name") or kwargs.get("repo_name") or "").strip()
 
         # Optional fields
-        title = (title or issue_title or "").strip()
-        body = (body or issue_body or "").strip()
+        title = (kwargs.get("title") or kwargs.get("issue_title") or "").strip()
+        body = (kwargs.get("body") or kwargs.get("issue_body") or "").strip()
 
         # Accept label(s) via 'label', 'lable' (typo), or 'labels'
-        labels_input = labels or label or lable
+        labels_input = kwargs.get("labels", kwargs.get("label", kwargs.get("lable", None)))
         if isinstance(labels_input, str):
-            labels_list: list[str] = (
-                [labels_input.strip()] if labels_input.strip() else []
-            )
+            labels_list: List[str] = [labels_input.strip()] if labels_input.strip() else []
         elif isinstance(labels_input, list):
-            labels_list = [
-                str(x).strip()
-                for x in labels_input
-                if isinstance(x, (str, int, float)) and str(x).strip()
-            ]
+            labels_list = [str(x).strip() for x in labels_input if isinstance(x, (str, int, float)) and str(x).strip()]
         else:
             labels_list = []
 
         # Accept assignee(s) via 'assignees' or 'assignee'
-        assignees_input = assignees or assignee
+        assignees_input = kwargs.get("assignees", kwargs.get("assignee", None))
         if isinstance(assignees_input, str):
-            assignees_list: list[str] = (
-                [assignees_input.strip()] if assignees_input.strip() else []
-            )
+            assignees_list: List[str] = [assignees_input.strip()] if assignees_input.strip() else []
         elif isinstance(assignees_input, list):
-            assignees_list = [
-                str(x).strip()
-                for x in assignees_input
-                if isinstance(x, (str, int, float)) and str(x).strip()
-            ]
+            assignees_list = [str(x).strip() for x in assignees_input if isinstance(x, (str, int, float)) and str(x).strip()]
         else:
             assignees_list = []
 
         if not owner or not repo_name:
-            payload = {
-                "error": "Parameters 'owner' and 'repo_name' (or 'repo_name') are required."
-            }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": "Parameters 'owner' and 'repo_name' (or 'repo_name') are required."},
+                indent=2
             )
-            return out
 
         # Load issues DB
-        issues_db = _convert_db_to_list(data.get("issues", {}).values())
+        issues_db = list(data.get("issues", {}).values())
         if not isinstance(issues_db, list):
-            payload = {"error": "Invalid issues DB: expected a list at data['issues']."}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({"error": "Invalid issues DB: expected a list at data['issues']."}, indent=2)
 
         # Find or create the repo bucket
-        rec = next(
-            (
-                r
-                for r in issues_db
-                if r.get("owner") == owner and r.get("repo_name") == repo_name
-            ),
-            None,
-        )
+        rec = next((r for r in issues_db if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
         created_bucket = False
         if rec is None:
             rec = {
@@ -114,7 +70,7 @@ class CreateNewIssue(Tool):
                 "issue_comments": [],
                 "issue_comment_users": [],
                 "created_ts": [],
-                "updated_ts": [],
+                "updated_ts": []
             }
             issues_db.append(rec)
             created_bucket = True
@@ -140,86 +96,58 @@ class CreateNewIssue(Tool):
 
         # Append the new issue
         rec["issue_numbers"].append(next_issue_number)
-        rec["issue_titles"].append(title)  # provided or ""
-        rec["issue_bodies"].append(body)  # provided or ""
+        rec["issue_titles"].append(title)            # provided or ""
+        rec["issue_bodies"].append(body)             # provided or ""
         rec["issue_states"].append("open")
-        rec["labels"].append(labels_list)  # list[str]
-        rec["assignees"].append(assignees_list)  # list[str]
-        rec["issue_comments"].append([])  # none yet
-        rec["issue_comment_users"].append([])  # none yet
+        rec["labels"].append(labels_list)            # list[str]
+        rec["assignees"].append(assignees_list)      # list[str]
+        rec["issue_comments"].append([])             # none yet
+        rec["issue_comment_users"].append([])        # none yet
         rec["created_ts"].append(new_ts)
         rec["updated_ts"].append(new_ts)
 
-        add_terminal_message(
-            data,
-            (
-                f"Created new issues bucket and issue #{next_issue_number}"
-                if created_bucket
-                else f"Added issue #{next_issue_number} to existing bucket"
-            ),
-            get_current_timestamp(),
-        )
-        payload = {
-            "success": (
-                f"Created new issues bucket and issue #{next_issue_number}"
-                if created_bucket
-                else f"Added issue #{next_issue_number} to existing bucket"
-            ),
-            "repo": f"{owner}/{repo_name}",
-            "issue": {
-                "number": next_issue_number,
-                "title": title,
-                "body": body,
-                "state": "open",
-                "labels": labels_list,
-                "assignees": assignees_list,
-                "created_ts": new_ts,
-                "updated_ts": new_ts,
+        add_terminal_message(data, f"Created new issues bucket and issue #{next_issue_number}" if created_bucket else f"Added issue #{next_issue_number} to existing bucket", get_current_timestamp())
+
+        return json.dumps(
+            {
+                "success": (
+                    f"Created new issues bucket and issue #{next_issue_number}"
+                    if created_bucket else
+                    f"Added issue #{next_issue_number} to existing bucket"
+                ),
+                "repo": f"{owner}/{repo_name}",
+                "issue": {
+                    "number": next_issue_number,
+                    "title": title,
+                    "body": body,
+                    "state": "open",
+                    "labels": labels_list,
+                    "assignees": assignees_list,
+                    "created_ts": new_ts,
+                    "updated_ts": new_ts
+                }
             },
-        }
-        out = json.dumps(
-            payload, indent=2,
+            indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateNewIssue",
+                "name": "create_new_issue",
                 "description": "Create a new issue for a repo in the issues DB (creates repo bucket if missing). Supports title, body, labels, assignees.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "owner": {"type": "string", "description": "Repository owner."},
-                        "repo_name": {
-                            "type": "string",
-                            "description": "Repository name (alias accepted as 'repo_name').",
-                        },
+                        "repo_name": {"type": "string", "description": "Repository name (alias accepted as 'repo_name')."},
                         "title": {"type": "string", "description": "Issue title."},
-                        "body": {
-                            "type": "string",
-                            "description": "Issue body/description.",
-                        },
-                        "labels": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "List of labels to attach.",
-                        },
-                        "assignees": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "List of usernames to assign.",
-                        },
+                        "body": {"type": "string", "description": "Issue body/description."},
+                        "labels": {"type": "array", "items": {"type": "string"}, "description": "List of labels to attach."},
+                        "assignees": {"type": "array", "items": {"type": "string"}, "description": "List of usernames to assign."}
                     },
-                    "required": [
-                        "owner",
-                        "repo_name",
-                        "title",
-                        "body",
-                        "labels",
-                        "assignees",
-                    ],
-                },
-            },
+                    "required": ["owner", "repo_name","title","body","labels","assignees"]
+                }
+            }
         }

@@ -1,13 +1,14 @@
-from tau_bench.envs.tool import Tool
-import json
-import uuid
-from datetime import datetime
-from typing import Any
+# Copyright Sierra
 
-class LogCourseProgress(Tool):
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class log_course_progress(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         user_id: str,
         course_id: str,
         progress: int,
@@ -20,22 +21,19 @@ class LogCourseProgress(Tool):
             "update_date": update_date,
         }
         data.setdefault("course_progress_log", []).append(record)
-        payload = {
-            "success": f"Course progress logged for {user_id} in {course_id}: {progress}%"
-        }
-        out = json.dumps(
-            payload, indent=2,
+        return json.dumps(
+            {
+                "success": f"Course progress logged for {user_id} in {course_id}: {progress}%"
+            },
+            indent=2,
         )
-        return out
-        return out
 
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "logCourseProgress",
+                "name": "log_course_progress",
                 "description": "Log course progress for a user",
                 "parameters": {
                     "type": "object",

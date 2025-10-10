@@ -1,38 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CaV2GetInvoiceById(Tool):
-    """Retrieve a specific invoice using its ID."""
+    """Get specific invoice by ID."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], invoice_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        invoice_id = kwargs.get("invoice_id")
         if not invoice_id:
             return _error("invoice_id is required.")
 
-        invoices = data.get("invoices", {}).values()
-        invoice = _find_one(list(invoices.values()), "invoice_id", invoice_id)
-        return (
-            json.dumps(invoice)
-            if invoice
-            else _error(f"Invoice '{invoice_id}' not found.")
-        )
+        invoices = data.get("invoices", [])
+        invoice = _find_one(invoices, "invoice_id", invoice_id)
+        return json.dumps(invoice) if invoice else _error(f"Invoice '{invoice_id}' not found.")
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CaV2GetInvoiceById",
+                "name": "ca_v2_get_invoice_by_id",
                 "description": "Get a specific invoice by its ID.",
                 "parameters": {
                     "type": "object",

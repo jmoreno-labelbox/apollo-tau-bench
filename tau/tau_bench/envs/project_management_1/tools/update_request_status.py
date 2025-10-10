@@ -1,28 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateRequestStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], request_id: str, status: str, assigned_employees: list = [], allocated_hours: int = 0) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        request_id = kwargs.get("request_id")
+        status = kwargs.get("status")
+        assigned_employees = kwargs.get("assigned_employees", [])
+        allocated_hours = kwargs.get("allocated_hours", 0)
+
         if not all([request_id, status]):
-            payload = {"error": "request_id and status are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "request_id and status are required"})
 
-        resource_requests = data.get("resource_requests", {}).values()
+        resource_requests = data.get("resource_requests", [])
 
-        for request in resource_requests.values():
+        for request in resource_requests:
             if request.get("request_id") == request_id:
                 request["status"] = status
                 request["assigned_employees"] = assigned_employees
@@ -33,18 +29,17 @@ class UpdateRequestStatus(Tool):
                     hours_needed = request.get("hours_needed", 0)
                     skill_gap = hours_needed - allocated_hours
                     result["skill_gap"] = skill_gap
-                payload = result
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Request with ID '{request_id}' not found"}
-        out = json.dumps(payload)
-        return out
+
+                return json.dumps(result)
+
+        return json.dumps({"error": f"Request with ID '{request_id}' not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "updateRequestStatus",
+                "name": "update_request_status",
                 "description": "Update the status of a resource request",
                 "parameters": {
                     "type": "object",

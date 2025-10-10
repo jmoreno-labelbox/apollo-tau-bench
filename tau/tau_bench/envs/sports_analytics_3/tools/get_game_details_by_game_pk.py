@@ -1,54 +1,47 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetGameDetailsByGamePk(Tool):
-    """Retrieve a game record using its game_pk."""
+    """Fetch a game record by its game_pk."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], game_pk: int = None) -> str:
-        #1) Confirm validity
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        game_pk = kwargs.get("game_pk")
+
+        # 1) Validate
         if game_pk is None:
-            payload = {"error": "Missing required field: game_pk"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Missing required field: game_pk"}, indent=2)
 
-        #2) Retrieve DB
-        games: list[dict[str, Any]] = data.get("games", {}).values()
+        # 2) Get DB
+        games: List[Dict[str, Any]] = data.get("games", [])
 
-        #3) Lookup for exact matches
+        # 3) Exact match lookup
         for game in games:
             if game.get("game_pk") == game_pk:
-                payload = game
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"No game found with game_pk {game_pk}"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(game, indent=2)
+
+        return json.dumps({"error": f"No game found with game_pk {game_pk}"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getGameDetailsByGamePk",
+                "name": "get_game_details_by_game_pk",
                 "description": "Fetch a single game's full details by its game_pk.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "game_pk": {
                             "type": "integer",
-                            "description": "Exact game primary key to retrieve.",
+                            "description": "Exact game primary key to retrieve."
                         }
                     },
-                    "required": ["game_pk"],
-                },
-            },
+                    "required": ["game_pk"]
+                }
+            }
         }

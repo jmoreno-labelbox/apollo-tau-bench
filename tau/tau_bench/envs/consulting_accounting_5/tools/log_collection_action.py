@@ -1,33 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any, Dict
-from datetime import timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class LogCollectionAction(Tool):
     @staticmethod
-    def invoke(
-        data: Dict[str, Any],
-        audit_id: str,
-        event_date: str = None,
-        event_type: str = None,
-        invoice_id: str = None,
-        notes: str = "",
-        outcome: str = ""
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
         Logs a new collection action into invoice_audit.json.
         """
         new_action = {
-            "audit_id": audit_id,
-            "invoice_id": invoice_id,
-            "event_type": event_type,
-            "event_date": event_date,
-            "outcome": outcome,
-            "notes": notes
+            "audit_id": kwargs["audit_id"],
+            "invoice_id": kwargs["invoice_id"],
+            "event_type": kwargs["event_type"],   # e.g., "reminder_sent", "phone_call"
+            "event_date": kwargs["event_date"],
+            "outcome": kwargs.get("outcome", ""),
+            "notes": kwargs.get("notes", "")
         }
         data["invoice_audit"].append(new_action)
         return json.dumps(new_action["audit_id"])
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {

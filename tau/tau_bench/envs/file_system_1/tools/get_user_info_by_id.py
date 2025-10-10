@@ -1,44 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetUserInfoByID(Tool):
-    """Fetches a user's profile, encompassing their role and permissions."""
+    """Retrieves a user's profile, including their role and permissions."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        for user in data.get('user_preferences', []):
+            if user.get('user_id') == user_id:
+                return json.dumps(user)
+        return json.dumps({"error": f"User with ID '{user_id}' not found."})
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        for user in data.get("user_preferences", {}).values():
-            if user.get("user_id") == user_id:
-                payload = user
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"User with ID '{user_id}' not found."}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetUserInfoById",
-                "description": "Fetches user details like role and permissions using their unique user ID.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "user_id": {
-                            "type": "string",
-                            "description": "The unique ID of the user (e.g., 'user_001').",
-                        }
-                    },
-                    "required": ["user_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "get_user_info_by_id", "description": "Fetches user details like role and permissions using their unique user ID.", "parameters": {"type": "object", "properties": {"user_id": {"type": "string", "description": "The unique ID of the user (e.g., 'user_001')."}}, "required": ["user_id"]}}}

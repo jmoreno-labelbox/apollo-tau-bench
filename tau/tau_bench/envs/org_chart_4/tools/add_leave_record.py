@@ -1,23 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class add_leave_record(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], leave_record: dict) -> str:
+    def invoke(data: Dict[str, Any], leave_record: dict) -> str:
         records = data.setdefault("leave_records", [])
         records.append(leave_record)
-        payload = {"success": True, "leave_id": leave_record.get("leave_id")}
-        out = json.dumps(
-            payload, indent=2
+        return json.dumps(
+            {"success": True, "leave_id": leave_record.get("leave_id")}, indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddLeaveRecord",
+                "name": "add_leave_record",
                 "description": "Add a new leave record. The leave_record object must contain all required fields.",
                 "parameters": {
                     "type": "object",

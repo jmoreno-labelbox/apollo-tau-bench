@@ -1,59 +1,52 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CalculateExpectedArrivalDate(Tool):
-    """Determines an expected arrival date based on the supplier's typical lead time."""
+    """Calculates an expected arrival date based on a supplier's standard lead time."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], supplier_id: str = None, current_date: str = None) -> str:
-        suppliers = data.get("supplier_master", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        suppliers = data.get("supplier_master", [])
+        supplier_id = kwargs.get("supplier_id")
+        current_date = kwargs.get("current_date")
 
         supplier_details = next(
-            (s for s in suppliers.values() if s.get("supplier_id") == supplier_id), {}
+            (s for s in suppliers if s.get("supplier_id") == supplier_id), {}
         )
         if not supplier_details:
-            payload = {"error": f"Supplier with ID '{supplier_id}' not found."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Supplier with ID '{supplier_id}' not found."})
 
         lead_time = supplier_details.get("standard_lead_time_days")
         if lead_time is None:
-            payload = {
-                "error": f"Standard lead time is not available for supplier '{supplier_id}'."
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": f"Standard lead time is not available for supplier '{supplier_id}'."
+                }
+            )
 
         try:
-            start_date = datetime.strptime(current_date, "%Y-%m-%d")
+            start_date = datetime.strptime(current_date, "%Y-%m-%d")  # type: ignore
             delivery_date = start_date + timedelta(days=lead_time)
             formatted_date = delivery_date.strftime("%Y-%m-%d")
         except (ValueError, TypeError):
-            payload = {
-                "error": "Invalid date format for current_date. Please use YYYY-MM-DD."
-            }
-            out = json.dumps(payload)
-            return out
-        payload = {"expected_arrival_date": formatted_date}
-        out = json.dumps(payload)
-        return out
+            return json.dumps(
+                {
+                    "error": "Invalid date format for current_date. Please use YYYY-MM-DD."
+                }
+            )
+
+        return json.dumps({"expected_arrival_date": formatted_date})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateExpectedArrivalDate",
+                "name": "calculate_expected_arrival_date",
                 "description": "Calculates the expected arrival date from a given start date using the specified supplier's standard lead time.",
                 "parameters": {
                     "type": "object",

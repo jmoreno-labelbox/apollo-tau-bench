@@ -1,37 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAccessRequestTool(Tool):
-    """Retrieve a single access request entry using its ID."""
+    """Fetch a single access request record by ID."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], request_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        request_id = kwargs.get("request_id")
         if not request_id:
-            payload = {"error": "request_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "request_id is required"}, indent=2)
 
-        requests: list[dict[str, Any]] = data.get("access_requests", {}).values()
+        requests: List[Dict[str, Any]] = data.get("access_requests", [])
         rec = next((r for r in requests if r.get("request_id") == request_id), None)
         if rec is None:
-            payload = {"error": f"Access request {request_id} not found"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": f"Access request {request_id} not found"}, indent=2
             )
-            return out
 
-        #standardize structure and ensure reliable defaults
+        # normalize shape + provide stable defaults
         out = {
             "request_id": rec.get("request_id", request_id),
             "user_id": rec.get("user_id"),
@@ -44,15 +34,14 @@ class GetAccessRequestTool(Tool):
             "decision_notes": rec.get("decision_notes"),
             "decision_at": rec.get("decision_at"),
         }
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAccessRequest",
+                "name": "get_access_request",
                 "description": "Return a single access request by ID.",
                 "parameters": {
                     "type": "object",

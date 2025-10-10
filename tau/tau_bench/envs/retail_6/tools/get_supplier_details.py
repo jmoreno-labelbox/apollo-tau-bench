@@ -1,49 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetSupplierDetails(Tool):
-    """Retrieve supplier record using supplier_id."""
+    """Read supplier record by supplier_id."""
+    @staticmethod
+    def invoke(data, **kwargs) -> str:
+        supplier_id = kwargs.get('supplier_id')
+        if not supplier_id:
+            return json.dumps({"error":"supplier_id is required"}, indent=2)
+        sup = next((s for s in data.get('suppliers', []) if s.get('supplier_id') == supplier_id), None)
+        return json.dumps(sup or {"error": f"supplier_id {supplier_id} not found"}, indent=2)
 
     @staticmethod
-    def invoke(data, supplier_id: str = None) -> str:
-        if not supplier_id:
-            payload = {"error": "supplier_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
-        sup = next(
-            (
-                s
-                for s in data.get("suppliers", {}).values()
-                if s.get("supplier_id") == supplier_id
-            ),
-            None,
-        )
-        payload = sup or {"error": f"supplier_id {supplier_id} not found"}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
-    @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "getSupplierDetails",
-                "description": "Fetch supplier by ID.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"supplier_id": {"type": "string"}},
-                    "required": ["supplier_id"],
-                },
-            },
-        }
+        return {"type":"function","function":{"name":"get_supplier_details","description":"Fetch supplier by ID.","parameters":{"type":"object","properties":{"supplier_id":{"type":"string"}},"required":["supplier_id"]}}}

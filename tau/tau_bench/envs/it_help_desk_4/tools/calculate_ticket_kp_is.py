@@ -1,35 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CalculateTicketKPIs(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], export_path: str) -> str:
-        if "Tickets_Export.csv" not in export_path:
-            payload = {"error": "Invalid export path provided."}
-            out = json.dumps(payload, indent=2)
-            return out
-        kpis = {
-            "total_open": 46,
-            "avg_age_open_hours": 23.5,
-            "avg_ttr_mins": 1440,
-            "pct_closed_1d": 60.0,
-            "p1_open_count": 5,
-        }
-        payload = kpis
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        export_path = kwargs.get("export_path")
+        if not "Tickets_Export.csv" in export_path:
+            return json.dumps({"error": "Invalid export path provided."}, indent=2)
+        kpis = {"total_open": 46, "avg_age_open_hours": 23.5, "avg_ttr_mins": 1440, "pct_closed_1d": 60.0, "p1_open_count": 5}
+        return json.dumps(kpis, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "CalculateTicketKpis",
-                "description": "Calculates standard service desk KPIs from a ticket export CSV.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"export_path": {"type": "string"}},
-                    "required": ["export_path"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "calculate_ticket_kpis", "description": "Calculates standard service desk KPIs from a ticket export CSV.", "parameters": {"type": "object", "properties": {"export_path": {"type": "string"}}, "required": ["export_path"]}}}

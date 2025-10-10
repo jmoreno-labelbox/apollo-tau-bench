@@ -1,38 +1,17 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetTeamDetails(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], **kwargs) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         team_id = kwargs.get("team_id")
-        team = next(
-            (t for t in data.get("teams", {}).values() if t.get("team_id") == team_id), None
-        )
-        payload = team or {}
-        out = json.dumps(payload, indent=2)
-        return out
+        team = next((t for t in data.get("teams", []) if t.get("team_id") == team_id), None)
+        return json.dumps(team or {}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "getTeamDetails",
-                "description": "Gets details for a team id.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"team_id": {"type": "integer"}},
-                    "required": ["team_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "get_team_details", "description": "Gets details for a team id.", "parameters": {"type": "object", "properties": {"team_id": {"type": "integer"}}, "required": ["team_id"]}}}

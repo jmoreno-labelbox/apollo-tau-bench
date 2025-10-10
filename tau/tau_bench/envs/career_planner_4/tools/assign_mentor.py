@@ -1,13 +1,14 @@
-from tau_bench.envs.tool import Tool
-import json
-import uuid
-from datetime import datetime
-from typing import Any
+# Copyright Sierra
 
-class AssignMentor(Tool):
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class assign_mentor(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         user_id: str = "",
         mentor_id: str = "",
         mentee_id: str = "",
@@ -24,20 +25,16 @@ class AssignMentor(Tool):
             "status": "Active",
         }
         data.setdefault("user_mentorship_relationships", []).append(relationship)
-        payload = {"success": f"Mentor {mentor_id} assigned to {mentee}"}
-        out = json.dumps(
-            payload, indent=2
+        return json.dumps(
+            {"success": f"Mentor {mentor_id} assigned to {mentee}"}, indent=2
         )
-        return out
-        return out
 
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "assignMentor",
+                "name": "assign_mentor",
                 "description": "Assign a mentor to a user",
                 "parameters": {
                     "type": "object",

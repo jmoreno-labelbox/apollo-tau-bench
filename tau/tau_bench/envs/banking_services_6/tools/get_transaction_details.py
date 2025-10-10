@@ -1,29 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, time, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetTransactionDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], transaction_id: str = None) -> str:
-        transaction = next((t for t in data.get('transactions', {}).values() if t['transaction_id'] == transaction_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        transaction_id = kwargs.get("transaction_id")
+        transaction = next((t for t in list(data.get('transactions', {}).values()) if t['transaction_id'] == transaction_id), None)
         if transaction:
             return json.dumps(transaction)
         return json.dumps({"error": "Transaction not found."})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "GetTransactionDetails",
+                        "name": "get_transaction_details",
                         "description": "Retrieves the full details of a single transaction.",
                         "parameters": {
                                 "type": "object",

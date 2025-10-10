@@ -1,71 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class StoreCoastalMeteorology(Tool):
-    def invoke(
-        data: dict[str, Any],
-        end_ts: str = None,
-        fetched_ts: str = None,
-        pressure_hpa_nullable: float = None,
-        raw_json_path_nullable: str = None,
-        start_ts: str = None,
-        station_id: str = None,
-        temperature_c_nullable: float = None,
-        timestamps: list = None,
-        wind_speed_ms_nullable: float = None
-    ) -> str:
-        req = ["station_id", "timestamps"]
-        err = _require({"station_id": station_id, "timestamps": timestamps}, req)
-        if err:
-            return err
-        row = {
-            "station_id": station_id,
-            "start_ts": start_ts,
-            "end_ts": end_ts,
-            "timestamps": timestamps,
-            "wind_speed_ms_nullable": wind_speed_ms_nullable,
-            "pressure_hpa_nullable": pressure_hpa_nullable,
-            "temperature_c_nullable": temperature_c_nullable,
-            "provider": "noaa-tides-currents",
-            "raw_json_path_nullable": raw_json_path_nullable,
-            "fetched_ts": fetched_ts,
-        }
-        payload = _append(data.setdefault("coastal_meteorology", []), row)
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "storeCoastalMeteorology",
-                "description": "Stores coastal meteorology (wind/pressure/temperature) by station.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "station_id": {"type": "string"},
-                        "start_ts": {"type": "string"},
-                        "end_ts": {"type": "string"},
-                        "timestamps": {"type": "array", "items": {"type": "string"}},
-                        "wind_speed_ms_nullable": {
-                            "type": "array",
-                            "items": {"type": "number"},
-                        },
-                        "pressure_hpa_nullable": {
-                            "type": "array",
-                            "items": {"type": "number"},
-                        },
-                        "temperature_c_nullable": {
-                            "type": "array",
-                            "items": {"type": "number"},
-                        },
-                        "raw_json_path_nullable": {"type": "string"},
-                        "fetched_ts": {"type": "string"},
-                    },
-                    "required": ["station_id", "timestamps"],
-                },
-            },
-        }
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        req = ["station_id", "timestamps"]
+        err = _require(kwargs, req)
+        if err: return err
+        row = {"station_id": kwargs["station_id"], "start_ts": kwargs.get("start_ts"),
+               "end_ts": kwargs.get("end_ts"), "timestamps": kwargs["timestamps"],
+               "wind_speed_ms_nullable": kwargs.get("wind_speed_ms_nullable"),
+               "pressure_hpa_nullable": kwargs.get("pressure_hpa_nullable"),
+               "temperature_c_nullable": kwargs.get("temperature_c_nullable"),
+               "provider": "noaa-tides-currents", "raw_json_path_nullable": kwargs.get("raw_json_path_nullable"),
+               "fetched_ts": kwargs.get("fetched_ts")}
+        return json.dumps(_append(data.setdefault("coastal_meteorology", []), row), indent=2)
+
+    @staticmethod
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "store_coastal_meteorology",
+            "description": "Stores coastal meteorology (wind/pressure/temperature) by station.",
+            "parameters": {"type": "object", "properties": {
+                "station_id": {"type": "string"}, "start_ts": {"type": "string"}, "end_ts": {"type": "string"},
+                "timestamps": {"type": "array", "items": {"type": "string"}},
+                "wind_speed_ms_nullable": {"type": "array", "items": {"type": "number"}},
+                "pressure_hpa_nullable": {"type": "array", "items": {"type": "number"}},
+                "temperature_c_nullable": {"type": "array", "items": {"type": "number"}},
+                "raw_json_path_nullable": {"type": "string"}, "fetched_ts": {"type": "string"}},
+                "required": ["station_id", "timestamps"]}}}

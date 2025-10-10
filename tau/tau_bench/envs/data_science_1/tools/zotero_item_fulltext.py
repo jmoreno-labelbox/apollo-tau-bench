@@ -1,44 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ZoteroItemFulltext(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        fetched_ts: Any = None,
-        file_paths: Any = None,
-        item_ids: Any = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         req = ["item_ids", "file_paths"]
-        err = _require({"item_ids": item_ids, "file_paths": file_paths}, req)
-        if err:
-            return err
-        row = {
-            "item_ids": item_ids,
-            "file_paths": file_paths,
-            "fetched_ts": fetched_ts,
-        }
-        payload = _append(data.setdefault("zotero_fulltexts", []), row)
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        err = _require(kwargs, req)
+        if err: return err
+        row = {"item_ids": kwargs["item_ids"], "file_paths": kwargs["file_paths"], "fetched_ts": kwargs.get("fetched_ts")}
+        return json.dumps(_append(data.setdefault("zotero_fulltexts", []), row), indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ZoteroItemFulltext",
-                "description": "Stores file paths for fetched Zotero fulltexts.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "item_ids": {"type": "array", "items": {"type": "string"}},
-                        "file_paths": {"type": "array", "items": {"type": "string"}},
-                        "fetched_ts": {"type": "string"},
-                    },
-                    "required": ["item_ids", "file_paths"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "zotero_item_fulltext",
+            "description": "Stores file paths for fetched Zotero fulltexts.",
+            "parameters": {"type": "object", "properties": {
+                "item_ids": {"type": "array", "items": {"type": "string"}},
+                "file_paths": {"type": "array", "items": {"type": "string"}},
+                "fetched_ts": {"type": "string"}}, "required": ["item_ids", "file_paths"]}}}

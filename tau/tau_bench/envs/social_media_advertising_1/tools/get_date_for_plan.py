@@ -1,37 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetDateForPlan(Tool):
-    """Fetches the date associated with a specific plan."""
+    """Retrieves the date for a specific plan."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], plan_id: str = None) -> str:
-        plans = data.get("plans", {}).values()
-
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        plan_id = kwargs.get("plan_id")
+        plans = data.get("plans", [])
+        
         for plan in plans:
             if plan.get("plan_id") == plan_id:
-                payload = {"date": plan.get("date")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Plan with ID '{plan_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"date": plan.get('date')})
+        
+        return json.dumps({"error": f"Plan with ID '{plan_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetDateForPlan",
+                "name": "get_date_for_plan",
                 "description": "Retrieves the date for a specific plan.",
                 "parameters": {
                     "type": "object",

@@ -1,13 +1,14 @@
-from tau_bench.envs.tool import Tool
-import json
-import uuid
-from datetime import datetime
-from typing import Any
+# Copyright Sierra
 
-class RecommendLearningPath(Tool):
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class recommend_learning_path(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         user_id: str,
         soft_skill: str,
         course_id: str,
@@ -15,7 +16,7 @@ class RecommendLearningPath(Tool):
         goal_id: str,
         progress_percent: int,
     ) -> str:
-        # Record the suggestion
+        # Log the recommendation
         recommendation = {
             "user_id": user_id,
             "soft_skill": soft_skill,
@@ -25,20 +26,17 @@ class RecommendLearningPath(Tool):
             "progress_percent": progress_percent,
         }
         data.setdefault("learning_path_recommendations", []).append(recommendation)
-        payload = {"success": f"Learning path recommended for {user_id} in {soft_skill}"}
-        out = json.dumps(
-            payload, indent=2,
+        return json.dumps(
+            {"success": f"Learning path recommended for {user_id} in {soft_skill}"},
+            indent=2,
         )
-        return out
-
 
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "recommendLearningPath",
+                "name": "recommend_learning_path",
                 "description": "Recommend a learning path for a user",
                 "parameters": {
                     "type": "object",

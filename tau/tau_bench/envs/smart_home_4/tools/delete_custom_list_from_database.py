@@ -1,57 +1,39 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class DeleteCustomListFromDatabase(Tool):
-    """Delete a custom list using name or id."""
-
+    """Remove a custom list by name/id."""
     @staticmethod
-    def invoke(data: dict[str, Any], list_id: str = "") -> str:
+    def invoke(data: Dict[str, Any], list_id: str = "") -> str:
         if not list_id:
-            payload = {"error": "'list_id' parameter is required"}
-            out = json.dumps(payload, indent=2)
-            return out
-        custom_lists = data.get("custom_lists", {}).values()
-        new_list = [l for l in custom_lists.values() if l["list_id"] != list_id]
+            return json.dumps({"error": "'list_id' parameter is required"}, indent=2)
+        custom_lists = data.get('custom_lists', [])
+        new_list = [l for l in custom_lists if l["list_id"] != list_id]
         if len(new_list) == len(custom_lists):
-            payload = {"error": "Custom list not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {
-                "success": "Custom list deleted",
-                "list_id": list_id,
-                "custom_lists": new_list,
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+            return json.dumps({"error": "Custom list not found"}, indent=2)
+        return json.dumps({"success": "Custom list deleted", "list_id": list_id, "custom_lists": new_list}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "deleteCustomListFromDatabase",
+                "name": "delete_custom_list_from_database",
                 "description": "Remove a custom list by list_id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "list_id": {
                             "type": "string",
-                            "description": "The id of the custom list to delete.",
+                            "description": "The id of the custom list to delete."
                         }
                     },
                     "required": ["list_id"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

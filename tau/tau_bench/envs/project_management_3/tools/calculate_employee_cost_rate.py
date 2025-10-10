@@ -1,35 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CalculateEmployeeCostRate(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None, include_overhead: bool = True) -> str:
-        if not employee_id:
-            payload = {"error": "employee_id is required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        include_overhead = kwargs.get("include_overhead", True)
 
-        employees = data.get("employees", {}).values()
-        allocations = data.get("allocations", {}).values()
+        if not employee_id:
+            return json.dumps({"error": "employee_id is required"})
+
+        employees = list(data.get("employees", {}).values())
+        allocations = data.get("allocations", [])
 
         employee = next(
-            (e for e in employees.values() if e.get("employee_id") == employee_id), None
+            (e for e in employees if e.get("employee_id") == employee_id), None
         )
         if not employee:
-            payload = {"error": f"Employee {employee_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Employee {employee_id} not found"})
 
         role = employee.get("role", "").lower()
         department = employee.get("department", "")
@@ -44,7 +36,7 @@ class CalculateEmployeeCostRate(Tool):
             base_rate = 100
 
         skills = employee.get("skills", [])
-        max_proficiency = max((s.get("proficiency", 0) for s in skills.values()), default=3)
+        max_proficiency = max((s.get("proficiency", 0) for s in skills), default=3)
         skill_multiplier = 1 + (max_proficiency - 3) * 0.1
 
         adjusted_rate = base_rate * skill_multiplier
@@ -57,9 +49,10 @@ class CalculateEmployeeCostRate(Tool):
 
         active_allocations = [
             a
-            for a in allocations.values() if a.get("employee_id") == employee_id and a.get("status") == "active"
+            for a in allocations
+            if a.get("employee_id") == employee_id and a.get("status") == "active"
         ]
-        total_hours = sum(a.get("hours_per_week", 0) for a in active_allocations.values())
+        total_hours = sum(a.get("hours_per_week", 0) for a in active_allocations)
 
         cost_rates = {
             "weekly_rate": round(fully_loaded_rate * 40, 2),
@@ -82,15 +75,15 @@ class CalculateEmployeeCostRate(Tool):
                 "weekly_cost": round(total_hours * fully_loaded_rate, 2),
             },
         }
-        payload = cost_rates
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(cost_rates, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateEmployeeCostRate",
+                "name": "calculate_employee_cost_rate",
                 "description": "Calculate cost rates for an employee based on role and skills",
                 "parameters": {
                     "type": "object",

@@ -1,51 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CaV2GetPipelineOpportunities(Tool):
-    """Retrieve pipeline opportunities, optionally filtered by stage or likelihood."""
+    """Get pipeline opportunities, optionally filtered by stage or probability."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], stage: str = None, min_probability: float = None) -> str:
-        opportunities = data.get("pipeline_opportunities", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        stage = kwargs.get("stage")
+        min_probability = kwargs.get("min_probability")
+
+        opportunities = data.get("pipeline_opportunities", [])
 
         if stage:
-            opportunities = [opp for opp in opportunities.values() if opp.get("stage") == stage]
+            opportunities = [opp for opp in opportunities if opp.get("stage") == stage]
 
         if min_probability is not None:
-            opportunities = [
-                opp
-                for opp in opportunities.values() if opp.get("probability", 0) >= min_probability
-            ]
-        payload = opportunities
-        out = json.dumps(payload)
-        return out
+            opportunities = [opp for opp in opportunities if opp.get("probability", 0) >= min_probability]
+
+        return json.dumps(opportunities)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CaV2GetPipelineOpportunities",
+                "name": "ca_v2_get_pipeline_opportunities",
                 "description": "Get pipeline opportunities, optionally filtered by stage or minimum probability.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "stage": {"type": "string"},
-                        "min_probability": {
-                            "type": "number",
-                            "minimum": 0,
-                            "maximum": 1,
-                        },
+                        "min_probability": {"type": "number", "minimum": 0, "maximum": 1}
                     },
                     "required": [],
                 },

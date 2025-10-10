@@ -1,13 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class FindReposWithKubernetesFolder(Tool):
-    """Delivers repositories that have files within the 'kubernetes/' directory."""
+    """Returns repositories with files inside 'kubernetes/' directory."""
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         me = _auth(data)["username"]
         matched = []
 
@@ -15,20 +17,22 @@ class FindReposWithKubernetesFolder(Tool):
             if r.get("owner") != me:
                 continue
             for file_list in r.get("branch_files", []):
-                if any(f.startswith("kubernetes/") for f in file_list.values()):
+                if any(f.startswith("kubernetes/") for f in file_list):
                     matched.append(r["repo_name"])
                     break
-        payload = matched
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(matched, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "findReposWithKubernetesFolder",
+                "name": "find_repos_with_kubernetes_folder",
                 "description": "Finds repositories with files under 'kubernetes/' folder.",
-                "parameters": {"type": "object", "properties": {}},
-            },
+                "parameters": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
         }

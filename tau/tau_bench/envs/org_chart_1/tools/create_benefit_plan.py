@@ -1,36 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class create_benefit_plan(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], benefit_plan: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], benefit_plan: Dict[str, Any]) -> str:
         if not benefit_plan:
-            payload = {"error": "benefit_plan record required"}
-            out = json.dumps(payload, indent=2)
-            return out
-        bp = data.get("benefits_plan", {}).values()
-        data["benefits_plan"][benefit_plan["benefits_plan_id"]] = benefit_plan
+            return json.dumps({"error": "benefit_plan record required"}, indent=2)
+        bp = data.get("benefits_plan", [])
+        bp.append(benefit_plan)
         data["benefits_plan"] = bp
-        payload = {"success": f'benefit_plan {benefit_plan["benefit_plan_id"]} added'}
-        out = json.dumps(
-            payload, indent=2,
+        return json.dumps(
+            {"success": f'benefit_plan {benefit_plan["benefit_plan_id"]} added'},
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateBenefitPlan",
+                "name": "create_benefit_plan",
                 "description": "Create a new benefit plan definition.",
                 "parameters": {
                     "type": "object",

@@ -1,36 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCustomerIdByName(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], customer_name: str = None) -> str:
-        customers = data.get("customers", {}).values()
-        for customer in customers.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_name = kwargs.get('customer_name')
+        customers = list(data.get("customers", {}).values())
+        for customer in customers:
             if customer.get("name") == customer_name:
-                payload = {"customer_id": customer.get("customer_id")}
-                out = json.dumps(payload)
-                return out
-        payload = {"customer_id": None}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"customer_id": customer.get("customer_id")})
+        return json.dumps({"customer_id": None})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCustomerIdByName",
+                "name": "get_customer_id_by_name",
                 "description": "Retrieves the customer ID for a given customer name.",
                 "parameters": {
                     "type": "object",

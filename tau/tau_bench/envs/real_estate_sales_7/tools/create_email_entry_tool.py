@@ -1,38 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateEmailEntryTool(Tool):
-    """Inserts a record into the emails table along with a corresponding audit event."""
+    """Creates an entry in the emails table and an accompanying audit event."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        client_id: str = None,
-        broker_id: str = None,
-        subject: str = None,
-        body_uri: str = None,
-        template_code: str = None,
-        campaign_id: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        client_id = kwargs.get("client_id")
+        broker_id = kwargs.get("broker_id")
+        subject = kwargs.get("subject")
+        body_uri = kwargs.get("body_uri")
+        template_code = kwargs.get("template_code")
+
         if client_id is None or broker_id is None or not template_code:
             return _err("client_id, broker_id, and template_code are required")
 
-        #--- Automatically generate subject and body_uri if not supplied ---
+        campaign_id = kwargs.get("campaign_id")
+
+        # --- Auto-generate subject and body_uri if not provided ---
         if not subject or not body_uri:
             comp_reports = [
                 r
-                for r in data.get("comp_reports", {}).values()
+                for r in data.get("comp_reports", [])
                 if _as_int(r.get("client_id")) == int(client_id)
             ]
             if comp_reports:
@@ -59,33 +52,33 @@ class CreateEmailEntryTool(Tool):
                         f"Follow-up on Your Property Analysis for {subject_property}"
                     )
                 elif template_code == "briefing_followup":
-                    subject = "Follow-up on Your Client Briefing"
+                    subject = f"Follow-up on Your Client Briefing"
                 elif template_code == "briefing_delivery":
-                    subject = "Your Property Market Briefing is Ready"
+                    subject = f"Your Property Market Briefing is Ready"
                 elif template_code == "first_time_buyer":
                     subject = f"First-Time Buyer Resources for {subject_property}"
                 elif template_code == "general_update":
-                    subject = "Real Estate Market Update"
+                    subject = f"Real Estate Market Update"
                 elif template_code == "market_update":
-                    subject = "Your Market Update"
+                    subject = f"Your Market Update"
                 elif template_code == "investment_alert":
-                    subject = "Investment Opportunity Alert"
+                    subject = f"Investment Opportunity Alert"
                 elif template_code == "listing_summary":
                     subject = f"Property Listing Summary for {subject_property}"
                 elif template_code == "welcome_new_client":
-                    subject = "Welcome to Our Real Estate Services"
+                    subject = f"Welcome to Our Real Estate Services"
                 elif template_code == "post_closing_checkin":
-                    subject = "Post-Closing Check-CO and Next Steps"
+                    subject = f"Post-Closing Check-in and Next Steps"
                 elif template_code == "next_steps":
-                    subject = "Next Steps in Your Real Estate Journey"
+                    subject = f"Next Steps in Your Real Estate Journey"
                 elif template_code == "follow_up":
-                    subject = "Following Up on Your Real Estate Needs"
+                    subject = f"Following Up on Your Real Estate Needs"
                 else:
-                    #Backup logic determined by report status
+                    # Fallback logic based on report status
                     if report_status == "sent_to_client":
                         subject = f"Your comparable analysis for {subject_property} is complete"
                     elif report_status == "ready_for_review":
-                        subject = "Your comp report is ready for review"
+                        subject = f"Your comp report is ready for review"
                     elif report_status == "sent_to_broker":
                         subject = f"Comp report for {subject_property} sent to broker for review"
                     else:
@@ -125,10 +118,10 @@ class CreateEmailEntryTool(Tool):
                 elif report_id:
                     body_uri = f"https://storage.example.com/emails/email_comp_{int(report_id):03d}.html"
                 else:
-                    #Revert to comp report format
+                    # Default to comp report style
                     body_uri = f"https://storage.example.com/emails/email_comp_{int(client_id):03d}.html"
 
-        #--- Generate Email Entry ---
+        # --- Create Email Entry ---
         email_rows = data.setdefault("emails", [])
         email_id = _next_int_id(email_rows, "email_id")
         email_rec = {
@@ -141,9 +134,9 @@ class CreateEmailEntryTool(Tool):
             "sent_at": HARD_TS,
             "campaign_id": campaign_id,
         }
-        data["emails"][email_rec["email_id"]] = email_rec
+        email_rows.append(email_rec)
 
-        #--- Generate Audit Event Entry ---
+        # --- Create Audit Event Entry ---
         audit_rows = data.setdefault("audit_events", [])
         audit_event_id = _next_int_id(audit_rows, "event_id")
         audit_rec = {
@@ -155,16 +148,16 @@ class CreateEmailEntryTool(Tool):
             "occurred_at": HARD_TS,
             "metadata_json": {"client_id": int(client_id), "template": template_code},
         }
-        data["audit_events"][audit_rec["audit_event_id"]] = audit_rec
-        payload = {"email": email_rec, "audit_event": audit_rec}
-        out = json.dumps(payload, indent=2)
-        return out
+        audit_rows.append(audit_rec)
+
+        return json.dumps({"email": email_rec, "audit_event": audit_rec}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createEmailEntry",
+                "name": "create_email_entry",
                 "description": (
                     "Creates an entry in the emails table and a corresponding audit event for compliance."
                 ),

@@ -1,27 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RejectAccessRequest(Tool):
-    """Deny an access request and document the reason."""
+    """ Reject an access request and record the reason. """
 
     @staticmethod
-    def invoke(data: dict[str, Any], request_id: str = None, reviewer_id: str = None, timestamp: str = None, rejection_reason: str = None,
-    reason: Any = None,
-    ) -> str:
-        request_id_to_find = request_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        request_id_to_find = kwargs.get("request_id")
+        reviewer_id = kwargs.get("reviewer_id")
+        timestamp = kwargs.get("timestamp")
+        rejection_reason = kwargs.get("rejection_reason")
 
         try:
-            access_requests = data.get("access_requests", {}).values()
+            access_requests = data.get('access_requests', [])
         except:
             access_requests = []
 
@@ -36,52 +31,44 @@ class RejectAccessRequest(Tool):
                 break
 
         if not request_found:
-            payload = {"error": f"Access request with ID '{request_id_to_find}' not found."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Access request with ID '{request_id_to_find}' not found."})
 
-        data["access_requests"] = access_requests
-        payload = {
+        data['access_requests'] = access_requests
+
+        return json.dumps({
             "message": "Access request rejected successfully.",
             "request_id": request_id_to_find,
-            "new_status": "REJECTED",
-        }
-        out = json.dumps(payload)
-        return out
+            "new_status": "REJECTED"
+        })
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RejectAccessRequest",
+                "name": "reject_access_request",
                 "description": "Rejects a pending access request and records the reason for the rejection.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "request_id": {
                             "type": "string",
-                            "description": "The unique ID of the access request to be rejected.",
+                            "description": "The unique ID of the access request to be rejected."
                         },
                         "reviewer_id": {
                             "type": "string",
-                            "description": "The user ID of the manager who is rejecting the request.",
+                            "description": "The user ID of the manager who is rejecting the request."
                         },
                         "timestamp": {
                             "type": "string",
-                            "description": "The current timestamp for the decision record.",
+                            "description": "The current timestamp for the decision record."
                         },
                         "rejection_reason": {
                             "type": "string",
-                            "description": "A brief, clear reason for why the request is being rejected.",
-                        },
+                            "description": "A brief, clear reason for why the request is being rejected."
+                        }
                     },
-                    "required": [
-                        "request_id",
-                        "reviewer_id",
-                        "timestamp",
-                        "rejection_reason",
-                    ],
-                },
-            },
+                    "required": ["request_id", "reviewer_id", "timestamp", "rejection_reason"]
+                }
+            }
         }

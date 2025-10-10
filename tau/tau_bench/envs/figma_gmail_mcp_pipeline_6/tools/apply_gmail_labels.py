@@ -1,52 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class apply_gmail_labels(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        thread_id: str,
-        add_labels: list[str],
-        remove_labels: list[str],
-    ) -> str:
-        threads = data.get("gmail_threads", {}).values()
+    def invoke(data: Dict[str, Any], thread_id: str, add_labels: List[str], remove_labels: List[str]) -> str:
+        threads = data.get("gmail_threads", [])
         for thread in threads:
             if thread.get("thread_id") == thread_id:
                 labels = set(thread.get("current_labels", []))
                 labels.update(add_labels)
                 labels.difference_update(remove_labels)
                 thread["current_labels"] = list(labels)
-                payload = thread
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Thread {thread_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(thread, indent=2)
+        return json.dumps({"error": f"Thread {thread_id} not found"}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "applyGmailLabels",
-                "description": "Apply or remove Gmail labels on a thread.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "thread_id": {"type": "string"},
-                        "add_labels": {"type": "array", "items": {"type": "string"}},
-                        "remove_labels": {"type": "array", "items": {"type": "string"}},
-                    },
-                    "required": ["thread_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "apply_gmail_labels",
+            "description": "Apply or remove Gmail labels on a thread.",
+            "parameters": {"type": "object","properties": {
+                "thread_id": {"type": "string"},
+                "add_labels": {"type": "array","items": {"type": "string"}},
+                "remove_labels": {"type": "array","items": {"type": "string"}}
+            },"required": ["thread_id"]}
+        }}

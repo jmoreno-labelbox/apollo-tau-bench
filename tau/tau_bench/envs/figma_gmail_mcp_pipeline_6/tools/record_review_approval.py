@@ -1,35 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class record_review_approval(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], cycle_id: str, approver_email: str, intent: str
-    ) -> str:
+    def invoke(data: Dict[str, Any], cycle_id: str, approver_email: str, intent: str) -> str:
         approvals = _table(data, "review_approvals")
         cycles = _table(data, "review_cycles")
 
         cyc = next((c for c in cycles if c.get("cycle_id") == cycle_id), None)
         if not cyc:
-            payload = {"error": f"cycle_id '{cycle_id}' not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"cycle_id '{cycle_id}' not found"}, indent=2)
 
         existing = next(
-            (
-                a
-                for a in approvals
-                if a.get("cycle_id") == cycle_id
-                and a.get("approver_email") == approver_email
-                and a.get("intent") == intent
-            ),
-            None,
+            (a for a in approvals
+             if a.get("cycle_id") == cycle_id
+             and a.get("approver_email") == approver_email
+             and a.get("intent") == intent),
+            None
         )
         if existing:
-            payload = existing
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps(existing, indent=2)
 
         new_id = _get_next_id("approval", [a.get("approval_id", "") for a in approvals])
         row = {
@@ -41,22 +35,17 @@ class record_review_approval(Tool):
         approvals.append(row)
 
         if intent == "APPROVE":
-            count = sum(
-                1
-                for a in approvals
-                if a.get("cycle_id") == cycle_id and a.get("intent") == "APPROVE"
-            )
+            count = sum(1 for a in approvals if a.get("cycle_id") == cycle_id and a.get("intent") == "APPROVE")
             cyc["approvals_recorded"] = count
-        payload = row
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(row, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RecordReviewApproval",
+                "name": "record_review_approval",
                 "description": "Record an approval intent (idempotent). APPROVE contributes to quorum.",
                 "parameters": {
                     "type": "object",

@@ -1,21 +1,22 @@
-from tau_bench.envs.tool import Tool
-import json
-from typing import Any
+# Copyright Sierra
 
-class NotifyHr(Tool):
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class notify_hr(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], message: str) -> str:
+    def invoke(data: Dict[str, Any], message: str) -> str:
         data.setdefault("hr_notifications", []).append({"message": message})
-        payload = {"notified": "HR", "message": message}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"notified": "HR", "message": message})
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "notifyHr",
+                "name": "notify_hr",
                 "description": "Send an informational notification to the HR team.",
                 "parameters": {
                     "type": "object",

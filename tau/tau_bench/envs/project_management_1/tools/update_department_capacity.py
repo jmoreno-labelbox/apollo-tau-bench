@@ -1,28 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateDepartmentCapacity(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], department: str = None, employee_id: str = None, hours_allocated: int = None, cross_department_project: bool = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        department = kwargs.get("department")
+        employee_id = kwargs.get("employee_id")
+        hours_allocated = kwargs.get("hours_allocated")
+        cross_department_project = kwargs.get("cross_department_project")
+
         if not all([department, employee_id, hours_allocated is not None]):
-            payload = {"error": "department, employee_id, and hours_allocated are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "department, employee_id, and hours_allocated are required"}
+            )
 
-        departments = data.get("departments", {}).values()
+        departments = list(data.get("departments", {}).values())
 
-        for dept in departments.values():
+        for dept in departments:
             if dept.get("department_name") == department:
                 if "capacity_changes" not in dept:
                     dept["capacity_changes"] = []
@@ -35,18 +33,17 @@ class UpdateDepartmentCapacity(Tool):
                 }
 
                 dept["capacity_changes"].append(change_entry)
-                payload = {"success": True, "department": dept}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Department '{department}' not found"}
-        out = json.dumps(payload)
-        return out
+
+                return json.dumps({"success": True, "department": dept})
+
+        return json.dumps({"error": f"Department '{department}' not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateDepartmentCapacity",
+                "name": "update_department_capacity",
                 "description": "Update department capacity when allocations change",
                 "parameters": {
                     "type": "object",

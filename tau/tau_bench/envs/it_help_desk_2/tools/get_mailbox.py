@@ -1,36 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetMailbox(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        employee_id: str | None = None,
-        mailbox_id: str | None = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], employee_id: Optional[str] = None, mailbox_id: Optional[str] = None) -> str:
         mbx = None
         if mailbox_id:
             mbx = _find_one(data["mailboxes"], mailbox_id=mailbox_id)
         elif employee_id:
             mbx = _find_one(data["mailboxes"], employee_id=employee_id)
-        payload = {"status": "ok", "mailbox": mbx}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "mailbox": mbx})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getMailbox",
+                "name": "get_mailbox",
                 "description": "Get a mailbox by employee_id or mailbox_id.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "employee_id": {"type": "string"},
-                        "mailbox_id": {"type": "string"},
-                    },
+                    "properties": {"employee_id": {"type": "string"}, "mailbox_id": {"type": "string"}},
                     "required": [],
                 },
             },

@@ -1,56 +1,47 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetGradeByPitchId(Tool):
-    """Retrieve the execution grade record for a specific pitch_id."""
+    """Fetch the execution grade record for a single pitch_id."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], pitch_id: str = None) -> str:
-        #1) Confirm validity
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        pitch_id = kwargs.get("pitch_id")
+
+        # 1) Validate
         if pitch_id is None:
-            payload = {"error": "Missing required field: pitch_id"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Missing required field: pitch_id"}, indent=2)
 
-        #2) Retrieve DB
-        grades: list[dict[str, Any]] = data.get("pitch_execution_grades", {}).values()
+        # 2) Get DB
+        grades: List[Dict[str, Any]] = data.get("pitch_execution_grades", [])
 
-        #3) Lookup for exact matches
+        # 3) Exact match
         for rec in grades:
             if rec.get("pitch_id") == pitch_id:
-                payload = rec
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"No grade found for pitch_id {pitch_id}"}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+                return json.dumps(rec, indent=2)
+
+        return json.dumps({"error": f"No grade found for pitch_id {pitch_id}"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getGradeByPitchId",
+                "name": "get_grade_by_pitch_id",
                 "description": "Fetch a single pitch execution grade record by pitch_id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "pitch_id": {
                             "type": "integer",
-                            "description": "Exact pitch ID whose grade should be returned.",
+                            "description": "Exact pitch ID whose grade should be returned."
                         }
                     },
-                    "required": ["pitch_id"],
-                },
-            },
+                    "required": ["pitch_id"]
+                }
+            }
         }

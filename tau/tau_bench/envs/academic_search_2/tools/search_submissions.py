@@ -1,81 +1,57 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from collections import Counter
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchSubmissions(Tool):
-    """Finds submissions using submission_id, article_id, or a specific review_id."""
-
+    """Searches for submissions by submission_id, article_id, or by a specific review_id."""
     @staticmethod
-    def invoke(data: dict[str, Any], submission_id: str = None, article_id: str = None, review_id: str = None) -> str:
-        # Functionality derived from the previous SearchReviews tool
-        if review_id:
-            reviews = data.get("reviews", {}).values()
-            target_review = next(
-                (r for r in reviews.values() if r.get("review_id") == review_id), None
-            )
-            if not target_review:
-                payload = []
-                out = json.dumps(payload)
-                return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        submission_id, article_id, review_id = kwargs.get('submission_id'), kwargs.get('article_id'), kwargs.get('review_id')
 
-            # Utilize the submission_id from the review to locate the submission
-            submission_id_from_review = target_review.get("submission_id")
-            submissions = data.get("submissions", {}).values()
-            results = [
-                s
-                for s in submissions.values() if s.get("submission_id") == submission_id_from_review
-            ]
+        # Logic from the old SearchReviews tool
+        if review_id:
+            reviews = list(data.get('reviews', {}).values())
+            target_review = next((r for r in reviews if r.get('review_id') == review_id), None)
+            if not target_review:
+                return json.dumps([]) # Return empty list if review not found
+
+            # Use the submission_id from the review to find the submission
+            submission_id_from_review = target_review.get('submission_id')
+            submissions = list(data.get('submissions', {}).values())
+            results = [s for s in submissions if s.get('submission_id') == submission_id_from_review]
 
             if results:
-                results[0][
-                    "review_details"
-                ] = target_review  # Include the complete review object
-            payload = results
-            out = json.dumps(payload, indent=2)
-            return out
+                results[0]['review_details'] = target_review # Attach the entire review object
+            return json.dumps(results, indent=2)
 
         if not submission_id and not article_id:
-            payload = data.get("submissions", {}).values()
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps(list(data.get('submissions', {}).values()), indent=2)
 
-        submissions = data.get("submissions", {}).values()
+        submissions = list(data.get('submissions', {}).values())
         results = [
-            s
-            for s in submissions.values() if (not submission_id or s.get("submission_id") == submission_id)
-            and (not article_id or s.get("article_id") == article_id)
+            s for s in submissions if
+            (not submission_id or s.get('submission_id') == submission_id) and
+            (not article_id or s.get('article_id') == article_id)
         ]
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchSubmissions",
+                "name": "search_submissions",
                 "description": "Searches for submissions by submission_id, article_id, or indirectly via a review_id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "submission_id": {"type": "string"},
                         "article_id": {"type": "string"},
-                        "review_id": {
-                            "type": "string",
-                            "description": "If provided, finds the submission associated with this review.",
-                        },
-                    },
-                },
-            },
+                        "review_id": {"type": "string", "description": "If provided, finds the submission associated with this review."}
+                    }
+                }
+            }
         }

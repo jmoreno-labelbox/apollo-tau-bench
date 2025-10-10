@@ -1,38 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListSiemAlertsTool(Tool):
-    """ListSiemAlerts"""
+    """list_siem_alerts"""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        user_id: str = None,
-        resource_id: str = None,
-        severity: str = None,
-        alert_type: str = None,
-        alert_id: str = None,
-        date_from: str = None,
-        date_to: str = None
-,
-    severity_in: Any = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        resource_id = kwargs.get("resource_id")
+        severity = kwargs.get("severity")
+        alert_type = kwargs.get("alert_type")
+        alert_id = kwargs.get("alert_id")
+        date_from = kwargs.get("date_from")
+        date_to = kwargs.get("date_to")
+
         dt_from = _parse_iso(date_from)
         dt_to = _parse_iso(date_to)
 
-        alerts: list[dict[str, Any]] = data.get("siem_alerts", {}).values()
-        out: list[dict[str, Any]] = []
+        alerts: List[Dict[str, Any]] = data.get("siem_alerts", [])
+        out: List[Dict[str, Any]] = []
         for a in alerts:
             if user_id and not _eq(a.get("user_id"), user_id):
                 continue
@@ -53,15 +43,14 @@ class ListSiemAlertsTool(Tool):
             out.append(a)
 
         out.sort(key=lambda r: ((r.get("timestamp") or ""), (r.get("alert_id") or "")))
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListSiemAlerts",
+                "name": "list_siem_alerts",
                 "description": "List SIEM alerts with optional filters.",
                 "parameters": {
                     "type": "object",

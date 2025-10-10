@@ -1,47 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ProcessVendorPayment(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], invoice_id: str = None, payment_amount: float = None, payment_method: str = None, processor_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        invoice_id = kwargs.get("invoice_id")
+        payment_amount = kwargs.get("payment_amount")
+        payment_method = kwargs.get("payment_method")
+        processor_id = kwargs.get("processor_id")
+
         if not all([invoice_id, payment_amount, payment_method, processor_id]):
-            payload = {"error": "All fields are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "All fields are required"})
 
-        invoices = data.get("invoices", {}).values()
-        payments = data.get("payments", {}).values()
-        vendors = data.get("vendors", {}).values()
+        invoices = data.get("invoices", [])
+        payments = data.get("payments", [])
+        vendors = data.get("vendors", [])
 
-        invoice = next((i for i in invoices.values() if i.get("invoice_id") == invoice_id), None)
+        invoice = next((i for i in invoices if i.get("invoice_id") == invoice_id), None)
         if not invoice:
-            payload = {"error": f"Invoice {invoice_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Invoice {invoice_id} not found"})
 
         if invoice.get("status") == "paid":
-            payload = {"error": "Invoice is already paid"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Invoice is already paid"})
 
         if payment_amount != invoice["amount"]:
-            payload = {
+            return json.dumps(
+                {
                     "error": f"Payment amount ${payment_amount} does not match invoice amount ${invoice['amount']}"
                 }
-            out = json.dumps(
-                payload)
-            return out
+            )
 
         due_date = datetime.fromisoformat(invoice["due_date"].replace("Z", "+00:00"))
 
@@ -72,14 +63,14 @@ class ProcessVendorPayment(Tool):
             "days_late": days_late,
         }
 
-        data["payments"][payment_id] = new_payment
+        payments.append(new_payment)
 
         invoice["status"] = "paid"
         invoice["payment_id"] = payment_id
         invoice["paid_date"] = datetime.now(timezone.utc).isoformat()
 
         vendor = next(
-            (v for v in vendors.values() if v.get("vendor_id") == invoice["vendor_id"]), None
+            (v for v in vendors if v.get("vendor_id") == invoice["vendor_id"]), None
         )
         if vendor:
             if "late_payments" not in vendor:
@@ -92,18 +83,18 @@ class ProcessVendorPayment(Tool):
         result = {"success": True, "payment": new_payment}
 
         if vendor and vendor.get("late_payments", 0) >= 3:
-            result["warning"] = (
-                f"Vendor has {vendor['late_payments']} late payments - review required"
-            )
-        payload = result
-        out = json.dumps(payload)
-        return out
+            result[
+                "warning"
+            ] = f"Vendor has {vendor['late_payments']} late payments - review required"
+
+        return json.dumps(result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ProcessVendorPayment",
+                "name": "process_vendor_payment",
                 "description": "Process payment for a vendor invoice",
                 "parameters": {
                     "type": "object",

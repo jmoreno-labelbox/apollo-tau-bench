@@ -1,20 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateCampaignEntryTool(Tool):
-    """Inserts a record into the campaigns table along with a corresponding audit event."""
+    """Creates an entry in the campaigns table and an accompanying audit event."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], campaign_name: str = None, campaign_type: str = None, created_by: int = None,
-    type: Any = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        campaign_name = kwargs.get("campaign_name")
+        campaign_type = kwargs.get("campaign_type")
+        created_by = kwargs.get("created_by")
+
         if not campaign_name or not campaign_type or created_by is None:
             return _err("campaign_name, campaign_type, and created_by are required")
 
-        #--- Generate Campaign Entry ---
+        # --- Create Campaign Entry ---
         campaign_rows = data.setdefault("campaigns", [])
         campaign_id = _next_int_id(campaign_rows, "campaign_id")
         campaign_rec = {
@@ -24,9 +27,9 @@ class CreateCampaignEntryTool(Tool):
             "created_by": int(created_by),
             "created_at": HARD_TS,
         }
-        data["campaigns"][campaign_rec["campaign_id"]] = campaign_rec
+        campaign_rows.append(campaign_rec)
 
-        #--- Generate Audit Event Entry ---
+        # --- Create Audit Event Entry ---
         audit_rows = data.setdefault("audit_events", [])
         audit_event_id = _next_int_id(audit_rows, "event_id")
         audit_rec = {
@@ -41,18 +44,18 @@ class CreateCampaignEntryTool(Tool):
                 "campaign_type": campaign_type,
             },
         }
-        data["audit_events"][audit_rec["audit_event_id"]] = audit_rec
-        payload = {"campaign": campaign_rec, "audit_event": audit_rec}
-        out = json.dumps(
-            payload, indent=2
+        audit_rows.append(audit_rec)
+
+        return json.dumps(
+            {"campaign": campaign_rec, "audit_event": audit_rec}, indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateCampaignEntry",
+                "name": "create_campaign_entry",
                 "description": (
                     "Creates an entry in the campaigns table and a corresponding audit event."
                 ),

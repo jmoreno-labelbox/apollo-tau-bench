@@ -1,43 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindTrackingByOrderTool(Tool):
-    """Locates tracking information for an order from the shared in-memory state."""
+    """Finds tracking data for an order from the shared in-memory state."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str = None) -> str:
-        # Retrieves the tracking information from the in-memory state.
-        tracking_data = data.get("tracking", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get("order_id")
+        # Reads the tracking data from the in-memory state.
+        tracking_data = data.get("tracking", [])
 
-        tr = next((t for t in tracking_data.values() if t.get("order_id") == order_id), None)
+        tr = next((t for t in tracking_data if t.get("order_id") == order_id), None)
         if not tr:
-            payload = {
-                "error": f"Tracking for order '{order_id}' not found in the current state"
-            }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"Tracking for order '{order_id}' not found in the current state"},
+                indent=2,
             )
-            return out
-        payload = tr
-        out = json.dumps(payload, indent=2)
-        return out
+
+        # The 'item_ids' field will now reflect any changes made previously.
+        return json.dumps(tr, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindTrackingByOrder",
+                "name": "find_tracking_by_order",
                 "description": "Finds the tracking record for a given order_id from the current state.",
                 "parameters": {
                     "type": "object",

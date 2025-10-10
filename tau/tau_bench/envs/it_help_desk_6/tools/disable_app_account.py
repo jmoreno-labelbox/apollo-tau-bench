@@ -1,35 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class DisableAppAccount(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], app_account_id: str, disabled_at: str) -> str:
-        pass
+    def invoke(data: Dict[str, Any], app_account_id: str, disabled_at: str) -> str:
         row = _find_one(data["app_accounts"], app_account_id=app_account_id)
         if not row:
-            payload = {"status": "error", "reason": "app_account_not_found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "app_account_not_found"})
         row["status"] = "disabled"
         row["disabled_at"] = disabled_at
-        payload = {"status": "ok", "app_account": row}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "app_account": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "DisableAppAccount",
+                "name": "disable_app_account",
                 "description": "Disable an app account and record disabled_at.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "app_account_id": {"type": "string"},
-                        "disabled_at": {"type": "string"},
-                    },
+                    "properties": {"app_account_id": {"type": "string"}, "disabled_at": {"type": "string"}},
                     "required": ["app_account_id", "disabled_at"],
                 },
             },

@@ -1,27 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetEnvironmentNetworkDefaults(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], environment: str) -> str:
+    def invoke(data: Dict[str, Any], environment: str) -> str:
         res = _get_network_defaults(data, environment)
         res.update({"environment": environment})
         return _json(res)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetEnvironmentNetworkDefaults",
+                "name": "get_environment_network_defaults",
                 "description": "Resolve VPC/subnets/allowlist and standard ports for an environment.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "environment": {
-                            "type": "string",
-                            "enum": ["DEV", "UAT", "PROD"],
-                        }
+                        "environment": {"type": "string", "enum": ["DEV", "UAT", "PROD"]}
                     },
                     "required": ["environment"],
                 },

@@ -1,28 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any, Dict
-from datetime import timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateDashboardSnapshot(Tool):
     @staticmethod
-    def invoke(
-        data: Dict[str, Any],
-        notes: str = "Year-end snapshot",
-        snapshot_date: str = None,
-        snapshot_id: str = None,
-        year: Any = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
         Create a new dashboard snapshot.
         """
         new_snapshot = {
-            "snapshot_id": snapshot_id,
-            "snapshot_date": snapshot_date,
-            "notes": notes
+            "snapshot_id": kwargs["snapshot_id"],
+            "snapshot_date": kwargs["snapshot_date"],
+            "notes": kwargs.get("notes", "Year-end snapshot")
         }
         data["dashboard_snapshots"].append(new_snapshot)
         return json.dumps(new_snapshot["snapshot_id"])
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {

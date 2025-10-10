@@ -1,50 +1,42 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetActiveCarriers(Tool):
-    """Utility for fetching all currently active carriers."""
+    """Tool to retrieve all active carriers."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], list_of_scacs: list[str] = None) -> str:
-        carriers = data.get("carriers", {}).values()
-        if list_of_scacs:
-            active_carriers = [
-                carrier["scac"]
-                for carrier in carriers.values() if carrier.get("active_status") and carrier["scac"] in list_of_scacs
-            ]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        carriers = data.get("carriers", [])
+        list_of_carriers = kwargs.get("list_of_scacs", None)
+        if list_of_carriers:
+            active_carriers = [carrier['scac'] for carrier in carriers if
+                               carrier.get("active_status") and carrier['scac'] in list_of_carriers]
         else:
-            active_carriers = [
-                carrier["scac"] for carrier in carriers.values() if carrier.get("active_status")
-            ]
-        payload = active_carriers
-        out = json.dumps(payload, indent=2)
-        return out
+            active_carriers = [carrier['scac'] for carrier in carriers if carrier.get("active_status")]
+        return json.dumps(active_carriers, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetActiveCarriers",
+                "name": "get_active_carriers",
                 "description": "Retrieve all active carriers.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "list_of_scacs": {
                             "type": "array",
-                            "items": {"type": "string"},
-                            "description": "List of SCACs to choose from.",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "List of SCACs to choose from."
                         }
-                    },
-                },
-            },
+                    }
+                }
+            }
         }

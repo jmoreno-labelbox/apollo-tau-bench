@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RequestPullRequestReviewTool(Tool):
     """
@@ -41,46 +29,30 @@ class RequestPullRequestReviewTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str, pr_number: int, reviewers: list[str] = None) -> str:
-        if reviewers is None:
-            reviewers = []
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            pr_number = _validate_param({"pr_number": pr_number}, "pr_number", int)
-            reviewers = (
-                _validate_param({"reviewers": reviewers}, "reviewers", list, required=False, subtype=str)
-                or []
-            )
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            pr_number = _validate_param(kwargs, "pr_number", int)
+            reviewers = _validate_param(kwargs, "reviewers", list, required=False, subtype=str) or []
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        prs = data.get("pull_requests", {}).values()
-        pr = next(
-            (
-                p
-                for p in prs.values() if p.get("repo") == repo_name and p.get("number") == pr_number
-            ),
-            None,
-        )
+        prs = list(data.get("pull_requests", {}).values())
+        pr = next((p for p in prs if p.get("repo") == repo_name and p.get("number") == pr_number), None)
 
         if not pr:
-            return _response(
-                "error",
-                ERROR_MESSAGES["NOT_FOUND"].format(
-                    entity="Pull Request", entity_id=pr_number
-                ),
-                "NOT_FOUND",
-            )
+            return _response("error", ERROR_MESSAGES["NOT_FOUND"].format(entity="Pull Request", entity_id=pr_number), "NOT_FOUND")
 
         pr["reviewers"] = [_normalize_user(r) for r in reviewers]
         pr["updated_at"] = CURRENT_DATE
         return _response("ok", pr)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RequestPullRequestReview",
+                "name": "request_pull_request_review",
                 "description": "Assign reviewers to a pull request deterministically.",
                 "parameters": {
                     "type": "object",

@@ -1,37 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindWarehouseByName(Tool):
-    """Locates a warehouse's ID using its name."""
+    """Finds a warehouse's ID by its name."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], warehouse_name: str = None) -> str:
-        warehouses = data.get("warehouses", {}).values()
-        for warehouse in warehouses.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        warehouse_name = kwargs.get("warehouse_name")
+        warehouses = data.get("warehouses", [])
+        for warehouse in warehouses:
             if warehouse.get("warehouse_name") == warehouse_name:
-                payload = {"warehouse_id": warehouse.get("warehouse_id")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Warehouse not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"warehouse_id": warehouse.get("warehouse_id")})
+        return json.dumps({"error": "Warehouse not found"})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindWarehouseByName",
+                "name": "find_warehouse_by_name",
                 "description": "Finds a warehouse's ID by its full name.",
                 "parameters": {
                     "type": "object",

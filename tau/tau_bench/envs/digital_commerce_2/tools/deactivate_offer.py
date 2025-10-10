@@ -1,40 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
-from decimal import ROUND_HALF_UP, Decimal
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class DeactivateOffer(Tool):
+    """Deactivate an offer by its offer_code."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], offer_code: Any) -> str:
+    def invoke(data: Dict[str, Any], offer_code: Any) -> str:
+        offer_code = offer_code
         if not offer_code:
-            payload = {"error": "Missing required field: offer_code"}
-            out = json.dumps(payload, indent=2)
-            return out
-        offers = data.get("offers", {}).values()
-        for offer in offers.values():
+            return json.dumps({"error": "Missing required field: offer_code"}, indent=2)
+        offers = data.get("offers", [])
+        for offer in offers:
             if offer.get("offer_code") == offer_code:
                 offer["is_active"] = False
-                payload = offer
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"No offer found with code '{offer_code}'"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(offer, indent=2)
+
+        return json.dumps({"error": f"No offer found with code '{offer_code}'"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "DeactivateOffer",
+                "name": "deactivate_offer",
                 "description": "Deactivate an offer by its offer_code.",
                 "parameters": {
                     "type": "object",

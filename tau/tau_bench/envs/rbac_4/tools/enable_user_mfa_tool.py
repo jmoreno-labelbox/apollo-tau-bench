@@ -1,54 +1,41 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class EnableUserMFATool(Tool):
-    """Activate MFA for a specified user (write operation)."""
+    """Enable MFA for a given user (write operation)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        users = data.get("users", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        users = list(data.get("users", {}).values())
+        user_id = kwargs.get("user_id")
 
         if not isinstance(user_id, str):
-            payload = {"error": "user_id must be provided"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "user_id must be provided"}, indent=2)
 
-        for u in users.values():
+        for u in users:
             if u.get("user_id") == user_id:
                 u["mfa_enabled"] = True
-                payload = {"success": f"MFA enabled for {user_id}", "user": u}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
-        payload = {"error": f"User {user_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps({"success": f"MFA enabled for {user_id}", "user": u}, indent=2)
+
+        return json.dumps({"error": f"User {user_id} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "EnableUserMfa",
+                "name": "enable_user_mfa",
                 "description": "Enable MFA for a given user.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "user_id": {
-                            "type": "string",
-                            "description": "The user ID to enable MFA for",
-                        }
+                        "user_id": {"type": "string", "description": "The user ID to enable MFA for"}
                     },
-                    "required": ["user_id"],
-                },
-            },
+                    "required": ["user_id"]
+                }
+            }
         }

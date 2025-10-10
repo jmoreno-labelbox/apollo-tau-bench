@@ -1,10 +1,16 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateSummaryPlots(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], predictions_id: str = None, model_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        predictions_id = kwargs.get("predictions_id")
+        model_id = kwargs.get("model_id")
+
         figure_id = "FIGURE_001"
         figure_path = f"/figures/risk_timeseries_{model_id}.png"
 
@@ -18,15 +24,15 @@ class CreateSummaryPlots(Tool):
         }
 
         data.setdefault("qc_figures.json", []).append(qc_figure_entry)
-        payload = qc_figure_entry
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(qc_figure_entry)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createSummaryPlots",
+                "name": "CreateSummaryPlots",
                 "parameters": {
                     "type": "object",
                     "properties": {

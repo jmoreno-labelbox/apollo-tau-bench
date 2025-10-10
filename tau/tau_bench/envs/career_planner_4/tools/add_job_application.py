@@ -1,13 +1,14 @@
-from tau_bench.envs.tool import Tool
-import json
-import uuid
-from datetime import datetime
-from typing import Any
+# Copyright Sierra
 
-class AddJobApplication(Tool):
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class add_job_application(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         application_id: str,
         user_id: str,
         job_id: str,
@@ -21,20 +22,17 @@ class AddJobApplication(Tool):
             "status": "Applied",
         }
         data.setdefault("job_applications", []).append(application)
-        payload = {"success": f"Application {application_id} created for user {user_id}"}
-        out = json.dumps(
-            payload, indent=2,
+        return json.dumps(
+            {"success": f"Application {application_id} created for user {user_id}"},
+            indent=2,
         )
-        return out
-        return out
 
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "addJobApplication",
+                "name": "add_job_application",
                 "description": "Add a job application record",
                 "parameters": {
                     "type": "object",

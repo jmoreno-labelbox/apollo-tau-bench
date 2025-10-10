@@ -1,43 +1,36 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import OrderedDict, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class remove_employee(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None) -> str:
-        employees = data.get("employees", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employees = list(data.get("employees", {}).values())
+
+        employee_id = kwargs.get("employee_id")
 
         if employee_id is None:
-            payload = {"error": "employee_id must be sent"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "employee_id must be sent"}, indent=2)
 
-        for employee in employees.values():
+        for employee in employees:
             if employee["employee_id"] == employee_id:
                 del employee
-                payload = {"success": f"Removed employee: {employee_id}"}
-                out = json.dumps(
-                    payload, indent=2
+
+                return json.dumps(
+                    {"success": "Removed employee: {}".format(employee_id)}, indent=2
                 )
-                return out
-        payload = {"error": "No employee found"}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"error": "No employee found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RemoveEmployee",
+                "name": "remove_employee",
                 "description": "Removes an employee record",
                 "parameters": {
                     "type": "object",

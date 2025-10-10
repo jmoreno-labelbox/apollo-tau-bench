@@ -1,20 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class BuildRecipeFilters(Tool):
     """
-    Construct a compact token that encodes filters:
+    Build a compact token encoding filters:
       token = "F:<meal_type>:P<min_protein>:PF<0|1>:EX<csv_excluded_cuisines>"
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], meal_type: str = "Dinner", min_protein_g: int = 0, peanut_free: bool = False, cuisines_exclude: list = None,
-        no_heat: Any = None,
-        max_prep_minutes: Any = None,
-    ) -> str:
-        if cuisines_exclude is None:
-            cuisines_exclude = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        meal_type = kwargs.get("meal_type", "Dinner")
+        min_protein_g = int(kwargs.get("min_protein_g", 0))
+        peanut_free = bool(kwargs.get("peanut_free", False))
+        cuisines_exclude = kwargs.get("cuisines_exclude", [])
         if not isinstance(cuisines_exclude, list):
             cuisines_exclude = []
         ex = ",".join(sorted(str(c) for c in cuisines_exclude))
@@ -22,24 +23,14 @@ class BuildRecipeFilters(Tool):
         return _json_dump({"filter_token": token})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "BuildRecipeFilters",
-                "description": "Construct a compact string token that encodes recipe filters.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "meal_type": {"type": "string"},
-                        "min_protein_g": {"type": "integer"},
-                        "peanut_free": {"type": "boolean"},
-                        "cuisines_exclude": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                        },
-                    },
-                    "required": ["meal_type"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function","function":{
+            "name":"build_recipe_filters",
+            "description":"Construct a compact string token that encodes recipe filters.",
+            "parameters":{"type":"object","properties":{
+                "meal_type":{"type":"string"},
+                "min_protein_g":{"type":"integer"},
+                "peanut_free":{"type":"boolean"},
+                "cuisines_exclude":{"type":"array","items":{"type":"string"}}
+            },"required":["meal_type"]}
+        }}

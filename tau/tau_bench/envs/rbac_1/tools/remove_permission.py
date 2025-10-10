@@ -1,64 +1,49 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RemovePermission(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], permission_id: str = None) -> str:
-        permission_id_to_remove = permission_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        permission_id_to_remove = kwargs.get("permission_id")
 
         if not permission_id_to_remove:
-            payload = {"error": "permission_id must be provided."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "permission_id must be provided."})
 
-        permissions = data.get("permissions", {}).values()
+        permissions = list(data.get('permissions', {}).values())
         initial_permissions_len = len(permissions)
-        updated_permissions = [
-            p for p in permissions.values() if p.get("permission_id") != permission_id_to_remove
-        ]
+        updated_permissions = [p for p in permissions if p.get('permission_id') != permission_id_to_remove]
 
         if len(updated_permissions) == initial_permissions_len:
-            payload = {"error": "Permission not found."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Permission not found."})
 
-        data["permissions"] = updated_permissions
+        data['permissions'] = updated_permissions
 
-        role_permissions = data.get("role_permissions", {}).values()
-        updated_role_permissions = [
-            rp
-            for rp in role_permissions.values() if rp.get("permission_id") != permission_id_to_remove
-        ]
-        data["role_permissions"] = updated_role_permissions
-        payload = {"permission_id": permission_id_to_remove, "status": "removed"}
-        out = json.dumps(payload)
-        return out
+        role_permissions = data.get('role_permissions', [])
+        updated_role_permissions = [rp for rp in role_permissions if rp.get('permission_id') != permission_id_to_remove]
+        data['role_permissions'] = updated_role_permissions
+
+        return json.dumps({"permission_id": permission_id_to_remove, "status": "removed"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "removePermission",
+                "name": "remove_permission",
                 "description": "Deletes a permission from the system, including its assignments to any roles.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "permission_id": {
                             "type": "string",
-                            "description": "The ID of the permission to be removed.",
+                            "description": "The ID of the permission to be removed."
                         }
                     },
-                    "required": ["permission_id"],
-                },
-            },
+                    "required": ["permission_id"]
+                }
+            }
         }

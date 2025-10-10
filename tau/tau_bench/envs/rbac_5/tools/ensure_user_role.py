@@ -1,96 +1,75 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class EnsureUserRole(Tool):
     """
-    Confirm that a user holds a role; idempotent assignment.
+    Ensure a user has a role; idempotent assignment.
 
     kwargs:
-      user_id: str (mandatory)
-      role_id: str (mandatory)
-      assigned_by: str (mandatory)
-      assigned_on: str ISO (defaults to now)
+      user_id: str (required)
+      role_id: str (required)
+      assigned_by: str (required)
+      assigned_on: str ISO (defaults now)
       expires_on: str ISO (optional)
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = "", role_id: str = "", assigned_by: str = "", assigned_on: str = None, expires_on: str = None) -> str:
-        pass
-        assigned_on = assigned_on or get_current_timestamp()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id", "")
+        role_id = kwargs.get("role_id", "")
+        assigned_by = kwargs.get("assigned_by", "")
+        assigned_on = kwargs.get("assigned_on") or get_current_timestamp()
+        expires_on = kwargs.get("expires_on")
 
-        # Presence validations
-        if not _find_by_id(data.get("users", {}).values(), "user_id", user_id):
-            payload = {"error": f"user_id {user_id} not found"}
-            out = json.dumps(payload)
-            return out
-        if not _find_by_id(data.get("roles", {}).values(), "role_id", role_id):
-            payload = {"error": f"role_id {role_id} not found"}
-            out = json.dumps(payload)
-            return out
+        # Existence checks
+        if not _find_by_id(list(data.get("users", {}).values()), "user_id", user_id):
+            return json.dumps({"error": f"user_id {user_id} not found"})
+        if not _find_by_id(list(data.get("roles", {}).values()), "role_id", role_id):
+            return json.dumps({"error": f"role_id {role_id} not found"})
 
-        assignments = data.get("user_roles", {}).values()
+        assignments = data.get("user_roles", [])
         existing = None
         existing_index = None
-        for i, ur in enumerate(assignments.values()):
+        for i, ur in enumerate(assignments):
             if ur.get("user_id") == user_id and ur.get("role_id") == role_id:
                 existing = ur
                 existing_index = i
                 break
 
         if existing:
-            # If expires_on is supplied and differs from the current value, modify it
+            # If expires_on is provided and different from existing, update it
             if expires_on and existing.get("expires_on") != expires_on:
                 updated = dict(existing)
                 updated["expires_on"] = expires_on
                 data["user_roles"][existing_index] = updated
-                payload = {"ok": True, "assignment": updated, "updated_expiry": True}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"ok": True, "assignment": updated, "updated_expiry": True})
             else:
-                payload = {"ok": True, "no_op": True, "assignment": existing}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"ok": True, "no_op": True, "assignment": existing})
         else:
-            payload = {"error": "no existing assignment found"}
-            out = json.dumps(payload)
-            return out
+            # nothing to update/ensure
+            return json.dumps({"error": "no existing assignment found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ensureUserRole",
+                "name": "ensure_user_role",
                 "description": "Idempotently ensure a user has a role with optional expiry. Updates expiry date if role exists and new expires_on is provided.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "user_id": {"type": "string", "description": "Target user_id."},
                         "role_id": {"type": "string", "description": "Target role_id."},
-                        "assigned_by": {
-                            "type": "string",
-                            "description": "Actor user_id performing assignment.",
-                        },
-                        "assigned_on": {
-                            "type": "string",
-                            "description": "ISO timestamp of assignment.",
-                        },
-                        "expires_on": {
-                            "type": "string",
-                            "description": "ISO timestamp for expiry (optional).",
-                        },
+                        "assigned_by": {"type": "string", "description": "Actor user_id performing assignment."},
+                        "assigned_on": {"type": "string", "description": "ISO timestamp of assignment."},
+                        "expires_on": {"type": "string", "description": "ISO timestamp for expiry (optional)."}
                     },
                     "required": ["user_id", "role_id", "assigned_by"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

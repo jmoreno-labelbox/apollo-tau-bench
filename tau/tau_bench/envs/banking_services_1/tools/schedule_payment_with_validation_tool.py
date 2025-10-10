@@ -1,16 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SchedulePaymentWithValidationTool(Tool):
     """
@@ -28,19 +21,18 @@ class SchedulePaymentWithValidationTool(Tool):
     """
 
     @staticmethod
-    def invoke(
-        data: Dict[str, Any],
-        from_account: str = None,
-        to_account: str = None,
-        amount: float = None,
-        currency: str = None,
-        date: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        from_account = kwargs.get("from_account")
+        to_account = kwargs.get("to_account")
+        amount = kwargs.get("amount")
+        currency = kwargs.get("currency")
+        date = kwargs.get("date")
+
         if not all([from_account, to_account, amount, currency, date]):
             return json.dumps({"error": "Missing required fields"}, indent=2)
 
-        accounts = data.get("accounts", {}).values()
-        from_acc = next((a for a in accounts.values() if a["account_id"] == from_account), None)
+        accounts = list(data.get("accounts", {}).values())
+        from_acc = next((a for a in accounts if a["account_id"] == from_account), None)
         if not from_acc or from_acc["balance"] < amount:
             return json.dumps(
                 {"error": "Insufficient balance or account not found"}, indent=2
@@ -59,35 +51,13 @@ class SchedulePaymentWithValidationTool(Tool):
             },
             indent=2,
         )
-        if not all([from_account, to_account, amount, currency, date]):
-            return json.dumps({"error": "Missing required fields"}, indent=2)
 
-        accounts = data.get("accounts", {}).values()
-        from_acc = next((a for a in accounts.values() if a["account_id"] == from_account), None)
-        if not from_acc or from_acc["balance"] < amount:
-            return json.dumps(
-                {"error": "Insufficient balance or account not found"}, indent=2
-            )
-
-        payment_id = f"sched_{generate_unique_id()}"
-        return json.dumps(
-            {
-                "payment_id": payment_id,
-                "status": "Scheduled",
-                "from": from_account,
-                "to": to_account,
-                "amount": amount,
-                "currency": currency,
-                "date": date,
-            },
-            indent=2,
-        )
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SchedulePaymentWithValidation",
+                "name": "schedule_payment_with_validation",
                 "description": "Schedule a payment for a future date with balance validation.",
                 "parameters": {
                     "type": "object",

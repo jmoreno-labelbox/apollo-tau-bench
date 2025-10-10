@@ -1,32 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateReservationDetails(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         reservation_id: str,
-        flights: list[dict[str, str]] | None = None,
-        passengers: list[dict[str, str]] | None = None,
-        cabin: str | None = None,
-        seat: str | None = None,
-        contact_email: str | None = None,
-        contact_phone: str | None = None,
-        insurance: str | None = None,
-        total_baggages: int | None = None,
-        nonfree_baggages: int | None = None,
+        flights: Optional[List[Dict[str, str]]] = None,
+        passengers: Optional[List[Dict[str, str]]] = None,
+        cabin: Optional[str]=None,
+        seat: Optional[str]=None,
+        contact_email: Optional[str]=None,
+        contact_phone: Optional[str]=None,
+        insurance: Optional[str] = None,
+        total_baggages :Optional[int] = None,
+        nonfree_baggages : Optional[int] = None,
     ) -> str:
-        reservations = data.get("reservations", {}).values()
+        reservations = list(data.get("reservations", {}).values())
         for r in reservations:
             if r.get("reservation_id") == reservation_id:
                 if cabin is not None:
@@ -45,69 +39,50 @@ class UpdateReservationDetails(Tool):
                 if passengers is not None:
                     r["passengers"] = passengers
                 if contact_email is not None:
-                    r.setdefault("contact", {}).values()["email"] = contact_email
+                    r.setdefault("contact", {})["email"] = contact_email
                 if contact_phone is not None:
-                    r.setdefault("contact", {}).values()["phone"] = contact_phone
+                    r.setdefault("contact", {})["phone"] = contact_phone
                 return _j(r)
-        return _j({"error": "reservation_not_found", "reservation_id": reservation_id})
-                
-                
+        return _j({"error":"reservation_not_found","reservation_id":reservation_id})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "UpdateReservationDetails",
-                "description": "Update editable reservation fields (cabin, seat, contact email/phone).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "reservation_id": {"type": "string"},
-                        "cabin": {"type": "string"},
-                        "seat": {"type": "string"},
-                        "contact_email": {"type": "string"},
-                        "contact_phone": {"type": "string"},
-                        "insurance": {"type": "string"},
-                        "total_baggages": {"type": "integer"},
-                        "nonfree_baggages": {"type": "integer"},
-                        "flights": {
-                            "type": "array",
-                            "items": {
-                                "type": "object",
-                                "properties": {
-                                    "flight_number": {"type": "string"},
-                                    "date": {
-                                        "type": "string",
-                                        "description": "Date in YYYY-MM-DD format.",
-                                    },
-                                    "origin": {"type": "string"},
-                                    "destination": {"type": "string"},
-                                },
-                                "required": [
-                                    "flight_number",
-                                    "date",
-                                    "origin",
-                                    "destination",
-                                ],
-                            },
+    def get_info()->Dict[str,Any]:
+        return {"type":"function","function":{
+            "name":"update_reservation_details",
+            "description":"Update editable reservation fields (cabin, seat, contact email/phone).",
+            "parameters":{"type":"object","properties":{
+                "reservation_id":{"type":"string"},
+                "cabin":{"type":"string"},
+                "seat":{"type":"string"},
+                "contact_email":{"type":"string"},
+                "contact_phone":{"type":"string"},
+                "insurance": {"type": "string"},
+                "total_baggages": {"type": "int"},
+                "nonfree_baggages": {"type": "int"},
+                "flights": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "flight_number": {"type": "string"},
+                            "date": {"type": "string", "description": "Date in YYYY-MM-DD format."},
+                            "origin": {"type": "string"},
+                            "destination": {"type": "string"}
                         },
-                        "passengers": {
-                            "type": "array",
-                            "items": {
-                                "type": "object",
-                                "properties": {
-                                    "first_name": {"type": "string"},
-                                    "last_name": {"type": "string"},
-                                    "dob": {
-                                        "type": "string",
-                                        "description": "Date of birth in YYYY-MM-DD format.",
-                                    },
-                                },
-                                "required": ["first_name", "last_name", "dob"],
-                            },
-                        },
-                    },
-                    "required": ["reservation_id"],
+                        "required": ["flight_number", "date", "origin", "destination"]
+                    }
                 },
-            },
-        }
+                "passengers": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "first_name": {"type": "string"},
+                            "last_name": {"type": "string"},
+                            "dob": {"type": "string", "description": "Date of birth in YYYY-MM-DD format."}
+                        },
+                        "required": ["first_name", "last_name", "dob"]
+                    }
+                },
+            },"required":["reservation_id"]}
+        }}

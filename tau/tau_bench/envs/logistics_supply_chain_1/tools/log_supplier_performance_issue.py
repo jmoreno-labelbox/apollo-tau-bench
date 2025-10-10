@@ -1,63 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import random
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class LogSupplierPerformanceIssue(Tool):
-    """Records a performance concern related to a supplier's record."""
+    """Logs a performance issue against a supplier's record."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        supplier_id = kwargs.get('supplier_id')
+        issue_code = kwargs.get('issue_code')
+        shipment_id = kwargs.get('shipment_id')
+        if not all([supplier_id, issue_code]):
+            return json.dumps({"error": "supplier_id and issue_code are required."}, indent=2)
+        supplier_to_update = next((s for s in data.get('supplier_master', []) if s.get('supplier_id') == supplier_id), None)
+        if not supplier_to_update:
+            return json.dumps({"error": f"Supplier '{supplier_id}' not found."}, indent=2)
+        if 'performance_logs' not in supplier_to_update:
+            supplier_to_update['performance_logs'] = []
+        log_entry = {"issue_code": issue_code, "related_shipment": shipment_id}
+        supplier_to_update['performance_logs'].append(log_entry)
+        return json.dumps(supplier_to_update, indent=2)
 
     @staticmethod
-    def invoke(data: dict[str, Any], supplier_id: str = None, issue_code: str = None, shipment_id: str = None) -> str:
-        if not all([supplier_id, issue_code]):
-            payload = {"error": "supplier_id and issue_code are required."}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        supplier_to_update = next(
-            (
-                s
-                for s in data.get("supplier_master", {}).values()
-                if s.get("supplier_id") == supplier_id
-            ),
-            None,
-        )
-        if not supplier_to_update:
-            payload = {"error": f"Supplier '{supplier_id}' not found."}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        if "performance_logs" not in supplier_to_update:
-            supplier_to_update["performance_logs"] = []
-        log_entry = {"issue_code": issue_code, "related_shipment": shipment_id}
-        supplier_to_update["performance_logs"].append(log_entry)
-        payload = supplier_to_update
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "LogSupplierPerformanceIssue",
-                "description": "Logs a performance issue against a supplier's record.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "supplier_id": {"type": "string"},
-                        "issue_code": {"type": "string"},
-                        "shipment_id": {"type": "string"},
-                    },
-                    "required": ["supplier_id", "issue_code"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "log_supplier_performance_issue", "description": "Logs a performance issue against a supplier's record.", "parameters": {"type": "object", "properties": {"supplier_id": {"type": "string"}, "issue_code": {"type": "string"}, "shipment_id": {"type": "string"}}, "required": ["supplier_id", "issue_code"]}}}

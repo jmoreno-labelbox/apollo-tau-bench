@@ -1,35 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ListRecipesByFilters(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], filter_token: str = None, meal_type: str = "Dinner", min_protein_g: int = 0, peanut_free: bool = False, no_heat: Any = None) -> str:
-        token = filter_token
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        token = kwargs.get("filter_token")
         if token:
             meal_type, min_protein, pf = _decode_filter_token(token)
         else:
-            min_protein = int(min_protein_g)
-            pf = bool(peanut_free)
+            meal_type = kwargs.get("meal_type", "Dinner")
+            min_protein = int(kwargs.get("min_protein_g", 0))
+            pf = bool(kwargs.get("peanut_free", False))
         out = _all_recipe_ids_filtered(data, meal_type, min_protein, pf)
         return _json_dump({"candidate_recipe_ids_json": json.dumps(out)})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "listRecipesByFilters",
-                "description": "List recipe_ids as JSON from a token or direct parameters.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "filter_token": {"type": "string"},
-                        "meal_type": {"type": "string"},
-                        "min_protein_g": {"type": "integer"},
-                        "peanut_free": {"type": "boolean"},
-                    },
-                    "required": [],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{"name":"list_recipes_by_filters","description":"List recipe_ids as JSON from a token or direct parameters.","parameters":{"type":"object","properties":{"filter_token":{"type":"string"},"meal_type":{"type":"string"},"min_protein_g":{"type":"integer"},"peanut_free":{"type":"boolean"}},"required":[]}}}

@@ -1,15 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class EvaluateModel(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], model_id: str = None, predictions_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         metrics_id = "METRICS_001"
+        predictions_id = kwargs.get("predictions_id")
         if not predictions_id:
             predictions_id = "PRED_001"
         metrics_entry = {
-            "model_id": model_id,
+            "model_id": kwargs.get("model_id"),
             "metrics_id": metrics_id,
             "predictions_id": predictions_id,
             "auc": 0.87,
@@ -18,15 +22,14 @@ class EvaluateModel(Tool):
         }
 
         data.setdefault("metrics.json", []).append(metrics_entry)
-        payload = metrics_entry
-        out = json.dumps(payload)
-        return out
+        return json.dumps(metrics_entry)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "evaluateModel",
+                "name": "EvaluateModel",
                 "description": "Calculates performance metrics (AUC and accuracy) for a trained model based on its predictions.",
                 "parameters": {
                     "type": "object",

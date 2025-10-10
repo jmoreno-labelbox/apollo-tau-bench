@@ -1,33 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetDefaultBranch(Tool):
-    """Delivers the default branch of a specified repository owned by the acting user."""
+    """Returns the default branch of a given repo owned by the acting user."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        repo_name = kwargs.get("repo_name")
         if not repo_name:
-            payload = {"error": "repo_name is required."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "repo_name is required."}, indent=2)
 
         try:
             repo = _find_repo_record(data, repo_name)
-            payload = {"default_branch": repo.get("default_branch")}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"default_branch": repo.get("default_branch")}, indent=2)
         except Exception as e:
-            payload = {"error": str(e)}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": str(e)}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetDefaultBranch",
+                "name": "get_default_branch",
                 "description": "Returns the default branch name of a given repository.",
                 "parameters": {
                     "type": "object",

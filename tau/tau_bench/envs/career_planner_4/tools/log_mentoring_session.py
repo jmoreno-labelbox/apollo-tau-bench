@@ -1,13 +1,14 @@
-from tau_bench.envs.tool import Tool
-import json
-import uuid
-from datetime import datetime
-from typing import Any
+# Copyright Sierra
 
-class LogMentoringSession(Tool):
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class log_mentoring_session(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         mentee_id: str,
         mentor_id: str,
         session_date: str,
@@ -21,20 +22,17 @@ class LogMentoringSession(Tool):
             "notes": notes,
         }
         data.setdefault("mentoring_sessions", []).append(session)
-        payload = {"success": f"Mentoring session logged for {mentee_id} with {mentor_id}"}
-        out = json.dumps(
-            payload, indent=2,
+        return json.dumps(
+            {"success": f"Mentoring session logged for {mentee_id} with {mentor_id}"},
+            indent=2,
         )
-        return out
-        return out
 
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "logMentoringSession",
+                "name": "log_mentoring_session",
                 "description": "Log a mentoring session",
                 "parameters": {
                     "type": "object",

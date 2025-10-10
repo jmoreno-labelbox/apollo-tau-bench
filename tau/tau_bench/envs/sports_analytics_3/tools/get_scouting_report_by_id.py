@@ -1,56 +1,47 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetScoutingReportById(Tool):
-    """Retrieve a single scouting report using its report_id."""
+    """Fetch a single scouting report by its report_id."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], report_id: str = None) -> str:
-        #1) Confirm validity
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        report_id = kwargs.get("report_id")
+
+        # 1) Validate
         if report_id is None:
-            payload = {"error": "Missing required field: report_id"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Missing required field: report_id"}, indent=2)
 
-        #2) Retrieve DB using provided data
-        reports: list[dict[str, Any]] = data.get("scouting_reports", {}).values()
+        # 2) Get DB from passed-in data
+        reports: List[Dict[str, Any]] = data.get("scouting_reports", [])
 
-        #3) Lookup for exact matches
+        # 3) Exact match lookup
         for report in reports:
             if report.get("report_id") == report_id:
-                payload = report
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"No scouting report found with ID {report_id}"}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+                return json.dumps(report, indent=2)
+
+        return json.dumps({"error": f"No scouting report found with ID {report_id}"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getScoutingReportById",
+                "name": "get_scouting_report_by_id",
                 "description": "Fetch a single scouting report's full details by its report_id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "report_id": {
                             "type": "integer",
-                            "description": "Exact report ID to retrieve.",
+                            "description": "Exact report ID to retrieve."
                         }
                     },
-                    "required": ["report_id"],
-                },
-            },
+                    "required": ["report_id"]
+                }
+            }
         }

@@ -1,51 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CaV2GetProjectsByPublisher(Tool):
-    """Retrieve all projects associated with a specific publisher."""
+    """Get all projects for a specific publisher."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        active_only: bool = True,
-        publisher_id: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        publisher_id = kwargs.get("publisher_id")
+        active_only = kwargs.get("active_only", True)
         if not publisher_id:
             return _error("publisher_id is required.")
 
-        projects = data.get("projects", {}).values()
+        projects = list(data.get("projects", {}).values())
         publisher_projects = _find_all(projects, "publisher_id", publisher_id)
 
         if active_only:
-            publisher_projects = [
-                p for p in publisher_projects if p.get("is_active", True)
-            ]
-        payload = publisher_projects
-        out = json.dumps(payload)
-        return out
+            publisher_projects = [p for p in publisher_projects if p.get("is_active", True)]
+
+        return json.dumps(publisher_projects)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CaV2GetProjectsByPublisher",
+                "name": "ca_v2_get_projects_by_publisher",
                 "description": "Get all projects for a specific publisher, optionally filtering to active projects only.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "publisher_id": {"type": "string"},
-                        "active_only": {"type": "boolean", "default": True},
+                        "active_only": {"type": "boolean", "default": True}
                     },
                     "required": ["publisher_id"],
                 },

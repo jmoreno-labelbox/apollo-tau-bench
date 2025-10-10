@@ -1,21 +1,16 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
-from decimal import ROUND_HALF_UP, Decimal
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateStreetAddress(Tool):
+    """Update the shipping_street of an account by its account_id."""
 
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         account_id: Any,
         new_shipping_street: Any,
         new_billing_street: Any = None,
@@ -24,33 +19,25 @@ class UpdateStreetAddress(Tool):
         new_shipping_street = new_shipping_street
         new_billing_street = new_billing_street
         if not account_id or not new_shipping_street:
-            payload = {
-                "error": "Missing required field: account_id and/or new_shipping_street"
-            }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": "Missing required field: account_id and/or new_shipping_street"}, indent=2
             )
-            return out
-        accounts = data.get("accounts", {}).values()
-        for account in accounts.values():
+        accounts = list(data.get("accounts", {}).values())
+        for account in accounts:
             if account.get("account_id") == account_id:
                 account["shipping_street"] = new_shipping_street
                 if new_billing_street:
                     account["billing_street"] = new_billing_street
-                payload = account
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"No account found with ID {account_id}"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(account, indent=2)
 
+        return json.dumps({"error": f"No account found with ID {account_id}"}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateStreetAddress",
+                "name": "update_street_address",
                 "description": "Update the shipping_street of an account by its account_id.",
                 "parameters": {
                     "type": "object",

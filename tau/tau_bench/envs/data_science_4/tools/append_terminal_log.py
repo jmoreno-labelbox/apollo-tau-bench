@@ -1,30 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AppendTerminalLog(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        log_type: str = None,
-        message: str = None,
-        type: Any = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        msg = kwargs.get("message")
+        log_type = kwargs.get("type")
         logs = data.setdefault("terminal_log", [])
         if log_type == "completed":
-            entry = {"event_id": "APPEND_002", "message": message}
+            entry = {"event_id": f"APPEND_002", "message": msg}
         else:
-            entry = {"event_id": "APPEND_001", "message": message}
+            entry = {"event_id": f"APPEND_001", "message": msg}
         logs.append(entry)
-        payload = entry
-        out = json.dumps(payload)
-        return out
+        return json.dumps(entry)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "appendTerminalLog",
+                "name": "AppendTerminalLog",
                 "parameters": {
                     "type": "object",
                     "properties": {"message": {"type": "string"}},

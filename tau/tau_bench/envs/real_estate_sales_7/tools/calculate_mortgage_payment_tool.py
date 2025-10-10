@@ -1,19 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CalculateMortgagePaymentTool(Tool):
-    """Computes mortgage payments based on client profile and rates."""
+    """Calculates mortgage payment using client profile and rates."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], loan_amount: float = None, down_payment: float = None, interest_rate: float = None, term_years: int = None) -> str:
-        if None in (loan_amount, down_payment, interest_rate) or term_years is None:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        loan_amount = kwargs.get("loan_amount")
+        down_payment = kwargs.get("down_payment")
+        best_rate = kwargs.get("interest_rate")
+        term_years = _as_int(kwargs.get("term_years"))
+        if None in (loan_amount, down_payment, best_rate) or term_years is None:
             return _err("loan_amount, down_payment, best_rate, term_years are required")
 
-        # Typical fixed-rate mortgage monthly payment formula: P * (r/12) / (1 - (1+r/12)^(-n))
-        r = float(interest_rate) / 100.0
+        # Standard fixed-rate mortgage monthly payment: P * (r/12) / (1 - (1+r/12)^(-n))
+        r = float(best_rate) / 100.0
         n = term_years * 12
         if r <= 0:
             monthly = float(loan_amount) / n
@@ -28,22 +33,21 @@ class CalculateMortgagePaymentTool(Tool):
         out = {
             "loan_amount": round(float(loan_amount)),
             "down_payment": round(float(down_payment)),
-            "interest_rate": float(interest_rate),
+            "interest_rate": float(best_rate),
             "term_years": term_years,
             "monthly_payment": int(round(monthly)),
             "total_interest": int(round(total_interest)),
             "total_cost": int(round(total_cost)),
         }
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        #Business Guideline: utilize real mortgage profile inputs upstream
+    def get_info() -> Dict[str, Any]:
+        # Business Rule: use actual mortgage profile inputs upstream
         return {
             "type": "function",
             "function": {
-                "name": "CalculateMortgagePayment",
+                "name": "calculate_mortgage_payment",
                 "description": (
                     "Compute mortgage monthly payment and totals given rate and term."
                 ),

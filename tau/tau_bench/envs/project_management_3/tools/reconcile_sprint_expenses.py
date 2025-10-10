@@ -1,43 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ReconcileSprintExpenses(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], sprint_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        sprint_id = kwargs.get("sprint_id")
+
         if not sprint_id:
-            payload = {"error": "sprint_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "sprint_id is required"})
 
-        sprints = data.get("sprints", {}).values()
-        tasks = data.get("tasks", {}).values()
-        task_logs = data.get("task_logs", {}).values()
-        expenses = data.get("expenses", {}).values()
-        employees = data.get("employees", {}).values()
+        sprints = data.get("sprints", [])
+        tasks = list(data.get("tasks", {}).values())
+        task_logs = data.get("task_logs", [])
+        expenses = data.get("expenses", [])
+        employees = list(data.get("employees", {}).values())
 
-        sprint = next((s for s in sprints.values() if s.get("sprint_id") == sprint_id), None)
+        sprint = next((s for s in sprints if s.get("sprint_id") == sprint_id), None)
         if not sprint:
-            payload = {"error": f"Sprint {sprint_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Sprint {sprint_id} not found"})
 
         if sprint.get("status") != "completed":
-            payload = {"error": "Can only reconcile completed sprints"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Can only reconcile completed sprints"})
 
-        sprint_tasks = [t for t in tasks.values() if t.get("sprint_id") == sprint_id]
+        sprint_tasks = [t for t in tasks if t.get("sprint_id") == sprint_id]
 
         planned_story_points = sprint.get("planned_story_points", 0)
         completed_story_points = sprint.get("completed_story_points", 0)
@@ -47,7 +36,7 @@ class ReconcileSprintExpenses(Tool):
 
         for task in sprint_tasks:
             task_time_logs = [
-                log for log in task_logs.values() if log.get("task_id") == task["task_id"]
+                log for log in task_logs if log.get("task_id") == task["task_id"]
             ]
             for log in task_time_logs:
                 employee_id = log.get("employee_id")
@@ -56,7 +45,7 @@ class ReconcileSprintExpenses(Tool):
 
                 if employee_id not in cost_by_employee:
                     employee = next(
-                        (e for e in employees.values() if e.get("employee_id") == employee_id),
+                        (e for e in employees if e.get("employee_id") == employee_id),
                         None,
                     )
                     if employee:
@@ -83,9 +72,9 @@ class ReconcileSprintExpenses(Tool):
         sprint_end = datetime.fromisoformat(sprint["end_date"].replace("Z", "+00:00"))
 
         sprint_expenses = []
-        for expense in expenses.values():
+        for expense in expenses:
             if expense.get("sprint_id") == sprint_id:
-                sprint_data["expenses"][expense["expense_id"]] = expense
+                sprint_expenses.append(expense)
             elif expense.get("submitted_date"):
 
                 try:
@@ -93,7 +82,7 @@ class ReconcileSprintExpenses(Tool):
                         expense["submitted_date"].replace("Z", "+00:00")
                     )
                     if sprint_start <= submitted_date <= sprint_end:
-                        sprint_data["expenses"][expense["expense_id"]] = expense
+                        sprint_expenses.append(expense)
                 except:
 
                     pass
@@ -118,11 +107,11 @@ class ReconcileSprintExpenses(Tool):
             "performance_metrics": {
                 "planned_story_points": planned_story_points,
                 "completed_story_points": completed_story_points,
-                "completion_rate": (
-                    round((completed_story_points / planned_story_points * 100), 2)
-                    if planned_story_points > 0
-                    else 0
-                ),
+                "completion_rate": round(
+                    (completed_story_points / planned_story_points * 100), 2
+                )
+                if planned_story_points > 0
+                else 0,
             },
             "cost_metrics": {
                 "total_hours_logged": total_hours_logged,
@@ -131,15 +120,13 @@ class ReconcileSprintExpenses(Tool):
                 "personnel_cost": total_personnel_cost,
                 "expense_cost": total_expense_amount,
                 "total_cost": total_personnel_cost + total_expense_amount,
-                "cost_per_story_point": (
-                    round(
-                        (total_personnel_cost + total_expense_amount)
-                        / completed_story_points,
-                        2,
-                    )
-                    if completed_story_points > 0
-                    else 0
-                ),
+                "cost_per_story_point": round(
+                    (total_personnel_cost + total_expense_amount)
+                    / completed_story_points,
+                    2,
+                )
+                if completed_story_points > 0
+                else 0,
             },
             "employee_breakdown": list(cost_by_employee.values()),
             "expense_count": len(sprint_expenses),
@@ -154,15 +141,15 @@ class ReconcileSprintExpenses(Tool):
             reconciliation["recommendations"] = [
                 "Team may be over-estimating - consider adjusting story point values"
             ]
-        payload = reconciliation
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(reconciliation, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ReconcileSprintExpenses",
+                "name": "reconcile_sprint_expenses",
                 "description": "Reconcile sprint expenses with actual hours logged and story points completed",
                 "parameters": {
                     "type": "object",

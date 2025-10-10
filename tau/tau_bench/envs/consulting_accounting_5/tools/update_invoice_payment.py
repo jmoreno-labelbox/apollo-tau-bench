@@ -1,22 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any, Dict
-from datetime import timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpdateInvoicePayment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], invoice_id: str, paid_at: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
         Marks an invoice as paid by updating paid_at field.
         """
+        invoice_id = kwargs["invoice_id"]
+        paid_at = kwargs["paid_at"]
         updated = None
-        for inv in data["invoices"].values():
+        for inv in data["invoices"]:
             if inv["invoice_id"] == invoice_id:
                 inv["paid_at"] = paid_at
                 updated = inv
                 break
         return json.dumps(updated if updated else {})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {

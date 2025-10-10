@@ -1,41 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetProjectTimeline(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_id: str,
-        include_dependencies: bool = True
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        include_dependencies = kwargs.get("include_dependencies", True)
+
         if not project_id:
-            payload = {"error": "project_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "project_id is required"})
 
-        milestones = data.get("milestones", {}).values()
-        milestone_dependencies = data.get("milestone_dependencies", {}).values()
-        projects = data.get("projects", {}).values()
+        milestones = list(data.get("milestones", {}).values())
+        milestone_dependencies = data.get("milestone_dependencies", [])
+        projects = list(data.get("projects", {}).values())
 
-        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
+        project = next((p for p in projects if p.get("project_id") == project_id), None)
         if not project:
-            payload = {"error": f"Project '{project_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Project '{project_id}' not found"})
 
         project_milestones = [
-            m for m in milestones.values() if m.get("project_id") == project_id
+            m for m in milestones if m.get("project_id") == project_id
         ]
 
         project_milestones.sort(key=lambda x: x.get("start_date"))
@@ -60,16 +48,14 @@ class GetProjectTimeline(Tool):
                 "progress": milestone.get("progress_percentage"),
                 "is_critical_path": milestone.get("is_critical_path"),
                 "resource_allocation": milestone.get("resource_allocation", 100),
-                "gate_criteria_defined": (
-                    bool(milestone.get("gate_criteria"))
-                    if milestone.get("milestone_type") == "major"
-                    else None
-                ),
+                "gate_criteria_defined": bool(milestone.get("gate_criteria"))
+                if milestone.get("milestone_type") == "major"
+                else None,
             }
 
             if include_dependencies:
                 deps = []
-                for dep in milestone_dependencies.values():
+                for dep in milestone_dependencies:
                     if dep.get("successor_id") == milestone.get("milestone_id"):
                         deps.append(
                             {
@@ -84,22 +70,22 @@ class GetProjectTimeline(Tool):
             timeline["milestones"].append(milestone_info)
 
         if project_milestones:
-            earliest_start = min(m.get("start_date") for m in project_milestones.values())
-            latest_end = max(m.get("target_date") for m in project_milestones.values())
+            earliest_start = min(m.get("start_date") for m in project_milestones)
+            latest_end = max(m.get("target_date") for m in project_milestones)
 
             timeline["timeline_metrics"] = {
                 "total_milestones": len(project_milestones),
                 "completed": len(
-                    [m for m in project_milestones.values() if m.get("status") == "completed"]
+                    [m for m in project_milestones if m.get("status") == "completed"]
                 ),
                 "in_progress": len(
-                    [m for m in project_milestones.values() if m.get("status") == "in_progress"]
+                    [m for m in project_milestones if m.get("status") == "in_progress"]
                 ),
                 "delayed": len(
-                    [m for m in project_milestones.values() if m.get("status") == "delayed"]
+                    [m for m in project_milestones if m.get("status") == "delayed"]
                 ),
                 "critical_path_count": len(
-                    [m for m in project_milestones.values() if m.get("is_critical_path")]
+                    [m for m in project_milestones if m.get("is_critical_path")]
                 ),
                 "timeline_span": f"{earliest_start} to {latest_end}",
                 "major_milestones_without_criteria": len(
@@ -111,15 +97,15 @@ class GetProjectTimeline(Tool):
                     ]
                 ),
             }
-        payload = timeline
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(timeline, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetProjectTimeline",
+                "name": "get_project_timeline",
                 "description": "Get complete timeline view of a project with all milestones",
                 "parameters": {
                     "type": "object",

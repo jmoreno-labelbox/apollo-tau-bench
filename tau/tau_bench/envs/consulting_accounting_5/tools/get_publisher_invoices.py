@@ -1,17 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any, Dict
-from datetime import timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetPublisherInvoices(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], publisher_id: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
         Returns all invoice_ids for a given publisher_id.
         """
-        invoices = [inv for inv in data["invoices"].values() if inv["publisher_id"] == publisher_id]
+        publisher_id = kwargs["publisher_id"]
+        invoices = [inv for inv in data["invoices"] if inv["publisher_id"] == publisher_id]
         return json.dumps([inv["invoice_id"] for inv in invoices])
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {

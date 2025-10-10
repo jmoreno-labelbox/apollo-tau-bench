@@ -1,32 +1,24 @@
-from tau_bench.envs.tool import Tool
-import copy
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetCampaignByName(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], name: str) -> str:
-        err = _require({"name": name}, ["name"])
-        if err:
-            return _fail(err)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        err = _require(kwargs, ["name"])
+        if err: return _fail(err)
         rows = _assert_table(data, "campaigns")
         for r in rows:
-            if r.get("name") == name:
-                payload = r
-                out = json.dumps(payload)
-                return out
+            if r.get("name") == kwargs["name"]:
+                return json.dumps(r)
         return _fail("campaign_not_found")
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "getCampaignByName",
-                "description": "Find a campaign by exact name.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"name": {"type": "string"}},
-                    "required": ["name"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function",
+                "function": {"name": "get_campaign_by_name", "description": "Find a campaign by exact name.",
+                             "parameters": {"type": "object", "properties": {"name": {"type": "string"}},
+                                            "required": ["name"]}}}

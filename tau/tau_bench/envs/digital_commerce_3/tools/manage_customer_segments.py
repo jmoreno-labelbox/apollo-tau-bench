@@ -1,12 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ManageCustomerSegments(Tool):
-    """Establish and oversee customer segments according to behavior and demographics."""
+    """Create and manage customer segments based on behavior and demographics."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], segment_name: Any, criteria: Any = None) -> str:
+    def invoke(data: Dict[str, Any], segment_name: Any, criteria: Any = None) -> str:
         segment_name = f"{segment_name}".strip()
         if criteria is None:
             criteria = {}
@@ -47,24 +50,24 @@ class ManageCustomerSegments(Tool):
             "customer_count": 10,
         }
 
-        _append_audit(
-            data, "segment_created", segment_id, {"segment_name": segment_name}
-        )
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(result, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ManageCustomerSegments",
+                "name": "manage_customer_segments",
                 "description": "Create and manage customer segments based on behavior and demographics.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "segment_name": {"type": "string"},
-                        "criteria": {"type": "object"},
+                        "criteria": {"type": "object", "properties": {
+                            "min_orders": {"type": "integer", "description": "Optional. Minimum number of orders in the specified period."},
+                            "period_days": {"type": "integer", "description": "Optional. Number of days that just passed to consider for the order count."},
+                            "lifetime_spend_usd": {"type": "integer", "description": "Optional. Minimum lifetime spend in USD."},
+                        }},
                     },
                     "required": ["segment_name"],
                 },

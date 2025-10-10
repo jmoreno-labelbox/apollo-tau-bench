@@ -1,31 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CaV2CreateSchedulerRun(Tool):
-    """Generate an entry for the scheduler run log."""
+    """Create a scheduler run log entry."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], run_id: str = None, task_name: str = None, scheduled_for: str = None, executed_at: str = None, status: str = None, log_path: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        run_id = kwargs.get("run_id")
+        task_name = kwargs.get("task_name")
+        scheduled_for = kwargs.get("scheduled_for")
+        executed_at = kwargs.get("executed_at")
+        status = kwargs.get("status")
+        log_path = kwargs.get("log_path")
+
         if not all([task_name, status]):
             return _error("Required fields: task_name, status")
 
         scheduler_run = {
-            "run_id": run_id or f"RUN{len(data.get('scheduler_runs', {})) + 1:03d}",
+            "run_id": run_id or f"RUN{len(data.get('scheduler_runs', [])) + 1:03d}",
             "task_name": task_name,
             "scheduled_for": scheduled_for,
             "executed_at": executed_at,
             "status": status,
-            "log_path": log_path,
+            "log_path": log_path
         }
 
         data.setdefault("scheduler_runs", []).append(scheduler_run)
@@ -33,11 +34,11 @@ class CaV2CreateSchedulerRun(Tool):
         return _ok(run_id=run_id, task_name=task_name, status=status)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CaV2CreateSchedulerRun",
+                "name": "ca_v2_create_scheduler_run",
                 "description": "Create a scheduler run log entry.",
                 "parameters": {
                     "type": "object",
@@ -47,7 +48,7 @@ class CaV2CreateSchedulerRun(Tool):
                         "scheduled_for": {"type": "string"},
                         "executed_at": {"type": "string"},
                         "status": {"type": "string"},
-                        "log_path": {"type": "string"},
+                        "log_path": {"type": "string"}
                     },
                     "required": ["task_name", "status"],
                 },

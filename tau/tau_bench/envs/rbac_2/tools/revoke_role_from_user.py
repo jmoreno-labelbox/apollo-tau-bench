@@ -1,23 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RevokeRoleFromUser(Tool):
-    """Removes a specific role from a user by eliminating the user-role record from the database."""
+    """ Revokes a specific role from a user by deleting the user-role entry from the database."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_role_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_role_id = kwargs.get("user_role_id")
         try:
-            user_roles = data.get("user_roles", {}).values()
+            user_roles = data.get('user_roles', [])
         except:
             user_roles = []
 
@@ -30,34 +25,31 @@ class RevokeRoleFromUser(Tool):
         if index != -1:
             revoked_assignment = user_roles.pop(index)
         else:
-            payload = {"error": f"User-role with ID '{user_role_id}' not found."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"User-role with ID '{user_role_id}' not found."})
 
-        data["user_roles"] = user_roles
-        payload = {
+        data['user_roles'] = user_roles
+
+        return json.dumps({
             "message": "User-role assignment revoked successfully.",
-            "revoked_details": revoked_assignment,
-        }
-        out = json.dumps(payload)
-        return out
+            "revoked_details": revoked_assignment
+        })
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RevokeRoleFromUser",
+                "name": "revoke_role_from_user",
                 "description": "Revokes a specific role from a user by deleting the assignment record. Requires the user_role_id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "user_role_id": {
                             "type": "string",
-                            "description": "The unique ID of the user-role assignment to be revoked (e.g., 'UR-003').",
+                            "description": "The unique ID of the user-role assignment to be revoked (e.g., 'UR-003')."
                         }
                     },
-                    "required": ["user_role_id"],
-                },
-            },
+                    "required": ["user_role_id"]
+                }
+            }
         }

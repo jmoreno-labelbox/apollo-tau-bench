@@ -1,15 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetSession(Tool):
     """
@@ -21,73 +15,55 @@ class GetSession(Tool):
       ip_address: str (optional) - Filter by IP address used in sessions
       only_active: bool = False - Only return sessions without end_time
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], session_id: str = None, user_id: str = None, ip_address: str = None, only_active: bool = False) -> str:
-        sessions = data.get("sessions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        session_id = kwargs.get("session_id")
+        user_id = kwargs.get("user_id")
+        ip_address = kwargs.get("ip_address")
+        only_active = kwargs.get("only_active", False)
 
-        # If session_id is supplied, return the specific session
+        sessions = data.get("sessions", [])
+
+        # If session_id is provided, return single session
         if session_id:
             session = _find_by_id(sessions, "session_id", session_id)
             if not session:
-                payload = {"error": f"session_id {session_id} not found"}
-                out = json.dumps(payload)
-                return out
-            payload = {"ok": True, "session": session if session else "No sessions found"}
-            out = json.dumps(payload)
-            return out
+                return json.dumps({"error": f"session_id {session_id} not found"})
+            return json.dumps({"ok": True, "session": session if session else "No sessions found"})
 
-        # Narrow down sessions according to the supplied criteria
+        # Filter sessions based on provided criteria
         filtered_sessions = []
-        for session in sessions.values():
-            # Narrow down by user_id if supplied
+        for session in sessions:
+            # Filter by user_id if provided
             if user_id and session.get("user_id") != user_id:
                 continue
-            # Narrow down by ip_address if supplied
+            # Filter by ip_address if provided
             if ip_address and session.get("ip_address") != ip_address:
                 continue
-            # Narrow down by active status if requested
+            # Filter by active status if requested
             if only_active and session.get("end_time") is not None:
                 continue
-            filtered_data["sessions"][session_id] = session
-        payload = {
-            "ok": True,
-            "sessions": (
-                filtered_sessions if filtered_sessions else "No sessions found"
-            ),
-        }
-        out = json.dumps(payload)
-        return out
+            filtered_sessions.append(session)
+
+        return json.dumps({"ok": True, "sessions": filtered_sessions if filtered_sessions else "No sessions found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetSession",
+                "name": "get_session",
                 "description": "Retrieve sessions by session ID, user ID, or IP address.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "session_id": {
-                            "type": "string",
-                            "description": "Specific session ID to retrieve.",
-                        },
-                        "user_id": {
-                            "type": "string",
-                            "description": "Filter by user who owns the sessions.",
-                        },
-                        "ip_address": {
-                            "type": "string",
-                            "description": "Filter by IP address used in sessions.",
-                        },
-                        "only_active": {
-                            "type": "boolean",
-                            "description": "Only return sessions without end_time.",
-                            "default": False,
-                        },
+                        "session_id": {"type": "string", "description": "Specific session ID to retrieve."},
+                        "user_id": {"type": "string", "description": "Filter by user who owns the sessions."},
+                        "ip_address": {"type": "string", "description": "Filter by IP address used in sessions."},
+                        "only_active": {"type": "boolean", "description": "Only return sessions without end_time.", "default": False}
                     },
                     "required": [],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

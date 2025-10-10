@@ -1,23 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateMealPlan(Tool):
-    """Add a new meal_plan row and return the meal_plan_id."""
-
+    """Insert a new meal_plan row and return meal_plan_id."""
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        household_id: int = None, 
-        week_start_date: str = None, 
-        created_by_user_id: int = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        household_id = kwargs.get("household_id")
+        week_start_date = kwargs.get("week_start_date")
+        created_by_user_id = kwargs.get("created_by_user_id")
         if household_id is None or created_by_user_id is None or not week_start_date:
-            return _json_dump(
-                {
-                    "error": "household_id, week_start_date, created_by_user_id are required"
-                }
-            )
+            return _json_dump({"error": "household_id, week_start_date, created_by_user_id are required"})
         tbl = data.setdefault("meal_plans", [])
         next_id = _max_id(tbl, "meal_plan_id", 6000) + 1
         row = {
@@ -25,29 +21,19 @@ class CreateMealPlan(Tool):
             "household_id": int(household_id),
             "week_start_date": str(week_start_date),
             "created_by_user_id": int(created_by_user_id),
-            "created_at": "2025-01-01T00:00:00Z",
+            "created_at": "2025-01-01T00:00:00Z"
         }
-        data["meal_plans"][row["meal_plan_id"]] = row
+        tbl.append(row)
         return _json_dump({"meal_plan_id": next_id})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "CreateMealPlan",
-                "description": "Create a new meal plan (header).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "household_id": {"type": "integer"},
-                        "week_start_date": {"type": "string"},
-                        "created_by_user_id": {"type": "integer"},
-                    },
-                    "required": [
-                        "household_id",
-                        "week_start_date",
-                        "created_by_user_id",
-                    ],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"create_meal_plan",
+            "description":"Create a new meal plan (header).",
+            "parameters":{"type":"object","properties":{
+                "household_id":{"type":"integer"},
+                "week_start_date":{"type":"string"},
+                "created_by_user_id":{"type":"integer"}
+            },"required":["household_id","week_start_date","created_by_user_id"]}
+        }}

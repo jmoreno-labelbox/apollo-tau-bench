@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateRepositoryTool(Tool):
     """
@@ -46,23 +34,18 @@ class CreateRepositoryTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str, description: str = None, private: bool = False) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            description = _validate_param({"description": description}, "description", str, required=False)
-            private = _validate_param({"private": private}, "private", bool)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            description = _validate_param(kwargs, "description", str, required=False)
+            private = _validate_param(kwargs, "private", bool)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        repos = data.get("repositories", {}).values()
-        if any(r.get("name") == repo_name for r in repos.values()):
-            return _response(
-                "error",
-                ERROR_MESSAGES["ALREADY_EXISTS"].format(
-                    entity="Repository", entity_id=repo_name
-                ),
-                "ALREADY_EXISTS",
-            )
+        repos = list(data.get("repositories", {}).values())
+        if any(r.get("name") == repo_name for r in repos):
+            return _response("error", ERROR_MESSAGES["ALREADY_EXISTS"].format(entity="Repository", entity_id=repo_name), "ALREADY_EXISTS")
+
 
         new_repo = {
             "name": repo_name,
@@ -73,15 +56,16 @@ class CreateRepositoryTool(Tool):
             "default_branch": "main",
         }
         new_repo["repo_id"] = _safe_id(new_repo, "repo_id", "REPO_", ["name"])
-        data["repositories"][new_repo["repositorie_id"]] = new_repo
+        repos.append(new_repo)
 
         return _response("ok", new_repo)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateRepository",
+                "name": "create_repository",
                 "description": "Create a new repository deterministically (in-memory only).",
                 "parameters": {
                     "type": "object",

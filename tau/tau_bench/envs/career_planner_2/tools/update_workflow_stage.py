@@ -1,42 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateWorkflowStage(Tool):
-    """Revise the status of the HR workflow stage."""
+    """Update HR workflow stage status."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], workflow_id: str = None, stage: str = None, status: str = None) -> str:
-        wid = workflow_id
-        stg = stage
-        st = status
-        for wf in data.get("hr_workflows", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        wid = kwargs.get("workflow_id")
+        stg = kwargs.get("stage")
+        st = kwargs.get("status")
+        for wf in data.get("hr_workflows", []):
             if wf.get("workflow_id") == wid:
                 for s in wf.get("workflow_stages", []):
                     if s.get("stage") == stg:
                         s["status"] = st
                         s["date"] = datetime.utcnow().date().isoformat()
-                        payload = {"success": f"{stg} -> {st}"}
-                        out = json.dumps(payload, indent=2)
-                        return out
-        payload = {"error": "Not found"}
-        out = json.dumps(payload)
-        return out
+                        return json.dumps({"success": f"{stg} -> {st}"}, indent=2)
+        return json.dumps({"error": "Not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateWorkflowStage",
+                "name": "update_workflow_stage",
                 "description": "Update stage.",
                 "parameters": {
                     "type": "object",

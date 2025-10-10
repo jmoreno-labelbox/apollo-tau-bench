@@ -1,33 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AddItemToCart(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], cart_id: Any, product_id: Any, quantity: Any
-    ) -> str:
+    def invoke(data: Dict[str, Any], cart_id: str, product_id: str, quantity: Any) -> str:
         cart_id = _as_id(cart_id)
         product_id = _as_id(product_id)
         if not cart_id or not product_id or quantity is None:
             return _err("cart_id, product_id, quantity are required.")
-        carts = data.get("carts", {}).values()
-        cart = next((c for c in carts.values() if _as_id(c.get("cart_id")) == cart_id), None)
+        carts = data.get("carts", [])
+        cart = next((c for c in carts if _as_id(c.get("cart_id")) == cart_id), None)
         if not cart:
             return _err("Cart not found.")
-        products = data.get("products", {}).values()
-        product = next(
-            (p for p in products.values() if _as_id(p.get("product_id")) == product_id), None
-        )
+        products = list(data.get("products", {}).values())
+        product = next((p for p in products if _as_id(p.get("product_id")) == product_id), None)
         if not product:
             return _err("Product not found.")
         qty = int(quantity)
@@ -45,31 +35,24 @@ class AddItemToCart(Tool):
         )
         if existing:
             existing["quantity"] = int(existing.get("quantity", 0)) + qty
-            payload = {"cart_item_id": f"{cart_id}:{product_id}", "updated": True}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"cart_item_id": f"{cart_id}:{product_id}", "updated": True}, indent=2
             )
-            return out
         cart_item = {
             "cart_item_id": f"{cart_id}:{product_id}",
             "cart_id": cart_id,
             "product_id": product_id,
             "quantity": qty,
         }
-        data["cart_items"][cart_item["cart_item_id"]] = cart_item
-        payload = {"cart_item_id": cart_item["cart_item_id"], "updated": False}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
-        
+        items.append(cart_item)
+        return json.dumps({"cart_item_id": cart_item["cart_item_id"], "updated": False}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddItemToCart",
+                "name": "add_item_to_cart",
                 "description": "Add a product to a cart using the account's default pricebook.",
                 "parameters": {
                     "type": "object",

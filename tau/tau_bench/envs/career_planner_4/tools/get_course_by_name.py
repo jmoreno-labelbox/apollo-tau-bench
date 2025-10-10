@@ -1,69 +1,59 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class GetCourseByName(Tool):
+class get_course_by_name(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], course_name: str) -> str:
-        _course_nameL = course_name or ''.lower()
-        pass
-        courses = data.get("course_catalog", {}).values()
+    def invoke(data: Dict[str, Any], course_name: str) -> str:
+        courses = data.get("course_catalog", [])
 
-        # Attempt an exact match initially
+        # Try exact match first
         course = next(
-            (c for c in courses.values() if c.get("name", "").lower() == course_name.lower()),
+            (c for c in courses if c.get("name", "").lower() == course_name.lower()),
             None,
         )
 
-        # If an exact match is not found, attempt a partial match
+        # If no exact match, try partial match
         if not course:
             course = next(
                 (
                     c
-                    for c in courses.values() if course_name.lower() in c.get("name", "").lower()
+                    for c in courses
+                    if course_name.lower() in c.get("name", "").lower()
                 ),
                 None,
             )
 
         if course:
-            payload = {
-                "course_found": True,
-                "course_id": course.get("course_id"),
-                "course_name": course.get("name"),
-                "provider": course.get("provider"),
-                "level": course.get("level"),
-            }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {
+                    "course_found": True,
+                    "course_id": course.get("course_id"),
+                    "course_name": course.get("name"),
+                    "provider": course.get("provider"),
+                    "level": course.get("level"),
+                },
+                indent=2,
             )
-            return out
         else:
-            payload = {
-                "course_found": False,
-                "error": f"Course '{course_name}' not found",
-                "suggestion": "Try using partial course name or check course catalog",
-            }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {
+                    "course_found": False,
+                    "error": f"Course '{course_name}' not found",
+                    "suggestion": "Try using partial course name or check course catalog",
+                },
+                indent=2,
             )
-            return out
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "getCourseByName",
+                "name": "get_course_by_name",
                 "description": "Find course ID by course name (exact or partial match)",
                 "parameters": {
                     "type": "object",

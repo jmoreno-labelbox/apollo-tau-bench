@@ -1,33 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class VIdeoRen(Tool):
     @staticmethod
-    #primary invocation function
-    def invoke(data: dict[str, Any], manifest: Any = None, tool: str = None) -> str:
-        payload = {"video_links": ["portal://playlist/opponent_pitcher_tendencies"]}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        # main invoke function
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        # return result
+        return json.dumps({"video_links": ["portal://playlist/opponent_pitcher_tendencies"]}, indent=2)
+
     @staticmethod
-    #metadata information
-    def get_info() -> dict[str, Any]:
-        pass
-        #return result
-        return {
-            "type": "function",
-            "function": {
-                "name": "makeVidList",
-                "description": "Renders playlists via ffmpeg.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "manifest": {"type": "string"},
-                        "tool": {"type": "string"},
-                    },
-                    "required": ["manifest", "tool"],
-                },
-            },
-        }
+        # info metadata
+    def get_info() -> Dict[str, Any]:
+        # return result
+        return {"type": "function", "function": {"name": "makeVidList", "description": "Renders playlists via ffmpeg.", "parameters": {"type": "object", "properties": {"manifest": {"type": "string"}, "tool": {"type": "string"}}, "required": ["manifest", "tool"]}}}

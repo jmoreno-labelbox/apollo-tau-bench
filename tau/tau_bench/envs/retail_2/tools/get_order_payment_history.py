@@ -1,43 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetOrderPaymentHistory(Tool):
-    """Provide payment transaction details for an order."""
+    """Return payment transactions for an order."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str) -> str:
-        orders = data.get("orders", {}).values()
-        for order in orders.values():
+    def invoke(data: Dict[str, Any], order_id: str) -> str:
+        orders = list(data.get("orders", {}).values())
+        for order in orders:
             if order.get("order_id") == order_id:
-                payload = {
-                    "order_id": order_id,
-                    "payment_history": order.get("payment_history", []),
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Order not found", "order_id": order_id}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"order_id": order_id, "payment_history": order.get("payment_history", [])})
+        return json.dumps({"error": "Order not found", "order_id": order_id})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetOrderPaymentHistory",
+                "name": "get_order_payment_history",
                 "description": "Get the payment_history array for an order.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"order_id": {"type": "string"}},
-                    "required": ["order_id"],
-                },
-            },
+                    "properties": {
+                        "order_id": {"type": "string"}
+                    },
+                    "required": ["order_id"]
+                }
+            }
         }

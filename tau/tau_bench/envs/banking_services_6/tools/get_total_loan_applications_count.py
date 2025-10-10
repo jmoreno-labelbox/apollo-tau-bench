@@ -1,26 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, time, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetTotalLoanApplicationsCount(Tool):
-    def invoke(data: Dict[str, Any], unexpected: Any = None) -> str:
-        count = len(data.get("loan_applications", {}))
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        count = len(data.get("loan_applications", []))
         return json.dumps({"total_loan_applications": count})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "getTotalLoanApplicationsCount",
+                        "name": "get_total_loan_applications_count",
                         "description": "Returns the current total number of loan applications in the system.",
                         "parameters": {"type": "object", "properties": {}},
                 },

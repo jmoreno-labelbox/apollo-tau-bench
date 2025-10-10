@@ -1,31 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class Filtering(Tool):
     @staticmethod
-    #primary invocation function
-    def invoke(data: dict[str, Any], method: str = "empirical_bayes", fdr_threshold: float = 0.1) -> str:
-        payload = {"filtered_stats": f"stats_{method}"}
-        out = json.dumps(payload, indent=2)
-        return out
+        # main invoke function
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        method = kwargs.get("method", "empirical_bayes")
+        fdr_threshold = kwargs.get("fdr_threshold", 0.1)
+        # return result
+        return json.dumps({"filtered_stats": f"stats_{method}"}, indent=2)
+
     @staticmethod
-    #metadata information
-    def get_info() -> dict[str, Any]:
-        pass
-        #return result
-        return {
-            "type": "function",
-            "function": {
-                "name": "statfilt",
-                "description": "Implements statistical filters to reduce false positives.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "method": {"type": "string"},
-                        "fdr_threshold": {"type": "number"},
-                    },
-                    "required": ["method"],
-                },
-            },
-        }
+        # info metadata
+    def get_info() -> Dict[str, Any]:
+        # return result
+        return {"type": "function", "function": {"name": "statfilt", "description": "Implements statistical filters to reduce false positives.", "parameters": {"type": "object", "properties": {"method": {"type": "string"}, "fdr_threshold": {"type": "number"}}, "required": ["method"]}}}

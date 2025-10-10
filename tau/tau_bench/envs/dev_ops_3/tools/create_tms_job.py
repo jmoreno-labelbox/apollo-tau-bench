@@ -1,28 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class create_tms_job(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_id: str,
-        job_name: str,
-        source_locale: str,
-        target_locales: list[str],
-        string_keys: list[str],
-    ) -> str:
-        pass
-        tms_jobs = data.get("tms_jobs", {}).values()
-        existing_ids = [job["id"] for job in tms_jobs.values()]
+    def invoke(data: Dict[str, Any], project_id: str, job_name: str, source_locale: str, target_locales: List[str], string_keys: List[str]) -> str:
+        tms_jobs = data.get("tms_jobs", [])
+        existing_ids = [job['id'] for job in tms_jobs]
         new_id = _get_next_id("tms_job", existing_ids)
 
         new_job = {
@@ -42,43 +29,13 @@ class create_tms_job(Tool):
             "target_locales": target_locales,
             "priority": "medium",
             "due_date": None,
-            "metadata": {"string_keys": string_keys},
+            "metadata": { "string_keys": string_keys }
         }
 
-        data["tms_jobs"][new_job["tms_job_id"]] = new_job
+        tms_jobs.append(new_job)
         data["tms_jobs"] = tms_jobs
-        payload = {"success": f"Created TMS job '{new_id}'.", "tms_job_id": new_id}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        return json.dumps({"success": f"Created TMS job '{new_id}'.", "tms_job_id": new_id}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "CreateTmsJob",
-                "description": "Creates a new job in the Translation Management System (TMS).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "project_id": {"type": "string"},
-                        "job_name": {"type": "string"},
-                        "source_locale": {"type": "string"},
-                        "target_locales": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                        },
-                        "string_keys": {"type": "array", "items": {"type": "string"}},
-                    },
-                    "required": [
-                        "project_id",
-                        "job_name",
-                        "source_locale",
-                        "target_locales",
-                        "string_keys",
-                    ],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return { "type": "function", "function": { "name": "create_tms_job", "description": "Creates a new job in the Translation Management System (TMS).", "parameters": { "type": "object", "properties": { "project_id": { "type": "string" }, "job_name": { "type": "string" }, "source_locale": { "type": "string" }, "target_locales": { "type": "array", "items": { "type": "string" } }, "string_keys": { "type": "array", "items": { "type": "string" } } }, "required": ["project_id", "job_name", "source_locale", "target_locales", "string_keys"] } } }

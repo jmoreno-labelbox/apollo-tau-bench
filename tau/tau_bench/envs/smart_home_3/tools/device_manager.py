@@ -1,153 +1,76 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class DeviceManager(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        action: str = "get",
-        device_id: str = None,
-        type: str = None,
-        location: str = None,
-        state_updates: dict = {},
-        updates: dict = None,
-        schedule_updates: dict = None,
-        device_data: dict = {}) -> str:
-        devices = data.get("devices", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        devices = list(data.get('devices', {}).values())
+        action = kwargs.get('action', 'get')
+        device_id = kwargs.get('device_id')
+        device_type = kwargs.get('type')
+        location = kwargs.get('location')
+        state_updates = kwargs.get('state_updates', {})
+        schedule_updates = kwargs.get('schedule_updates')
+        device_data = kwargs.get('device_data', {})
 
-        if action == "get":
-            result = [
-                d
-                for d in devices.values() if (not device_id or d["id"] == device_id)
-                and (not type or d["type"] == type)
-                and (not location or d["location"] == location)
-            ]
-            payload = result
-            out = json.dumps(payload, indent=2)
-            return out
-        elif action == "update_state":
+        if action == 'get':
+            result = [d for d in devices if (not device_id or d['id'] == device_id) and
+                     (not device_type or d['type'] == device_type) and
+                     (not location or d['location'] == location)]
+            return json.dumps(result, indent=2)
+        elif action == 'update_state':
             if not device_id:
-                payload = {"error": "device_id required for state update"}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
-            # Use updates if provided, otherwise fall back to state_updates
-            actual_updates = updates if updates is not None else state_updates
+                return json.dumps({"error": "device_id required for state update"}, indent=2)
             for device in devices:
-                if device["id"] == device_id:
-                    device["state"].update(actual_updates)
-                    device["state"]["last_updated"] = _now_iso()
-                    payload = {"success": f"Updated {device_id} state"}
-                    out = json.dumps(
-                        payload, indent=2
-                    )
-                    return out
-            payload = {"error": "Device not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        elif action == "add_schedule":
+                if device['id'] == device_id:
+                    device['state'].update(state_updates)
+                    device['state']['last_updated'] = _now_iso()
+                    return json.dumps({"success": f"Updated {device_id} state"}, indent=2)
+            return json.dumps({"error": "Device not found"}, indent=2)
+        elif action == 'add_schedule':
             if not device_id or not schedule_updates:
-                payload = {"error": "device_id and schedule_updates required"}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
+                return json.dumps({"error": "device_id and schedule_updates required"}, indent=2)
             for device in devices:
-                if device["id"] == device_id:
-                    device["scheduled_updates"].append(schedule_updates)
-                    payload = {"success": f"Added schedule to {device_id}"}
-                    out = json.dumps(
-                        payload, indent=2
-                    )
-                    return out
-        elif action == "create":
+                if device['id'] == device_id:
+                    device['scheduled_updates'].append(schedule_updates)
+                    return json.dumps({"success": f"Added schedule to {device_id}"}, indent=2)
+        elif action == 'create':
             if not device_data:
-                payload = {"error": "device_data required for creation"}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
-            data["devices"][device_id] = device_data
-            payload = {"success": f"Created device {device_data.get('id')}"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        elif action == "delete":
+                return json.dumps({"error": "device_data required for creation"}, indent=2)
+            devices.append(device_data)
+            return json.dumps({"success": f"Created device {device_data.get('id')}"}, indent=2)
+        elif action == 'delete':
             if not device_id:
-                payload = {"error": "device_id required for deletion"}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
-            devices[:] = [d for d in devices.values() if d["id"] != device_id]
-            payload = {"success": f"Deleted device {device_id}"}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"error": "Invalid action"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps({"error": "device_id required for deletion"}, indent=2)
+            devices[:] = [d for d in devices if d['id'] != device_id]
+            return json.dumps({"success": f"Deleted device {device_id}"}, indent=2)
+
+        return json.dumps({"error": "Invalid action"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "DeviceManager",
+                "name": "device_manager",
                 "description": "Comprehensive device management - CRUD, state updates, scheduling",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "action": {
-                            "type": "string",
-                            "enum": [
-                                "get",
-                                "update_state",
-                                "add_schedule",
-                                "create",
-                                "delete",
-                            ],
-                        },
-                        "device_id": {
-                            "type": "string",
-                            "description": "Device ID for operations",
-                        },
-                        "type": {
-                            "type": "string",
-                            "description": "Filter by device type",
-                        },
-                        "location": {
-                            "type": "string",
-                            "description": "Filter by location",
-                        },
-                        "state_updates": {
-                            "type": "object",
-                            "description": "State parameters to update",
-                        },
-                        "updates": {
-                            "type": "object",
-                            "description": "Alias for state_updates",
-                        },
-                        "schedule_updates": {
-                            "type": "object",
-                            "description": "Schedule data to add (Dict with fields timestamp (String), update (Dict), rrule (String))",
-                        },
-                        "device_data": {
-                            "type": "object",
-                            "description": "Full device data for creation",
-                        },
+                        "action": {"type": "string", "enum": ["get", "update_state", "add_schedule", "create", "delete"]},
+                        "device_id": {"type": "string", "description": "Device ID for operations"},
+                        "type": {"type": "string", "description": "Filter by device type"},
+                        "location": {"type": "string", "description": "Filter by location"},
+                        "state_updates": {"type": "object", "description": "State parameters to update"},
+                        "schedule_updates": {"type": "object", "description": "Schedule data to add (Dict with fields timestamp (String), update (Dict), rrule (String))"},
+                        "device_data": {"type": "object", "description": "Full device data for creation"}
                     },
                     "required": ["action"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

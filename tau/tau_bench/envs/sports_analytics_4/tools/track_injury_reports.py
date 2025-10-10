@@ -1,40 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class TrackInjuryReports(Tool):
     @staticmethod
-    #primary invocation function
-    def invoke(data: dict[str, Any], player_id: str = None) -> str:
-        injuries = data.get("injury_reports", {}).values()
-        player_injuries = [i for i in injuries.values() if i.get("player_id") == player_id]
-        payload = {"player_id": player_id, "injury_history": player_injuries}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        # main invoke function
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        player_id = kwargs.get("player_id")
+        injuries = data.get("injury_reports", [])
+        player_injuries = [i for i in injuries if i.get("player_id") == player_id]
+        # return result
+        return json.dumps({"player_id": player_id, "injury_history": player_injuries}, indent=2)
+
     @staticmethod
-    #metadata information
-    def get_info() -> dict[str, Any]:
-        pass
-        #return result
+        # info metadata
+    def get_info() -> Dict[str, Any]:
+        # return result
         return {
             "type": "function",
             "function": {
-                "name": "trackInjuryReports",
+                "name": "track_injury_reports",
                 "description": "Retrieves injury history for a given player from injury_reports.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"player_id": {"type": "integer"}},
-                    "required": ["player_id"],
-                },
-            },
+                    "properties": {
+                        "player_id": {"type": "integer"}
+                    },
+                    "required": ["player_id"]
+                }
+            }
         }

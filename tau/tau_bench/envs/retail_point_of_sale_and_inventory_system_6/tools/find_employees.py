@@ -1,37 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import OrderedDict, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class find_employees(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        employee_id: str = None,
-        phone_number: str = None,
-        membership_level: str = None,
-        birthdate: str = None,
-        opt_in_marketing: bool = None,
-        status: str = None,
-        role: str = None,
-        store_id: str = None,
-        name: str = None,
-        email: str = None,
-        address: str = None,
-    ) -> str:
-        employees = data.get("employees", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employees = list(data.get("employees", {}).values())
 
-        # If a customer id is provided, it will take precedence over all other criteria
+        # If customer id is sent, then it will override all other criteria
+        employee_id = kwargs.get("employee_id")
 
-        # These columns will match precisely with the provided value
+        # These columns will be matched exactly to the value sent
         exact_match_cols = [
             "phone_number",
             "membership_level",
@@ -41,33 +23,19 @@ class find_employees(Tool):
             "role",
             "store_id",
         ]
-        exact_match_values = {
-            "phone_number": phone_number,
-            "membership_level": membership_level,
-            "birthdate": birthdate,
-            "opt_in_marketing": opt_in_marketing,
-            "status": status,
-            "role": role,
-            "store_id": store_id,
-        }
+        exact_match_values = {k: kwargs.get(k) for k in exact_match_cols}
 
-        # These columns will match as long as the database field includes the provided value
+        # These columns will be matched as long as the database field contains the sent value
         approximate_match_cols = ["name", "email", "address"]
-        approximate_match_values = {
-            "name": name,
-            "email": email,
-            "address": address,
-        }
+        approximate_match_values = {k: kwargs.get(k) for k in approximate_match_cols}
 
         matches = []
-        for employee in employees.values():
-            # customer_id is prioritized
+        for employee in employees:
+            # customer_id takes priority
             if (employee_id is not None) and (employee["employee_id"] == employee_id):
-                payload = employee
-                out = json.dumps(payload, indent=2)
-                return out
+                return json.dumps(employee, indent=2)
 
-            # Add to the return list if all provided criteria align
+            # If all sent criteria match, then add it to the return list
             elif all(
                 [
                     exact_match_values[k] == employee[k]
@@ -82,15 +50,15 @@ class find_employees(Tool):
                 ]
             ):
                 matches.append(employee)
-        payload = matches
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(matches, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindEmployees",
+                "name": "find_employees",
                 "description": "Finds employees matching the sent criteria. Returns an empty list if there are none",
                 "parameters": {
                     "type": "object",

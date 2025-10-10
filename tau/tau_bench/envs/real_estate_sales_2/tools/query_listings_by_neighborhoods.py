@@ -1,37 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from itertools import islice
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class QueryListingsByNeighborhoods(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], neighborhood_ids: list = None,
-        price_min: Any = None,
-        property_type: Any = None,
-        beds: Any = None,
-        baths: Any = None,
-        price_max: Any = None,
-        limit: Any = None,
-        sqft_min: Any = None,
-        sqft_max: Any = None
-    ) -> str:
-        neighborhood_ids = neighborhood_ids or []
-        return QueryActiveListings.invoke(data, neighborhood_ids=neighborhood_ids)
-    
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        kwargs["neighborhood_ids"] = kwargs.get("neighborhood_ids") or []
+        return QueryActiveListings.invoke(data, **kwargs)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "QueryListingsByNeighborhoods",
+                "name": "query_listings_by_neighborhoods",
                 "description": "Search listings within the provided neighborhoods.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "neighborhood_ids": {
-                            "type": "array",
-                            "items": {"type": "integer"},
-                        },
+                        "neighborhood_ids": {"type": "array", "items": {"type": "integer"}},
                         "price_min": {"type": "integer"},
                         "price_max": {"type": "integer"},
                         "beds": {"type": "integer"},

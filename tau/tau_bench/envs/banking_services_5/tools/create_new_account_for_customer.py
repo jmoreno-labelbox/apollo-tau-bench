@@ -1,31 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone, date, timedelta
-import calendar
-from typing import Any, Dict
-import random
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateNewAccountForCustomer(Tool):
+    """Creates a new account for a customer using account type and returns the full account object."""
 
     @staticmethod
-    def invoke(
-        data: Dict[str, Any],
-        customer_id: str,
-        account_type: str = "",
-        account_type_code: str = "",
-        currency: str = "USD"
-    ) -> str:
-        account_type = account_type.strip()
-        account_type_code = account_type_code.strip()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        account_type = kwargs.get("account_type", "").strip()
+        account_type_code = kwargs.get("account_type_code", "").strip()
+
+        currency = kwargs.get("currency", "USD")
 
         if not customer_id or not account_type or not account_type_code or not currency:
             return json.dumps({
@@ -60,8 +49,8 @@ class CreateNewAccountForCustomer(Tool):
         data.setdefault("accounts", []).append(new_account)
 
         # add to customer's account_ids
-        customers = data.get("customers", {}).values()
-        for customer in customers.values():
+        customers = list(data.get("customers", {}).values())
+        for customer in customers:
             if customer.get("customer_id") == customer_id:
                 ids = customer.setdefault("account_ids", [])
                 if account_id not in ids:
@@ -69,12 +58,13 @@ class CreateNewAccountForCustomer(Tool):
                 break
 
         return json.dumps(new_account, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateNewAccountForCustomer",
+                "name": "create_new_account_for_customer",
                 "description": (
                     "Creates a new account for a customer using account type (not code) "
                     "and returns the full account record. Acceptable values: "

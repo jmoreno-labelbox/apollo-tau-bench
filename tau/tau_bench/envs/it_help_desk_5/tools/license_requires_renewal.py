@@ -1,54 +1,42 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class LicenseRequiresRenewal(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], num_days: int = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        num_days = kwargs.get('num_days')
         if num_days is None:
-            payload = {"status": "error", "reason": "The num_days field is required."}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({'status': 'error', 'reason': 'The num_days field is required.'}, indent=2)
 
-        inventory = data.get("license_inventory")
+        inventory = data.get('license_inventory')
         licenses = []
 
         dt_now = datetime.fromisoformat(FIXED_NOW)
 
-        for license in inventory.values():
-            dt_audit = datetime.fromisoformat(license["last_audit_at"])
+        for license in inventory:
+            dt_audit = datetime.fromisoformat(license['last_audit_at'])
             if (dt_now - dt_audit).days > num_days:
-                licenses.append(license["license_id"])
-        payload = licenses
-        out = json.dumps(payload, indent=2)
-        return out
+                licenses.append(license['license_id'])
+
+        return json.dumps(licenses, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "licenseRequiresRenewal",
-                "description": "Returns the license_id of any license audited over num_days ago.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "num_days": {
-                            "type": "string",
-                            "description": "The number of days to filter by.",
-                        },
+            'type': 'function',
+            'function': {
+                'name': 'license_requires_renewal',
+                'description': 'Returns the license_id of any license audited over num_days ago.',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'num_days': {'type': 'string', 'description': 'The number of days to filter by.'},
                     },
-                    "required": ["num_days"],
-                },
-            },
+                    'required': ['num_days']
+                }
+            }
         }

@@ -1,48 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
-from decimal import ROUND_HALF_UP, Decimal
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateCaseStatus(Tool):
+    """Update the status of an existing case."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], case_id: Any, status: Any) -> str:
+    def invoke(data: Dict[str, Any], case_id: Any, status: Any) -> str:
+        case_id = case_id
         if not case_id or not status:
-            payload = {"error": "Missing required fields: case_id and/or status"}
-            out = json.dumps(payload, indent=2)
-            return out
-        cases = data.get("cases", {}).values()
-        for case in cases.values():
+            return json.dumps({"error": "Missing required fields: case_id and/or status"}, indent=2)
+        cases = data.get("cases", [])
+        for case in cases:
             if case.get("case_id") == case_id:
                 case["status"] = status
-                payload = case
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"No case found with ID '{case_id}'"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(case, indent=2)
+
+        return json.dumps({"error": f"No case found with ID '{case_id}'"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateCaseStatus",
+                "name": "update_case_status",
                 "description": "Update the status of an existing case.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "case_id": {
-                            "type": "string",
-                            "description": "Exact case ID to update.",
-                        },
+                        "case_id": {"type": "string", "description": "Exact case ID to update."},
                         "status": {
                             "type": "string",
                             "description": "New status to set for the case (e.g., New, In Progress, Closed).",

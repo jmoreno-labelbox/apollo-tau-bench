@@ -1,48 +1,41 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SummarizePlayerPerformance(Tool):
     @staticmethod
-    #primary invocation function
-    def invoke(data: dict[str, Any], player_id: str = None) -> str:
-        games = data.get("games", {}).values()
-        stats = [g for g in games.values() if player_id in g.get("player_stats", {}).values()]
+        # main invoke function
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        player_id = kwargs.get("player_id")
+        games = data.get("games", [])
+        stats = [g for g in games if player_id in g.get("player_stats", {})]
         summary = {
             "player_id": player_id,
             "games_played": len(stats),
-            "avg_batting_avg": sum(
-                s["player_stats"][player_id].get("batting_avg", 0) for s in stats
-            )
-            / max(len(stats), 1),
-            "avg_ops": sum(s["player_stats"][player_id].get("ops", 0) for s in stats.values())
-            / max(len(stats), 1),
+            "avg_batting_avg": sum(s["player_stats"][player_id].get("batting_avg", 0) for s in stats) / max(len(stats), 1),
+            "avg_ops": sum(s["player_stats"][player_id].get("ops", 0) for s in stats) / max(len(stats), 1),
         }
-        payload = summary
-        out = json.dumps(payload, indent=2)
-        return out
+        # return result
+        return json.dumps(summary, indent=2)
+
     @staticmethod
-    #metadata information
-    def get_info() -> dict[str, Any]:
-        pass
-        #return result
+        # info metadata
+    def get_info() -> Dict[str, Any]:
+        # return result
         return {
             "type": "function",
             "function": {
-                "name": "summarizePlayerPerformance",
+                "name": "summarize_player_performance",
                 "description": "Creates an aggregated summary of a player's recent performance over available games.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"player_id": {"type": "integer"}},
-                    "required": ["player_id"],
-                },
-            },
+                    "properties": {
+                        "player_id": {"type": "integer"}
+                    },
+                    "required": ["player_id"]
+                }
+            }
         }

@@ -1,66 +1,32 @@
-from tau_bench.envs.tool import Tool
-import csv
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetDailyAdsetInsights(Tool):
-    """Provide expenditure/clicks/revenue for an ad set on a specific date."""
+    """Return spend/clicks/revenue for an adset on a date."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None, date: str = None, status: Any = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         import json
+        aid, date = kwargs.get("adset_id"), kwargs.get("date")
+        if not aid or not date:
+            return json.dumps({"success": False, "error": "adset_id and date are required"}, indent=2)
 
-        if not adset_id or not date:
-            payload = {"success": False, "error": "adset_id and date are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-
-        hits = [
-            i
-            for i in data.get("insights", {}).values()
-            if i.get("adset_id") == adset_id and i.get("date") == date
-        ]
+        hits = [i for i in data.get("insights", []) if i.get("adset_id") == aid and i.get("date") == date]
         if not hits:
-            payload = {
-                    "success": True,
-                    "adset_id": adset_id,
-                    "date": date,
-                    "rows": [],
-                    "count": 0,
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
-        payload = {
-                "success": True,
-                "adset_id": adset_id,
-                "date": date,
-                "rows": hits,
-                "count": len(hits),
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+            return json.dumps({"success": True, "adset_id": aid, "date": date, "rows": [], "count": 0}, indent=2)
+
+        return json.dumps({"success": True, "adset_id": aid, "date": date, "rows": hits, "count": len(hits)}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetDailyAdsetInsights",
+                "name": "get_daily_adset_insights",
                 "description": "Return spend/clicks/revenue for an adset on a given date.",
                 "parameters": {
                     "type": "object",

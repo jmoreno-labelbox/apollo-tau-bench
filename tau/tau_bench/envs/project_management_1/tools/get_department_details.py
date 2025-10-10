@@ -1,44 +1,36 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetDepartmentDetails(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], name: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name = kwargs.get("name")
+
         if not name:
-            payload = {"error": "name is a required parameter"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "name is a required parameter"})
 
-        departments = data.get("departments", {}).values()
+        departments = list(data.get("departments", {}).values())
 
-        for department in departments.values():
+        for department in departments:
             if department.get("department_name") == name:
-                payload = {"success": True, "details": department}
-                out = json.dumps(payload)
-                return out
-        payload = {
+                return json.dumps({"success": True, "details": department})
+
+        return json.dumps(
+            {
                 "error": "name or department is not found",
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetDepartmentDetails",
+                "name": "get_department_details",
                 "description": "Get department details",
                 "parameters": {
                     "type": "object",

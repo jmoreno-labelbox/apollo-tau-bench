@@ -1,13 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ListCodeScanningAlerts(Tool):
-    """Enumerates all code scanning alerts for a specified repository and optional severity."""
+    """Lists all code scanning alerts for a given repository and optional severity."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str = None, severity: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        repo_name = kwargs.get("repo_name")
+        severity_filter = kwargs.get("severity")
+
         flat_alerts = []
 
         for record in _alerts(data):
@@ -22,21 +27,20 @@ class ListCodeScanningAlerts(Tool):
                     "description": record.get("descriptions", [])[i],
                 }
 
-                if severity:
-                    if alert["severity"].lower() != severity.lower():
+                if severity_filter:
+                    if alert["severity"].lower() != severity_filter.lower():
                         continue
 
                 flat_alerts.append(alert)
-        payload = {"alerts": flat_alerts}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"alerts": flat_alerts}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "ListCodeScanningAlerts",
+                "name": "list_code_scanning_alerts",
                 "description": "Lists all code scanning alerts optionally filtered by repository and severity.",
                 "parameters": {
                     "type": "object",
@@ -44,6 +48,6 @@ class ListCodeScanningAlerts(Tool):
                         "repo_name": {"type": "string"},
                         "severity": {"type": "string"},
                     },
-                },
-            },
+                }
+            }
         }

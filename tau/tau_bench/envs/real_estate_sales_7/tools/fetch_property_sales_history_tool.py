@@ -1,14 +1,16 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class FetchPropertySalesHistoryTool(Tool):
-    """Retrieves historical sales information for the property."""
+    """Gets historical sales data for property."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], property_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        property_id = kwargs.get("property_id")
         need = _require_property_id(property_id)
         if need:
             return _err(need)
@@ -19,15 +21,14 @@ class FetchPropertySalesHistoryTool(Tool):
             "sales_history": sales or [],
             "total_sales": len(sales),
         }
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FetchPropertySalesHistory",
+                "name": "fetch_property_sales_history",
                 "description": "Gets historical sales data for a property.",
                 "parameters": {
                     "type": "object",

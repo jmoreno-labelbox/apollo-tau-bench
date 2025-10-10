@@ -1,35 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class InsightLev(Tool):
     @staticmethod
-    #primary invocation function
-    def invoke(data: dict[str, Any], leverage_threshold: float = None, source_table: str = None) -> str:
-        threshold = leverage_threshold
-        payload = {
-            "filtered": True,
-            "filtered_table": "flags_leverage",
-            "leverage_threshold": threshold,
-        }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        # main invoke function
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        threshold = kwargs.get("leverage_threshold")
+        # return result
+        return json.dumps({"filtered": True, "filtered_table": "flags_leverage", "leverage_threshold": threshold}, indent=2)
+
     @staticmethod
-    #metadata information
-    def get_info() -> dict[str, Any]:
-        pass
-        #return result
-        return {
-            "type": "function",
-            "function": {
-                "name": "levCut",
-                "description": "Selects insights by leverage threshold.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"leverage_threshold": {"type": "number"}},
-                    "required": ["leverage_threshold"],
-                },
-            },
-        }
+        # info metadata
+    def get_info() -> Dict[str, Any]:
+        # return result
+        return {"type": "function", "function": {"name": "levCut", "description": "Selects insights by leverage threshold.", "parameters": {"type": "object", "properties": {"leverage_threshold": {"type": "number"}}, "required": ["leverage_threshold"]}}}

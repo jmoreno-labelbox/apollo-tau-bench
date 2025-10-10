@@ -1,29 +1,17 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class BuildOutputPaths(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], feature_validation_json_path: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        feature_validation_json_path = kwargs.get("feature_validation_json_path")
         if not feature_validation_json_path:
-            payload = {"error": "Missing feature_validation_json_path"}
-            out = json.dumps(payload)
-            return out
-        payload = {"output_paths": [feature_validation_json_path]}
-        out = json.dumps(payload)
-        return out
+            return json.dumps({"error":"Missing feature_validation_json_path"})
+        return json.dumps({"output_paths": [feature_validation_json_path]})
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "buildOutputPaths",
-                "description": "Wraps the feature_validation_json_path into the output_paths array.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"feature_validation_json_path": {"type": "string"}},
-                    "required": ["feature_validation_json_path"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{"name":"build_output_paths","description":"Wraps the feature_validation_json_path into the output_paths array.","parameters":{"type":"object","properties":{"feature_validation_json_path":{"type":"string"}},"required":["feature_validation_json_path"]}}}

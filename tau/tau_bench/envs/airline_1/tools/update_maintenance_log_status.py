@@ -1,51 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateMaintenanceLogStatus(Tool):
-
+    """A tool to update the status of an existing maintenance log."""
     @staticmethod
-    def invoke(data: dict[str, Any], log_id: str, new_status: str) -> str:
-        logs = data.get("maintenance_logs", {}).values()
-        for log in logs.values():
+    def invoke(data: Dict[str, Any], log_id: str, new_status: str) -> str:
+        logs = data.get("maintenance_logs", [])
+        for log in logs:
             if log.get("log_id") == log_id:
                 log["status"] = new_status
-                payload = log
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Maintenance log not found", "log_id": log_id}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(log)
+        return json.dumps({"error": "Maintenance log not found", "log_id": log_id})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "updateMaintenanceLogStatus",
+            "type": "function", "function": {
+                "name": "update_maintenance_log_status",
                 "description": "Updates the status of a specific maintenance log (e.g., 'Halted', 'Completed').",
                 "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "log_id": {
-                            "type": "string",
-                            "description": "The unique ID of the maintenance log to update.",
-                        },
-                        "new_status": {
-                            "type": "string",
-                            "description": "The new status for the log.",
-                        },
-                    },
-                    "required": ["log_id", "new_status"],
-                },
-            },
+                    "type": "object", "properties": {
+                        "log_id": {"type": "string", "description": "The unique ID of the maintenance log to update."},
+                        "new_status": {"type": "string", "description": "The new status for the log."}
+                    }, "required": ["log_id", "new_status"]
+                }
+            }
         }

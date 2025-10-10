@@ -1,33 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CalculatePercentageChange(Tool):
-    """Computes the percentage difference in revenue between two amounts."""
+    """Calculates the percentage change in revenue between two values."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], current_value: float = None, previous_value: float = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        current_value = kwargs.get("current_value")
+        previous_value = kwargs.get("previous_value")
+        
         if current_value is None or previous_value is None:
-            payload = {"error": "current_value and previous_value are required parameters."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({"error": "current_value and previous_value are required parameters."})
+        
         if previous_value == 0:
-            payload = {"error": "previous_value cannot be zero."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({"error": "previous_value cannot be zero."})
+        
         change_percent = ((current_value - previous_value) / previous_value) * 100
-        payload = {"change_percent": change_percent}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"change_percent": change_percent})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculatePercentageChange",
+                "name": "calculate_percentage_change",
                 "description": "Calculates the percentage change between two values.",
                 "parameters": {
                     "type": "object",
@@ -39,7 +39,7 @@ class CalculatePercentageChange(Tool):
                         "previous_value": {
                             "type": "number",
                             "description": "The previous value.",
-                        },
+                        }
                     },
                     "required": ["current_value", "previous_value"],
                 },

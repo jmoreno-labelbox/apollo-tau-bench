@@ -1,22 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateDirectoryAccount(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         account_id: str,
         employee_id: str,
         username: str,
         created_at: str,
         status: str = "enabled",
-        group_ids: list[str] | None = None,
-        department: Any = None,
-        job_title: Any = None,
+        group_ids: Optional[List[str]] = None,
     ) -> str:
-        pass
-        #Check if the employee is present
+        # Validate employee exists
         if not _find_one(data["employees"], employee_id=employee_id):
             _append_row(
                 data["validation_issues"],
@@ -30,9 +30,7 @@ class CreateDirectoryAccount(Tool):
                     "created_at": created_at,
                 },
             )
-            payload = {"status": "error", "reason": "employee_not_found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "employee_not_found"})
 
         row = {
             "account_id": account_id,
@@ -44,16 +42,14 @@ class CreateDirectoryAccount(Tool):
             "disabled_at": None,
         }
         _append_row(data["directory_accounts"], row)
-        payload = {"status": "ok", "account": row}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "account": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createDirectoryAccount",
+                "name": "create_directory_account",
                 "description": "Create a new directory account for an employee (deterministic IDs/timestamps provided by caller).",
                 "parameters": {
                     "type": "object",

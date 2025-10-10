@@ -1,80 +1,63 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetPRDetails(Tool):
     """
     Returns all details for a pull request identified by (owner, repo_name, pr_number).
     - Accepts 'pr_number' (preferred) or 'prnumber' as an alias.
-    - Reads from data.get('pull_requests', {}).values() or top-level list.
+    - Reads from list(data.get('pull_requests', {}).values()) or top-level list.
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], owner: str = "", repo_name: str = "", pr_number: int = None) -> str:
-        owner = owner.strip()
-        repo_name = repo_name.strip()
-        pr_number_raw = pr_number
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner = kwargs.get("owner", "").strip()
+        repo_name = (kwargs.get("repo_name") or kwargs.get("repo_name") or "").strip()
+        # Support both 'pr_number' and 'prnumber'
+        pr_number_raw = kwargs.get("pr_number", kwargs.get("prnumber", None))
 
         if not owner or not repo_name or pr_number_raw is None:
-            payload = {
-                    "error": "Parameters 'owner', 'repo_name', and 'pr_number' are required."
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": "Parameters 'owner', 'repo_name', and 'pr_number' are required."},
+                indent=2
             )
-            return out
 
         # Normalize pr_number to int
         try:
             pr_number = int(pr_number_raw)
         except Exception:
-            payload = {"error": "pr_number must be an integer."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps(
+                {"error": "pr_number must be an integer."},
+                indent=2
+            )
 
         # Load PR DB (supports dict with 'pull_requests' or a top-level list)
-        pr_db = _convert_db_to_list(data.get("pull_requests", {}).values())
+        pr_db = list(data.get("pull_requests", {}).values())
+
 
         if not isinstance(pr_db, list):
-            payload = {"error": "Invalid pull requests DB: expected a list."}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": "Invalid pull requests DB: expected a list."},
+                indent=2
             )
-            return out
 
         # Find the repo bucket
-        rec = next(
-            (
-                r
-                for r in pr_db
-                if r.get("owner") == owner and r.get("repo_name") == repo_name
-            ),
-            None,
-        )
+        rec = next((r for r in pr_db if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
         if rec is None:
-            payload = {
-                    "error": f"No pull requests found for repository '{owner}/{repo_name}'."
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"No pull requests found for repository '{owner}/{repo_name}'."},
+                indent=2
             )
-            return out
 
-        pr_numbers: list[int] = rec.get("pr_numbers", [])
+        pr_numbers: List[int] = rec.get("pr_numbers", [])
         if pr_number not in pr_numbers:
-            payload = {"error": f"PR #{pr_number} not found for '{owner}/{repo_name}'."}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"PR #{pr_number} not found for '{owner}/{repo_name}'."},
+                indent=2
             )
-            return out
 
         idx = pr_numbers.index(pr_number)
 
@@ -104,30 +87,24 @@ class GetPRDetails(Tool):
             "created_ts": _get_at("created_ts"),
             "updated_ts": _get_at("updated_ts"),
         }
-        payload = details
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(details, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPrDetails",
+                "name": "get_pr_details",
                 "description": "Fetch all stored details for a pull request (owner, repo_name, pr_number).",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "owner": {"type": "string", "description": "Repository owner."},
-                        "repo_name": {
-                            "type": "string",
-                            "description": "Repository name.",
-                        },
-                        "pr_number": {
-                            "type": "integer",
-                            "description": "Pull request number.",
-                        },
+                        "repo_name": {"type": "string", "description": "Repository name."},
+                        "pr_number": {"type": "integer", "description": "Pull request number."}
                     },
-                    "required": ["owner", "repo_name", "pr_number"],
-                },
-            },
+                    "required": ["owner", "repo_name", "pr_number"]
+                }
+            }
         }

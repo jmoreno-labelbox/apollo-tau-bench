@@ -1,45 +1,25 @@
-from tau_bench.envs.tool import Tool
-import ast
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateCampaignStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], campaign_id: str = None, status: str = None) -> str:
-        cid = campaign_id
-        st = status
-        for c in data.get("campaigns", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cid = kwargs.get("campaign_id")
+        st = kwargs.get("status")
+        for c in list(data.get("campaigns", {}).values()):
             if c.get("campaign_id") == cid:
                 c["status"] = st
-                payload = c
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"campaign {cid} not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(c)
+        return json.dumps({"error": f"campaign {cid} not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "UpdateCampaignStatus",
-                "description": "Updates campaign status.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "campaign_id": {"type": "string"},
-                        "status": {"type": "string"},
-                    },
-                    "required": ["campaign_id", "status"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function",
+                "function": {"name": "update_campaign_status", "description": "Updates campaign status.",
+                             "parameters": {"type": "object", "properties": {"campaign_id": {"type": "string"},
+                                                                             "status": {"type": "string"}},
+                                            "required": ["campaign_id", "status"]}}}

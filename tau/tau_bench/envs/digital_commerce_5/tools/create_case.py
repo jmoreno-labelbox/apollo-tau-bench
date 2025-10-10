@@ -1,37 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateCase(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
-        case_id: Any,
-        order_id: Any,
-        contact_id: Any,
-        subject: Any,
+        data: Dict[str, Any],
+        order_id: str,
+        contact_id: str,
+        subject: str,
         created_at: Any,
     ) -> str:
-        if (
-            not case_id
-            or not order_id
-            or not contact_id
-            or not subject
-            or not created_at
-        ):
-            return _err(
-                "case_id, order_id, contact_id, subject, created_at are required."
-            )
-        case_id = _as_id(case_id)
+        if not order_id or not contact_id or not subject or not created_at:
+            return _err("case_id, order_id, contact_id, subject, created_at are required.")
+
+        cases = data.setdefault("cases", [])
+        nums = []
+        for c in cases:
+            existing = _as_id(c.get("cases"))
+            if existing is not None and str(existing).isdigit():
+                nums.append(int(existing))
+        next_id = (max(nums) + 1) if nums else 5001
+        case_id = str(next_id)
+
         order_id = _as_id(order_id)
         contact_id = _as_id(contact_id)
         cases = data.setdefault("cases", [])
-        exist = next((c for c in cases if _as_id(c.get("case_id")) == case_id), None)
-        if exist:
-            payload = exist
-            out = json.dumps(payload, indent=2)
-            return out
         case = {
             "case_id": case_id,
             "order_id": order_id,
@@ -40,35 +37,25 @@ class CreateCase(Tool):
             "status": "New",
             "created_at": created_at,
         }
-        data["cases"][case["case_id"]] = case
-        payload = case
-        out = json.dumps(payload, indent=2)
-        return out
-        
+        cases.append(case)
+        return json.dumps(case, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateCase",
+                "name": "create_case",
                 "description": "Create a support case linked to an order and contact.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "case_id": {"type": "string"},
                         "order_id": {"type": "string"},
                         "contact_id": {"type": "string"},
                         "subject": {"type": "string"},
                         "created_at": {"type": "string"},
                     },
-                    "required": [
-                        "case_id",
-                        "order_id",
-                        "contact_id",
-                        "subject",
-                        "created_at",
-                    ],
+                    "required": ["order_id", "contact_id", "subject", "created_at"],
                 },
             },
         }

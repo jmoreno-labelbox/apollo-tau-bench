@@ -1,125 +1,80 @@
-from __future__ import annotations
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, timedelta  #required for fallback window enlargement
-from decimal import ROUND_HALF_UP, Decimal
-from typing import Any
-import re
-from datetime import date as _date
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SetTicketPrice(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
-        *,
+        data: Dict[str, Any], *,
         flight_number: str,
         date: str,
         fare_class: str,
         price: float,
-        require_available: bool = False
+        require_available: bool = False,
     ) -> str:
-        flights = data.get("flights", {}).values()
+        flights = list(data.get("flights", {}).values())
         if isinstance(flights, dict):
             f = flights.get(flight_number)
         elif isinstance(flights, list):
-            f = next(
-                (row for row in flights.values() if row.get("flight_number") == flight_number),
-                None,
-            )
+            f = next((row for row in flights if row.get("flight_number") == flight_number), None)
         else:
             f = None
 
         if not f:
             return _json({"error": "flight_not_found", "flight_number": flight_number})
 
-        d = f.get("dates", {}).values().get(date) if isinstance(f.get("dates"), dict) else None
+        if not isinstance(f.get("dates"), dict):
+            return _json({"error": "date_not_found", "date": date})
+        d = f["dates"].get(date)
         if not d:
             return _json({"error": "date_not_found", "date": date})
 
-        #standardize status and enforce if necessary
+        # normalize status and enforce if required
         status = _norm_status(d.get("status"))
         if require_available and status != "available":
-            return _json(
-                {
-                    "error": "invalid_status",
-                    "reason": f"Flight {flight_number} on {date} has status '{status}', "
-                    f"cannot set ticket price unless 'available'.",
-                }
-            )
+            return _json({
+                "error": "invalid_status",
+                "reason": f"Flight {flight_number} on {date} has status '{status}', "
+                          f"cannot set ticket price unless 'available'."
+            })
 
-        inv = d.setdefault("inventory", {}).values().setdefault(fare_class, {}).values()
-        inv["price"] = float(price)
+        # --- Canonical write: prices live under dated-flight 'prices' bucket ---
+        prices = d.setdefault("prices", {})
+        new_price = _round2(float(price))
+        changed = int(prices.get(fare_class) != new_price)
+        prices[fare_class] = new_price
 
-        return _json(
-            {
-                "success": True,
-                "flight_number": flight_number,
-                "date": date,
-                "fare_class": fare_class,
-                "price": inv["price"],
-                "status": status,
-            }
-        )
-        pass
-        flights = data.get("flights", {}).values()
-        if isinstance(flights, dict):
-            f = flights.get(flight_number)
-        elif isinstance(flights, list):
-            f = next(
-                (row for row in flights.values() if row.get("flight_number") == flight_number),
-                None,
-            )
-        else:
-            f = None
+        # "After" snapshot for verification
+        after = {
+            "flight_number": flight_number,
+            "date": date,
+            "status": status,
+            "available_seats": d.get("available_seats", {}),
+            "prices": d.get("prices", {}),
+        }
 
-        if not f:
-            return _json({"error": "flight_not_found", "flight_number": flight_number})
-
-        d = f.get("dates", {}).values().get(date) if isinstance(f.get("dates"), dict) else None
-        if not d:
-            return _json({"error": "date_not_found", "date": date})
-
-        #standardize status and enforce if necessary
-        status = _norm_status(d.get("status"))
-        if require_available and status != "available":
-            return _json(
-                {
-                    "error": "invalid_status",
-                    "reason": f"Flight {flight_number} on {date} has status '{status}', "
-                    f"cannot set ticket price unless 'available'.",
-                }
-            )
-
-        inv = d.setdefault("inventory", {}).values().setdefault(fare_class, {}).values()
-        inv["price"] = float(price)
-
-        return _json(
-            {
-                "success": True,
-                "flight_number": flight_number,
-                "date": date,
-                "fare_class": fare_class,
-                "price": inv["price"],
-                "status": status,
-            }
-        )
+        return _json({
+            "success": True,
+            "flight_number": flight_number,
+            "date": date,
+            "fare_class": fare_class,
+            "price": new_price,
+            "status": status,
+            "changed": changed,
+            "no_change": (changed == 0),
+            "after": after
+        })
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SetTicketPrice",
-                "description": "Set the ticket price for a given fare_class on a flight date. "
-                "Optionally enforce that the flight must be 'available'.",
+                "name": "set_ticket_price",
+                "description": "Set the ticket price for a given fare_class on a flight date (writes to canonical 'prices'). Optionally enforce that the flight must be 'available'. Returns a verification snapshot.",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -129,10 +84,10 @@ class SetTicketPrice(Tool):
                         "price": {"type": "number"},
                         "require_available": {
                             "type": "boolean",
-                            "description": "If true, only allow when status=='available'. Default false.",
-                        },
+                            "description": "If true, only allow when status=='available'. Default false."
+                        }
                     },
-                    "required": ["flight_number", "date", "fare_class", "price"],
-                },
-            },
+                    "required": ["flight_number", "date", "fare_class", "price"]
+                }
+            }
         }

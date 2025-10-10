@@ -1,32 +1,17 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class BuildFeaturesCsvPath(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], city_slug: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        city_slug = kwargs.get("city_slug")
         if not city_slug:
-            payload = {"error": "Missing city_slug"}
-            out = json.dumps(payload)
-            return out
-        payload = {
-            "city_slug": city_slug,
-            "features_csv_path": "/processed_data/features.csv",
-        }
-        out = json.dumps(payload)
-        return out
+            return json.dumps({"error":"Missing city_slug"})
+        return json.dumps({"city_slug": city_slug, "features_csv_path": "/processed_data/features.csv"})
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "BuildFeaturesCsvPath",
-                "description": "Returns canonical features CSV path for a city_slug.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"city_slug": {"type": "string"}},
-                    "required": ["city_slug"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{"name":"build_features_csv_path","description":"Returns canonical features CSV path for a city_slug.","parameters":{"type":"object","properties":{"city_slug":{"type":"string"}},"required":["city_slug"]}}}

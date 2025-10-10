@@ -1,23 +1,22 @@
-from tau_bench.envs.tool import Tool
-import json
-import uuid
-from datetime import datetime
-from typing import Any
+# Copyright Sierra
 
-class GenerateUniqueRelationshipId(Tool):
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class generate_unique_relationship_id(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], prefix: str) -> str:
+    def invoke(data: Dict[str, Any], prefix: str) -> str:
         unique_id = f"{prefix}001"
-        payload = {"generated_relationship_id": unique_id}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"generated_relationship_id": unique_id}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "generateUniqueRelationshipId",
+                "name": "generate_unique_relationship_id",
                 "description": "Generate a unique relationship ID",
                 "parameters": {
                     "type": "object",

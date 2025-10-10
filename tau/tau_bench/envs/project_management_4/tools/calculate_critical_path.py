@@ -1,38 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CalculateCriticalPath(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
         if not project_id:
-            payload = {"error": "project_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "project_id is required"})
 
-        milestones = data.get("milestones", {}).values()
-        data.get("milestone_dependencies", {}).values()
-        critical_paths = data.get("critical_paths", {}).values()
+        milestones = list(data.get("milestones", {}).values())
+        milestone_dependencies = data.get("milestone_dependencies", [])
+        critical_paths = data.get("critical_paths", [])
 
         project_milestones = [
-            m for m in milestones.values() if m.get("project_id") == project_id
+            m for m in milestones if m.get("project_id") == project_id
         ]
 
         if not project_milestones:
-            payload = {"error": f"No milestones found for project '{project_id}'"}
-            out = json.dumps(
-                payload)
-            return out
+            return json.dumps(
+                {"error": f"No milestones found for project '{project_id}'"}
+            )
 
         critical_milestone_ids = []
         total_duration = 0
@@ -50,10 +41,7 @@ class CalculateCriticalPath(Tool):
                 duration = (target - start).days
                 total_duration = max(total_duration, duration)
 
-            if (
-                milestone.get("is_critical_path")
-                and milestone.get("is_critical_path") is True
-            ):
+            if milestone.get("is_critical_path") and milestone.get("is_critical_path") is True:
                 critical_milestone_ids.append(milestone.get("milestone_id"))
 
                 start = datetime.fromisoformat(
@@ -67,7 +55,7 @@ class CalculateCriticalPath(Tool):
 
         path_id = f"cp_{uuid.uuid4().hex[:8]}"
         existing_path = next(
-            (cp for cp in critical_paths.values() if cp.get("project_id") == project_id), None
+            (cp for cp in critical_paths if cp.get("project_id") == project_id), None
         )
 
         if existing_path:
@@ -84,22 +72,23 @@ class CalculateCriticalPath(Tool):
                 "slack_time": 0,
                 "last_calculated": datetime.now(timezone.utc).isoformat(),
             }
-            data["critical_paths"][new_path["critical_path_id"]] = new_path
+            critical_paths.append(new_path)
             result = new_path
-        payload = {
+
+        return json.dumps(
+            {
                 "success": True,
                 "critical_path": result,
                 "critical_milestones_count": len(critical_milestone_ids),
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateCriticalPath",
+                "name": "calculate_critical_path",
                 "description": "Calculate and update the critical path for a project",
                 "parameters": {
                     "type": "object",

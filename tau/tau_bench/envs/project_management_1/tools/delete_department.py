@@ -1,47 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class DeleteDepartment(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], name: str = None) -> str:
-        department_name = name
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        department_name = kwargs.get("name")
 
         if not all([department_name]):
-            payload = {"error": "department_name is a required parameters"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "department_name is a required parameters"})
 
-        departments = data.get("departments", {}).values()
+        departments = list(data.get("departments", {}).values())
 
-        for i, department in enumerate(departments.values()):
+        for i, department in enumerate(departments):
             if department.get("department_name") == department_name:
                 departments.pop(i)
-                payload = {"success": True}
-                out = json.dumps(payload)
-                return out
-        payload = {
-                "error": f"Department name '{department_name}' does not exist",
+                return json.dumps({"success": True})
+
+        return json.dumps(
+            {
+                "error": "Department name '{}' does not exist".format(department_name),
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "DeleteDepartment",
+                "name": "delete_department",
                 "description": "Delete a department",
                 "parameters": {
                     "type": "object",

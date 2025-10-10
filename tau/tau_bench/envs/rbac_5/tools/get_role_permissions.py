@@ -1,19 +1,13 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetRolePermissions(Tool):
     """
-    Retrieve mappings of roles to permissions filtered by role_id and/or permission_id.
+    Retrieve role-permission mappings filtered by role_id and/or permission_id.
 
     kwargs:
       role_id: str (optional) - Filter mappings for a specific role
@@ -21,29 +15,31 @@ class GetRolePermissions(Tool):
       include_role: bool = False - Include role details in each mapping
       include_permission: bool = False - Include permission details in each mapping
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], role_id: str = None, permission_id: str = None, include_role: bool = False, include_permission: bool = False) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        role_id = kwargs.get("role_id")
+        permission_id = kwargs.get("permission_id")
+        include_role = kwargs.get("include_role", False)
+        include_permission = kwargs.get("include_permission", False)
+
         if not role_id and not permission_id:
-            payload = {"error": "Must provide role_id and/or permission_id"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Must provide role_id and/or permission_id"})
 
-        mappings = data.get("role_permissions", {}).values()
+        mappings = data.get("role_permissions", [])
 
-        # Narrow down
+        # Filter
         out = []
-        for rp in mappings.values():
+        for rp in mappings:
             if role_id and rp.get("role_id") != role_id:
                 continue
             if permission_id and rp.get("permission_id") != permission_id:
                 continue
             out.append(dict(rp))
 
-        # Optional extensions
+        # Optional expansions
         if include_role or include_permission:
-            role_map = {r.get("role_id"): r for r in data.get("roles", {}).values()}
-            perm_map = {p.get("permission_id"): p for p in data.get("permissions", {}).values()}
+            role_map = {r.get("role_id"): r for r in list(data.get("roles", {}).values())}
+            perm_map = {p.get("permission_id"): p for p in list(data.get("permissions", {}).values())}
             for item in out:
                 if include_role:
                     rid = item.get("role_id")
@@ -55,40 +51,26 @@ class GetRolePermissions(Tool):
                     perm = perm_map.get(pid)
                     if perm:
                         item["permission"] = perm
-        payload = {"ok": True, "role_permissions": out}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"ok": True, "role_permissions": out})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetRolePermissions",
+                "name": "get_role_permissions",
                 "description": "Retrieve role-permission mappings filtered by role_id and/or permission_id with optional detail expansion.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "role_id": {
-                            "type": "string",
-                            "description": "Filter by role_id (e.g., ROL-032).",
-                        },
-                        "permission_id": {
-                            "type": "string",
-                            "description": "Filter by permission_id (e.g., P-081).",
-                        },
-                        "include_role": {
-                            "type": "boolean",
-                            "description": "Include role details in each mapping.",
-                            "default": False,
-                        },
-                        "include_permission": {
-                            "type": "boolean",
-                            "description": "Include permission details in each mapping.",
-                            "default": False,
-                        },
+                        "role_id": {"type": "string", "description": "Filter by role_id (e.g., ROL-032)."},
+                        "permission_id": {"type": "string", "description": "Filter by permission_id (e.g., P-081)."},
+                        "include_role": {"type": "boolean", "description": "Include role details in each mapping.", "default": False},
+                        "include_permission": {"type": "boolean", "description": "Include permission details in each mapping.", "default": False}
                     },
                     "required": [],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

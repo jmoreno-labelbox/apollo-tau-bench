@@ -1,23 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CalculateOptimizationMetrics(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], projects: list = [], metric_type: str = "efficiency_gain") -> str:
-        allocations = data.get("allocations", {}).values()
-        employees = data.get("employees", {}).values()
-        projects_data = data.get("projects", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        projects = kwargs.get("projects", [])
+        metric_type = kwargs.get("metric_type", "efficiency_gain")
+
+        allocations = data.get("allocations", [])
+        employees = list(data.get("employees", {}).values())
+        projects_data = list(data.get("projects", {}).values())
 
         total_allocated_hours = 0
         total_required_hours = 0
@@ -28,7 +24,8 @@ class CalculateOptimizationMetrics(Tool):
 
         project_allocations = [
             alloc
-            for alloc in allocations.values() if alloc.get("project_id") in projects and alloc.get("status") == "active"
+            for alloc in allocations
+            if alloc.get("project_id") in projects and alloc.get("status") == "active"
         ]
 
         for alloc in project_allocations:
@@ -39,7 +36,7 @@ class CalculateOptimizationMetrics(Tool):
 
         for proj_id in projects:
             project = next(
-                (p for p in projects_data.values() if p.get("project_id") == proj_id), None
+                (p for p in projects_data if p.get("project_id") == proj_id), None
             )
             if project:
                 total_required_hours += project.get("required_hours_per_week", 0)
@@ -62,12 +59,13 @@ class CalculateOptimizationMetrics(Tool):
         for alloc in project_allocations:
             emp_id = alloc.get("employee_id")
             employee = next(
-                (e for e in employees.values() if e.get("employee_id") == emp_id), None
+                (e for e in employees if e.get("employee_id") == emp_id), None
             )
             project = next(
                 (
                     p
-                    for p in projects_data.values() if p.get("project_id") == alloc.get("project_id")
+                    for p in projects_data
+                    if p.get("project_id") == alloc.get("project_id")
                 ),
                 None,
             )
@@ -95,7 +93,9 @@ class CalculateOptimizationMetrics(Tool):
         efficiency_gain = min(potential_improvements, 30)
 
         optimization_complete = efficiency_gain < 5
-        payload = {
+
+        return json.dumps(
+            {
                 "projects_analyzed": len(projects),
                 "metric_type": metric_type,
                 "efficiency_gain": efficiency_gain,
@@ -110,15 +110,14 @@ class CalculateOptimizationMetrics(Tool):
                     "total_required_hours": total_required_hours,
                 },
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateOptimizationMetrics",
+                "name": "calculate_optimization_metrics",
                 "description": "Calculate optimization metrics for projects",
                 "parameters": {
                     "type": "object",

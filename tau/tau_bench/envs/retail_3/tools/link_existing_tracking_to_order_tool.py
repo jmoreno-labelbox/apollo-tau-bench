@@ -1,27 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class LinkExistingTrackingToOrderTool(Tool):
     """
-    Associate an existing tracking record with an order by creating a fulfillment entry.
+    Link an existing tracking record to an order by creating a fulfillment entry.
 
     Behavior:
-    - Confirms the order exists.
-    - Checks that the tracking_id is present in tracking.json (within any record's 'tracking_id' list).
-    - Adds a fulfillment entry to the order containing at least:
+    - Validates the order exists.
+    - Validates that the tracking_id exists in tracking.json (under any record's 'tracking_id' list).
+    - Appends a fulfillment entry on the order containing at least:
         { "status": "linked", "tracking_id": "<id>", "timestamp": "UTC ISO" }
-      Optionally includes 'courier' if available in the tracking record.
+      Optionally includes 'courier' if found on the tracking record.
 
     Input (kwargs):
         order_id (str, required)
@@ -32,31 +25,22 @@ class LinkExistingTrackingToOrderTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str = None, tracking_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get("order_id")
+        tracking_id = kwargs.get("tracking_id")
+
         if not order_id or not tracking_id:
-            payload = {"error": "order_id and tracking_id are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "order_id and tracking_id are required"}, indent=2)
 
-        orders = data.get("orders", {}).values()
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
+        orders = list(data.get("orders", {}).values())
+        order = next((o for o in orders if o.get("order_id") == order_id), None)
         if not order:
-            payload = {"error": f"order_id '{order_id}' not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"order_id '{order_id}' not found"}, indent=2)
 
-        tracking = data.get("tracking", {}).values()
-        tr = next(
-            (t for t in tracking.values() if tracking_id in (t.get("tracking_id") or [])), None
-        )
+        tracking = data.get("tracking", [])
+        tr = next((t for t in tracking if tracking_id in (t.get("tracking_id") or [])), None)
         if not tr:
-            payload = {"error": f"tracking_id '{tracking_id}' not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"tracking_id '{tracking_id}' not found"}, indent=2)
 
         fulfillment = {
             "status": "linked",
@@ -67,21 +51,22 @@ class LinkExistingTrackingToOrderTool(Tool):
             fulfillment["courier"] = tr["courier_name"]
 
         order.setdefault("fulfillments", []).append(fulfillment)
-        payload = {
+
+        return json.dumps(
+            {
                 "order_id": order_id,
                 "tracking_id": tracking_id,
                 "fulfillments_len": len(order.get("fulfillments", [])),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "LinkExistingTrackingToOrder",
+                "name": "link_existing_tracking_to_order",
                 "description": "Link an existing tracking_id from tracking.json to an order by appending a fulfillment entry.",
                 "parameters": {
                     "type": "object",

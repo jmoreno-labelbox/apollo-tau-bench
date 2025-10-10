@@ -1,14 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListOpenAlertsForRepo(Tool):
     """
@@ -19,71 +14,56 @@ class ListOpenAlertsForRepo(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], owner: str = "", repo_name: str = "", severity: str = "", ref: str = "") -> str:
-        owner = owner.strip()
-        repo_name = repo_name.strip()
-        severity_raw = severity.strip()
-        ref_filter = ref.strip()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner = (kwargs.get("owner") or "").strip()
+        repo_name = (kwargs.get("repo_name") or kwargs.get("repo_name") or "").strip()
+        severity_raw = (kwargs.get("severity") or "").strip()
+        ref_filter = (kwargs.get("ref") or "").strip()
 
         if not owner or not repo_name:
-            payload = {"error": "Required: owner, repo_name (or repo_name)."}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": "Required: owner, repo_name (or repo_name)."},
+                indent=2
             )
-            return out
 
         # Normalize optional severity
         severity_filter = None
         if severity_raw:
             sev = severity_raw.lower()
             if sev not in {"critical", "high", "medium", "low"}:
-                payload = {
-                    "error": "Invalid 'severity'. Use one of: critical, high, medium, low."
-                }
-                out = json.dumps(
-                    payload, indent=2,
+                return json.dumps(
+                    {"error": "Invalid 'severity'. Use one of: critical, high, medium, low."},
+                    indent=2
                 )
-                return out
             severity_filter = sev
 
         # Load alerts DB
-        alerts_db = _convert_db_to_list(data.get("code_scanning_alerts", {}).values())
+        alerts_db = data.get("code_scanning_alerts", [])
         if not isinstance(alerts_db, list):
-            payload = {
-                "error": "Invalid DB: expected a list at data['code_scanning_alerts']."
-            }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": "Invalid DB: expected a list at data['code_scanning_alerts']."},
+                indent=2
             )
-            return out
 
         # Find repo bucket
-        rec = next(
-            (
-                r
-                for r in alerts_db
-                if r.get("owner") == owner and r.get("repo_name") == repo_name
-            ),
-            None,
-        )
+        rec = next((r for r in alerts_db if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
         if rec is None:
-            payload = {"error": f"No alerts found for repository '{owner}/{repo_name}'."}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"No alerts found for repository '{owner}/{repo_name}'."},
+                indent=2
             )
-            return out
 
-        alert_numbers: list[int] = rec.get("alert_numbers", [])
+        alert_numbers: List[int] = rec.get("alert_numbers", [])
 
         def get_at(key: str, i: int):
             arr = rec.get(key, [])
             return arr[i] if i < len(arr) else None
 
         # Build list of open alerts, optionally filter by severity/ref
-        indexed: list[tuple] = [(num, i) for i, num in enumerate(alert_numbers)]
+        indexed: List[tuple] = [(num, i) for i, num in enumerate(alert_numbers)]
         indexed.sort(key=lambda t: t[0])
 
-        results: list[dict[str, Any]] = []
+        results: List[Dict[str, Any]] = []
         for num, idx in indexed:
             state = get_at("states", idx)
             if state != "open":
@@ -97,53 +77,46 @@ class ListOpenAlertsForRepo(Tool):
             if ref_filter and alert_ref != ref_filter:
                 continue
 
-            results.append(
-                {
-                    "number": num,
-                    "severity": sev,
-                    "state": state,
-                    "description": get_at("descriptions", idx),
-                    "ref": alert_ref,
-                    "created_ts": get_at("created_ts", idx),
-                    "dismissed_ts": get_at("dismissed_ts_nullables", idx),
-                }
-            )
-        payload = {
-            "owner": owner,
-            "repo_name": repo_name,
-            "count": len(results),
-            "alerts": results,
-        }
-        out = json.dumps(
-            payload, indent=2,
+            results.append({
+                "number": num,
+                "severity": sev,
+                "state": state,
+                "description": get_at("descriptions", idx),
+                "ref": alert_ref,
+                "created_ts": get_at("created_ts", idx),
+                "dismissed_ts": get_at("dismissed_ts_nullables", idx),
+            })
+
+        return json.dumps(
+            {
+                "owner": owner,
+                "repo_name": repo_name,
+                "count": len(results),
+                "alerts": results
+            },
+            indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListOpenAlertsForRepo",
+                "name": "list_open_alerts_for_repo",
                 "description": "List open code scanning alerts for a repository, optionally filtered by severity and ref.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "owner": {"type": "string", "description": "Repository owner."},
-                        "repo_name": {
-                            "type": "string",
-                            "description": "Repository name (alias: repo_name).",
-                        },
+                        "repo_name": {"type": "string", "description": "Repository name (alias: repo_name)."},
                         "severity": {
                             "type": "string",
                             "enum": ["critical", "high", "medium", "low"],
-                            "description": "Optional severity filter.",
+                            "description": "Optional severity filter."
                         },
-                        "ref": {
-                            "type": "string",
-                            "description": "Optional Git ref filter (e.g., refs/heads/main).",
-                        },
+                        "ref": {"type": "string", "description": "Optional Git ref filter (e.g., refs/heads/main)."}
                     },
-                    "required": ["owner", "repo_name"],
-                },
-            },
+                    "required": ["owner", "repo_name"]
+                }
+            }
         }

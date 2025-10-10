@@ -1,33 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetPromotionByNameAndDate(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], promotion_name: str = None, query_date: str = None) -> str:
-        promotions = data.get("promotions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        promotion_name = kwargs.get('promotion_name')
+        query_date_str = kwargs.get('query_date')
+        promotions = data.get("promotions", [])
 
-        if not query_date:
-            payload = {}
-            out = json.dumps(payload)
-            return out
+        if not query_date_str:
+            return json.dumps({})
 
         try:
-            query_date_obj = datetime.strptime(query_date, "%Y-%m-%d").date()
+            query_date = datetime.strptime(query_date_str, "%Y-%m-%d").date()
         except ValueError:
-            payload = {"error": "Invalid date format for query_date. Use YYYY-MM-DD."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Invalid date format for query_date. Use YYYY-MM-DD."})
 
         for promo in promotions:
             if promo.get("name") == promotion_name:
@@ -39,22 +30,18 @@ class GetPromotionByNameAndDate(Tool):
                         start_date = datetime.strptime(start_date_str, "%Y-%m-%d").date()
                         end_date = datetime.strptime(end_date_str, "%Y-%m-%d").date()
 
-                        if start_date <= query_date_obj <= end_date:
-                            payload = promo
-                            out = json.dumps(payload)
-                            return out
+                        if start_date <= query_date <= end_date:
+                            return json.dumps(promo)
                     except ValueError:
                         continue
-        payload = {}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPromotionByNameAndDate",
+                "name": "get_promotion_by_name_and_date",
                 "description": "Retrieves details of a promotion by its name, only if it is active on the specified query date.",
                 "parameters": {
                     "type": "object",

@@ -1,34 +1,41 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class SummarizeWorkloadRebalance(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], hours_transferred: int = 0, from_employee: str = None, to_employee: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        hours_transferred = kwargs.get("hours_transferred", 0)
+        from_employee = kwargs.get("from_employee")
+        to_employee = kwargs.get("to_employee")
+
         if not all([hours_transferred, from_employee, to_employee]):
-            payload = {
-                "error": "hours_transferred, from_employee, and to_employee are required"
+            return json.dumps(
+                {
+                    "error": "hours_transferred, from_employee, and to_employee are required"
+                }
+            )
+
+        return json.dumps(
+            {
+                "workload_balanced": True,
+                "rebalanced": True,
+                "hours_transferred": hours_transferred,
+                "from_employee": from_employee,
+                "to_employee": to_employee,
+                "status": "completed",
             }
-            out = json.dumps(payload)
-            return out
-        payload = {
-            "workload_balanced": True,
-            "rebalanced": True,
-            "hours_transferred": hours_transferred,
-            "from_employee": from_employee,
-            "to_employee": to_employee,
-            "status": "completed",
-        }
-        out = json.dumps(payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SummarizeWorkloadRebalance",
+                "name": "summarize_workload_rebalance",
                 "description": "Generate a summary of workload rebalancing operations",
                 "parameters": {
                     "type": "object",

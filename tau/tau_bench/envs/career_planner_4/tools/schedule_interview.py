@@ -1,10 +1,11 @@
-from tau_bench.envs.tool import Tool
-import json
-import uuid
-from datetime import datetime
-from typing import Any
+# Copyright Sierra
 
-class ScheduleInterview(Tool):
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class schedule_interview(Tool):
     @staticmethod
     def invoke(
         data, candidate_id: str, application_id: str, interview_date: str
@@ -15,22 +16,19 @@ class ScheduleInterview(Tool):
             "interview_date": interview_date,
         }
         data.setdefault("interview_schedule", []).append(record)
-        payload = {
-            "success": f"Interview scheduled for application {application_id} on {interview_date}"
-        }
-        out = json.dumps(
-            payload, indent=2,
+        return json.dumps(
+            {
+                "success": f"Interview scheduled for application {application_id} on {interview_date}"
+            },
+            indent=2,
         )
-        return out
-        return out
 
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "scheduleInterview",
+                "name": "schedule_interview",
                 "description": "Schedule an interview for a candidate by updating the job application record.",
                 "parameters": {
                     "type": "object",

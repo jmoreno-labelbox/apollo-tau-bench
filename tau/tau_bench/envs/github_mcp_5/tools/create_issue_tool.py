@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateIssueTool(Tool):
     """
@@ -43,38 +31,19 @@ class CreateIssueTool(Tool):
     """
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        repo_name: str,
-        title: str,
-        body: str,
-        labels: list[str] = None,
-        assignees: list[str] = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            title = _validate_param({"title": title}, "title", str)
-            body = _validate_param({"body": body}, "body", str)
-            labels = (
-                _validate_param({"labels": labels}, "labels", list, required=False, subtype=str)
-                or []
-            )
-            assignees = (
-                _validate_param({"assignees": assignees}, "assignees", list, required=False, subtype=str)
-                or []
-            )
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            title = _validate_param(kwargs, "title", str)
+            body = _validate_param(kwargs, "body", str)
+            labels = _validate_param(kwargs, "labels", list, required=False, subtype=str) or []
+            assignees = _validate_param(kwargs, "assignees", list, required=False, subtype=str) or []
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        issues = data.get("issues", {}).values()
-        if any(i.get("repo") == repo_name and i.get("title") == title for i in issues.values()):
-            return _response(
-                "error",
-                ERROR_MESSAGES["ALREADY_EXISTS"].format(
-                    entity="Issue", entity_id=title
-                ),
-                "ALREADY_EXISTS",
-            )
+        issues = list(data.get("issues", {}).values())
+        if any(i.get("repo") == repo_name and i.get("title") == title for i in issues):
+            return _response("error", ERROR_MESSAGES["ALREADY_EXISTS"].format(entity="Issue", entity_id=title), "ALREADY_EXISTS")
 
         new_number = len(issues) + 1
         new_issue = {
@@ -88,17 +57,16 @@ class CreateIssueTool(Tool):
             "created_at": CURRENT_DATE,
             "updated_at": CURRENT_DATE,
         }
-        new_issue["issue_id"] = _safe_id(
-            new_issue, "issue_id", f"ISSUE_{repo_name}_", ["title", "body"]
-        )
-        data["issues"][issue_id] = new_issue
+        new_issue["issue_id"] = _safe_id(new_issue, "issue_id", f"ISSUE_{repo_name}_", ["title", "body"])
+        issues.append(new_issue)
         return _response("ok", new_issue)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateIssue",
+                "name": "create_issue",
                 "description": "Create a deterministic issue (in-memory only).",
                 "parameters": {
                     "type": "object",

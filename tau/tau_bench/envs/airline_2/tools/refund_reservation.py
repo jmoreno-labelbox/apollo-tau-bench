@@ -1,43 +1,41 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RefundReservation(Tool):
+    """Tool to Refund a passenger's reservation by its ID."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], reservation_id: str) -> str:
-        """If a reservation is present, refund it and return a success or error message."""
-        reservations = data.get("reservations", {}).values()
+    def invoke(data: Dict[str, Any], reservation_id: str) -> str:
+        """Refund a reservation if it exists; return success or error message."""
+        # Reconstruct kwargs from explicit params to keep body unchanged
+        kwargs = {__k: __v for __k, __v in [('reservation_id', reservation_id)] if __v is not None}
 
-        for reservation in reservations.values():
+        reservation_id = kwargs.get("reservation_id")
+        reservations = list(data.get("reservations", {}).values())
+
+        for reservation in reservations:
             if reservation.get("reservation_id") == reservation_id:
                 reservation["status"] = "refunded"
-                payload = {"success": f"Reservation {reservation_id} has been refunded."}
-                out = json.dumps(
-                    payload)
-                return out
-        payload = {"error": f"Reservation with ID {reservation_id} not found."}
-        out = json.dumps(
-            payload, indent=2
+                return json.dumps(
+                    {"success": f"Reservation {reservation_id} has been refunded."}
+                )
+
+        return json.dumps(
+            {"error": f"Reservation with ID {reservation_id} not found."},
+            indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        """Provide metadata for the function signature of the tool."""
-        pass
+    def get_info() -> Dict[str, Any]:
+        """Return metadata for the tool's function signature."""
         return {
             "type": "function",
             "function": {
-                "name": "RefundReservation",
+                "name": "refund_reservation",
                 "description": "refunds a reservation by its ID.",
                 "parameters": {
                     "type": "object",

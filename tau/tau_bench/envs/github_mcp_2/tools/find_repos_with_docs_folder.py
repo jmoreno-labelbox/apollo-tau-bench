@@ -1,13 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class FindReposWithDocsFolder(Tool):
-    """Delivers repositories that have files located in the 'docs/' directory."""
+    """Returns repositories containing files under the 'docs/' folder."""
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         me = _auth(data)["username"]
         matches = []
 
@@ -15,20 +17,22 @@ class FindReposWithDocsFolder(Tool):
             if r.get("owner") != me:
                 continue
             for file_list in r.get("branch_files", []):
-                if any(f.startswith("docs/") for f in file_list.values()):
+                if any(f.startswith("docs/") for f in file_list):
                     matches.append(r["repo_name"])
                     break
-        payload = matches
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(matches, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "findReposWithDocsFolder",
+                "name": "find_repos_with_docs_folder",
                 "description": "Finds repositories with files under 'docs/' folder.",
-                "parameters": {"type": "object", "properties": {}},
-            },
+                "parameters": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
         }

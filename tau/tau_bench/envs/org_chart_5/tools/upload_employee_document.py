@@ -1,27 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class upload_employee_document(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None, document_data: dict = None) -> str:
-        main_container = data.get("employee_documents", {}).values().get(
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        document_data = kwargs.get("document_data")
+        main_container = data.get("employee_documents", {}).get(
             "employee_documents", []
         )
 
         emp_doc_record = next(
             (
                 d
-                for d in data.get("employee_documents", {}).values().get(
+                for d in data.get("employee_documents", {}).get(
                     "employee_documents", []
                 )
                 if d.get("employee_id") == employee_id
@@ -29,7 +25,7 @@ class upload_employee_document(Tool):
             None,
         )
         if not emp_doc_record:
-            employee = find_employee(data.get("employees", {}).values(), employee_id)
+            employee = find_employee(list(data.get("employees", {}).values()), employee_id)
             employee_name = (
                 f"{employee.get('first_name')} {employee.get('last_name')}"
                 if employee
@@ -41,18 +37,17 @@ class upload_employee_document(Tool):
                 "name": employee_name,
                 "documents": [],
             }
-            data["employee_documents"][emp_doc_record["employee_document_id"]] = emp_doc_record
+            main_container.append(emp_doc_record)
 
         emp_doc_record["documents"].append(document_data)
-        payload = {"success": f"Document uploaded for {employee_id}"}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"success": f"Document uploaded for {employee_id}"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UploadEmployeeDocument",
+                "name": "upload_employee_document",
                 "description": "Upload or attach a new document to an employee's record.",
                 "parameters": {
                     "type": "object",

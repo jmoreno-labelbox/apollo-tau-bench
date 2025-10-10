@@ -1,43 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateInventoryInboundQuantity(Tool):
-    """Revises the inbound quantity for a particular product within a warehouse."""
+    """Updates the inbound quantity for a specific product in a warehouse."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], sku: str = None, warehouse_id: str = None, quantity_to_add: int = None) -> str:
-        inventory_items = data.get("inventory", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        inventory_items = list(data.get("inventory", {}).values())
+        sku = kwargs.get("sku")
+        warehouse_id = kwargs.get("warehouse_id")
+        quantity_to_add = kwargs.get("quantity_to_add")
         for item in inventory_items:
             if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id:
                 original_inbound = item.get("quantity_inbound", 0)
                 item["quantity_inbound"] = original_inbound + quantity_to_add
-                payload = {
-                    "status": "success",
-                    "inventory_id": item.get("inventory_id"),
-                    "new_inbound_quantity": item["quantity_inbound"],
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Inventory record not found to update"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(
+                    {
+                        "status": "success",
+                        "inventory_id": item.get("inventory_id"),
+                        "new_inbound_quantity": item["quantity_inbound"],
+                    }
+                )
+        return json.dumps({"error": "Inventory record not found to update"})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateInventoryInboundQuantity",
+                "name": "update_inventory_inbound_quantity",
                 "description": "Updates the inbound quantity for a specific product in a warehouse.",
                 "parameters": {
                     "type": "object",

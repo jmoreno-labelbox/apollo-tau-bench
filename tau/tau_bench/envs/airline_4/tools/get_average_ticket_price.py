@@ -1,50 +1,38 @@
-from __future__ import annotations
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, timedelta  #required for fallback window enlargement
-from decimal import ROUND_HALF_UP, Decimal
-from typing import Any
-import re
-from datetime import date as _date
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetAverageTicketPrice(Tool):
-    """Calculate the average price for a flight across a date range for a fare_class."""
+    """Compute average price for a flight over a date range for a fare_class."""
 
     @staticmethod
     def _median(vals):
-        pass
-        s = sorted(vals)
-        n = len(s)
-        if n == 0:
-            return None
-        mid = n // 2
-        return s[mid] if n % 2 else (s[mid - 1] + s[mid]) / 2
+        s = sorted(vals); n = len(s)
+        if n == 0: return None
+        mid = n//2
+        return (s[mid] if n%2 else (s[mid-1]+s[mid])/2)
 
     @staticmethod
     def _iqr_filter(vals, k=1.5):
-        pass
         if len(vals) < 4:
             return vals
-        s = sorted(vals)
-        n = len(s)
-
+        s = sorted(vals); n = len(s)
         def q(p):
-            pass
-            if n == 1:
-                return s[0]
-            idx = (p / 100.0) * (n - 1)
-            lo, hi = int(idx), min(int(idx) + 1, n - 1)
+            if n == 1: return s[0]
+            idx = (p/100.0)*(n-1)
+            lo, hi = int(idx), min(int(idx)+1, n-1)
             frac = idx - lo
-            return s[lo] * (1 - frac) + s[hi] * frac
-
+            return s[lo]*(1-frac) + s[hi]*frac
         q1, q3 = q(25), q(75)
         iqr = q3 - q1
-        lo, hi = q1 - k * iqr, q3 + k * iqr
-        return [v for v in vals.values() if lo <= v <= hi]
+        lo, hi = q1 - k*iqr, q3 + k*iqr
+        return [v for v in vals if lo <= v <= hi]
 
     @staticmethod
     def _collect_prices(flight, fare_class, start_date, end_date, exclude_dates):
-        pass
         prices = []
         used_days = []
         for d, rec in (flight.get("dates") or {}).items():
@@ -52,31 +40,25 @@ class GetAverageTicketPrice(Tool):
                 continue
             if d in exclude_dates:
                 continue
-            if (
-                _norm_status(rec.get("status")) == "available"
-                and rec.get("prices")
-                and fare_class in rec["prices"]
-            ):
+            if _norm_status(rec.get("status")) == "available" and rec.get("prices") and fare_class in rec["prices"]:
                 prices.append(float(rec["prices"][fare_class]))
                 used_days.append(d)
         return prices, used_days
 
     @staticmethod
     def invoke(
-        data: dict[str, Any],
-        *,
+        data: Dict[str, Any], *,
         flight_number: str,
         fare_class: str,
         start_date: str,
         end_date: str,
-        exclude_dates: list[str] | None = None,
-        outlier_policy: dict[str, Any] | None = None,
+        exclude_dates: Optional[List[str]] = None,
+        outlier_policy: Optional[Dict[str, Any]] = None,
         min_samples: int = 0,
-        fallback: dict[str, Any] | None = None,
-        include: dict[str, Any] | None = None,
+        fallback: Optional[Dict[str, Any]] = None,   # <- accept fallback
+        include: Optional[Dict[str, Any]] = None,
         price_component: str = "base_fare"
     ) -> str:
-        pass
 
         exclude_dates = set(exclude_dates or [])
         outlier_policy = outlier_policy or {}
@@ -88,14 +70,14 @@ class GetAverageTicketPrice(Tool):
 
         flight = _get_flight(data, flight_number)
         if not flight:
-            return _json({"error": "flight_not_found"})
+            return _json({"error":"flight_not_found"})
 
-        # first iteration
+        # 1st pass
         prices, used_days = GetAverageTicketPrice._collect_prices(
             flight, fare_class, start_date, end_date, exclude_dates
         )
 
-        # optional filtering of outliers
+        # optional outlier filtering
         if outlier_policy.get("method") == "iqr":
             try:
                 k = float(outlier_policy.get("k", 1.5))
@@ -103,22 +85,17 @@ class GetAverageTicketPrice(Tool):
                 k = 1.5
             prices = GetAverageTicketPrice._iqr_filter(prices, k)
 
-        # one-time fallback expansion
-        fallback_expand_window_days = fallback.get("expand_window_days", 0)
-        fallback_max_expansions = fallback.get("max_expansions", 0)
-        if min_samples and len(prices) < min_samples and fallback_expand_window_days > 0 and fallback_max_expansions > 0:
+        # fallback expansion (one shot)
+        if min_samples and len(prices) < min_samples and fallback:
             try:
-                exp = int(fallback_expand_window_days)
-                max_exp = int(fallback_max_expansions)
+                exp = int(fallback.get("expand_window_days", 0))
+                max_exp = int(fallback.get("max_expansions", 0))
             except Exception:
                 exp, max_exp = 0, 0
             if exp > 0 and max_exp > 0:
-
                 def shift(day_str, delta_days):
-                    pass
                     dt = datetime.strptime(day_str, "%Y-%m-%d").date()
                     return (dt + timedelta(days=delta_days)).strftime("%Y-%m-%d")
-
                 s2 = shift(start_date, -exp)
                 e2 = shift(end_date, +exp)
                 prices, used_days = GetAverageTicketPrice._collect_prices(
@@ -130,12 +107,12 @@ class GetAverageTicketPrice(Tool):
                     except Exception:
                         k = 1.5
                     prices = GetAverageTicketPrice._iqr_filter(prices, k)
-                start_date, end_date = s2, e2  # document the enlarged window
+                start_date, end_date = s2, e2  # report the expanded window
 
         if not prices:
-            return _json({"error": "no_prices_in_range"})
+            return _json({"error":"no_prices_in_range"})
 
-        avg_price = _round2(sum(prices) / len(prices))
+        avg_price = _round2(sum(prices)/len(prices))
         payload = {
             "flight_number": flight_number,
             "fare_class": fare_class,
@@ -152,11 +129,11 @@ class GetAverageTicketPrice(Tool):
         return _json(payload)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAverageTicketPrice",
+                "name": "get_average_ticket_price",
                 "description": (
                     "Average price over a date range with optional IQR outlier removal. "
                     "Supports optional fallback window expansion."
@@ -165,10 +142,7 @@ class GetAverageTicketPrice(Tool):
                     "type": "object",
                     "properties": {
                         "flight_number": {"type": "string"},
-                        "fare_class": {
-                            "type": "string",
-                            "enum": ["basic_economy", "economy", "business"],
-                        },
+                        "fare_class": {"type": "string", "enum": ["basic_economy", "economy", "business"]},
                         "start_date": {"type": "string"},
                         "end_date": {"type": "string"},
                         "exclude_dates": {"type": "array", "items": {"type": "string"}},
@@ -176,34 +150,29 @@ class GetAverageTicketPrice(Tool):
                             "type": "object",
                             "properties": {
                                 "method": {"type": "string", "enum": ["iqr"]},
-                                "k": {"type": "number"},
-                            },
+                                "k": {"type": "number"}
+                            }
                         },
                         "min_samples": {"type": "integer"},
-                        "fallback": {  #<- record fallback
+                        "fallback": {  # <- document fallback
                             "type": "object",
                             "properties": {
                                 "expand_window_days": {"type": "integer"},
-                                "max_expansions": {"type": "integer"},
-                            },
+                                "max_expansions": {"type": "integer"}
+                            }
                         },
                         "include": {
                             "type": "object",
                             "properties": {
                                 "median": {"type": "boolean"},
                                 "count": {"type": "boolean"},
-                                "excluded_dates": {"type": "boolean"},
-                            },
+                                "excluded_dates": {"type": "boolean"}
+                            }
                         },
-                        "price_component": {"type": "string", "enum": ["base_fare"]},
+                        "price_component": {"type": "string", "enum": ["base_fare"]}
                     },
-                    "required": [
-                        "flight_number",
-                        "fare_class",
-                        "start_date",
-                        "end_date",
-                    ],
-                    "additionalProperties": False,
-                },
-            },
+                    "required": ["flight_number", "fare_class", "start_date", "end_date"],
+                    "additionalProperties": False
+                }
+            }
         }

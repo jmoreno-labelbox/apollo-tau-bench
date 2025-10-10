@@ -1,14 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateCompReportEntryTool(Tool):
-    """Inserts a new record into the comp_reports table."""
+    """Creates new entry in comp_reports table."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], client_id: int = None, subject_property_id: str = None, created_by_broker_id: int = None, start_address: Any = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        client_id = kwargs.get("client_id")
+        subject_property_id = kwargs.get("subject_property_id")
+        created_by_broker_id = kwargs.get("created_by_broker_id")
+
         if client_id is None or not subject_property_id or created_by_broker_id is None:
             return _err(
                 "client_id, subject_property_id, created_by_broker_id are required"
@@ -26,15 +31,14 @@ class CreateCompReportEntryTool(Tool):
             "status": "draft",
         }
         rows.append(rec)
-        payload = rec
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(rec, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createCompReportEntry",
+                "name": "create_comp_report_entry",
                 "description": "Creates new entry in comp_reports table.",
                 "parameters": {
                     "type": "object",

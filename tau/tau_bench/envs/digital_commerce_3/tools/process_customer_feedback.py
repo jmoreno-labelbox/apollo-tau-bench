@@ -1,21 +1,16 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ProcessCustomerFeedback(Tool):
-    """Handle and classify customer feedback for enhancement of quality."""
+    """Process and categorize customer feedback for quality improvement."""
 
     @staticmethod
     def invoke(
-        data: dict[str, Any], contact_id: Any, feedback_text: Any, rating: Any = None
+        data: Dict[str, Any], contact_id: Any, feedback_text: Any, rating: Any = None
     ) -> str:
         contact_id = _idstr(contact_id)
         feedback_text = f"{feedback_text}"
@@ -24,8 +19,8 @@ class ProcessCustomerFeedback(Tool):
         if not contact_id or not feedback_text:
             return _error("contact_id and feedback_text are required.")
 
-        contacts = data.get("contacts", {}).values()
-        contact = _find_one(list(contacts.values()), "contact_id", contact_id)
+        contacts = data.get("contacts", [])
+        contact = _find_one(contacts, "contact_id", contact_id)
         if not contact:
             return _error(f"Contact '{contact_id}' not found.")
 
@@ -43,68 +38,23 @@ class ProcessCustomerFeedback(Tool):
         }
         feedback_entries.append(feedback)
 
-        _append_audit(
-            data, "feedback_processed", feedback_id, {"contact_id": contact_id}
-        )
-        payload = {
+        return json.dumps(
+            {
                 "feedback_id": feedback_id,
                 "contact_id": contact_id,
                 "sentiment": "positive",
                 "rating": rating,
                 "status": "processed",
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
-        pass
-        contact_id = _idstr(contact_id)
-        feedback_text = f"{feedback_text}"
-        rating = int(rating) if rating is not None else None
-
-        if not contact_id or not feedback_text:
-            return _error("contact_id and feedback_text are required.")
-
-        contacts = data.get("contacts", {}).values()
-        contact = _find_one(list(contacts.values()), "contact_id", contact_id)
-        if not contact:
-            return _error(f"Contact '{contact_id}' not found.")
-
-        feedback_entries = data.setdefault("customer_feedback", [])
-        feedback_id = f"FB_{len(feedback_entries) + 1:04d}"
-
-        feedback = {
-            "feedback_id": feedback_id,
-            "contact_id": contact_id,
-            "feedback_text": feedback_text,
-            "rating": rating,
-            "sentiment": "positive",
-            "submitted_at": FIXED_NOW,
-            "status": "new",
-        }
-        feedback_entries.append(feedback)
-
-        _append_audit(
-            data, "feedback_processed", feedback_id, {"contact_id": contact_id}
-        )
-        payload = {
-                "feedback_id": feedback_id,
-                "contact_id": contact_id,
-                "sentiment": "positive",
-                "rating": rating,
-                "status": "processed",
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ProcessCustomerFeedback",
+                "name": "process_customer_feedback",
                 "description": "Process and categorize customer feedback for quality improvement.",
                 "parameters": {
                     "type": "object",

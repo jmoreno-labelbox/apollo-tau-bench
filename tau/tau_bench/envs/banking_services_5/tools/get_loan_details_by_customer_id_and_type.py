@@ -1,34 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone, date, timedelta
-import calendar
-from typing import Any, Dict
-import random
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetLoanDetailsByCustomerIdAndType(Tool):
+    """Fetches loan details for a specific customer and loan type."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = "", loan_type: str = "") -> str:
-        customer_id = customer_id.strip()
-        loan_type = loan_type.strip().lower()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id", "").strip()
+        loan_type = kwargs.get("loan_type", "").strip().lower()
 
         if not customer_id or not loan_type:
             return json.dumps({
                 "error": "Both customer_id and loan_type are required."
             }, indent=2)
 
-        loans = data.get("loans", {}).values()
+        loans = list(data.get("loans", {}).values())
         matched_loan = next(
-            (loan for loan in loans.values() if loan.get("customer_id") == customer_id and
+            (loan for loan in loans
+             if loan.get("customer_id") == customer_id and
                 loan.get("loan_type", "").strip().lower() == loan_type),
             None
         )
@@ -39,12 +32,13 @@ class GetLoanDetailsByCustomerIdAndType(Tool):
             }, indent=2)
 
         return json.dumps(matched_loan, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getLoanDetailsByCustomerIdAndType",
+                "name": "get_loan_details_by_customer_id_and_type",
                 "description": (
                     "Returns a customer's loan details for a specific loan type. "
                     "Loan type values can include: 'Mortgage', 'Auto', 'Personal', 'Business', etc."

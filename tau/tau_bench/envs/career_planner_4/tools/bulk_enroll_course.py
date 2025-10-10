@@ -1,28 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class BulkEnrollCourse(Tool):
+class bulk_enroll_course(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any], team_id: str, course_id: str, enroll_date: str
+        data: Dict[str, Any], team_id: str, course_id: str, enroll_date: str
     ) -> str:
-        teams = data.get("teams", {}).values()
-        team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
+        teams = data.get("teams", [])
+        team = next((t for t in teams if t.get("team_id") == team_id), None)
         if not team:
-            payload = {"error": "Team not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Team not found"}, indent=2)
 
         members = team.get("members", [])
         for member in members:
@@ -34,20 +25,18 @@ class BulkEnrollCourse(Tool):
                 "current_progress_percent": 0,
             }
             data.setdefault("user_course_progress", []).append(enrollment)
-        payload = {"success": f"Bulk enrolled {len(members)} members in course {course_id}"}
-        out = json.dumps(
-            payload, indent=2,
+
+        return json.dumps(
+            {"success": f"Bulk enrolled {len(members)} members in course {course_id}"},
+            indent=2,
         )
-        return out
-            
 
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "bulkEnrollCourse",
+                "name": "bulk_enroll_course",
                 "description": "Bulk enroll team members in a course",
                 "parameters": {
                     "type": "object",

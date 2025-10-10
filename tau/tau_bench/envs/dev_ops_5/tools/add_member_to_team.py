@@ -1,47 +1,36 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AddMemberToTeam(Tool):
-    """Inserts a user into a team with a designated role."""
-
+    """Adds a user to a team with a specific role."""
     @staticmethod
-    def invoke(data: dict[str, Any], team_id: str = None, user_id: str = None, role: str = None) -> str:
-        members = data.get("team_members", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        members = data.get("team_members", [])
         new_member = {
-            "team_id": team_id,
-            "user_id": user_id,
-            "role": role,
-            "added_at": "2025-01-28T00:00:00Z",
+            "team_id": kwargs.get("team_id"),
+            "user_id": kwargs.get("user_id"),
+            "role": kwargs.get("role"),
+            "added_at": "2025-01-28T00:00:00Z"
         }
-        data["team_members"][new_member["team_member_id"]] = new_member
-        payload = {
-            "status": "success",
-            "message": f"User '{user_id}' added to team '{team_id}'.",
-        }
-        out = json.dumps(payload)
-        return out
+        members.append(new_member)
+        return json.dumps({"status": "success", "message": f"User '{kwargs.get('user_id')}' added to team '{kwargs.get('team_id')}'."})
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "addMemberToTeam",
+                "name": "add_member_to_team",
                 "description": "Adds a user to a team.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "team_id": {"type": "string"},
                         "user_id": {"type": "string"},
-                        "role": {"type": "string"},
+                        "role": {"type": "string"}
                     },
                     "required": ["team_id", "user_id", "role"],
                 },

@@ -1,28 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FetchListingsByIdsTool(Tool):
-    """Retrieves listings for various property_ids, with sales fallback if absent."""
+    """Fetches listings for multiple property_ids, with sales fallback when missing."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], property_ids: list[str] = None) -> str:
-        ids = property_ids or []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ids = kwargs.get("property_ids") or []
         if not isinstance(ids, list) or not ids:
             return _err("property_ids must be a non-empty array")
 
-        listings_map = {str(l.get("property_id")): l for l in data.get("listings", {}).values()}
-        out_items: list[dict[str, Any]] = []
+        listings_map = {str(l.get("property_id")): l for l in list(data.get("listings", {}).values())}
+        out_items: List[Dict[str, Any]] = []
         for pid in [str(x) for x in ids]:
             l = listings_map.get(pid)
             if l:
@@ -62,15 +55,14 @@ class FetchListingsByIdsTool(Tool):
                     )
 
         out = {"results": out_items, "requested": len(ids)}
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FetchListingsByIds",
+                "name": "fetch_listings_by_ids",
                 "description": (
                     "Fetch multiple listings by property_ids; synthesize from sales when listing is missing."
                 ),

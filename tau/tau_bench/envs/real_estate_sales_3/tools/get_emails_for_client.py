@@ -1,33 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetEmailsForClient(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], client_id: str = None) -> str:
-        rows = [e for e in (data.get("emails") or []) if e.get("client_id") == client_id]
-        payload = {"client_id": client_id, "emails": rows}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cid = kwargs.get("client_id")
+        rows = [e for e in (data.get("emails") or []) if e.get("client_id") == cid]
+        return json.dumps({"client_id": cid, "emails": rows}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetEmailsForClient",
-                "description": "List all emails for a client.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"client_id": {"type": "integer"}},
-                    "required": ["client_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"get_emails_for_client",
+            "description":"List all emails for a client.",
+            "parameters":{"type":"object","properties":{"client_id":{"type":"integer"}},"required":["client_id"]}
+        }}

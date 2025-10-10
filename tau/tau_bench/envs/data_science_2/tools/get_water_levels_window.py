@@ -1,32 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetWaterLevelsWindow(Tool):
-    """Provides a portion of water_levels for a station during [window_start_ts, window_end_ts]."""
-
+    """
+    Returns a subset of water_levels for a station within [window_start_ts, window_end_ts].
+    """
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        station_id: str,
-        window_start_ts: str,
-        window_end_ts: str
-    ) -> str:
-        rows = data.get("water_levels", {}).values()
+    def invoke(data: Dict[str, Any], station_id: str, window_start_ts: str, window_end_ts: str) -> str:
+        rows = data.get("water_levels", [])
         for row in rows:
-            if (
-                row.get("station_id") == station_id
-                and row.get("start_ts") <= window_start_ts
-                and row.get("end_ts") >= window_end_ts
-            ):
+            if row.get("station_id") == station_id and row.get("start_ts") <= window_start_ts and row.get("end_ts") >= window_end_ts:
                 ts = row.get("timestamps", [])
                 wl = row.get("water_level_m", [])
                 out_ts = []
@@ -35,39 +22,30 @@ class GetWaterLevelsWindow(Tool):
                     if window_start_ts <= t <= window_end_ts:
                         out_ts.append(t)
                         out_wl.append(v)
-                payload = {
+                return json.dumps({
                     "station_id": station_id,
                     "timestamps": out_ts,
                     "water_level_m": out_wl,
                     "units": row.get("units"),
-                    "datum_nullable": row.get("datum_nullable"),
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {
-            "error": "window not covered",
-            "station_id": station_id,
-            "window_start_ts": window_start_ts,
-            "window_end_ts": window_end_ts,
-        }
-        out = json.dumps(payload)
-        return out
+                    "datum_nullable": row.get("datum_nullable")
+                })
+        return json.dumps({"error": "window not covered", "station_id": station_id, "window_start_ts": window_start_ts, "window_end_ts": window_end_ts})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetWaterLevelsWindow",
+                "name": "get_water_levels_window",
                 "description": "Returns subset of water_levels for a station and time window.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "station_id": {"type": "string"},
                         "window_start_ts": {"type": "string"},
-                        "window_end_ts": {"type": "string"},
+                        "window_end_ts": {"type": "string"}
                     },
-                    "required": ["station_id", "window_start_ts", "window_end_ts"],
-                },
-            },
+                    "required": ["station_id", "window_start_ts", "window_end_ts"]
+                }
+            }
         }

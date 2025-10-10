@@ -1,40 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetSiemAlertDetailsTool(Tool):
-    """Get information about a SIEM alert."""
+    """Retrieve details of a SIEM alert."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], alert_id: str, severity_in: Any = None) -> str:
-        aid = alert_id
-        for a in data.get("siem_alerts", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        aid = kwargs.get("alert_id")
+        for a in data.get("siem_alerts", []):
             if a["alert_id"] == aid:
-                payload = a
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"SIEM alert {aid} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(a, indent=2)
+        return json.dumps({"error": f"SIEM alert {aid} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetSiemAlertDetails",
+                "name": "get_siem_alert_details",
                 "description": "Get detailed information for a specific SIEM alert",
                 "parameters": {
                     "type": "object",
-                    "properties": {"alert_id": {"type": "string"}},
-                    "required": ["alert_id"],
-                },
-            },
+                    "properties": {
+                        "alert_id": {"type": "string"}
+                    },
+                    "required": ["alert_id"]
+                }
+            }
         }

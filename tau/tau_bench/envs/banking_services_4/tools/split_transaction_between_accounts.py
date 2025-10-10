@@ -1,17 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any, Dict, List
-import os
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class SplitTransactionBetweenAccounts(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], transaction_id: str = None, splits: list = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        transaction_id = kwargs.get('transaction_id')
+        splits = kwargs.get('splits')  # List of {account_id, amount}
         if not transaction_id or not splits or not isinstance(splits, list):
             return json.dumps({'error': 'transaction_id and splits (list of {account_id, amount}) are required'})
         transactions = load_json('transactions.json')
         accounts = load_json('accounts.json')
-        orig_txn = next((t for t in transactions.values() if t['transaction_id'] == transaction_id), None)
+        orig_txn = next((t for t in transactions if t['transaction_id'] == transaction_id), None)
         if not orig_txn or 'amount' not in orig_txn or 'account_id' not in orig_txn:
             return json.dumps({'error': 'Original transaction not found or missing fields.'})
         if abs(sum(s['amount'] for s in splits)) != abs(orig_txn['amount']):
@@ -20,7 +23,7 @@ class SplitTransactionBetweenAccounts(Tool):
         transactions.remove(orig_txn)
         new_txns = []
         for s in splits:
-            acct = next((a for a in accounts.values() if a['account_id'] == s['account_id'] and 'balance' in a), None)
+            acct = next((a for a in accounts if a['account_id'] == s['account_id'] and 'balance' in a), None)
             if not acct:
                 return json.dumps({'error': f'Account {s["account_id"]} not found or missing balance.'})
             acct['balance'] += s['amount']
@@ -37,14 +40,15 @@ class SplitTransactionBetweenAccounts(Tool):
                 'channel': 'Online'
             }
             new_txns.append(new_txn)
-            data["transactions"][transaction_id] = new_txn
+            transactions.append(new_txn)
         return json.dumps({'success': True, 'split_transactions': new_txns})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             'type': 'function',
             'function': {
-                'name': 'splitTransactionBetweenAccounts',
+                'name': 'split_transaction_between_accounts',
                 'description': 'Splits a charge across two or more linked accounts.',
                 'parameters': {
                     'type': 'object',

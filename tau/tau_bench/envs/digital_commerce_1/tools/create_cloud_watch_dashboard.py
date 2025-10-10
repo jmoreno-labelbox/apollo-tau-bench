@@ -1,6 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateCloudWatchDashboard(Tool):
     @staticmethod
@@ -20,21 +23,18 @@ class CreateCloudWatchDashboard(Tool):
         else:
             dashboards.append({**payload, "created_at": FIXED_NOW})
         return _json({"dashboard_name": dashboard_name, "url": url})
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "CreateCloudwatchDashboard",
+                "name": "create_cloudwatch_dashboard",
                 "description": "Create a CloudWatch dashboard. Defaults purpose to 'cache'.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "environment": {
-                            "type": "string",
-                            "enum": ["DEV", "UAT", "PROD"],
-                        },
+                        "environment": {"type": "string", "enum": ["DEV", "UAT", "PROD"]},
                         "purpose": {"type": "string"},
                     },
                     "required": ["environment"],

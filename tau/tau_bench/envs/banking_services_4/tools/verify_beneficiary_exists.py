@@ -1,25 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any, Dict, List
-import os
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class VerifyBeneficiaryExists(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], beneficiary_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        beneficiary_id = kwargs.get('beneficiary_id')
         if not beneficiary_id:
             return json.dumps({'error': 'beneficiary_id is required'})
         beneficiaries = load_json('beneficiaries.json')
-        beneficiary = next((b for b in beneficiaries.values() if b['beneficiary_id'] == beneficiary_id), None)
+        beneficiary = next((b for b in beneficiaries if b['beneficiary_id'] == beneficiary_id), None)
         if not beneficiary:
             return json.dumps({'error': 'Beneficiary not found.'})
         return json.dumps(beneficiary, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             'type': 'function',
             'function': {
-                'name': 'verifyBeneficiaryExists',
+                'name': 'verify_beneficiary_exists',
                 'description': 'Verifies a beneficiary exists by their ID and returns their details.',
                 'parameters': {
                     'type': 'object',

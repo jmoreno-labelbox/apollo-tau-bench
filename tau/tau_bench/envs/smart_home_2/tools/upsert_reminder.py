@@ -1,14 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpsertReminder(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], reminder: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], reminder: Dict[str, Any]) -> str:
         if not reminder:
-            payload = {"error": "reminder object required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "reminder object required"}, indent=2)
         reminders = _load("reminders", data)
         idx, _ = _find(reminders, reminder["reminder_id"])
         if idx is not None:
@@ -18,17 +19,14 @@ class UpsertReminder(Tool):
             reminders.append(reminder)
             msg = "added"
             data["reminders"] = reminders
-        payload = {"success": f"reminder {msg}", "reminder": reminder}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        return json.dumps({"success": f"reminder {msg}", "reminder": reminder}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpsertReminder",
+                "name": "upsert_reminder",
                 "description": "Create a new reminder or update an existing one.",
                 "parameters": {
                     "type": "object",
@@ -36,11 +34,11 @@ class UpsertReminder(Tool):
                         "reminder": {
                             "type": "object",
                             "description": "Full or partial reminder object.",
-                            "additionalProperties": True,
+                            "additionalProperties": True
                         }
                     },
                     "required": ["reminder"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

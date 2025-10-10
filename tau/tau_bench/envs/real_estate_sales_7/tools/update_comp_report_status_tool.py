@@ -1,28 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateCompReportStatusTool(Tool):
-    """Modifies the status field in the comp_reports table."""
+    """Updates status field in comp_reports table."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], report_id: int = None, new_status: str = None, actor_id: int = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        report_id = kwargs.get("report_id")
+        new_status = kwargs.get("new_status")
+        actor_id = kwargs.get("actor_id")
         if report_id is None or not new_status or actor_id is None:
             return _err("report_id, new_status, and actor_id are required")
 
-        rows = data.get("comp_reports", {}).values()
+        rows = data.get("comp_reports", [])
         rec = next(
-            (r for r in rows.values() if int(r.get("report_id", -1)) == int(report_id)), None
+            (r for r in rows if int(r.get("report_id", -1)) == int(report_id)), None
         )
         if not rec:
             return _err(f"report_id {report_id} not found")
@@ -31,7 +27,7 @@ class UpdateCompReportStatusTool(Tool):
         rec["status"] = new_status
         rec["updated_at"] = HARD_TS
 
-        #--- Generate Audit Event Entry ---
+        # --- Create Audit Event Entry ---
         audit_rows = data.setdefault("audit_events", [])
         audit_event_id = _next_int_id(audit_rows, "event_id")
         audit_rec = {
@@ -43,24 +39,25 @@ class UpdateCompReportStatusTool(Tool):
             "occurred_at": HARD_TS,
             "metadata_json": {"new_status": new_status, "previous_status": prev},
         }
-        audit_data["comp_reports"][audit_rec["comp_report_id"]] = audit_rec
-        payload = {
+        audit_rows.append(audit_rec)
+
+        return json.dumps(
+            {
                 "report_id": int(report_id),
                 "previous_status": prev,
                 "new_status": new_status,
                 "updated_at": HARD_TS,
                 "audit_event": audit_rec,
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateCompReportStatus",
+                "name": "update_comp_report_status",
                 "description": "Updates status field in comp_reports table.",
                 "parameters": {
                     "type": "object",

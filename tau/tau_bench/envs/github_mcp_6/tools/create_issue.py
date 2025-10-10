@@ -1,51 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateIssue(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        owner: str,
-        repo: str,
-        title: str,
-        body: str,
-        assignees: list[str],
-        labels: list[str] = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], owner: str, repo: str, title: str, body: str, assignees: List[str], labels: List[str] = None) -> str:
         """Create an issue with labels/assignees."""
-        pass
-        issues_data = data.get("issues", {}).values()
+        issues_data = list(data.get("issues", {}).values())
 
-        #Confirm the validity of the assignees parameter
+        # Validate assignees parameter
         if assignees is None:
             assignees = []
         elif not isinstance(assignees, list):
             assignees = [assignees] if assignees else []
 
-        #Ensure the labels parameter is valid
+        # Validate labels parameter
         if labels is None:
             labels = []
         elif not isinstance(labels, list):
             labels = [labels] if labels else []
 
-        #Locate the existing issue entry for this repository
+        # Find existing issue entry for this repo
         repo_issues = None
-        for issue_entry in issues_data.values():
+        for issue_entry in issues_data:
             if issue_entry["owner"] == owner and issue_entry["repo_name"] == repo:
                 repo_issues = issue_entry
                 break
 
         if not repo_issues:
-            #Establish a new issue entry
+            # Create new issue entry
             issue_number = 1
             repo_issues = {
                 "owner": owner,
@@ -59,11 +45,11 @@ class CreateIssue(Tool):
                 "issue_comments": [[]],
                 "issue_comment_users": [[]],
                 "created_ts": ["2023-12-05T12:00:00Z"],
-                "updated_ts": ["2023-12-05T12:00:00Z"],
+                "updated_ts": ["2023-12-05T12:00:00Z"]
             }
-            data["issues"][repo_issues["issue_id"]] = repo_issues
+            issues_data.append(repo_issues)
         else:
-            #Append to the current issue entry - retrieve the highest existing issue number and increment by 1
+            # Add to existing issue entry - get the highest existing issue number and add 1
             issue_number = max(repo_issues["issue_numbers"]) + 1
             repo_issues["issue_numbers"].append(issue_number)
             repo_issues["issue_titles"].append(title)
@@ -75,16 +61,15 @@ class CreateIssue(Tool):
             repo_issues["issue_comment_users"].append([])
             repo_issues["created_ts"].append("2023-12-05T12:00:00Z")
             repo_issues["updated_ts"].append("2023-12-05T12:00:00Z")
-        payload = {"issue_number": issue_number}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"issue_number": issue_number}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateIssue",
+                "name": "create_issue",
                 "description": "Create an issue with labels/assignees.",
                 "parameters": {
                     "type": "object",
@@ -93,18 +78,10 @@ class CreateIssue(Tool):
                         "repo": {"type": "string", "description": "Repository name"},
                         "title": {"type": "string", "description": "Issue title"},
                         "body": {"type": "string", "description": "Issue body"},
-                        "assignees": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "Issue assignees",
-                        },
-                        "labels": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "Issue labels",
-                        },
+                        "assignees": {"type": "array", "items": {"type": "string"}, "description": "Issue assignees"},
+                        "labels": {"type": "array", "items": {"type": "string"}, "description": "Issue labels"}
                     },
-                    "required": ["owner", "repo", "title", "body", "assignees"],
-                },
-            },
+                    "required": ["owner", "repo", "title", "body", "assignees"]
+                }
+            }
         }

@@ -1,36 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SetProjectDirectories(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], files: list = None) -> str:
-        pass
-        # This is a mockup; in an actual setting, this would engage with a file system.
-        files = files or []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        # This is a simulation; in a real environment, this would interact with a file system.
+        files = kwargs.get("files", [])
         project_dir_id = "PROJ_DIR_001"
         file_dir = {
             "paths": files,
             "project_dir_id": project_dir_id,
         }
-        data["file_directory"][file_dir["file_directory_id"]] = file_dir
-        payload = {"status": "success", "project_dir_id": project_dir_id}
-        out = json.dumps(payload)
-        return out
+        data.get("file_directory", []).append(file_dir)
+        return json.dumps({"status": "success", "project_dir_id": project_dir_id})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "setProjectDirectories",
+                "name": "SetProjectDirectories",
                 "parameters": {"type": "object", "properties": {}},
             },
         }

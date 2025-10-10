@@ -1,31 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
-from decimal import ROUND_HALF_UP, Decimal
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateNewOffer(Tool):
+    """Create a new offer and append it to the offers DB."""
 
     @staticmethod
     def invoke(
-        data: dict[str, Any], offer_code: Any, discount_type: Any, discount_value: Any
+        data: Dict[str, Any], offer_code: Any, discount_type: Any, discount_value: Any
     ) -> str:
+        offer_code = offer_code
+        discount_type = discount_type
+        discount_value = discount_value
+
         if not all([offer_code, discount_type, discount_value is not None]):
-            payload = {
-                "error": "Missing required fields: offer_code, discount_type, discount_value"
-            }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": "Missing required fields: offer_code, discount_type, discount_value"},
+                indent=2,
             )
-            return out
-        offers = data.get("offers", {}).values()
+        offers = data.get("offers", [])
         offer_id = get_next_offer_id(data)
         new_offer = {
             "offer_id": offer_id,
@@ -34,18 +30,15 @@ class CreateNewOffer(Tool):
             "discount_value": float(discount_value),
             "is_active": True,
         }
-        data["offers"][offer_id] = new_offer
-        payload = new_offer
-        out = json.dumps(payload, indent=2)
-        return out
-           
+        offers.append(new_offer)
+        return json.dumps(new_offer, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateNewOffer",
+                "name": "create_new_offer",
                 "description": "Create a new offer and append it to the offers DB.",
                 "parameters": {
                     "type": "object",

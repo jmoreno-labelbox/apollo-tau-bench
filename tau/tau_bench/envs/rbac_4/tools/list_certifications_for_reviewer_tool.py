@@ -1,54 +1,39 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListCertificationsForReviewerTool(Tool):
-    """Display all certifications allocated to a specific reviewer (read operation, predictable)."""
+    """List all certifications assigned to a given reviewer (read operation, deterministic)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], reviewer_id: str = None) -> str:
-        certifications = data.get("certifications", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        reviewer_id = kwargs.get("reviewer_id")
+        certifications = data.get("certifications", [])
         if not isinstance(certifications, list):
-            payload = {"error": "certifications must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "certifications must be a list"}, indent=2)
 
         if not isinstance(reviewer_id, str) or not reviewer_id.strip():
-            payload = {"error": "reviewer_id must be a non-empty string"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "reviewer_id must be a non-empty string"}, indent=2)
 
-        results = [c for c in certifications.values() if c.get("reviewer_id") == reviewer_id]
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+        results = [c for c in certifications if c.get("reviewer_id") == reviewer_id]
+        return json.dumps(results, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "ListCertificationsForReviewer",
+                "name": "list_certifications_for_reviewer",
                 "description": "List all certifications assigned to a specific reviewer.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "reviewer_id": {
-                            "type": "string",
-                            "description": "The reviewer’s user_id",
-                        }
+                        "reviewer_id": {"type": "string", "description": "The reviewer’s user_id"}
                     },
-                    "required": ["reviewer_id"],
-                },
-            },
+                    "required": ["reviewer_id"]
+                }
+            }
         }

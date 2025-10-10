@@ -1,23 +1,17 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone, date, timedelta
-import calendar
-from typing import Any, Dict
-import random
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class BlockAccountForCustomerId(Tool):
+    """Blocks a customer's account by setting its status to 'Blocked'."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, account_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        account_id = kwargs.get("account_id")
         if not customer_id or not account_id:
             return json.dumps(
                 {"error": "Both customer_id and account_id are required."},
@@ -25,8 +19,9 @@ class BlockAccountForCustomerId(Tool):
             )
 
         # Find the account and verify ownership
-        accounts = data.get("accounts", {}).values()
-        account = next((a for a in accounts.values() if a["account_id"] == account_id
+        accounts = list(data.get("accounts", {}).values())
+        account = next((a for a in accounts
+                        if a["account_id"] == account_id
                         and a["customer_id"] == customer_id), None)
         if not account:
             return json.dumps(
@@ -37,12 +32,13 @@ class BlockAccountForCustomerId(Tool):
         # Block it
         account["status"] = "Blocked"
         return json.dumps(account, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "BlockAccountForCustomerId",
+                "name": "block_account_for_customer_id",
                 "description": "Sets the status of a given customer’s account to 'Blocked'.",
                 "parameters": {
                     "type": "object",

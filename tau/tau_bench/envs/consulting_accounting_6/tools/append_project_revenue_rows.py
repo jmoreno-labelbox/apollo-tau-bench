@@ -1,23 +1,17 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AppendProjectRevenueRows(Tool):
-    """Add project revenue entries for a specific snapshot."""
-
+    """Insert project revenue rows for a given snapshot."""
     @staticmethod
-    def invoke(data: dict[str, Any], snapshot_id: str = None, items: list = None) -> str:
-        rows_tbl = data.get("project_revenue", {}).values()
-        items = items or []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        rows_tbl = data.get("project_revenue", [])
+        snapshot_id = kwargs.get("snapshot_id")
+        items = kwargs.get("items") or []
         inserted = []
 
         max_id = 0
@@ -29,34 +23,22 @@ class AppendProjectRevenueRows(Tool):
 
         for it in items:
             max_id += 1
-            rows_tbl.append(
-                {
-                    "row_id": max_id,
-                    "snapshot_id": snapshot_id,
-                    "project_id": it.get("project_id"),
-                    "ytd_revenue": it.get("ytd_revenue"),
-                }
-            )
+            rows_tbl.append({
+                "row_id": max_id,
+                "snapshot_id": snapshot_id,
+                "project_id": it.get("project_id"),
+                "ytd_revenue": it.get("ytd_revenue")
+            })
             inserted.append(max_id)
-        payload = {"snapshot_id": snapshot_id, "inserted_row_ids": inserted}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        return json.dumps({"snapshot_id": snapshot_id, "inserted_row_ids": inserted}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "appendProjectRevenueRows",
-                "description": "Insert project revenue items for a snapshot.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "snapshot_id": {"type": "string"},
-                        "items": {"type": "array", "items": {"type": "object"}},
-                    },
-                    "required": ["snapshot_id", "items"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "append_project_revenue_rows",
+            "description": "Insert project revenue items for a snapshot.",
+            "parameters": {"type": "object", "properties": {
+                "snapshot_id": {"type": "string"},
+                "items": {"type": "array", "items": {"type": "object"}}
+            }, "required": ["snapshot_id", "items"]}
+        }}

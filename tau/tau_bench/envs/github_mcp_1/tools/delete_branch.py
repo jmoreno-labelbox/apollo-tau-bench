@@ -1,14 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class DeleteBranch(Tool):
     """
@@ -21,72 +16,59 @@ class DeleteBranch(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], owner: str = "", repo_name: str = "", branch_name: str = "") -> str:
-        owner = owner.strip()
-        repo_name = repo_name.strip()
-        branch_name = branch_name.strip()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner = kwargs.get("owner", "").strip()
+        repo_name = kwargs.get("repo_name", "").strip()
+        branch_name = kwargs.get("branch_name", "").strip()
 
         if not owner or not repo_name or not branch_name:
-            payload = {
-                    "error": "Parameters 'owner', 'repo_name', and 'branch_name' are required."
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": "Parameters 'owner', 'repo_name', and 'branch_name' are required."},
+                indent=2
             )
-            return out
 
-        #Preferred repository access pattern
-        repos: list[dict[str, Any]] = data.get("repositories", {}).values()
+        # Preferred repository access pattern
+        repos: List[Dict[str, Any]] = list(data.get("repositories", {}).values())
         if not isinstance(repos, list):
-            payload = {
-                    "error": "Invalid database format: expected 'repositories' to be a list."
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": "Invalid database format: expected 'repositories' to be a list."},
+                indent=2
             )
-            return out
 
-        #Locate repository
+        # Locate repository
         repo = next(
-            (
-                r
-                for r in repos
-                if r.get("owner") == owner and r.get("repo_name") == repo_name
-            ),
-            None,
+            (r for r in repos if r.get("owner") == owner and r.get("repo_name") == repo_name),
+            None
         )
         if not repo:
-            payload = {"error": f"Repository '{owner}/{repo_name}' not found."}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": f"Repository '{owner}/{repo_name}' not found."},
+                indent=2
             )
-            return out
+    
 
-        branches: list[str] = repo.get("branches", [])
+        branches: List[str] = repo.get("branches", [])
         if branch_name not in branches:
-            payload = {
-                    "error": f"Branch '{branch_name}' not found in repository '{owner}/{repo_name}'."
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"Branch '{branch_name}' not found in repository '{owner}/{repo_name}'."},
+                indent=2
             )
-            return out
 
-        #Do not allow deleting default branch
+        # Do not allow deleting default branch
         default_branch = repo.get("default_branch", "main")
         if branch_name == default_branch:
-            payload = {"error": f"Cannot delete the default branch '{default_branch}'."}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"Cannot delete the default branch '{default_branch}'."},
+                indent=2
             )
-            return out
 
         idx = branches.index(branch_name)
 
-        #Ensure per-branch arrays exist and are aligned to current branches
-        branch_files_all: list[list[str]] = repo.setdefault("branch_files", [])
-        branch_contents_all: list[list[str]] = repo.setdefault("branch_contents", [])
-        branch_shas: list[str] = repo.setdefault("branch_shas", [])
+        # Ensure per-branch arrays exist and are aligned to current branches
+        branch_files_all: List[List[str]] = repo.setdefault("branch_files", [])
+        branch_contents_all: List[List[str]] = repo.setdefault("branch_contents", [])
+        branch_shas: List[str] = repo.setdefault("branch_shas", [])
+
 
         while len(branch_files_all) < len(branches):
             branch_files_all.append([])
@@ -95,10 +77,10 @@ class DeleteBranch(Tool):
         while len(branch_shas) < len(branches):
             branch_shas.append("")
 
-        #Collect removed info (defensive indexing)
+        # Collect removed info (defensive indexing)
         removed_files = branch_files_all[idx] if idx < len(branch_files_all) else []
 
-        #Perform deletions (keep arrays aligned)
+        # Perform deletions (keep arrays aligned)
         branches.pop(idx)
         if idx < len(branch_files_all):
             branch_files_all.pop(idx)
@@ -110,46 +92,34 @@ class DeleteBranch(Tool):
         updated_ts = get_current_updated_timestamp()
         repo["updated_ts"] = updated_ts
 
-        add_terminal_message(
-            data,
-            f"Branch '{branch_name}' deleted from {owner}/{repo_name}.",
-            get_current_updated_timestamp(),
-        )
-        payload = {
+        add_terminal_message(data, f"Branch '{branch_name}' deleted from {owner}/{repo_name}.", get_current_updated_timestamp())
+
+        return json.dumps(
+            {
                 "success": f"Branch '{branch_name}' deleted from {owner}/{repo_name}.",
                 "repo": f"{owner}/{repo_name}",
                 "deleted_branch": branch_name,
                 "removed_file_count": len(removed_files),
-                "remaining_branches": list(branches),
-            }
-        out = json.dumps(
-            payload, indent=2,
+                "remaining_branches": list(branches)
+            },
+            indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "DeleteBranch",
+                "name": "delete_branch",
                 "description": "Delete a non-default branch from a repository; updates branch_files, branch_contents, and branch_shas accordingly.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "owner": {
-                            "type": "string",
-                            "description": "Repository owner (account/team).",
-                        },
-                        "repo_name": {
-                            "type": "string",
-                            "description": "Repository name.",
-                        },
-                        "branch_name": {
-                            "type": "string",
-                            "description": "Branch name to delete.",
-                        },
+                        "owner": {"type": "string", "description": "Repository owner (account/team)."},
+                        "repo_name": {"type": "string", "description": "Repository name."},
+                        "branch_name": {"type": "string", "description": "Branch name to delete."}
                     },
-                    "required": ["owner", "repo_name", "branch_name"],
-                },
-            },
+                    "required": ["owner", "repo_name", "branch_name"]
+                }
+            }
         }

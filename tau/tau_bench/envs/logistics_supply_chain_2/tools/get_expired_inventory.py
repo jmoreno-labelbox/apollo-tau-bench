@@ -1,43 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetExpiredInventory(Tool):
-    """Utility for fetching inventory items that have expired as of the current date."""
+    """Tool to retrieve inventory items that are expired as of today."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], today: str, list_of_ids: list[str] = None) -> str:
-        today_date = datetime.strptime(today, "%Y-%m-%d").date()
-        inventories = data.get("inventory", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        today = datetime.strptime(kwargs.get('today'), "%Y-%m-%d").date()
+        inventories = list(data.get("inventory", {}).values())
+        list_of_inventories = kwargs.get("list_of_ids", None)
         expired = []
-        for item in inventories.values():
+        for item in inventories:
             exp_date = item.get("expiration_date")
             if exp_date:
                 try:
-                    if datetime.strptime(exp_date, "%Y-%m-%d").date() < today_date:
-                        expired.append(item["inventory_id"])
+                    if datetime.strptime(exp_date, "%Y-%m-%d").date() < today:
+                        expired.append(item['inventory_id'])
                 except Exception:
                     continue
-        if list_of_ids:
-            expired = [e for e in expired.values() if e in list_of_ids]
-        payload = expired
-        out = json.dumps(payload, indent=2)
-        return out
+        if list_of_inventories:
+            expired = [e for e in expired if e in list_of_inventories]
+        return json.dumps(expired, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetExpiredInventory",
+                "name": "get_expired_inventory",
                 "description": "Retrieve inventory items that are expired.",
                 "parameters": {
                     "type": "object",
@@ -45,11 +39,13 @@ class GetExpiredInventory(Tool):
                         "today": {"type": "string", "description": "Reference date"},
                         "list_of_ids": {
                             "type": "array",
-                            "items": {"type": "string"},
-                            "description": "List of inventories to choose from.",
-                        },
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "List of inventories to choose from."
+                        }
                     },
-                    "required": ["today"],
-                },
-            },
+                    "required": ["today"]
+                }
+            }
         }

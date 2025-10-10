@@ -1,33 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class LogTimeOnTask(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], task_id: str = None, hours_logged: float = None, employee_id: str = None, notes: str = "") -> str:
-        tasks = data.get("tasks", {}).values()
-        time_logs = data.get("time_logs", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        task_id = kwargs.get("task_id")
+        hours_logged = kwargs.get("hours_logged")
+        employee_id = kwargs.get("employee_id")
+        notes = kwargs.get("notes", "")
 
-        task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
+        tasks = list(data.get("tasks", {}).values())
+        time_logs = data.get("time_logs", [])
+
+        task = next((t for t in tasks if t.get("task_id") == task_id), None)
         if not task:
-            payload = {"error": f"Task '{task_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Task '{task_id}' not found"})
 
         if task.get("assignee_id") != employee_id:
-            payload = {"error": f"Employee '{employee_id}' is not assigned to this task"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": f"Employee '{employee_id}' is not assigned to this task"}
+            )
 
         log_entry = {
             "log_id": f"time_{uuid.uuid4().hex[:8]}",
@@ -37,24 +33,26 @@ class LogTimeOnTask(Tool):
             "notes": notes,
             "logged_date": datetime.now().isoformat(),
         }
-        data["time_logs"][log_entry["time_log_id"]] = log_entry
+        time_logs.append(log_entry)
 
         task["time_logged"] = task.get("time_logged", 0) + hours_logged
         task["updated_date"] = datetime.now().isoformat()
         task["last_time_logged"] = datetime.now().isoformat()
-        payload = {
-            "success": True,
-            "time_log": log_entry,
-            # "total_time_logged": task["time_logged"],
-        }
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(
+            {
+                "success": True,
+                "time_log": log_entry,
+                # "total_time_logged": task["time_logged"],
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "LogTimeOnTask",
+                "name": "log_time_on_task",
                 "description": "Log time spent on a task",
                 "parameters": {
                     "type": "object",

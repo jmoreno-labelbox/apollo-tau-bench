@@ -1,29 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FetchEnvironment(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        env = data.get("environment", {}).values() or {}
-        payload = env
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        env = data.get("environment", {}) or {}
+        return json.dumps(env, indent=2)
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "getEnvironment",
-                "description": "Read environment variables/secrets map.",
-                "parameters": {"type": "object", "properties": {}, "required": []},
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"get_environment",
+            "description":"Read environment variables/secrets map.",
+            "parameters":{"type":"object","properties":{},"required":[]}
+        }}

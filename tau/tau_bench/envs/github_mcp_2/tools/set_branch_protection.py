@@ -1,49 +1,45 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class SetBranchProtection(Tool):
-    """Establishes branch protection rules for a specified branch."""
+    """Sets branch protection rules for a given branch."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str = None, branch: str = None, protected: bool = None, rules: dict = None) -> str:
-        repo = _find_repo_record(data, repo_name)
-        idx = _branch_index(repo, branch)
-        protection = protected
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        repo = _find_repo_record(data, kwargs.get("repo_name"))
+        idx = _branch_index(repo, kwargs.get("branch"))
+        protection = kwargs.get("protected")
+        rules = kwargs.get("rules")
 
-        # Set up if absent
+        # Initialize if missing
         if "branch_protections" not in repo:
             repo["branch_protections"] = [False] * len(repo.get("branches", []))
         repo["branch_protections"][idx] = protection
 
-        # Set up if absent
+        # Initialize if missing
         if "branch_protection_rules" not in repo:
             repo["branch_protection_rules"] = {}
 
         repo["branch_protection_rules"][idx] = rules
-        payload = {
-            "message": (
-                "Branch protection enabled."
-                if protection
-                else "Branch protection disabled."
-            ),
+        return json.dumps({
+            "message": "Branch protection enabled." if protection else "Branch protection disabled.",
             "repo_name": repo["repo_name"],
-            "branch": branch,
+            "branch": kwargs.get("branch"),
             "protected": protection if protection else "false",
-            "rules": rules,
-        }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+            "rules": rules
+        }, indent=2)
+
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "SetBranchProtection",
+                "name": "set_branch_protection",
                 "description": "Sets protection rules for a branch.",
                 "parameters": {
                     "type": "object",
@@ -51,12 +47,9 @@ class SetBranchProtection(Tool):
                         "repo_name": {"type": "string"},
                         "branch": {"type": "string"},
                         "protected": {"type": "string"},
-                        "rules": {
-                            "type": "object",
-                            "description": "Protection rule dictionary",
-                        },
+                        "rules": {"type": "object", "description": "Protection rule dictionary"}
                     },
-                    "required": ["repo_name", "branch", "rules", "protected"],
-                },
-            },
+                    "required": ["repo_name", "branch", "rules", "protected"]
+                }
+            }
         }

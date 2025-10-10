@@ -1,44 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class PerformImpactAssessment(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        cr_id: str,
-        assessed_by: str,
-        timeline_impact_weeks: int = 0,
-        budget_impact: float = 0,
-        resource_requirements: list = [],
-        technical_dependencies: list = []
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
+        assessed_by = kwargs.get("assessed_by")
+        timeline_impact_weeks = kwargs.get("timeline_impact_weeks", 0)
+        budget_impact = kwargs.get("budget_impact", 0)
+        resource_requirements = kwargs.get("resource_requirements", [])
+        technical_dependencies = kwargs.get("technical_dependencies", [])
+
         if not all([cr_id, assessed_by]):
-            payload = {"error": "cr_id and assessed_by are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "cr_id and assessed_by are required"})
 
-        change_requests = data.get("change_requests", {}).values()
-        budgets = data.get("budgets", {}).values()
+        change_requests = data.get("change_requests", [])
+        budgets = data.get("budgets", [])
 
-        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:
-            payload = {"error": f"Change request '{cr_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Change request '{cr_id}' not found"})
 
         project_budget = next(
-            (b for b in budgets.values() if b.get("project_id") == cr.get("project_id")), None
+            (b for b in budgets if b.get("project_id") == cr.get("project_id")), None
         )
         budget_impact_percentage = 0
         if project_budget and budget_impact:
@@ -47,23 +35,25 @@ class PerformImpactAssessment(Tool):
                 (budget_impact / total_budget * 100) if total_budget > 0 else 0
             )
 
-        allocations = data.get("allocations", {}).values()
+        allocations = data.get("allocations", [])
         resource_conflicts = []
         for req in resource_requirements:
             emp_id = req.get("employee_id")
             emp_allocations = [
                 a
-                for a in allocations.values() if a.get("employee_id") == emp_id and a.get("status") == "active"
+                for a in allocations
+                if a.get("employee_id") == emp_id and a.get("status") == "active"
             ]
-            total_hours = sum(a.get("hours_per_week", 0) for a in emp_allocations.values())
+            total_hours = sum(a.get("hours_per_week", 0) for a in emp_allocations)
             if total_hours + req.get("hours_per_week", 0) > 40:
                 resource_conflicts.append(emp_id)
 
-        critical_paths = data.get("critical_paths", {}).values()
+        critical_paths = data.get("critical_paths", [])
         project_critical_path = next(
             (
                 cp
-                for cp in critical_paths.values() if cp.get("project_id") == cr.get("project_id")
+                for cp in critical_paths
+                if cp.get("project_id") == cr.get("project_id")
             ),
             None,
         )
@@ -104,7 +94,11 @@ class PerformImpactAssessment(Tool):
         overall_risk = (
             "critical"
             if risk_score >= 6
-            else "high" if risk_score >= 4 else "medium" if risk_score >= 2 else "low"
+            else "high"
+            if risk_score >= 4
+            else "medium"
+            if risk_score >= 2
+            else "low"
         )
 
         assessment_id = f"ia_{uuid.uuid4().hex[:8]}"
@@ -129,15 +123,15 @@ class PerformImpactAssessment(Tool):
         cr["impact_assessment"] = impact_assessment
         cr["approvals_required"] = approval_levels_required
         cr["requires_risk_assessment"] = requires_risk_assessment
-        payload = {"success": True, "impact_assessment": impact_assessment}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"success": True, "impact_assessment": impact_assessment})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "PerformImpactAssessment",
+                "name": "perform_impact_assessment",
                 "description": "Perform impact assessment for a change request",
                 "parameters": {
                     "type": "object",

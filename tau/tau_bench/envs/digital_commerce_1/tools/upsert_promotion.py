@@ -1,10 +1,13 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpsertPromotion(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], code: str, active: bool) -> str:
+    def invoke(data: Dict[str, Any], code: str, active: bool) -> str:
         offers = _ensure_table(data, "offers")
         row = _find_one(offers, offer_code=code) or _find_one(offers, name=code)
         if not row:
@@ -20,20 +23,17 @@ class UpsertPromotion(Tool):
                 "active": bool(row.get("active") or row.get("is_active", False)),
             }
         )
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "UpsertPromotion",
+                "name": "upsert_promotion",
                 "description": "Activate/deactivate an existing promotion by code.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "code": {"type": "string"},
-                        "active": {"type": "boolean"},
-                    },
+                    "properties": {"code": {"type": "string"}, "active": {"type": "boolean"}},
                     "required": ["code", "active"],
                 },
             },

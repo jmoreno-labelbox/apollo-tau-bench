@@ -1,22 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any, Dict
-from datetime import timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ComputeInvoiceAging(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], invoice_id: str, as_of_date: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
         Compute days overdue, bucket, and escalation policy for a given invoice_id and as_of_date.
         """
-        as_of_date = datetime.strptime(as_of_date, "%Y-%m-%d")
+        invoice_id = kwargs["invoice_id"]
+        as_of_date = datetime.strptime(kwargs["as_of_date"], "%Y-%m-%d")
 
-        invoice = next((inv for inv in data["invoices"].values() if inv["invoice_id"] == invoice_id), None)
+        invoice = next((inv for inv in data["invoices"] if inv["invoice_id"] == invoice_id), None)
         if not invoice:
             return json.dumps({"error": "invoice not found"})
 
-        due_date = datetime.strptime(invoice["invoice_date"], "%Y-%m-%d")
+        due_date = datetime.strptime(invoice["invoice_date"], "%Y-%m-%d")  # assume net 0 / same day due
         days_overdue = (as_of_date - due_date).days
 
         if days_overdue < 0:
@@ -37,11 +39,12 @@ class ComputeInvoiceAging(Tool):
 
         return json.dumps({
             "invoice_id": invoice_id,
-            "as_of_date": as_of_date.strftime("%Y-%m-%d"),
+            "as_of_date": kwargs["as_of_date"],
             "days_overdue": days_overdue,
             "bucket": bucket,
             "escalation": escalation
         })
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {

@@ -1,76 +1,52 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateWorkItem(Tool):
-    """Generates a new work item such as a bug, task, or incident."""
-
+    """Creates a new work item like a bug, task, or incident."""
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_id: str,
-        type: str,
-        title: str,
-        state: str = "open",
-        assignee_id: str = None,
-        priority: str = "high",
-        points: int = 0,
-        description: str = ""
-    ) -> str:
-        pass
-        work_items = data.get("work_items", {}).values()
-        new_id_num = max([int(w["id"].split("_")[1]) for w in work_items.values()]) + 1
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        work_items = data.get("work_items", [])
+        new_id_num = max([int(w["id"].split("_")[1]) for w in work_items]) + 1
         new_id = f"work_{new_id_num:03d}"
-
+        
         new_item = {
             "id": new_id,
-            "project_id": project_id,
-            "type": type,
-            "title": title,
-            "state": state,
-            "assignee_id": assignee_id,
-            "created_at": "2025-01-28T00:00:00Z",  # Temporary timestamp
+            "project_id": kwargs.get("project_id"),
+            "type": kwargs.get("type"),
+            "title": kwargs.get("title"),
+            "state": kwargs.get("state", "open"),
+            "assignee_id": kwargs.get("assignee_id"),
+            "created_at": "2025-01-28T00:00:00Z", # Placeholder timestamp
             "closed_at": None,
-            "priority": priority,
-            "points": points,
-            "metadata": {"description": description},
+            "priority": kwargs.get("priority", 'high'),
+            "points": kwargs.get("points", 0),
+            "metadata": {"description": kwargs.get("description", '')}
         }
-        data["work_items"][new_item["work_item_id"]] = new_item
-        payload = new_item
-        out = json.dumps(payload)
-        return out
+        work_items.append(new_item)
+        return json.dumps(new_item)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateWorkItem",
+                "name": "create_work_item",
                 "description": "Creates a new work item (bug, task, story, incident).",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "project_id": {"type": "string"},
-                        "type": {
-                            "type": "string",
-                            "enum": ["bug", "task", "story", "epic", "incident"],
-                        },
+                        "type": {"type": "string", "enum": ["bug", "task", "story", "epic", "incident"]},
                         "title": {"type": "string"},
                         "description": {"type": "string"},
                         "assignee_id": {"type": "string"},
-                        "priority": {
-                            "type": "string",
-                            "enum": ["low", "medium", "high", "critical"],
-                        },
+                        "priority": {"type": "string", "enum": ["low", "medium", "high", "critical"]},
                         "state": {"type": "string"},
-                        "points": {"type": "integer"},
+                        "points": {"type": "integer"}
                     },
                     "required": ["project_id", "type", "title"],
                 },

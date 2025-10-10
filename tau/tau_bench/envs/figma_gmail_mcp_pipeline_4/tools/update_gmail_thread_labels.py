@@ -1,45 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateGmailThreadLabels(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        new_labels: list[str] = [],
-        remove_labels: list[str] = [],
-        status_notes: str = "",
-        thread_id: str = None,
-        update_recipients: list[str] = []
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
-        Modifies Gmail thread labels and oversees email workflow status.
+        Updates Gmail thread labels and manages email workflow status.
         """
+        thread_id = kwargs.get('thread_id')
+        new_labels = kwargs.get('new_labels', [])
+        remove_labels = kwargs.get('remove_labels', [])
+        update_recipients = kwargs.get('update_recipients', [])
+        status_notes = kwargs.get('status_notes', '')
+
         if not thread_id:
-            payload = {"error": "thread_id is required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "thread_id is required."})
 
-        gmail_threads = data.get("gmail_threads", {}).values()
+        gmail_threads = data.get('gmail_threads', [])
 
-        # Locate the thread
+        # Find the thread
         thread_found = False
-        for thread in gmail_threads.values():
-            if thread.get("thread_id") == thread_id:
+        for thread in gmail_threads:
+            if thread.get('thread_id') == thread_id:
                 thread_found = True
-                old_labels = thread.get("current_labels", []).copy()
+                old_labels = thread.get('current_labels', []).copy()
 
-                # Revise labels
+                # Update labels
                 if new_labels:
                     for label in new_labels:
                         if label not in old_labels:
@@ -50,78 +40,55 @@ class UpdateGmailThreadLabels(Tool):
                         if label in old_labels:
                             old_labels.remove(label)
 
-                thread["current_labels"] = old_labels
-                thread["updated_ts"] = datetime.now().isoformat()
+                thread['current_labels'] = old_labels
+                thread['updated_ts'] = datetime.now().isoformat()
 
-                # Modify recipients if they are specified
+                # Update recipients if provided
                 if update_recipients:
-                    thread["recipients"] = update_recipients
+                    thread['recipients'] = update_recipients
 
-                # Include notes regarding the status
+                # Add status notes
                 if status_notes:
-                    if "status_history" not in thread:
-                        thread["status_history"] = []
-                    thread["status_history"].append(
-                        {
-                            "timestamp": datetime.now().isoformat(),
-                            "action": "labels_updated",
-                            "notes": status_notes,
-                            "old_labels": thread.get("current_labels", []),
-                            "new_labels": old_labels,
-                        }
-                    )
+                    if 'status_history' not in thread:
+                        thread['status_history'] = []
+                    thread['status_history'].append({
+                        "timestamp": datetime.now().isoformat(),
+                        "action": "labels_updated",
+                        "notes": status_notes,
+                        "old_labels": thread.get('current_labels', []),
+                        "new_labels": old_labels
+                    })
 
                 break
 
         if not thread_found:
-            payload = {"error": f"Gmail thread with ID '{thread_id}' not found."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Gmail thread with ID '{thread_id}' not found."})
 
-        payload = {
+        return json.dumps({
             "success": True,
             "thread_id": thread_id,
             "old_labels": old_labels,
             "new_labels": old_labels,
-            "updated_at": datetime.now().isoformat(),
-        }
-        out = json.dumps(payload)
-        return out
+            "updated_at": datetime.now().isoformat()
+        })
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateGmailThreadLabels",
+                "name": "update_gmail_thread_labels",
                 "description": "Updates Gmail thread labels, recipients, and manages email workflow status with comprehensive tracking.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "thread_id": {
-                            "type": "string",
-                            "description": "The ID of the Gmail thread to update.",
-                        },
-                        "new_labels": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "New labels to add to the thread.",
-                        },
-                        "remove_labels": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "Labels to remove from the thread.",
-                        },
-                        "update_recipients": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "New list of recipients for the thread.",
-                        },
-                        "status_notes": {
-                            "type": "string",
-                            "description": "Optional notes about the label update for tracking purposes.",
-                        },
+                        "thread_id": {"type": "string", "description": "The ID of the Gmail thread to update."},
+                        "new_labels": {"type": "array", "items": {"type": "string"}, "description": "New labels to add to the thread."},
+                        "remove_labels": {"type": "array", "items": {"type": "string"}, "description": "Labels to remove from the thread."},
+                        "update_recipients": {"type": "array", "items": {"type": "string"}, "description": "New list of recipients for the thread."},
+                        "status_notes": {"type": "string", "description": "Optional notes about the label update for tracking purposes."}
                     },
-                    "required": ["thread_id"],
-                },
-            },
+                    "required": ["thread_id"]
+                }
+            }
         }

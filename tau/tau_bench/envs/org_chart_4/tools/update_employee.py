@@ -1,36 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class update_employee(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str, updates: dict) -> str:
-        employees = data.get("employees", {}).values()
-        for e in employees.values():
+    def invoke(data: Dict[str, Any], employee_id: str, updates: dict) -> str:
+        employees = list(data.get("employees", {}).values())
+        for e in employees:
             if e["employee_id"] == employee_id:
                 e.update(updates)
-                payload = {"success": True, "employee_id": employee_id}
-                out = json.dumps(
-                    payload, indent=2
+                return json.dumps(
+                    {"success": True, "employee_id": employee_id}, indent=2
                 )
-                return out
-        payload = {"error": f"employee_id {employee_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"error": f"employee_id {employee_id} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateEmployee",
+                "name": "update_employee",
                 "description": "Update an existing employee record with the provided updates.",
                 "parameters": {
                     "type": "object",
@@ -41,7 +33,7 @@ class update_employee(Tool):
                         },
                         "updates": {
                             "type": "object",
-                            "description": "Fields to update IND the employee record",
+                            "description": "Fields to update in the employee record",
                         },
                     },
                     "required": ["employee_id", "updates"],

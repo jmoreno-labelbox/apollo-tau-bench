@@ -1,37 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetTaskCostBreakdown(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], task_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        task_id = kwargs.get("task_id")
+
         if not task_id:
-            payload = {"error": "task_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "task_id is required"})
 
-        tasks = data.get("tasks", {}).values()
-        task_logs = data.get("task_logs", {}).values()
-        employees = data.get("employees", {}).values()
-        expenses = data.get("expenses", {}).values()
+        tasks = list(data.get("tasks", {}).values())
+        task_logs = data.get("task_logs", [])
+        employees = list(data.get("employees", {}).values())
+        expenses = data.get("expenses", [])
 
-        task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
+        task = next((t for t in tasks if t.get("task_id") == task_id), None)
         if not task:
-            payload = {"error": f"Task {task_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Task {task_id} not found"})
 
-        task_time_logs = [log for log in task_logs.values() if log.get("task_id") == task_id]
+        task_time_logs = [log for log in task_logs if log.get("task_id") == task_id]
 
         personnel_costs = []
         total_hours = 0
@@ -42,7 +33,7 @@ class GetTaskCostBreakdown(Tool):
             hours = log.get("hours", 0)
 
             employee = next(
-                (e for e in employees.values() if e.get("employee_id") == employee_id), None
+                (e for e in employees if e.get("employee_id") == employee_id), None
             )
             if employee:
                 hourly_rate = (
@@ -66,10 +57,11 @@ class GetTaskCostBreakdown(Tool):
 
         task_expenses = [
             e
-            for e in expenses.values() if e.get("task_id") == task_id and e.get("status") == "approved"
+            for e in expenses
+            if e.get("task_id") == task_id and e.get("status") == "approved"
         ]
 
-        total_expense_cost = sum(e.get("amount", 0) for e in task_expenses.values())
+        total_expense_cost = sum(e.get("amount", 0) for e in task_expenses)
 
         story_points = task.get("story_points", 1)
         total_cost = total_personnel_cost + total_expense_cost
@@ -88,27 +80,25 @@ class GetTaskCostBreakdown(Tool):
             },
             "time_metrics": {
                 "total_hours_logged": total_hours,
-                "average_hourly_cost": (
-                    round(total_personnel_cost / total_hours, 2)
-                    if total_hours > 0
-                    else 0
-                ),
-                "hours_per_story_point": (
-                    round(total_hours / story_points, 2) if story_points > 0 else 0
-                ),
+                "average_hourly_cost": round(total_personnel_cost / total_hours, 2)
+                if total_hours > 0
+                else 0,
+                "hours_per_story_point": round(total_hours / story_points, 2)
+                if story_points > 0
+                else 0,
             },
             "personnel_details": personnel_costs,
             "expense_count": len(task_expenses),
         }
-        payload = breakdown
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(breakdown, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetTaskCostBreakdown",
+                "name": "get_task_cost_breakdown",
                 "description": "Get detailed cost breakdown for a specific task",
                 "parameters": {
                     "type": "object",

@@ -1,57 +1,48 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindGamesOnDate(Tool):
-    """Retrieve all games planned for a specific date (YYYY-MM-DD)."""
+    """Fetch all games scheduled on an exact date (YYYY-MM-DD)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], date: str = None) -> str:
-        #1) Confirm validity
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        date = kwargs.get("date")
+
+        # 1) Validate
         if not isinstance(date, str) or date == "":
-            payload = {"error": "Missing required field: date (YYYY-MM-DD)"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "Missing required field: date (YYYY-MM-DD)"}, indent=2)
 
-        #2) Retrieve DB
-        games: list[dict[str, Any]] = data.get("games", {}).values()
+        # 2) Get DB
+        games: List[Dict[str, Any]] = data.get("games", [])
 
-        #3) Exact match on game_date (without normalization)
-        matching = [g for g in games.values() if g.get("game_date") == date]
+        # 3) Exact match on game_date (no normalization)
+        matching = [g for g in games if g.get("game_date") == date]
 
         if not matching:
-            payload = {"error": f"No games found on date {date}"}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = matching
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": f"No games found on date {date}"}, indent=2)
+
+        return json.dumps(matching, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindGamesOnDate",
+                "name": "find_games_on_date",
                 "description": "Fetch all games that have game_date equal to the given date (exact match).",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "date": {
                             "type": "string",
-                            "description": "Target date in YYYY-MM-DD (exact match against game_date).",
+                            "description": "Target date in YYYY-MM-DD (exact match against game_date)."
                         }
                     },
-                    "required": ["date"],
-                },
-            },
+                    "required": ["date"]
+                }
+            }
         }

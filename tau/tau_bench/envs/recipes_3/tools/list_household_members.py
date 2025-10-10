@@ -1,22 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ListHouseholdMembers(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], household_id: int) -> str:
-        members = _get_table(data, "members")
-        rows = [m for m in members.values() if m.get("household_id") == household_id]
-        payload = {"members": rows}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], household_id: int) -> str:
+        rows = [
+            m for m in data.get("members", []) if int(m.get("household_id")) == int(household_id)
+        ]
+        return _json({"members": rows})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListHouseholdMembers",
-                "description": "Lists all member rows for a household.",
+                "name": "list_household_members",
+                "description": "List members of a household.",
                 "parameters": {
                     "type": "object",
                     "properties": {"household_id": {"type": "integer"}},

@@ -1,44 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AllocateInventory(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        item_id: str = None,
-        item_ids: list[str] = None,
-        quantity: int = 1,
-    ) -> str:
+    def invoke(data: Dict[str, Any], item_id: str = None, item_ids: List[str] = None, quantity: int = 1) -> str:
         """
         Allocate inventory for order fulfillment with availability validation
         Supports both single item and batch processing with multiple items
         """
         # Validate input parameters
         if not item_id and not item_ids:
-            payload = {
+            return json.dumps({
                 "error": "Either item_id or item_ids must be provided",
-                "status": "failed",
-            }
-            out = json.dumps(payload)
-            return out
+                "status": "failed"
+            })
 
         if item_id and item_ids:
-            payload = {
+            return json.dumps({
                 "error": "Cannot specify both item_id and item_ids. Use one or the other.",
-                "status": "failed",
-            }
-            out = json.dumps(payload)
-            return out
+                "status": "failed"
+            })
 
         # Build list of items to process
         items_to_process = []
@@ -51,17 +36,19 @@ class AllocateInventory(Tool):
         items_to_process = list(dict.fromkeys(items_to_process))
 
         if not items_to_process:
-            payload = {"error": "No valid item IDs provided", "status": "failed"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({
+                "error": "No valid item IDs provided",
+                "status": "failed"
+            })
 
         if quantity <= 0:
-            payload = {"error": "Quantity must be greater than 0", "status": "failed"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({
+                "error": "Quantity must be greater than 0",
+                "status": "failed"
+            })
 
         # Rule: Confirm item_id exists in product variants before including in orders
-        products = data.get("products", {}).values()
+        products = list(data.get("products", {}).values())
         allocation_results = []
         successful_allocations = []
         failed_allocations = []
@@ -71,33 +58,29 @@ class AllocateInventory(Tool):
             product_found = None
             variant_found = None
 
-            for product in products.values():
-                variants = product.get("variants", {}).values()
+            for product in products:
+                variants = product.get("variants", {})
                 if current_item_id in variants:
                     product_found = product
                     variant_found = variants[current_item_id]
                     break
 
             if not variant_found:
-                failed_allocations.append(
-                    {
-                        "item_id": current_item_id,
-                        "error": f"Item {current_item_id} not found in product catalog",
-                        "status": "failed",
-                    }
-                )
+                failed_allocations.append({
+                    "item_id": current_item_id,
+                    "error": f"Item {current_item_id} not found in product catalog",
+                    "status": "failed"
+                })
                 continue
 
             # Rule: Check product availability status before allocation - never allocate unavailable items
             is_available = variant_found.get("available", False)
             if not is_available:
-                failed_allocations.append(
-                    {
-                        "item_id": current_item_id,
-                        "error": f"Item {current_item_id} is not available for allocation",
-                        "status": "failed",
-                    }
-                )
+                failed_allocations.append({
+                    "item_id": current_item_id,
+                    "error": f"Item {current_item_id} is not available for allocation",
+                    "status": "failed"
+                })
                 continue
 
             # Rule: Use exact variant pricing from product catalog - no unauthorized price modifications
@@ -111,8 +94,8 @@ class AllocateInventory(Tool):
                 "quantity_allocated": quantity,
                 "unit_price": unit_price,
                 "total_price": total_price,
-                "variant_options": list(variant_found.get("options", {}).values()),
-                "status": "success",
+                "variant_options": variant_found.get("options", {}),
+                "status": "success"
             }
 
             allocation_results.append(allocation_result)
@@ -132,41 +115,44 @@ class AllocateInventory(Tool):
                 "successful_allocations": len(successful_allocations),
                 "failed_allocations": len(failed_allocations),
                 "total_allocation_value": round(total_allocation_value, 2),
-                "quantity_per_item": quantity,
+                "quantity_per_item": quantity
             },
             "successful_allocations": successful_allocations,
             "failed_allocations": failed_allocations,
-            "allocation_details": allocation_results,
+            "allocation_details": allocation_results
         }
-        payload = result
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(result)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AllocateInventory",
+                "name": "allocate_inventory",
                 "description": "Allocate inventory items for order fulfillment with availability checking. Supports both single item and batch processing with multiple items.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "item_id": {
                             "type": "string",
-                            "description": "Single product variant identifier (cannot be used with item_ids)",
+                            "description": "Single product variant identifier (cannot be used with item_ids)"
                         },
                         "item_ids": {
                             "type": "array",
                             "items": {"type": "string"},
-                            "description": "Array of product variant identifiers for batch processing (cannot be used with item_id)",
+                            "description": "Array of product variant identifiers for batch processing (cannot be used with item_id)"
                         },
                         "quantity": {
                             "type": "integer",
                             "description": "Quantity to allocate for each item (applies to all items in batch processing)",
-                            "default": 1,
-                        },
+                            "default": 1
+                        }
                     },
-},
-            },
+                    "anyOf": [
+                        {"required": ["item_id"]},
+                        {"required": ["item_ids"]}
+                    ]
+                }
+            }
         }

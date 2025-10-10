@@ -1,29 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCarrierPerformance(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], carrier_scac: str = None, route: str = None) -> str:
-        carriers = data.get("carriers", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        carrier_scac = kwargs.get("carrier_scac")
+        route = kwargs.get("route")
 
-        carrier = next((c for c in carriers.values() if c.get("scac") == carrier_scac), None)
+        carriers = data.get("carriers", [])
+
+        carrier = next((c for c in carriers if c.get("scac") == carrier_scac), None)
         if not carrier:
             return json.dumps({"error": f"Carrier {carrier_scac} not found"})
 
         performance_data = {
             "carrier_scac": carrier_scac,
             "carrier_name": carrier.get("carrier_name"),
-            "performance_metrics": list(carrier.get("performance_metrics", {}).values()),
+            "performance_metrics": carrier.get("performance_metrics", {}),
             "supported_modes": carrier.get("supported_modes", []),
             "service_levels": carrier.get("service_levels", []),
             "regional_coverage": carrier.get("regional_coverage"),
@@ -32,12 +29,13 @@ class GetCarrierPerformance(Tool):
         }
 
         return json.dumps(performance_data)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCarrierPerformance",
+                "name": "get_carrier_performance",
                 "description": "Retrieve carrier performance metrics and capabilities",
                 "parameters": {
                     "type": "object",

@@ -1,27 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone, date, timedelta
-import calendar
-from typing import Any, Dict
-import random
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class PayToBeneficiary(Tool):
+    """Transfers funds from a source account to a beneficiary’s external account."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], beneficiary_id: str = None, source_account_id: str = None, amount: float = None, currency: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        beneficiary_id = kwargs.get("beneficiary_id")
+        source_account_id = kwargs.get("source_account_id")
+        amount = kwargs.get("amount")
+        currency = kwargs.get("currency")
+
         # validate inputs
-        params_dict = {k: v for k, v in locals().items() if k != "data"}
         missing = [p for p in ("beneficiary_id", "source_account_id", "amount", "currency")
-                   if params_dict.get(p) is None]
+                   if not kwargs.get(p)]
         if missing:
             return json.dumps(
                 {"error": f"Missing required fields: {', '.join(missing)}"},
@@ -29,7 +25,7 @@ class PayToBeneficiary(Tool):
             )
 
         # find beneficiary
-        bene = next((b for b in data.get("beneficiaries", {}).values()
+        bene = next((b for b in list(data.get("beneficiaries", {}).values())
                      if b["beneficiary_id"] == beneficiary_id), None)
         if not bene:
             return json.dumps(
@@ -38,13 +34,14 @@ class PayToBeneficiary(Tool):
             )
 
         # find source account
-        acct = next((a for a in data.get("accounts", {}).values()
+        acct = next((a for a in list(data.get("accounts", {}).values())
                      if a["account_id"] == source_account_id), None)
         if not acct:
             return json.dumps(
                 {"error": f"Source account '{source_account_id}' not found."},
                 indent=2
             )
+
 
         # balance check
         if acct.get("balance", 0.0) < amount:
@@ -66,12 +63,13 @@ class PayToBeneficiary(Tool):
             "currency": currency,
             "new_source_balance": acct["balance"]
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "payToBeneficiary",
+                "name": "pay_to_beneficiary",
                 "description": (
                     "Debits the specified amount and currency from a source account and pays it "
                     "to the external account number stored for the given beneficiary."

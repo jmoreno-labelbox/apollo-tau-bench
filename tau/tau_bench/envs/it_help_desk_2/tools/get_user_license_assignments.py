@@ -1,38 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetUserLicenseAssignments(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None) -> str:
-        assignments = data.get("license_assignments", {}).values()
-        user_licenses = [
-            a
-            for a in assignments.values() if a.get("employee_id") == employee_id and a.get("status") == "active"
-        ]
-        payload = user_licenses
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        assignments = data.get("license_assignments", [])
+        user_licenses = [a for a in assignments if a.get("employee_id") == employee_id and a.get("status") == "active"]
+        return json.dumps(user_licenses, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetUserLicenseAssignments",
-                "description": "Get a list of all active license assignments for a given employee.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"employee_id": {"type": "string"}},
-                    "required": ["employee_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "get_user_license_assignments", "description": "Get a list of all active license assignments for a given employee.", "parameters": {"type": "object", "properties": {"employee_id": {"type": "string"}}, "required": ["employee_id"]}}}

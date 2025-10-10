@@ -1,45 +1,36 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class UpdateHrWorkflow(Tool):
+class update_hr_workflow(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], workflow_id: str, updates: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], workflow_id: str, updates: Dict[str, Any]) -> str:
         wf = next(
             (
                 w
-                for w in data.get("hr_workflows", {}).values()
+                for w in data.get("hr_workflows", [])
                 if w["workflow_id"] == workflow_id
             ),
             None,
         )
         if not wf:
-            payload = {"error": "workflow not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "workflow not found"})
 
         if "notes_append" in updates:
             wf["notes"] = wf.get("notes", "") + " " + updates.pop("notes_append")
 
         wf.update(updates)
-        payload = {"success": f"workflow {workflow_id} updated"}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"success": f"workflow {workflow_id} updated"})
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "updateHrWorkflow",
+                "name": "update_hr_workflow",
                 "description": "Update fields of an existing HR workflow record.",
                 "parameters": {
                     "type": "object",

@@ -1,23 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CaV2CreateProjectRevenue(Tool):
-    """Generate a project revenue entry for the dashboard snapshot."""
+    """Create project revenue record for dashboard snapshot."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], row_id: str = None, snapshot_id: str = None, project_id: str = None, ytd_revenue: float = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        row_id = kwargs.get("row_id")
+        snapshot_id = kwargs.get("snapshot_id")
+        project_id = kwargs.get("project_id")
+        ytd_revenue = kwargs.get("ytd_revenue")
+
         if not all([row_id, snapshot_id, project_id, ytd_revenue]):
-            return _error(
-                "Required fields: row_id, snapshot_id, project_id, ytd_revenue"
-            )
+            return _error("Required fields: row_id, snapshot_id, project_id, ytd_revenue")
 
         project_revenue = {
             "row_id": row_id,
             "snapshot_id": snapshot_id,
             "project_id": project_id,
-            "ytd_revenue": ytd_revenue,
+            "ytd_revenue": ytd_revenue
         }
 
         data.setdefault("project_revenue", []).append(project_revenue)
@@ -25,11 +30,11 @@ class CaV2CreateProjectRevenue(Tool):
         return _ok(row_id=row_id, project_id=project_id, ytd_revenue=ytd_revenue)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CaV2CreateProjectRevenue",
+                "name": "ca_v2_create_project_revenue",
                 "description": "Create a project revenue record for a dashboard snapshot.",
                 "parameters": {
                     "type": "object",
@@ -37,7 +42,7 @@ class CaV2CreateProjectRevenue(Tool):
                         "row_id": {"type": "string"},
                         "snapshot_id": {"type": "string"},
                         "project_id": {"type": "string"},
-                        "ytd_revenue": {"type": "number"},
+                        "ytd_revenue": {"type": "number"}
                     },
                     "required": ["row_id", "snapshot_id", "project_id", "ytd_revenue"],
                 },

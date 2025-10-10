@@ -1,45 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListTimeEntries(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: str = None, month: str = None) -> str:
-        pid = project_id
-        entries = [
-            t for t in data.get("time_entries", {}).values() if t.get("project_id") == pid
-        ]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        pid = kwargs.get("project_id")
+        month = kwargs.get("month")
+        entries = [t for t in data.get("time_entries", []) if t.get("project_id") == pid]
         if month:
-            entries = [
-                t for t in entries if str(t.get("entry_date", "")).startswith(month)
-            ]
-        payload = {"project_id": pid, "month": month, "time_entries": entries}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+            entries = [t for t in entries if str(t.get("entry_date", "")).startswith(month)]
+        return json.dumps({"project_id": pid,"month": month,"time_entries": entries}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ListTimeEntries",
-                "description": "List time entries filtered by project and optional month.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "project_id": {"type": "string"},
-                        "month": {"type": "string"},
-                    },
-                    "required": ["project_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function","function": {"name": "list_time_entries","description": "List time entries filtered by project and optional month.","parameters": {"type": "object","properties": {"project_id": {"type": "string"},"month": {"type": "string"}},"required": ["project_id"]}}}

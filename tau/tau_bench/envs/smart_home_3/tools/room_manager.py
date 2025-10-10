@@ -1,86 +1,59 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RoomManager(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], action: str = "get", room_id: str = None, device_id: str = None, floor: str = None) -> str:
-        rooms = data.get("rooms", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        rooms = data.get('rooms', [])
+        action = kwargs.get('action', 'get')
+        room_id = kwargs.get('room_id')
+        device_id = kwargs.get('device_id')
+        floor = kwargs.get('floor')
 
-        if action == "get":
-            result = [
-                r
-                for r in rooms.values() if (not room_id or r["id"] == room_id)
-                and (not floor or r["floor"] == floor)
-            ]
-            payload = result
-            out = json.dumps(payload, indent=2)
-            return out
-        elif action == "add_device":
+        if action == 'get':
+            result = [r for r in rooms if (not room_id or r['id'] == room_id) and
+                     (not floor or r['floor'] == floor)]
+            return json.dumps(result, indent=2)
+        elif action == 'add_device':
             if not room_id or not device_id:
-                payload = {"error": "room_id and device_id required"}
-                out = json.dumps(payload, indent=2)
-                return out
+                return json.dumps({"error": "room_id and device_id required"}, indent=2)
             for room in rooms:
-                if room["id"] == room_id:
-                    if device_id not in room["devices"]:
-                        room["devices"].append(device_id)
-                    payload = {"success": f"Added {device_id} to {room_id}"}
-                    out = json.dumps(
-                        payload, indent=2
-                    )
-                    return out
-        elif action == "remove_device":
+                if room['id'] == room_id:
+                    if device_id not in room['devices']:
+                        room['devices'].append(device_id)
+                    return json.dumps({"success": f"Added {device_id} to {room_id}"}, indent=2)
+        elif action == 'remove_device':
             if not room_id or not device_id:
-                payload = {"error": "room_id and device_id required"}
-                out = json.dumps(payload, indent=2)
-                return out
+                return json.dumps({"error": "room_id and device_id required"}, indent=2)
             for room in rooms:
-                if room["id"] == room_id:
-                    if device_id in room["devices"]:
-                        room["devices"].remove(device_id)
-                    payload = {"success": f"Removed {device_id} from {room_id}"}
-                    out = json.dumps(
-                        payload, indent=2
-                    )
-                    return out
-        payload = {"error": "Invalid action"}
-        out = json.dumps(payload, indent=2)
-        return out
+                if room['id'] == room_id:
+                    if device_id in room['devices']:
+                        room['devices'].remove(device_id)
+                    return json.dumps({"success": f"Removed {device_id} from {room_id}"}, indent=2)
+
+        return json.dumps({"error": "Invalid action"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RoomManager",
+                "name": "room_manager",
                 "description": "Manage rooms and device assignments",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "action": {
-                            "type": "string",
-                            "enum": ["get", "add_device", "remove_device"],
-                        },
+                        "action": {"type": "string", "enum": ["get", "add_device", "remove_device"]},
                         "room_id": {"type": "string", "description": "Room ID"},
-                        "device_id": {
-                            "type": "string",
-                            "description": "Device ID to add/remove",
-                        },
-                        "floor": {
-                            "type": "integer",
-                            "description": "Filter by floor number",
-                        },
+                        "device_id": {"type": "string", "description": "Device ID to add/remove"},
+                        "floor": {"type": "integer", "description": "Filter by floor number"}
                     },
                     "required": ["action"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

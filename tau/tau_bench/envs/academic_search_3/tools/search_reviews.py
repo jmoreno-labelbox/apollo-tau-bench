@@ -1,51 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchReviews(Tool):
-    """Utility for finding reviews based on submission and reviewer."""
+    """Tool to search for reviews by submission and reviewer."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        reviews = list(data.get('reviews', {}).values())
+        results = [r for r in reviews if r.get('submission_id') == kwargs.get('submission_id') and r.get('reviewer_user_id') == kwargs.get('reviewer_user_id')]
+        return json.dumps(results, indent=2)
 
     @staticmethod
-    def invoke(data: dict[str, Any], submission_id: str = None, reviewer_user_id: str = None) -> str:
-        reviews = data.get("reviews", {}).values()
-        results = [
-            r
-            for r in reviews.values() if r.get("submission_id") == submission_id
-            and r.get("reviewer_user_id") == reviewer_user_id
-        ]
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
-
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "SearchReviews",
-                "description": "Searches for specific reviews by submission and reviewer ID.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "submission_id": {
-                            "type": "string",
-                            "description": "The submission's ID.",
-                        },
-                        "reviewer_user_id": {
-                            "type": "string",
-                            "description": "The reviewer's ID.",
-                        },
-                    },
-                    "required": ["submission_id", "reviewer_user_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "search_reviews", "description": "Searches for specific reviews by submission and reviewer ID.", "parameters": {"type": "object", "properties": {
+            "submission_id": {"type": "string", "description": "The submission's ID."},
+            "reviewer_user_id": {"type": "string", "description": "The reviewer's ID."}
+        }, "required": ["submission_id", "reviewer_user_id"]}}}

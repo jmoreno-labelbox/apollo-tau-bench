@@ -1,49 +1,42 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateHubspotTicketAssignee(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], ticket_id: str = None, new_assignee_id: str = None) -> str:
-        for ticket in data.get("hubspot_tickets", {}).values():
-            if ticket.get("ticket_id") == ticket_id:
-                ticket["assignee_id"] = new_assignee_id
-                ticket["updated_at"] = NOW.strftime(DT_STR_FORMAT)
-                payload = ticket
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Ticket not found"}
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ticket_id = kwargs.get("ticket_id")
+        new_assignee_id = kwargs.get("new_assignee_id")
+        for ticket in data.get('hubspot_tickets', []):
+            if ticket.get('ticket_id') == ticket_id:
+                ticket['assignee_id'] = new_assignee_id
+                ticket['updated_at'] = NOW.strftime(DT_STR_FORMAT)
+                return json.dumps(ticket)
+        return json.dumps({"error": "Ticket not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "UpdateHubspotTicketAssignee",
-                "description": "Updates the assignee of an existing HubSpot ticket.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "ticket_id": {
-                            "type": "string",
-                            "description": "The ID of the ticket to update.",
-                        },
-                        "new_assignee_id": {
-                            "type": "string",
-                            "description": "The user_id of the new assignee.",
-                        },
-                    },
-                    "required": ["ticket_id", "new_assignee_id"],
-                },
-            },
+                "type": "function",
+                "function": {
+                        "name": "update_hubspot_ticket_assignee",
+                        "description": "Updates the assignee of an existing HubSpot ticket.",
+                        "parameters": {
+                                "type": "object",
+                                "properties": {
+                                        "ticket_id": {
+                                            "type": "string",
+                                            "description": "The ID of the ticket to update."
+                                        },
+                                        "new_assignee_id": {
+                                            "type": "string",
+                                            "description": "The user_id of the new assignee."
+                                        }
+                                },
+                                "required": ["ticket_id", "new_assignee_id"]
+                        }
+                }
         }

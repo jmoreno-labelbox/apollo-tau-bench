@@ -1,8 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class SubmitSupportTicketTool(Tool):
     """
@@ -21,16 +22,16 @@ class SubmitSupportTicketTool(Tool):
     """
 
     @staticmethod
-    def invoke(
-        data: Dict[str, Any],
-        customer_id: str = None,
-        category: str = None,
-        priority: str = None,
-        channel: str = None,
-        request_details: str = None,
-        ticket_id: str = None
-    ) -> str:
-        if ticket_id is None:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        category = kwargs.get("category")
+        priority = kwargs.get("priority")
+        channel = kwargs.get("channel")
+        request_details = kwargs.get("request_details")
+        ticket_id = kwargs.get("ticket_id", f"ticket_{generate_unique_id()}")
+        if "ticket_id" in kwargs:
+            ticket_id = kwargs["ticket_id"]
+        else:
             ticket_id = f"ticket_{generate_unique_id()}"
 
         if not all([customer_id, category, priority, channel, request_details]):
@@ -53,41 +54,16 @@ class SubmitSupportTicketTool(Tool):
             "status": "Open",
             "created_at": get_current_timestamp(),
         }
-        data["tickets"][ticket_id] = new_ticket
+        tickets.append(new_ticket)
 
         return json.dumps({"ticket_id": ticket_id, "status": "Open"}, indent=2)
-        if ticket_id is None:
-            ticket_id = f"ticket_{generate_unique_id()}"
 
-        if not all([customer_id, category, priority, channel, request_details]):
-            return json.dumps(
-                {
-                    "error": "Missing required parameters: customer_id, category, priority, channel, and request_details"
-                },
-                indent=2,
-            )
-
-        tickets = load_json("support_tickets.json")
-
-        new_ticket = {
-            "ticket_id": ticket_id,
-            "customer_id": customer_id,
-            "category": category,
-            "priority": priority,
-            "channel": channel,
-            "request_details": request_details,
-            "status": "Open",
-            "created_at": get_current_timestamp(),
-        }
-        data["tickets"][ticket_id] = new_ticket
-
-        return json.dumps({"ticket_id": ticket_id, "status": "Open"}, indent=2)
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SubmitSupportTicket",
+                "name": "submit_support_ticket",
                 "description": "Create a new support ticket for a customer including structured request metadata.",
                 "parameters": {
                     "type": "object",

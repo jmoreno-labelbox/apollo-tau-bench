@@ -1,36 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class list_figma_comments(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], artifact_id: str = None, resolved_flag: bool = None) -> str:
-        p = _params(data, {"artifact_id": artifact_id, "resolved_flag": resolved_flag})
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        p = _params(data, kwargs)
         rows = []
         for c in _ensure(data, "figma_comments", []):
             if p.get("artifact_id") and c.get("artifact_id") != p["artifact_id"]:
                 continue
-            if "resolved_flag" in p and bool(c.get("resolved_flag", False)) != bool(
-                p["resolved_flag"]
-            ):
+            if "resolved_flag" in p and bool(c.get("resolved_flag", False)) != bool(p["resolved_flag"]):
                 continue
             rows.append(c)
         return _ok({"rows": rows})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "listFigmaComments",
-                "description": "List comments for a Figma artifact.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "artifact_id": {"type": "string"},
-                        "resolved_flag": {"type": "boolean"},
-                    },
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"list_figma_comments",
+            "description":"List comments for a Figma artifact.",
+            "parameters":{"type":"object","properties":{
+                "artifact_id":{"type":"string"},
+                "resolved_flag":{"type":"boolean"}
+            }}
+        }}

@@ -1,54 +1,39 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateCarrier(Tool):
-    """Utility for modifying carrier details."""
+    """Tool to update carrier information."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], carrier_scac: str = None, updates: dict[str, Any] = None) -> str:
-        carriers = data.get("carriers", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        carrier_scac = kwargs.get("carrier_scac")
+        updates = kwargs.get("updates")
+        carriers = data.get("carriers", [])
 
-        for carrier in carriers.values():
+        for carrier in carriers:
             if carrier["scac"] == carrier_scac:
                 carrier.update(updates)
-                payload = {"success": f"carrier {carrier_scac} updated"}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
-        payload = {"error": f"carrier_id {carrier_scac} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps({"success": f"carrier {carrier_scac} updated"}, indent=2)
+        return json.dumps({"error": f"carrier_id {carrier_scac} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateCarrier",
+                "name": "update_carrier",
                 "description": "Update carrier information by ID",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "carrier_scac": {
-                            "type": "string",
-                            "description": "The carrier ID to update",
-                        },
-                        "updates": {
-                            "type": "object",
-                            "description": "Fields and values to update",
-                        },
+                        "carrier_scac": {"type": "string", "description": "The carrier ID to update"},
+                        "updates": {"type": "object", "description": "Fields and values to update"}
                     },
-                    "required": ["carrier_scac", "updates"],
-                },
-            },
+                    "required": ["carrier_scac", "updates"]
+                }
+            }
         }

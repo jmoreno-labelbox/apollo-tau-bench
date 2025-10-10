@@ -1,17 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any, Dict
-from datetime import timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetTimeEntryDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], time_entry_id: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
         Retrieves the full details for a given time_entry_id.
         """
-        entry = next((t for t in data["time_entries"].values() if t["time_entry_id"] == time_entry_id), None)
+        time_entry_id = kwargs["time_entry_id"]
+        entry = next((t for t in data["time_entries"] if t["time_entry_id"] == time_entry_id), None)
         return json.dumps(entry)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {

@@ -1,62 +1,61 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateUserMembership(Tool):
     """
-    Basic API tool for updating user membership levels.
+    Simple API tool to update user membership level.
     """
 
     @staticmethod
     def invoke(
-        data: dict[str, Any], user_email: str = None, new_membership: str = None
+        data: Dict[str, Any],
+        user_email: str = None,
+        new_membership: str = None,
+        membership_level: str = None
     ) -> str:
-        # Check the necessary parameters for validity
+        
+        # Validate required parameters
+        # Use membership_level if new_membership is not provided
+        if not new_membership and membership_level:
+            new_membership = membership_level
+            
         if not user_email or not new_membership:
-            payload = {
+            return json.dumps({
                 "status": "Missing required parameters",
-                "required": ["user_email", "new_membership"],
-            }
-            out = json.dumps(payload)
-            return out
+                "required": ["user_email", "new_membership or membership_level"]
+            })
 
-        # Check the membership level for validity
+        # Validate membership level
         valid_memberships = ["basic", "silver", "gold", "platinum"]
         if new_membership not in valid_memberships:
-            payload = {
+            return json.dumps({
                 "status": "Invalid membership level",
                 "valid_memberships": valid_memberships,
-                "received": new_membership,
-            }
-            out = json.dumps(payload)
-            return out
+                "received": new_membership
+            })
 
-        # Locate the user
-        users = data.get("users", {}).values()
+        # Find user
+        users = list(data.get("users", {}).values())
         target_user = None
         user_index = None
 
-        for i, user in enumerate(users.values()):
+        for i, user in enumerate(users):
             if user.get("email") == user_email:
                 target_user = user
                 user_index = i
                 break
 
         if not target_user:
-            payload = {"status": "User not found", "email": user_email}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({
+                "status": "User not found",
+                "email": user_email
+            })
 
-        # Revise membership
+        # Update membership
         old_membership = target_user.get("membership", "basic")
         data["users"][user_index]["membership"] = new_membership
 
@@ -66,33 +65,43 @@ class UpdateUserMembership(Tool):
             "old_membership": old_membership,
             "new_membership": new_membership,
             "status": "success",
-            "message": f"Membership updated from {old_membership} to {new_membership}",
+            "message": f"Membership updated from {old_membership} to {new_membership}"
         }
-        payload = response
-        out = json.dumps(payload, indent=2)
-        return out
-    
+
+        return json.dumps(response, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateUserMembership",
+                "name": "update_user_membership",
                 "description": "Update user membership level to unlock additional benefits and services. Each membership tier offers progressively more amenities including priority check-in, baggage allowances, lounge access, and customer service levels.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "user_email": {
                             "type": "string",
-                            "description": "User email address to update membership for",
+                            "description": "User email address to update membership for"
                         },
                         "new_membership": {
                             "type": "string",
-                            "description": "New membership level: 'basic', 'silver', 'gold', or 'platinum'. Each level provides different benefits and service tiers.",
+                            "description": "New membership level: 'basic', 'silver', 'gold', or 'platinum'. Each level provides different benefits and service tiers."
                         },
+                        "membership_level": {
+                            "type": "string",
+                            "description": "Alternative parameter name for new_membership. New membership level: 'basic', 'silver', 'gold', or 'platinum'. Each level provides different benefits and service tiers."
+                        }
                     },
-                    "required": ["user_email", "new_membership"],
-                },
-            },
+                    "required": ["user_email"],
+                    "oneOf": [
+                        {
+                            "required": ["user_email", "new_membership"]
+                        },
+                        {
+                            "required": ["user_email", "membership_level"]
+                        }
+                    ]
+                }
+            }
         }

@@ -1,25 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ForecastOutflows(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], recurring_schedules: bool = True, taxes: bool = True, horizon_months: int = 3) -> str:
-        include_sched = bool(recurring_schedules)
-        include_taxes = bool(taxes)
-        horizon_months = int(horizon_months)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        include_sched = bool(kwargs.get("recurring_schedules", True))
+        include_taxes = bool(kwargs.get("taxes", True))
+        horizon_months = int(kwargs.get("horizon_months", 3))
         total = 0.0
-        lines: list[dict[str, Any]] = []
+        lines: List[Dict[str, Any]] = []
         if include_sched:
-            for s in data.get("recurring_schedules", {}).values():
+            for s in data.get("recurring_schedules", []):
                 if not s.get("is_active", False):
                     continue
                 freq = s.get("frequency")
@@ -35,53 +30,15 @@ class ForecastOutflows(Tool):
                 else:
                     count = 1
                 total += amt * count
-                lines.append(
-                    {
-                        "schedule_id": s.get("schedule_id"),
-                        "frequency": freq,
-                        "instances": count,
-                        "amount_per_instance": amt,
-                        "total": round(amt * count, 2),
-                    }
-                )
+                lines.append({"schedule_id": s.get("schedule_id"),"frequency": freq,"instances": count,"amount_per_instance": amt,"total": round(amt * count, 2)})
         if include_taxes:
-            taxes = [
-                s
-                for s in data.get("recurring_schedules", {}).values()
-                if s.get("schedule_type") in ("tax_payment",)
-            ]
+            taxes = [s for s in data.get("recurring_schedules", []) if s.get("schedule_type") in ("tax_payment",)]
             for t in taxes:
                 amt = float(t.get("amount", 0.0))
                 total += amt
-                lines.append(
-                    {
-                        "schedule_id": t.get("schedule_id"),
-                        "frequency": t.get("frequency"),
-                        "instances": 1,
-                        "amount_per_instance": amt,
-                        "total": amt,
-                        "type": "tax",
-                    }
-                )
-        payload = {"total_expected_outflows": round(total, 2), "lines": lines}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+                lines.append({"schedule_id": t.get("schedule_id"),"frequency": t.get("frequency"),"instances": 1,"amount_per_instance": amt,"total": amt,"type": "tax"})
+        return json.dumps({"total_expected_outflows": round(total, 2),"lines": lines}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ForecastOutflows",
-                "description": "Forecast expected outflows from recurring schedules and taxes.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "recurring_schedules": {"type": "boolean"},
-                        "taxes": {"type": "boolean"},
-                        "horizon_months": {"type": "integer"},
-                    },
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function","function": {"name": "forecast_outflows","description": "Forecast expected outflows from recurring schedules and taxes.","parameters": {"type": "object","properties": {"recurring_schedules": {"type": "boolean"},"taxes": {"type": "boolean"},"horizon_months": {"type": "integer"}}}}}

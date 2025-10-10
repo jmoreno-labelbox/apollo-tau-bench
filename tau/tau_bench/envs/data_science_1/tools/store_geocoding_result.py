@@ -1,54 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class StoreGeocodingResult(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        canonical_name: str = None,
-        latitude: float = None,
-        longitude: float = None,
-        query_city: str = None,
-        query_ts: str = None,
-        raw_json_path_nullable: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         req = ["query_city", "latitude", "longitude"]
-        err = _require({"query_city": query_city, "latitude": latitude, "longitude": longitude}, req)
-        if err:
-            return err
+        err = _require(kwargs, req)
+        if err: return err
         row = {
-            "query_city": query_city,
-            "latitude": latitude,
-            "longitude": longitude,
-            "canonical_name": canonical_name,
+            "query_city": kwargs["query_city"],
+            "latitude": kwargs["latitude"], "longitude": kwargs["longitude"],
+            "canonical_name": kwargs.get("canonical_name"),
             "provider": "open-meteo",
-            "raw_json_path_nullable": raw_json_path_nullable,
-            "query_ts": query_ts,
+            "raw_json_path_nullable": kwargs.get("raw_json_path_nullable"),
+            "query_ts": kwargs.get("query_ts")
         }
-        payload = _append(data.setdefault("geocoding_results", []), row)
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        return json.dumps(_append(data.setdefault("geocoding_results", []), row), indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "StoreGeocodingResult",
-                "description": "Adds a geocoding row for the target city.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "query_city": {"type": "string"},
-                        "latitude": {"type": "number"},
-                        "longitude": {"type": "number"},
-                        "canonical_name": {"type": "string"},
-                        "raw_json_path_nullable": {"type": "string"},
-                        "query_ts": {"type": "string"},
-                    },
-                    "required": ["query_city", "latitude", "longitude"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "store_geocoding_result",
+            "description": "Adds a geocoding row for the target city.",
+            "parameters": {"type": "object", "properties": {
+                "query_city": {"type": "string"}, "latitude": {"type": "number"}, "longitude": {"type": "number"},
+                "canonical_name": {"type": "string"}, "raw_json_path_nullable": {"type": "string"},
+                "query_ts": {"type": "string"}}, "required": ["query_city", "latitude", "longitude"]}}}

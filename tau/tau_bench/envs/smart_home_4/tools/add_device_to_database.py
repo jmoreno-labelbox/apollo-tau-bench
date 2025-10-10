@@ -1,44 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AddDeviceToDatabase(Tool):
-    """Introduce a new device."""
-
+    """Add a new device."""
     @staticmethod
-    def invoke(data: dict[str, Any], device: dict[str, Any] | None = None,
-    new_device: Any = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], device: Optional[Dict[str, Any]] = None) -> str:
         if not device:
-            payload = {"error": "'device' parameter is required"}
-            out = json.dumps(payload, indent=2)
-            return out
-        device_list = data.get("devices", {}).values()
-        if any(d["id"] == device.get("id") for d in device_list.values()):
-            payload = {"error": "Device with this id already exists"}
-            out = json.dumps(payload, indent=2)
-            return out
-        data["devices"][device["device_id"]] = device
-        payload = {"success": "Device added", "device": device, "devices": device_list}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+            return json.dumps({"error": "'device' parameter is required"}, indent=2)
+        device_list = list(data.get('devices', {}).values())
+        if any(d["id"] == device.get("id") for d in device_list):
+            return json.dumps({"error": "Device with this id already exists"}, indent=2)
+        device_list.append(device)
+        return json.dumps({"success": "Device added", "device": device, "devices": device_list}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddDeviceToDatabase",
+                "name": "add_device_to_database",
                 "description": "Add a new device. All fields must be provided in the 'device' object.",
                 "parameters": {
                     "type": "object",
@@ -46,11 +30,11 @@ class AddDeviceToDatabase(Tool):
                         "device": {
                             "type": "object",
                             "description": "The full device object to add (must include id, type, name, location, vendor, model, firmware_version, state_params, state, scheduled_updates)",
-                            "additionalProperties": True,
+                            "additionalProperties": True
                         }
                     },
                     "required": ["device"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

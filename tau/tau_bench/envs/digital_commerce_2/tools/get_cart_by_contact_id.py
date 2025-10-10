@@ -1,42 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
-from decimal import ROUND_HALF_UP, Decimal
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCartByContactId(Tool):
+    """Fetch full cart details by contact_id."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], contact_id: Any, carts: list = None) -> str:
+    def invoke(data: Dict[str, Any], contact_id: Any) -> str:
         contact_id = _idstr(contact_id)
         if not contact_id:
-            payload = {"error": "Missing required field: contact_id"}
-            out = json.dumps(payload, indent=2)
-            return out
-        carts = carts or data.get("carts", {}).values()
+            return json.dumps({"error": "Missing required field: contact_id"}, indent=2)
+        carts = data.get("carts", [])
         for cart in carts:
             if cart.get("contact_id") == contact_id:
-                payload = cart
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"No cart found for contact_id '{contact_id}'"}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+                return json.dumps(cart, indent=2)
+
+        return json.dumps({"error": f"No cart found for contact_id '{contact_id}'"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCartByContactId",
+                "name": "get_cart_by_contact_id",
                 "description": "Fetch full cart details by contact_id.",
                 "parameters": {
                     "type": "object",

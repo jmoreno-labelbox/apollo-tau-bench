@@ -1,33 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class RoundNumberToUnit(Tool):
-    """Rounds a number to the closest multiple of a defined unit."""
+    """Rounds a number to the nearest multiple of a specified unit."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], number: float = None, unit: float = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        number = kwargs.get("number")
+        unit = kwargs.get("unit")
+        
         if number is None or unit is None:
-            payload = {"error": "number and unit are required parameters."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({"error": "number and unit are required parameters."})
+        
         if unit <= 0:
-            payload = {"error": "unit must be a positive number."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({"error": "unit must be a positive number."})
+        
         rounded_number = round(number / unit) * unit
-        payload = {"rounded_number": rounded_number}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"rounded_number": rounded_number})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RoundNumberToUnit",
+                "name": "round_number_to_unit",
                 "description": "Rounds a number to the nearest multiple of a specified unit.",
                 "parameters": {
                     "type": "object",
@@ -39,7 +39,7 @@ class RoundNumberToUnit(Tool):
                         "unit": {
                             "type": "number",
                             "description": "The unit to round to (e.g., 10 for rounding to nearest 10).",
-                        },
+                        }
                     },
                     "required": ["number", "unit"],
                 },

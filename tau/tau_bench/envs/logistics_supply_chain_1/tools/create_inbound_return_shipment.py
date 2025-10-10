@@ -1,66 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import random
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateInboundReturnShipment(Tool):
-    """Establishes a new 'Planned' inbound shipment specifically for a customer return."""
-
+    """Creates a new 'Planned' inbound shipment specifically for a customer return."""
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        rma_id: str = None, 
-        from_customer_id: str = None, 
-        to_warehouse_id: str = None, 
-        carrier_scac: str = None
-    ) -> str:
-        if not all([rma_id, from_customer_id, to_warehouse_id, carrier_scac]):
-            payload = {
-                "error": "rma_id, from_customer_id, to_warehouse_id, and carrier_scac are required."
-            }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        rma_id = kwargs.get('rma_id')
+        from_customer_id = kwargs.get('from_customer_id')
+        to_warehouse_id = kwargs.get('to_warehouse_id')
+        carrier_scac = kwargs.get('carrier_scac')
 
-        inbound_shipments = data.get("inbound_shipments", {}).values()
-        max_ship_id = max(
-            (
-                int(s.get("shipment_id", "SHIP-0").split("-")[1])
-                for s in inbound_shipments.values()
-            ),
-            default=0,
-        )
+        if not all([rma_id, from_customer_id, to_warehouse_id, carrier_scac]):
+            return json.dumps({"error": "rma_id, from_customer_id, to_warehouse_id, and carrier_scac are required."}, indent=2)
+
+        inbound_shipments = data.get('inbound_shipments', [])
+        max_ship_id = max((int(s.get('shipment_id', 'SHIP-0').split('-')[1]) for s in inbound_shipments), default=0)
         new_shipment_id = f"SHIP-{max_ship_id + 1:04d}"
 
-        customer = next(
-            (
-                o
-                for o in data.get("outbound_orders", {}).values()
-                if o.get("customer_id") == from_customer_id
-            ),
-            {},
-        )
-        warehouse = next(
-            (
-                w
-                for w in data.get("warehouses", {}).values()
-                if w.get("warehouse_id") == to_warehouse_id
-            ),
-            {},
-        )
+        customer = next((o for o in data.get('outbound_orders', []) if o.get('customer_id') == from_customer_id), {})
+        warehouse = next((w for w in data.get('warehouses', []) if w.get('warehouse_id') == to_warehouse_id), {})
 
         new_shipment = {
             "shipment_id": new_shipment_id,
-            "purchase_order_number": rma_id,  # Employing RMA as the reference identifier
+            "purchase_order_number": rma_id, # Using RMA as the reference number
             "supplier_id": from_customer_id,
             "supplier_name": "CUSTOMER_RETURN",
             "origin_address": customer.get("customer_address"),
@@ -68,55 +34,30 @@ class CreateInboundReturnShipment(Tool):
             "origin_country": customer.get("customer_country"),
             "destination_warehouse_id": to_warehouse_id,
             "destination_warehouse_name": warehouse.get("warehouse_name"),
-            "carrier_name": next(
-                (
-                    c.get("carrier_name")
-                    for c in data.get("carriers", {}).values()
-                    if c.get("scac") == carrier_scac
-                ),
-                "Unknown",
-            ),
+            "carrier_name": next((c.get("carrier_name") for c in data.get('carriers', []) if c.get("scac") == carrier_scac), "Unknown"),
             "carrier_scac": carrier_scac,
             "status": "Planned",
-            "priority_level": "Medium",
+            "priority_level": "Medium"
         }
-        inbound_data["shipments"][shipment_id] = new_shipment
-        payload = new_shipment
-        out = json.dumps(payload, indent=2)
-        return out
+        inbound_shipments.append(new_shipment)
+        return json.dumps(new_shipment, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateInboundReturnShipment",
+                "name": "create_inbound_return_shipment",
                 "description": "Creates a new 'Planned' inbound shipment to track the physical return of goods from a customer.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "rma_id": {
-                            "type": "string",
-                            "description": "The RMA number authorizing this return shipment.",
-                        },
-                        "from_customer_id": {
-                            "type": "string",
-                            "description": "The ID of the customer returning the items.",
-                        },
-                        "to_warehouse_id": {
-                            "type": "string",
-                            "description": "The ID of the warehouse designated to receive the return.",
-                        },
-                        "carrier_scac": {
-                            "type": "string",
-                            "description": "The SCAC code of the carrier handling the return.",
-                        },
+                        "rma_id": {"type": "string", "description": "The RMA number authorizing this return shipment."},
+                        "from_customer_id": {"type": "string", "description": "The ID of the customer returning the items."},
+                        "to_warehouse_id": {"type": "string", "description": "The ID of the warehouse designated to receive the return."},
+                        "carrier_scac": {"type": "string", "description": "The SCAC code of the carrier handling the return."}
                     },
-                    "required": [
-                        "rma_id",
-                        "from_customer_id",
-                        "to_warehouse_id",
-                        "carrier_scac",
-                    ],
-                },
-            },
+                    "required": ["rma_id", "from_customer_id", "to_warehouse_id", "carrier_scac"]
+                }
+            }
         }

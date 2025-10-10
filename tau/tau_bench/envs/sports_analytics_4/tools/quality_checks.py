@@ -1,30 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class QualityChecks(Tool):
     @staticmethod
-    #primary invocation function
-    def invoke(data: dict[str, Any], data_inputs: Any = None, tags: Any = None, team_id: Any = None) -> str:
-        payload = {"qc_status": "passed"}
-        out = json.dumps(payload, indent=2)
-        return out
+        # main invoke function
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        # return result
+        return json.dumps({"qc_status": "passed"}, indent=2)
+
     @staticmethod
-    #metadata information
-    def get_info() -> dict[str, Any]:
-        pass
-        #return result
-        return {
-            "type": "function",
-            "function": {
-                "name": "dataPoll",
-                "description": "Executes a data quality profile on input datasets.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "data_inputs": {"type": "array", "items": {"type": "string"}}
-                    },
-                    "required": ["data_inputs"],
-                },
-            },
-        }
+        # info metadata
+    def get_info() -> Dict[str, Any]:
+        # return result
+        return {"type": "function", "function": {"name": "dataPoll", "description": "Executes a data quality profile on input datasets.", "parameters": {"type": "object", "properties": {"data_inputs": {"type": "array", "items": {"type": "string"}}}, "required": ["data_inputs"]}}}

@@ -1,29 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchChangeRequests(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_id: str = None,
-        status: str = None,
-        priority: str = None,
-        change_type: str = None,
-        requester_id: str = None,
-        include_impact: bool = False
-    ) -> str:
-        change_requests = data.get("change_requests", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        status = kwargs.get("status")
+        priority = kwargs.get("priority")
+        change_type = kwargs.get("change_type")
+        requester_id = kwargs.get("requester_id")
+        include_impact = kwargs.get("include_impact", False)
+
+        change_requests = data.get("change_requests", [])
         results = []
 
         for cr in change_requests:
@@ -43,21 +35,22 @@ class SearchChangeRequests(Tool):
             if match:
                 result = cr.copy()
                 if not include_impact and "impact_assessment" in result:
+
                     result["has_impact_assessment"] = True
-                    result["overall_risk"] = cr.get("impact_assessment", {}).values().get(
+                    result["overall_risk"] = cr.get("impact_assessment", {}).get(
                         "overall_risk"
                     )
                     del result["impact_assessment"]
                 results.append(result)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchChangeRequests",
+                "name": "search_change_requests",
                 "description": "Search for change requests by various criteria",
                 "parameters": {
                     "type": "object",

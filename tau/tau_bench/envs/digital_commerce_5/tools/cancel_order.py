@@ -1,37 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CancelOrder(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: Any, cancel_at: Any) -> str:
-        order_id = _as_id(order_id)
+    def invoke(data: Dict[str, Any], order_id: str, cancel_at: Any) -> str:
         if not order_id or not cancel_at:
             return _err("order_id and cancel_at are required.")
-        orders = data.get("orders", {}).values()
-        order = next((o for o in orders.values() if _as_id(o.get("order_id")) == order_id), None)
+        orders = list(data.get("orders", {}).values())
+        order = next((o for o in orders if _as_id(o.get("order_id")) == order_id), None)
         if not order:
             return _err("Order not found.")
         order["status"] = "Cancelled"
         order["cancelled_at"] = cancel_at
-        payload = {"order_id": order_id, "new_status": "Cancelled"}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"order_id": order_id, "new_status": "Cancelled"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CancelOrder",
+                "name": "cancel_order",
                 "description": "Cancel an order at a deterministic timestamp.",
                 "parameters": {
                     "type": "object",

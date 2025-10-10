@@ -1,47 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class TriggerSmokeValidationV2(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], run_id: str, test_target: str) -> str:
-        pass
+    def invoke(data: Dict[str, Any], run_id: str, test_target: str) -> str:
         prs = _get_table(data, "pull_requests")
-        pr = next(
-            (p for p in prs if (p.get("links") or {}).get("run_id") == run_id), None
-        )
+        pr = next((p for p in prs if (p.get("links") or {}).get("run_id") == run_id), None)
         if not pr:
             return _error(f"No PR linked to run '{run_id}'.")
-        #Consistent outcome: search for existing test_runs with this test_target; otherwise, mark as completed
+        # Deterministic result: look for existing test_runs with this test_target; else completed
         test_runs = _get_table(data, "test_runs")
-        found = next(
-            (t for t in test_runs if t.get("test_type") or t.get("report_uri")), None
-        )
+        found = next((t for t in test_runs if t.get("test_type") or t.get("report_uri")), None)
         status = "completed" if found is not None else "completed"
-        payload = {
-                "pr_number": pr.get("pr_number"),
-                "test_target": test_target,
-                "status": status,
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        return json.dumps({"pr_number": pr.get("pr_number"), "test_target": test_target, "status": status}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "TriggerSmokeValidationV2",
-                "description": "Returns deterministic validation completion for PR associated with run_id.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "run_id": {"type": "string"},
-                        "test_target": {"type": "string"},
-                    },
-                    "required": ["run_id", "test_target"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "trigger_smoke_validation_v2", "description": "Returns deterministic validation completion for PR associated with run_id.", "parameters": {"type": "object", "properties": {"run_id": {"type": "string"}, "test_target": {"type": "string"}}, "required": ["run_id", "test_target"]}}}

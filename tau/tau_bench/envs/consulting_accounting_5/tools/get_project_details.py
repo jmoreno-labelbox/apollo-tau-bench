@@ -1,17 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any, Dict
-from datetime import timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetProjectDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], project_id: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
         Retrieves the full details for a given project_id.
         """
-        project = next((p for p in data["projects"].values() if p["project_id"] == project_id), None)
+        project_id = kwargs["project_id"]
+        project = next((p for p in data["projects"] if p["project_id"] == project_id), None)
         return json.dumps(project)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {

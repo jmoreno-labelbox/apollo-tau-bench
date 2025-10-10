@@ -1,26 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class BuildRoute(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        client_id: str = None, 
-        date: str = None, 
-        stops_ordered_json: str = None, 
-        map_url: str = None, 
-        created_by_broker_id: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        client_id = kwargs.get('client_id')
+        date = kwargs.get('date')
+        stops_ordered_json = kwargs.get('stops_ordered_json')
+        map_url = kwargs.get('map_url')
+        created_by_broker_id = kwargs.get('created_by_broker_id')
+        
         if not all([client_id, date, stops_ordered_json, created_by_broker_id]):
-            payload = {
+            return json.dumps({
                 "error": "client_id, date, stops_ordered_json, and created_by_broker_id are required"
-            }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
-
+            }, indent=2)
+        
         route = {
             "route_id": 401,
             "client_id": client_id,
@@ -29,56 +27,49 @@ class BuildRoute(Tool):
             "map_url": map_url,
             "created_by_broker_id": created_by_broker_id,
             "status": "active",
-            "created_at": "2024-08-21T00:00:00Z",
+            "created_at": "2024-08-21T00:00:00Z"
         }
-        payload = {
+        
+        return json.dumps({
             "success": True,
             "route_id": 401,
             "message": f"Route created for client {client_id}",
-            "route": route,
-        }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+            "route": route
+        }, indent=2)
+    
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "buildRoute",
+                "name": "build_route",
                 "description": "Build a property showing route for clients",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "client_id": {
                             "type": "integer",
-                            "description": "Client ID for the route",
+                            "description": "Client ID for the route"
                         },
                         "date": {
                             "type": "string",
-                            "description": "Date for the route in YYYY-MM-DD format",
+                            "description": "Date for the route in YYYY-MM-DD format"
                         },
                         "stops_ordered_json": {
                             "type": "array",
                             "items": {"type": "string"},
-                            "description": "Ordered list of property IDs to visit",
+                            "description": "Ordered list of property IDs to visit"
                         },
                         "map_url": {
                             "type": "string",
-                            "description": "URL to the route map",
+                            "description": "URL to the route map"
                         },
                         "created_by_broker_id": {
                             "type": "integer",
-                            "description": "Broker ID creating the route",
-                        },
+                            "description": "Broker ID creating the route"
+                        }
                     },
-                    "required": [
-                        "client_id",
-                        "date",
-                        "stops_ordered_json",
-                        "created_by_broker_id",
-                    ],
-                },
-            },
+                    "required": ["client_id", "date", "stops_ordered_json", "created_by_broker_id"]
+                }
+            }
         }

@@ -1,47 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ScheduleDelivery(Tool):
-    """Establish a 'scheduled' timestamp in tracking_history."""
-
+    """Set a 'scheduled' timestamp in tracking_history."""
     @staticmethod
-    def invoke(data, tracking_id: str = None, scheduled: str = None) -> str:
+    def invoke(data, **kwargs) -> str:
+        tracking_id = kwargs.get('tracking_id')
+        scheduled = kwargs.get('scheduled')
         if not tracking_id or not scheduled:
-            payload = {"error": "tracking_id and scheduled (ISO string) are required"}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({"error":"tracking_id and scheduled (ISO string) are required"}, indent=2)
         tr = _find_tracking(data, tracking_id)
         if not tr:
-            payload = {"error": f"tracking_id {tracking_id} not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        hist = tr.setdefault("tracking_history", {}).values()
-        hist["scheduled"] = scheduled
-        payload = {"success": True, "tracking_id": tracking_id, "scheduled": scheduled}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+            return json.dumps({"error": f"tracking_id {tracking_id} not found"}, indent=2)
+        hist = tr.setdefault('tracking_history', {})
+        hist['scheduled'] = scheduled
+        return json.dumps({"success": True, "tracking_id": tracking_id, "scheduled": scheduled}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "scheduleDelivery",
-                "description": "Set scheduled timestamp for a tracking record.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "tracking_id": {"type": "string"},
-                        "scheduled": {"type": "string"},
-                    },
-                    "required": ["tracking_id", "scheduled"],
-                },
-            },
-        }
+        return {"type":"function","function":{"name":"schedule_delivery","description":"Set scheduled timestamp for a tracking record.","parameters":{"type":"object","properties":{"tracking_id":{"type":"string"},"scheduled":{"type":"string"}},"required":["tracking_id","scheduled"]}}}

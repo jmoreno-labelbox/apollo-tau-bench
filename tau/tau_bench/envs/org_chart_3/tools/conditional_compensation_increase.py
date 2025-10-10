@@ -1,193 +1,74 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class conditional_compensation_increase(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        employee_id: str,
-        compensation_id: str,
-        effective_date: str,
-        condition: str,
-        new_bonus_target_pct: float | None = None,
-        new_salary: float | None = None,
-        new_equity: float | None = None
-    ) -> str:
-        # Retrieve the current compensation
-        comp = data.get("compensation_records", {}).values()
-        current = [c for c in comp.values() if c["employee_id"] == employee_id]
+    def invoke(data: Dict[str, Any], employee_id: str, compensation_id: str, effective_date: str,
+               condition: str, new_bonus_target_pct: Optional[float] = None,
+               new_salary: Optional[float] = None, new_equity: Optional[float] = None) -> str:
+        # Get current compensation
+        comp = data.get("compensation_records", [])
+        current = [c for c in comp if c["employee_id"] == employee_id]
         current.sort(key=lambda c: c["effective_date"], reverse=True)
 
         if not current:
-            payload = {"error": "No current compensation found for employee"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "No current compensation found for employee"}, indent=2)
 
         latest = current[0]
 
-        # Analyze and assess the condition
+        # Parse and evaluate condition
         should_update = False
         if "bonus_target_pct < 18" in condition:
             should_update = latest["bonus_target_pct"] < 18
         elif "base_salary < 75000" in condition:
             should_update = latest["base_salary"] < 75000
-        # Include additional conditions as required
+        # Add more conditions as needed
 
         if not should_update:
-            payload = {
-                    "success": f"Condition '{condition}' not met, no compensation change for {employee_id}"
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({"success": f"Condition '{condition}' not met, no compensation change for {employee_id}"}, indent=2)
 
-        # Generate a new compensation record with the revised values
+        # Create new compensation record with updated values
         new_comp = {
             "compensation_id": compensation_id,
             "employee_id": employee_id,
-            "base_salary": (
-                new_salary if new_salary is not None else latest["base_salary"]
-            ),
+            "base_salary": new_salary if new_salary is not None else latest["base_salary"],
             "currency": latest["currency"],
-            "bonus_target_pct": (
-                new_bonus_target_pct
-                if new_bonus_target_pct is not None
-                else latest["bonus_target_pct"]
-            ),
-            "equity_grant": (
-                new_equity if new_equity is not None else latest["equity_grant"]
-            ),
-            "effective_date": effective_date,
+            "bonus_target_pct": new_bonus_target_pct if new_bonus_target_pct is not None else latest["bonus_target_pct"],
+            "equity_grant": new_equity if new_equity is not None else latest["equity_grant"],
+            "effective_date": effective_date
         }
 
-        # Delete the previous record with the same ID if it exists and insert the new one
-        comp = [c for c in comp.values() if c["compensation_id"] != compensation_id]
-        data["compensation_records"][new_comp["compensation_record_id"]] = new_comp
+        # Remove old record with same ID if exists and add new one
+        comp = [c for c in comp if c["compensation_id"] != compensation_id]
+        comp.append(new_comp)
         data["compensation_records"] = comp
-        payload = {
-                "success": f"Compensation updated for {employee_id} based on condition '{condition}'",
-                "new_compensation": new_comp,
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
-        pass
-        #Retrieve the current compensation
-        comp = data.get("compensation_records", {}).values()
-        current = [c for c in comp.values() if c["employee_id"] == employee_id]
-        current.sort(key=lambda c: c["effective_date"], reverse=True)
 
-        if not current:
-            payload = {"error": "No current compensation found for employee"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-
-        latest = current[0]
-
-        #Analyze and assess the condition
-        should_update = False
-        if "bonus_target_pct < 18" in condition:
-            should_update = latest["bonus_target_pct"] < 18
-        elif "base_salary < 75000" in condition:
-            should_update = latest["base_salary"] < 75000
-        #Include additional conditions as required
-
-        if not should_update:
-            payload = {
-                    "success": f"Condition '{condition}' not met, no compensation change for {employee_id}"
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
-
-        #Generate a new compensation record with the revised values
-        new_comp = {
-            "compensation_id": compensation_id,
-            "employee_id": employee_id,
-            "base_salary": (
-                new_salary if new_salary is not None else latest["base_salary"]
-            ),
-            "currency": latest["currency"],
-            "bonus_target_pct": (
-                new_bonus_target_pct
-                if new_bonus_target_pct is not None
-                else latest["bonus_target_pct"]
-            ),
-            "equity_grant": (
-                new_equity if new_equity is not None else latest["equity_grant"]
-            ),
-            "effective_date": effective_date,
-        }
-
-        #Delete the previous record with the same ID if it exists and insert the new one
-        comp = [c for c in comp.values() if c["compensation_id"] != compensation_id]
-        data["compensation_records"][new_comp["compensation_record_id"]] = new_comp
-        data["compensation_records"] = comp
-        payload = {
-                "success": f"Compensation updated for {employee_id} based on condition '{condition}'",
-                "new_compensation": new_comp,
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        return json.dumps({"success": f"Compensation updated for {employee_id} based on condition '{condition}'", "new_compensation": new_comp}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ConditionalCompensationIncrease",
+                "name": "conditional_compensation_increase",
                 "description": "Update employee compensation only if a specified condition is met.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "employee_id": {"type": "string"},
                         "compensation_id": {"type": "string"},
-                        "effective_date": {
-                            "type": "string",
-                            "description": "Effective date (YYYY-MM-DD)",
-                        },
-                        "condition": {
-                            "type": "string",
-                            "description": "Condition to check (e.g., 'bonus_target_pct < 18')",
-                        },
-                        "new_bonus_target_pct": {
-                            "type": "number",
-                            "description": "New bonus target percentage (optional)",
-                        },
-                        "new_salary": {
-                            "type": "number",
-                            "description": "New base salary (optional)",
-                        },
-                        "new_equity": {
-                            "type": "number",
-                            "description": "New equity grant (optional)",
-                        },
+                        "effective_date": {"type": "string", "description": "Effective date (YYYY-MM-DD)"},
+                        "condition": {"type": "string", "description": "Condition to check (e.g., 'bonus_target_pct < 18')"},
+                        "new_bonus_target_pct": {"type": "number", "description": "New bonus target percentage (optional)"},
+                        "new_salary": {"type": "number", "description": "New base salary (optional)"},
+                        "new_equity": {"type": "number", "description": "New equity grant (optional)"}
                     },
-                    "required": [
-                        "employee_id",
-                        "compensation_id",
-                        "effective_date",
-                        "condition",
-                    ],
-                    "additionalProperties": False,
-                },
-            },
+                    "required": ["employee_id", "compensation_id", "effective_date", "condition"],
+                    "additionalProperties": False
+                }
+            }
         }

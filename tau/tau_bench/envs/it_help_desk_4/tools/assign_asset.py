@@ -1,44 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AssignAsset(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], asset_id: str = None, employee_id: str = None, timestamp: str = None) -> str:
-        assets = data.get("it_assets", {}).values()
-        asset = next((a for a in assets.values() if a.get("asset_id") == asset_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        asset_id = kwargs.get("asset_id")
+        employee_id = kwargs.get("employee_id")
+        assets = data.get("it_assets", [])
+        asset = next((a for a in assets if a.get("asset_id") == asset_id), None)
         if not asset:
-            payload = {"error": f"Asset {asset_id} not found."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"Asset {asset_id} not found."}, indent=2)
         asset["assigned_to"] = employee_id
         asset["status"] = "READY FOR PICKUP"
         asset["mdm_enrolled"] = True
-        payload = asset
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(asset, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "AssignAsset",
-                "description": "Assign an IT asset to an employee.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "asset_id": {"type": "string"},
-                        "employee_id": {"type": "string"},
-                    },
-                    "required": ["asset_id", "employee_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "assign_asset", "description": "Assign an IT asset to an employee.", "parameters": {"type": "object", "properties": {"asset_id": {"type": "string"}, "employee_id": {"type": "string"}}, "required": ["asset_id", "employee_id"]}}}

@@ -1,11 +1,17 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, time, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpdateCustomerPreferences(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, paperless_billing: bool = None, communication_channel: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        paperless_billing = kwargs.get("paperless_billing")
+        communication_channel = kwargs.get("communication_channel")
+
         customer = next((c for c in data['customers'] if c['customer_id'] == customer_id), None)
         if not customer:
             return json.dumps({"error": "Customer not found"})
@@ -19,12 +25,13 @@ class UpdateCustomerPreferences(Tool):
             customer["preferences"]["communication_channel"] = communication_channel
 
         return json.dumps(customer["preferences"])
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "UpdateCustomerPreferences",
+                        "name": "update_customer_preferences",
                         "description": "Updates a customer's communication preferences.",
                         "parameters": {
                                 "type": "object",

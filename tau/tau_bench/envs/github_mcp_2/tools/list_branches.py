@@ -1,43 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ListBranches(Tool):
-    """Enumerates all branches within a specified repository."""
+    """Lists all branches in a given repository."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        repo_name = kwargs.get("repo_name")
         if not repo_name:
-            payload = {"error": "repo_name is required."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "repo_name is required."}, indent=2)
 
         try:
             for repo in _repos(data):
                 if repo.get("repo_name") == repo_name:
-                    payload = {"branches": repo.get("branches", [])}
-                    out = json.dumps(payload, indent=2)
-                    return out
-            payload = {"error": f"Repository not found: {repo_name}"}
-            out = json.dumps(payload, indent=2)
-            return out
+                    return json.dumps({"branches": repo.get("branches", [])}, indent=2)
+            return json.dumps({"error": f"Repository not found: {repo_name}"}, indent=2)
         except Exception as e:
-            payload = {"error": str(e)}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": str(e)}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "ListBranches",
+                "name": "list_branches",
                 "description": "Returns all branches in the given repository.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"repo_name": {"type": "string"}},
-                    "required": ["repo_name"],
-                },
-            },
+                    "properties": {
+                        "repo_name": {"type": "string"}
+                    },
+                    "required": ["repo_name"]
+                }
+            }
         }

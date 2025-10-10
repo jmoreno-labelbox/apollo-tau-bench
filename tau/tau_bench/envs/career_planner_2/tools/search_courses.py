@@ -1,37 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchCourses(Tool):
-    """Look for courses based on skill."""
+    """Search for courses by skill."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], skill: str) -> str:
-        skill_query = skill
-        # Adjusted to look for 'related_skills' and conduct a case-insensitive check
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        skill_query = kwargs.get("skill")
+        # Corrected to search 'related_skills' and perform a case-insensitive comparison
         courses = [
             c
-            for c in data.get("course_catalog", {}).values()
+            for c in data.get("course_catalog", [])
             if skill_query.lower() in [s.lower() for s in c.get("related_skills", [])]
         ]
-        payload = courses
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(courses, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchCourses",
+                "name": "search_courses",
                 "description": "Search for courses by skill.",
                 "parameters": {
                     "type": "object",

@@ -1,17 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetBranchFileInventory(Tool):
-    """Delivers the list of files and the latest SHA for a specified branch in a repository owned by the user."""
+    """Returns file list and latest SHA for a given branch in a repo owned by the user."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str = None, branch: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        repo_name = kwargs.get("repo_name")
+        branch = kwargs.get("branch")
+
         if not all([repo_name, branch]):
-            payload = {"error": "repo_name and branch are required."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "repo_name and branch are required."}, indent=2)
 
         try:
             repo = _find_repo_record(data, repo_name)
@@ -19,36 +22,31 @@ class GetBranchFileInventory(Tool):
 
             files = repo.get("branch_files", [])[idx]
             sha = repo.get("branch_shas", [])[idx]
-            payload = {
-                    "repo_name": repo_name,
-                    "branch": branch,
-                    "commit_sha": sha,
-                    "files": files,
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+
+            return json.dumps({
+                "repo_name": repo_name,
+                "branch": branch,
+                "commit_sha": sha,
+                "files": files
+            }, indent=2)
 
         except Exception as e:
-            payload = {"error": str(e)}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": str(e)}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "getBranchFileInventory",
+                "name": "get_branch_file_inventory",
                 "description": "Returns latest SHA and file list for a given repo and branch.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "repo_name": {"type": "string"},
-                        "branch": {"type": "string"},
+                        "branch": {"type": "string"}
                     },
-                    "required": ["repo_name", "branch"],
-                },
-            },
+                    "required": ["repo_name", "branch"]
+                }
+            }
         }

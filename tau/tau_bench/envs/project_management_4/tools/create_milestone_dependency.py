@@ -1,28 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateMilestoneDependency(Tool):
     @staticmethod
     def _check_circular_dependency(
-        data: dict[str, Any], predecessor_id: str, successor_id: str
+        data: Dict[str, Any], predecessor_id: str, successor_id: str
     ) -> bool:
-        """Verify whether including this dependency would result in a circular dependency"""
-        pass
-        dependencies = data.get("milestone_dependencies", {}).values()
+        """Check if adding this dependency would create a circular dependency"""
+        dependencies = data.get("milestone_dependencies", [])
 
         graph = {}
-        for dep in dependencies.values():
+        for dep in dependencies:
             pred = dep.get("predecessor_id")
             succ = dep.get("successor_id")
             if pred not in graph:
@@ -34,7 +26,6 @@ class CreateMilestoneDependency(Tool):
         graph[predecessor_id].append(successor_id)
 
         def has_cycle(node, visited, rec_stack):
-            pass
             visited.add(node)
             rec_stack.add(node)
 
@@ -56,64 +47,55 @@ class CreateMilestoneDependency(Tool):
         return False
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        predecessor_id: str,
-        successor_id: str,
-        dependency_type: str = "finish_to_start",
-        lag_days: int = 0,
-        is_mandatory: bool = True,
-        notes: str = "",
-        zero_lag: bool = False
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        predecessor_id = kwargs.get("predecessor_id")
+        successor_id = kwargs.get("successor_id")
+        dependency_type = kwargs.get("dependency_type", "finish_to_start")
+        lag_days = kwargs.get("lag_days", 0)
+        is_mandatory = kwargs.get("is_mandatory", True)
+        notes = kwargs.get("notes", "")
+        zero_lag = kwargs.get("zero_lag", False)
+
         if not all([predecessor_id, successor_id]):
-            payload = {"error": "predecessor_id and successor_id are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "predecessor_id and successor_id are required"})
 
         if predecessor_id == successor_id:
-            payload = {"error": "Milestone cannot depend on itself"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Milestone cannot depend on itself"})
 
         if CreateMilestoneDependency._check_circular_dependency(
             data, predecessor_id, successor_id
         ):
-            payload = {"error": "This dependency would create a circular dependency"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "This dependency would create a circular dependency"}
+            )
 
         if dependency_type == "finish_to_start" and not zero_lag and lag_days < 1:
             lag_days = 1
 
         if dependency_type in ["start_to_start", "finish_to_finish"] and not notes:
-            payload = {
+            return json.dumps(
+                {
                     "error": f"{dependency_type} dependencies require justification in the notes field"
                 }
-            out = json.dumps(payload)
-            return out
+            )
 
-        milestone_dependencies = data.get("milestone_dependencies", {}).values()
-        milestones = data.get("milestones", {}).values()
+        milestone_dependencies = data.get("milestone_dependencies", [])
+        milestones = list(data.get("milestones", {}).values())
 
-        pred_exists = any(m.get("milestone_id") == predecessor_id for m in milestones.values())
-        succ_exists = any(m.get("milestone_id") == successor_id for m in milestones.values())
+        pred_exists = any(m.get("milestone_id") == predecessor_id for m in milestones)
+        succ_exists = any(m.get("milestone_id") == successor_id for m in milestones)
 
         if not pred_exists or not succ_exists:
-            payload = {"error": "One or both milestones not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "One or both milestones not found"})
 
         existing = any(
             d.get("predecessor_id") == predecessor_id
             and d.get("successor_id") == successor_id
-            for d in milestone_dependencies.values()
+            for d in milestone_dependencies
         )
 
         if existing:
-            payload = {"error": "Dependency already exists"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Dependency already exists"})
 
         dependency_id = f"dep_{uuid.uuid4().hex[:8]}"
 
@@ -129,9 +111,9 @@ class CreateMilestoneDependency(Tool):
             "created_date": datetime.now(timezone.utc).isoformat(),
         }
 
-        data["milestone_dependencies"][new_dependency["milestone_dependencie_id"]] = new_dependency
+        milestone_dependencies.append(new_dependency)
 
-        for milestone in milestones.values():
+        for milestone in milestones:
             if milestone.get("milestone_id") == successor_id:
                 milestone["is_critical_path"] = True
                 break
@@ -139,7 +121,8 @@ class CreateMilestoneDependency(Tool):
         project_id = next(
             (
                 m.get("project_id")
-                for m in milestones.values() if m.get("milestone_id") == predecessor_id
+                for m in milestones
+                if m.get("milestone_id") == predecessor_id
             ),
             None,
         )
@@ -150,15 +133,15 @@ class CreateMilestoneDependency(Tool):
             "critical_path_update_required": True,
             "project_id": project_id,
         }
-        payload = result
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateMilestoneDependency",
+                "name": "create_milestone_dependency",
                 "description": "Create a dependency between two milestones",
                 "parameters": {
                     "type": "object",

@@ -1,19 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class list_departments(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], departments: list = None) -> str:
-        payload = departments if departments is not None else []
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any]) -> str:
+        return json.dumps(list(data.get("departments", {}).values()), indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "listDepartments",
+                "name": "list_departments",
                 "description": "Return every department record.",
                 "parameters": {"type": "object", "properties": {}, "required": []},
             },

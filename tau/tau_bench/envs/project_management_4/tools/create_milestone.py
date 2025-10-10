@@ -1,53 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateMilestone(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_id: str,
-        milestone_name: str,
-        target_date: str,
-        owner_id: str,
-        milestone_type: str = "standard",
-        description: str = None,
-        deliverables: list = None,
-        gate_criteria: list = None,
-        milestone_id: str = None,
-        start_date: str = None
-    ) -> str:
-        if deliverables is None:
-            deliverables = []
-        if gate_criteria is None:
-            gate_criteria = []
-        if milestone_id is None:
-            milestone_id = f"ms_{uuid.uuid4().hex[:8]}"
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        milestone_name = kwargs.get("milestone_name")
+        milestone_type = kwargs.get("milestone_type", "standard")
+        target_date = kwargs.get("target_date")
+        description = kwargs.get("description")
+        deliverables = kwargs.get("deliverables", [])
+        owner_id = kwargs.get("owner_id")
+        gate_criteria = kwargs.get("gate_criteria", [])
 
         if not all([project_id, milestone_name, target_date, owner_id]):
-            payload = {
-                "error": "project_id, milestone_name, target_date, and owner_id are required"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": "project_id, milestone_name, target_date, and owner_id are required"
+                }
+            )
 
         if milestone_type == "major" and not gate_criteria:
-            payload = {"error": "Major milestones must have defined gate criteria"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "Major milestones must have defined gate criteria"}
+            )
 
-        milestones = data.get("milestones", {}).values()
+        milestones = list(data.get("milestones", {}).values())
+        milestone_id = kwargs.get("milestone_id", f"ms_{uuid.uuid4().hex[:8]}")
 
+        start_date = kwargs.get("start_date")
         if not start_date:
             target_dt = datetime.fromisoformat(target_date.replace("Z", "+00:00"))
             start_dt = target_dt - timedelta(days=30)
@@ -57,9 +42,7 @@ class CreateMilestone(Tool):
         target_dt = datetime.fromisoformat(target_date.replace("Z", "+00:00"))
 
         if start_dt >= target_dt:
-            payload = {"error": "Start date must be before target date"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Start date must be before target date"})
 
         new_milestone = {
             "milestone_id": milestone_id,
@@ -84,25 +67,22 @@ class CreateMilestone(Tool):
             "resource_allocation": 100,
         }
 
-        data["milestones"][milestone_id] = new_milestone
-        payload = {"success": True, "milestone": new_milestone}
-        out = json.dumps(payload)
-        return out
+        milestones.append(new_milestone)
+
+        return json.dumps({"success": True, "milestone": new_milestone})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateMilestone",
+                "name": "create_milestone",
                 "description": "Create a new project milestone",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "project_id": {"type": "string", "description": "Project ID"},
-                        "milestone_id": {
-                            "type": "string",
-                            "description": "Milestone ID",
-                        },
+                        "milestone_id": {"type": "string", "description": "Milestone ID"},
                         "milestone_name": {
                             "type": "string",
                             "description": "Name of the milestone",

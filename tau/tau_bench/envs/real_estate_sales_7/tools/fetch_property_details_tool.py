@@ -1,22 +1,16 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FetchPropertyDetailsTool(Tool):
-    """Merge listing, sales history, and open house information for a property."""
+    """Consolidate listing, sales history, and open house info for a property."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], property_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        property_id = kwargs.get("property_id")
         need = _require_property_id(property_id)
         if need:
             return _err(need)
@@ -25,10 +19,10 @@ class FetchPropertyDetailsTool(Tool):
         sales_history = _collect_sales_history(data, property_id)
         latest_sale = _latest(sales_history, "sale_date") if sales_history else None
 
-        # Available open house times for this property
+        # Open house windows for this property
         open_houses = [
             oh
-            for oh in data.get("open_houses", {}).values()
+            for oh in data.get("open_houses", [])
             if str(oh.get("property_id")) == str(property_id)
         ]
         open_houses_sorted = sorted(
@@ -72,15 +66,14 @@ class FetchPropertyDetailsTool(Tool):
             "sales_history_count": len(sales_history),
             "open_house_windows": open_houses_sorted[:10],
         }
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FetchPropertyDetails",
+                "name": "fetch_property_details",
                 "description": (
                     "Get consolidated details (listing, sales, open houses) for a property."
                 ),

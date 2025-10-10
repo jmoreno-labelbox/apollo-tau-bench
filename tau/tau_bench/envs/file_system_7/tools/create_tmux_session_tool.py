@@ -1,18 +1,19 @@
-from tau_bench.envs.tool import Tool
-import datetime
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateTmuxSessionTool(Tool):
-    """Emulates the creation of a new tmux session on a remote server."""
+    """Simulates creating a new tmux session on a remote server."""
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateTmuxSession",
+                "name": "create_tmux_session",
                 "description": "Creates a named tmux session to ensure process persistence.",
                 "parameters": {
                     "type": "object",
@@ -28,14 +29,11 @@ class CreateTmuxSessionTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: dict[str, Any], session_name: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        session_name = kwargs["session_name"]
         if "tmux_sessions" not in data:
             data["tmux_sessions"] = []
         if session_name in data["tmux_sessions"]:
-            payload = {"status": "exists", "session_name": session_name}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "exists", "session_name": session_name})
         data["tmux_sessions"].append(session_name)
-        payload = {"status": "created", "session_name": session_name}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "created", "session_name": session_name})

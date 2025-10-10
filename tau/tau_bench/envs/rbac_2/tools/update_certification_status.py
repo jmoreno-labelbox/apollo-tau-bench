@@ -1,26 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateCertificationStatus(Tool):
-    """Modify the status of an access certification campaign."""
+    """ Update the status of an access certification campaign. """
 
     @staticmethod
-    def invoke(data: dict[str, Any], certification_id: str = None, new_status: str = None, timestamp: str = None) -> str:
-        certification_id_to_update = certification_id
-        new_status = new_status
-        timestamp = timestamp
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        certification_id_to_update = kwargs.get("certification_id")
+        new_status = kwargs.get("new_status")
+        timestamp = kwargs.get("timestamp")
         try:
-            certifications = data.get("certifications", {}).values()
+            certifications = data.get('certifications', [])
         except:
             certifications = []
 
@@ -37,44 +31,39 @@ class UpdateCertificationStatus(Tool):
                 break
 
         if not certification_found:
-            payload = {
-                "error": f"Certification with ID '{certification_id_to_update}' not found."
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Certification with ID '{certification_id_to_update}' not found."})
 
-        data["certifications"] = certifications
-        payload = {
+        data['certifications'] = certifications
+
+        return json.dumps({
             "message": "Certification campaign status updated successfully.",
-            "certification_details": updated_certification,
-        }
-        out = json.dumps(payload)
-        return out
+            "certification_details": updated_certification
+        })
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateCertificationStatus",
+                "name": "update_certification_status",
                 "description": "Updates the status of an access certification campaign (e.g., to 'COMPLETED').",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "certification_id": {
                             "type": "string",
-                            "description": "The unique ID of the certification campaign to update.",
+                            "description": "The unique ID of the certification campaign to update."
                         },
                         "new_status": {
                             "type": "string",
-                            "description": "The new status to set for the campaign (e.g., 'COMPLETED').",
+                            "description": "The new status to set for the campaign (e.g., 'COMPLETED')."
                         },
                         "timestamp": {
                             "type": "string",
-                            "description": "The current timestamp to record as the completion time.",
-                        },
+                            "description": "The current timestamp to record as the completion time."
+                        }
                     },
-                    "required": ["certification_id", "new_status", "timestamp"],
-                },
-            },
+                    "required": ["certification_id", "new_status", "timestamp"]
+                }
+            }
         }

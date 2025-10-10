@@ -1,55 +1,43 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SendEmailTool(Tool):
-    """send_email: convenient wrapper around upsert for creation purposes only."""
+    """send_email: convenience wrapper around upsert for creation-only."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        email_id: str = None, 
-        receiver: str = None, 
-        user_id: str = None, 
-        subject: str = None, 
-        text_content: str = None, 
-        sender: str = None
-    ) -> str:
-        if not email_id or not subject or not text_content:
-            payload = {"error": "email_id, subject, and text_content are required"}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        email_id = kwargs.get("email_id")
+        receiver = kwargs.get("receiver")
+        user_id = kwargs.get("user_id")
+        subject = kwargs.get("subject")
+        text_content = kwargs.get("text_content")
+        sender = kwargs.get("sender")
 
-        # If the receiver is not specified, attempt to determine it from user_id
+        if not email_id or not subject or not text_content:
+            return json.dumps(
+                {"error": "email_id, subject, and text_content are required"},
+                indent=2,
+            )
+
+        # If receiver not provided, try to resolve from user_id
         if not receiver and user_id:
-            users: list[dict[str, Any]] = data.get("users", {}).values()
+            users: List[Dict[str, Any]] = list(data.get("users", {}).values())
             user = next((u for u in users if u.get("user_id") == user_id), None)
             if not user or not user.get("email"):
-                payload = {"error": f"Could not resolve email for user_id {user_id}"}
-                out = json.dumps(
-                    payload, indent=2,
+                return json.dumps(
+                    {"error": f"Could not resolve email for user_id {user_id}"},
+                    indent=2,
                 )
-                return out
             receiver = user.get("email")
 
         if not receiver:
-            payload = {"error": "receiver or user_id must be provided"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": "receiver or user_id must be provided"}, indent=2
             )
-            return out
 
         return UpsertEmailTool.invoke(
             data,
@@ -59,12 +47,13 @@ class SendEmailTool(Tool):
             text_content=text_content,
             sender=sender,
         )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SendEmail",
+                "name": "send_email",
                 "description": (
                     "Send an email record (deterministic timestamp). Provide receiver or user_id to resolve email."
                 ),

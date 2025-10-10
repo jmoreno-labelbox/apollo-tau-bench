@@ -1,32 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CheckChangeConflicts(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], cr_id: str = None, compare_to_cr_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
+        compare_to_cr_id = kwargs.get("compare_to_cr_id")
+
         if not cr_id:
-            payload = {"error": "cr_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "cr_id is required"})
 
-        change_requests = data.get("change_requests", {}).values()
+        change_requests = data.get("change_requests", [])
 
-        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:
-            payload = {"error": f"Change request '{cr_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Change request '{cr_id}' not found"})
 
         project_id = cr.get("project_id")
         conflicts = []
@@ -34,15 +26,17 @@ class CheckChangeConflicts(Tool):
         if compare_to_cr_id:
             active_crs = [
                 c
-                for c in change_requests.values() if c.get("project_id") == project_id
-                and c.get("cr_id") == compare_to_cr_id
-                and c.get("status")
-                in ["pending_approval", "in_review", "approved", "draft"]
+                for c in change_requests
+                if c.get("project_id") == project_id
+                   and c.get("cr_id") == compare_to_cr_id
+                   and c.get("status")
+                   in ["pending_approval", "in_review", "approved", "draft"]
             ]
         else:
             active_crs = [
                 c
-                for c in change_requests.values() if c.get("project_id") == project_id
+                for c in change_requests
+                if c.get("project_id") == project_id
                 and c.get("cr_id") != cr_id
                 and c.get("status")
                 in ["pending_approval", "in_review", "approved", "draft"]
@@ -113,32 +107,29 @@ class CheckChangeConflicts(Tool):
                         }
                     )
 
-        has_rule_violations = any(c.get("rule_violation") for c in conflicts.values())
-        payload = {
+        has_rule_violations = any(c.get("rule_violation") for c in conflicts)
+
+        return json.dumps(
+            {
                 "cr_id": cr_id,
                 "conflicts_found": len(conflicts),
                 "has_rule_violations": has_rule_violations,
                 "conflicts": conflicts,
-                "recommendation": (
-                    "Cannot proceed - consolidate with conflicting CRs"
-                    if has_rule_violations
-                    else (
-                        "Coordinate with conflicting CRs"
-                        if conflicts
-                        else "No conflicts found"
-                    )
-                ),
-            }
-        out = json.dumps(
-            payload, indent=2,
+                "recommendation": "Cannot proceed - consolidate with conflicting CRs"
+                if has_rule_violations
+                else "Coordinate with conflicting CRs"
+                if conflicts
+                else "No conflicts found",
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CheckChangeConflicts",
+                "name": "check_change_conflicts",
                 "description": "Check for conflicts with other change requests",
                 "parameters": {
                     "type": "object",
@@ -150,7 +141,7 @@ class CheckChangeConflicts(Tool):
                         "compare_to_cr_id": {
                             "type": "string",
                             "description": "Change request ID to compare with cr_id",
-                        },
+                        }
                     },
                     "required": ["cr_id"],
                 },

@@ -1,81 +1,68 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetMaintenanceLogs(Tool):
     """
-    API tool for retrieving maintenance logs for aircraft and equipment.
+    API tool to get maintenance logs for aircraft and equipment.
     """
 
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         aircraft_id: str = None,
         maintenance_type: str = None,
         start_date: str = None,
-        end_date: str = None,
+        end_date: str = None
     ) -> str:
         from datetime import datetime
-        import json
 
-        # First, check the validity of date parameters
+        # Validate date parameters first
         if start_date:
             try:
                 start_date_obj = datetime.strptime(start_date, "%Y-%m-%d").date()
             except ValueError:
-                payload = {
+                return json.dumps({
                     "status": "invalid_date",
                     "message": "Invalid start_date format. Expected YYYY-MM-DD",
-                    "received": start_date,
-                }
-                out = json.dumps(payload)
-                return out
+                    "received": start_date
+                })
 
         if end_date:
             try:
                 end_date_obj = datetime.strptime(end_date, "%Y-%m-%d").date()
             except ValueError:
-                payload = {
+                return json.dumps({
                     "status": "invalid_date",
                     "message": "Invalid end_date format. Expected YYYY-MM-DD",
-                    "received": end_date,
-                }
-                out = json.dumps(payload)
-                return out
-
-            # Check the validity of the date range
+                    "received": end_date
+                })
+            
+            # Validate date range
             if start_date and end_date_obj < start_date_obj:
-                payload = {
+                return json.dumps({
                     "status": "invalid_date_range",
                     "message": "end_date cannot be before start_date",
                     "start_date": start_date,
-                    "end_date": end_date,
-                }
-                out = json.dumps(payload)
-                return out
+                    "end_date": end_date
+                })
 
-        maintenance_logs = data.get("maintenance_logs", {}).values()
+        maintenance_logs = data.get("maintenance_logs", [])
         filtered_logs = []
 
-        for log in maintenance_logs.values():
-            # Implement aircraft filtering
+        for log in maintenance_logs:
+            # Apply aircraft filter
             if aircraft_id and log.get("aircraft_id") != aircraft_id:
                 continue
 
-            # Implement maintenance type filtering
+            # Apply maintenance type filter
             if maintenance_type and log.get("type") != maintenance_type:
                 continue
 
-            # Implement date filtering
+            # Apply date filters
             if start_date:
                 try:
                     log_date = datetime.strptime(log.get("date", ""), "%Y-%m-%d").date()
@@ -94,7 +81,7 @@ class GetMaintenanceLogs(Tool):
 
             filtered_logs.append(log)
 
-        # Arrange by date (most recent first)
+        # Sort by date (most recent first)
         filtered_logs.sort(key=lambda x: x.get("date", ""), reverse=True)
 
         response = {
@@ -102,44 +89,42 @@ class GetMaintenanceLogs(Tool):
                 "aircraft_id": aircraft_id,
                 "maintenance_type": maintenance_type,
                 "start_date": start_date,
-                "end_date": end_date,
+                "end_date": end_date
             },
             "total_logs_found": len(filtered_logs),
-            "maintenance_logs": filtered_logs,
+            "maintenance_logs": filtered_logs
         }
-        payload = response
-        out = json.dumps(payload, indent=2)
-        return out
-    
+
+        return json.dumps(response, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetMaintenanceLogs",
+                "name": "get_maintenance_logs",
                 "description": "Get maintenance logs for aircraft and equipment with optional filtering by aircraft, type, and date range. Returns detailed maintenance records including aircraft status, maintenance schedules, and compliance tracking.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "aircraft_id": {
                             "type": "string",
-                            "description": "Optional aircraft identifier to filter logs. Format: AC followed by 3-digit number.",
+                            "description": "Optional aircraft identifier to filter logs. Format: AC followed by 3-digit number."
                         },
                         "maintenance_type": {
                             "type": "string",
-                            "description": "Optional maintenance type filter. Different types have different compliance requirements.",
+                            "description": "Optional maintenance type filter. Different types have different compliance requirements."
                         },
                         "start_date": {
                             "type": "string",
-                            "description": "Optional start date filter in YYYY-MM-DD format",
+                            "description": "Optional start date filter in YYYY-MM-DD format"
                         },
                         "end_date": {
                             "type": "string",
-                            "description": "Optional end date filter in YYYY-MM-DD format",
-                        },
+                            "description": "Optional end date filter in YYYY-MM-DD format"
+                        }
                     },
-                    "required": [],
-                },
-            },
+                    "required": []
+                }
+            }
         }

@@ -1,49 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindProjectOwnerTeam(Tool):
-    """Identifies the owner team for a project."""
-
+    """Finds the owner team for a project."""
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: str = None) -> str:
-        repos = data.get("repositories", {}).values()
-        teams = data.get("teams", {}).values()
-
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        repos = list(data.get("repositories", {}).values())
+        teams = data.get("teams", [])
+        
         repo_id = None
         for repo in repos:
             if repo.get("project_id") == project_id:
                 repo_id = repo.get("id")
                 break
-
+        
         if not repo_id:
-            payload = {"error": "Could not determine repository for project."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Could not determine repository for project."})
+            
+        for team in teams:
+            # "project_focus": ["proj_001", "proj_002", "proj_003"],
+            if project_id in team['project_focus']:
+                 return json.dumps({"team_id": team['id']})
 
-        for team in teams.values():
-            #"project_focus": ["proj_001", "proj_002", "proj_003"],
-            if project_id in team["project_focus"]:
-                payload = {"team_id": team["id"]}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Could not determine owner for project '{project_id}'."}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"error": f"Could not determine owner for project '{project_id}'."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindProjectOwnerTeam",
+                "name": "find_project_owner_team",
                 "description": "Finds the owner team for a project.",
                 "parameters": {
                     "type": "object",

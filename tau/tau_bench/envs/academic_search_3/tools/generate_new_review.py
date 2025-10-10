@@ -1,68 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GenerateNewReview(Tool):
-    """Utility for creating a new review entry for a submission."""
-
+    """Tool to generate a new review entry for a submission."""
     @staticmethod
-    def invoke(data: dict[str, Any], submission_id: str = None, reviewer_user_id: str = None, score: int = None, comments: str = None) -> str:
-        review_id = f"rev_{len(data.get('reviews', {})) + 1:02d}"
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        review_id = f"rev_{len(list(data.get('reviews', {}).values())) + 1:02d}"
         new_review = {
             "review_id": review_id,
-            "submission_id": submission_id,
-            "reviewer_user_id": reviewer_user_id,
-            "score": score,
-            "comments": comments,
-            "review_date": datetime.now().strftime("%Y-%m-%d"),
+            "submission_id": kwargs.get('submission_id'),
+            "reviewer_user_id": kwargs.get('reviewer_user_id'),
+            "score": kwargs.get('score'),
+            "comments": kwargs.get('comments'),
+            "review_date": datetime.now().strftime('%Y-%m-%d')
         }
-        data["reviews"][new_review["review_id"]] = new_review
-        payload = new_review
-        out = json.dumps(payload, indent=2)
-        return out
+        list(data.get('reviews', {}).values()).append(new_review)
+        return json.dumps(new_review, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GenerateNewReview",
-                "description": "Generates a new review for a submission.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "submission_id": {
-                            "type": "string",
-                            "description": "The ID of the submission to be reviewed.",
-                        },
-                        "reviewer_user_id": {
-                            "type": "string",
-                            "description": "The ID of the reviewing user.",
-                        },
-                        "score": {
-                            "type": "integer",
-                            "description": "The review score (1-10).",
-                        },
-                        "comments": {
-                            "type": "string",
-                            "description": "Detailed comments for the review.",
-                        },
-                    },
-                    "required": [
-                        "submission_id",
-                        "reviewer_user_id",
-                        "score",
-                        "comments",
-                    ],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "generate_new_review", "description": "Generates a new review for a submission.", "parameters": {"type": "object", "properties": {
+            "submission_id": {"type": "string", "description": "The ID of the submission to be reviewed."},
+            "reviewer_user_id": {"type": "string", "description": "The ID of the reviewing user."},
+            "score": {"type": "integer", "description": "The review score (1-10)."},
+            "comments": {"type": "string", "description": "Detailed comments for the review."}
+        }, "required": ["submission_id", "reviewer_user_id", "score", "comments"]}}}

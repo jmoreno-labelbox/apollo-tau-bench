@@ -1,52 +1,45 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CheckRecentEmailHistoryTool(Tool):
-    """Verifies recent email communications to avoid duplicates."""
+    """Checks recent email communications to prevent duplicates."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], client_id: int = None, template_code: str = None, days_lookback: int = 30) -> str:
-        pass
-        client_id = _as_int(client_id)
-        days_lookback = _as_int(days_lookback) or 30
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        client_id = _as_int(kwargs.get("client_id"))
+        template_code = kwargs.get("template_code")
+        days_lookback = _as_int(kwargs.get("days_lookback")) or 30
         if client_id is None or not template_code:
             return _err("client_id (int) and template_code (string) are required")
 
         emails = [
             e
-            for e in data.get("emails", {}).values()
+            for e in data.get("emails", [])
             if _as_int(e.get("client_id")) == client_id
             and e.get("template_code") == template_code
         ]
-        # Order by sent_at in descending order
+        # Sort by sent_at desc
         emails_sorted = sorted(
             emails, key=lambda e: e.get("sent_at") or "", reverse=True
         )
         last = emails_sorted[0] if emails_sorted else None
 
-        # Assess if the template can be sent based on days_lookback
+        # Determine if we can send template based on days_lookback
         can_send = True
         if last:
             last_sent = last.get("sent_at") or ""
-            # To ensure deterministic behavior, perform straightforward date comparisons
-            # In a practical implementation, this would involve parsing dates and verifying the actual day difference
-            # For the time being, assume recent emails are timestamped near HARD_TS
-            if last_sent and days_lookback < 365:  # Streamlined recency verification
-                # If days_lookback is minimal (< 365), apply stricter criteria
+            # For deterministic behavior, use simple date comparison
+            # In a real implementation, this would parse dates and check actual day difference
+            # For now, assume recent emails have timestamps close to HARD_TS
+            if last_sent and days_lookback < 365:  # Simplified recency check
+                # If days_lookback is small (< 365), be more restrictive
                 can_send = False if last_sent > "2025-08-01" else True
             else:
-                # For extended lookback durations, permit sending
+                # For larger lookback periods, allow sending
                 can_send = True
 
         out = {
@@ -57,16 +50,15 @@ class CheckRecentEmailHistoryTool(Tool):
             "last_sent_date": last.get("sent_at") if last else None,
             "can_send_template": can_send,
         }
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        #Helper for deduplication protocol step 1
+    def get_info() -> Dict[str, Any]:
+        # Dedup protocol step 1 helper
         return {
             "type": "function",
             "function": {
-                "name": "CheckRecentEmailHistory",
+                "name": "check_recent_email_history",
                 "description": (
                     "Check emails for same template sent to a client within a period."
                 ),

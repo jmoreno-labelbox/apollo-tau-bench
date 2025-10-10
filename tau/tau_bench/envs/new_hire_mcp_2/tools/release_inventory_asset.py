@@ -1,35 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ReleaseInventoryAsset(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], asset_tag: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        asset_tag = kwargs.get("asset_tag")
         rows = _ensure_list(data, "inventory_assets")
         row = _find_by_key(rows, "asset_tag", asset_tag)
         if row:
             row["assigned_candidate_id_nullable"] = None
             row["status"] = "Available"
             row.setdefault("updated_ts", NOW_TS)
-            payload = {"asset_tag": asset_tag, "released": True}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"asset_tag": asset_tag, "released": False, "reason": "not_found"}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+            return json.dumps({"asset_tag": asset_tag, "released": True}, indent=2)
+        return json.dumps({"asset_tag": asset_tag, "released": False, "reason": "not_found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ReleaseInventoryAsset",
-                "description": "Release an inventory asset. No-op if not found.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"asset_tag": {"type": "string"}},
-                    "required": ["asset_tag"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "release_inventory_asset",
+                                                 "description": "Release an inventory asset. No-op if not found.",
+                                                 "parameters": {"type": "object",
+                                                                "properties": {"asset_tag": {"type": "string"}},
+                                                                "required": ["asset_tag"]}}}

@@ -1,14 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpsertScene(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], scene: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], scene: Dict[str, Any]) -> str:
         if not scene:
-            payload = {"error": "scene object required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "scene object required"}, indent=2)
         scenes = _load("scenes", data)
         idx, _ = _find(scenes, scene["id"])
         if idx is not None:
@@ -18,15 +19,14 @@ class UpsertScene(Tool):
             scenes.append(scene)
             msg = "added"
             data["scenes"] = scenes
-        payload = {"success": f"scene {msg}", "scene": scene}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"success": f"scene {msg}", "scene": scene}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpsertScene",
+                "name": "upsert_scene",
                 "description": "Create a new scene or update an existing one.",
                 "parameters": {
                     "type": "object",
@@ -34,11 +34,11 @@ class UpsertScene(Tool):
                         "scene": {
                             "type": "object",
                             "description": "Full or partial scene object.",
-                            "additionalProperties": True,
+                            "additionalProperties": True
                         }
                     },
                     "required": ["scene"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

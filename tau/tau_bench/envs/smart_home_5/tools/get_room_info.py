@@ -1,32 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetRoomInfo(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], room_ids: list[str] | None = None) -> str:
-        rooms = data.get("rooms", {}).values()
+    def invoke(data: Dict[str, Any], room_ids: Optional[List[str]] = None) -> str:
+        rooms = data.get('rooms', [])
         if room_ids:
-            result = [r for r in rooms.values() if r.get("id") in room_ids]
+            result = [r for r in rooms if r.get('id') in room_ids]
         else:
             result = rooms
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(result, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetRoomInfo",
+                "name": "get_room_info",
                 "description": "Get information about one or more rooms.",
                 "parameters": {
                     "type": "object",
@@ -34,10 +28,10 @@ class GetRoomInfo(Tool):
                         "room_ids": {
                             "type": "array",
                             "items": {"type": "string"},
-                            "description": "A list of room IDs to retrieve. If empty, all rooms will be returned.",
+                            "description": "A list of room IDs to retrieve. If empty, all rooms will be returned."
                         }
                     },
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

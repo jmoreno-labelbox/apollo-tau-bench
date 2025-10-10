@@ -1,59 +1,41 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchResearchLogs(Tool):
-    """Utility for querying research logs."""
-
+    """Tool to search research logs."""
     @staticmethod
-    def invoke(data: dict[str, Any], researcher_id: Any = None, article_id: Any = None) -> str:
-        researcher_id = researcher_id
-        article_id = article_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        researcher_id = kwargs.get('researcher_id')
+        article_id = kwargs.get('article_id')
 
         if not researcher_id and not article_id:
-            payload = {"error": "Either researcher_id or article_id is required."}
-            out = json.dumps(
-                payload)
-            return out
+            return json.dumps({"error": "Either researcher_id or article_id is required."})
 
-        logs = data.get("research_logs", {}).values()
+        logs = list(data.get('research_logs', {}).values())
         results = [
-            log
-            for log in logs.values() if (not researcher_id or log.get("researcher_id") == researcher_id)
-            and (not article_id or log.get("article_id") == article_id)
+            log for log in logs
+            if (not researcher_id or log.get('researcher_id') == researcher_id)
+            and (not article_id or log.get('article_id') == article_id)
         ]
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchResearchLogs",
+                "name": "search_research_logs",
                 "description": "Searches research logs by researcher or article.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "researcher_id": {
-                            "type": "string",
-                            "description": "The user ID of the researcher.",
-                        },
-                        "article_id": {
-                            "type": "string",
-                            "description": "The ID of the article.",
-                        },
-                    },
-                },
-            },
+                        "researcher_id": {"type": "string", "description": "The user ID of the researcher."},
+                        "article_id": {"type": "string", "description": "The ID of the article."}
+                    }
+                }
+            }
         }

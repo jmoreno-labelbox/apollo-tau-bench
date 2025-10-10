@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RegisterDeployEventTool(Tool):
     """
@@ -39,15 +27,14 @@ class RegisterDeployEventTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str = None, environment: str = None) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            environment = _validate_param({"environment": environment}, "environment", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            environment = _validate_param(kwargs, "environment", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        events = data.get("terminal", {}).values()
+        events = data.get("terminal", [])
 
         new_event = {
             "repo": repo_name,
@@ -55,17 +42,16 @@ class RegisterDeployEventTool(Tool):
             "type": "deploy",
             "date": CURRENT_DATE,
         }
-        new_event["event_id"] = _safe_id(
-            new_event, "event_id", "DEPLOY_", ["repo", "environment", "date"]
-        )
-        data["terminal"][new_event["terminal_id"]] = new_event
+        new_event["event_id"] = _safe_id(new_event, "event_id", "DEPLOY_", ["repo", "environment", "date"])
+        events.append(new_event)
         return _response("ok", new_event)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RegisterDeployEvent",
+                "name": "register_deploy_event",
                 "description": "Register a deterministic deploy event (in-memory only).",
                 "parameters": {
                     "type": "object",

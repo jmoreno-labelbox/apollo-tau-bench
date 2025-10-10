@@ -1,117 +1,92 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CanAccessResource(Tool):
     """
-    Verify if a user can access a specific resource by tracing the permission chain:
-    1. Retrieve all permissions for the resource
-    2. Retrieve all roles that possess those permissions
-    3. Confirm if the user holds any of those roles (considering expiration)
+    Check if a user can access a specific resource by following the permission chain:
+    1. Get all permissions for the resource
+    2. Get all roles that have those permissions
+    3. Check if the user has any of those roles (considering expiry)
 
     kwargs:
-      user_id: str (mandatory)
-      resource_id: str (mandatory)
+      user_id: str (required)
+      resource_id: str (required)
       on_date: str ISO (optional; defaults to now)
-      include_details: bool = False (include which permissions/roles provide access)
+      include_details: bool = False (include which permissions/roles grant access)
     """
-
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        user_id: str = "",
-        resource_id: str = "",
-        on_date: str = None,
-        include_details: bool = False
-    ) -> str:
-        pass
-        on_date_iso = on_date or get_current_timestamp()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id", "")
+        resource_id = kwargs.get("resource_id", "")
+        on_date_iso = kwargs.get("on_date") or get_current_timestamp()
+        include_details = kwargs.get("include_details", False)
 
         if not user_id or not resource_id:
-            payload = {"error": "user_id and resource_id are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "user_id and resource_id are required"})
 
-        # Confirm the user is present
-        if not _find_by_id(data.get("users", {}).values(), "user_id", user_id):
-            payload = {"error": f"user_id {user_id} not found"}
-            out = json.dumps(payload)
-            return out
+        # Validate user exists
+        if not _find_by_id(list(data.get("users", {}).values()), "user_id", user_id):
+            return json.dumps({"error": f"user_id {user_id} not found"})
 
-        # Confirm the resource is present
-        if not _find_by_id(data.get("resources", {}).values(), "resource_id", resource_id):
-            payload = {"error": f"resource_id {resource_id} not found"}
-            out = json.dumps(payload)
-            return out
+        # Validate resource exists
+        if not _find_by_id(data.get("resources", []), "resource_id", resource_id):
+            return json.dumps({"error": f"resource_id {resource_id} not found"})
 
         on_dt = _parse_iso(on_date_iso) or datetime.now(tz=timezone.utc)
 
-        def is_active(ur: dict[str, Any]) -> bool:
-            pass
+        def is_active(ur: Dict[str, Any]) -> bool:
             exp = _parse_iso(ur.get("expires_on"))
             return (exp is None) or (exp > on_dt)
 
-        # Step 1: Retrieve all permissions associated with the resource
+        # Step 1: Get all permissions for the resource
         resource_permissions = [
-            p
-            for p in data.get("permissions", {}).values()
+            p for p in list(data.get("permissions", {}).values())
             if p.get("resource_id") == resource_id
         ]
 
         if not resource_permissions:
-            payload = {
+            return json.dumps({
                 "ok": True,
                 "user_id": user_id,
                 "resource_id": resource_id,
                 "can_access": False,
                 "reason": "No permissions defined for this resource",
-                "checked_on": on_date_iso,
-            }
-            out = json.dumps(payload)
-            return out
+                "checked_on": on_date_iso
+            })
 
         resource_permission_ids = {p.get("permission_id") for p in resource_permissions}
 
-        # Step 2: Retrieve all roles that possess those permissions
+        # Step 2: Get all roles that have those permissions
         roles_with_permissions = [
-            rp
-            for rp in data.get("role_permissions", {}).values()
+            rp for rp in data.get("role_permissions", [])
             if rp.get("permission_id") in resource_permission_ids
         ]
 
         if not roles_with_permissions:
-            payload = {
+            return json.dumps({
                 "ok": True,
                 "user_id": user_id,
                 "resource_id": resource_id,
                 "can_access": False,
                 "reason": "No roles have permissions for this resource",
-                "checked_on": on_date_iso,
-            }
-            out = json.dumps(payload)
-            return out
+                "checked_on": on_date_iso
+            })
 
         role_ids_with_access = {rp.get("role_id") for rp in roles_with_permissions}
 
-        # Step 3: Verify if the user holds any of those roles (and they are active)
+        # Step 3: Check if user has any of those roles (and they're active)
         user_assignments = [
-            ur
-            for ur in data.get("user_roles", {}).values()
+            ur for ur in data.get("user_roles", [])
             if ur.get("user_id") == user_id and is_active(ur)
         ]
 
         active_user_role_ids = {ur.get("role_id") for ur in user_assignments}
 
-        # Identify the overlap - roles that provide access AND that the user possesses
+        # Find intersection - roles that grant access AND user has
         granting_role_ids = role_ids_with_access.intersection(active_user_role_ids)
 
         can_access = len(granting_role_ids) > 0
@@ -121,93 +96,71 @@ class CanAccessResource(Tool):
             "user_id": user_id,
             "resource_id": resource_id,
             "can_access": can_access,
-            "checked_on": on_date_iso,
+            "checked_on": on_date_iso
         }
 
         if include_details:
-            # Create a comprehensive breakdown
-            role_map = {r.get("role_id"): r for r in data.get("roles", {}).values()}
-            permission_map = {
-                p.get("permission_id"): p for p in data.get("permissions", {}).values()
-            }
+            # Build detailed breakdown
+            role_map = {r.get("role_id"): r for r in list(data.get("roles", {}).values())}
+            permission_map = {p.get("permission_id"): p for p in list(data.get("permissions", {}).values())}
 
-            # Identify which permissions are assigned by the roles held by the user
+            # Map which permissions are granted by which roles the user has
             granting_details = []
             for role_id in granting_role_ids:
-                role = role_map.get(role_id, {}).values()
+                role = role_map.get(role_id, {})
 
-                # Determine which permissions this role grants for the specified resource
+                # Find which permissions this role provides for this resource
                 role_permissions_for_resource = [
-                    rp.get("permission_id")
-                    for rp in roles_with_permissions
+                    rp.get("permission_id") for rp in roles_with_permissions
                     if rp.get("role_id") == role_id
                 ]
 
                 permissions_detail = []
                 for perm_id in role_permissions_for_resource:
-                    perm = permission_map.get(perm_id, {}).values()
-                    permissions_detail.append(
-                        {
-                            "permission_id": perm_id,
-                            "action": perm.get("action"),
-                            "description": perm.get("description"),
-                        }
-                    )
+                    perm = permission_map.get(perm_id, {})
+                    permissions_detail.append({
+                        "permission_id": perm_id,
+                        "action": perm.get("action"),
+                        "description": perm.get("description")
+                    })
 
-                granting_details.append(
-                    {
-                        "role_id": role_id,
-                        "role_name": role.get("role_name"),
-                        "role_description": role.get("description"),
-                        "permissions": permissions_detail,
-                    }
-                )
+                granting_details.append({
+                    "role_id": role_id,
+                    "role_name": role.get("role_name"),
+                    "role_description": role.get("description"),
+                    "permissions": permissions_detail
+                })
 
             result["access_details"] = {
                 "granting_roles_count": len(granting_role_ids),
                 "total_resource_permissions": len(resource_permissions),
                 "total_roles_with_access": len(role_ids_with_access),
                 "user_active_roles": len(active_user_role_ids),
-                "granting_roles": granting_details,
+                "granting_roles": granting_details
             }
 
         if not can_access:
-            result["reason"] = (
-                "User does not have any active roles that grant access to this resource"
-            )
-        payload = result
-        out = json.dumps(payload)
-        return out
+            result["reason"] = "User does not have any active roles that grant access to this resource"
+
+        return json.dumps(result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CanAccessResource",
+                "name": "can_access_resource",
                 "description": "Check if a user can access a specific resource by following the permission → role → user assignment chain.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "user_id": {
-                            "type": "string",
-                            "description": "Target user_id (e.g., U-001).",
-                        },
-                        "resource_id": {
-                            "type": "string",
-                            "description": "Target resource_id (e.g., RES-020).",
-                        },
-                        "on_date": {
-                            "type": "string",
-                            "description": "ISO timestamp to evaluate role assignments against (optional).",
-                        },
-                        "include_details": {
-                            "type": "boolean",
-                            "description": "Include detailed breakdown of which roles/permissions grant access.",
-                            "default": False,
-                        },
+                        "user_id": {"type": "string", "description": "Target user_id (e.g., U-001)."},
+                        "resource_id": {"type": "string", "description": "Target resource_id (e.g., RES-020)."},
+                        "on_date": {"type": "string", "description": "ISO timestamp to evaluate role assignments against (optional)."},
+                        "include_details": {"type": "boolean", "description": "Include detailed breakdown of which roles/permissions grant access.", "default": False}
                     },
                     "required": ["user_id", "resource_id"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

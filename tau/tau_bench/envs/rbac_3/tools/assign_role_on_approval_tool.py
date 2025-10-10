@@ -1,44 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AssignRoleOnApprovalTool(Tool):
     """
-    Idempotently allocate the role from an approved access request and ALWAYS
-    return a user_role_id. Additionally, repairs existing assignments lacking user_role_id.
+    Idempotently assign the role from an approved access request and ALWAYS
+    return a user_role_id. Also heals existing assignments missing user_role_id.
     """
 
     @staticmethod
     def _derive_user_role_id(request_id: str, user_id: str, role_id: str) -> str:
-        pass
-        #Consistent and predictable; maintains brevity if only digits are desired
+        # Stable, deterministic; keeps it short if you prefer only digits
         import re
 
         digits = "".join(re.findall(r"\d+", request_id)) or "000"
         return f"UR-{digits}"
 
     @staticmethod
-    def invoke(data: dict[str, Any], request_id: str = None, assigned_by: str = None, provided_urid: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         import json as _json
+
+        request_id = kwargs.get("request_id")
+        assigned_by = kwargs.get("assigned_by")
+        provided_urid = kwargs.get("user_role_id")
 
         if not request_id or not assigned_by:
             return _json.dumps(
                 {"error": "request_id and assigned_by are required"}, indent=2
             )
 
-        # Find the access request
-        requests = data.get("access_requests", {}).values()
-        req = next((r for r in requests.values() if r.get("request_id") == request_id), None)
+        # Locate the access request
+        requests = data.get("access_requests", [])
+        req = next((r for r in requests if r.get("request_id") == request_id), None)
         if not req:
             return _json.dumps(
                 {"error": f"Access request {request_id} not found"}, indent=2
@@ -53,9 +49,9 @@ class AssignRoleOnApprovalTool(Tool):
                 indent=2,
             )
 
-        assignments: list[dict[str, Any]] = data.setdefault("user_roles", [])
+        assignments: List[Dict[str, Any]] = data.setdefault("user_roles", [])
 
-        # Attempt to locate an active existing assignment
+        # Try to find an active existing assignment
         existing = next(
             (
                 a
@@ -68,7 +64,7 @@ class AssignRoleOnApprovalTool(Tool):
         )
 
         if existing:
-            # Repair any missing user_role_id if needed
+            # Heal missing user_role_id if necessary
             if "user_role_id" not in existing or not existing["user_role_id"]:
                 existing["user_role_id"] = (
                     provided_urid
@@ -76,7 +72,7 @@ class AssignRoleOnApprovalTool(Tool):
                         request_id, user_id, role_id
                     )
                 )
-            # Confirm that necessary fields are included
+            # Ensure required fields are present
             existing.setdefault("assigned_by", assigned_by)
             existing.setdefault("assigned_on", _HARD_TS)
             existing.setdefault("expires_on", None)
@@ -91,7 +87,7 @@ class AssignRoleOnApprovalTool(Tool):
             }
             return _json.dumps(out, indent=2)
 
-        # Establish a completely new assignment
+        # Create a brand-new assignment
         user_role_id = provided_urid or AssignRoleOnApprovalTool._derive_user_role_id(
             request_id, user_id, role_id
         )
@@ -115,12 +111,13 @@ class AssignRoleOnApprovalTool(Tool):
             "expires_on": None,
         }
         return _json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "assignRoleOnApproval",
+                "name": "assign_role_on_approval",
                 "description": (
                     "Assign the role from an approved access request (idempotent; always returns user_role_id)."
                 ),

@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateReleaseTool(Tool):
     """
@@ -41,27 +29,17 @@ class CreateReleaseTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str, version: str, description: str,
-    name: Any = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            version = _validate_param({"version": version}, "version", str)
-            description = _validate_param({"description": description}, "description", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            version = _validate_param(kwargs, "version", str)
+            description = _validate_param(kwargs, "description", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        releases = data.get("releases", {}).values()
-        if any(
-            r.get("repo") == repo_name and r.get("version") == version for r in releases.values()
-        ):
-            return _response(
-                "error",
-                ERROR_MESSAGES["ALREADY_EXISTS"].format(
-                    entity="Release", entity_id=version
-                ),
-                "ALREADY_EXISTS",
-            )
+        releases = data.get("releases", [])
+        if any(r.get("repo") == repo_name and r.get("version") == version for r in releases):
+            return _response("error", ERROR_MESSAGES["ALREADY_EXISTS"].format(entity="Release", entity_id=version), "ALREADY_EXISTS")
 
         new_release = {
             "repo": repo_name,
@@ -70,17 +48,16 @@ class CreateReleaseTool(Tool):
             "created_at": CURRENT_DATE,
             "updated_at": CURRENT_DATE,
         }
-        new_release["release_id"] = _safe_id(
-            new_release, "release_id", "REL_", ["repo", "version"]
-        )
-        data["releases"][release_id] = new_release
+        new_release["release_id"] = _safe_id(new_release, "release_id", "REL_", ["repo", "version"])
+        releases.append(new_release)
         return _response("ok", new_release)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateRelease",
+                "name": "create_release",
                 "description": "Create a new deterministic release (in-memory only).",
                 "parameters": {
                     "type": "object",

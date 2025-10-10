@@ -1,40 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class RecordMcpToolCall(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], server_name: str = None, tool_name: str = None, params_json: dict = {}, result_meta_json: dict = {}) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         rows = _ensure_list(data, "mcp_tool_calls")
         new_id = _next_seq_id(rows, "call_id")
-        payload = {
-            "call_id": new_id,
-            "server_name": server_name,
-            "tool_name": tool_name,
-            "params_json": params_json,
-            "result_meta_json": result_meta_json,
-            "call_ts": NOW_TS,
-        }
+        payload = {"call_id": new_id, "server_name": kwargs.get("server_name"), "tool_name": kwargs.get("tool_name"),
+                   "params_json": kwargs.get("params_json", {}), "result_meta_json": kwargs.get("result_meta_json", {}),
+                   "call_ts": NOW_TS}
         rows.append(payload)
-        payload = {"call_id": new_id}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"call_id": new_id}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "RecordMcpToolCall",
-                "description": "Insert an audit row for an MCP tool call.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "server_name": {"type": "string"},
-                        "tool_name": {"type": "string"},
-                        "params_json": {"type": "object"},
-                        "result_meta_json": {"type": "object"},
-                    },
-                    "required": ["server_name", "tool_name", "params_json"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function",
+                "function": {"name": "record_mcp_tool_call", "description": "Insert an audit row for an MCP tool call.",
+                             "parameters": {"type": "object", "properties": {"server_name": {"type": "string"},
+                                                                             "tool_name": {"type": "string"},
+                                                                             "params_json": {"type": "object"},
+                                                                             "result_meta_json": {"type": "object"}},
+                                            "required": ["server_name", "tool_name", "params_json"]}}}

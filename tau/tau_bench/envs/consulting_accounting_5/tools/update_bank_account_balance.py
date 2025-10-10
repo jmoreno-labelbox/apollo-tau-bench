@@ -1,28 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any, Dict
-from datetime import timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpdateBankAccountBalance(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str, balance: float, account_type: str = "") -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
         Updates or inserts balance for a given bank account.
         """
-        account = next((b for b in data["bank_accounts"].values() if b["account_id"] == account_id), None)
+        account_id = kwargs["account_id"]
+        new_balance = kwargs["balance"]
+        account = next((b for b in data["bank_accounts"] if b["account_id"] == account_id), None)
 
         if account:
-            account["balance"] = balance
+            account["balance"] = new_balance
         else:
             account = {
                 "account_id": account_id,
-                "account_type": account_type,
-                "balance": balance
+                "account_type": kwargs.get("account_type", ""),
+                "balance": new_balance
             }
             data["bank_accounts"].append(account)
 
         return json.dumps(account["account_id"])
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {

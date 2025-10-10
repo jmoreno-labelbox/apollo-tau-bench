@@ -1,31 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SummarizeProjectPhaseMetrics(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: str = None) -> str:
-        if not project_id:
-            payload = {"error": "project_id is required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
 
-        allocations = data.get("allocations", {}).values()
-        employees = data.get("employees", {}).values()
+        if not project_id:
+            return json.dumps({"error": "project_id is required"})
+
+        allocations = data.get("allocations", [])
+        employees = list(data.get("employees", {}).values())
 
         project_allocations = [
             alloc
-            for alloc in allocations.values() if alloc.get("project_id") == project_id and alloc.get("status") == "active"
+            for alloc in allocations
+            if alloc.get("project_id") == project_id and alloc.get("status") == "active"
         ]
 
         dev_hours = 0
@@ -47,7 +41,7 @@ class SummarizeProjectPhaseMetrics(Tool):
             hours = allocation.get("hours_per_week", 0)
 
             employee = next(
-                (emp for emp in employees.values() if emp.get("employee_id") == employee_id),
+                (emp for emp in employees if emp.get("employee_id") == employee_id),
                 None,
             )
 
@@ -91,7 +85,9 @@ class SummarizeProjectPhaseMetrics(Tool):
                 dev_hours += hours
             elif is_qa_role:
                 qa_hours += hours
-        payload = {
+
+        return json.dumps(
+            {
                 "project_id": project_id,
                 "dev_hours": dev_hours,
                 "qa_hours": qa_hours,
@@ -102,15 +98,14 @@ class SummarizeProjectPhaseMetrics(Tool):
                     "status": "calculated",
                 },
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SummarizeProjectPhaseMetrics",
+                "name": "summarize_project_phase_metrics",
                 "description": "Calculate and summarize development and QA hours for a project phase transition",
                 "parameters": {
                     "type": "object",

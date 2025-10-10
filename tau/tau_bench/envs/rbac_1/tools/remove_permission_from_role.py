@@ -1,69 +1,54 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RemovePermissionFromRole(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], role_id: str = None, permission_id: str = None) -> str:
-        if not role_id or not permission_id:
-            payload = {"error": "Both role_id and permission_id must be provided."}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        role_id = kwargs.get("role_id")
+        permission_id = kwargs.get("permission_id")
 
-        role_permissions = data.get("role_permissions", {}).values()
+        if not role_id or not permission_id:
+            return json.dumps({"error": "Both role_id and permission_id must be provided."})
+
+        role_permissions = data.get('role_permissions', [])
 
         initial_len = len(role_permissions)
 
         updated_permissions = [
-            rp
-            for rp in role_permissions.values() if not (
-                rp.get("role_id") == role_id
-                and rp.get("permission_id") == permission_id
-            )
+                rp for rp in role_permissions
+                if not (rp.get('role_id') == role_id and rp.get('permission_id') == permission_id)
         ]
 
         if len(updated_permissions) < initial_len:
-            data["role_permissions"] = updated_permissions
-            payload = {
-                "role_id": role_id,
-                "permission_id": permission_id,
-                "status": "removed",
-            }
-            out = json.dumps(payload)
-            return out
+            data['role_permissions'] = updated_permissions
+            return json.dumps({"role_id": role_id, "permission_id": permission_id, "status": "removed"})
         else:
-            payload = {"error": "Permission not found on the specified role."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Permission not found on the specified role."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "RemovePermissionFromRole",
-                "description": "Removes a specific permission from a role.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "role_id": {
-                            "type": "string",
-                            "description": "The ID of the role to modify.",
-                        },
-                        "permission_id": {
-                            "type": "string",
-                            "description": "The ID of the permission to remove.",
-                        },
-                    },
-                    "required": ["role_id", "permission_id"],
-                },
-            },
+                "type": "function",
+                "function": {
+                        "name": "remove_permission_from_role",
+                        "description": "Removes a specific permission from a role.",
+                        "parameters": {
+                                "type": "object",
+                                "properties": {
+                                        "role_id": {
+                                                "type": "string",
+                                                "description": "The ID of the role to modify."
+                                        },
+                                        "permission_id": {
+                                                "type": "string",
+                                                "description": "The ID of the permission to remove."
+                                        }
+                                },
+                                "required": ["role_id", "permission_id"]
+                        }
+                }
         }

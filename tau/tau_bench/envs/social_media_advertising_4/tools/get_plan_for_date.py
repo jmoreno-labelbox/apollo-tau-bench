@@ -1,46 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetPlanForDate(Tool):
-    """Fetches the complete frozen plan for a given date."""
+    """Retrieves the entire frozen plan for a specific date."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        report_date = kwargs.get("date")
+        for plan in data.get('plans', []):
+            if plan.get('date') == report_date:
+                return json.dumps(plan)
+        return json.dumps({"error": f"Plan for date '{report_date}' not found."})
 
     @staticmethod
-    def invoke(data: dict[str, Any], date: str = None) -> str:
-        report_date = date
-        for plan in data.get("plans", {}).values():
-            if plan.get("date") == report_date:
-                payload = plan
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Plan for date '{report_date}' not found."}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetPlanForDate",
-                "description": "Retrieves the entire frozen plan for a specific date, including total budget and all ad set allocations.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "date": {
-                            "type": "string",
-                            "description": "The date of the plan in YYYY-MM-DD format.",
-                        }
-                    },
-                    "required": ["date"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "get_plan_for_date", "description": "Retrieves the entire frozen plan for a specific date, including total budget and all ad set allocations.", "parameters": {"type": "object", "properties": {"date": {"type": "string", "description": "The date of the plan in YYYY-MM-DD format."}}, "required": ["date"]}}}

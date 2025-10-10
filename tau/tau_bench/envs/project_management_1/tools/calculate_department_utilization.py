@@ -1,41 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CalculateDepartmentUtilization(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], department: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        department = kwargs.get("department")
         if not department:
-            payload = {"error": "department is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "department is required"})
 
         result = GetDepartmentCapacity.invoke(data, department=department)
         dept_data = json.loads(result)
-        payload = {
+
+        return json.dumps(
+            {
                 "department": department,
                 "dept_utilization": dept_data.get("utilization_percentage", 0),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateDepartmentUtilization",
+                "name": "calculate_department_utilization",
                 "description": "Calculate overall department utilization",
                 "parameters": {
                     "type": "object",

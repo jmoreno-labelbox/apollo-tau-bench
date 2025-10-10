@@ -1,70 +1,62 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ScheduleChangeReview(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_id: str,
-        review_date: str,
-        scheduled_by: str,
-        review_type: str = "quarterly",
-        participants: list = None
-    ) -> str:
-        if participants is None:
-            participants = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        review_date = kwargs.get("review_date")
+        review_type = kwargs.get("review_type", "quarterly")
+        participants = kwargs.get("participants", [])
+        scheduled_by = kwargs.get("scheduled_by")
 
         if not all([project_id, review_date, scheduled_by]):
-            payload = {"error": "project_id, review_date, and scheduled_by are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "project_id, review_date, and scheduled_by are required"}
+            )
 
-        change_reviews = data.get("change_reviews", {}).values()
-        change_requests = data.get("change_requests", {}).values()
-        emergency_logs = data.get("emergency_logs", {}).values()
+        change_reviews = data.get("change_reviews", [])
+        change_requests = data.get("change_requests", [])
+        emergency_logs = data.get("emergency_logs", [])
 
         existing = next(
             (
                 r
-                for r in change_reviews.values() if r.get("project_id") == project_id
+                for r in change_reviews
+                if r.get("project_id") == project_id
                 and r.get("review_date") == review_date
             ),
             None,
         )
         if existing:
-            payload = {"error": "Review already scheduled for this project and date"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "Review already scheduled for this project and date"}
+            )
 
         pending_changes = [
             cr
-            for cr in change_requests.values() if cr.get("project_id") == project_id
+            for cr in change_requests
+            if cr.get("project_id") == project_id
             and cr.get("status") in ["pending_approval", "in_review"]
         ]
 
         approved_changes = [
             cr
-            for cr in change_requests.values() if cr.get("project_id") == project_id and cr.get("status") == "approved"
+            for cr in change_requests
+            if cr.get("project_id") == project_id and cr.get("status") == "approved"
         ]
 
         emergency_changes_pending = []
-        for cr in change_requests.values():
+        for cr in change_requests:
             if cr.get("project_id") == project_id and cr.get(
                 "requires_emergency_approval"
             ):
                 log = next(
-                    (e for e in emergency_logs.values() if e.get("cr_id") == cr.get("cr_id")),
+                    (e for e in emergency_logs if e.get("cr_id") == cr.get("cr_id")),
                     None,
                 )
                 if log and log.get("retroactive_status") == "pending":
@@ -123,11 +115,9 @@ class ScheduleChangeReview(Tool):
                 "emergency_items": len(emergency_changes_pending),
                 "topics": [
                     "Review pending change requests",
-                    (
-                        "Emergency change retroactive approvals"
-                        if emergency_changes_pending
-                        else None
-                    ),
+                    "Emergency change retroactive approvals"
+                    if emergency_changes_pending
+                    else None,
                     "Assess cumulative impact on baseline",
                     "Evaluate resource availability for changes",
                     "Review risk assessments",
@@ -140,16 +130,16 @@ class ScheduleChangeReview(Tool):
             t for t in new_review["agenda"]["topics"] if t
         ]
 
-        change_data["reviews"][review_id] = new_review
-        payload = {"success": True, "review": new_review}
-        out = json.dumps(payload)
-        return out
+        change_reviews.append(new_review)
+
+        return json.dumps({"success": True, "review": new_review})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ScheduleChangeReview",
+                "name": "schedule_change_review",
                 "description": "Schedule a change control board review meeting",
                 "parameters": {
                     "type": "object",

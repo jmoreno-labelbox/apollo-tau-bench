@@ -1,26 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateCalendarEventEntryTool(Tool):
-    """Inserts a record into the calendar_events table."""
+    """Creates entry in calendar_events table."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        broker_id: int = None,
-        client_id: int = None,
-        title: str = None,
-        location: str = None,
-        source: str = None,
-        date: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        broker_id = kwargs.get("broker_id")
+        client_id = kwargs.get("client_id")
+        title = kwargs.get("title")
         start_at = ""
         end_at = ""
+        location = kwargs.get("location")
+        source = kwargs.get("source")
 
-        # Improvement: if a date is given, automatically fill full-day times when start/end are absent
+        # Enhancement: if date provided, auto-fill full-day times when start/end missing
+        date = kwargs.get("date")
         if date and (not start_at or not end_at):
             date_str = str(date)
             if not start_at:
@@ -54,15 +53,14 @@ class CreateCalendarEventEntryTool(Tool):
             "source": str(source),
         }
         rows.append(rec)
-        payload = rec
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(rec, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateCalendarEventEntry",
+                "name": "create_calendar_event_entry",
                 "description": (
                     "Creates entry in calendar_events table (supports date-only input to auto-fill full-day)."
                 ),

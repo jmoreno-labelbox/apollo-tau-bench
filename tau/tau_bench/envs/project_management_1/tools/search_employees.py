@@ -1,39 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchEmployees(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        name: str = None,
-        skills: list[str] = None,
-        min_skill_matches: int = 1,
-        department: str = None,
-        role: str = None,
-        role_contains: str = None,
-        role_disregard: str = None,
-        clearance: str = None,
-        utilization_below: float = None,
-        utilization_above: float = None,
-        min_proficiency: int = 0,
-        min_available_hours: float = None,
-        disregard_employee_ids: list[int] = []
-    ) -> str:
-        employees = data.get("employees", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name = kwargs.get("name")
+        required_skills = kwargs.get("skills")
+        min_skill_matches = kwargs.get("min_skill_matches", 1)
+        department = kwargs.get("department")
+        role = kwargs.get("role")
+        role_contains = kwargs.get("role_contains")
+        role_disregard = kwargs.get("role_disregard")
+        clearance = kwargs.get("clearance")
+        utilization_below = kwargs.get("utilization_below")
+        utilization_above = kwargs.get("utilization_above")
+        min_proficiency = kwargs.get("min_proficiency", 0)
+        min_available_hours = kwargs.get("min_available_hours")
+        disregard_employees = kwargs.get("disregard_employee_ids", [])
+
+
+        employees = list(data.get("employees", {}).values())
         results = []
 
-        for employee in employees.values():
+        for employee in employees:
 
             if name and name.lower() not in employee.get("name", "").lower():
                 continue
@@ -44,7 +37,7 @@ class SearchEmployees(Tool):
             if role and employee.get("role") != role:
                 continue
 
-            if employee.get("employee_id") in disregard_employee_ids:
+            if employee.get("employee_id") in disregard_employees:
                 continue
 
             if (
@@ -62,13 +55,11 @@ class SearchEmployees(Tool):
             if clearance and employee.get("clearance") != clearance:
                 continue
 
-            if skills:
+            if required_skills:
                 employee_skills = employee.get("skills", [])
                 skills_matches = {
-                    info["skill"]
-                    for info in employee_skills
-                    if info["skill"] in skills
-                    and info.get("proficiency", 0) >= min_proficiency
+                    info["skill"] for info in employee_skills
+                    if info["skill"] in required_skills and info.get("proficiency", 0) >= min_proficiency
                 }
                 if len(skills_matches) < min_skill_matches:
                     continue
@@ -84,24 +75,21 @@ class SearchEmployees(Tool):
                     continue
 
             if min_available_hours:
-                available_hours = (
-                    employee.get("max_hours_per_week", 0)
-                    * (100 - employee.get("current_utilization", 0))
-                    / 100
-                )
+                available_hours = (employee.get("max_hours_per_week", 0) *
+                                   (100 - employee.get("current_utilization", 0)) / 100)
                 if available_hours < min_available_hours:
                     continue
 
             results.append(employee)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchEmployees",
+                "name": "search_employees",
                 "description": "Search for employees by name, skill, department, role, security clearance, or utilization levels",
                 "parameters": {
                     "type": "object",

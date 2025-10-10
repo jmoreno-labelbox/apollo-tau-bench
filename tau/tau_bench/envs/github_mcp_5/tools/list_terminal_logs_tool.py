@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListTerminalLogsTool(Tool):
     """
@@ -38,16 +26,17 @@ class ListTerminalLogsTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        events = data.get("terminal", {}).values()
-        deterministic_events = [{**e, "report_date": CURRENT_DATE} for e in events.values()]
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
+        events = data.get("terminal", [])
+        deterministic_events = [{**e, "report_date": CURRENT_DATE} for e in events]
         return _response("ok", deterministic_events)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "listTerminalEvents",
+                "name": "list_terminal_events",
                 "description": "List timeline events from terminal logs deterministically.",
                 "parameters": {"type": "object", "properties": {}},
             },

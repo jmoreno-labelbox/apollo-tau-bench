@@ -1,40 +1,32 @@
-from tau_bench.envs.tool import Tool
-import csv
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ReplaceAdCreatives(Tool):
-    """Disable one ad while enabling another within the same ad set."""
+    """Deactivate one ad and activate another in the same adset."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], activate_id: str = None, pause_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        to_on, to_off = kwargs.get("activate_id"), kwargs.get("pause_id")
         changed = []
-        for ad in data.get("ads", {}).values():
-            if ad.get("ad_id") == activate_id:
+        for ad in list(data.get("ads", {}).values()):
+            if ad.get("ad_id") == to_on:
                 ad["status"] = "active"
                 changed.append(ad)
-            if ad.get("ad_id") == pause_id:
+            if ad.get("ad_id") == to_off:
                 ad["status"] = "paused"
                 changed.append(ad)
-        payload = changed or {"error": "IDs not found"}
-        out = json.dumps(payload)
-        return out
+        return json.dumps(changed or {"error": "IDs not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ReplaceAdCreatives",
+                "name": "replace_ad_creatives",
                 "description": "Deactivate one ad and activate another in the same adset.",
                 "parameters": {
                     "type": "object",
@@ -43,6 +35,7 @@ class ReplaceAdCreatives(Tool):
                         "pause_id": {"type": "string"},
                     },
                     "required": ["activate_id", "pause_id"],
+
                 },
             },
         }

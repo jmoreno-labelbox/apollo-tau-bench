@@ -1,37 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCarrierDetailsByName(Tool):
-    """Obtains complete details for a carrier using its name."""
+    """Retrieves the full details for a carrier by its name."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], carrier_name: str = None) -> str:
-        carriers = data.get("carriers", {}).values()
-        for carrier in carriers.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        carrier_name = kwargs.get("carrier_name")
+        carriers = data.get("carriers", [])
+        for carrier in carriers:
             if carrier.get("carrier_name") == carrier_name:
-                payload = carrier
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Carrier not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(carrier)
+        return json.dumps({"error": "Carrier not found"})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCarrierDetailsByName",
+                "name": "get_carrier_details_by_name",
                 "description": "Retrieves the full record for a carrier by its exact name.",
                 "parameters": {
                     "type": "object",

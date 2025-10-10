@@ -1,17 +1,16 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone, date, timedelta
-import calendar
-from typing import Any, Dict
-import random
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetCurrencyConversionAmount(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], source_currency: str = None, target_currency: str = None, source_amount: float = None) -> str:
-        source = source_currency
-        target = target_currency
-        amount = source_amount
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        source = kwargs.get("source_currency")
+        target = kwargs.get("target_currency")
+        amount = kwargs.get("source_amount")
 
         if not all([source, target, amount]):
             return json.dumps(
@@ -48,12 +47,13 @@ class GetCurrencyConversionAmount(Tool):
             },
             indent=2
         )
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCurrencyConversionAmount",
+                "name": "get_currency_conversion_amount",
                 "description": (
                     "Converts a specified amount from one currency to another "
                     "using a static rate table, returning both source and target amounts."

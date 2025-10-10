@@ -1,56 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateTransactionStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], transaction_id: str, new_status: str) -> str:
-        transactions = data.get("transactions", {}).values()
+    def invoke(data: Dict[str, Any], transaction_id: str, new_status: str) -> str:
+        transactions = list(data.get("transactions", {}).values())
         valid_statuses = ["pending", "completed", "cancelled", "refunded"]
 
         if new_status not in valid_statuses:
-            payload = {
-                "error": f"Invalid status. Valid statuses are: {', '.join(valid_statuses)}"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Invalid status. Valid statuses are: {', '.join(valid_statuses)}"})
 
         for i, transaction in enumerate(transactions):
             if transaction.get("transaction_id") == transaction_id:
                 transactions[i]["status"] = new_status
                 data["transactions"] = transactions
-                payload = transactions[i]
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Transaction with ID {transaction_id} not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(transactions[i], indent=2)
+        return json.dumps({"error": f"Transaction with ID {transaction_id} not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateTransactionStatus",
+                "name": "update_transaction_status",
                 "description": "Update the status of an existing transaction.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "transaction_id": {
-                            "type": "string",
-                            "description": "Unique identifier of the transaction.",
-                        },
-                        "new_status": {"type": "string", "description": "New status."},
+                        "transaction_id": {"type": "string", "description": "Unique identifier of the transaction."},
+                        "new_status": {"type": "string", "description": "New status."}
                     },
-                    "required": ["transaction_id", "new_status"],
-                },
-            },
+                    "required": ["transaction_id", "new_status"]
+                }
+            }
         }

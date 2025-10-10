@@ -1,38 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class list_department_headcount(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], department_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        department_id = kwargs.get("department_id")
         headcount = len(
             [
                 e
-                for e in data.get("employees", {}).values()
+                for e in list(data.get("employees", {}).values())
                 if e.get("department_id") == department_id
                 and e.get("status") == "Active"
             ]
         )
-        payload = {"department_id": department_id, "active_headcount": headcount}
-        out = json.dumps(
-            payload, indent=2
+        return json.dumps(
+            {"department_id": department_id, "active_headcount": headcount}, indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListDepartmentHeadcount",
+                "name": "list_department_headcount",
                 "description": "Return current headcount of active employees for a department.",
                 "parameters": {
                     "type": "object",

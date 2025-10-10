@@ -1,35 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any, Dict
-from datetime import timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AddRecurringExpense(Tool):
     @staticmethod
-    def invoke(
-        data: Dict[str, Any], 
-        recurring_id: str, 
-        category_code: str, 
-        amount: float, 
-        frequency: str, 
-        vendor: str = "", 
-        start_date: Any = None, 
-        end_date: Any = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
         Inserts a new recurring expense schedule.
         """
         new_rec = {
-            "recurring_id": recurring_id,
-            "category_code": category_code,
-            "amount": amount,
-            "frequency": frequency,
-            "vendor": vendor,
-            "start_date": start_date,
-            "end_date": end_date
+            "recurring_id": kwargs["recurring_id"],
+            "category_code": kwargs["category_code"],
+            "amount": kwargs["amount"],
+            "frequency": kwargs["frequency"],  # e.g., "monthly", "quarterly"
+            "vendor": kwargs.get("vendor", ""),
+            "start_date": kwargs.get("start_date", None),
+            "end_date": kwargs.get("end_date", None)
         }
         data["recurring_schedules"].append(new_rec)
         return json.dumps(new_rec["recurring_id"])
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {

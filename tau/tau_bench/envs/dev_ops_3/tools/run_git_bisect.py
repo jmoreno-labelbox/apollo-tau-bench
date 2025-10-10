@@ -1,50 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class run_git_bisect(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], failing_commit_sha: str, last_known_good_commit_sha: str
-    ) -> str:
-        pass
-        bisect_results = data.get("bisect_results", {}).values()
-        for result in bisect_results.values():
-            if (
-                result.get("first_bad_commit") == failing_commit_sha
-                and result.get("last_good_commit") == last_known_good_commit_sha
-            ):
-                payload = result
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": "Bisect result not found for the given commit range."}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+    def invoke(data: Dict[str, Any], failing_commit_sha: str, last_known_good_commit_sha: str) -> str:
+        bisect_results = data.get("bisect_results", [])
+        for result in bisect_results:
+            if result.get("first_bad_commit") == failing_commit_sha and result.get("last_good_commit") == last_known_good_commit_sha:
+                return json.dumps(result, indent=2)
+        return json.dumps({"error": "Bisect result not found for the given commit range."}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "RunGitBisect",
-                "description": "Performs a git bisect to find the commit that introduced a failure.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "failing_commit_sha": {"type": "string"},
-                        "last_known_good_commit_sha": {"type": "string"},
-                    },
-                    "required": ["failing_commit_sha", "last_known_good_commit_sha"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return { "type": "function", "function": { "name": "run_git_bisect", "description": "Performs a git bisect to find the commit that introduced a failure.", "parameters": { "type": "object", "properties": { "failing_commit_sha": { "type": "string" }, "last_known_good_commit_sha": { "type": "string" } }, "required": ["failing_commit_sha", "last_known_good_commit_sha"] } } }

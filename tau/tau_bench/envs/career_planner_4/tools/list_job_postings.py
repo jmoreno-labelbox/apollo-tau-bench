@@ -1,35 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class ListJobPostings(Tool):
+class list_job_postings(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], role: str) -> str:
+    def invoke(data, role: str) -> str:
         postings = [
             jp
-            for jp in data.get("job_postings", {}).values()
+            for jp in data.get("job_postings", [])
             if jp.get("title", "").find(role) != -1
         ]
-        payload = {"job_postings": postings}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"job_postings": postings}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "listJobPostings",
+                "name": "list_job_postings",
                 "description": "List all job postings for a given role.",
                 "parameters": {
                     "type": "object",

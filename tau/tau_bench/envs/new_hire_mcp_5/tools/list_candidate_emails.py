@@ -1,42 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListCandidateEmails(Tool):
-    """Enumerate emails associated with a candidate_id."""
+    """List emails linked to a candidate_id."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str) -> str:
-        cand_id = candidate_id
-        rows = [
-            e
-            for e in data.get("emails", {}).values()
-            if e.get("candidate_id_nullable") == cand_id
-        ]
-        payload = {"emails": rows}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cand_id = kwargs["candidate_id"]
+        rows = [e for e in data.get("emails", []) if e.get("candidate_id_nullable") == cand_id]
+        return json.dumps({"emails": rows}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "listCandidateEmails",
+                "name": "list_candidate_emails",
                 "description": "List emails for a candidate.",
                 "parameters": {
                     "type": "object",
                     "properties": {"candidate_id": {"type": "string"}},
-                    "required": ["candidate_id"],
-                },
-            },
+                    "required": ["candidate_id"]
+                }
+            }
         }

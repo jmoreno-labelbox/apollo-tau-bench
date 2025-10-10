@@ -1,43 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetResourcesByOwner(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], owner_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner_id = kwargs.get("owner_id")
+
         owned_resources = [
-            resource
-            for resource in data.get("resources", {}).values()
-            if resource.get("owner_id") == owner_id
+                resource for resource in data.get('resources', [])
+                if resource.get('owner_id') == owner_id
         ]
-        payload = {"resources": owned_resources}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"resources": owned_resources})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "GetResourcesByOwner",
-                "description": "Retrieves a list of all resources owned by a specific user.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "owner_id": {
-                            "type": "string",
-                            "description": "The user_id of the resource owner.",
+                "type": "function",
+                "function": {
+                        "name": "get_resources_by_owner",
+                        "description": "Retrieves a list of all resources owned by a specific user.",
+                        "parameters": {
+                                "type": "object",
+                                "properties": {
+                                        "owner_id": {
+                                                "type": "string",
+                                                "description": "The user_id of the resource owner."
+                                        }
+                                },
+                                "required": ["owner_id"]
                         }
-                    },
-                    "required": ["owner_id"],
-                },
-            },
+                }
         }

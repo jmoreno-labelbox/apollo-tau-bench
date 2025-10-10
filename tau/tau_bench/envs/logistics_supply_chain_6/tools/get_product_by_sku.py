@@ -1,38 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetProductBySku(Tool):
-    """Utility for retrieving product information using SKU."""
+    """Tool to get product details by SKU."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], sku: str) -> str:
-        """Run the tool using the specified parameters."""
-        products = data.get("product_master", {}).values()
-        for product in products.values():
+    def invoke(data: Dict[str, Any], sku: str) -> str:
+        """Execute the tool with given parameters."""
+        products = data.get("product_master", [])
+        for product in products:
             if product.get("sku") == sku:
-                payload = product
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Product with SKU {sku} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(product, indent=2)
+        return json.dumps({"error": f"Product with SKU {sku} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        """Provide tool specifications for the AI agent."""
-        pass
+    def get_info() -> Dict[str, Any]:
+        """Return tool specification for AI agent."""
         return {
             "type": "function",
             "function": {
-                "name": "GetProductBySku",
+                "name": "get_product_by_sku",
                 "description": "Retrieves detailed information about a specific product using its SKU.",
                 "parameters": {
                     "type": "object",

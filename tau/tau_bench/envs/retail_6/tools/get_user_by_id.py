@@ -1,31 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetUserById(Tool):
-    """Retrieve a user using user_id."""
+    """Get a user by user_id."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get('user_id')
+        if not user_id:
+            return json.dumps({"error": "user_id is required"}, indent=2)
+        user = _find_user(data, user_id)
+        return json.dumps(user or {"error": f"user_id {user_id} not found"}, indent=2)
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        if not user_id:
-            payload = {"error": "user_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
-        user = _find_user(data, user_id)
-        payload = user or {"error": f"user_id {user_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "getUserById",
-                "description": "Return the user object by user_id.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"user_id": {"type": "string"}},
-                    "required": ["user_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{"name":"get_user_by_id","description":"Return the user object by user_id.","parameters":{"type":"object","properties":{"user_id":{"type":"string"}},"required":["user_id"]}}}

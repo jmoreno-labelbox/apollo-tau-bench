@@ -1,12 +1,14 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any, Dict, List
-import os
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CloseActiveAccount(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
         if not account_id:
             return json.dumps({'error': 'account_id is required'})
         accounts = load_json('accounts.json')
@@ -20,12 +22,13 @@ class CloseActiveAccount(Tool):
         if not updated:
             return json.dumps({'error': 'Account not found or not eligible for closure.'})
         return json.dumps({'success': True, 'account_id': account_id})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             'type': 'function',
             'function': {
-                'name': 'closeActiveAccount',
+                'name': 'close_active_account',
                 'description': 'Sets an active account status to inactive (only if status field exists).',
                 'parameters': {
                     'type': 'object',

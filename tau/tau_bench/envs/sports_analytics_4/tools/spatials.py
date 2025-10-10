@@ -1,27 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class Spatials(Tool):
     @staticmethod
-    #primary invocation function
-    def invoke(data: dict[str, Any], game_pk: Any = None, artifact_name: str = None, qc_status: str = "passed") -> str:
+        # main invoke function
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         artifacts = data.setdefault("spatial_artifacts", [])
-        artifacts.append(
-            {
-                "game_pk": game_pk,
-                "artifact_name": artifact_name,
-                "qc_status": qc_status,
-            }
-        )
-        payload = {"status": "ok"}
-        out = json.dumps(payload, indent=2)
-        return out
+        artifacts.append({
+            "game_pk": kwargs.get("game_pk"),
+            "artifact_name": kwargs.get("artifact_name"),
+            "qc_status": kwargs.get("qc_status", "passed")
+        })
+        # return result
+        return json.dumps({"status": "ok"}, indent=2)
+
     @staticmethod
-    #metadata information
-    def get_info() -> dict[str, Any]:
-        pass
-        #return result
+        # info metadata
+    def get_info() -> Dict[str, Any]:
+        # return result
         return {
             "type": "function",
             "function": {
@@ -32,9 +32,9 @@ class Spatials(Tool):
                     "properties": {
                         "game_pk": {"type": "string"},
                         "artifact_name": {"type": "string"},
-                        "qc_status": {"type": "string"},
+                        "qc_status": {"type": "string"}
                     },
-                    "required": ["game_pk", "artifact_name"],
-                },
-            },
+                    "required": ["game_pk", "artifact_name"]
+                }
+            }
         }

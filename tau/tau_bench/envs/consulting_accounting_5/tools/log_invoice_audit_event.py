@@ -1,28 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any, Dict
-from datetime import timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class LogInvoiceAuditEvent(Tool):
     @staticmethod
-    def invoke(
-        data: Dict[str, Any],
-        event_type: str = None,
-        invoice_id: str = None,
-        notes: str = ""
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
         Logs an audit event for an invoice.
         """
         new_event = {
-            "audit_id": f"AUD_{invoice_id}",
-            "invoice_id": invoice_id,
-            "event_type": event_type,
-            "notes": notes
+            "audit_id": f"AUD_{kwargs['invoice_id']}",
+            "invoice_id": kwargs["invoice_id"],
+            "event_type": kwargs.get("event_type")  , # e.g., "reminder_sent", "escalation"
+            "notes": kwargs.get("notes", "")
         }
         data["invoice_audit"].append(new_event)
         return json.dumps(new_event["audit_id"])
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
@@ -33,11 +30,13 @@ class LogInvoiceAuditEvent(Tool):
                 "parameters": {
                     "type": "object",
                     "properties": {
+                        "audit_id": {"type": "string"},
                         "invoice_id": {"type": "string"},
                         "event_type": {"type": "string"},
+                        "event_date": {"type": "string"},
                         "notes": {"type": "string"}
                     },
-                    "required": ["invoice_id", "event_type"],
+                    "required": ["audit_id", "invoice_id", "event_type"],
                 },
             },
         }

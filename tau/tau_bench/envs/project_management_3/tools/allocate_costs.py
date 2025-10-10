@@ -1,57 +1,50 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AllocateCosts(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], expense_id: str, allocation_splits: list = [], allocator_id: str = None, fiscal_year: int = datetime.now().year) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        expense_id = kwargs.get("expense_id")
+        allocation_splits = kwargs.get("allocation_splits", [])
+        allocator_id = kwargs.get("allocator_id")
+        fiscal_year = kwargs.get("fiscal_year", datetime.now().year)
+
         if not all([expense_id, allocation_splits, allocator_id]):
-            payload = {
+            return json.dumps(
+                {
                     "error": "expense_id, allocation_splits, and allocator_id are required"
                 }
-            out = json.dumps(
-                payload)
-            return out
+            )
 
-        expenses = data.get("expenses", {}).values()
-        cost_allocations = data.get("cost_allocations", {}).values()
-        budgets = data.get("budgets", {}).values()
+        expenses = data.get("expenses", [])
+        cost_allocations = data.get("cost_allocations", [])
+        budgets = data.get("budgets", [])
 
-        expense = next((e for e in expenses.values() if e.get("expense_id") == expense_id), None)
+        expense = next((e for e in expenses if e.get("expense_id") == expense_id), None)
         if not expense:
-            payload = {"error": f"Expense {expense_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Expense {expense_id} not found"})
 
         total_percentage = sum(
             split.get("percentage", 0) for split in allocation_splits
         )
         if abs(total_percentage - 100) > 0.01:
-            payload = {
+            return json.dumps(
+                {
                     "error": f"Allocations must sum to 100%, currently {total_percentage}%"
                 }
-            out = json.dumps(
-                payload)
-            return out
+            )
 
-        total_allocated = sum(split.get("amount", 0) for split in allocation_splits.values())
+        total_allocated = sum(split.get("amount", 0) for split in allocation_splits)
         if abs(total_allocated - expense["amount"]) > 0.01:
-            payload = {
+            return json.dumps(
+                {
                     "error": f"Allocated amounts must match expense total ${expense['amount']}"
                 }
-            out = json.dumps(
-                payload)
-            return out
+            )
 
         allocation_id = f"alloc_{uuid.uuid4().hex[:8]}"
 
@@ -65,13 +58,14 @@ class AllocateCosts(Tool):
             "status": "completed",
         }
 
-        data["cost_allocations"][new_allocation["cost_allocation_id"]] = new_allocation
+        cost_allocations.append(new_allocation)
 
         for split in allocation_splits:
             budget = next(
                 (
                     b
-                    for b in budgets.values() if b.get("project_id") == split["project_id"]
+                    for b in budgets
+                    if b.get("project_id") == split["project_id"]
                     and b.get("fiscal_year") == fiscal_year
                 ),
                 None,
@@ -82,26 +76,27 @@ class AllocateCosts(Tool):
 
         unallocated = [
             e
-            for e in expenses.values() if e.get("expense_id")
-            not in [a.get("expense_id") for a in cost_allocations.values()]
+            for e in expenses
+            if e.get("expense_id")
+            not in [a.get("expense_id") for a in cost_allocations]
             and e.get("amount", 0) > 10000
         ]
 
         result = {"success": True, "allocation": new_allocation}
 
         if unallocated:
-            result["warning"] = (
-                f"{len(unallocated)} expenses over $10,000 remain unallocated"
-            )
-        payload = result
-        out = json.dumps(payload)
-        return out
+            result[
+                "warning"
+            ] = f"{len(unallocated)} expenses over $10,000 remain unallocated"
+
+        return json.dumps(result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AllocateCosts",
+                "name": "allocate_costs",
                 "description": "Allocate costs across multiple projects",
                 "parameters": {
                     "type": "object",

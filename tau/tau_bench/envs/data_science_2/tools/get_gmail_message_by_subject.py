@@ -1,41 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetGmailMessageBySubject(Tool):
-    """Fetches a gmail_messages record using the precise subject."""
-
+    """
+    Retrieves a gmail_messages record by exact subject.
+    """
     @staticmethod
-    def invoke(data: dict[str, Any], subject: str) -> str:
-        rows = data.get("gmail_messages", {}).values()
+    def invoke(data: Dict[str, Any], subject: str) -> str:
+        rows = data.get("gmail_messages", [])
         for row in rows:
             if row.get("subject") == subject:
-                payload = row
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "gmail message not found", "subject": subject}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(row)
+        return json.dumps({"error": "gmail message not found", "subject": subject})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetGmailMessageBySubject",
+                "name": "get_gmail_message_by_subject",
                 "description": "Retrieves a gmail_messages record by exact subject.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"subject": {"type": "string"}},
-                    "required": ["subject"],
-                },
-            },
+                    "properties": {
+                        "subject": {"type": "string"}
+                    },
+                    "required": ["subject"]
+                }
+            }
         }

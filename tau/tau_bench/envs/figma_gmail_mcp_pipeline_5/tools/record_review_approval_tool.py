@@ -1,28 +1,22 @@
-from tau_bench.envs.tool import Tool
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class RecordReviewApprovalTool(Tool):
-    """Document a reviewer's decision for a cycle (deterministic approval_id)."""
+    """Record a reviewer decision for a cycle (deterministic approval_id)."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        approver_email: str = None,
-        comment: str = "",
-        cycle_id: str = None,
-        decided_ts: str = None,
-        decision: str = None
-    ) -> str:
-        cycle_id = _require_str(cycle_id, "cycle_id")
-        approver_email = _require_str(approver_email, "approver_email")
-        decision = _require_str(decision, "decision")
-        decided_ts = _require_str(decided_ts, "decided_ts")
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cycle_id = _require_str(kwargs.get("cycle_id"), "cycle_id")
+        approver_email = _require_str(kwargs.get("approver_email"), "approver_email")
+        decision = _require_str(kwargs.get("decision"), "decision")  # APPROVED|CHANGES_REQUESTED|BLOCKED
+        decided_ts = _require_str(kwargs.get("decided_ts"), "decided_ts")
+        comment = kwargs.get("comment","")
         if not all([cycle_id, approver_email, decision, decided_ts]):
-            payload = {"error": "cycle_id, approver_email, decision, decided_ts required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error":"cycle_id, approver_email, decision, decided_ts required"})
 
         approvals = _safe_table(data, "review_approvals")
         approval_id = _det_id("appr", [cycle_id, approver_email, decided_ts, decision])
@@ -33,40 +27,25 @@ class RecordReviewApprovalTool(Tool):
             "approver_email": approver_email,
             "decision": decision,
             "decision_ts": decided_ts,
-            "comments": comment,
+            "comments": comment
         }
         if approval_id in idx:
             approvals[idx[approval_id]] = row
         else:
             approvals.append(row)
-        payload = {"success": True, "approval_id": approval_id}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"success": True, "approval_id": approval_id}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "RecordReviewApproval",
-                "description": "Record reviewer decision (deterministic id).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "cycle_id": {"type": "string"},
-                        "approver_email": {"type": "string"},
-                        "decision": {
-                            "type": "string",
-                            "description": "APPROVED | CHANGES_REQUESTED | BLOCKED",
-                        },
-                        "decided_ts": {"type": "string"},
-                        "comment": {"type": "string"},
-                    },
-                    "required": [
-                        "cycle_id",
-                        "approver_email",
-                        "decision",
-                        "decided_ts",
-                    ],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"record_review_approval",
+            "description":"Record reviewer decision (deterministic id).",
+            "parameters":{"type":"object","properties":{
+                "cycle_id":{"type":"string"},
+                "approver_email":{"type":"string"},
+                "decision":{"type":"string","description":"APPROVED | CHANGES_REQUESTED | BLOCKED"},
+                "decided_ts":{"type":"string"},
+                "comment":{"type":"string"}
+            },"required":["cycle_id","approver_email","decision","decided_ts"]}
+        }}

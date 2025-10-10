@@ -1,52 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class LogBudgetChange(Tool):
-    """Records an entry in the budget change log."""
+    """Adds an entry to the budget change log."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        changes = data.get('budget_changes', [])
+        new_id = f"BC-{max((int(c['change_id'][3:]) for c in changes), default=0) + 1}"
+        new_log = {"change_id": new_id, "adset_id": kwargs.get("adset_id"), "old_budget": kwargs.get("old_budget"), "new_budget": kwargs.get("new_budget"), "changed_at": "2025-08-15T01:00:00Z", "reason": kwargs.get("reason")}
+        changes.append(new_log)
+        data['budget_changes'] = changes
+        return json.dumps(new_log)
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None, old_budget: float = None, new_budget: float = None, reason: str = None) -> str:
-        changes = data.get("budget_changes", {}).values()
-        new_id = f"BC-{max((int(c['change_id'][3:]) for c in changes.values()), default=0) + 1}"
-        new_log = {
-            "change_id": new_id,
-            "adset_id": adset_id,
-            "old_budget": old_budget,
-            "new_budget": new_budget,
-            "changed_at": "2025-08-15T01:00:00Z",
-            "reason": reason,
-        }
-        data["changes"][change_id] = new_log
-        data["budget_changes"] = changes
-        payload = new_log
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "LogBudgetChange",
-                "description": "Writes an audit log entry for an ad set budget change.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "adset_id": {"type": "string"},
-                        "old_budget": {"type": "number"},
-                        "new_budget": {"type": "number"},
-                        "reason": {"type": "string"},
-                    },
-                    "required": ["adset_id", "old_budget", "new_budget", "reason"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "log_budget_change", "description": "Writes an audit log entry for an ad set budget change.", "parameters": {"type": "object", "properties": {"adset_id": {"type": "string"}, "old_budget": {"type": "number"}, "new_budget": {"type": "number"}, "reason": {"type": "string"}}, "required": ["adset_id", "old_budget", "new_budget", "reason"]}}}

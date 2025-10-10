@@ -1,28 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RequestBudgetModification(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_id: str,
-        modification_amount: float,
-        modification_type: str,
-        justification: str,
-        requestor_id: str,
-        fiscal_year: int = datetime.now().year
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        modification_amount = kwargs.get("modification_amount")
+        modification_type = kwargs.get("modification_type")
+        justification = kwargs.get("justification")
+        requestor_id = kwargs.get("requestor_id")
+        fiscal_year = kwargs.get("fiscal_year", datetime.now().year)
+
         if not all(
             [
                 project_id,
@@ -32,26 +24,25 @@ class RequestBudgetModification(Tool):
                 requestor_id,
             ]
         ):
-            payload = {"error": "All fields are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "All fields are required"})
 
-        budget_modifications = data.get("budget_modifications", {}).values()
-        budgets = data.get("budgets", {}).values()
+        budget_modifications = data.get("budget_modifications", [])
+        budgets = data.get("budgets", [])
 
         current_budget = next(
             (
                 b
-                for b in budgets.values() if b.get("project_id") == project_id
+                for b in budgets
+                if b.get("project_id") == project_id
                 and b.get("fiscal_year") == fiscal_year
             ),
             None,
         )
 
         if not current_budget:
-            payload = {"error": f"No active budget found for project {project_id}"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": f"No active budget found for project {project_id}"}
+            )
 
         current_overrun = (
             current_budget.get("spent_amount", 0) / current_budget["total_budget"] - 1
@@ -70,11 +61,9 @@ class RequestBudgetModification(Tool):
             "current_budget": current_budget["total_budget"],
             "modification_amount": modification_amount,
             "modification_type": modification_type,
-            "new_budget": (
-                current_budget["total_budget"] + modification_amount
-                if modification_type == "increase"
-                else current_budget["total_budget"] - modification_amount
-            ),
+            "new_budget": current_budget["total_budget"] + modification_amount
+            if modification_type == "increase"
+            else current_budget["total_budget"] - modification_amount,
             "justification": justification,
             "requestor_id": requestor_id,
             "status": "pending_approval",
@@ -84,23 +73,23 @@ class RequestBudgetModification(Tool):
             "fiscal_year": fiscal_year,
         }
 
-        data["budget_modifications"][new_modification["budget_modification_id"]] = new_modification
+        budget_modifications.append(new_modification)
 
         result = {"success": True, "modification_request": new_modification}
 
         if is_emergency:
-            result["info"] = (
-                "Emergency modification - can be approved retroactively within 48 hours"
-            )
-        payload = result
-        out = json.dumps(payload)
-        return out
+            result[
+                "info"
+            ] = "Emergency modification - can be approved retroactively within 48 hours"
+
+        return json.dumps(result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RequestBudgetModification",
+                "name": "request_budget_modification",
                 "description": "Request a budget increase or decrease",
                 "parameters": {
                     "type": "object",

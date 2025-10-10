@@ -1,36 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetBranchById(Tool):
-    """Fetches a branch using its ID."""
-
+    """Retrieves a branch by its ID."""
     @staticmethod
-    def invoke(data: dict[str, Any], id: str = None) -> str:
-        branch_id = id
-        branches = data.get("branches", {}).values()
-        for b in branches.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        branch_id = kwargs.get("id")
+        branches = list(data.get("branches", {}).values())
+        for b in branches:
             if b.get("id") == branch_id:
-                payload = b
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Branch with ID '{branch_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(b)
+        return json.dumps({"error": f"Branch with ID '{branch_id}' not found."})
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getBranchById",
+                "name": "get_branch_by_id",
                 "description": "Retrieves a branch by its ID.",
                 "parameters": {
                     "type": "object",

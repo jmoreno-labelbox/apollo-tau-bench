@@ -1,37 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class ComputeTeamTrainingHours(Tool):
+class compute_team_training_hours(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        team_id: str,
-        year: int = 2025
-    ) -> str:
-        training_logs = data.get("team_training_log", {}).values()
-        team_logs = [log for log in training_logs.values() if log.get("team_id") == team_id]
-        total_hours = len(team_logs) * 8  # Simulated calculation
-        payload = {"total_hours": total_hours, "team_id": team_id}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], team_id: str, year: int = 2025) -> str:
+        training_logs = data.get("team_training_log", [])
+        team_logs = [log for log in training_logs if log.get("team_id") == team_id]
+        total_hours = len(team_logs) * 8  # Mock calculation
+        return json.dumps({"total_hours": total_hours, "team_id": team_id}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "computeTeamTrainingHours",
+                "name": "compute_team_training_hours",
                 "description": "Compute total training hours for a team",
                 "parameters": {
                     "type": "object",

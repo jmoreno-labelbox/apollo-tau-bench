@@ -1,88 +1,43 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SendEmailWithAttachmentsTool(Tool):
-    """Generates a new email record using a template, including attachments."""
+    """Creates a new email record from a template, with attachments."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        candidate_id: str = None,
-        template_name: str = None,
-        template_context: dict = None,
-        to_emails: list = None,
-        from_email: str = "hr@company.com",
-        cc_emails: list = None,
-        label_ids: list = None,
-        attachment_file_paths: list = None
-,
-    updates: Any = None,
-    ) -> str:
-        if template_context is None:
-            template_context = {}
-        if cc_emails is None:
-            cc_emails = []
-        if label_ids is None:
-            label_ids = []
-        if attachment_file_paths is None:
-            attachment_file_paths = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
+        template_name = kwargs.get("template_name")
+        template_context = kwargs.get("template_context", {})
 
         if not candidate_id or not template_name:
             return _err("candidate_id and template_name are required.")
 
-        candidate = next(
-            (
-                c
-                for c in data.get("candidates", {}).values()
-                if str(c.get("candidate_id")) == str(candidate_id)
-            ),
-            None,
-        )
+        candidate = next((c for c in data.get("candidates", []) if str(c.get("candidate_id")) == str(candidate_id)), None)
         if not candidate:
             return _err(f"Candidate '{candidate_id}' not found.", code="not_found")
 
-        # Context generation that is dynamic for particular templates
-        if (
-            template_name == "it_support_request"
-            and "failure_notes" in template_context
-        ):
-            # Process dictionary from evaluate_system_access_failures
-            if isinstance(template_context["failure_notes"], dict):
-                failures = template_context["failure_notes"]
-                failure_notes_str = "\n".join(
-                    [
-                        f"- {sys}: {', '.join(details.get('failure_notes', []))}"
-                        for sys, details in failures.items()
-                    ]
-                )
-                template_context["failure_notes"] = failure_notes_str
+        # Dynamic context generation for specific templates
+        if template_name == "it_support_request" and "failure_notes" in template_context:
+            # Handle dictionary from analyze_system_access_failures
+            if isinstance(template_context['failure_notes'], dict):
+                failures = template_context['failure_notes']
+                failure_notes_str = "\n".join([f"- {sys}: {', '.join(details.get('failure_notes', []))}" for sys, details in failures.items()])
+                template_context['failure_notes'] = failure_notes_str
 
-            # Standard recipient for IT support inquiries
-            if to_emails is None:
-                to_emails = ["it-support@example.com"]
+            # Default recipient for IT support requests
+            kwargs.setdefault('to_emails', ['it-support@example.com'])
 
         if template_name == "asset_fulfillment_notification":
-            # Confirm asset_name and asset_tag are included in context
-            if (
-                "asset_name" not in template_context
-                or "asset_tag" not in template_context
-            ):
-                return _err(
-                    "asset_fulfillment_notification template requires asset_name and asset_tag in template_context."
-                )
+            # Ensure asset_name and asset_tag are in context
+            if "asset_name" not in template_context or "asset_tag" not in template_context:
+                return _err("asset_fulfillment_notification template requires asset_name and asset_tag in template_context.")
 
-        if not to_emails:
+        if not kwargs.get('to_emails'):
             return _err("to_emails is required for this template.")
 
         context = candidate.copy()
@@ -91,91 +46,71 @@ class SendEmailWithAttachmentsTool(Tool):
 
         emails = data.setdefault("emails", [])
         attachments = data.setdefault("attachments", [])
-        onboarding_files = data.get("onboarding_files", {}).values()
+        onboarding_files = data.get("onboarding_files", [])
 
         new_email = {
             "message_id": _next_str_id(emails, "message_id", "msg_"),
             "subject": rendered_content["subject"],
             "body": rendered_content["body"],
-            "from_email": from_email,
-            "to_emails": to_emails,
-            "cc_emails": cc_emails,
+            "from_email": kwargs.get("from_email", "hr@company.com"),
+            "to_emails": kwargs.get("to_emails"),
+            "cc_emails": kwargs.get("cc_emails", []),
             "date_ts": HARD_TS,
-            "labels_ids": label_ids,
+            "labels_ids": kwargs.get("label_ids", []),
             "attachments_ids": [],
-            "draft_flag": False,
-            "sent_flag": True,
+            "draft_flag": False, "sent_flag": True,
             "candidate_id_nullable": candidate_id,
-            "thread_id_nullable": None,
-            "in_reply_to_message_id_nullable": None,
+            "thread_id_nullable": None, "in_reply_to_message_id_nullable": None
         }
 
+        attachment_paths = kwargs.get("attachment_file_paths", [])
         if template_name == "welcome":
             welcome_packet_path = f"/onboarding/{candidate_id}/welcome_packet.md"
-            if any(f.get("file_path") == welcome_packet_path for f in onboarding_files.values()):
-                attachment_file_paths.append(welcome_packet_path)
+            if any(f.get("file_path") == welcome_packet_path for f in onboarding_files):
+                attachment_paths.append(welcome_packet_path)
 
-        for file_path in attachment_file_paths:
-            source_file = next(
-                (f for f in onboarding_files.values() if f.get("file_path") == file_path), None
-            )
+        for file_path in attachment_paths:
+            source_file = next((f for f in onboarding_files if f.get("file_path") == file_path), None)
             if source_file:
-                new_attachment_id = _next_str_id(
-                    attachments, "attachment_id", "attach_"
-                )
+                new_attachment_id = _next_str_id(attachments, "attachment_id", "attach_")
                 new_attachment = {
                     "attachment_id": new_attachment_id,
                     "message_id": new_email["message_id"],
-                    "filename": file_path.split("/")[-1],
+                    "filename": file_path.split('/')[-1],
                     "mime_type": source_file.get("mime_type"),
                     "file_path": file_path,
                     "size_bytes": source_file.get("size_bytes", 1024),
-                    "stored_ts": HARD_TS,
+                    "stored_ts": HARD_TS
                 }
-                data["attachments"][new_attachment["attachment_id"]] = new_attachment
+                attachments.append(new_attachment)
                 new_email["attachments_ids"].append(new_attachment_id)
 
         emails.append(new_email)
 
         result = {
             "email": new_email,
-            "results": {"system_name": "Email", "status": "Success"},
+            "results": {'system_name': 'Email', 'status': 'Success'}
         }
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(result, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SendEmailWithAttachments",
+                "name": "send_email_with_attachments",
                 "description": "Creates a new email from a template, with attachments.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "candidate_id": {"type": "string"},
                         "template_name": {"type": "string"},
-                        "to_emails": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "Required. List of recipient email addresses.",
-                        },
-                        "from_email": {
-                            "type": "string",
-                            "description": "Optional: Defaults to hr@company.com",
-                        },
+                        "to_emails": {"type": "array", "items": {"type": "string"}, "description": "Required. List of recipient email addresses."},
+                        "from_email": {"type": "string", "description": "Optional: Defaults to hr@company.com"},
                         "cc_emails": {"type": "array", "items": {"type": "string"}},
-                        "attachment_file_paths": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "Optional: paths to attach. Welcome packet is auto-attached for 'welcome' template.",
-                        },
+                        "attachment_file_paths": {"type": "array", "items": {"type": "string"}, "description": "Optional: paths to attach. Welcome packet is auto-attached for 'welcome' template."},
                         "label_ids": {"type": "array", "items": {"type": "string"}},
-                        "template_context": {
-                            "type": "object",
-                            "description": "Optional: context for templates. For IT support, failure notes are auto-generated. For asset_fulfillment_notification, requires asset_name and asset_tag.",
-                        },
+                        "template_context": {"type": "object", "description": "Optional: context for templates. For IT support, failure notes are auto-generated. For asset_fulfillment_notification, requires asset_name and asset_tag."}
                     },
                     "required": ["candidate_id", "template_name", "to_emails"],
                 },

@@ -1,53 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCrewMemberSchedule(Tool):
     """
-    A straightforward tool for retrieving a crew member's flight schedule.
+    A simple tool to get a crew member's flight schedule.
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], crew_id: str) -> str:
-        crew_members = data.get("crew_members", {}).values()
+    def invoke(data: Dict[str, Any], crew_id: str) -> str:
+        crew_members = data.get("crew_members", [])
         for crew in crew_members:
             if crew.get("crew_member_id") == crew_id:
                 flight_log = crew.get("flight_log", [])
-                payload = {
+                return json.dumps({
                     "crew_id": crew_id,
                     "name": f"{crew.get('first_name')} {crew.get('last_name')}",
-                    "schedule": flight_log,
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"status": "Crew member not found", "crew_id": crew_id}
-        out = json.dumps(payload)
-        return out
+                    "schedule": flight_log
+                })
+        return json.dumps({"status": "Crew member not found", "crew_id": crew_id})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCrewMemberSchedule",
+                "name": "get_crew_member_schedule",
                 "description": "Get a crew member's flight schedule and history.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "crew_id": {
-                            "type": "string",
-                            "description": "The crew member ID (e.g., CM001).",
-                        }
+                        "crew_id": {"type": "string", "description": "The crew member ID (e.g., CM001)."}
                     },
-                    "required": ["crew_id"],
-                },
-            },
+                    "required": ["crew_id"]
+                }
+            }
         }

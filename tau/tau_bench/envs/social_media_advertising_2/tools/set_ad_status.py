@@ -1,38 +1,28 @@
-from tau_bench.envs.tool import Tool
-import csv
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SetAdStatus(Tool):
-    """Suspend or enable a specific ad using its ID."""
+    """Pause or activate a single ad by ID."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], ad_id: str = None, status: str = None, request_id: Any = None) -> str:
-        for ad in data.get("ads", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ad_id, new_status = kwargs.get("ad_id"), kwargs.get("status")
+        for ad in list(data.get("ads", {}).values()):
             if ad.get("ad_id") == ad_id:
-                ad["status"] = status
-                payload = ad
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Ad {ad_id} not found"}
-        out = json.dumps(payload)
-        return out
+                ad["status"] = new_status
+                return json.dumps(ad)
+        return json.dumps({"error": f"Ad {ad_id} not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SetAdStatus",
+                "name": "set_ad_status",
                 "description": "Pause or activate a single ad by ID.",
                 "parameters": {
                     "type": "object",

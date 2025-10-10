@@ -1,24 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetOrderDetails(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: int) -> str:
-        orders = _get_table(data, "orders")
-        items = _get_table(data, "order_items")
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
-        rows = [it for it in items.values() if it.get("order_id") == order_id]
-        payload = {"order": order, "items": rows}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], order_id: int) -> str:
+        order = _require(data, "orders", "order_id", int(order_id))
+        items = [i for i in data.get("order_items", []) if int(i.get("order_id")) == int(order_id)]
+        return _json({"order": order, "items": items})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetOrderDetails",
-                "description": "Returns an order row and its items.",
+                "name": "get_order_details",
+                "description": "Get order header and items.",
                 "parameters": {
                     "type": "object",
                     "properties": {"order_id": {"type": "integer"}},

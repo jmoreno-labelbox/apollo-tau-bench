@@ -1,16 +1,16 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone, date, timedelta
-import calendar
-from typing import Any, Dict
-import random
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetAccountTypeAndAccountTypeCode(Tool):
+    """Returns both standardized account type and its 3-letter code."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], account_type: str = "") -> str:
-        account_type_input = account_type.strip().lower()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_type_input = kwargs.get("account_type", "").strip().lower()
 
         if not account_type_input:
             return json.dumps({"error": "account_type is required."}, indent=2)
@@ -34,12 +34,13 @@ class GetAccountTypeAndAccountTypeCode(Tool):
             return json.dumps({
                 "error": f"Unknown account type: {account_type_input}"
             }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAccountTypeAndAccountTypeCode",
+                "name": "get_account_type_and_account_type_code",
                 "description": (
                     "Returns both the standardized account type and its 3-letter account code. "
                     "Acceptable input values: 'Checking', 'Savings', 'Credit Card', 'Loan', 'Investment'."

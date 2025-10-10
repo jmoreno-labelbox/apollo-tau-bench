@@ -1,26 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class LogRevokeDecisionTool(Tool):
     """log_revoke_decision
-    Solely log revoke decisions using a deterministic log_id and timestamp.
+    Exclusively log revoke decisions using deterministic log_id and timestamp.
     - log_id format: LOG-<user_id>-<role_id>-decision
     - action_type: revoke_role
     - target_id: <user_id>:<role_id>
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, role_id: str = None, actor_id: str = None, details: str = None, revoked: bool = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        role_id = kwargs.get("role_id")
+        actor_id = kwargs.get("actor_id")
+        details = kwargs.get("details")
+        revoked = kwargs.get("revoked")
+
         if not user_id or not role_id:
-            payload = {"error": "user_id and role_id are required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "user_id and role_id are required"}, indent=2)
 
         log_id = f"LOG-{user_id}-{role_id}-decision"
-        # Extract default information if not specifically given
+        # Derive default details if not explicitly provided
         if details is None:
             if revoked is True:
                 details = "REMOVED"
@@ -32,13 +37,13 @@ class LogRevokeDecisionTool(Tool):
         entry = {
             "log_id": log_id,
             "actor_id": actor_id,
-            "action_type": "RevokeRole",
+            "action_type": "revoke_role",
             "target_id": f"{user_id}:{role_id}",
             "timestamp": _HARD_TS,
             "details": details,
         }
 
-        logs: list[dict[str, Any]] = data.setdefault("audit_logs", [])
+        logs: List[Dict[str, Any]] = data.setdefault("audit_logs", [])
         existing = next((l for l in logs if l.get("log_id") == log_id), None)
         if existing:
             existing.update(entry)
@@ -46,15 +51,14 @@ class LogRevokeDecisionTool(Tool):
         else:
             logs.append(entry)
             out = entry
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "LogRevokeDecision",
+                "name": "log_revoke_decision",
                 "description": (
                     "Append an audit log entry for a revoke decision with deterministic id and timestamp."
                 ),

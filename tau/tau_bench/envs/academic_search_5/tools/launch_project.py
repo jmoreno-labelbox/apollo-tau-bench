@@ -1,69 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class LaunchProject(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], project_name: Any = None, lead_researcher_id: Any = None, funding_source_id: Any = None, project_id_override: Any = None) -> str:
-        project_name = project_name
-        lead_researcher_id = lead_researcher_id
-        funding_source_id = funding_source_id
-        project_id_override = project_id_override  # Additional parameter
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_name = kwargs.get('project_name')
+        lead_researcher_id = kwargs.get('lead_researcher_id')
+        funding_source_id = kwargs.get('funding_source_id')
+        project_id_override = kwargs.get('project_id_override') # New parameter
 
-        project_id = (
-            project_id_override
-            if project_id_override
-            else f"proj_{uuid.uuid4().hex[:4]}"
-        )
+        project_id = project_id_override if project_id_override else f"proj_{uuid.uuid4().hex[:4]}"
 
-        new_project = {
-            "project_id": project_id,
-            "project_name": project_name,
-            "lead_researcher_id": lead_researcher_id,
-            "status": "proposed",
-            "start_date": datetime.now().strftime("%Y-%m-%d"),
-            "end_date": None,
-            "linked_articles": [],
-            "funding_source_id": funding_source_id,
-        }
-        data["projects"][project_id] = new_project
-        payload = {"success": True, "project": new_project}
-        out = json.dumps(payload)
-        return out
+        new_project = {"project_id": project_id,"project_name": project_name,"lead_researcher_id": lead_researcher_id,"status": "proposed","start_date": datetime.now().strftime('%Y-%m-%d'),"end_date": None,"linked_articles": [], "funding_source_id": funding_source_id}
+        data['projects'].append(new_project)
+        return json.dumps({"success": True, "project": new_project})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "LaunchProject",
-                "description": "Creates a new research project.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "project_name": {
-                            "type": "string",
-                            "description": "The name of the new project.",
-                        },
-                        "lead_researcher_id": {
-                            "type": "string",
-                            "description": "The user ID of the lead researcher.",
-                        },
-                        "funding_source_id": {
-                            "type": "string",
-                            "description": "The ID of the project's funding source.",
-                        },
-                        "project_id_override": {
-                            "type": "string",
-                            "description": "Optional. A specific ID to assign to the new project for predictable referencing.",
-                        },
-                    },
-                    "required": [
-                        "project_name",
-                        "lead_researcher_id",
-                        "funding_source_id",
-                    ],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function","function": {"name": "launch_project","description": "Creates a new research project.","parameters": {"type": "object","properties": {"project_name": {"type": "string","description": "The name of the new project."},"lead_researcher_id": {"type": "string","description": "The user ID of the lead researcher."},"funding_source_id": {"type": "string","description": "The ID of the project's funding source."},"project_id_override": {"type": "string", "description": "Optional. A specific ID to assign to the new project for predictable referencing."}},"required": ["project_name", "lead_researcher_id", "funding_source_id"]}}}

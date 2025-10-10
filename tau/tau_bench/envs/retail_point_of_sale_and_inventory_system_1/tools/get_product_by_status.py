@@ -1,32 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetProductByStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], status: str = None) -> str:
-        products = data.get("products", {}).values()
-        results = [product for product in products.values() if product.get("status") == status]
-        payload = results
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        status = kwargs.get('status')
+        products = list(data.get("products", {}).values())  # Lista []
+        results = [product for product in products if product.get("status") == status]
+        return json.dumps(results)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getProductByStatus",
+                "name": "get_product_by_status",
                 "description": "Retrieves products with a specific status (e.g., 'active', 'discontinued', 'clearance', 'limited_availability').",
                 "parameters": {
                     "type": "object",

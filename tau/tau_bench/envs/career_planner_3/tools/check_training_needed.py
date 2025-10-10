@@ -1,59 +1,56 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CheckTrainingNeeded(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, target_role: str = None) -> str:
-        gaps = data.get("skill_gap_analysis", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        target_role = kwargs.get("target_role")
+        gaps = data.get("skill_gap_analysis", [])
         user_gaps = [
             g
-            for g in gaps.values() if g["user_id"] == user_id and g["target_role"] == target_role
+            for g in gaps
+            if g["user_id"] == user_id and g["target_role"] == target_role
         ]
 
         if not user_gaps:
-            payload = {"training_needed": False, "reason": "No skill gap analysis found"}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"training_needed": False, "reason": "No skill gap analysis found"},
+                indent=2,
             )
-            return out
 
         gap = user_gaps[0]
         readiness_score = gap.get("overall_readiness_score", 0)
 
         if readiness_score < 70:
-            payload = {
+            return json.dumps(
+                {
                     "training_needed": True,
                     "readiness_score": readiness_score,
                     "reason": f"Readiness score {readiness_score} is below threshold of 70",
-                }
-            out = json.dumps(
-                payload, indent=2,
+                },
+                indent=2,
             )
-            return out
-        payload = {
+
+        return json.dumps(
+            {
                 "training_needed": False,
                 "readiness_score": readiness_score,
                 "reason": f"Readiness score {readiness_score} meets threshold",
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CheckTrainingNeeded",
+                "name": "check_training_needed",
                 "description": "Checks if training is needed for a user targeting a specific role based on readiness score.",
                 "parameters": {
                     "type": "object",

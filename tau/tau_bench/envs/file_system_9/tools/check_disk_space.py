@@ -1,42 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CheckDiskSpace(Tool):
-    """Assesses the free disk space on a server."""
+    """Checks the available disk space on a server."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        server_hostname = kwargs.get("server_hostname")
+        for server in data.get("system_resources", []):
+            if server.get("hostname") == server_hostname:
+                return json.dumps(server.get("disk"))
+        return json.dumps({"error": f"Server not found: {server_hostname}"})
 
     @staticmethod
-    def invoke(data: dict[str, Any], server_hostname: str = None) -> str:
-        for server in data.get("system_resources", {}).values():
-            if server.get("hostname") == server_hostname:
-                payload = server.get("disk")
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Server not found: {server_hostname}"}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CheckDiskSpace",
+                "name": "check_disk_space",
                 "description": "Checks the available disk space on a server.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "server_hostname": {
-                            "type": "string",
-                            "description": "The hostname of the server to check.",
-                        }
+                        "server_hostname": {"type": "string", "description": "The hostname of the server to check."}
                     },
                     "required": ["server_hostname"],
                 },

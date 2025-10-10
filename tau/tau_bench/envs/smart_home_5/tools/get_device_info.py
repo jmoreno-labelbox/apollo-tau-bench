@@ -1,32 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetDeviceInfo(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], device_ids: list[str] | None = None) -> str:
-        devices = data.get("devices", {}).values()
+    def invoke(data: Dict[str, Any], device_ids: Optional[List[str]] = None) -> str:
+        devices = list(data.get('devices', {}).values())
         if device_ids:
-            result = [d for d in devices.values() if d.get("id") in device_ids]
+            result = [d for d in devices if d.get('id') in device_ids]
         else:
             result = devices
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(result, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetDeviceInfo",
+                "name": "get_device_info",
                 "description": "Get information about one or more devices.",
                 "parameters": {
                     "type": "object",
@@ -34,10 +28,10 @@ class GetDeviceInfo(Tool):
                         "device_ids": {
                             "type": "array",
                             "items": {"type": "string"},
-                            "description": "A list of device IDs to retrieve. If empty, all devices will be returned.",
+                            "description": "A list of device IDs to retrieve. If empty, all devices will be returned."
                         }
                     },
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

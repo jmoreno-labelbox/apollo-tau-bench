@@ -1,51 +1,46 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetProductByItemId(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], item_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        item_id = kwargs.get('item_id')
+
         if not item_id:
-            payload = {"error": "item_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({'error': 'item_id is required'})
 
-        products = data["products"]
+        products = data['products']
 
-        # Examine all products to identify which one includes this item_id
-        for product in products.values():
-            if item_id in product["variants"]:
-                product["variants"][item_id]
-                payload = {
-                    "product_id": product["product_id"],
-                    "product_name": product["name"],
-                    "supplier_id": product["supplier_id"],
-                    "item_id": item_id,
-                }
-                out = json.dumps(
-                    payload, indent=2,
-                )
-                return out
-        payload = {"error": f"Item ID {item_id} not found in any product"}
-        out = json.dumps(payload)
-        return out
+        # Search through all products to find which one contains this item_id
+        for product in products:
+            if item_id in product['variants']:
+                variant_info = product['variants'][item_id]
+                return json.dumps({
+                    'product_id': product['product_id'],
+                    'product_name': product['name'],
+                    'supplier_id': product['supplier_id'],
+                    'item_id': item_id
+                }, indent=2)
+
+        return json.dumps({'error': f'Item ID {item_id} not found in any product'})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "getProductByItemId",
-                "description": "Find the product ID and details given a specific item ID (variant ID).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "item_id": {
-                            "type": "string",
-                            "description": "Item ID (variant ID) to search for",
-                        }
+            'type': 'function',
+            'function': {
+                'name': 'get_product_by_item_id',
+                'description': 'Find the product ID and details given a specific item ID (variant ID).',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'item_id': {'type': 'string', 'description': 'Item ID (variant ID) to search for'}
                     },
-                    "required": ["item_id"],
-                },
-            },
+                    'required': ['item_id']
+                }
+            }
         }

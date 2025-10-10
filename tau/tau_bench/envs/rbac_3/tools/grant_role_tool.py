@@ -1,41 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GrantRoleTool(Tool):
-    """grant_role: allocate a role either via request_id or directly using user_id/role_id."""
+    """grant_role: assign a role either by request_id or direct user_id/role_id."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        request_id: str = None,
-        assigned_by: str = None,
-        user_role_id: str = None,
-        user_id: str = None,
-        role_id: str = None,
-        expires_on: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        request_id = kwargs.get("request_id")
+        assigned_by = kwargs.get("assigned_by")
         if request_id:
             return AssignRoleOnApprovalTool.invoke(
                 data, request_id=request_id, assigned_by=assigned_by
             )
-        #straightforward
+        # direct
         return AssignUserRoleTool.invoke(
             data,
-            user_role_id=user_role_id,
-            user_id=user_id,
-            role_id=role_id,
+            user_role_id=kwargs.get("user_role_id"),
+            user_id=kwargs.get("user_id"),
+            role_id=kwargs.get("role_id"),
             assigned_by=assigned_by,
-            expires_on=expires_on,
+            expires_on=kwargs.get("expires_on"),
         )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GrantRole",
+                "name": "grant_role",
                 "description": "Assign a role by request_id or direct user/role pair.",
                 "parameters": {
                     "type": "object",

@@ -1,36 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ListMergedPullRequestsWithFiles(Tool):
-    """Provides merged PRs for a specified repository and owner, along with the changed files."""
+    """Returns merged PRs for a given repo and owner, including changed files."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], owner: str = None, repo_name: str = None) -> str:
-        owner = owner or _auth(data)["username"]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner = kwargs.get("owner") or _auth(data)["username"]
+        repo_name = kwargs.get("repo_name")
         if not all([owner, repo_name]):
-            payload = {"error": "owner and repo_name are required."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "owner and repo_name are required."}, indent=2)
 
         prs = _prs(data)
         merged = [
             {"number": pr["number"], "title": pr["title"], "files": pr.get("files", [])}
             for pr in prs
-            if pr.get("owner") == owner
-            and pr.get("repo_name") == repo_name
-            and pr.get("state") == "merged"
+            if pr.get("owner") == owner and pr.get("repo_name") == repo_name and pr.get("state") == "merged"
         ]
-        payload = merged
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(merged, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "listMergedPullRequestsWithFiles",
+                "name": "list_merged_pull_requests_with_files",
                 "description": "Returns merged PRs for the given owner/repo with changed files.",
                 "parameters": {
                     "type": "object",
@@ -38,7 +36,7 @@ class ListMergedPullRequestsWithFiles(Tool):
                         "owner": {"type": "string"},
                         "repo_name": {"type": "string"},
                     },
-                    "required": ["owner", "repo_name"],
-                },
-            },
+                    "required": ["owner", "repo_name"]
+                }
+            }
         }

@@ -1,33 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateAccuracyMetrics(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], warehouse_id: str, warehouses: list = None, inventory: list = None, cycle_counts: list = None) -> str:
-        warehouses = warehouses if warehouses is not None else data.get("warehouses", {}).values()
-        inventory = inventory if inventory is not None else data.get("inventory", {}).values()
-        cycle_counts = cycle_counts if cycle_counts is not None else data.get("cycle_counts", {}).values()
+    def invoke(data: Dict[str, Any], warehouse_id: str) -> str:
+        warehouses = data.get("warehouses", [])
+        inventory = list(data.get("inventory", {}).values())
+        cycle_counts = data.get("cycle_counts", [])
 
         warehouse = next((w for w in warehouses if w.get("warehouse_id") == warehouse_id), None)
         if not warehouse:
             return json.dumps({"error": f"Warehouse {warehouse_id} not found"})
 
-        # Determine accuracy metrics
-        warehouse_inventory = [item for item in inventory.values() if item.get("warehouse_id") == warehouse_id]
-        warehouse_counts = [count for count in cycle_counts.values() if count.get("warehouse_id") == warehouse_id]
+        # Calculate accuracy metrics
+        warehouse_inventory = [item for item in inventory if item.get("warehouse_id") == warehouse_id]
+        warehouse_counts = [count for count in cycle_counts if count.get("warehouse_id") == warehouse_id]
 
         total_items = len(warehouse_inventory)
-        accurate_counts = len([count for count in warehouse_counts.values() if abs(count.get("variance", 0)) <= count.get("system_count", 1) * 0.02])
+        accurate_counts = len([count for count in warehouse_counts if abs(count.get("variance", 0)) <= count.get("system_count", 1) * 0.02])
 
         accuracy_percentage = (accurate_counts / max(len(warehouse_counts), 1)) * 100 if warehouse_counts else 99.5
 
@@ -40,12 +34,13 @@ class UpdateAccuracyMetrics(Tool):
         }
 
         return json.dumps(metrics)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateAccuracyMetrics",
+                "name": "update_accuracy_metrics",
                 "description": "Update inventory accuracy metrics for a warehouse",
                 "parameters": {
                     "type": "object",

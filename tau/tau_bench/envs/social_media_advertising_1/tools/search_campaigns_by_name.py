@@ -1,41 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchCampaignsByName(Tool):
-    """Looks for campaigns whose names include the specified text."""
+    """Searches for campaigns with names containing the specified text."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], name_query: str = None) -> str:
-        campaigns = data.get("campaigns", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name_query = kwargs.get("name_query")
+        campaigns = list(data.get("campaigns", {}).values())
         matching_campaigns = []
         
-        if not name_query:
-            payload = {"campaign_ids": []}
-            out = json.dumps(payload)
-            return out
-
-        for campaign in campaigns.values():
+        for campaign in campaigns:
             if name_query.lower() in campaign.get("name", "").lower():
                 matching_campaigns.append(campaign.get("campaign_id"))
-        payload = {"campaign_ids": matching_campaigns}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"campaign_ids": matching_campaigns})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchCampaignsByName",
+                "name": "search_campaigns_by_name",
                 "description": "Searches for campaigns with names containing the specified text.",
                 "parameters": {
                     "type": "object",

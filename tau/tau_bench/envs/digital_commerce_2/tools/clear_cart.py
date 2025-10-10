@@ -1,61 +1,44 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
-from decimal import ROUND_HALF_UP, Decimal
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ClearCart(Tool):
+    """Remove all items from a given cart."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], cart_id: Any) -> str:
-        pass
+    def invoke(data: Dict[str, Any], cart_id: Any) -> str:
         cart_id = _idstr(cart_id)
         if not cart_id:
-            payload = {"error": "Missing required field: cart_id"}
-            out = json.dumps(payload, indent=2)
-            return out
-        cart_items = data.get("cart_items", {}).values()
+            return json.dumps({"error": "Missing required field: cart_id"}, indent=2)
+        cart_items = data.get("cart_items", [])
         removed_count = 0
-        for item in list(cart_items):  # duplicate to prevent changes while iterating
+        for item in list(cart_items):
             if item.get("cart_id") == cart_id:
                 cart_items.remove(item)
                 removed_count += 1
 
         if removed_count == 0:
-            payload = {"error": f"No items found for cart_id '{cart_id}'"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        payload = {
-            "message": f"All items removed from cart '{cart_id}'",
-            "removed_count": removed_count,
-        }
-        out = json.dumps(
-            payload, indent=2,
+            return json.dumps({"error": f"No items found for cart_id '{cart_id}'"}, indent=2)
+
+        return json.dumps(
+            {"message": f"All items removed from cart '{cart_id}'", "removed_count": removed_count},
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ClearCart",
+                "name": "clear_cart",
                 "description": "Remove all items from a given cart.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "cart_id": {
-                            "type": "string",
-                            "description": "ID of the cart to clear.",
-                        }
+                        "cart_id": {"type": "string", "description": "ID of the cart to clear."}
                     },
                     "required": ["cart_id"],
                 },

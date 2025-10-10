@@ -1,42 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAllOutboundOrders(Tool):
-    """Fetches all outbound order records from the dataset, with filtering options."""
+    """Retrieves all outbound order records from the dataset, with an option to filter."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], filters: dict[str, Any] = None) -> str:
-        outbound_orders = data.get("outbound_orders", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        outbound_orders = data.get("outbound_orders", [])
+        filters = kwargs.get("filters")
 
         if not outbound_orders:
-            payload = {"message": "No outbound orders found."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"message": "No outbound orders found."})
 
         if not filters:
-            payload = outbound_orders
-            out = json.dumps(payload)
-            return out
+            return json.dumps(outbound_orders)
 
         filtered_orders = []
         for order in outbound_orders:
             match = True
             for key, value in filters.items():
                 order_value = order.get(key)
+                # Handle case-insensitivity for string comparisons
                 if isinstance(order_value, str) and isinstance(value, str):
                     if order_value.lower() != value.lower():
                         match = False
                         break
+                # Handle boolean comparison where value might be a string 'true'/'false'
                 elif isinstance(order_value, bool) and isinstance(value, str):
                     if str(order_value).lower() != value.lower():
                         match = False
@@ -48,20 +41,18 @@ class GetAllOutboundOrders(Tool):
                 filtered_orders.append(order)
 
         if filtered_orders:
-            payload = filtered_orders
-            out = json.dumps(payload)
-            return out
+            return json.dumps(filtered_orders)
         else:
-            payload = {"message": "No outbound orders found matching the specified filters."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"message": "No outbound orders found matching the specified filters."}
+            )
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAllOutboundOrders",
+                "name": "get_all_outbound_orders",
                 "description": "Retrieves a list of all outbound orders, with an option to filter by specific criteria.",
                 "parameters": {
                     "type": "object",

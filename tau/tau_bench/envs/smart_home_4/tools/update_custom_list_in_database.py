@@ -1,73 +1,50 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateCustomListInDatabase(Tool):
-    """Modify items within a custom list."""
-
+    """Update items in a custom list."""
     @staticmethod
-    def invoke(
-        data: dict[str, Any], list_id: str = "", updates: dict[str, Any] | None = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], list_id: str = "", updates: Optional[Dict[str, Any]] = None) -> str:
         if not list_id or not updates:
-            payload = {"error": "'list_id' and 'updates' parameters are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        custom_lists = data.get("custom_lists", {}).values()
+            return json.dumps({"error": "'list_id' and 'updates' parameters are required"}, indent=2)
+        custom_lists = data.get('custom_lists', [])
         found = False
-        for l in custom_lists.values():
+        for l in custom_lists:
             if l["list_id"] == list_id:
                 for k, v in updates.items():
                     l[k] = v
                 found = True
                 break
         if not found:
-            payload = {"error": "Custom list not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {
-                "success": "Custom list updated",
-                "list_id": list_id,
-                "updates": updates,
-                "custom_lists": custom_lists,
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+            return json.dumps({"error": "Custom list not found"}, indent=2)
+        return json.dumps({"success": "Custom list updated", "list_id": list_id, "updates": updates, "custom_lists": custom_lists}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateCustomListInDatabase",
+                "name": "update_custom_list_in_database",
                 "description": "Update any field of a custom list by list_id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "list_id": {
                             "type": "string",
-                            "description": "The id of the custom list to update.",
+                            "description": "The id of the custom list to update."
                         },
                         "updates": {
                             "type": "object",
                             "description": "Key-value pairs of fields to update.",
-                            "additionalProperties": True,
-                        },
+                            "additionalProperties": True
+                        }
                     },
                     "required": ["list_id", "updates"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

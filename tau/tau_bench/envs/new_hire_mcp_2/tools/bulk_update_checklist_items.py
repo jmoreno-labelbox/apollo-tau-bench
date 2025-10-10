@@ -1,14 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class BulkUpdateChecklistItems(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], item_ids: list = None, fields: dict = None) -> str:
-        if item_ids is None:
-            item_ids = []
-        if fields is None:
-            fields = {}
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        item_ids = kwargs.get("item_ids", [])
+        fields = kwargs.get("fields", {})
         rows = _ensure_list(data, "checklist_items")
         updated = []
         for item_id in item_ids:
@@ -18,25 +19,13 @@ class BulkUpdateChecklistItems(Tool):
                     row[k] = v
                 row["updated_ts"] = NOW_TS
                 updated.append(item_id)
-        payload = {"updated_item_ids": updated, "count": len(updated)}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        return json.dumps({"updated_item_ids": updated, "count": len(updated)}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "BulkUpdateChecklistItems",
-                "description": "Update multiple checklist items.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "item_ids": {"type": "array", "items": {"type": "string"}},
-                        "fields": {"type": "object"},
-                    },
-                    "required": ["item_ids", "fields"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function",
+                "function": {"name": "bulk_update_checklist_items", "description": "Update multiple checklist items.",
+                             "parameters": {"type": "object",
+                                            "properties": {"item_ids": {"type": "array", "items": {"type": "string"}},
+                                                           "fields": {"type": "object"}},
+                                            "required": ["item_ids", "fields"]}}}

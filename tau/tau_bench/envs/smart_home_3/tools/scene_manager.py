@@ -1,106 +1,65 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SceneManager(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], action: str = "get", scene_id: str = None, scene_data: dict = {}, execute_time: str = None) -> str:
-        scenes = data.get("scenes", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        scenes = list(data.get('scenes', {}).values())
+        action = kwargs.get('action', 'get')
+        scene_id = kwargs.get('scene_id')
+        scene_data = kwargs.get('scene_data', {})
+        execute_time = kwargs.get('execute_time')
 
-        if action == "get":
-            result = [s for s in scenes.values() if (not scene_id or s["id"] == scene_id)]
-            payload = result
-            out = json.dumps(payload, indent=2)
-            return out
-        elif action == "execute":
+        if action == 'get':
+            result = [s for s in scenes if (not scene_id or s['id'] == scene_id)]
+            return json.dumps(result, indent=2)
+        elif action == 'execute':
             if not scene_id:
-                payload = {"error": "scene_id required for execution"}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
+                return json.dumps({"error": "scene_id required for execution"}, indent=2)
             for scene in scenes:
-                if scene["id"] == scene_id:
-                    payload = {
-                            "success": f"Executed scene {scene_id}",
-                            "actions": scene["actions"],
-                        }
-                    out = json.dumps(
-                        payload, indent=2,
-                    )
-                    return out
-        elif action == "create":
+                if scene['id'] == scene_id:
+                    return json.dumps({"success": f"Executed scene {scene_id}", "actions": scene['actions']}, indent=2)
+        elif action == 'create':
             if not scene_data:
-                payload = {"error": "scene_data required"}
-                out = json.dumps(payload, indent=2)
-                return out
-            data["scenes"][scene_id] = scene_data
-            payload = {"success": f"Created scene {scene_data.get('id')}"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        elif action == "schedule":
+                return json.dumps({"error": "scene_data required"}, indent=2)
+            scenes.append(scene_data)
+            return json.dumps({"success": f"Created scene {scene_data.get('id')}"}, indent=2)
+        elif action == 'schedule':
             if not scene_id or not execute_time:
-                payload = {"error": "scene_id and execute_time required"}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
+                return json.dumps({"error": "scene_id and execute_time required"}, indent=2)
             for scene in scenes:
-                if scene["id"] == scene_id:
-                    scene["scheduled_runs"].append(execute_time)
-                    payload = {"success": f"Scheduled {scene_id} for {execute_time}"}
-                    out = json.dumps(
-                        payload, indent=2,
-                    )
-                    return out
-        elif action == "delete":
+                if scene['id'] == scene_id:
+                    scene['scheduled_runs'].append(execute_time)
+                    return json.dumps({"success": f"Scheduled {scene_id} for {execute_time}"}, indent=2)
+        elif action == 'delete':
             if not scene_id:
-                payload = {"error": "scene_id required"}
-                out = json.dumps(payload, indent=2)
-                return out
-            scenes[:] = [s for s in scenes.values() if s["id"] != scene_id]
-            payload = {"success": f"Deleted scene {scene_id}"}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"error": "Invalid action"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps({"error": "scene_id required"}, indent=2)
+            scenes[:] = [s for s in scenes if s['id'] != scene_id]
+            return json.dumps({"success": f"Deleted scene {scene_id}"}, indent=2)
+
+        return json.dumps({"error": "Invalid action"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SceneManager",
+                "name": "scene_manager",
                 "description": "Manage automation scenes - CRUD and execution",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "action": {
-                            "type": "string",
-                            "enum": ["get", "execute", "create", "schedule", "delete"],
-                        },
+                        "action": {"type": "string", "enum": ["get", "execute", "create", "schedule", "delete"]},
                         "scene_id": {"type": "string", "description": "Scene ID"},
-                        "scene_data": {
-                            "type": "object",
-                            "description": "Scene data for creation",
-                        },
-                        "execute_time": {
-                            "type": "string",
-                            "description": "Schedule execution time",
-                        },
+                        "scene_data": {"type": "object", "description": "Scene data for creation"},
+                        "execute_time": {"type": "string", "description": "Schedule execution time"}
                     },
                     "required": ["action"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

@@ -1,45 +1,39 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetPolicyException(Tool):
     """
-    Retrieve policy exceptions based on ID, user, permission, reviewer, or status.
+    Retrieve policy exceptions by ID, user, permission, reviewer, or status.
 
     kwargs:
       exception_id: str (optional) - Specific exception ID to retrieve
-      user_id: str (optional) - Filter by the user making the request
-      permission_id: str (optional) - Filter by the permission related to exceptions
-      reviewed_by: str (optional) - Filter by the reviewer
+      user_id: str (optional) - Filter by requesting user
+      permission_id: str (optional) - Filter by permission involved in exceptions
+      reviewed_by: str (optional) - Filter by reviewer
       status: str (optional) - Filter by status (PENDING_REVIEW, ACTIVE, EXPIRED, DENIED)
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], exception_id: str = None, user_id: str = None, 
-               permission_id: str = None, reviewed_by: str = None, status: str = None) -> str:
-        exceptions = data.get("policy_exceptions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        exception_id = kwargs.get("exception_id")
+        user_id = kwargs.get("user_id")
+        permission_id = kwargs.get("permission_id")
+        reviewed_by = kwargs.get("reviewed_by")
+        status = kwargs.get("status")
 
-        # If exception_id is supplied, return the specific exception
+        exceptions = data.get("policy_exceptions", [])
+
+        # If exception_id is provided, return single exception
         if exception_id:
             exception = _find_by_id(exceptions, "exception_id", exception_id)
             if not exception:
-                payload = {"error": f"exception_id {exception_id} not found"}
-                out = json.dumps(payload)
-                return out
-            payload = {"ok": True, "policy_exception": exception}
-            out = json.dumps(payload)
-            return out
+                return json.dumps({"error": f"exception_id {exception_id} not found"})
+            return json.dumps({"ok": True, "policy_exception": exception})
 
-        # Narrow down exceptions according to the supplied criteria
+        # Filter exceptions based on provided criteria
         filtered_exceptions = []
         for exception in exceptions:
             if user_id and exception.get("user_id") != user_id:
@@ -50,43 +44,28 @@ class GetPolicyException(Tool):
                 continue
             if status and exception.get("status") != status:
                 continue
-            filtered_data["policy_exceptions"][exception["policy_exception_id"]] = exception
-        payload = {"ok": True, "policy_exceptions": filtered_exceptions}
-        out = json.dumps(payload)
-        return out
+            filtered_exceptions.append(exception)
+
+        return json.dumps({"ok": True, "policy_exceptions": filtered_exceptions})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPolicyException",
+                "name": "get_policy_exception",
                 "description": "Retrieve policy exceptions by ID, user, permission, reviewer, or status.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "exception_id": {
-                            "type": "string",
-                            "description": "Specific policy exception ID to retrieve.",
-                        },
-                        "user_id": {
-                            "type": "string",
-                            "description": "Filter by requesting user ID.",
-                        },
-                        "permission_id": {
-                            "type": "string",
-                            "description": "Filter by permission involved in exceptions.",
-                        },
-                        "reviewed_by": {
-                            "type": "string",
-                            "description": "Filter by reviewer user ID.",
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "Filter by status (PENDING_REVIEW, ACTIVE, EXPIRED, DENIED).",
-                        },
+                        "exception_id": {"type": "string", "description": "Specific policy exception ID to retrieve."},
+                        "user_id": {"type": "string", "description": "Filter by requesting user ID."},
+                        "permission_id": {"type": "string", "description": "Filter by permission involved in exceptions."},
+                        "reviewed_by": {"type": "string", "description": "Filter by reviewer user ID."},
+                        "status": {"type": "string", "description": "Filter by status (PENDING_REVIEW, ACTIVE, EXPIRED, DENIED)."}
                     },
                     "required": [],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

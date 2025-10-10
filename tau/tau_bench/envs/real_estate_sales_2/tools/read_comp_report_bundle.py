@@ -1,53 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from itertools import islice
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ReadCompReportBundle(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], report_id: int) -> str:
-        rpt = next(
-            (
-                r
-                for r in data.get("comp_reports", {}).values()
-                if r.get("report_id") == report_id
-            ),
-            None,
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        report_id = kwargs.get("report_id")
+        rpt = next((r for r in data.get("comp_reports", []) if r.get("report_id") == int(report_id)), None)
         if not rpt:
-            payload = {"error": f"Report {report_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        comps = [
-            c
-            for c in data.get("comparables", {}).values()
-            if c.get("report_id") == report_id
-        ]
-        docs = [
-            d
-            for d in data.get("documents", {}).values()
-            if d.get("entity_type") == "comp_report"
-            and d.get("entity_id") == report_id
-        ]
-        payload = {"report": rpt, "comparables": comps, "documents": docs}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+            return json.dumps({"error": f"Report {report_id} not found"}, indent=2)
+        comps = [c for c in data.get("comparables", []) if c.get("report_id") == int(report_id)]
+        docs = [d for d in data.get("documents", []) if d.get("entity_type") == "comp_report" and d.get("entity_id") == int(report_id)]
+        return json.dumps({"report": rpt, "comparables": comps, "documents": docs}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ReadCompReportBundle",
+                "name": "read_comp_report_bundle",
                 "description": "Fetch a comp report with its comparables and attached document(s).",
                 "parameters": {
                     "type": "object",

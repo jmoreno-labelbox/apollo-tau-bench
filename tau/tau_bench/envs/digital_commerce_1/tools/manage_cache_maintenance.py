@@ -1,22 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ManageCacheMaintenance(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], environment: str, action: str) -> str:
+    def invoke(data: Dict[str, Any], environment: str, action: str) -> str:
         jobs = _ensure_table(data, "cache_jobs")
-        # Structure maintenance as two designated tasks
         targets = ["Load API Metadata", "Populate Cache Job"]
         job_ids = []
         if action in ("create", "update", "verify"):
-            status = (
-                "Queued"
-                if action != "verify"
-                else (_find_one(jobs, job_name=targets[0]) or {}).get(
-                    "last_run_status", "Unknown"
-                )
-            )
+
             for name in targets:
                 jid = _stable_id("job", name, environment)
                 job_ids.append(jid)
@@ -38,7 +34,7 @@ class ManageCacheMaintenance(Tool):
         if action == "remove":
             for name in targets:
                 jid = _stable_id("job", name, environment)
-                jobs[:] = [r for r in jobs.values() if r.get("job_id") != jid]
+                jobs[:] = [r for r in jobs if r.get("job_id") != jid]
         last = _find_one(jobs, job_name=targets[0])
         return _json(
             {
@@ -47,20 +43,18 @@ class ManageCacheMaintenance(Tool):
                 "last_run_status": (last or {}).get("last_run_status", "Unknown"),
             }
         )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ManageCacheMaintenance",
+                "name": "manage_cache_maintenance",
                 "description": "Manage cache maintenance scheduling for an environment.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "environment": {
-                            "type": "string",
-                            "enum": ["DEV", "UAT", "PROD"],
-                        },
+                        "environment": {"type": "string", "enum": ["DEV", "UAT", "PROD"]},
                         "action": {
                             "type": "string",
                             "enum": ["create", "update", "remove", "verify"],

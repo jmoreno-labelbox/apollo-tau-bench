@@ -1,69 +1,52 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindResources(Tool):
-    """Identify resources using search criteria such as name keywords, criticality, or owner ID."""
+    """ Find resources based on search criteria like name keywords, criticality, or owner ID. """
 
     @staticmethod
-    def invoke(data: dict[str, Any], name_keyword: str = None, criticality: str = None, owner_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name_keyword = kwargs.get("name_keyword")
+        criticality = kwargs.get("criticality")
+        owner_id = kwargs.get("owner_id")  # The ESSENTIAL new parameter
+
         try:
-            resources = data.get("resources", {}).values()
+            resources = data.get('resources', [])
         except:
             resources = []
 
         matching_resources = []
         for resource in resources:
-            if (
-                name_keyword
-                and name_keyword.lower() not in resource.get("name", "").lower()
-            ):
+            if name_keyword and name_keyword.lower() not in resource.get("name", "").lower():
                 continue
-            if (
-                criticality
-                and criticality.upper() != resource.get("criticality", "").upper()
-            ):
+            if criticality and criticality.upper() != resource.get("criticality", "").upper():
                 continue
+            # This is the new, required logic
             if owner_id and owner_id != resource.get("owner_id"):
                 continue
-            matching_data["resources"][resource["resource_id"]] = resource
-        payload = matching_resources
-        out = json.dumps(payload)
-        return out
+            matching_resources.append(resource)
+
+        return json.dumps(matching_resources)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindResources",
+                "name": "find_resources",
                 "description": "Searches for resources based on a combination of criteria. Returns a list of matching resources.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "name_keyword": {
-                            "type": "string",
-                            "description": "A keyword to search for within the resource name.",
-                        },
-                        "criticality": {
-                            "type": "string",
-                            "description": "The criticality level to filter by.",
-                        },
-                        "owner_id": {
-                            "type": "string",
-                            "description": "The user ID of the resource owner to filter by.",
-                        },
+                        "name_keyword": {"type": "string", "description": "A keyword to search for within the resource name."},
+                        "criticality": {"type": "string", "description": "The criticality level to filter by."},
+                        "owner_id": {"type": "string", "description": "The user ID of the resource owner to filter by."} # The new parameter info
                     },
-                    "required": [],
-                },
-            },
+                    "required": []
+                }
+            }
         }

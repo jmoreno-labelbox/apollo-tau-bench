@@ -1,58 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ApplyOfferToCart(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], carts: list = None, offers: list = None, cart_id: Any = None, code: Any = None) -> str:
-        if carts is None:
-            carts = data.get("carts", {}).values()
-        if offers is None:
-            offers = data.get("offers", {}).values()
-
+    def invoke(data: Dict[str, Any], cart_id: str, code: Any) -> str:
         cart_id = _as_id(cart_id)
         if not cart_id or not code:
             return _err("cart_id and code are required.")
-
-        cart = next((c for c in carts.values() if _as_id(c.get("cart_id")) == cart_id), None)
+        carts = data.get("carts", [])
+        offers = data.get("offers", [])
+        cart = next((c for c in carts if _as_id(c.get("cart_id")) == cart_id), None)
         if not cart:
             return _err("Cart not found.")
-
         offer = next(
-            (
-                o
-                for o in offers.values() if o.get("offer_code") == code and o.get("is_active") is True
-            ),
-            None,
+            (o for o in offers if o.get("offer_code") == code and o.get("is_active") is True), None
         )
         if not offer:
             return _err("Offer not found or inactive.")
-
         cart["applied_offer_id"] = offer.get("offer_id")
-        payload = {
-            "cart_id": cart_id,
-            "applied_offer_id": cart["applied_offer_id"],
-            "code": code,
-        }
-        out = json.dumps(
-            payload, indent=2,
+        return json.dumps(
+            {"cart_id": cart_id, "applied_offer_id": cart["applied_offer_id"], "code": code},
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ApplyOfferToCart",
+                "name": "apply_offer_to_cart",
                 "description": "Apply an offer code to a cart (sets applied_offer_id).",
                 "parameters": {
                     "type": "object",

@@ -1,18 +1,13 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateWorkflow(Tool):
     """
-    Establish a new workflow run with deterministic behavior for the provided data.
+    Create a new workflow run with deterministic behavior for provided data.
     Inputs:
       - dag_name (str)    : DAG name
       - game_pk (int)     : Game PK (nullable)
@@ -24,17 +19,18 @@ class CreateWorkflow(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], dag_name: str = None, game_pk: int = None, status: str = None) -> str:
-        # Confirm required fields
-        missing = [f for f in ["dag_name", "status"] if locals().get(f) is None]
-        if missing:
-            payload = {"error": f"Missing required field(s): {', '.join(missing)}"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        dag_name = kwargs.get("dag_name")
+        game_pk = kwargs.get("game_pk") or None
+        status = kwargs.get("status")
+        
 
-        workflows = data.get("workflow_runs", {}).values()
+        # Validate required fields
+        missing = [f for f in ["dag_name", "status"] if kwargs.get(f) is None]
+        if missing:
+            return json.dumps({"error": f"Missing required field(s): {', '.join(missing)}"}, indent=2)
+
+        workflows = data.get("workflow_runs", [])
         run_id = get_next_workflow_run_id(data)
         start_time = get_log_start_timestamp()
         end_time = get_log_end_timestamp()
@@ -47,19 +43,18 @@ class CreateWorkflow(Tool):
             "status": status,
             "start_time_utc": start_time,
             "end_time_utc": end_time,
-            "log_s3_path": log_path,
+            "log_s3_path": log_path
         }
 
-        data["workflow_runs"][new_entry["workflow_run_id"]] = new_entry
-        payload = new_entry
-        out = json.dumps(payload, indent=2)
-        return out
+        workflows.append(new_entry)
+        return json.dumps(new_entry, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateWorkflow",
+                "name": "create_workflow",
                 "description": "Create a new workflow run entry.",
                 "parameters": {
                     "type": "object",
@@ -68,7 +63,7 @@ class CreateWorkflow(Tool):
                         "game_pk": {"type": ["integer", "null"]},
                         "status": {"type": "string"},
                     },
-                    "required": ["dag_name", "status"],
-                },
-            },
+                    "required": ["dag_name", "status"]
+                }
+            }
         }

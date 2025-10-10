@@ -1,34 +1,24 @@
-from tau_bench.envs.tool import Tool
-import datetime
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindAndStatFilesTool(Tool):
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindAndStatFiles",
+                "name": "find_and_stat_files",
                 "description": "Finds files on a remote server and gets their metadata.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "target_directory": {"type": "string"},
                         "last_access_days": {"type": "integer"},
-                        "parallel_processes": {
-                            "type": "integer",
-                            "description": "Number of parallel jobs. Defaults to 6.",
-                        },
+                        "parallel_processes": {"type": "integer", "description": "Number of parallel jobs. Defaults to 6."},
                     },
                     "required": ["target_directory", "last_access_days"],
                 },
@@ -36,22 +26,18 @@ class FindAndStatFilesTool(Tool):
         }
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        last_access_days: int = None,
-        target_directory: Any = None,
-        parallel_processes: int = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        last_access_days = kwargs.get("last_access_days")
         log_name = "file_check_log.json"
-        all_remote_files: list[dict[str, Any]] = []
+        all_remote_files: List[Dict[str, Any]] = []
 
-        # Traverse the simulated file_system structure and gather files in a deterministic manner.
-        for server in data.get("file_system", {}).values():
+        # Walk the simulated file_system structure and collect files deterministically.
+        for server in data.get("file_system", []):
             server_host = server.get("host", server.get("remote_address", "unknown"))
             for directory in server.get("directories", []):
                 dir_path = directory.get("path", "")
                 for f in directory.get("files", []) or []:
-                    # accommodate string entries or dictionaries with different keys
+                    # support string entries or dicts with varying keys
                     if isinstance(f, str):
                         name = f
                         path = (
@@ -94,12 +80,12 @@ class FindAndStatFilesTool(Tool):
                     }
                     all_remote_files.append(entry)
 
-        # Store the log in a deterministic way
+        # Persist log deterministically
         data[log_name] = {"data": all_remote_files}
-        payload = {
-            "status": "success",
-            "log_name": log_name,
-            "file_count": len(all_remote_files),
-        }
-        out = json.dumps(payload)
-        return out
+        return json.dumps(
+            {
+                "status": "success",
+                "log_name": log_name,
+                "file_count": len(all_remote_files),
+            }
+        )

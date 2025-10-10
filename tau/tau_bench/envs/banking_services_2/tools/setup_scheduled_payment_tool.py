@@ -1,21 +1,21 @@
-from tau_bench.envs.tool import Tool
-from typing import Any, Dict
+# Copyright Sierra
+
 import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SetupScheduledPaymentTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, from_account_id: str = None, 
-               beneficiary_id: str = None, amount: float = None, frequency: str = None, 
-               start_date: str = None) -> str:
-        scheduled_payments = data.get('scheduled_payments', {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get('customer_id')
+        from_account_id = kwargs.get('from_account_id')
+        beneficiary_id = kwargs.get('beneficiary_id')
+        amount = kwargs.get('amount')
+        frequency = kwargs.get('frequency')
+        start_date = kwargs.get('start_date')
+
+        scheduled_payments = data.get('scheduled_payments', [])
 
         payment_id = f"sched_{generate_unique_id()}"
 
@@ -32,7 +32,7 @@ class SetupScheduledPaymentTool(Tool):
             "next_payment_date": start_date
         }
 
-        data["scheduled_payments"][new_payment["scheduled_payment_id"]] = new_payment
+        scheduled_payments.append(new_payment)
 
         return json.dumps({
             "payment_id": payment_id,
@@ -41,12 +41,13 @@ class SetupScheduledPaymentTool(Tool):
             "amount": amount,
             "frequency": frequency
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SetupScheduledPayment",
+                "name": "setup_scheduled_payment",
                 "description": "Setup a recurring scheduled payment",
                 "parameters": {
                     "type": "object",

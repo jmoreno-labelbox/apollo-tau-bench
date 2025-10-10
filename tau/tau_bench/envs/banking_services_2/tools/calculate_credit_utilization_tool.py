@@ -1,25 +1,21 @@
-from tau_bench.envs.tool import Tool
-from typing import Any, Dict
+# Copyright Sierra
+
 import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CalculateCreditUtilizationTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
-        accounts = data.get('accounts', {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get('customer_id')
+        accounts = list(data.get('accounts', {}).values())
 
         credit_accounts = []
         total_balance = 0
         total_limit = 0
 
-        for account in accounts.values():
+        for account in accounts:
             if (account['customer_id'] == customer_id and
                 account['account_type'] == 'Credit Card'):
                 credit_limit = account.get('credit_limit', 5000)
@@ -46,12 +42,13 @@ class CalculateCreditUtilizationTool(Tool):
             "total_limit": total_limit,
             "overall_utilization_percent": round(overall_utilization, 2)
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateCreditUtilization",
+                "name": "calculate_credit_utilization",
                 "description": "Calculate credit utilization for all customer credit cards",
                 "parameters": {
                     "type": "object",

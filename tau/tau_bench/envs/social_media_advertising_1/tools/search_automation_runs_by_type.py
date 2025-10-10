@@ -1,36 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchAutomationRunsByType(Tool):
-    """Looks for automation runs that have a specific run type."""
+    """Searches for automation runs with a specific run type."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], run_type: str = None) -> str:
-        runs = data.get("automation_runs", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        run_type = kwargs.get("run_type")
+        runs = data.get("automation_runs", [])
         matching_runs = []
-
+        
         for run in runs:
             if run.get("run_type") == run_type:
                 matching_runs.append(run.get("run_id"))
-        payload = {"automation_run_ids": matching_runs}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"automation_run_ids": matching_runs})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "searchAutomationRunsByType",
+                "name": "search_automation_runs_by_type",
                 "description": "Searches for automation runs with a specific run type.",
                 "parameters": {
                     "type": "object",

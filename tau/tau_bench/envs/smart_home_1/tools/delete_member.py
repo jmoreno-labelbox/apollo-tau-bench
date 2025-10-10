@@ -1,44 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class DeleteMember(Tool):
 
     @staticmethod
-    def invoke(data: dict[str, Any], member_id: str) -> str:
-        members = data.get("members", {}).values()
-        new_members = [m for m in members.values() if m["id"] != member_id]
+    def invoke(data: Dict[str, Any], member_id: str) -> str:
+        members = data.get("members", [])
+        new_members = [m for m in members if m["id"] != member_id]
         if len(new_members) == len(members):
-            payload = {"error": "Member not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Member not found"}, indent=2)
         data["members"] = new_members
-        payload = {"success": True}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"success": True}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "deleteMember",
+                "name": "delete_member",
                 "description": "Remove a member entry.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "member_id": {
-                            "type": "string",
-                            "description": "Member identifier.",
-                        }
-                    },
+                    "properties": {"member_id": {"type": "string", "description": "Member identifier."}},
                     "required": ["member_id"],
                     "additionalProperties": False,
                 },

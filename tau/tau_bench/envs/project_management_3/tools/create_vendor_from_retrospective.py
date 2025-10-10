@@ -1,64 +1,56 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateVendorFromRetrospective(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        vendor_name: str,
-        vendor_type: str,
-        payment_terms: str = "Net 30",
-        team_feedback: dict = {},
-        retrospective_id: str = None
-    ) -> str:
-        if not all([vendor_name, vendor_type]):
-            payload = {"error": "vendor_name and vendor_type are required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        vendor_name = kwargs.get("vendor_name")
+        vendor_type = kwargs.get("vendor_type")
+        payment_terms = kwargs.get("payment_terms", "Net 30")
+        team_feedback = kwargs.get("team_feedback", {})
+        retrospective_id = kwargs.get("retrospective_id")
 
-        vendors = data.get("vendors", {}).values()
-        retrospectives = data.get("retrospectives", {}).values()
-        teams = data.get("teams", {}).values()
+        if not all([vendor_name, vendor_type]):
+            return json.dumps({"error": "vendor_name and vendor_type are required"})
+
+        vendors = data.get("vendors", [])
+        retrospectives = data.get("retrospectives", [])
+        teams = data.get("teams", [])
 
         existing = next(
             (
                 v
-                for v in vendors.values() if v.get("vendor_name", "").lower() == vendor_name.lower()
+                for v in vendors
+                if v.get("vendor_name", "").lower() == vendor_name.lower()
             ),
             None,
         )
         if existing:
-            payload = {"error": f"Vendor {vendor_name} already exists"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Vendor {vendor_name} already exists"})
 
         team_skills = []
         if retrospective_id:
             retro = next(
                 (
                     r
-                    for r in retrospectives.values() if r.get("retrospective_id") == retrospective_id
+                    for r in retrospectives
+                    if r.get("retrospective_id") == retrospective_id
                 ),
                 None,
             )
             if retro:
                 team_id = retro.get("team_id")
-                team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
+                team = next((t for t in teams if t.get("team_id") == team_id), None)
                 if team:
+
                     action_items = retro.get("action_items", [])
                     for item in action_items:
                         if "vendor" in item.lower() or "contractor" in item.lower():
+
                             skills = [
                                 "development",
                                 "testing",
@@ -81,24 +73,24 @@ class CreateVendorFromRetrospective(Tool):
             "late_payments": 0,
             "capability_match": team_skills,
             "team_feedback": team_feedback,
-            "created_from_retrospective": (
-                retrospective_id if retrospective_id else None
-            ),
+            "created_from_retrospective": retrospective_id
+            if retrospective_id
+            else None,
             "created_date": datetime.now().isoformat(),
             "requires_assessment": True,
             "preferred_for_skills": team_skills,
         }
 
-        data["vendors"][vendor_id] = new_vendor
-        payload = {"success": True, "vendor": new_vendor}
-        out = json.dumps(payload)
-        return out
+        vendors.append(new_vendor)
+
+        return json.dumps({"success": True, "vendor": new_vendor})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateVendorFromRetrospective",
+                "name": "create_vendor_from_retrospective",
                 "description": "Create a vendor record based on team retrospective feedback",
                 "parameters": {
                     "type": "object",

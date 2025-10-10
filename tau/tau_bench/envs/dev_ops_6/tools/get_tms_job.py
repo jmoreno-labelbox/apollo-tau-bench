@@ -1,25 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetTmsJob(Tool):
 
     @staticmethod
-    def invoke(data: dict[str, Any], id: str = None) -> str:
-        rows = _table(data, "tms_jobs")
-        row = next((r for r in rows if r.get("id") == id), None)
-        return _ok({"tms_job": row}) if row else _err("tms_job not found")
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        jid = kwargs.get('id')
+        rows = _table(data, 'tms_jobs')
+        row = next((r for r in rows if r.get('id') == jid), None)
+        return _ok({'tms_job': row}) if row else _err('tms_job not found')
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "getTmsJob",
-                "description": "Fetch TMS job by id.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"id": {"type": "string"}},
-                    "required": ["id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {'type': 'function', 'function': {'name': 'get_tms_job', 'description': 'Fetch TMS job by id.', 'parameters': {'type': 'object', 'properties': {'id': {'type': 'string'}}, 'required': ['id']}}}

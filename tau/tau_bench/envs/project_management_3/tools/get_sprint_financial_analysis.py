@@ -1,38 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetSprintFinancialAnalysis(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], sprint_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        sprint_id = kwargs.get("sprint_id")
+
         if not sprint_id:
-            payload = {"error": "sprint_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "sprint_id is required"})
 
-        sprints = data.get("sprints", {}).values()
-        tasks = data.get("tasks", {}).values()
-        task_logs = data.get("task_logs", {}).values()
-        employees = data.get("employees", {}).values()
-        expenses = data.get("expenses", {}).values()
+        sprints = data.get("sprints", [])
+        tasks = list(data.get("tasks", {}).values())
+        task_logs = data.get("task_logs", [])
+        employees = list(data.get("employees", {}).values())
+        expenses = data.get("expenses", [])
 
-        sprint = next((s for s in sprints.values() if s.get("sprint_id") == sprint_id), None)
+        sprint = next((s for s in sprints if s.get("sprint_id") == sprint_id), None)
         if not sprint:
-            payload = {"error": f"Sprint {sprint_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Sprint {sprint_id} not found"})
 
-        sprint_tasks = [t for t in tasks.values() if t.get("sprint_id") == sprint_id]
+        sprint_tasks = [t for t in tasks if t.get("sprint_id") == sprint_id]
 
         employee_costs = {}
         total_hours = 0
@@ -40,7 +31,7 @@ class GetSprintFinancialAnalysis(Tool):
 
         for task in sprint_tasks:
             task_time_logs = [
-                log for log in task_logs.values() if log.get("task_id") == task["task_id"]
+                log for log in task_logs if log.get("task_id") == task["task_id"]
             ]
 
             for log in task_time_logs:
@@ -49,7 +40,7 @@ class GetSprintFinancialAnalysis(Tool):
 
                 if employee_id not in employee_costs:
                     employee = next(
-                        (e for e in employees.values() if e.get("employee_id") == employee_id),
+                        (e for e in employees if e.get("employee_id") == employee_id),
                         None,
                     )
                     if employee:
@@ -80,9 +71,9 @@ class GetSprintFinancialAnalysis(Tool):
         sprint_end = datetime.fromisoformat(sprint["end_date"].replace("Z", "+00:00"))
 
         sprint_expenses = []
-        for expense in expenses.values():
+        for expense in expenses:
             if expense.get("sprint_id") == sprint_id:
-                sprint_data["expenses"][expense["expense_id"]] = expense
+                sprint_expenses.append(expense)
             elif expense.get("submitted_date"):
 
                 try:
@@ -103,8 +94,8 @@ class GetSprintFinancialAnalysis(Tool):
                         ).replace(tzinfo=timezone.utc)
 
                     if sprint_start <= submitted_date <= sprint_end:
-                        sprint_data["expenses"][expense["expense_id"]] = expense
-                except Exception:
+                        sprint_expenses.append(expense)
+                except Exception as e:
 
                     pass
 
@@ -124,23 +115,23 @@ class GetSprintFinancialAnalysis(Tool):
                 "total_expense_cost": total_expenses,
                 "total_cost": total_cost + total_expenses,
                 "total_hours": total_hours,
-                "average_hourly_cost": (
-                    round(total_cost / total_hours, 2) if total_hours > 0 else 0
-                ),
+                "average_hourly_cost": round(total_cost / total_hours, 2)
+                if total_hours > 0
+                else 0,
             },
             "productivity_metrics": {
                 "planned_story_points": planned_points,
                 "completed_story_points": completed_points,
-                "cost_per_planned_point": (
-                    round((total_cost + total_expenses) / planned_points, 2)
-                    if planned_points > 0
-                    else 0
-                ),
-                "cost_per_completed_point": (
-                    round((total_cost + total_expenses) / completed_points, 2)
-                    if completed_points > 0
-                    else 0
-                ),
+                "cost_per_planned_point": round(
+                    (total_cost + total_expenses) / planned_points, 2
+                )
+                if planned_points > 0
+                else 0,
+                "cost_per_completed_point": round(
+                    (total_cost + total_expenses) / completed_points, 2
+                )
+                if completed_points > 0
+                else 0,
                 "velocity": sprint.get("velocity", 0),
             },
             "team_costs": {
@@ -161,15 +152,15 @@ class GetSprintFinancialAnalysis(Tool):
             analysis["expense_summary"]["categories"][category] += expense.get(
                 "amount", 0
             )
-        payload = analysis
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(analysis, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetSprintFinancialAnalysis",
+                "name": "get_sprint_financial_analysis",
                 "description": "Get comprehensive financial analysis for a sprint",
                 "parameters": {
                     "type": "object",

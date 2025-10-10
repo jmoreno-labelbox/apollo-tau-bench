@@ -1,37 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RemoveAttachment(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], attachment_id: str = None) -> str:
-        attachments = data.get("attachments", {}).values()
-        data["attachments"] = [
-            a for a in attachments.values() if a.get("attachment_id") != attachment_id
-        ]
-        payload = {"removed_attachment_id": attachment_id}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        attach_id = kwargs.get("attachment_id")
+        attachments = data.get("attachments", [])
+        data["attachments"] = [a for a in attachments if a.get("attachment_id") != attach_id]
+        return json.dumps({"removed_attachment_id": attach_id}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "RemoveAttachment",
-                "description": "Remove an attachment by ID.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"attachment_id": {"type": "string"}},
-                    "required": ["attachment_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"remove_attachment",
+            "description":"Remove an attachment by ID.",
+            "parameters":{"type":"object","properties":{"attachment_id":{"type":"string"}},"required":["attachment_id"]}
+        }}

@@ -1,17 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ListAlerts(Tool):
-    """Delivers code scanning alerts for a specified repository."""
+    """Returns code scanning alerts for a given repository."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        repo_name = kwargs.get("repo_name")
         if not repo_name:
-            payload = {"error": "repo_name is required."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "repo_name is required."}, indent=2)
 
         alerts = _alerts(data)
         filtered = [
@@ -20,25 +21,26 @@ class ListAlerts(Tool):
                 "rule": a.get("rule"),
                 "severity": a.get("severity"),
                 "state": a.get("state"),
-                "dismissed": a.get("dismissed", False),
+                "dismissed": a.get("dismissed", False)
             }
             for a in alerts
             if a.get("repo_name") == repo_name
         ]
-        payload = filtered
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(filtered, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "listAlerts",
+                "name": "list_alerts",
                 "description": "Returns code scanning alerts for a given repository.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"repo_name": {"type": "string"}},
-                    "required": ["repo_name"],
-                },
-            },
+                    "properties": {
+                        "repo_name": {"type": "string"}
+                    },
+                    "required": ["repo_name"]
+                }
+            }
         }

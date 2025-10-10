@@ -1,37 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchAttachmentsByFilename(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], filename: str) -> str:
-        matches = [
-            a for a in data.get("attachments", {}).values() if a.get("filename") == filename
-        ]
-        payload = {"matches": matches}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        filename = kwargs["filename"]
+        matches = [a for a in data.get("attachments", []) if a.get("filename") == filename]
+        return json.dumps({"matches": matches}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "searchAttachmentsByFilename",
+                "name": "search_attachments_by_filename",
                 "description": "Search attachments (simulated Drive) by exact filename.",
                 "parameters": {
                     "type": "object",
                     "properties": {"filename": {"type": "string"}},
-                    "required": ["filename"],
-                },
-            },
+                    "required": ["filename"]
+                }
+            }
         }

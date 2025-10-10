@@ -1,21 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ResolveCatalogEntities(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], kind: str, names: list[str]) -> str:
+    def invoke(data: Dict[str, Any], kind: str, names: List[str]) -> str:
         out = []
         if kind == "product":
             products = _ensure_table(data, "products")
             for n in names:
                 row = _find_one(products, name=n) or _find_one(products, product_code=n)
                 if not row:
-                    # generate in a deterministic manner if absent
                     pid = _stable_id("prod", n)
                     code = n if "-" in n else f"{n.upper().replace(' ','_')}-001"
                     row = {"product_id": pid, "name": n, "product_code": code}
-                    data["products"][product_id] = row
+                    products.append(row)
                 out.append(
                     {
                         "name": row.get("name", n),
@@ -38,40 +40,27 @@ class ResolveCatalogEntities(Tool):
                 row = _find_one(offers, offer_code=n) or _find_one(offers, name=n)
                 if not row:
                     oid = _stable_id("off", n)
-                    row = {
-                        "offer_id": oid,
-                        "offer_code": n,
-                        "description": n,
-                        "active": False,
-                    }
-                    data["offers"][offer_id] = row
-                out.append(
-                    {
-                        "name": row.get("name", row.get("offer_code")),
-                        "id": row["offer_id"],
-                    }
-                )
+                    row = {"offer_id": oid, "offer_code": n, "description": n, "active": False}
+                    offers.append(row)
+                out.append({"name": row.get("name", row.get("offer_code")), "id": row["offer_id"]})
         elif kind == "pbe":
             pbes = _ensure_table(data, "pricebook_entries")
             for n in names:
                 row = _find_one(pbes, pbe_id=n)
                 if row:
                     out.append(
-                        {
-                            "name": n,
-                            "id": row["pbe_id"],
-                            "product_code": row.get("product_code"),
-                        }
+                        {"name": n, "id": row["pbe_id"], "product_code": row.get("product_code")}
                     )
         else:
             raise ValueError(f"Unsupported kind: {kind}")
         return _json({"entities": out})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "resolveCatalogEntities",
+                "name": "resolve_catalog_entities",
                 "description": "Resolve names to canonical catalog entity ids and codes.",
                 "parameters": {
                     "type": "object",

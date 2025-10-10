@@ -1,42 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AddSensorToDatabase(Tool):
-    """Introduce a new device."""
-
+    """Add a new device."""
     @staticmethod
-    def invoke(data: dict[str, Any], sensor: dict[str, Any] | None = None) -> str:
+    def invoke(data: Dict[str, Any], sensor: Optional[Dict[str, Any]] = None) -> str:
         if not sensor:
-            payload = {"error": "'sensor' parameter is required"}
-            out = json.dumps(payload, indent=2)
-            return out
-        sensors_list = data.get("sensors", {}).values()
-        if any(d["id"] == sensor.get("id") for d in sensors_list.values()):
-            payload = {"error": "Sensor with this id already exists"}
-            out = json.dumps(payload, indent=2)
-            return out
-        data["sensors"][sensor["sensor_id"]] = sensor
-        payload = {"success": "Sensor added", "sensor": sensor, "sensors": sensors_list}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+            return json.dumps({"error": "'sensor' parameter is required"}, indent=2)
+        sensors_list = data.get('sensors', [])
+        if any(d["id"] == sensor.get("id") for d in sensors_list):
+            return json.dumps({"error": "Sensor with this id already exists"}, indent=2)
+        sensors_list.append(sensor)
+        return json.dumps({"success": "Sensor added", "sensor": sensor, "sensors": sensors_list}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddSensorToDatabase",
+                "name": "add_sensor_to_database",
                 "description": "Add a new sensor. All fields must be provided in the 'device' object.",
                 "parameters": {
                     "type": "object",
@@ -44,11 +30,11 @@ class AddSensorToDatabase(Tool):
                         "sensor": {
                             "type": "object",
                             "description": "The full sensor object to add (must include id, type, name, location, vendor, model, firmware_version, state_params, state, scheduled_updates)",
-                            "additionalProperties": True,
+                            "additionalProperties": True
                         }
                     },
                     "required": ["sensor"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

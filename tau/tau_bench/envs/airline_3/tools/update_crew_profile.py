@@ -1,159 +1,135 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateCrewProfile(Tool):
     """
-    API tool for updating crew member profile information.
+    API tool to update crew member profile information.
     """
 
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         crew_id: str = None,
         first_name: str = None,
         last_name: str = None,
         role: str = None,
         home_base: str = None,
-        status: str = None,
+        status: str = None
     ) -> str:
-        # Check the necessary parameter for validity
+        
+        # Validate required parameter
         if not crew_id:
-            payload = {"status": "Missing required parameter", "required": "crew_id"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({
+                "status": "Missing required parameter",
+                "required": "crew_id"
+            })
 
-        # Locate the crew member
-        crew_members = data.get("crew_members", {}).values()
+        # Find crew member
+        crew_members = data.get("crew_members", [])
         target_crew = None
         crew_index = None
 
-        for i, crew in enumerate(crew_members.values()):
+        for i, crew in enumerate(crew_members):
             if crew.get("crew_member_id") == crew_id:
                 target_crew = crew
                 crew_index = i
                 break
 
         if not target_crew:
-            payload = {"status": "Crew member not found", "crew_id": crew_id}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({
+                "status": "Crew member not found",
+                "crew_id": crew_id
+            })
 
-        # Preserve initial values for the response
+        # Store original values for response
         original_profile = {
             "first_name": target_crew.get("first_name"),
             "last_name": target_crew.get("last_name"),
             "role": target_crew.get("role"),
-            "home_base": target_crew.get("home_base", {}).values().get("iata_code"),
-            "status": target_crew.get("status"),
+            "home_base": target_crew.get("home_base", {}).get("iata_code"),
+            "status": target_crew.get("status")
         }
 
         updates_made = []
 
-        # Revise first name if it has been supplied
+        # Update first name if provided
         if first_name is not None:
             if not isinstance(first_name, str) or len(first_name.strip()) == 0:
-                payload = {
+                return json.dumps({
                     "status": "first_name must be a non-empty string",
-                    "received": first_name,
-                }
-                out = json.dumps(payload)
-                return out
+                    "received": first_name
+                })
             data["crew_members"][crew_index]["first_name"] = first_name.strip()
             updates_made.append("first_name")
 
-        # Revise last name if it has been supplied
+        # Update last name if provided
         if last_name is not None:
             if not isinstance(last_name, str) or len(last_name.strip()) == 0:
-                payload = {
+                return json.dumps({
                     "status": "last_name must be a non-empty string",
-                    "received": last_name,
-                }
-                out = json.dumps(payload)
-                return out
+                    "received": last_name
+                })
             data["crew_members"][crew_index]["last_name"] = last_name.strip()
             updates_made.append("last_name")
 
-        # Revise role if it has been supplied
+        # Update role if provided
         if role is not None:
-            valid_roles = [
-                "Captain",
-                "First Officer",
-                "Flight Attendant",
-                "Flight Engineer",
-            ]
+            valid_roles = ["Captain", "First Officer", "Flight Attendant", "Flight Engineer"]
             if role not in valid_roles:
-                payload = {
+                return json.dumps({
                     "status": "Invalid role",
                     "valid_roles": valid_roles,
-                    "received": role,
-                }
-                out = json.dumps(payload)
-                return out
+                    "received": role
+                })
             data["crew_members"][crew_index]["role"] = role
             updates_made.append("role")
 
-        # Revise home base if it has been supplied
+        # Update home base if provided
         if home_base is not None:
-            # Check the format of the airport code (basic validation)
-            if (
-                not isinstance(home_base, str)
-                or len(home_base) != 3
-                or not home_base.isalpha()
-            ):
-                payload = {
+            # Validate airport code format (basic validation)
+            if not isinstance(home_base, str) or len(home_base) != 3 or not home_base.isalpha():
+                return json.dumps({
                     "status": "Invalid airport code format. Expected 3-letter IATA code",
-                    "received": home_base,
-                }
-                out = json.dumps(payload)
-                return out
-
+                    "received": home_base
+                })
+            
             data["crew_members"][crew_index]["home_base"] = {
                 "airport_id": f"ARP_{home_base.upper()}",
-                "iata_code": home_base.upper(),
+                "iata_code": home_base.upper()
             }
             updates_made.append("home_base")
 
-        # Revise status if it has been supplied
+        # Update status if provided
         if status is not None:
             valid_statuses = ["Active", "Inactive", "On Leave", "Suspended", "Retired"]
             if status not in valid_statuses:
-                payload = {
+                return json.dumps({
                     "status": "Invalid status",
                     "valid_statuses": valid_statuses,
-                    "received": status,
-                }
-                out = json.dumps(payload)
-                return out
+                    "received": status
+                })
             data["crew_members"][crew_index]["status"] = status
             updates_made.append("status")
 
         if not updates_made:
-            payload = {
+            return json.dumps({
                 "message": "No updates provided",
                 "crew_id": crew_id,
-                "current_profile": original_profile,
-            }
-            out = json.dumps(payload)
-            return out
+                "current_profile": original_profile
+            })
 
-        # Retrieve the updated profile
+        # Get updated profile
         updated_crew = data["crew_members"][crew_index]
         updated_profile = {
             "first_name": updated_crew.get("first_name"),
             "last_name": updated_crew.get("last_name"),
             "role": updated_crew.get("role"),
-            "home_base": updated_crew.get("home_base", {}).values().get("iata_code"),
-            "status": updated_crew.get("status"),
+            "home_base": updated_crew.get("home_base", {}).get("iata_code"),
+            "status": updated_crew.get("status")
         }
 
         response = {
@@ -161,49 +137,50 @@ class UpdateCrewProfile(Tool):
             "message": "Crew profile updated successfully",
             "crew_id": crew_id,
             "updates_made": updates_made,
-            "profile_changes": {"before": original_profile, "after": updated_profile},
+            "profile_changes": {
+                "before": original_profile,
+                "after": updated_profile
+            }
         }
-        payload = response
-        out = json.dumps(payload, indent=2)
-        return out
-    
+
+        return json.dumps(response, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateCrewProfile",
+                "name": "update_crew_profile",
                 "description": "Update crew member profile information including name, role, home base, and status. Essential for maintaining accurate crew records, scheduling, and regulatory compliance.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "crew_id": {
                             "type": "string",
-                            "description": "Crew member identifier. Format: CM followed by 3-digit number.",
+                            "description": "Crew member identifier. Format: CM followed by 3-digit number."
                         },
                         "first_name": {
                             "type": "string",
-                            "description": "New first name for the crew member",
+                            "description": "New first name for the crew member"
                         },
                         "last_name": {
                             "type": "string",
-                            "description": "New last name for the crew member",
+                            "description": "New last name for the crew member"
                         },
                         "role": {
                             "type": "string",
-                            "description": "New role: 'Captain', 'First Officer', 'Flight Attendant', 'Flight Engineer'. Each role has specific certification and experience requirements.",
+                            "description": "New role: 'Captain', 'First Officer', 'Flight Attendant', 'Flight Engineer'. Each role has specific certification and experience requirements."
                         },
                         "home_base": {
                             "type": "string",
-                            "description": "New home base airport IATA code",
+                            "description": "New home base airport IATA code"
                         },
                         "status": {
                             "type": "string",
-                            "description": "New status: 'Active', 'Inactive', 'On Leave', 'Suspended', 'Retired'. Status changes affect crew availability and scheduling.",
-                        },
+                            "description": "New status: 'Active', 'Inactive', 'On Leave', 'Suspended', 'Retired'. Status changes affect crew availability and scheduling."
+                        }
                     },
-                    "required": ["crew_id"],
-                },
-            },
+                    "required": ["crew_id"]
+                }
+            }
         }

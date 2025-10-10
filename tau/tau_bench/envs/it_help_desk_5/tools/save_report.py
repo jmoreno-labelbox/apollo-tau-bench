@@ -1,48 +1,39 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class SaveReport(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], save_data: list = None) -> str:
-        if save_data is None:
-            save_data = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        save_data = kwargs.get('save_data',[])
 
         if len(save_data) == 0:
-            payload = {
-                "status": "error",
-                "description": "The save_data and file_path parameters are required.",
-            }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({'status': 'error', 'description': 'The save_data and file_path parameters are required.'}, indent=2)
 
         new_report = {
-            "save_data": save_data,
-            "file_path": "/IT/Reports/Backlog/Backlog_Status.pdf",
+            'save_data': save_data,
+            'file_path': '/IT/Reports/Backlog/Backlog_Status.pdf'
         }
-        payload = new_report
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(new_report, indent=2)
+
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "saveReport",
-                "description": "Saves a report containing data called Backlog_Status.pdf",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "save_data": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "An array containing data to save",
-                        },
+            'type': 'function',
+            'function': {
+                'name': 'save_report',
+                'description': 'Saves a report containing data called Backlog_Status.pdf',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'save_data': {'type': 'array', 'items': {'type': 'string'}, 'description': 'An array containing data to save'},
                     },
-                    "required": ["save_data"],
-                },
-            },
+                    'required': ['save_data']
+                }
+            }
         }

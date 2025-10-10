@@ -1,18 +1,14 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class list_artifacts(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], artifact_type: str = None, owner_email: str = None, figma_file_id: str = None, tag: str = None) -> str:
-        p = {
-            "artifact_type": artifact_type,
-            "owner_email": owner_email,
-            "figma_file_id": figma_file_id,
-            "tag": tag
-        }
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        p = _params(data, kwargs)
         rows = []
         for a in _ensure(data, "figma_artifacts", []):
             if p.get("artifact_type") and a.get("artifact_type") != p["artifact_type"]:
@@ -27,21 +23,16 @@ class list_artifacts(Tool):
                     continue
             rows.append(a)
         return _ok({"rows": rows})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "listArtifacts",
-                "description": "List Figma artifacts (files/pages/frames) with optional filters.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "artifact_type": {"type": "string"},
-                        "owner_email": {"type": "string"},
-                        "figma_file_id": {"type": "string"},
-                        "tag": {"type": "string"},
-                    },
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"list_artifacts",
+            "description":"List Figma artifacts (files/pages/frames) with optional filters.",
+            "parameters":{"type":"object","properties":{
+                "artifact_type":{"type":"string"},
+                "owner_email":{"type":"string"},
+                "figma_file_id":{"type":"string"},
+                "tag":{"type":"string"},
+            }}
+        }}

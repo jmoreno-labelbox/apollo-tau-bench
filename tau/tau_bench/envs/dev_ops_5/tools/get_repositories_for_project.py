@@ -1,31 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetRepositoriesForProject(Tool):
-    """Fetches all repositories for a specified project ID."""
+    """Retrieves all repositories for a given project ID."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        repos = list(data.get("repositories", {}).values())
+        project_repos = [r for r in repos if r.get("project_id") == project_id]
+        return json.dumps(project_repos)
 
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: str = None) -> str:
-        repos = data.get("repositories", {}).values()
-        project_repos = [r for r in repos.values() if r.get("project_id") == project_id]
-        payload = project_repos
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getRepositoriesForProject",
+                "name": "get_repositories_for_project",
                 "description": "Retrieves all repositories for a given project ID.",
                 "parameters": {
                     "type": "object",

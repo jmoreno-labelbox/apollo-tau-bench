@@ -1,13 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CaV2ApproveTimeEntry(Tool):
-    """Approve time entry for invoicing manually when synced_at is not set."""
+    """Manually approve time entry for invoicing when synced_at is null."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], entry_id: str = None, approved_by: str = None, approval_reason: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        entry_id = kwargs.get("entry_id")
+        approved_by = kwargs.get("approved_by")
+        approval_reason = kwargs.get("approval_reason")
+
         if not all([entry_id, approved_by, approval_reason]):
             return _error("entry_id, approved_by, and approval_reason are required.")
 
@@ -16,22 +22,22 @@ class CaV2ApproveTimeEntry(Tool):
             approved_by=approved_by,
             approval_reason=approval_reason,
             approved_at="2024-12-16T15:00:00Z",
-            status="approved_for_billing",
+            status="approved_for_billing"
         )
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CaV2ApproveTimeEntry",
+                "name": "ca_v2_approve_time_entry",
                 "description": "Manually approve time entry for invoicing when synced_at is null.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "entry_id": {"type": "string"},
                         "approved_by": {"type": "string"},
-                        "approval_reason": {"type": "string"},
+                        "approval_reason": {"type": "string"}
                     },
                     "required": ["entry_id", "approved_by", "approval_reason"],
                 },

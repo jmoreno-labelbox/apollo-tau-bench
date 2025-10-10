@@ -1,28 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetEmployeeWorkload(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None, sprint_id: str = None, include_blocked: bool = True) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        sprint_id = kwargs.get("sprint_id")
+        include_blocked = kwargs.get("include_blocked", True)
+
         if not employee_id:
-            payload = {"error": "employee_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "employee_id is required"})
 
-        tasks = data.get("tasks", {}).values()
+        tasks = list(data.get("tasks", {}).values())
 
-        employee_tasks = [t for t in tasks.values() if t.get("assignee_id") == employee_id]
+        employee_tasks = [t for t in tasks if t.get("assignee_id") == employee_id]
 
         if sprint_id:
             employee_tasks = [
@@ -34,18 +29,18 @@ class GetEmployeeWorkload(Tool):
         ]
         if include_blocked:
             active_tasks.extend(
-                [t for t in employee_tasks.values() if t.get("status") == "blocked"]
+                [t for t in employee_tasks if t.get("status") == "blocked"]
             )
 
-        total_story_points = sum(t.get("story_points", 0) for t in active_tasks.values())
+        total_story_points = sum(t.get("story_points", 0) for t in active_tasks)
 
         status_breakdown = {
-            "todo": len([t for t in employee_tasks.values() if t.get("status") == "todo"]),
+            "todo": len([t for t in employee_tasks if t.get("status") == "todo"]),
             "in_progress": len(
-                [t for t in employee_tasks.values() if t.get("status") == "in_progress"]
+                [t for t in employee_tasks if t.get("status") == "in_progress"]
             ),
-            "blocked": len([t for t in employee_tasks.values() if t.get("status") == "blocked"]),
-            "done": len([t for t in employee_tasks.values() if t.get("status") == "done"]),
+            "blocked": len([t for t in employee_tasks if t.get("status") == "blocked"]),
+            "done": len([t for t in employee_tasks if t.get("status") == "done"]),
         }
 
         priority_breakdown = {
@@ -70,7 +65,9 @@ class GetEmployeeWorkload(Tool):
                 if t.get("priority") == "low"
             ),
         }
-        payload = {
+
+        return json.dumps(
+            {
                 "employee_id": employee_id,
                 "sprint_id": sprint_id,
                 "total_active_story_points": total_story_points,
@@ -78,22 +75,21 @@ class GetEmployeeWorkload(Tool):
                 "active_tasks": len(active_tasks),
                 "status_breakdown": status_breakdown,
                 "priority_breakdown": priority_breakdown,
-                "workload_rating": (
-                    "overloaded"
-                    if total_story_points > 25
-                    else "high" if total_story_points > 20 else "normal"
-                ),
-            }
-        out = json.dumps(
-            payload, indent=2,
+                "workload_rating": "overloaded"
+                if total_story_points > 25
+                else "high"
+                if total_story_points > 20
+                else "normal",
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetEmployeeWorkload",
+                "name": "get_employee_workload",
                 "description": "Get current workload for an employee",
                 "parameters": {
                     "type": "object",

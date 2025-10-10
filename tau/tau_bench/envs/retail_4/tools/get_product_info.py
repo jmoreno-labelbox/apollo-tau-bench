@@ -1,59 +1,47 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetProductInfo(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], item_id: str) -> str:
+    def invoke(data: Dict[str, Any], item_id: str) -> str:
         """
         Get basic product information by item ID
         Data Sources: products.json
         """
-        products = data.get("products", {}).values()
-        for product in products.values():
-            variants = product.get("variants", {}).values()
+        products = list(data.get("products", {}).values())
+        for product in products:
+            variants = product.get("variants", {})
             if item_id in variants:
                 variant = variants[item_id]
-                payload = {
+                return json.dumps({
                     "status": "success",
                     "item_id": item_id,
                     "product_id": product.get("product_id"),
                     "product_name": product.get("name"),
                     "price": variant.get("price"),
                     "available": variant.get("available"),
-                    "options": list(variant.get("options", {}).values()),
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Item {item_id} not found", "status": "failed"}
-        out = json.dumps(payload)
-        return out
+                    "options": variant.get("options", {})
+                })
+
+        return json.dumps({"error": f"Item {item_id} not found", "status": "failed"})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetProductInfo",
+                "name": "get_product_info",
                 "description": "Get basic product information by item ID",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "item_id": {
-                            "type": "string",
-                            "description": "Product item identifier (e.g., 'ITEM12345')",
-                        }
+                        "item_id": {"type": "string", "description": "Product item identifier (e.g., 'ITEM12345')"}
                     },
-                    "required": ["item_id"],
-                },
-            },
+                    "required": ["item_id"]
+                }
+            }
         }

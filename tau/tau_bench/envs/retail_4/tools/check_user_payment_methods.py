@@ -1,32 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CheckUserPaymentMethods(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str) -> str:
+    def invoke(data: Dict[str, Any], user_id: str) -> str:
         """
         List user's available payment methods
         Data Sources: users.json (payment_methods)
         """
-        users = data.get("users", {}).values()
-        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
+        users = list(data.get("users", {}).values())
+        user = next((u for u in users if u.get("user_id") == user_id), None)
 
         if not user:
-            payload = {"error": f"User {user_id} not found", "status": "failed"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"User {user_id} not found", "status": "failed"})
 
-        payment_methods = user.get("payment_methods", {}).values()
+        payment_methods = user.get("payment_methods", {})
         method_list = []
 
         for method_id, method_info in payment_methods.items():
@@ -41,31 +33,27 @@ class CheckUserPaymentMethods(Tool):
                 method_data["balance"] = method_info.get("balance")
 
             method_list.append(method_data)
-        payload = {
+
+        return json.dumps({
             "status": "success",
             "user_id": user_id,
             "payment_methods": method_list,
-            "total_methods": len(method_list),
-        }
-        out = json.dumps(payload)
-        return out
+            "total_methods": len(method_list)
+        })
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CheckUserPaymentMethods",
+                "name": "check_user_payment_methods",
                 "description": "List user's available payment methods",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "user_id": {
-                            "type": "string",
-                            "description": "User identifier (e.g., 'liam_wilson_6720')",
-                        }
+                        "user_id": {"type": "string", "description": "User identifier (e.g., 'lucas_brown_6720')"}
                     },
-                    "required": ["user_id"],
-                },
-            },
+                    "required": ["user_id"]
+                }
+            }
         }

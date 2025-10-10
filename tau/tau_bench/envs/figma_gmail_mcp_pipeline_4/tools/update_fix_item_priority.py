@@ -1,81 +1,54 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateFixItemPriority(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], item_id: str = None, new_priority: str = None, updated_by: str = None, priority_reason: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
-        Modifies the priority of a fix item.
+        Updates the priority of a fix item.
         """
+        item_id = kwargs.get('item_id')
+        new_priority = kwargs.get('new_priority')
+        updated_by = kwargs.get('updated_by')
+
         if not all([item_id, new_priority, updated_by]):
-            payload = {"error": "item_id, new_priority, and updated_by are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "item_id, new_priority, and updated_by are required"})
 
-        # Check the correctness of priority values
-        valid_priorities = ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
+        # Validate priority values
+        valid_priorities = ['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']
         if new_priority not in valid_priorities:
-            payload = {
-                "error": f"Invalid priority. Must be one of: {', '.join(valid_priorities)}"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Invalid priority. Must be one of: {', '.join(valid_priorities)}"})
 
-        # Locate and modify the fix item
-        for item in data.get("fix_items", {}).values():
-            if item.get("item_id") == item_id:
-                item["priority"] = new_priority
-                item["last_updated"] = datetime.now().isoformat()
-                item["updated_by"] = updated_by
-                payload = {
-                    "status": "success",
-                    "item_id": item_id,
-                    "new_priority": new_priority,
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Fix item with ID {item_id} not found"}
-        out = json.dumps(payload)
-        return out
+        # Find and update the fix item
+        for item in data.get('fix_items', []):
+            if item.get('item_id') == item_id:
+                item['priority'] = new_priority
+                item['last_updated'] = datetime.now().isoformat()
+                item['updated_by'] = updated_by
+                return json.dumps({"status": "success", "item_id": item_id, "new_priority": new_priority})
+
+        return json.dumps({"error": f"Fix item with ID {item_id} not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateFixItemPriority",
+                "name": "update_fix_item_priority",
                 "description": "Updates the priority of a fix item.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "item_id": {
-                            "type": "string",
-                            "description": "The ID of the fix item to update.",
-                        },
-                        "new_priority": {
-                            "type": "string",
-                            "description": "The new priority level.",
-                        },
-                        "updated_by": {
-                            "type": "string",
-                            "description": "Email of the user updating the priority.",
-                        },
-                        "notes": {
-                            "type": "string",
-                            "description": "Optional notes about the priority change.",
-                        },
+                        "item_id": {"type": "string", "description": "The ID of the fix item to update."},
+                        "new_priority": {"type": "string", "description": "The new priority level."},
+                        "updated_by": {"type": "string", "description": "Email of the user updating the priority."},
+                        "notes": {"type": "string", "description": "Optional notes about the priority change."}
                     },
-                    "required": ["item_id", "new_priority", "updated_by"],
-                },
-            },
+                    "required": ["item_id", "new_priority", "updated_by"]
+                }
+            }
         }

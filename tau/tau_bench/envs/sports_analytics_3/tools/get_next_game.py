@@ -1,46 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetNextGame(Tool):
     """
-    Retrieve the next Scheduled game that occurs strictly after a specified date.
-    If team_id is provided, only consider games where that team is either home or away.
+    Return the next Scheduled game strictly after a given date.
+    If team_id is provided, only consider games where that team is home or away.
 
     Inputs:
       - current_date (YYYY-MM-DD) [required]
       - team_id (int) [optional]
 
-    Selection criteria:
+    Selection rule:
       - Only games with game_status == "Scheduled"
       - game_date must be > current_date (strictly after)
-      - If there are multiple options, select the earliest game_date; use smallest game_pk
-        as a tie-breaker for determinism.
+      - If multiple candidates, pick the earliest game_date; tie-break by smallest game_pk
+        for determinism.
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], current_date: str = None, team_id: str = None) -> str:
-        #1) Confirm validity
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        current_date= kwargs.get("current_date")
+        team_id= kwargs.get("team_id")
+
+        # 1) Validate
         if not isinstance(current_date, str) or current_date == "":
-            payload = {"error": "Missing required field: current_date (YYYY-MM-DD)"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "Missing required field: current_date (YYYY-MM-DD)"}, indent=2)
 
-        #2) Retrieve DB
-        games: list[dict[str, Any]] = data.get("games", {}).values()
+        # 2) Get DB
+        games: List[Dict[str, Any]] = data.get("games", [])
 
-        #3) Filter future games that are eligible
-        def is_eligible(g: dict[str, Any]) -> bool:
+        # 3) Filter eligible future games
+        def is_eligible(g: Dict[str, Any]) -> bool:
             if g.get("game_status") != "Scheduled":
                 return False
             if g.get("game_date", "") <= current_date:
@@ -49,43 +43,36 @@ class GetNextGame(Tool):
                 return True
             return g.get("home_team_id") == team_id or g.get("away_team_id") == team_id
 
-        future = [g for g in games.values() if is_eligible(g)]
+        future = [g for g in games if is_eligible(g)]
 
         if not future:
-            target = (
-                f"after {current_date}"
-                if team_id is None
-                else f"for team_id {team_id} after {current_date}"
-            )
-            payload = {"error": f"No next scheduled game {target}"}
-            out = json.dumps(payload, indent=2)
-            return out
+            target = f"after {current_date}" if team_id is None else f"for team_id {team_id} after {current_date}"
+            return json.dumps({"error": f"No next scheduled game {target}"}, indent=2)
 
-        #4) Deterministic selection: earliest date first, then smallest game_pk
+        # 4) Deterministic selection: earliest date, then smallest game_pk
         future.sort(key=lambda g: (g.get("game_date", ""), g.get("game_pk", 0)))
-        payload = future[0]
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(future[0], indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetNextGame",
+                "name": "get_next_game",
                 "description": "Return the next Scheduled game strictly after current_date; optionally filter by team_id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "current_date": {
                             "type": "string",
-                            "description": "Current date in YYYY-MM-DD; next game must be strictly after this date.",
+                            "description": "Current date in YYYY-MM-DD; next game must be strictly after this date."
                         },
                         "team_id": {
                             "type": "integer",
-                            "description": "Optional team filter; include games where this team is home or away.",
-                        },
+                            "description": "Optional team filter; include games where this team is home or away."
+                        }
                     },
-                    "required": ["current_date"],
-                },
-            },
+                    "required": ["current_date"]
+                }
+            }
         }

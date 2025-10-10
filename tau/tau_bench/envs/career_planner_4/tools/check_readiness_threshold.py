@@ -1,17 +1,17 @@
-from tau_bench.envs.tool import Tool
-import json
-import uuid
-from datetime import datetime
-from typing import Any
+# Copyright Sierra
 
-class CheckReadinessThreshold(Tool):
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class check_readiness_threshold(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any], user_id: str, threshold: int, comparison: str
+        data: Dict[str, Any], user_id: str, threshold: int, comparison: str
     ) -> str:
-        pass
-        #Simulated implementation - in a real system, actual readiness scores would be verified
-        readiness_score = 75  #Simulated score
+        # Mock implementation - in real system would check actual readiness scores
+        readiness_score = 75  # Mock score
 
         if comparison == "below":
             meets_condition = readiness_score < threshold
@@ -19,25 +19,24 @@ class CheckReadinessThreshold(Tool):
             meets_condition = readiness_score > threshold
         else:
             meets_condition = readiness_score == threshold
-        payload = {
+
+        return json.dumps(
+            {
                 "user_id": user_id,
                 "readiness_score": readiness_score,
                 "threshold": threshold,
                 "comparison": comparison,
                 "meets_condition": meets_condition,
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
 
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "checkReadinessThreshold",
+                "name": "check_readiness_threshold",
                 "description": "Check if user's readiness score meets threshold",
                 "parameters": {
                     "type": "object",

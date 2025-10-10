@@ -1,19 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CommitChangesToBranch(Tool):
-    """Commits modifications to a branch along with a message (produces SHA and metadata)."""
+    """Commits changes to a branch with a message (generates SHA and metadata)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str = None, branch: str = None, commit_message: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        repo_name = kwargs.get("repo_name")
+        branch = kwargs.get("branch")
+        commit_message = kwargs.get("commit_message")
+
         if not all([repo_name, branch, commit_message]):
-            payload = {"error": "repo_name, branch, and commit_message are required."}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({"error": "repo_name, branch, and commit_message are required."}, indent=2)
 
         try:
             repo = _find_repo_record(data, repo_name)
@@ -25,14 +27,7 @@ class CommitChangesToBranch(Tool):
             commits = _commits(data)
             me = _auth(data)["username"]
 
-            commit_block = next(
-                (
-                    c
-                    for c in commits
-                    if c["owner"] == me and c["repo_name"] == repo_name
-                ),
-                None,
-            )
+            commit_block = next((c for c in commits if c["owner"] == me and c["repo_name"] == repo_name), None)
             if not commit_block:
                 commit_block = {
                     "owner": me,
@@ -57,37 +52,33 @@ class CommitChangesToBranch(Tool):
                 commit_block["commit_messages"][bidx].append(commit_message)
                 commit_block["commit_authors"][bidx].append(me)
                 commit_block["commit_timestamps"][bidx].append(get_current_timestamp())
-            payload = {
-                    "message": "Committed to branch",
-                    "repo": repo_name,
-                    "branch": branch,
-                    "commit_sha": new_sha,
-                    "commit_message": commit_message,
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+
+            return json.dumps({
+                "message": "Committed to branch",
+                "repo": repo_name,
+                "branch": branch,
+                "commit_sha": new_sha,
+                "commit_message": commit_message
+            }, indent=2)
 
         except Exception as e:
-            payload = {"error": str(e)}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": str(e)}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CommitChangesToBranch",
+                "name": "commit_changes_to_branch",
                 "description": "Commits all current changes to a branch with the given message.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "repo_name": {"type": "string"},
                         "branch": {"type": "string"},
-                        "commit_message": {"type": "string"},
+                        "commit_message": {"type": "string"}
                     },
-                    "required": ["repo_name", "branch", "commit_message"],
-                },
-            },
+                    "required": ["repo_name", "branch", "commit_message"]
+                }
+            }
         }

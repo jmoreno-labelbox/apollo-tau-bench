@@ -1,23 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone, date, timedelta
-import calendar
-from typing import Any, Dict
-import random
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAccountDetailsByCustomerIdAndAccountId(Tool):
+    """
+    Retrieves a single account’s details by matching both customer_id and account_id.
+    """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, account_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        account_id  = kwargs.get("account_id")
+
         if not customer_id or not account_id:
             return json.dumps({
                 "error": "customer_id and account_id are both required."
@@ -25,7 +22,7 @@ class GetAccountDetailsByCustomerIdAndAccountId(Tool):
 
         # Look up the account
         acct = next(
-            (a for a in data.get("accounts", {}).values()
+            (a for a in list(data.get("accounts", {}).values())
              if a.get("customer_id") == customer_id and a.get("account_id") == account_id),
             None
         )
@@ -44,12 +41,13 @@ class GetAccountDetailsByCustomerIdAndAccountId(Tool):
             "currency":              acct.get("currency"),
             "status":                acct.get("status"),
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
         "function": {
-            "name": "GetAccountDetailsByCustomerIdAndAccountId",
+            "name": "get_account_details_by_customer_id_and_account_id",
             "description": "Fetches the full details of an account matching the given customer_id and account_id.",
             "parameters": {
                 "type": "object",

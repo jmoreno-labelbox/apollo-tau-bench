@@ -1,48 +1,48 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetFileContents(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str = None, path: str = None, branch: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        repo_name = kwargs.get("repo_name")
+        path = kwargs.get("path")
+        branch = kwargs.get("branch")
+
         if not all([repo_name, path]):
-            payload = {"error": "repo_name and path are required."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "repo_name and path are required."}, indent=2)
 
         repo = _find_repo_record(data, repo_name)
         idx = _branch_index(repo, branch)
         files = repo["branch_files"][idx]
-        #print("files:", files)
+        # print("fuiles:", files)
         contents = repo["branch_contents"][idx]
-        #print("contents:", contents)
+        # print("contents:", contents)
 
         if path not in files:
-            payload = {"error": f"File '{path}' not found."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"File '{path}' not found."}, indent=2)
 
         i = files.index(path)
-        payload = {"path": path, "content": contents[i]}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"path": path, "content": contents[i]}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GetFileContents",
+                "name": "get_file_contents",
                 "description": "Gets the contents of a file in a repository branch.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "repo_name": {"type": "string"},
                         "branch": {"type": "string"},
-                        "path": {"type": "string"},
+                        "path": {"type": "string"}
                     },
-                    "required": ["repo_name", "path"],
-                },
-            },
+                    "required": ["repo_name", "path"]
+                }
+            }
         }

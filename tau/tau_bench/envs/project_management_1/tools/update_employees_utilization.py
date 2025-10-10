@@ -1,38 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateEmployeesUtilization(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_ids: list[str] = None) -> str:
-        if not employee_ids:
-            payload = {"error": "employee_ids is required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
 
-        employees = data.get("employees", {}).values()
+        employee_ids = kwargs.get("employee_ids", [])
+
+        if not employee_ids:
+            return json.dumps({"error": "employee_ids is required"})
+
+        employees = list(data.get("employees", {}).values())
         employee_info = {
-            info["employee_id"]: {
-                "index": i,
-                "max_hours_per_week": info["max_hours_per_week"],
-            }
-            for i, info in enumerate(employees.values())
+            info["employee_id"]: {"index": i, "max_hours_per_week": info["max_hours_per_week"]}
+            for i, info in enumerate(employees)
         }
 
-        allocations = data.get("allocations", {}).values()
+        allocations = data.get("allocations", [])
 
         utilization_per_employee = {}
-        for allocation in allocations.values():
+        for allocation in allocations:
             employee_id = allocation.get("employee_id")
             if employee_id not in employee_ids:
                 continue
@@ -40,13 +31,15 @@ class UpdateEmployeesUtilization(Tool):
             hours = allocation.get("hours_per_week")
             if employee_id in utilization_per_employee:
                 utilization_per_employee[employee_id]["project_allocations"] += [
-                    {"project_id": project_id, "hours": hours},
+                    {
+                        "project_id": project_id,
+                        "hours": hours
+                    },
                 ]
                 utilization_per_employee[employee_id]["total_hours"] += hours
                 utilization_per_employee[employee_id]["utilization_percentage"] = int(
-                    utilization_per_employee[employee_id]["total_hours"]
-                    * 100
-                    / employee_info[employee_id]["max_hours_per_week"]
+                    utilization_per_employee[employee_id]["total_hours"] * 100 /
+                    employee_info[employee_id]["max_hours_per_week"]
                 )
             else:
                 utilization_per_employee[employee_id] = {
@@ -54,12 +47,13 @@ class UpdateEmployeesUtilization(Tool):
                     "employee_id": employee_id,
                     "week": "current",
                     "project_allocations": [
-                        {"project_id": project_id, "hours": hours},
+                        {
+                            "project_id": project_id,
+                            "hours": hours
+                        },
                     ],
                     "total_hours": hours,
-                    "utilization_percentage": int(
-                        hours * 100 / employee_info[employee_id]["max_hours_per_week"]
-                    ),
+                    "utilization_percentage": int(hours * 100/ employee_info[employee_id]["max_hours_per_week"]),
                 }
 
         new_utilization_logs = []
@@ -68,27 +62,26 @@ class UpdateEmployeesUtilization(Tool):
                 continue
             new_utilization_logs.append(utilization_info)
             employees[employee_info[employee_id]["index"]]["current_utilization"] = (
-                utilization_info
-            )["utilization_percentage"]
+                utilization_info)["utilization_percentage"]
 
         data["utilization_logs"] = new_utilization_logs
-        payload = {"success": True, "utilization_logs": new_utilization_logs}
-        out = json.dumps(payload)
-        return out
+
+
+        return json.dumps({"success": True, "utilization_logs": new_utilization_logs})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateEmployeesUtilization",
+                "name": "update_employees_utilization",
                 "description": "Update utilization log and employees current utilization with information "
-                "from allocations",
+                               "from allocations",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "employee_ids": {
-                            "type": "array",
-                            "items": {"type": "string"},
+                            "type": "list",
                             "description": "List of employee IDs",
                         }
                     },

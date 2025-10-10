@@ -1,8 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AddJointAccountHolderTool(Tool):
     """
@@ -21,7 +22,9 @@ class AddJointAccountHolderTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, holder_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get("account_id")
+        holder_id = kwargs.get("holder_id")
         if not account_id or not holder_id:
             return json.dumps({"error": "account_id and holder_id are required"})
 
@@ -35,12 +38,13 @@ class AddJointAccountHolderTool(Tool):
                 )
 
         return json.dumps({"error": "Account not found"}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddJointAccountHolder",
+                "name": "add_joint_account_holder",
                 "description": "Add a joint account holder to an existing account.",
                 "parameters": {
                     "type": "object",

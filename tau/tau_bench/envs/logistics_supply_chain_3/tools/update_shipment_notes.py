@@ -1,47 +1,43 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateShipmentNotes(Tool):
-    """Revises the notes for a particular inbound shipment."""
+    """Updates the notes for a specific inbound shipment."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], shipment_id: str = None, new_note: str = None) -> str:
-        inbound_shipments = data.get("inbound_shipments", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        shipment_id = kwargs.get("shipment_id")
+        new_note = kwargs.get("new_note")
+        inbound_shipments = data.get("inbound_shipments", [])
 
         for shipment in inbound_shipments:
             if shipment.get("shipment_id") == shipment_id:
                 original_note = shipment.get("notes")
+                # Append new note to existing notes if they exist, separated by a pipe
                 if original_note:
                     shipment["notes"] = f"{original_note} | {new_note}"
                 else:
                     shipment["notes"] = new_note
-                payload = {
-                    "status": "success",
-                    "shipment_id": shipment_id,
-                    "updated_notes": shipment["notes"],
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Shipment ID not found"}
-        out = json.dumps(payload)
-        return out
+
+                return json.dumps(
+                    {
+                        "status": "success",
+                        "shipment_id": shipment_id,
+                        "updated_notes": shipment["notes"],
+                    }
+                )
+        return json.dumps({"error": "Shipment ID not found"})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateShipmentNotes",
+                "name": "update_shipment_notes",
                 "description": "Updates the notes field for a specific inbound shipment record.",
                 "parameters": {
                     "type": "object",

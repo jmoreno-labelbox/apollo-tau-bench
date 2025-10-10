@@ -1,24 +1,16 @@
-from tau_bench.envs.tool import Tool
-import csv
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FetchPolicyRule(Tool):
-    """Retrieve a business rule parameter using its name (compatible with policy_params and policy_rules)."""
+    """Look up a business rule parameter by name (supports policy_params and policy_rules)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], rule_name: str = None) -> str:
-        target = rule_name
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        target = kwargs.get("rule_name")
         sources = []
         if isinstance(data.get("policy_params"), list):
             sources.extend(data["policy_params"])
@@ -29,20 +21,19 @@ class FetchPolicyRule(Tool):
             key = row.get("param_name")
             if key == target:
                 val = (
-                    row.get("value") if "value" in row else row.get("param_value", None)
+                    row.get("value")
+                    if "value" in row
+                    else row.get("param_value", None)
                 )
-                payload = {"name": key, "value": val}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Policy rule {target} not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"name": key, "value": val})
+        return json.dumps({"error": f"Policy rule {target} not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FetchPolicyRule",
+                "name": "fetch_policy_rule",
                 "description": "Look up a business rule parameter by name.",
                 "parameters": {
                     "type": "object",

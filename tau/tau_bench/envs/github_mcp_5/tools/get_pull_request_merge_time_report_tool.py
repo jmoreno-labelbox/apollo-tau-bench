@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetPullRequestMergeTimeReportTool(Tool):
     """
@@ -45,16 +33,14 @@ class GetPullRequestMergeTimeReportTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        prs = data.get("pull_requests", {}).values()
-        merged_prs = [
-            p for p in prs.values() if p.get("repo") == repo_name and p.get("state") == "merged"
-        ]
+        prs = list(data.get("pull_requests", {}).values())
+        merged_prs = [p for p in prs if p.get("repo") == repo_name and p.get("state") == "merged"]
 
         merge_times = []
         for pr in merged_prs:
@@ -63,9 +49,7 @@ class GetPullRequestMergeTimeReportTool(Tool):
             if created and merged:
                 merge_times.append(_days_between(created, merged))
 
-        average_merge_time = (
-            int(sum(merge_times) / len(merge_times)) if merge_times else 0
-        )
+        average_merge_time = int(sum(merge_times) / len(merge_times)) if merge_times else 0
 
         report = {
             "repo": repo_name,
@@ -75,12 +59,13 @@ class GetPullRequestMergeTimeReportTool(Tool):
         }
 
         return _response("ok", report)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPullRequestMergeTimeReport",
+                "name": "get_pull_request_merge_time_report",
                 "description": "Calculate deterministic average time-to-merge for pull requests.",
                 "parameters": {
                     "type": "object",

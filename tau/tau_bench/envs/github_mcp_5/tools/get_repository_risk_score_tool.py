@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetRepositoryRiskScoreTool(Tool):
     """
@@ -43,21 +31,17 @@ class GetRepositoryRiskScoreTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        alerts = data.get("code_scanning_alerts", {}).values()
-        open_alerts = [
-            a for a in alerts.values() if a.get("repo") == repo_name and a.get("state") == "open"
-        ]
+        alerts = data.get("code_scanning_alerts", [])
+        open_alerts = [a for a in alerts if a.get("repo") == repo_name and a.get("state") == "open"]
 
         score = sum(
-            {"critical": 5, "high": 3, "medium": 2, "low": 1}.get(
-                a.get("severity", "low"), 1
-            )
+            {"critical": 5, "high": 3, "medium": 2, "low": 1}.get(a.get("severity", "low"), 1)
             for a in open_alerts
         )
 
@@ -68,12 +52,13 @@ class GetRepositoryRiskScoreTool(Tool):
             "report_date": CURRENT_DATE,
         }
         return _response("ok", result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetRepositoryRiskScore",
+                "name": "get_repository_risk_score",
                 "description": "Calculate deterministic risk score for a repository based on open alerts.",
                 "parameters": {
                     "type": "object",

@@ -1,11 +1,14 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateTicket(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         ticket_id: str,
         employee_id: str,
         category: str,
@@ -13,9 +16,8 @@ class CreateTicket(Tool):
         status: str,
         subject: str,
         opened_at: str,
-        related_asset_id: str | None = None,
+        related_asset_id: Optional[str] = None,
     ) -> str:
-        pass
         row = {
             "ticket_id": ticket_id,
             "employee_id": employee_id,
@@ -28,16 +30,14 @@ class CreateTicket(Tool):
             "related_asset_id": related_asset_id,
         }
         _append_row(data["tickets"], row)
-        payload = {"status": "ok", "ticket": row}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "ticket": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateTicket",
+                "name": "create_ticket",
                 "description": "Create a service desk ticket.",
                 "parameters": {
                     "type": "object",
@@ -51,15 +51,7 @@ class CreateTicket(Tool):
                         "opened_at": {"type": "string"},
                         "related_asset_id": {"type": "string"},
                     },
-                    "required": [
-                        "ticket_id",
-                        "employee_id",
-                        "category",
-                        "priority",
-                        "status",
-                        "subject",
-                        "opened_at",
-                    ],
+                    "required": ["ticket_id", "employee_id", "category", "priority", "status", "subject", "opened_at"],
                 },
             },
         }

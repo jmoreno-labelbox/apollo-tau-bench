@@ -1,64 +1,55 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CheckUserStatusTool(Tool):
     """
     check_user_status
-    Database-driven gate: returns a literal boolean `approve` along with literals necessary for subsequent actions.
+    DB-driven gate: returns a literal boolean `approve` plus literals needed for the next actions.
 
-    Policy (derived from database state):
+    Policy (derived from DB state):
       1) Request must have status='PENDING'
       2) If the requested role is ALREADY assigned to the user -> approve=False, notes='Already assigned.'
-      3) Admin-like roles are dynamically derived from the database:
+      3) Admin-like roles are derived dynamically from the DB:
          - any role whose role_name ends with '-lead' (e.g., engineering-lead, operations-lead, ...), OR
          - any role whose role_name contains '-admin' (e.g., hr-payroll-admin, finance-budget-admin, ...).
-      4) Exception: ROL-032 (finance-budget-admin) may be approved if the user already has ROL-029 (finance-base).
-      5) Verify resource coverage: requested role must provide permissions on the target resource
-      6) Verify certification requirements for the target resource
+      4) Exception: ROL-032 (finance-budget-admin) may be approved iff the user already has ROL-029 (finance-base).
+      5) Check resource coverage: requested role must grant permissions on target resource
+      6) Check certification requirements for target resource
       7) Check for active policy exceptions
       8) Otherwise -> approve=True.
-    All decisions utilize the actual request record and current assignments in `data`.
+    All decisions use the actual request record and current assignments in `data`.
     """
 
     @staticmethod
-    def _admin_like_roles(data: dict[str, Any]) -> set:
-        pass
-        roles = data.get("roles", {}).values()
+    def _admin_like_roles(data: Dict[str, Any]) -> set:
+        roles = list(data.get("roles", {}).values())
         admin_like = set()
-        for r in roles.values():
+        for r in roles:
             name = (r.get("role_name") or "").lower()
             rid = r.get("role_id")
             if not rid or not name:
                 continue
-            #Leadership positions: strict suffix '-lead' (prevents
-            #'sales-lead-manager' false positive)
+            # Leadership roles: strict suffix '-lead' (avoids
+            # 'sales-lead-manager' false-positive)
             if name.endswith("-lead"):
                 admin_like.add(rid)
-            #Administrative positions: any that include '-admin'
+            # Administrative roles: any containing '-admin'
             if "-admin" in name:
                 admin_like.add(rid)
         return admin_like
 
     @staticmethod
     def _check_resource_coverage(
-        data: dict[str, Any], role_id: str, resource_id: str
+        data: Dict[str, Any], role_id: str, resource_id: str
     ) -> bool:
-        """Verify if the role provides any permissions on the target resource."""
-        pass
+        """Check if role grants any permissions on the target resource."""
         role_permissions = [
             rp.get("permission_id")
-            for rp in data.get("role_permissions", {}).values()
+            for rp in data.get("role_permissions", [])
             if rp.get("role_id") == role_id
         ]
 
@@ -66,7 +57,7 @@ class CheckUserStatusTool(Tool):
             permission = next(
                 (
                     p
-                    for p in data.get("permissions", {}).values()
+                    for p in list(data.get("permissions", {}).values())
                     if p.get("permission_id") == perm_id
                 ),
                 None,
@@ -77,15 +68,14 @@ class CheckUserStatusTool(Tool):
 
     @staticmethod
     def _check_certifications(
-        data: dict[str, Any], user_id: str, resource_id: str | None
+        data: Dict[str, Any], user_id: str, resource_id: Optional[str]
     ) -> tuple:
-        """Verify certification requirements for a resource. Returns (has_requirements, all_completed, reviewer_id)."""
-        pass
+        """Check certification requirements for a resource. Returns (has_requirements, all_completed, reviewer_id)."""
         required_certs = []
         if resource_id:
             required_certs = [
                 cert
-                for cert in data.get("certifications", {}).values()
+                for cert in data.get("certifications", [])
                 if cert.get("resource_id") == resource_id
             ]
 
@@ -103,21 +93,21 @@ class CheckUserStatusTool(Tool):
 
     @staticmethod
     def _check_certifications_for_role(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         user_id: str,
-        role_id: str | None,
-        role_permissions_resource_ids: list[str],
+        role_id: Optional[str],
+        role_permissions_resource_ids: List[str],
     ) -> tuple:
-        """Verify certifications either linked to role_id (if available) or implied through the role's resources. Returns (has_requirements, all_completed, reviewer_id)."""
-        pass
-        certs = data.get("certifications", {}).values()
+        """Check certifications either tied to role_id (if present) or implied via role's resources. Returns (has_requirements, all_completed, reviewer_id)."""
+        certs = data.get("certifications", [])
         required = []
         if role_id:
-            required = [c for c in certs.values() if c.get("role_id") == role_id]
+            required = [c for c in certs if c.get("role_id") == role_id]
         if not required and role_permissions_resource_ids:
             required = [
                 c
-                for c in certs.values() if c.get("resource_id") in role_permissions_resource_ids
+                for c in certs
+                if c.get("resource_id") in role_permissions_resource_ids
             ]
         if not required:
             return (False, True, None)
@@ -131,8 +121,7 @@ class CheckUserStatusTool(Tool):
         return (True, all_completed, reviewer_id)
 
     @staticmethod
-    def _reviewer_authorized(data: dict[str, Any], reviewer_id: str | None) -> bool:
-        pass
+    def _reviewer_authorized(data: Dict[str, Any], reviewer_id: Optional[str]) -> bool:
         if not reviewer_id:
             return True
         lead_roles = {"ROL-034", "ROL-035", "ROL-036", "ROL-037", "ROL-038", "ROL-039"}
@@ -140,28 +129,27 @@ class CheckUserStatusTool(Tool):
             ur.get("user_id") == reviewer_id
             and ur.get("role_id") in lead_roles
             and not ur.get("expires_on")
-            for ur in data.get("user_roles", {}).values()
+            for ur in data.get("user_roles", [])
         )
 
     @staticmethod
     def _check_policy_exceptions(
-        data: dict[str, Any], user_id: str, role_id: str, resource_id: str
+        data: Dict[str, Any], user_id: str, role_id: str, resource_id: str
     ) -> bool:
-        """Verify for active policy exceptions concerning the user/permission combination."""
-        pass
-        #Retrieve permissions for the specified role
+        """Check for active policy exceptions for user/permission combination."""
+        # Get permissions for the requested role
         role_permissions = [
             rp.get("permission_id")
-            for rp in data.get("role_permissions", {}).values()
+            for rp in data.get("role_permissions", [])
             if rp.get("role_id") == role_id
         ]
 
-        #Verify if the user has current policy exceptions for any of these permissions
+        # Check if user has active policy exceptions for any of these permissions
         for perm_id in role_permissions:
             exception = next(
                 (
                     pe
-                    for pe in data.get("policy_exceptions", {}).values()
+                    for pe in data.get("policy_exceptions", [])
                     if (
                         pe.get("user_id") == user_id
                         and pe.get("permission_id") == perm_id
@@ -179,183 +167,169 @@ class CheckUserStatusTool(Tool):
         return False
 
     @staticmethod
-    @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        mode: str = None,
-        user_id: str = None,
-        role_id: str = None,
-        resource_id: str = None,
-        request_id: str = None,
-        reviewer_id: str = None
-    ) -> str:
-        mode = (mode or "access_request").lower()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        mode = (kwargs.get("mode") or "access_request").lower()
 
-        # Branch: evaluation of revocation
+        # Branch: revoke evaluation
         if mode in ("revoke", "revoke_evaluation"):
+            user_id = kwargs.get("user_id")
+            role_id = kwargs.get("role_id")
+            resource_id = kwargs.get("resource_id")
             if not user_id or not role_id:
-                payload = {"error": "user_id and role_id are required for revoke evaluation"}
-                out = json.dumps(
-                    payload, indent=2,
+                return json.dumps(
+                    {"error": "user_id and role_id are required for revoke evaluation"},
+                    indent=2,
                 )
-                return out
 
-            # Confirm that the assignment is present
+            # Verify assignment exists
             active_assignment = any(
                 ur.get("user_id") == user_id
                 and ur.get("role_id") == role_id
                 and not ur.get("expires_on")
-                for ur in data.get("user_roles", {}).values()
+                for ur in data.get("user_roles", [])
             )
             if not active_assignment:
-                payload = {
-                    "user_id": user_id,
-                    "role_id": role_id,
-                    "revoke": False,
-                    "notes": "Already assigned." if False else "Role not assigned.",
-                    "details": "NOOP",
-                }
-                out = json.dumps(
-                    payload, indent=2,
+                return json.dumps(
+                    {
+                        "user_id": user_id,
+                        "role_id": role_id,
+                        "revoke": False,
+                        "notes": "Already assigned." if False else "Role not assigned.",
+                        "details": "NOOP",
+                    },
+                    indent=2,
                 )
-                return out
 
-            # Identify resource IDs for role permissions
+            # Determine role permissions resource IDs
             role_perm_ids = [
                 rp.get("permission_id")
-                for rp in data.get("role_permissions", {}).values()
+                for rp in data.get("role_permissions", [])
                 if rp.get("role_id") == role_id
             ]
             perm_resource_ids = [
                 p.get("resource_id")
-                for p in data.get("permissions", {}).values()
+                for p in list(data.get("permissions", {}).values())
                 if p.get("permission_id") in role_perm_ids
             ]
 
-            # Check resource coverage (if resource_id is given)
+            # Resource coverage check (if resource_id provided)
             if resource_id and not CheckUserStatusTool._check_resource_coverage(
                 data, role_id, resource_id
             ):
-                payload = {
-                    "user_id": user_id,
-                    "role_id": role_id,
-                    "revoke": True,
-                    "notes": "Requested role does not cover target resource.",
-                    "details": "REVOKE_RESOURCE_MISMATCH",
-                }
-                out = json.dumps(
-                    payload, indent=2,
+                return json.dumps(
+                    {
+                        "user_id": user_id,
+                        "role_id": role_id,
+                        "revoke": True,
+                        "notes": "Requested role does not cover target resource.",
+                        "details": "REVOKE_RESOURCE_MISMATCH",
+                    },
+                    indent=2,
                 )
-                return out
 
-            # Requirements for certification
+            # Certification requirements
             has_req, all_completed, _ = (
                 CheckUserStatusTool._check_certifications_for_role(
                     data, user_id, role_id, perm_resource_ids
                 )
             )
             if has_req and not all_completed:
-                payload = {
-                    "user_id": user_id,
-                    "role_id": role_id,
-                    "revoke": True,
-                    "notes": "Required certification not completed.",
-                    "details": "REVOKE_CERT_INCOMPLETE",
-                }
-                out = json.dumps(
-                    payload, indent=2,
+                return json.dumps(
+                    {
+                        "user_id": user_id,
+                        "role_id": role_id,
+                        "revoke": True,
+                        "notes": "Required certification not completed.",
+                        "details": "REVOKE_CERT_INCOMPLETE",
+                    },
+                    indent=2,
                 )
-                return out
 
-            # Roles similar to admin may be suitable for right-sizing
+            # Admin-like roles can be candidates for right-sizing
             if role_id in CheckUserStatusTool._admin_like_roles(data):
-                payload = {
+                return json.dumps(
+                    {
+                        "user_id": user_id,
+                        "role_id": role_id,
+                        "revoke": True,
+                        "notes": "Admin-like role blocked by policy.",
+                        "details": "REVOKE_ADMINLIKE",
+                    },
+                    indent=2,
+                )
+
+            # Default: do not revoke
+            return json.dumps(
+                {
                     "user_id": user_id,
                     "role_id": role_id,
-                    "revoke": True,
-                    "notes": "Admin-like role blocked by policy.",
-                    "details": "REVOKE_ADMINLIKE",
-                }
-                out = json.dumps(
-                    payload, indent=2,
-                )
-                return out
-            payload = {
-                "user_id": user_id,
-                "role_id": role_id,
-                "revoke": False,
-                "notes": "Within clearance and least-privilege.",
-                "details": "NO_REVOKE",
-            }
-            out = json.dumps(
-                payload, indent=2,
+                    "revoke": False,
+                    "notes": "Within clearance and least-privilege.",
+                    "details": "NO_REVOKE",
+                },
+                indent=2,
             )
-            return out
 
-        # Default branch: decision on access request
+        # Default branch: access request decision
+        request_id = kwargs.get("request_id")
+        reviewer_id = kwargs.get("reviewer_id")
         if not request_id:
-            payload = {"error": "request_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "request_id is required"}, indent=2)
         req = next(
             (
                 r
-                for r in data.get("access_requests", {}).values()
+                for r in data.get("access_requests", [])
                 if r.get("request_id") == request_id
             ),
             None,
         )
         if not req:
-            payload = {"error": f"Access request {request_id} not found"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": f"Access request {request_id} not found"}, indent=2
             )
-            return out
 
-        # First verify the status of the request (Rule 1)
+        # Check request status first (Rule 1)
         if req.get("status") != "PENDING":
-            payload = {
-                "error": (
-                    f"Access request {request_id} is not PENDING (status: {req.get('status')})"
-                )
-            }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {
+                    "error": (
+                        f"Access request {request_id} is not PENDING (status: {req.get('status')})"
+                    )
+                },
+                indent=2,
             )
-            return out
 
-        # Authorization from reviewer (if available)
+        # Reviewer authorization (if provided)
         if reviewer_id and not CheckUserStatusTool._reviewer_authorized(
             data, reviewer_id
         ):
-            payload = {
-                "error": (
-                    f"Reviewer {reviewer_id} not authorized (lead role required)."
-                )
-            }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {
+                    "error": (
+                        f"Reviewer {reviewer_id} not authorized (lead role required)."
+                    )
+                },
+                indent=2,
             )
-            return out
 
         user_id = req.get("user_id")
         role_id = req.get("role") or req.get("requested_role_id")
         resource_id = req.get("resource_id")
-        req.get("submitted_at")
+        submitted_at = req.get("submitted_at")
 
-        # Roles currently from the database
+        # Current roles from DB
         current_roles = [
             ur.get("role_id")
-            for ur in data.get("user_roles", {}).values()
+            for ur in data.get("user_roles", [])
             if ur.get("user_id") == user_id and not ur.get("expires_on")
         ]
 
-        # Rule 2: request duplication
+        # Rule 2: duplicate request
         if role_id in current_roles:
             approve = False
             notes = "Already assigned."
         else:
-            # Initially verify resource coverage (Rule 5)
+            # Check resource coverage first (Rule 5)
             if not CheckUserStatusTool._check_resource_coverage(
                 data, role_id, resource_id
             ):
@@ -364,7 +338,7 @@ class CheckUserStatusTool(Tool):
             else:
                 admin_like_block = CheckUserStatusTool._admin_like_roles(data)
 
-                # Rule 4 (positioned before the general admin-like block): ROL-032 prerequisite
+                # Rule 4 (placed before generic admin-like block): ROL-032 prereq
                 if role_id == "ROL-032":
                     approve = "ROL-029" in current_roles
                     notes = (
@@ -372,12 +346,12 @@ class CheckUserStatusTool(Tool):
                         if approve
                         else "Missing prerequisite finance-base (ROL-029)."
                     )
-                # Rule 3: dynamic block resembling admin
+                # Rule 3: dynamic admin-like block
                 elif role_id in admin_like_block:
                     approve = False
                     notes = "Admin-like role blocked by policy."
                 else:
-                    # Rule 6: Verify certification requirements
+                    # Rule 6: Check certification requirements
                     has_cert_reqs, all_certs_completed, cert_reviewer_id = (
                         CheckUserStatusTool._check_certifications(
                             data, user_id, resource_id
@@ -388,7 +362,7 @@ class CheckUserStatusTool(Tool):
                         approve = False
                         notes = "Required certification not completed."
                     else:
-                        # Rule 7: Verify policy exceptions
+                        # Rule 7: Check policy exceptions
                         has_policy_exception = (
                             CheckUserStatusTool._check_policy_exceptions(
                                 data, user_id, role_id, resource_id
@@ -399,13 +373,14 @@ class CheckUserStatusTool(Tool):
                             approve = True
                             notes = "Policy exception approved."
                         else:
-                            # Rule 8: Standard approval with relevant notes
+                            # Rule 8: Default approval with appropriate notes
                             approve = True
                             if has_cert_reqs and all_certs_completed:
                                 notes = "Certification verified; within clearance and least-privilege."
                             else:
                                 notes = "Within clearance and least-privilege."
 
+        decision_at = submitted_at
         details = "APPROVED" if approve else "REJECTED"
         out = {
             "request_id": request_id,
@@ -418,15 +393,14 @@ class CheckUserStatusTool(Tool):
             "log_id": f"LOG-{request_id}-decision",
             "details": details,
         }
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CheckUserStatus",
+                "name": "check_user_status",
                 "description": (
                     "Policy evaluation. mode='access_request' to evaluate an access request (approve/deny) or "
                     "mode='revoke' to recommend role revocation (revoke/do-not-revoke) with decision notes."

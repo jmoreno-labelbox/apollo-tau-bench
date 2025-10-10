@@ -1,44 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindAvailableAsset(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], asset_type: str = None) -> str:
-        assets = data.get("it_assets", {}).values()
-        asset = next(
-            (
-                a
-                for a in assets.values() if a.get("asset_type") == asset_type and a.get("status") == "in_stock"
-            ),
-            None,
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        asset_type = kwargs.get("asset_type")
+        assets = data.get("it_assets", [])
+        asset = next((a for a in assets if a.get("asset_type") == asset_type and a.get("status") == "in_stock"), None)
         if not asset:
-            payload = {"asset_type": asset_type, "asset": None}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = asset
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"asset_type": asset_type, "asset": None}, indent=2)
+        return json.dumps(asset, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "FindAvailableAsset",
-                "description": "Find an available IT asset of a specific type (e.g., 'laptop').",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"asset_type": {"type": "string"}},
-                    "required": ["asset_type"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "find_available_asset", "description": "Find an available IT asset of a specific type (e.g., 'laptop').", "parameters": {"type": "object", "properties": {"asset_type": {"type": "string"}}, "required": ["asset_type"]}}}

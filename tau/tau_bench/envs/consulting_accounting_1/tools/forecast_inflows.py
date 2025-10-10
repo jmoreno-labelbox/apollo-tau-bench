@@ -1,20 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ForecastInflows(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], invoices: list = None, probability_rule: str = "overdue_60=0.3") -> str:
-        invoices_ids = invoices if invoices is not None else []
-        prob_rule = probability_rule
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        invoices_ids = kwargs.get("invoices", [])
+        prob_rule = kwargs.get("probability_rule", "overdue_60=0.3")
         discount = 0.3
         try:
             if "overdue_60=" in prob_rule:
@@ -22,13 +17,12 @@ class ForecastInflows(Tool):
         except Exception:
             discount = 0.3
         import datetime as _dt
-
         today = _dt.datetime.fromisoformat("2024-11-30")
-        invoices = data.get("invoices", {}).values()
+        invoices = data.get("invoices", [])
         total_expected = 0.0
         breakdown = []
         for inv_id in invoices_ids:
-            inv = next((i for i in invoices.values() if i.get("invoice_id") == inv_id), None)
+            inv = next((i for i in invoices if i.get("invoice_id") == inv_id), None)
             if not inv or inv.get("paid_at"):
                 continue
             inv_date = _dt.datetime.fromisoformat(inv["invoice_date"])
@@ -37,37 +31,9 @@ class ForecastInflows(Tool):
             prob = discount if days > 60 else 1.0
             expected = round(amt * prob, 2)
             total_expected += expected
-            breakdown.append(
-                {
-                    "invoice_id": inv_id,
-                    "days_overdue": days,
-                    "amount": amt,
-                    "probability": prob,
-                    "expected": expected,
-                }
-            )
-        payload = {
-                "total_expected_inflows": round(total_expected, 2),
-                "breakdown": breakdown,
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+            breakdown.append({"invoice_id": inv_id,"days_overdue": days,"amount": amt,"probability": prob,"expected": expected})
+        return json.dumps({"total_expected_inflows": round(total_expected, 2),"breakdown": breakdown}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ForecastInflows",
-                "description": "Forecast expected inflows from invoices (discount >60d overdue).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "invoices": {"type": "array", "items": {"type": "string"}},
-                        "probability_rule": {"type": "string"},
-                    },
-                    "required": ["invoices"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function","function": {"name": "forecast_inflows","description": "Forecast expected inflows from invoices (discount >60d overdue).","parameters": {"type": "object","properties": {"invoices": {"type": "array","items": {"type": "string"}},"probability_rule": {"type": "string"}},"required": ["invoices"]}}}

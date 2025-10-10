@@ -1,36 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetProductDetailsBySKU(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], sku: str = None) -> str:
-        products = data.get("products", {}).values()
-        for product in products.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        sku = kwargs.get('sku')
+        products = list(data.get("products", {}).values())
+        for product in products:
             if product.get("sku") == sku:
-                payload = product
-                out = json.dumps(payload)
-                return out
-        payload = {}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(product)
+        return json.dumps({})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetProductDetailsBySku",
+                "name": "get_product_details_by_sku",
                 "description": "Retrieves all details for a product given its SKU.",
                 "parameters": {
                     "type": "object",

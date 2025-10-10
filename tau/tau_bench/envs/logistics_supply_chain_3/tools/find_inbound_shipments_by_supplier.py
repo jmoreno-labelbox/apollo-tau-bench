@@ -1,40 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindInboundShipmentsBySupplier(Tool):
-    """Identifies all inbound shipments associated with a particular supplier ID."""
+    """Finds all inbound shipments from a specific supplier ID."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], supplier_id: str = None) -> str:
-        inbound_shipments = data.get("inbound_shipments", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        supplier_id = kwargs.get("supplier_id")
+        inbound_shipments = data.get("inbound_shipments", [])
         found_shipments = []
         for shipment in inbound_shipments:
             if shipment.get("supplier_id") == supplier_id:
                 found_shipments.append(shipment)
         if found_shipments:
-            payload = found_shipments
-            out = json.dumps(payload)
-            return out
-        payload = {"message": "No inbound shipments found for that supplier"}
-        out = json.dumps(payload)
-        return out
+            return json.dumps(found_shipments)
+        return json.dumps({"message": "No inbound shipments found for that supplier"})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindInboundShipmentsBySupplier",
+                "name": "find_inbound_shipments_by_supplier",
                 "description": "Finds all inbound shipments associated with a specific supplier ID.",
                 "parameters": {
                     "type": "object",

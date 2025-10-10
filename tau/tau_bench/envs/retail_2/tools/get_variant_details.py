@@ -1,43 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetVariantDetails(Tool):
-    """Fetch a variant (using item_id) from products.json."""
+    """Retrieve a variant (by item_id) from products.json."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], item_id: str) -> str:
-        products = data.get("products", {}).values()
-        for product in products.values():
-            variants = product.get("variants", {}).values()
+    def invoke(data: Dict[str, Any], item_id: str) -> str:
+        products = list(data.get("products", {}).values())
+        for product in products:
+            variants = product.get("variants", {})
             var = variants.get(item_id)
             if var:
                 result = {"product_id": product.get("product_id"), "variant": var}
-                payload = result
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Variant not found", "item_id": item_id}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(result)
+        return json.dumps({"error": "Variant not found", "item_id": item_id})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetVariantDetails",
+                "name": "get_variant_details",
                 "description": "Get variant details by item_id from products.json.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"item_id": {"type": "string"}},
-                    "required": ["item_id"],
-                },
-            },
+                    "properties": {
+                        "item_id": {"type": "string"}
+                    },
+                    "required": ["item_id"]
+                }
+            }
         }

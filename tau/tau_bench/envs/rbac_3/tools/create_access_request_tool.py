@@ -1,30 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateAccessRequestTool(Tool):
-    """CreateAccessRequest"""
+    """create_access_request"""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        request_id: str,
-        user_id: str,
-        resource_id: str,
-        requested_role_id: str,
-        justification: str
-,
-    submitted_at: Any = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         req = {
-            "request_id": request_id,
-            "user_id": user_id,
-            "resource_id": resource_id,
-            "role": requested_role_id,
-            "requested_role_id": requested_role_id,
-            "justification": justification,
+            "request_id": kwargs["request_id"],
+            "user_id": kwargs["user_id"],
+            "resource_id": kwargs["resource_id"],
+            "role": kwargs["requested_role_id"],
+            "requested_role_id": kwargs["requested_role_id"],
+            "justification": kwargs["justification"],
             "submitted_at": _HARD_TS,
             "status": "PENDING",
             "reviewed_by": None,
@@ -40,15 +32,14 @@ class CreateAccessRequestTool(Tool):
             out = req
         else:
             out = existing
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateAccessRequest",
+                "name": "create_access_request",
                 "description": "Append a new access request (status=PENDING).",
                 "parameters": {
                     "type": "object",

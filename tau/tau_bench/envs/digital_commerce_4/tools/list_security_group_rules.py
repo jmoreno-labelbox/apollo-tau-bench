@@ -1,36 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListSecurityGroupRules(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], security_group_id: str) -> str:
-        security_group_id = _sid(security_group_id)
-        rules = data.get("aws_security_group_rules", {}).values()
-        result = [r for r in rules.values() if r.get("security_group_id") == security_group_id]
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], group_id: Any) -> str:
+        group_id = _as_id(group_id)
+        rules = data.get("aws_security_group_rules", [])
+        rows = [r for r in rules if _as_id(r.get("group_id")) == group_id]
+        return json.dumps({"group_id": group_id, "rules": rows}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListSecurityGroupRules",
-                "description": "List SG rules for a given security group.",
+                "name": "list_security_group_rules",
+                "description": "List ingress/egress rules for a security group.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"security_group_id": {"type": "string"}},
-                    "required": ["security_group_id"],
+                    "properties": {"group_id": {"type": "string"}},
+                    "required": ["group_id"],
                 },
             },
         }

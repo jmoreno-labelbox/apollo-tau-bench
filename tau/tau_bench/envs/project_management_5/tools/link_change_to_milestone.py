@@ -1,46 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class LinkChangeToMilestone(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], cr_id: str = None, milestone_id: str = None, impact_type: str = "schedule") -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
+        milestone_id = kwargs.get("milestone_id")
+        impact_type = kwargs.get("impact_type", "schedule")
+
         if not all([cr_id, milestone_id]):
-            payload = {"error": "cr_id and milestone_id are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "cr_id and milestone_id are required"})
 
-        change_requests = data.get("change_requests", {}).values()
-        milestones = data.get("milestones", {}).values()
+        change_requests = data.get("change_requests", [])
+        milestones = list(data.get("milestones", {}).values())
 
-        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         milestone = next(
-            (m for m in milestones.values() if m.get("milestone_id") == milestone_id), None
+            (m for m in milestones if m.get("milestone_id") == milestone_id), None
         )
 
         if not cr:
-            payload = {"error": f"Change request '{cr_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Change request '{cr_id}' not found"})
         if not milestone:
-            payload = {"error": f"Milestone '{milestone_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Milestone '{milestone_id}' not found"})
 
         if cr.get("project_id") != milestone.get("project_id"):
-            payload = {"error": "Change request and milestone must be in the same project"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "Change request and milestone must be in the same project"}
+            )
 
         if "linked_milestones" not in cr:
             cr["linked_milestones"] = []
@@ -66,7 +57,9 @@ class LinkChangeToMilestone(Tool):
                     "impacted_by_changes", []
                 )
                 milestone["impacted_by_changes"].append(cr_id)
-        payload = {
+
+        return json.dumps(
+            {
                 "success": True,
                 "link_created": {
                     "cr_id": cr_id,
@@ -74,14 +67,14 @@ class LinkChangeToMilestone(Tool):
                     "impact_type": impact_type,
                 },
             }
-        out = json.dumps(payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "LinkChangeToMilestone",
+                "name": "link_change_to_milestone",
                 "description": "Link a change request to affected project milestones",
                 "parameters": {
                     "type": "object",

@@ -1,47 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindCarriers(Tool):
-    """Utility for locating carriers according to their supported transport methods."""
+    """Tool to find carriers based on supported transport modes."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], transport_mode: str, carriers: list = None) -> str:
-        """Run the tool using the specified parameters."""
-        carriers = carriers if carriers is not None else data.get("carriers", {}).values()
+    def invoke(data: Dict[str, Any], transport_mode: str) -> str:
+        """Execute the tool with given parameters."""
+        carriers = data.get("carriers", [])
         results = [
-            carrier
-            for carrier in carriers
-            if transport_mode in carrier.get("supported_modes", [])
-            and carrier.get("active_status")
+            carrier for carrier in carriers
+            if transport_mode in carrier.get("supported_modes", []) and carrier.get("active_status")
         ]
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        """Provide tool specifications for the AI agent."""
-        pass
+    def get_info() -> Dict[str, Any]:
+        """Return tool specification for AI agent."""
         return {
             "type": "function",
             "function": {
-                "name": "FindCarriers",
+                "name": "find_carriers",
                 "description": "Finds active shipping carriers that support a specific mode of transport.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "transport_mode": {
-                            "type": "string",
-                            "description": "The mode of transport (e.g., 'Air', 'Sea', 'Truck', 'Rail').",
-                        }
+                        "transport_mode": {"type": "string", "description": "The mode of transport (e.g., 'Air', 'Sea', 'Truck', 'Rail')."}
                     },
                     "required": ["transport_mode"],
                 },

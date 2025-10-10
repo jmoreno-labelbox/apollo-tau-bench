@@ -1,33 +1,25 @@
-from tau_bench.envs.tool import Tool
-import csv
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListAdsetsInCampaign(Tool):
-    """Enumerate all ad sets associated with a campaign."""
+    """List all ad sets under a campaign."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], campaign_id: str = None) -> str:
-        adsets = [a for a in data.get("adsets", {}).values() if a.get("campaign_id") == campaign_id]
-        payload = {"adsets": adsets}
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cid = kwargs.get("campaign_id")
+        adsets = [a for a in data.get("adsets", []) if a.get("campaign_id") == cid]
+        return json.dumps({"adsets": adsets})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListAdsetsInCampaign",
+                "name": "list_adsets_in_campaign",
                 "description": "List all ad sets under a campaign.",
                 "parameters": {
                     "type": "object",

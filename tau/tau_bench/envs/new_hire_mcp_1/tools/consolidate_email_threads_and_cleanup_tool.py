@@ -1,33 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ConsolidateEmailThreadsAndCleanupTool(Tool):
-    """Organizes emails into threads and removes outdated drafts."""
+    """Groups emails into threads and cleans up old drafts."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str = None, draft_cleanup_age_days: int = 30) -> str:
-        all_emails = data.get("emails", {}).values()
-        candidate_emails = [
-            e for e in all_emails.values() if e.get("candidate_id_nullable") == candidate_id
-        ]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
+        age_days = kwargs.get("draft_cleanup_age_days", 30)
+
+        all_emails = data.get("emails", [])
+        candidate_emails = [e for e in all_emails if e.get("candidate_id_nullable") == candidate_id]
         updated_emails = []
 
-        # Organizing by subject
+        # Threading by subject
         subject_groups = {}
         for email in candidate_emails:
             subject = str(email.get("subject", "")).strip()
-            # Standardize subject by eliminating Re: Fwd: etc.
+            # Normalize subject by removing Re: Fwd: etc.
             clean_subject = re.sub(r"^(Re|Fwd|RE|FWD):\s*", "", subject)
             if clean_subject not in subject_groups:
                 subject_groups[clean_subject] = []
@@ -41,33 +35,21 @@ class ConsolidateEmailThreadsAndCleanupTool(Tool):
                         email["thread_id_nullable"] = thread_id
                         updated_emails.append(email)
 
-        # Remove outdated drafts
+        # Cleanup old drafts
         for email in candidate_emails:
-            if (
-                email.get("draft_flag")
-                and _days_between(email.get("date_ts", "0"), HARD_TS) > draft_cleanup_age_days
-            ):
+            if email.get("draft_flag") and _days_between(email.get("date_ts", "0"), HARD_TS) > age_days:
                 email["draft_flag"] = False
-                email["sent_flag"] = False  # It was not dispatched
+                email["sent_flag"] = False # It was never sent
                 if email not in updated_emails:
                     updated_emails.append(email)
-        payload = updated_emails
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(updated_emails, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "consolidateEmailThreadsAndCleanup",
-                "description": "Groups emails into threads and cleans up old drafts.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "candidate_id": {"type": "string"},
-                        "draft_cleanup_age_days": {"type": "integer"},
-                    },
-                    "required": ["candidate_id"],
-                },
-            },
-        }
+            "type": "function", "function": {"name": "consolidate_email_threads_and_cleanup",
+            "description": "Groups emails into threads and cleans up old drafts.",
+            "parameters": {"type": "object", "properties": {
+                "candidate_id": {"type": "string"}, "draft_cleanup_age_days": {"type": "integer"}
+            }, "required": ["candidate_id"]}}}

@@ -1,81 +1,48 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AddFileDirectoryRecord(Tool):
-    """Adds a new file_directory record using parallel arrays."""
-
+    """
+    Appends a new file_directory record with parallel arrays.
+    """
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        paths: list[str],
-        file_sizes_bytes: list[int],
-        file_hashes_sha256: list[str | None],
-        file_mime_types: list[str],
-        created_ts: list[str],
-        updated_ts: list[str],
-    ) -> str:
+    def invoke(data: Dict[str, Any], paths: List[str], file_sizes_bytes: List[int], file_hashes_sha256: List[Optional[str]], file_mime_types: List[str], created_ts: List[str], updated_ts: List[str]) -> str:
         n = len(paths)
-        if not all(
-            len(lst) == n
-            for lst in [
-                file_sizes_bytes,
-                file_hashes_sha256,
-                file_mime_types,
-                created_ts,
-                updated_ts,
-            ]
-        ):
-            payload = {"error": "all arrays must have the same length"}
-            out = json.dumps(payload)
-            return out
+        if not all(len(lst) == n for lst in [file_sizes_bytes, file_hashes_sha256, file_mime_types, created_ts, updated_ts]):
+            return json.dumps({"error": "all arrays must have the same length"})
         row = {
             "paths": paths,
             "file_sizes_bytes": file_sizes_bytes,
             "file_hashes_sha256": file_hashes_sha256,
             "file_mime_types": file_mime_types,
             "created_ts": created_ts,
-            "updated_ts": updated_ts,
+            "updated_ts": updated_ts
         }
         data.setdefault("file_directory", []).append(row)
-        payload = {"status": "inserted", "record": row}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "inserted", "record": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "addFileDirectoryRecord",
+                "name": "add_file_directory_record",
                 "description": "Appends a new file_directory record with parallel arrays.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "paths": {"type": "array", "items": {"type": "string"}},
-                        "file_sizes_bytes": {
-                            "type": "array",
-                            "items": {"type": "integer"},
-                        },
-                        "file_hashes_sha256": {
-                            "type": "array",
-                            "items": {"type": ["string", "null"]},
-                        },
-                        "file_mime_types": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                        },
+                        "file_sizes_bytes": {"type": "array", "items": {"type": "integer"}},
+                        "file_hashes_sha256": {"type": "array", "items": {"type": ["string", "null"]}},
+                        "file_mime_types": {"type": "array", "items": {"type": "string"}},
                         "created_ts": {"type": "array", "items": {"type": "string"}},
-                        "updated_ts": {"type": "array", "items": {"type": "string"}},
+                        "updated_ts": {"type": "array", "items": {"type": "string"}}
                     },
-                    "required": [
-                        "paths",
-                        "file_sizes_bytes",
-                        "file_hashes_sha256",
-                        "file_mime_types",
-                        "created_ts",
-                        "updated_ts",
-                    ],
-                },
-            },
+                    "required": ["paths", "file_sizes_bytes", "file_hashes_sha256", "file_mime_types", "created_ts", "updated_ts"]
+                }
+            }
         }

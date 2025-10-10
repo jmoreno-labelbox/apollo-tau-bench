@@ -1,40 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class PatchProjectSettings(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], updates: dict[str, Any] = None) -> str:
-        if updates is None:
-            updates = {}
-        cfg = data.get("project_config", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        updates = kwargs.get("updates") or {}
+        cfg = data.get("project_config", {})
         if cfg is None or isinstance(cfg, list):
             cfg = {}
             data["project_config"] = cfg
         cfg.update(updates)
         cfg["updated_at"] = _now_iso_fixed()
-        payload = {"updated": updates}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"updated": updates}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "PatchProjectSettings",
-                "description": "Apply key/value updates to project settings.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"updates": {"type": "object"}},
-                    "required": ["updates"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "patch_project_settings",
+            "description": "Apply key/value updates to project settings.",
+            "parameters": {"type": "object", "properties": {"updates": {"type": "object"}}, "required": ["updates"]}
+        }}

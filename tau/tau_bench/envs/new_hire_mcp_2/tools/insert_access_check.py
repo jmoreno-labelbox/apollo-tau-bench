@@ -1,38 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class InsertAccessCheck(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str = None, system_name: str = None, status: str = None, note_nullable: str = None, checked_ts: str = NOW_TS) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         rows = _ensure_list(data, "access_checks")
-        payload = {
-            "candidate_id": candidate_id,
-            "system_name": system_name,
-            "status": status,
-            "note_nullable": note_nullable,
-            "checked_ts": checked_ts,
-        }
+        payload = {"candidate_id": kwargs.get("candidate_id"), "system_name": kwargs.get("system_name"),
+                   "status": kwargs.get("status"), "note_nullable": kwargs.get("note_nullable"),
+                   "checked_ts": kwargs.get("checked_ts", NOW_TS)}
         rows.append(payload)
-        payload = {"inserted": payload}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"inserted": payload}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "InsertAccessCheck",
-                "description": "Append a pass/fail access check.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "candidate_id": {"type": "string"},
-                        "system_name": {"type": "string"},
-                        "status": {"type": "string"},
-                        "note_nullable": {"type": "string"},
-                    },
-                    "required": ["candidate_id", "system_name", "status"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function",
+                "function": {"name": "insert_access_check", "description": "Append a pass/fail access check.",
+                             "parameters": {"type": "object", "properties": {"candidate_id": {"type": "string"},
+                                                                             "system_name": {"type": "string"},
+                                                                             "status": {"type": "string"},
+                                                                             "note_nullable": {"type": "string"}},
+                                            "required": ["candidate_id", "system_name", "status"]}}}

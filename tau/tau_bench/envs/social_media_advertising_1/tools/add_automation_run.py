@@ -1,51 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AddAutomationRun(Tool):
-    """Inserts a new record into the automation_runs table."""
+    """Adds a new entry to the automation_runs table."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        run_id: str = None,
-        run_type: str = None,
-        started_at: str = None,
-        ended_at: str = None,
-        status: str = None,
-        input_ref: str = None,
-        errors_json: str = None,
-        reason: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        run_id = kwargs.get("run_id")
+        run_type = kwargs.get("run_type")
+        started_at = kwargs.get("started_at")
+        ended_at = kwargs.get("ended_at")
+        status = kwargs.get("status")
+        input_ref = kwargs.get("input_ref")
+        errors_json = kwargs.get("errors_json")
+        reason = kwargs.get("reason")
+        
         if not run_id:
-            payload = {"error": "run_id is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "run_id is a required parameter."})
         if not run_type:
-            payload = {"error": "run_type is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "run_type is a required parameter."})
         if not started_at:
-            payload = {"error": "started_at is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "started_at is a required parameter."})
         if not ended_at:
-            payload = {"error": "ended_at is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "ended_at is a required parameter."})
         if not status:
-            payload = {"error": "status is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "status is a required parameter."})
         if not input_ref:
-            payload = {"error": "input_ref is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "input_ref is a required parameter."})
         if not errors_json:
-            payload = {"error": "errors_json is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "errors_json is a required parameter."})
 
         new_automation_run = {
             "run_id": run_id,
@@ -54,28 +41,30 @@ class AddAutomationRun(Tool):
             "ended_at": ended_at,
             "status": status,
             "input_ref": input_ref,
-            "errors_json": errors_json,
+            "errors_json": errors_json
         }
-
+        
         if reason:
             new_automation_run["reason"] = reason
-
+            
         if "automation_runs" not in data:
             data["automation_runs"] = []
+            
+        data['automation_runs'].append(new_automation_run)
 
-        data["automation_runs"].append(new_automation_run)
-        payload = {
-            "status": "success",
-            "message": f"New automation run was added: {new_automation_run}",
-        }
-        out = json.dumps(payload)
-        return out
+        return json.dumps(
+            {
+                "status": "success",
+                "message": f"New automation run was added: {new_automation_run}",
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddAutomationRun",
+                "name": "add_automation_run",
                 "description": "Adds a new entry to the automation_runs table.",
                 "parameters": {
                     "type": "object",
@@ -111,17 +100,9 @@ class AddAutomationRun(Tool):
                         "reason": {
                             "type": "string",
                             "description": "The reason for the automation run.",
-                        },
+                        }
                     },
-                    "required": [
-                        "run_id",
-                        "run_type",
-                        "started_at",
-                        "ended_at",
-                        "status",
-                        "input_ref",
-                        "errors_json",
-                    ],
+                    "required": ["run_id", "run_type", "started_at", "ended_at", "status", "input_ref", "errors_json"],
                 },
             },
         }

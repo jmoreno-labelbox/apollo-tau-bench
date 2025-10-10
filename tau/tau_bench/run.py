@@ -18,7 +18,8 @@ from tau_bench.envs.user import UserStrategy
 
 
 def run(config: RunConfig) -> List[EnvRunResult]:
-    assert config.env in ["academic_search_1",
+    assert config.env in [
+        "academic_search_1",
         "academic_search_2",
         "academic_search_3",
         "academic_search_4",
@@ -141,7 +142,7 @@ def run(config: RunConfig) -> List[EnvRunResult]:
         "sports_analytics_2",
         "sports_analytics_3",
         "sports_analytics_4",
-        "sports_analytics_5"], "Only retail, airline, and banking_services_{1,2,4,5,6} envs are supported"
+        "sports_analytics_5"]
     # Normalize provider values to strings for validation and downstream usage
     provider_strs = [getattr(p, "value", p) for p in provider_list]
     model_provider_str = getattr(config.model_provider, "value", config.model_provider)

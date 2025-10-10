@@ -1,26 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ProcessDutyPayment(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], shipment_id: str, duty_amount: float) -> str:
-        inbound_shipments = data.get("inbound_shipments", {}).values()
+        inbound_shipments = data.get("inbound_shipments", [])
 
-        shipment = next((s for s in inbound_shipments.values() if s.get("shipment_id") == shipment_id), None)
+        shipment = next((s for s in inbound_shipments if s.get("shipment_id") == shipment_id), None)
         if not shipment:
             return json.dumps({"error": f"Shipment {shipment_id} not found"})
 
-        # Execute payment processing
+        # Process payment
         payment_id = f"PAY-{shipment_id}-{duty_amount:.1f}"
 
         duty_payment = {
@@ -32,7 +26,7 @@ class ProcessDutyPayment(Tool):
             "payment_method": "Electronic"
         }
 
-        # Revise shipment details
+        # Update shipment
         shipment["duty_paid"] = True
         shipment["duty_amount"] = duty_amount
 
@@ -45,12 +39,13 @@ class ProcessDutyPayment(Tool):
             "duty_amount": duty_amount,
             "payment_status": "Completed"
         })
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ProcessDutyPayment",
+                "name": "process_duty_payment",
                 "description": "Process customs duty payment for a shipment",
                 "parameters": {
                     "type": "object",

@@ -1,37 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCreativeTypeForAd(Tool):
-    """Fetches the creative type of a specific ad."""
+    """Retrieves the creative_type for a specific ad."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], ad_id: str = None) -> str:
-        ads = data.get("ads", {}).values()
-
-        for ad in ads.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ad_id = kwargs.get("ad_id")
+        ads = list(data.get("ads", {}).values())
+        
+        for ad in ads:
             if ad.get("ad_id") == ad_id:
-                payload = {"creative_type": ad.get("creative_type")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Ad with ID '{ad_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"creative_type": ad.get('creative_type')})
+        
+        return json.dumps({"error": f"Ad with ID '{ad_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCreativeTypeForAd",
+                "name": "get_creative_type_for_ad",
                 "description": "Retrieves the creative_type for a specific ad.",
                 "parameters": {
                     "type": "object",

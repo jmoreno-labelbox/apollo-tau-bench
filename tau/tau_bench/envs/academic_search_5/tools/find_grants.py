@@ -1,87 +1,55 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindGrants(Tool):
     """
-    Utility for locating funding sources based on different criteria, or obtaining details of a specific source by its ID.
+    Tool to search for funding sources by various criteria, OR to get a single source's details by its ID.
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], funding_source_id: Any = None, focus_area: Any = None, status: Any = None, min_grant_amount: Any = None, source_name: Any = None) -> str:
-        funding_source_id = funding_source_id
-        focus_area = focus_area
-        status = status
-        min_grant_amount = min_grant_amount
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        funding_source_id = kwargs.get('funding_source_id')
+        focus_area = kwargs.get('focus_area')
+        status = kwargs.get('status')
+        min_grant_amount = kwargs.get('min_grant_amount')
 
-        sources = data.get("funding_sources", {}).values()
+        sources = list(data.get('funding_sources', {}).values())
 
         if funding_source_id:
-            for source in sources.values():
-                if source.get("funding_source_id") == funding_source_id:
-                    payload = source
-                    out = json.dumps(payload, indent=2)
-                    return out
-            payload = {"error": f"Funding source with ID '{funding_source_id}' not found."}
-            out = json.dumps(
-                payload)
-            return out
+            for source in sources:
+                if source.get('funding_source_id') == funding_source_id:
+                    return json.dumps(source, indent=2)
+            return json.dumps({"error": f"Funding source with ID '{funding_source_id}' not found."})
 
         results = []
-        for source in sources.values():
-            area_match = (
-                not focus_area
-                or focus_area.lower() in source.get("focus_area", "").lower()
-            )
-            status_match = (
-                not status or status.lower() == source.get("status", "").lower()
-            )
-            amount_match = not min_grant_amount or source.get("grant_amount", 0) >= int(
-                min_grant_amount
-            )
+        for source in sources:
+            area_match = not focus_area or focus_area.lower() in source.get('focus_area', '').lower()
+            status_match = not status or status.lower() == source.get('status', '').lower()
+            amount_match = not min_grant_amount or source.get('grant_amount', 0) >= int(min_grant_amount)
 
             if area_match and status_match and amount_match:
                 results.append(source)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindGrants",
+                "name": "find_grants",
                 "description": "Searches for funding sources by criteria (focus area, status, amount), or retrieves a single source by its specific ID.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "funding_source_id": {
-                            "type": "string",
-                            "description": "The specific ID of the funding source to retrieve.",
-                        },
-                        "focus_area": {
-                            "type": "string",
-                            "description": "The research area the funding supports (e.g., 'AI').",
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "The current status of the grant (e.g., 'available').",
-                        },
-                        "min_grant_amount": {
-                            "type": "integer",
-                            "description": "The minimum amount of funding required.",
-                        },
-                    },
-                },
-            },
+                        "funding_source_id": {"type": "string", "description": "The specific ID of the funding source to retrieve."},
+                        "focus_area": {"type": "string", "description": "The research area the funding supports (e.g., 'AI')."},
+                        "status": {"type": "string", "description": "The current status of the grant (e.g., 'available')."},
+                        "min_grant_amount": {"type": "integer", "description": "The minimum amount of funding required."}
+                    }
+                }
+            }
         }

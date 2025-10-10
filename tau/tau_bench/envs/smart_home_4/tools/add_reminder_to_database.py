@@ -1,48 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AddReminderToDatabase(Tool):
-    """Introduce a new reminder."""
-
+    """Add a new reminder."""
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        reminder: dict[str, Any] | None = None,
-        threshold: dict[str, Any] = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], reminder: Optional[Dict[str, Any]] = None, threshold: Dict[str, Any] = None) -> str:
         if not reminder:
-            payload = {"error": "'reminder' parameter is required"}
-            out = json.dumps(payload, indent=2)
-            return out
-        reminders = data.get("reminders", {}).values()
-        if any(r["reminder_id"] == reminder.get("reminder_id") for r in reminders.values()):
-            payload = {"error": "Reminder with this id already exists"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        data["reminders"][reminder["reminder_id"]] = reminder
-        payload = {"success": "Reminder added", "reminder": reminder, "reminders": reminders}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+            return json.dumps({"error": "'reminder' parameter is required"}, indent=2)
+        reminders = data.get('reminders', [])
+        if any(r["reminder_id"] == reminder.get("reminder_id") for r in reminders):
+            return json.dumps({"error": "Reminder with this id already exists"}, indent=2)
+        reminders.append(reminder)
+        return json.dumps({"success": "Reminder added", "reminder": reminder, "reminders": reminders}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddReminderToDatabase",
+                "name": "add_reminder_to_database",
                 "description": "Add a new reminder. All fields must be provided in the 'reminder' object.",
                 "parameters": {
                     "type": "object",
@@ -50,11 +30,11 @@ class AddReminderToDatabase(Tool):
                         "reminder": {
                             "type": "object",
                             "description": "The full reminder object to add (must include reminder_id, name, target, trigger, actions, meta, status, created_at, etc.)",
-                            "additionalProperties": True,
+                            "additionalProperties": True
                         }
                     },
                     "required": ["reminder"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

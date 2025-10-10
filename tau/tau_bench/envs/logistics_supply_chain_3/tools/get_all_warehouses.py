@@ -1,68 +1,61 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAllWarehouses(Tool):
-    """Fetches all warehouse records from the dataset, allowing for filtering."""
+    """Retrieves all warehouse records from the dataset, with an option to filter."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], filters: dict[str, Any] = None) -> str:
-        warehouses = data.get("warehouses", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        warehouses = data.get("warehouses", [])
+        filters = kwargs.get("filters")
 
         if not warehouses:
-            payload = {"message": "No warehouses found."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"message": "No warehouses found."})
 
         if not filters:
-            payload = warehouses
-            out = json.dumps(payload)
-            return out
+            return json.dumps(warehouses)
 
         filtered_warehouses = []
-        for warehouse in warehouses.values():
+        for warehouse in warehouses:
             match = True
             for key, value in filters.items():
                 warehouse_value = warehouse.get(key)
 
+                # If the warehouse field is a list (e.g., certifications, special_capabilities)
+                # This checks if the required value is present in the list.
                 if isinstance(warehouse_value, list):
                     if value not in warehouse_value:
                         match = False
                         break
+                # Handle case-insensitivity for string comparisons
                 elif isinstance(warehouse_value, str) and isinstance(value, str):
                     if warehouse_value.lower() != value.lower():
                         match = False
                         break
+                # Direct comparison for other types
                 elif warehouse_value != value:
                     match = False
                     break
             if match:
-                filtered_data["warehouses"][warehouse["warehouse_id"]] = warehouse
+                filtered_warehouses.append(warehouse)
 
         if filtered_warehouses:
-            payload = filtered_warehouses
-            out = json.dumps(payload)
-            return out
+            return json.dumps(filtered_warehouses)
         else:
-            payload = {"message": "No warehouses found matching the specified filters."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"message": "No warehouses found matching the specified filters."}
+            )
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAllWarehouses",
+                "name": "get_all_warehouses",
                 "description": "Retrieves a list of all warehouses, with an option to filter by specific criteria like warehouse_type or certifications.",
                 "parameters": {
                     "type": "object",

@@ -1,26 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ListRepositories(Tool):
-    """Enumerates all repositories that belong to the current user."""
+    """Lists all repositories owned by the current user."""
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         me = _auth(data)["username"]
         owned = [r for r in _repos(data) if r["owner"] == me]
-        payload = {"repositories": owned}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"repositories": owned}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "ListRepositories",
+                "name": "list_repositories",
                 "description": "Returns all repositories owned by the current user.",
-                "parameters": {"type": "object", "properties": {}},
-            },
+                "parameters": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
         }

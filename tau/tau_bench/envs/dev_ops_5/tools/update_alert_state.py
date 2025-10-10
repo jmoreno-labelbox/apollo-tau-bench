@@ -1,49 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateAlertState(Tool):
-    """Modifies the status of an alert."""
-
-    def invoke(
-        data: dict[str, Any],
-        alert_id: str = None,
-        id: Any = None,
-        new_state: str = None
-    ) -> str:
-        alerts = data.get("alerts", {}).values()
-        for alert in alerts.values():
+    """Updates the state of an alert."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        alert_id = kwargs.get("id")
+        new_state = kwargs.get("state")
+        alerts = data.get("alerts", [])
+        for alert in alerts:
             if alert.get("id") == alert_id:
                 alert["state"] = new_state
-                payload = {
-                    "status": "success",
-                    "message": f"State for alert '{alert_id}' updated to '{new_state}'.",
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Alert with ID '{alert_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"status": "success", "message": f"State for alert '{alert_id}' updated to '{new_state}'."})
+        return json.dumps({"error": f"Alert with ID '{alert_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "updateAlertState",
+                "name": "update_alert_state",
                 "description": "Updates the state of an alert.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "id": {"type": "string"},
-                        "state": {"type": "string"},
+                        "state": {"type": "string"}
                     },
                     "required": ["id", "state"],
                 },

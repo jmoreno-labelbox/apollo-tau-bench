@@ -1,27 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class InvalidateCacheByKeys(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], keys: list[str]) -> str:
+    def invoke(data: Dict[str, Any], keys: List[str]) -> str:
         inv = _ensure_table(data, "cache_invalidations")
         ts = FIXED_NOW
         for k in keys:
             inv.append({"key": k, "invalidated_at": ts})
         return _json({"invalidated_count": len(keys)})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "InvalidateCacheByKeys",
+                "name": "invalidate_cache_by_keys",
                 "description": "Invalidate specific cache entries by key.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "keys": {"type": "array", "items": {"type": "string"}}
-                    },
+                    "properties": {"keys": {"type": "array", "items": {"type": "string"}}},
                     "required": ["keys"],
                 },
             },

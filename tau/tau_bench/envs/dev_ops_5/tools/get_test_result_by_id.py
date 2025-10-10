@@ -1,45 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetTestResultById(Tool):
-    """Fetches a specific test result using its ID."""
+    """Retrieves a specific test result by its ID."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        test_result_id = kwargs.get("id")
+        test_results = data.get("test_results", [])
+        for result in test_results:
+            if result.get("id") == test_result_id:
+                return json.dumps(result)
+        return json.dumps({"error": f"Test result with ID '{test_result_id}' not found."})
 
     @staticmethod
-    def invoke(data: dict[str, Any], id: str = None) -> str:
-        test_result_id = id
-        test_results = data.get("test_results", {}).values()
-        for result in test_results.values():
-            if result.get("id") == test_result_id:
-                payload = result
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Test result with ID '{test_result_id}' not found."}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetTestResultById",
+                "name": "get_test_result_by_id",
                 "description": "Retrieves a specific test result by its ID.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "id": {
-                            "type": "string",
-                            "description": "The unique ID of the test result.",
-                        }
-                    },
+                    "properties": {"id": {"type": "string", "description": "The unique ID of the test result."}},
                     "required": ["id"],
                 },
             },

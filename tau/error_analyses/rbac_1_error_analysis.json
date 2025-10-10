@@ -1,0 +1,16 @@
+{
+    "fault_assignment_analysis": [
+        {
+            "task_id": 0,
+            "author": "agent",
+            "description": "----- start trajectory -----\nUser: Hi, I need to onboard Olivia Martin as a contractor in the Finance department.\n\nAgent: Sure, I can help with that. Could you please confirm the roles Olivia needs?\n\nUser: Olivia needs the 'finance-read' and 'finance-invoice-processor' roles.\n\nAgent: Got it. I will assign the 'finance-read' and 'finance-invoice-processor' roles to Olivia. Anything else?\n\nUser: The access should expire in 90 days, and approval will come from the finance lead.\n\nAgent: Understood. I will set the access to expire in 90 days and await approval from the finance lead.\n\nUser: Thank you.\n\nAgent: You're welcome. Olivia's onboarding process is now complete.\n----- end trajectory -----\n\nThe agent failed to include the 'finance-base' role in the response, which is part of the required outputs."
+        }
+    ],
+    "fault_type_analysis": [
+        {
+            "task_id": 0,
+            "fault_type": "goal_partially_completed",
+            "description": "----- start trajectory -----\nUser: Hi, I need to onboard Olivia Martin as a contractor in the Finance department.\n\nAgent: Sure, I can help with that. Could you please confirm the roles Olivia needs?\n\nUser: Olivia needs the 'finance-read' and 'finance-invoice-processor' roles.\n\nAgent: Got it. I will assign the 'finance-read' and 'finance-invoice-processor' roles to Olivia. Is there anything else?\n\nUser: Please set the access to expire in 90 days.\n\nAgent: Access will be set to expire in 90 days. I will also need approval from the finance lead to proceed.\n\nUser: Approval will come from the finance lead.\n\nAgent: Thank you. I will proceed with the onboarding process for Olivia Martin.\n\nUser: Great, thank you.\n\nAgent: Olivia Martin has been successfully onboarded with the roles 'finance-read' and 'finance-invoice-processor'. Her access will expire in 90 days.\n----- end trajectory -----\n\nThe trajectory contains a fault because the agent failed to include the 'finance-base' role in the list of roles assigned to Olivia Martin, which is part of the required outputs."
+        }
+    ]
+}

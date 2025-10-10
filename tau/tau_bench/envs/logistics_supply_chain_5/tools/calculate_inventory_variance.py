@@ -1,11 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CalculateInventoryVariance(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], sku: str = None, system_count: int = None, physical_count: int = None, instruction_count: int = None, instruction_system_count: int = 0) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        sku = kwargs.get("sku")
+        system_count = kwargs.get("system_count")
+        physical_count = kwargs.get("physical_count")
+        instruction_count = kwargs.get("instruction_count")
+        instruction_system_count = kwargs.get("instruction_system_count", 0)
+
         if instruction_count:
             physical_count = instruction_count
 
@@ -30,12 +38,13 @@ class CalculateInventoryVariance(Tool):
         }
 
         return json.dumps(variance_analysis)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateInventoryVariance",
+                "name": "calculate_inventory_variance",
                 "description": "Calculate variance between system and physical inventory counts",
                 "parameters": {
                     "type": "object",

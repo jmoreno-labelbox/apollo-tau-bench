@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetRepositoryActivityDashboardTool(Tool):
     """
@@ -45,51 +33,37 @@ class GetRepositoryActivityDashboardTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        commits = data.get("commits", {}).values()
-        issues = data.get("issues", {}).values()
-        prs = data.get("pull_requests", {}).values()
-        alerts = data.get("code_scanning_alerts", {}).values()
+        commits = list(data.get("commits", {}).values())
+        issues = list(data.get("issues", {}).values())
+        prs = list(data.get("pull_requests", {}).values())
+        alerts = data.get("code_scanning_alerts", [])
 
         dashboard = {
             "repo": repo_name,
-            "commits_count": sum(1 for c in commits.values() if c.get("repo") == repo_name),
-            "open_issues": sum(
-                1
-                for i in issues.values() if i.get("repo") == repo_name and i.get("state") == "open"
-            ),
-            "open_prs": sum(
-                1
-                for p in prs.values() if p.get("repo") == repo_name and p.get("state") == "open"
-            ),
+            "commits_count": sum(1 for c in commits if c.get("repo") == repo_name),
+            "open_issues": sum(1 for i in issues if i.get("repo") == repo_name and i.get("state") == "open"),
+            "open_prs": sum(1 for p in prs if p.get("repo") == repo_name and p.get("state") == "open"),
             "open_alerts_by_severity": {
-                sev: sum(
-                    1
-                    for a in alerts.values() if a.get("repo") == repo_name
-                    and a.get("state") == "open"
-                    and (a.get("severity") or "unknown").lower() == sev
-                )
+                sev: sum(1 for a in alerts if a.get("repo") == repo_name and a.get("state") == "open" and (a.get("severity") or "unknown").lower() == sev)
                 for sev in ["critical", "high", "medium", "low", "unknown"]
             },
-            "open_alerts": sum(
-                1
-                for a in alerts.values() if a.get("repo") == repo_name and a.get("state") == "open"
-            ),
+            "open_alerts": sum(1 for a in alerts if a.get("repo") == repo_name and a.get("state") == "open"),
             "report_date": CURRENT_DATE,
         }
         return _response("ok", dashboard)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetRepositoryActivityDashboard",
+                "name": "get_repository_activity_dashboard",
                 "description": "Summarize repository activity (commits, issues, PRs, alerts).",
                 "parameters": {
                     "type": "object",

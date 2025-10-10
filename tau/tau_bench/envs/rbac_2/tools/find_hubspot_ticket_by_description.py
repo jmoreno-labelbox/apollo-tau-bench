@@ -1,57 +1,47 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindHubspotTicketByDescription(Tool):
-    """Identifies a HubSpot ticket by looking for a keyword in its description field."""
+    """Finds a HubSpot ticket by searching for a keyword in its description field."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], keyword: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        keyword = kwargs.get("keyword")
         try:
-            tickets = data.get("hubspot_tickets", {}).values()
+            tickets = data.get('hubspot_tickets', [])
         except (KeyError, json.JSONDecodeError):
             tickets = []
 
-        for ticket in tickets.values():
+        for ticket in tickets:
             description = ticket.get("description", "")
             if description is None:
                 description = ""
-
+            
             if keyword in description:
-                payload = ticket
-                out = json.dumps(payload)
-                return out
-        payload = {
-            "error": f"No HubSpot ticket found with keyword '{keyword}' in its description."
-        }
-        out = json.dumps(payload)
-        return out
+                return json.dumps(ticket)
+
+        return json.dumps({"error": f"No HubSpot ticket found with keyword '{keyword}' in its description."})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindHubspotTicketByDescription",
+                "name": "find_hubspot_ticket_by_description",
                 "description": "Finds a HubSpot ticket by searching for a specific keyword within its description text.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "keyword": {
                             "type": "string",
-                            "description": "The keyword or string to search for in the ticket descriptions (e.g., an alert ID like 'ALRT-001').",
+                            "description": "The keyword or string to search for in the ticket descriptions (e.g., an alert ID like 'ALRT-001')."
                         }
                     },
-                    "required": ["keyword"],
-                },
-            },
+                    "required": ["keyword"]
+                }
+            }
         }

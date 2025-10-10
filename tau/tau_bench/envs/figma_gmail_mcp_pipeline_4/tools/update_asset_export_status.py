@@ -1,141 +1,102 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateAssetExportStatus(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        asset_id: str,
-        new_status: str,
-        export_notes: str = "",
-        notes: str = None,
-        dlp_scan_status: str = None,
-        storage_ref: str = None
-    ) -> str:
-        # Support 'notes' as an alternative to 'export_notes'
-        if notes is not None:
-            export_notes = notes
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
-        Modifies asset export status and oversees export workflow metadata.
+        Updates asset export status and manages export workflow metadata.
         """
+        asset_id = kwargs.get('asset_id')
+        new_status = kwargs.get('new_status')
+        export_notes = kwargs.get('export_notes', '')
+        dlp_scan_status = kwargs.get('dlp_scan_status')
+        storage_ref = kwargs.get('storage_ref')
+
         if not all([asset_id, new_status]):
-            payload = {"error": "asset_id and new_status are required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "asset_id and new_status are required."})
 
-        # Check the validity of status values
-        valid_statuses = ["PENDING", "EXPORTING", "COMPLETED", "FAILED", "ARCHIVED"]
+        # Validate status values
+        valid_statuses = ['PENDING', 'EXPORTING', 'COMPLETED', 'FAILED', 'ARCHIVED']
         if new_status not in valid_statuses:
-            payload = {
-                "error": f"Invalid status. Must be one of: {', '.join(valid_statuses)}"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Invalid status. Must be one of: {', '.join(valid_statuses)}"})
 
-        assets = data.get("assets", {}).values()
+        assets = data.get('assets', [])
 
-        # Locate the asset
+        # Find the asset
         asset_found = False
-        for asset in assets.values():
-            if asset.get("asset_id") == asset_id:
+        for asset in assets:
+            if asset.get('asset_id') == asset_id:
                 asset_found = True
-                old_status = asset.get("export_status", "PENDING")
+                old_status = asset.get('export_status', 'PENDING')
 
-                # Change the status of the asset
-                asset["export_status"] = new_status
-                asset["last_updated"] = datetime.now().isoformat()
+                # Update asset status
+                asset['export_status'] = new_status
+                asset['last_updated'] = datetime.now().isoformat()
 
-                # Modify DLP scan status if specified
+                # Update DLP scan status if provided
                 if dlp_scan_status:
-                    asset["dlp_scan_status"] = dlp_scan_status
-                    asset["dlp_scan_timestamp"] = datetime.now().isoformat()
+                    asset['dlp_scan_status'] = dlp_scan_status
+                    asset['dlp_scan_timestamp'] = datetime.now().isoformat()
 
-                # Revise storage reference if supplied
+                # Update storage reference if provided
                 if storage_ref:
-                    asset["storage_ref"] = storage_ref
+                    asset['storage_ref'] = storage_ref
 
-                # Include notes regarding the export
+                # Add export notes
                 if export_notes:
-                    if "export_history" not in asset:
-                        asset["export_history"] = []
-                    asset["export_history"].append(
-                        {
-                            "timestamp": datetime.now().isoformat(),
-                            "status": new_status,
-                            "notes": export_notes,
-                        }
-                    )
+                    if 'export_history' not in asset:
+                        asset['export_history'] = []
+                    asset['export_history'].append({
+                        "timestamp": datetime.now().isoformat(),
+                        "status": new_status,
+                        "notes": export_notes
+                    })
 
-                # Document the change in status
-                if "status_history" not in asset:
-                    asset["status_history"] = []
-                asset["status_history"].append(
-                    {
-                        "from_status": old_status,
-                        "to_status": new_status,
-                        "changed_at": datetime.now().isoformat(),
-                        "notes": export_notes,
-                    }
-                )
+                # Log the status change
+                if 'status_history' not in asset:
+                    asset['status_history'] = []
+                asset['status_history'].append({
+                    "from_status": old_status,
+                    "to_status": new_status,
+                    "changed_at": datetime.now().isoformat(),
+                    "notes": export_notes
+                })
 
                 break
 
         if not asset_found:
-            payload = {"error": f"Asset with ID '{asset_id}' not found."}
-            out = json.dumps(payload)
-            return out
-        payload = {
+            return json.dumps({"error": f"Asset with ID '{asset_id}' not found."})
+
+        return json.dumps({
             "success": True,
             "asset_id": asset_id,
             "old_status": old_status,
             "new_status": new_status,
-            "updated_at": datetime.now().isoformat(),
-        }
-        out = json.dumps(payload)
-        return out
+            "updated_at": datetime.now().isoformat()
+        })
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateAssetExportStatus",
+                "name": "update_asset_export_status",
                 "description": "Updates asset export status and manages export workflow metadata including DLP scan status and storage references.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "asset_id": {
-                            "type": "string",
-                            "description": "The ID of the asset to update.",
-                        },
-                        "new_status": {
-                            "type": "string",
-                            "description": "The new export status. Must be one of: PENDING, EXPORTING, COMPLETED, FAILED, ARCHIVED.",
-                        },
-                        "export_notes": {
-                            "type": "string",
-                            "description": "Optional notes about the export process or status change.",
-                        },
-                        "dlp_scan_status": {
-                            "type": "string",
-                            "description": "Optional DLP scan status update (e.g., 'CLEAN', 'FLAGGED', 'PENDING').",
-                        },
-                        "storage_ref": {
-                            "type": "string",
-                            "description": "Optional new storage reference for the asset.",
-                        },
+                        "asset_id": {"type": "string", "description": "The ID of the asset to update."},
+                        "new_status": {"type": "string", "description": "The new export status. Must be one of: PENDING, EXPORTING, COMPLETED, FAILED, ARCHIVED."},
+                        "export_notes": {"type": "string", "description": "Optional notes about the export process or status change."},
+                        "dlp_scan_status": {"type": "string", "description": "Optional DLP scan status update (e.g., 'CLEAN', 'FLAGGED', 'PENDING')."},
+                        "storage_ref": {"type": "string", "description": "Optional new storage reference for the asset."}
                     },
-                    "required": ["asset_id", "new_status"],
-                },
-            },
+                    "required": ["asset_id", "new_status"]
+                }
+            }
         }

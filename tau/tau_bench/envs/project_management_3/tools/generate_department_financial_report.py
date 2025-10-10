@@ -1,47 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GenerateDepartmentFinancialReport(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        department_name: str,
-        fiscal_year: int = datetime.now().year,
-        include_employee_costs: bool = True
-    ) -> str:
-        if not department_name:
-            payload = {"error": "department_name is required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        department_name = kwargs.get("department_name")
+        fiscal_year = kwargs.get("fiscal_year", datetime.now().year)
+        include_employee_costs = kwargs.get("include_employee_costs", True)
 
-        departments = data.get("departments", {}).values()
-        projects = data.get("projects", {}).values()
-        budgets = data.get("budgets", {}).values()
-        employees = data.get("employees", {}).values()
-        allocations = data.get("allocations", {}).values()
-        data.get("expenses", {}).values()
+        if not department_name:
+            return json.dumps({"error": "department_name is required"})
+
+        departments = list(data.get("departments", {}).values())
+        projects = list(data.get("projects", {}).values())
+        budgets = data.get("budgets", [])
+        employees = list(data.get("employees", {}).values())
+        allocations = data.get("allocations", [])
+        expenses = data.get("expenses", [])
 
         department = next(
-            (d for d in departments.values() if d.get("department_name") == department_name),
+            (d for d in departments if d.get("department_name") == department_name),
             None,
         )
         if not department:
-            payload = {"error": f"Department {department_name} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Department {department_name} not found"})
 
-        dept_projects = [p for p in projects.values() if p.get("department") == department_name]
+        dept_projects = [p for p in projects if p.get("department") == department_name]
 
         total_budget = 0
         total_spent = 0
@@ -52,7 +40,8 @@ class GenerateDepartmentFinancialReport(Tool):
             project_budget = next(
                 (
                     b
-                    for b in budgets.values() if b.get("project_id") == project["project_id"]
+                    for b in budgets
+                    if b.get("project_id") == project["project_id"]
                     and b.get("fiscal_year") == fiscal_year
                 ),
                 None,
@@ -83,18 +72,19 @@ class GenerateDepartmentFinancialReport(Tool):
         employee_costs = {}
         if include_employee_costs:
             dept_employees = [
-                e for e in employees.values() if e.get("department") == department_name
+                e for e in employees if e.get("department") == department_name
             ]
 
             for employee in dept_employees:
 
                 emp_allocations = [
                     a
-                    for a in allocations.values() if a.get("employee_id") == employee["employee_id"]
+                    for a in allocations
+                    if a.get("employee_id") == employee["employee_id"]
                     and a.get("status") == "active"
                 ]
 
-                total_hours = sum(a.get("hours_per_week", 0) for a in emp_allocations.values())
+                total_hours = sum(a.get("hours_per_week", 0) for a in emp_allocations)
                 hourly_rate = (
                     150 if "senior" in employee.get("role", "").lower() else 100
                 )
@@ -123,11 +113,9 @@ class GenerateDepartmentFinancialReport(Tool):
                 "total_spent": total_spent,
                 "total_committed": total_committed,
                 "available": total_budget - total_spent - total_committed,
-                "budget_utilization": (
-                    round((total_spent / total_budget * 100), 2)
-                    if total_budget > 0
-                    else 0
-                ),
+                "budget_utilization": round((total_spent / total_budget * 100), 2)
+                if total_budget > 0
+                else 0,
             },
             "project_count": len(dept_projects),
             "project_breakdown": project_summaries,
@@ -139,10 +127,10 @@ class GenerateDepartmentFinancialReport(Tool):
                 "allocated_hours": department.get("allocated_hours", 0),
             },
             "high_priority_projects": len(
-                [p for p in dept_projects.values() if p.get("priority") == "critical"]
+                [p for p in dept_projects if p.get("priority") == "critical"]
             ),
             "projects_over_budget": len(
-                [p for p in project_summaries.values() if p["utilization"] > 90]
+                [p for p in project_summaries if p["utilization"] > 90]
             ),
             "report_generated": datetime.now().isoformat(),
         }
@@ -152,15 +140,15 @@ class GenerateDepartmentFinancialReport(Tool):
             report["total_employee_cost"] = sum(
                 e["annual_cost"] for e in employee_costs.values()
             )
-        payload = report
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(report, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GenerateDepartmentFinancialReport",
+                "name": "generate_department_financial_report",
                 "description": "Generate comprehensive financial report for a department",
                 "parameters": {
                     "type": "object",

@@ -1,67 +1,58 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetRoleIdByName(Tool):
     """
-    Locates one or more roles by searching for a name, giving priority to exact matches
-    while also returning other roles that include the search term.
+    Finds one or more roles by searching for a name. It prioritizes an exact match
+    but will also return other roles that contain the search string.
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], role_name: str = None) -> str:
-        find_role_name = role_name
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        find_role_name = kwargs.get("role_name")
         try:
-            roles = data.get("roles", {}).values()
+            roles = list(data.get('roles', {}).values())
         except (KeyError, json.JSONDecodeError):
             roles = []
 
         exact_matches = []
         partial_matches = []
 
-        for role in roles.values():
+        for role in roles:
             current_role_name = role.get("role_name", "")
-
+            
             if current_role_name == find_role_name:
                 exact_matches.append(role)
             elif find_role_name in current_role_name:
                 partial_matches.append(role)
-
+        
         all_matches = exact_matches + partial_matches
 
         if not all_matches:
-            payload = {"error": f"No roles found matching or containing '{find_role_name}'."}
-            out = json.dumps(payload)
-            return out
-        payload = all_matches
-        out = json.dumps(payload)
-        return out
+            return json.dumps({"error": f"No roles found matching or containing '{find_role_name}'."})
+        
+        return json.dumps(all_matches)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetRoleIdByName",
+                "name": "get_role_id_by_name",
                 "description": "Retrieves a list of roles based on a name. Returns all roles that either exactly match the name or contain the name as a substring.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "role_name": {
                             "type": "string",
-                            "description": "The name of the role to search for (e.g., 'sales-lead').",
+                            "description": "The name of the role to search for (e.g., 'sales-lead')."
                         }
                     },
-                    "required": ["role_name"],
-                },
-            },
+                    "required": ["role_name"]
+                }
+            }
         }

@@ -1,35 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ListAllMergedPullRequests(Tool):
-    """Provides all merged PRs from all repositories owned by the acting user."""
+    """Returns all merged PRs across all repositories owned by acting user."""
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         me = _auth(data)["username"]
         prs = [
             {
                 "repo_name": pr["repo_name"],
                 "number": pr["number"],
                 "title": pr["title"],
-                "state": pr["state"],
+                "state": pr["state"]
             }
             for pr in _prs(data)
             if pr.get("owner") == me and pr.get("state") == "merged"
         ]
-        payload = prs
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(prs, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "listAllMergedPullRequests",
+                "name": "list_all_merged_pull_requests",
                 "description": "Returns all merged pull requests for repos owned by current user.",
-                "parameters": {"type": "object", "properties": {}},
-            },
+                "parameters": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
         }

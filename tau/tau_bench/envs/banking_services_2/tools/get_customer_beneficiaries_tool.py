@@ -1,19 +1,15 @@
-from tau_bench.envs.tool import Tool
-from typing import Any, Dict
+# Copyright Sierra
+
 import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCustomerBeneficiariesTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
-        beneficiaries = data.get('beneficiaries', {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get('customer_id')
+        beneficiaries = list(data.get('beneficiaries', {}).values())
 
         customer_beneficiaries = []
         for beneficiary in beneficiaries:
@@ -31,12 +27,13 @@ class GetCustomerBeneficiariesTool(Tool):
                 })
 
         return json.dumps(customer_beneficiaries, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCustomerBeneficiaries",
+                "name": "get_customer_beneficiaries",
                 "description": "Get all beneficiaries for a customer",
                 "parameters": {
                     "type": "object",

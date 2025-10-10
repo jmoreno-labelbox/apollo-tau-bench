@@ -1,30 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateDepartment(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], name: str = None, department_id: str = None, head_id: str = None) -> str:
-        department_name = name
-        department_id = department_id or f"conflict_{uuid.uuid4().hex[:8]}"
-        head_id = head_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        department_name = kwargs.get("name")
+        department_id = kwargs.get("department_id", f"conflict_{uuid.uuid4().hex[:8]}")
+        head_id = kwargs.get("head_id")
 
         if not all([department_name, head_id]):
-            payload = {"error": "department_name and head_id are required parameters"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "department_name and head_id are required parameters"})
 
-        departments = data.get("departments", {}).values()
+        departments = list(data.get("departments", {}).values())
 
         new_department = {
             "department_id": department_id,
@@ -34,24 +25,26 @@ class CreateDepartment(Tool):
             "allocated_hours": 680,
             "available_hours": 120,
             "employee_count": 20,
-            "avg_utilization": 85,
+            "avg_utilization": 85
         }
 
-        data["departments"][department_id] = new_department
-        payload = {
-            "success": True,
-            "department_id": department_id,
-            "name": department_name,
-            "head_id": head_id,
-        }
-        out = json.dumps(payload)
-        return out
+        departments.append(new_department)
+
+        return json.dumps(
+            {
+                "success": True,
+                "department_id": department_id,
+                "name": department_name,
+                "head_id": head_id,
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateDepartment",
+                "name": "create_department",
                 "description": "Create a new department",
                 "parameters": {
                     "type": "object",

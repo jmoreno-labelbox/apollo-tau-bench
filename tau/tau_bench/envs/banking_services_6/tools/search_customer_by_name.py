@@ -1,33 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, time, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchCustomerByName(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], first_name: str = None, last_name: str = None) -> str:
-        customers = data.get("customers", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        first_name = kwargs.get("first_name")
+        last_name = kwargs.get("last_name")
+        customers = list(data.get("customers", {}).values())
         results = []
-        for customer in customers.values():
-            pi = customer.get("personal_info", {}).values()
+        for customer in customers:
+            pi = customer.get("personal_info", {})
             if pi.get("first_name", "").lower().strip() == first_name.lower().strip() and \
                     pi.get("last_name", "").lower().strip() == last_name.lower().strip():
                 results.append(customer)
         return json.dumps(results)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "SearchCustomerByName",
+                        "name": "search_customer_by_name",
                         "description": "Searches for a customer by their first and last name.",
                         "parameters": {
                                 "type": "object",

@@ -1,40 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetOrderDetails(Tool):
-    """Retrieve complete order information from orders.json using order_id."""
+    """Fetch full order details from orders.json by order_id."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str) -> str:
-        orders = data.get("orders", {}).values()
-        for order in orders.values():
+    def invoke(data: Dict[str, Any], order_id: str) -> str:
+        orders = list(data.get("orders", {}).values())
+        for order in orders:
             if order.get("order_id") == order_id:
-                payload = order
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Order not found", "order_id": order_id}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(order)
+        return json.dumps({"error": "Order not found", "order_id": order_id})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetOrderDetails",
+                "name": "get_order_details",
                 "description": "Get order details from orders.json by order_id.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"order_id": {"type": "string"}},
-                    "required": ["order_id"],
-                },
-            },
+                    "properties": {
+                        "order_id": {"type": "string"}
+                    },
+                    "required": ["order_id"]
+                }
+            }
         }

@@ -1,54 +1,47 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetTeamDetailsByName(Tool):
-    """Retrieve a team record using its team_name (exact, case-sensitive)."""
+    """Fetch a team record by its team_name (exact, case-sensitive)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], name: str = None) -> str:
-        #1) Confirm validity
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name = kwargs.get("name")
+
+        # 1) Validate
         if not isinstance(name, str) or name == "":
-            payload = {"error": "Missing required field: name"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Missing required field: name"}, indent=2)
 
-        #2) Retrieve DB using provided data
-        teams = data.get("teams", {}).values()
+        # 2) Get DB from passed-in data
+        teams = data.get("teams", [])
 
-        #3) Lookup for exact matches (without normalization)
-        for team in teams.values():
+        # 3) Exact match lookup (no normalization)
+        for team in teams:
             if team.get("team_name") == name:
-                payload = team
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"No team found with name {name}"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(team, indent=2)
+
+        return json.dumps({"error": f"No team found with name {name}"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetTeamDetailsByName",
+                "name": "get_team_details_by_name",
                 "description": "Fetch a single team's full details by exact team_name (case-sensitive).",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "name": {
                             "type": "string",
-                            "description": "Exact team name to retrieve.",
+                            "description": "Exact team name to retrieve."
                         }
                     },
-                    "required": ["name"],
-                },
-            },
+                    "required": ["name"]
+                }
+            }
         }

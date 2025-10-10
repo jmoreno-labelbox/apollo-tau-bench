@@ -1,18 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CalculateCustomsDuty(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], shipment_id: str = None, total_value: float = None, country_of_origin: str = None) -> str:
-        # Basic duty calculation - a real system would utilize tariff schedules
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        shipment_id = kwargs.get("shipment_id")
+        total_value = kwargs.get("total_value")
+        country_of_origin = kwargs.get("country_of_origin")
+
+        # Simplified duty calculation - in real system would use tariff schedules
         duty_rates = {
-            "Middle Kingdom": 0.05,  # Duty rate of 5%
-            "Nippon": 0.02,  # Duty rate of 2%
-            "Deutschland": 0.025,  # Duty rate of 2.5%
-            "Mexico": 0.0,  # Preferential rate under USMCA
-            "default": 0.035  # Standard rate of 3.5%
+            "China": 0.05,  # 5% duty rate
+            "Japan": 0.02,  # 2% duty rate
+            "Germany": 0.025, # 2.5% duty rate
+            "Mexico": 0.0,  # USMCA preferential rate
+            "default": 0.035 # 3.5% standard rate
         }
 
         duty_rate = duty_rates.get(country_of_origin, duty_rates["default"])
@@ -25,12 +31,13 @@ class CalculateCustomsDuty(Tool):
             "total_value": total_value,
             "country_of_origin": country_of_origin
         })
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateCustomsDuty",
+                "name": "calculate_customs_duty",
                 "description": "Calculate customs duty amount for a shipment",
                 "parameters": {
                     "type": "object",

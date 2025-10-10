@@ -1,51 +1,42 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetUserRole(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, role_name: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        role_name = kwargs.get("role_name")
         role_id = None
-        for role in data.get("roles", {}).values():
-            if role.get("role_name") == role_name:
-                role_id = role.get("role_id")
+        for role in list(data.get('roles', {}).values()):
+            if role.get('role_name') == role_name:
+                role_id = role.get('role_id')
                 break
         if not role_id:
-            payload = {"error": "Role not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Role not found"})
 
-        for ur in data.get("user_roles", {}).values():
-            if ur.get("user_id") == user_id and ur.get("role_id") == role_id:
-                payload = ur
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "User role assignment not found"}
-        out = json.dumps(payload)
-        return out
+        for ur in data.get('user_roles', []):
+            if ur.get('user_id') == user_id and ur.get('role_id') == role_id:
+                return json.dumps(ur)
+        return json.dumps({"error": "User role assignment not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "GetUserRoles",
-                "description": "Retrieves a specific role assignment for a user.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "user_id": {"type": "string"},
-                        "role_name": {"type": "string"},
-                    },
-                    "required": ["user_id", "role_name"],
-                },
-            },
+                "type": "function",
+                "function": {
+                        "name": "get_user_role",
+                        "description": "Retrieves a specific role assignment for a user.",
+                        "parameters": {
+                                "type": "object",
+                                "properties": {
+                                        "user_id": {"type": "string"},
+                                        "role_name": {"type": "string"}
+                                },
+                                "required": ["user_id", "role_name"]
+                        }
+                }
         }

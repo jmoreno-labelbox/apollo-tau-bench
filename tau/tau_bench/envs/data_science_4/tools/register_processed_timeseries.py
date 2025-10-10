@@ -1,21 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class RegisterProcessedTimeseries(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], processed_csv_path: str = None) -> str:
-        entry = {"processed_csv_path": processed_csv_path}
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        path = kwargs.get("processed_csv_path")
+        entry = {"processed_csv_path": path}
         data.setdefault("processed_timeseries.json", []).append(entry)
-        payload = {**entry, "status": "completed"}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({**entry, "status": "completed"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "registerProcessedTimeseries",
+                "name": "RegisterProcessedTimeseries",
                 "parameters": {
                     "type": "object",
                     "properties": {"processed_csv_path": {"type": "string"}},

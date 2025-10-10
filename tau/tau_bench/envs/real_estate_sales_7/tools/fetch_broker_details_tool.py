@@ -1,30 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FetchBrokerDetailsTool(Tool):
-    """Retrieves broker details for coordinating workflows."""
+    """Gets broker information for workflow coordination."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], broker_id: int = None) -> str:
-        broker_id = _as_int(broker_id)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        broker_id = _as_int(kwargs.get("broker_id"))
         if broker_id is None:
             return _err("broker_id (int) is required")
 
         rec = next(
             (
                 b
-                for b in data.get("brokers", {}).values()
+                for b in data.get("brokers", [])
                 if _as_int(b.get("broker_id")) == broker_id
             ),
             None,
@@ -41,15 +34,14 @@ class FetchBrokerDetailsTool(Tool):
             "calendar_uri": rec.get("calendar_uri"),
             "active": bool(rec.get("active", False)),
         }
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "fetchBrokerDetails",
+                "name": "fetch_broker_details",
                 "description": "Gets broker information for workflow coordination.",
                 "parameters": {
                     "type": "object",

@@ -1,37 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AddRecipeToMealPlan(Tool):
-    """Incorporates a recipe entry into a current meal plan."""
-
+    """Adds a recipe entry to an existing meal plan."""
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        meal_plan_id: int,
-        plan_date: str,
-        recipe_id: int,
-        meal_type: str = "Dinner",
-        servings_adult: int = 2,
-        servings_child: int = 1,
-        notes: str = ""
-    ) -> str:
-        entries = data.get("meal_plan_entries", {}).values()
-        # Automatically create the next entry_id
-        new_id = (
-            max([entry.get("entry_id", 0) for entry in entries.values()]) + 1
-            if entries
-            else 6101
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        meal_plan_id = kwargs.get("meal_plan_id")
+        plan_date = kwargs.get("plan_date")
+        recipe_id = kwargs.get("recipe_id")
+        meal_type = kwargs.get("meal_type", "Dinner")
+        servings_adult = kwargs.get("servings_adult", 2)
+        servings_child = kwargs.get("servings_child", 1)
+        notes = kwargs.get("notes", "")
+
+        entries = data.get("meal_plan_entries", [])
+        # Automatically generate the next entry_id
+        new_id = max([entry.get("entry_id", 0) for entry in entries]) + 1 if entries else 6101
 
         new_entry = {
             "entry_id": new_id,
@@ -41,32 +29,25 @@ class AddRecipeToMealPlan(Tool):
             "recipe_id": recipe_id,
             "servings_adult": servings_adult,
             "servings_child": servings_child,
-            "notes": notes,
+            "notes": notes
         }
         data["meal_plan_entries"].append(new_entry)
-        payload = new_entry
-        out = json.dumps(payload)
-        return out
+        return json.dumps(new_entry)
+        
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddRecipeToMealPlan",
+                "name": "add_recipe_to_meal_plan",
                 "description": "Adds a recipe entry to an existing meal plan.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "meal_plan_id": {"type": "integer"},
-                        "plan_date": {
-                            "type": "string",
-                            "description": "Date for the meal in YYYY-MM-DD format.",
-                        },
+                        "plan_date": {"type": "string", "description": "Date for the meal in YYYY-MM-DD format."},
                         "recipe_id": {"type": "integer"},
-                        "notes": {
-                            "type": "string",
-                            "description": "Optional notes for the meal entry.",
-                        },
+                        "notes": {"type": "string", "description": "Optional notes for the meal entry."},
                     },
                     "required": ["meal_plan_id", "plan_date", "recipe_id"],
                 },

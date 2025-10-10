@@ -1,53 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import random
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCarrierDetails(Tool):
-    """Fetches complete details for a single carrier using its name."""
+    """Retrieves the full details for a single carrier by its name."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        carrier_name = kwargs.get('carrier_name')
+        if not carrier_name:
+            return json.dumps({"error": "carrier_name is required."}, indent=2)
+        carrier = next(
+                (
+                    c for c in data.get('carriers', [])
+                    if carrier_name.lower() in c.get('carrier_name', '').lower()
+                ),
+                None
+            )
+        if not carrier:
+            return json.dumps({"error": f"Carrier '{carrier_name}' not found."}, indent=2)
+        return json.dumps(carrier, indent=2)
 
     @staticmethod
-    def invoke(data: dict[str, Any], carrier_name: str = None) -> str:
-        if not carrier_name:
-            payload = {"error": "carrier_name is required."}
-            out = json.dumps(payload, indent=2)
-            return out
-        carrier = next(
-            (
-                c
-                for c in data.get("carriers", {}).values()
-                if carrier_name.lower() in c.get("carrier_name", "").lower()
-            ),
-            None,
-        )
-        if not carrier:
-            payload = {"error": f"Carrier '{carrier_name}' not found."}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        payload = carrier
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetCarrierDetails",
-                "description": "Retrieves the full details for a single carrier by its name.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"carrier_name": {"type": "string"}},
-                    "required": ["carrier_name"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "get_carrier_details", "description": "Retrieves the full details for a single carrier by its name.", "parameters": {"type": "object", "properties": {"carrier_name": {"type": "string"}}, "required": ["carrier_name"]}}}

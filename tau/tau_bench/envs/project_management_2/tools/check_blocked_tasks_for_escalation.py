@@ -1,46 +1,43 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CheckBlockedTasksForEscalation(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], check_all_sprints: bool = True, sprint_id: str = None) -> str:
-        tasks = data.get("tasks", {}).values()
-        task_history = data.get("task_history", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        check_all_sprints = kwargs.get("check_all_sprints", True)
 
-        if sprint_id:
-            tasks_to_check = [t for t in tasks.values() if t.get("sprint_id") == sprint_id]
+        tasks = list(data.get("tasks", {}).values())
+        task_history = data.get("task_history", [])
+
+        if sprint_id := kwargs.get("sprint_id"):
+            tasks_to_check = [t for t in tasks if t.get("sprint_id") == sprint_id]
         elif check_all_sprints:
             tasks_to_check = tasks
         else:
-            payload = {
-                "error": "Either check_all_sprints must be True or sprint_id must be provided"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": "Either check_all_sprints must be True or sprint_id must be provided"
+                }
+            )
 
-        blocked_tasks = [t for t in tasks_to_check.values() if t.get("status") == "blocked"]
+        blocked_tasks = [t for t in tasks_to_check if t.get("status") == "blocked"]
 
         tasks_needing_escalation = []
 
         for task in blocked_tasks:
+
             if task.get("escalated", False):
                 continue
 
             task_id = task.get("task_id")
             blocked_history = [
                 h
-                for h in task_history.values() if h.get("task_id") == task_id
+                for h in task_history
+                if h.get("task_id") == task_id
                 and h.get("action") == "status_changed"
                 and h.get("to_status") == "blocked"
             ]
@@ -60,19 +57,22 @@ class CheckBlockedTasksForEscalation(Tool):
                     "current_priority": task.get("priority"),
                 }
             )
-        payload = {
-            "total_blocked_tasks": len(blocked_tasks),
-            "tasks_needing_escalation": len(tasks_needing_escalation),
-            "tasks": tasks_needing_escalation,
-        }
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(
+            {
+                "total_blocked_tasks": len(blocked_tasks),
+                "tasks_needing_escalation": len(tasks_needing_escalation),
+                "tasks": tasks_needing_escalation,
+            },
+            indent=2,
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CheckBlockedTasksForEscalation",
+                "name": "check_blocked_tasks_for_escalation",
                 "description": "Check for blocked tasks that need escalation (blocked > 2 days)",
                 "parameters": {
                     "type": "object",

@@ -1,78 +1,71 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class increase_employee_compensation(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         employee_id: str,
         compensation_id: str,
         effective_date: str,
-        salary_increase_pct: float | None = None,
-        equity_increase_amount: int | None = None,
+        salary_increase_pct: Optional[float] = None,
+        equity_increase_amount: Optional[int] = None,
     ) -> str:
-        comp_records = data.get("compensation_records", {}).values()
-        # Retrieve the current compensation
-        current_comp_list = [c for c in comp_records.values() if c["employee_id"] == employee_id]
+
+        comp_records = data.get("compensation_records", [])
+        # Get current compensation
+        current_comp_list = [c for c in comp_records if c["employee_id"] == employee_id]
         if not current_comp_list:
-            payload = {
-                "error": f"No compensation record found for employee_id {employee_id}"
-            }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {
+                    "error": f"No compensation record found for employee_id {employee_id}"
+                },
+                indent=2,
             )
-            return out
 
         current_comp_list.sort(key=lambda c: c["effective_date"], reverse=True)
         current_comp = current_comp_list[0]
 
-        # Begin with existing values
+        # Start with current values
         new_comp = current_comp.copy()
 
-        # Revise with the new necessary values
+        # Update with new required values
         new_comp["compensation_id"] = compensation_id
         new_comp["effective_date"] = effective_date
 
-        # Determine new salary if relevant
+        # Calculate new salary if applicable
         if salary_increase_pct is not None:
             new_comp["base_salary"] = int(
                 current_comp["base_salary"] * (1 + salary_increase_pct / 100)
             )
 
-        # Assess new equity if relevant
+        # Calculate new equity if applicable
         if equity_increase_amount is not None:
             new_comp["equity_grant"] = (
                 current_comp["equity_grant"] + equity_increase_amount
             )
 
-        # Insert the new record while maintaining history
-        data["compensation_records"][new_comp["compensation_record_id"]] = new_comp
+        # Add the new record, preserving history
+        comp_records.append(new_comp)
         data["compensation_records"] = comp_records
-        payload = {
-            "success": f"New compensation record {compensation_id} created for {employee_id}",
-            "new_compensation": new_comp,
-        }
-        out = json.dumps(
-            payload, indent=2,
+        return json.dumps(
+            {
+                "success": f"New compensation record {compensation_id} created for {employee_id}",
+                "new_compensation": new_comp,
+            },
+            indent=2,
         )
-        return out
-    
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "IncreaseEmployeeCompensation",
+                "name": "increase_employee_compensation",
                 "description": "Increase salary by a percentage and/or equity by a fixed amount, creating a new compensation record.",
                 "parameters": {
                     "type": "object",

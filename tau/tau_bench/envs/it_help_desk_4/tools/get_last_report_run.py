@@ -1,42 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetLastReportRun(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        report_runs = data.get("report_runs", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        report_runs = data.get("report_runs", [])
         if not report_runs:
-            payload = {"error": "No previous report runs found."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "No previous report runs found."}, indent=2)
         last_run = report_runs[-1]
-        #Simulating the KPIs that would have been recorded during the execution
-        last_run["kpis"] = {
-            "total_open": 45,
-            "avg_age_open_hours": 22.0,
-            "avg_ttr_mins": 1300,
-            "pct_closed_1d": 65.0,
-            "p1_open_count": 4,
-        }
-        payload = last_run
-        out = json.dumps(payload, indent=2)
-        return out
+        # Mocking the KPIs that would have been stored with the run
+        last_run["kpis"] = {"total_open": 45, "avg_age_open_hours": 22.0, "avg_ttr_mins": 1300, "pct_closed_1d": 65.0, "p1_open_count": 4}
+        return json.dumps(last_run, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetLastReportRun",
-                "description": "Retrieves the data from the last successful service desk health report run.",
-                "parameters": {"type": "object", "properties": {}, "required": []},
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "get_last_report_run", "description": "Retrieves the data from the last successful service desk health report run.", "parameters": {"type": "object", "properties": {}, "required": []}}}

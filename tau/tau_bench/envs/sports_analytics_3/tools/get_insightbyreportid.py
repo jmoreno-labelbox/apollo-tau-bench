@@ -1,60 +1,51 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetInsightbyreportid(Tool):
-    """Retrieve all curated insights linked to a specific report_id."""
+    """Fetch all curated insights associated with a given report_id."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], report_id: str = None) -> str:
-        #1) Confirm validity
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        report_id = kwargs.get("report_id")
+
+        # 1) Validate
         if report_id is None:
-            payload = {"error": "Missing required field: report_id"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Missing required field: report_id"}, indent=2)
 
-        #2) Retrieve DB
-        insights: list[dict[str, Any]] = data.get("curated_insights", {}).values()
+        # 2) Get DB
+        insights: List[Dict[str, Any]] = data.get("curated_insights", [])
 
-        #3) Lookup for exact matches (without normalization)
-        matches = [i for i in insights.values() if i.get("report_id") == report_id]
+        # 3) Exact match lookup (no normalization)
+        matches = [i for i in insights if i.get("report_id") == report_id]
 
         if not matches:
-            payload = {"error": f"No insights found for report_id {report_id}"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"No insights found for report_id {report_id}"}, indent=2)
 
-        #4) Order deterministically
+        # 4) Deterministic ordering
         matches.sort(key=lambda i: int(i.get("insight_id", 0)))
-        payload = matches
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(matches, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getInsightByReportId",
+                "name": "get_insight_by_report_id",
                 "description": "Fetch all curated insights whose report_id exactly matches the provided value.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "report_id": {
                             "type": "integer",
-                            "description": "Exact report ID to filter insights by.",
+                            "description": "Exact report ID to filter insights by."
                         }
                     },
-                    "required": ["report_id"],
-                },
-            },
+                    "required": ["report_id"]
+                }
+            }
         }

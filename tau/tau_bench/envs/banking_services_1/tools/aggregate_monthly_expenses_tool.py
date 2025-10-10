@@ -1,8 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AggregateMonthlyExpensesTool(Tool):
     """
@@ -21,7 +22,9 @@ class AggregateMonthlyExpensesTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, month: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get("account_id")
+        month = kwargs.get("month")
         if not account_id or not month:
             return json.dumps(
                 {
@@ -58,12 +61,13 @@ class AggregateMonthlyExpensesTool(Tool):
             },
             indent=2,
         )
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AggregateMonthlyExpenses",
+                "name": "aggregate_monthly_expenses",
                 "description": "Summarize monthly expenses from transaction history by category (transaction type).",
                 "parameters": {
                     "type": "object",

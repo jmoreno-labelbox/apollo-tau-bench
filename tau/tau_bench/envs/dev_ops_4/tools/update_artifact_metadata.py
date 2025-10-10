@@ -1,47 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateArtifactMetadata(Tool):
-    """Modify artifact.metadata with specified keys in a deterministic manner."""
-
+    """Patch artifact.metadata with provided keys deterministically."""
     @staticmethod
-    def invoke(data: dict[str, Any], artifact_id: str = None, metadata_patch: dict[str, Any] = {}) -> str:
-        rows = data.get("artifacts", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        artifact_id = kwargs.get("artifact_id")
+        metadata_patch = kwargs.get("metadata_patch", {})
+        rows = data.get("artifacts", [])
         idx = _idx_by_id(rows, artifact_id)
         if idx is None:
-            payload = {"artifact": None}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"artifact": None}, indent=2)
         art = rows[idx]
-        art.setdefault("metadata", {}).values()
+        art.setdefault("metadata", {})
         art["metadata"].update(metadata_patch)
         rows[idx] = art
-        payload = {"artifact": art}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"artifact": art}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateArtifactMetadata",
+                "name": "update_artifact_metadata",
                 "description": "Apply a shallow patch to artifact.metadata.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "artifact_id": {"type": "string"},
-                        "metadata_patch": {"type": "object"},
+                        "metadata_patch": {"type": "object"}
                     },
-                    "required": ["artifact_id", "metadata_patch"],
-                },
-            },
+                    "required": ["artifact_id", "metadata_patch"]
+                }
+            }
         }

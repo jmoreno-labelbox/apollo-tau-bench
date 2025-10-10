@@ -1,51 +1,46 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetProductsByCategory(Tool):
-    """Utility for fetching products based on their category name."""
+    """Tool to retrieve products by category name."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], category: str = "", list_of_ids: list = None) -> str:
-        category = category.lower()
-        list_of_products = list_of_ids
-        products = data.get("product_master", {}).values()
-        result = [p["sku"] for p in products.values() if p["category"].lower() == category]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        category = kwargs.get("category", "").lower()
+        list_of_products = kwargs.get("list_of_ids", None)
+        products = data.get("product_master", [])
+        result = [p['sku'] for p in products if p["category"].lower() == category]
         if list_of_products:
-            result = [r for r in result.values() if r in list_of_products]
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+            result = [r for r in result if r in list_of_products]
+        return json.dumps(result, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetProductsByCategory",
+                "name": "get_products_by_category",
                 "description": "Get all products that belong to a specific category.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "category": {
                             "type": "string",
-                            "description": "Category name (e.g., 'Pharmaceuticals')",
+                            "description": "Category name (e.g., 'Pharmaceuticals')"
                         },
                         "list_of_ids": {
                             "type": "array",
-                            "items": {"type": "string"},
-                            "description": "List of products to choose from.",
-                        },
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "List of products to choose from."
+                        }
                     },
-                    "required": ["category"],
-                },
-            },
+                    "required": ["category"]
+                }
+            }
         }

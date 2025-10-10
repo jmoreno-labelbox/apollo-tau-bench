@@ -3,7 +3,7 @@
 from tau_bench.envs.base import Env
 from tau_bench.envs.recipes_1.data import load_data
 from tau_bench.envs.recipes_1.wiki import WIKI
-from tau_bench.envs.recipes_1.tools import TOOLS
+from tau_bench.envs.recipes_1.tools import ALL_TOOLS
 from typing import Optional, Union
 from tau_bench.envs.user import UserStrategy
 
@@ -24,7 +24,7 @@ class MockRecipesDomainEnv(Env):
                 raise ValueError(f"Unknown task split: {task_split}")
         super().__init__(
             data_load_func=load_data,
-            tools=TOOLS,
+            tools=ALL_TOOLS,
             tasks=tasks,
             wiki=WIKI,
             rules=[],

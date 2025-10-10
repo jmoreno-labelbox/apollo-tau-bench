@@ -1,34 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class PrepareStakeholderOutputs(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], predictions_id: str = None, metrics_id: str = None) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         output_id = "STAKEHOLDER_OUTPUT_001"
 
-        # In a genuine situation, this would transfer files to a designated 'deliverables' location.
-        # At this point, we simply generate the record.
+        # In a real scenario, this would copy files to a final 'deliverables' location.
+        # Here we just create the record.
         output_entry = {
             "stakeholder_output_id": output_id,
-            "final_predictions_id": predictions_id,
-            "final_metrics_id": metrics_id,
+            "final_predictions_id": kwargs.get("predictions_id"),
+            "final_metrics_id": kwargs.get("metrics_id"),
             "status": "ready",
             "predictions_csv_path": f"/deliverables/final_predictions_{output_id}.csv",
             "metrics_json_path": f"/deliverables/final_metrics_{output_id}.json",
         }
 
         data.setdefault("stakeholder_outputs.json", []).append(output_entry)
-        payload = output_entry
-        out = json.dumps(payload)
-        return out
+        return json.dumps(output_entry)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "prepareStakeholderOutputs",
+                "name": "PrepareStakeholderOutputs",
                 "description": "Finalizes the modeling run by creating a record pointing to the definitive prediction and metrics files.",
                 "parameters": {
                     "type": "object",

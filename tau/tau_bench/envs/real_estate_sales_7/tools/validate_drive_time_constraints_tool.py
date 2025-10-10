@@ -1,19 +1,17 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ValidateDriveTimeConstraintsTool(Tool):
-    """Confirms that consecutive hops between properties adhere to a maximum hop time."""
+    """Validates that sequential hops between properties are within a max hop time."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], property_list: list = None, max_hop_minutes: int = None,
-    start_address: Any = None,
-    ) -> str:
-        pass
-        property_list = property_list or []
-        max_hop_minutes = _as_int(max_hop_minutes)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        property_list = kwargs.get("property_list") or []
+        max_hop_minutes = _as_int(kwargs.get("max_hop_minutes"))
         if (
             not isinstance(property_list, list)
             or not property_list
@@ -24,7 +22,7 @@ class ValidateDriveTimeConstraintsTool(Tool):
         max_constraint = min(30, max_hop_minutes)
         segments = []
         if property_list:
-            # Utilize deterministic mock times akin to the route optimizer
+            # Use deterministic mock times similar to the route optimizer
             for a, b in zip(["start"] + property_list[:-1], property_list):
                 travel = 18 if a == "start" else 15
                 travel_minutes = min(travel, max_constraint)
@@ -39,15 +37,14 @@ class ValidateDriveTimeConstraintsTool(Tool):
             "segments": segments,
             "constraint_satisfied": bool(constraint_satisfied),
         }
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ValidateDriveTimeConstraints",
+                "name": "validate_drive_time_constraints",
                 "description": (
                     "Validate that a proposed property sequence meets hop-time limits."
                 ),

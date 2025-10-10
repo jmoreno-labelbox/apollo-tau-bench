@@ -1,41 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FetchModelRecord(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], model_id: str = None, model_name: str = None) -> str:
-        models = data.get("models", {}).values() or []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        models = list(data.get("models", {}).values()) or []
+        mid = kwargs.get("model_id")
+        mname = kwargs.get("model_name")
         row = None
-        if model_id is not None:
-            row = next((m for m in models.values() if str(m.get("model_id")) == str(model_id)), None)
-        elif model_name:
-            row = next((m for m in models.values() if m.get("model_name") == model_name), None)
-        payload = row or {"error": "Model not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+        if mid is not None:
+            row = next((m for m in models if str(m.get("model_id")) == str(mid)), None)
+        elif mname:
+            row = next((m for m in models if m.get("model_name") == mname), None)
+        return json.dumps(row or {"error": "Model not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "FetchModelRecord",
-                "description": "Read a model by id or by name.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "model_id": {"type": "string"},
-                        "model_name": {"type": "string"},
-                    },
-                    "required": [],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "fetch_model_record",
+            "description": "Read a model by id or by name.",
+            "parameters": {"type": "object", "properties": {
+                "model_id": {"type": "string"},
+                "model_name": {"type": "string"}
+            }, "required": []}
+        }}

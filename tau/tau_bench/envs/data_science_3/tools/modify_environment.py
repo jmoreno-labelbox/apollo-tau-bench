@@ -1,39 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ModifyEnvironment(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], updates: dict[str, Any] = None) -> str:
-        updates = updates or {}
-        env = data.get("environment", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        updates = kwargs.get("updates") or {}
+        env = data.get("environment", {})
         if env is None or isinstance(env, list):
             env = {}
             data["environment"] = env
         env.update(updates)
         env["updated_at"] = _fixed_now_iso()
-        payload = {"updated": updates}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"updated": updates}, indent=2)
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "updateEnvironment",
-                "description": "Update environment variables/secrets.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"updates": {"type": "object"}},
-                    "required": ["updates"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"update_environment",
+            "description":"Update environment variables/secrets.",
+            "parameters":{"type":"object","properties":{"updates":{"type":"object"}},"required":["updates"]}
+        }}

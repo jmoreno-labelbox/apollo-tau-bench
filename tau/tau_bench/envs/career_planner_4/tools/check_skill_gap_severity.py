@@ -1,41 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class CheckSkillGapSeverity(Tool):
+class check_skill_gap_severity(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str, skill: str) -> str:
-        """Evaluates the seriousness of a particular skill gap for a user based on their analysis report."""
-        _skillL = skill or ''.lower()
-        pass
-        # Locate the comprehensive analysis report for the designated user.
+    def invoke(data: Dict[str, Any], user_id: str, skill: str) -> str:
+        """
+        Checks the severity of a specific skill gap for a user from their analysis report.
+        """
+        # Find the overall analysis report for the specified user.
         user_analysis = next(
             (
                 a
-                for a in data.get("skill_gap_analysis", {}).values()
+                for a in data.get("skill_gap_analysis", [])
                 if a.get("user_id") == user_id
             ),
             None,
         )
 
         if not user_analysis:
-            payload = {"error": f"Skill gap analysis not found for user {user_id}"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": f"Skill gap analysis not found for user {user_id}"}, indent=2
             )
-            return out
 
-        # In that user's report, identify the particular skill gap.
+        # Within that user's report, find the specific skill gap.
         skill_gap_details = next(
             (
                 g
@@ -46,31 +37,31 @@ class CheckSkillGapSeverity(Tool):
         )
 
         if not skill_gap_details:
-            payload = {
+            return json.dumps(
+                {
                     "error": f"Skill '{skill}' not found in the analysis for user {user_id}"
-                }
-            out = json.dumps(
-                payload, indent=2,
+                },
+                indent=2,
             )
-            return out
-        payload = {
+
+        # Return the details directly from the found skill gap record.
+        return json.dumps(
+            {
                 "user_id": user_id,
                 "skill": skill_gap_details.get("skill_name"),
                 "severity": skill_gap_details.get("gap_severity"),
                 "current_proficiency": skill_gap_details.get("current_proficiency"),
                 "required_proficiency": skill_gap_details.get("required_proficiency"),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "checkSkillGapSeverity",
+                "name": "check_skill_gap_severity",
                 "description": "Check severity of a specific skill gap for a user.",
                 "parameters": {
                     "type": "object",

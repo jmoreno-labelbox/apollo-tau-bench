@@ -1,78 +1,45 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateInboundShipment(Tool):
-    """Generates a new inbound shipment record that also functions as a Purchase Order."""
+    """Creates a new inbound shipment record, which also serves as a Purchase Order."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        supplier_id: str,
-        destination_warehouse_id: str,
-        order_quantity: float,
-        unit_cost: float,
-        unit_weight: float,
-        expected_arrival_date: str,
-        origin_address: str = None,
-        origin_city: str = None,
-        origin_country: str = None,
-        destination_address: str = None,
-        destination_city: str = None,
-        destination_country: str = None,
-        carrier_name: str = None,
-        carrier_scac: str = None,
-        mode_of_transport: str = "Sea",
-        incoterms: str = "FOB",
-        container_number: str = None,
-        bill_of_lading: str = None,
-        tracking_number: str = None,
-        expected_departure_date: str = None,
-        actual_departure_date: str = None,
-        actual_arrival_date: str = None,
-        number_of_packages: int = None,
-        total_volume_cbm: float = None,
-        customs_entry_number: str = None,
-        destination_warehouse_name: str = None,
-        duty_paid: bool = False,
-        temperature_control_required: bool = False,
-        temperature_celsius: float = None,
-        hazmat: bool = False,
-        hazmat_class: str = None,
-        value_currency: str = "USD",
-        insurance_policy_number: str = None,
-        insurance_provider: str = None,
-        priority_level: str = "Medium",
-        notes: str = None,
-        supplier_name: Any = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        # --- Extract required arguments from kwargs ---
+        supplier_id = kwargs.get("supplier_id")
+        # supplier_name = kwargs.get("supplier_name")
+        destination_warehouse_id = kwargs.get("destination_warehouse_id")
+        # destination_warehouse_name = kwargs.get("destination_warehouse_name")
+        order_quantity = kwargs.get("order_quantity")
+        unit_cost = kwargs.get("unit_cost")
+        unit_weight = kwargs.get("unit_weight")
+        expected_arrival_date = kwargs.get("expected_arrival_date")
+
+        # --- Handle potential missing required arguments ---
         if not all(
             [
                 supplier_id,
+                # supplier_name,
                 destination_warehouse_id,
+                # destination_warehouse_name,
                 order_quantity,
                 unit_cost,
                 unit_weight,
                 expected_arrival_date,
             ]
         ):
-            payload = {"error": "One or more required arguments are missing."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "One or more required arguments are missing."})
 
-        inbound_shipments = data.get("inbound_shipments", {}).values()
+        inbound_shipments = data.get("inbound_shipments", [])
 
+        # --- Auto-increment unique IDs ---
         max_ship_num = 0
-        for shipment in inbound_shipments.values():
+        for shipment in inbound_shipments:
             ship_id = shipment.get("shipment_id", "SHIP-0000")
             ship_num_str = ship_id.split("-")[-1]
             if ship_num_str.isdigit():
@@ -80,7 +47,7 @@ class CreateInboundShipment(Tool):
         new_shipment_id = f"SHIP-{max_ship_num + 1:04d}"
 
         max_po_num = 0
-        for shipment in inbound_shipments.values():
+        for shipment in inbound_shipments:
             po_num_str = shipment.get("purchase_order_number", "PO-2024-0000").split(
                 "-"
             )[-1]
@@ -88,95 +55,123 @@ class CreateInboundShipment(Tool):
                 max_po_num = max(max_po_num, int(po_num_str))
         new_po_number = f"PO-2024-{max_po_num + 1:04d}"
 
-        warehouses = data.get("warehouses", {}).values()
+        # --- Look up related data for defaults ---
+        warehouses = data.get("warehouses", [])
         destination_warehouse_details = next(
             (
                 wh
-                for wh in warehouses.values() if wh.get("warehouse_id") == destination_warehouse_id
+                for wh in warehouses
+                if wh.get("warehouse_id") == destination_warehouse_id
             ),
             {},
         )
 
-        suppliers = data.get("supplier_master", {}).values()
+        suppliers = data.get("supplier_master", [])
         supplier_details = next(
-            (sup for sup in suppliers.values() if sup.get("supplier_id") == supplier_id), {}
+            (sup for sup in suppliers if sup.get("supplier_id") == supplier_id), {}
         )
-        supplier_contact_info = supplier_details.get("contact_information", {}).values()
-        supplier_address = supplier_contact_info.get("address", {}).values()
+        supplier_contact_info = supplier_details.get("contact_information", {})
+        supplier_address = supplier_contact_info.get("address", {})
 
+        # --- Construct the full shipment record with defaults ---
         new_shipment = {
             "shipment_id": new_shipment_id,
             "purchase_order_number": new_po_number,
             "supplier_id": supplier_id,
             "supplier_name": supplier_details.get("supplier_name"),
-            "origin_address": origin_address or supplier_address.get("street"),
-            "origin_city": origin_city or supplier_address.get("city"),
-            "origin_country": origin_country or supplier_address.get("country"),
+            "origin_address": kwargs.get(
+                "origin_address", supplier_address.get("street")
+            ),
+            "origin_city": kwargs.get("origin_city", supplier_address.get("city")),
+            "origin_country": kwargs.get(
+                "origin_country", supplier_address.get("country")
+            ),
             "destination_warehouse_id": destination_warehouse_id,
             "destination_warehouse_name": destination_warehouse_details.get(
                 "warehouse_name"
             ),
-            "destination_address": destination_address or destination_warehouse_details.get("address"),
-            "destination_city": destination_city or destination_warehouse_details.get("city"),
-            "destination_country": destination_country or destination_warehouse_details.get("country"),
-            "carrier_name": carrier_name,
-            "carrier_scac": carrier_scac,
-            "mode_of_transport": mode_of_transport,
-            "incoterms": incoterms,
-            "container_number": container_number,
-            "bill_of_lading": bill_of_lading,
-            "tracking_number": tracking_number,
-            "expected_departure_date": expected_departure_date,
+            "destination_address": kwargs.get(
+                "destination_address", destination_warehouse_details.get("address")
+            ),
+            "destination_city": kwargs.get(
+                "destination_city", destination_warehouse_details.get("city")
+            ),
+            "destination_country": kwargs.get(
+                "destination_country", destination_warehouse_details.get("country")
+            ),
+            "carrier_name": kwargs.get("carrier_name", None),
+            "carrier_scac": kwargs.get("carrier_scac", None),
+            "mode_of_transport": kwargs.get("mode_of_transport", "Sea"),
+            "incoterms": kwargs.get("incoterms", "FOB"),
+            "container_number": kwargs.get("container_number", None),
+            "bill_of_lading": kwargs.get("bill_of_lading", None),
+            "tracking_number": kwargs.get("tracking_number", None),
+            "expected_departure_date": kwargs.get("expected_departure_date", None),
             "expected_arrival_date": expected_arrival_date,
-            "actual_departure_date": actual_departure_date,
-            "actual_arrival_date": actual_arrival_date,
+            "actual_departure_date": kwargs.get("actual_departure_date", None),
+            "actual_arrival_date": kwargs.get("actual_arrival_date", None),
             "status": "Planned",
-            "number_of_packages": number_of_packages or max(1, round(order_quantity / 100)),
-            "total_weight_kg": round(order_quantity * unit_weight, 2),
-            "total_volume_cbm": total_volume_cbm,
+            "number_of_packages": kwargs.get(
+                "number_of_packages",
+                max(1, round(order_quantity / 100)),  # type: ignore
+            ),
+            "total_weight_kg": round(order_quantity * unit_weight, 2),  # type: ignore
+            "total_volume_cbm": kwargs.get("total_volume_cbm", None),
             "unit_of_measure_weight": "kg",
             "unit_of_measure_volume": "cbm",
             "customs_clearance_status": "Scheduled",
-            "customs_entry_number": customs_entry_number,
-            "duty_paid": duty_paid,
-            "temperature_control_required": temperature_control_required,
-            "temperature_celsius": temperature_celsius,
-            "hazmat": hazmat,
-            "hazmat_class": hazmat_class,
-            "value_currency": value_currency,
-            "total_value": round(order_quantity * unit_cost, 2),
-            "insurance_policy_number": insurance_policy_number,
-            "insurance_provider": insurance_provider,
-            "priority_level": priority_level,
-            "notes": notes,
+            "customs_entry_number": kwargs.get("customs_entry_number", None),
+            "duty_paid": kwargs.get("duty_paid", False),
+            "temperature_control_required": kwargs.get(
+                "temperature_control_required", False
+            ),
+            "temperature_celsius": kwargs.get("temperature_celsius", None),
+            "hazmat": kwargs.get("hazmat", False),
+            "hazmat_class": kwargs.get("hazmat_class", None),
+            "value_currency": kwargs.get("value_currency", "USD"),
+            "total_value": round(order_quantity * unit_cost, 2),  # type: ignore
+            "insurance_policy_number": kwargs.get("insurance_policy_number", None),
+            "insurance_provider": kwargs.get("insurance_provider", None),
+            "priority_level": kwargs.get("priority_level", "Medium"),
+            "notes": kwargs.get("notes", None),
         }
-        inbound_data["shipments"][shipment_id] = new_shipment
-        payload = {
-            "status": "success",
-            "shipment_id": new_shipment_id,
-            "purchase_order_number": new_po_number,
-        }
-        out = json.dumps(payload)
-        return out
+        inbound_shipments.append(new_shipment)
+
+        return json.dumps(
+            {
+                "status": "success",
+                "shipment_id": new_shipment_id,
+                "purchase_order_number": new_po_number,
+            }
+        )
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateInboundShipment",
+                "name": "create_inbound_shipment",
                 "description": "Creates a new planned inbound shipment, generating a new PO number. Fills in default values for any non-required fields.",
                 "parameters": {
                     "type": "object",
                     "properties": {
+                        # --- Required Parameters ---
                         "supplier_id": {
                             "type": "string",
                             "description": "The ID of the supplier.",
                         },
+                        # "supplier_name": {
+                        #     "type": "string",
+                        #     "description": "The name of the supplier.",
+                        # },
                         "destination_warehouse_id": {
                             "type": "string",
                             "description": "The ID of the destination warehouse.",
                         },
+                        # "destination_warehouse_name": {
+                        #     "type": "string",
+                        #     "description": "The name of the destination warehouse.",
+                        # },
                         "order_quantity": {
                             "type": "integer",
                             "description": "The total quantity of the product being ordered.",
@@ -193,6 +188,7 @@ class CreateInboundShipment(Tool):
                             "type": "string",
                             "description": "The calculated expected arrival date (YYYY-MM-DD).",
                         },
+                        # --- Optional Parameters ---
                         "origin_address": {
                             "type": "string",
                             "description": "Optional. The supplier's origin street address. Defaults to supplier's master data if not provided.",
@@ -312,9 +308,11 @@ class CreateInboundShipment(Tool):
                     },
                     "required": [
                         "supplier_id",
+                        # "supplier_name",
                         "destination_warehouse_id",
+                        # "destination_warehouse_name",
                         "order_quantity",
-                        "unit_cost",
+                        "unit_price",
                         "unit_weight",
                         "expected_arrival_date",
                     ],

@@ -1,46 +1,41 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class DeleteSupplyOrder(Tool):
-    """Remove a supply order entry from supply_orders.json using its ID."""
+    """Deletes a supply order record from supply_orders.json by its ID."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], supply_order_id: str) -> str:
-        supply_orders = data.get("supply_orders", {}).values()
+    def invoke(data: Dict[str, Any], supply_order_id: str) -> str:
+        supply_orders = data.get("supply_orders", [])
         order_to_delete = None
-        for order in supply_orders.values():
+        for order in supply_orders:
             if order.get("supply_order_id") == supply_order_id:
                 order_to_delete = order
                 break
 
         if order_to_delete:
             supply_orders.remove(order_to_delete)
-            payload = {"status": "success", "deleted_supply_order_id": supply_order_id}
-            out = json.dumps(payload)
-            return out
-        payload = {"error": "Supply order not found", "supply_order_id": supply_order_id}
-        out = json.dumps(payload)
-        return out
+            return json.dumps({"status": "success", "deleted_supply_order_id": supply_order_id})
+
+        return json.dumps({"error": "Supply order not found", "supply_order_id": supply_order_id})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "DeleteSupplyOrder",
+                "name": "delete_supply_order",
                 "description": "Permanently deletes a supply order record from supply_orders.json using its ID.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"supply_order_id": {"type": "string"}},
-                    "required": ["supply_order_id"],
-                },
-            },
+                    "properties": {
+                        "supply_order_id": {"type": "string"}
+                    },
+                    "required": ["supply_order_id"]
+                }
+            }
         }

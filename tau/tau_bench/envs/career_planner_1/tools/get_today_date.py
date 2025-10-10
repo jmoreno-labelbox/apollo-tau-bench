@@ -1,21 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetTodayDate(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        payload = {"today": "2025-10-02"}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any]) -> str:
+        return json.dumps({"today": "2025-10-02"}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GetTodayDate",
+                "name": "get_today_date",
                 "description": "Get today's date",
                 "parameters": {"type": "object", "properties": {}, "required": []},
             },

@@ -1,37 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetWarehouseDetails(Tool):
-    """Obtains complete details for a warehouse using its ID."""
+    """Retrieves the full details for a warehouse by its ID."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], warehouse_id: str = None) -> str:
-        warehouses = data.get("warehouses", {}).values()
-        for warehouse in warehouses.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        warehouse_id = kwargs.get("warehouse_id")
+        warehouses = data.get("warehouses", [])
+        for warehouse in warehouses:
             if warehouse.get("warehouse_id") == warehouse_id:
-                payload = warehouse
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Warehouse not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(warehouse)
+        return json.dumps({"error": "Warehouse not found"})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetWarehouseDetails",
+                "name": "get_warehouse_details",
                 "description": "Retrieves the full record for a warehouse by its exact ID.",
                 "parameters": {
                     "type": "object",

@@ -1,32 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CaV2GetBankAccounts(Tool):
-    """Retrieve all details regarding bank accounts."""
+    """Get all bank account information."""
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        bank_accounts = data.get("bank_accounts", {}).values()
-        payload = bank_accounts
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        bank_accounts = data.get("bank_accounts", [])
+        return json.dumps(bank_accounts)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CaV2GetBankAccounts",
+                "name": "ca_v2_get_bank_accounts",
                 "description": "Get all business bank accounts with current balances.",
                 "parameters": {"type": "object", "properties": {}, "required": []},
             },

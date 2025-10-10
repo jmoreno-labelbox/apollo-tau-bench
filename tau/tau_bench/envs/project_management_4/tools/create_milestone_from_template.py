@@ -1,55 +1,44 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateMilestoneFromTemplate(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        template_id: str,
-        project_id: str,
-        milestone_name: str,
-        target_date: str,
-        owner_id: str,
-        milestone_id: str = None
-    ) -> str:
-        if not all([template_id, project_id, milestone_name, target_date, owner_id]):
-            payload = {
-                "error": "template_id, project_id, milestone_name, target_date, and owner_id are required"
-            }
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        template_id = kwargs.get("template_id")
+        project_id = kwargs.get("project_id")
+        milestone_name = kwargs.get("milestone_name")
+        target_date = kwargs.get("target_date")
+        owner_id = kwargs.get("owner_id")
 
-        milestone_templates = data.get("milestone_templates", {}).values()
-        milestones = data.get("milestones", {}).values()
+        if not all([template_id, project_id, milestone_name, target_date, owner_id]):
+            return json.dumps(
+                {
+                    "error": "template_id, project_id, milestone_name, target_date, and owner_id are required"
+                }
+            )
+
+        milestone_templates = data.get("milestone_templates", [])
+        milestones = list(data.get("milestones", {}).values())
 
         template = next(
-            (t for t in milestone_templates.values() if t.get("template_id") == template_id),
+            (t for t in milestone_templates if t.get("template_id") == template_id),
             None,
         )
         if not template:
-            payload = {"error": f"Template '{template_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Template '{template_id}' not found"})
 
         if template.get("template_type") == "major" and not template.get(
             "gate_criteria"
         ):
-            payload = {"error": "Major milestone templates must include gate criteria"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "Major milestone templates must include gate criteria"}
+            )
 
-        milestone_id = milestone_id or f"ms_{uuid.uuid4().hex[:8]}"
+        milestone_id = kwargs.get("milestone_id", f"ms_{uuid.uuid4().hex[:8]}")
 
         target_dt = datetime.fromisoformat(target_date.replace("Z", "+00:00"))
         duration_days = template.get("duration_days", 30)
@@ -83,29 +72,28 @@ class CreateMilestoneFromTemplate(Tool):
             "resource_allocation": 100,
         }
 
-        data["milestones"][milestone_id] = new_milestone
-        payload = {
-            "success": True,
-            "milestone": new_milestone,
-            "template_used": template.get("template_name"),
-        }
-        out = json.dumps(payload)
-        return out
+        milestones.append(new_milestone)
+
+        return json.dumps(
+            {
+                "success": True,
+                "milestone": new_milestone,
+                "template_used": template.get("template_name"),
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateMilestoneFromTemplate",
+                "name": "create_milestone_from_template",
                 "description": "Create a new milestone from a predefined template",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "template_id": {"type": "string", "description": "Template ID"},
-                        "milestone_id": {
-                            "type": "string",
-                            "description": "Milestone ID",
-                        },
+                        "milestone_id": {"type": "string", "description": "Milestone ID"},
                         "project_id": {"type": "string", "description": "Project ID"},
                         "milestone_name": {
                             "type": "string",

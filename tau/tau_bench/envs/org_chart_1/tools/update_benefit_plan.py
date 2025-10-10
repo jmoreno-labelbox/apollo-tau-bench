@@ -1,60 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class update_benefit_plan(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any], benefit_plan_id: str, updates: dict[str, Any]
+        data: Dict[str, Any], benefit_plan_id: str, updates: Dict[str, Any]
     ) -> str:
-        bp = data.get("benefits_plan", {}).values()
+        bp = data.get("benefits_plan", [])
 
-        for p in bp.values():
+        for p in bp:
             if p["benefit_plan_id"] == benefit_plan_id:
                 p.update(updates)
                 data["benefits_plan"] = bp
-                payload = {"success": f"benefit_plan {benefit_plan_id} updated"}
-                out = json.dumps(
-                    payload, indent=2
+                return json.dumps(
+                    {"success": f"benefit_plan {benefit_plan_id} updated"}, indent=2
                 )
-                return out
-        payload = {"error": f"benefit_plan_id {benefit_plan_id} not found"}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
-        pass
-        bp = data.get("benefits_plan", {}).values()
 
-        for p in bp.values():
-            if p["benefit_plan_id"] == benefit_plan_id:
-                p.update(updates)
-                data["benefits_plan"] = bp
-                payload = {"success": f"benefit_plan {benefit_plan_id} updated"}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
-        payload = {"error": f"benefit_plan_id {benefit_plan_id} not found"}
-        out = json.dumps(
-            payload, indent=2
+        return json.dumps(
+            {"error": f"benefit_plan_id {benefit_plan_id} not found"}, indent=2
         )
-        return out
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateBenefitPlan",
+                "name": "update_benefit_plan",
                 "description": "Patch fields of an existing benefit plan.",
                 "parameters": {
                     "type": "object",

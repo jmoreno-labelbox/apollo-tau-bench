@@ -1,31 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AnalyzeAllocationEfficiency(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        projects: list = None,
-        check_partial_allocations: bool = False,
-        check_skill_mismatch: bool = False
-    ) -> str:
-        if projects is None:
-            projects = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        projects = kwargs.get("projects", [])
+        check_partial_allocations = kwargs.get("check_partial_allocations", False)
+        check_skill_mismatch = kwargs.get("check_skill_mismatch", False)
 
-        allocations = data.get("allocations", {}).values()
-        employees = data.get("employees", {}).values()
-        projects_data = data.get("projects", {}).values()
+        allocations = data.get("allocations", [])
+        employees = list(data.get("employees", {}).values())
+        projects_data = list(data.get("projects", {}).values())
 
         partial_allocations_found = 0
         skill_mismatches_found = 0
@@ -34,7 +23,7 @@ class AnalyzeAllocationEfficiency(Tool):
         if check_partial_allocations:
 
             employee_allocations = {}
-            for alloc in allocations.values():
+            for alloc in allocations:
                 if (
                     alloc.get("project_id") in projects
                     and alloc.get("status") == "active"
@@ -54,14 +43,14 @@ class AnalyzeAllocationEfficiency(Tool):
 
         if check_skill_mismatch:
 
-            for alloc in allocations.values():
+            for alloc in allocations:
                 if (
                     alloc.get("project_id") in projects
                     and alloc.get("status") == "active"
                 ):
                     emp_id = alloc.get("employee_id")
                     employee = next(
-                        (e for e in employees.values() if e.get("employee_id") == emp_id), None
+                        (e for e in employees if e.get("employee_id") == emp_id), None
                     )
 
                     if employee:
@@ -69,7 +58,8 @@ class AnalyzeAllocationEfficiency(Tool):
                         project = next(
                             (
                                 p
-                                for p in projects_data.values() if p.get("project_id") == alloc.get("project_id")
+                                for p in projects_data
+                                if p.get("project_id") == alloc.get("project_id")
                             ),
                             None,
                         )
@@ -83,21 +73,22 @@ class AnalyzeAllocationEfficiency(Tool):
 
             if skill_mismatches_found > 0:
                 recommendations.append("Review skill assignments")
-        payload = {
+
+        return json.dumps(
+            {
                 "projects_analyzed": len(projects),
                 "partial_allocations_found": partial_allocations_found,
                 "skill_mismatches_found": skill_mismatches_found,
                 "recommendations": recommendations,
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "analyzeAllocationEfficiency",
+                "name": "analyze_allocation_efficiency",
                 "description": "Analyze allocation efficiency across projects",
                 "parameters": {
                     "type": "object",

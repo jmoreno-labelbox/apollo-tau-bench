@@ -1,51 +1,43 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetPermissionById(Tool):
-    """Retrieve complete details of a specific permission by its ID."""
+    """ Get the full details of a specific permission using its ID. """
 
     @staticmethod
-    def invoke(data: dict[str, Any], permission_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        permission_id = kwargs.get("permission_id")
         try:
-            permissions = data.get("permissions", {}).values()
+            permissions = list(data.get('permissions', {}).values())
         except (KeyError, json.JSONDecodeError):
             permissions = []
 
-        for perm in permissions.values():
+        for perm in permissions:
             if perm.get("permission_id") == permission_id:
-                payload = perm
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Permission with ID '{permission_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(perm)
+
+        return json.dumps({"error": f"Permission with ID '{permission_id}' not found."})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPermissionById",
+                "name": "get_permission_by_id",
                 "description": "Retrieves the full details of a specific permission (action, resource_id) using its unique permission_id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "permission_id": {
                             "type": "string",
-                            "description": "The unique ID of the permission to retrieve (e.g., 'P-021').",
+                            "description": "The unique ID of the permission to retrieve (e.g., 'P-021')."
                         }
                     },
-                    "required": ["permission_id"],
-                },
-            },
+                    "required": ["permission_id"]
+                }
+            }
         }

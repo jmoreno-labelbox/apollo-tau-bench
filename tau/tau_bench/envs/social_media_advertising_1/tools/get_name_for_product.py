@@ -1,37 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetNameForProduct(Tool):
-    """Fetches the name of a specific product."""
+    """Retrieves the name for a specific product."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], product_id: str = None) -> str:
-        products = data.get("dim_product", {}).values()
-
-        for product in products.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        product_id = kwargs.get("product_id")
+        products = data.get("dim_product", [])
+        
+        for product in products:
             if product.get("product_id") == product_id:
-                payload = {"name": product.get("name")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Product with ID '{product_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"name": product.get('name')})
+        
+        return json.dumps({"error": f"Product with ID '{product_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getNameForProduct",
+                "name": "get_name_for_product",
                 "description": "Retrieves the name for a specific product.",
                 "parameters": {
                     "type": "object",

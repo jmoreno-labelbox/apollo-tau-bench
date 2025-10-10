@@ -1,54 +1,47 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetTeamDetailsById(Tool):
-    """Retrieve a team record using its team_id."""
+    """Fetch a team record by its team_id."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], team_id: str = None) -> str:
-        #1) Confirm validity
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        team_id = kwargs.get("team_id")
+
+        # 1) Validate
         if team_id is None:
-            payload = {"error": "Missing required field: team_id"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Missing required field: team_id"}, indent=2)
 
-        #2) Retrieve DB using provided data
-        teams = data.get("teams", {}).values()
+        # 2) Get DB from passed-in data
+        teams = data.get("teams", [])
 
-        #3) Lookup for exact matches
-        for team in teams.values():
+        # 3) Exact match lookup
+        for team in teams:
             if team.get("team_id") == team_id:
-                payload = team
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"No team found with ID {team_id}"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(team, indent=2)
+
+        return json.dumps({"error": f"No team found with ID {team_id}"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetTeamDetailsById",
+                "name": "get_team_details_by_id",
                 "description": "Fetch a single team's full details by its team_id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "team_id": {
                             "type": "integer",
-                            "description": "Exact team ID to retrieve.",
+                            "description": "Exact team ID to retrieve."
                         }
                     },
-                    "required": ["team_id"],
-                },
-            },
+                    "required": ["team_id"]
+                }
+            }
         }

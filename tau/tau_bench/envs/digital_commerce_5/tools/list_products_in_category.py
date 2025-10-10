@@ -1,32 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListProductsInCategory(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], category_id: Any, products: list = None) -> str:
-        if products is None:
-            products = data.get("products", {}).values()
+    def invoke(data: Dict[str, Any], category_id: str) -> str:
         category_id = _as_id(category_id)
-        rows = [p for p in products.values() if _as_id(p.get("category_id")) == category_id]
-        payload = {"products": rows}
-        out = json.dumps(payload, indent=2)
-        return out
+        products = list(data.get("products", {}).values())
+        rows = [p for p in products if _as_id(p.get("category_id")) == category_id]
+        return json.dumps({"products": rows}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListProductsInCategory",
+                "name": "list_products_in_category",
                 "description": "List products belonging to a category_id.",
                 "parameters": {
                     "type": "object",

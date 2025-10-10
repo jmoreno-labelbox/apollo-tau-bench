@@ -1,22 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
-from decimal import ROUND_HALF_UP, Decimal
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class InventorySecurityGroupRules(Tool):
+    """Return a compact inventory of all security group rule IDs."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], aws_security_group_rules: list[dict[str, Any]] = None) -> str:
-        rules = aws_security_group_rules or []
-        payload = {"rule_ids": [r.get("rule_id") for r in rules]}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any]) -> str:
+        rules = data.get("aws_security_group_rules", [])
+        return json.dumps({"rule_ids": [r.get("rule_id") for r in rules]}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "InventorySecurityGroupRules",
+                "name": "inventory_security_group_rules",
                 "description": "List all AWS security group rule IDs.",
                 "parameters": {"type": "object", "properties": {}, "required": []},
             },

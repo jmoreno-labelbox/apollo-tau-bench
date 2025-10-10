@@ -1,51 +1,42 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ModifyCandidate(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], updates: dict = None, candidate_id: str = None) -> str:
-        updates = updates or {}
-        candidates = data.get("candidates", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        updates = kwargs.get("updates") or {}
+        candidate_id = kwargs.get("candidate_id")
+        candidates = data.get("candidates", [])
 
-        # Locate the candidate within the list and modify
-        for c in candidates.values():
+        # Find the candidate in the list and update
+        for c in candidates:
             if c.get("candidate_id") == candidate_id:
                 c.update(updates)
                 c["updated_at"] = _fixed_now_iso()
                 break
         else:
-            payload = {"error": f"Candidate {candidate_id} not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        payload = {"updated": updates}
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": f"Candidate {candidate_id} not found"}, indent=2)
+
+        return json.dumps({"updated": updates}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateCandidate",
+                "name": "update_candidate",
                 "description": "Update candidate details.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "candidate_id": {"type": "string"},
-                        "updates": {"type": "object"},
+                        "updates": {"type": "object"}
                     },
-                    "required": ["candidate_id", "updates"],
-                },
-            },
+                    "required": ["candidate_id", "updates"]
+                }
+            }
         }

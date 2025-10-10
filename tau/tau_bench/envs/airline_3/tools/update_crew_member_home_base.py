@@ -1,59 +1,43 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateCrewMemberHomeBase(Tool):
     """
-    A straightforward tool for updating a crew member's home base.
+    A simple tool to update a crew member's home base.
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], crew_id: str, new_home_base: str) -> str:
-        crew_members = data.get("crew_members", {}).values()
+    def invoke(data: Dict[str, Any], crew_id: str, new_home_base: str) -> str:
+        crew_members = data.get("crew_members", [])
         for crew in crew_members:
             if crew.get("crew_member_id") == crew_id:
-                old_home_base = crew.get("home_base", {}).values().get("iata_code", "Unknown")
+                old_home_base = crew.get("home_base", {}).get("iata_code", "Unknown")
                 crew["home_base"]["iata_code"] = new_home_base
-                payload = {
+                return json.dumps({
                     "status": "success",
                     "crew_id": crew_id,
                     "old_home_base": old_home_base,
-                    "new_home_base": new_home_base,
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"status": "Crew member not found", "crew_id": crew_id}
-        out = json.dumps(payload)
-        return out
+                    "new_home_base": new_home_base
+                })
+        return json.dumps({"status": "Crew member not found", "crew_id": crew_id})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateCrewMemberHomeBase",
+                "name": "update_crew_member_home_base",
                 "description": "Update a crew member's home base airport.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "crew_id": {
-                            "type": "string",
-                            "description": "The crew member ID (e.g., CM001).",
-                        },
-                        "new_home_base": {
-                            "type": "string",
-                            "description": "New home base airport IATA code (e.g., LAX).",
-                        },
+                        "crew_id": {"type": "string", "description": "The crew member ID (e.g., CM001)."},
+                        "new_home_base": {"type": "string", "description": "New home base airport IATA code (e.g., LAX)."}
                     },
-                    "required": ["crew_id", "new_home_base"],
-                },
-            },
+                    "required": ["crew_id", "new_home_base"]
+                }
+            }
         }

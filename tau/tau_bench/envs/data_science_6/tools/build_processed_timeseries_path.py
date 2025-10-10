@@ -1,30 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class BuildProcessedTimeseriesPath(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], city_slug: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        city_slug = kwargs.get("city_slug")
         if not city_slug:
-            payload = {"error": "Missing city_slug"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error":"Missing city_slug"})
         path = f"/data/processed/timeseries_{city_slug}_weather.csv"
-        payload = {"city_slug": city_slug, "csv_path": path}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"city_slug": city_slug, "csv_path": path})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "BuildProcessedTimeseriesPath",
-                "description": "Builds canonical processed timeseries CSV path for a given city_slug.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"city_slug": {"type": "string"}},
-                    "required": ["city_slug"],
-                },
-            },
+            "type":"function",
+            "function":{
+                "name":"build_processed_timeseries_path",
+                "description":"Builds canonical processed timeseries CSV path for a given city_slug.",
+                "parameters":{"type":"object","properties":{"city_slug":{"type":"string"}},"required":["city_slug"]}
+            }
         }

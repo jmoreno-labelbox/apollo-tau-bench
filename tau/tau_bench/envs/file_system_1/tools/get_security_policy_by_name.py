@@ -1,44 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetSecurityPolicyByName(Tool):
-    """Fetches a particular security policy using its name."""
+    """Retrieves a specific security policy by its name."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        policy_name = kwargs.get("policy_name")
+        for policy in data.get('security_policies', []):
+            if policy.get('name') == policy_name:
+                return json.dumps(policy)
+        return json.dumps({"error": f"Security policy named '{policy_name}' not found."})
 
     @staticmethod
-    def invoke(data: dict[str, Any], policy_name: str = None) -> str:
-        for policy in data.get("security_policies", {}).values():
-            if policy.get("name") == policy_name:
-                payload = policy
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Security policy named '{policy_name}' not found."}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetSecurityPolicyByName",
-                "description": "Fetches an entire security policy document by its name (e.g., 'SSH Access Policy').",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "policy_name": {
-                            "type": "string",
-                            "description": "The name of the security policy.",
-                        }
-                    },
-                    "required": ["policy_name"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "get_security_policy_by_name", "description": "Fetches an entire security policy document by its name (e.g., 'SSH Access Policy').", "parameters": {"type": "object", "properties": {"policy_name": {"type": "string", "description": "The name of the security policy."}}, "required": ["policy_name"]}}}

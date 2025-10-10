@@ -1,53 +1,47 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindUserByEmail(Tool):
+    """
+    Resolve a user by email and return a deterministic user_id.
+    """
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_email: str) -> str:
-        users: list[dict[str, Any]] = data.get("users", {}).values()
+    def invoke(data: Dict[str, Any], user_email: str) -> str:
+        users: List[Dict[str, Any]] = list(data.get("users", {}).values())
         for u in users:
             if u.get("email") == user_email:
-                first = (u.get("name", {}).values().get("first_name") or "").lower()
-                last = (u.get("name", {}).values().get("last_name") or "").lower()
-                payload = {
+                first = (u.get("name", {}).get("first_name") or "").lower()
+                last = (u.get("name", {}).get("last_name") or "").lower()
+                return json.dumps({
                     "email": user_email,
+                    # "id": f"{first}_{last}_1234",
                     "name": first,
                     "last": last,
                     "dob": u.get("dob"),
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "User not found", "email": user_email}
-        out = json.dumps(payload)
-        return out
+                })
+        return json.dumps({"error": "User not found", "email": user_email})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindUserByEmail",
+                "name": "find_user_by_email",
                 "description": "Find an existing user by email and return a deterministic user_id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "user_email": {
                             "type": "string",
-                            "description": "Email of the user to look up.",
+                            "description": "Email of the user to look up."
                         }
                     },
-                    "required": ["user_email"],
-                },
-            },
+                    "required": ["user_email"]
+                }
+            }
         }

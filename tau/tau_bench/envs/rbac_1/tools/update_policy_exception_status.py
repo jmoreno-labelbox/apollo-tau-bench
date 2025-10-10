@@ -1,42 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdatePolicyExceptionStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], exception_id: str = None, status: str = None) -> str:
-        for ex in data.get("policy_exceptions", {}).values():
-            if ex.get("exception_id") == exception_id:
-                ex["status"] = status
-                payload = ex
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Policy exception not found"}
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        exception_id = kwargs.get("exception_id")
+        new_status = kwargs.get("status")
+        for ex in data.get('policy_exceptions', []):
+            if ex.get('exception_id') == exception_id:
+                ex['status'] = new_status
+                return json.dumps(ex)
+        return json.dumps({"error": "Policy exception not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "UpdatePolicyExceptionStatus",
-                "description": "Updates the status of a policy exception (e.g., ACTIVE, EXPIRED).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "exception_id": {"type": "string"},
-                        "status": {"type": "string"},
-                    },
-                    "required": ["exception_id", "status"],
-                },
-            },
+                "type": "function",
+                "function": {
+                        "name": "update_policy_exception_status",
+                        "description": "Updates the status of a policy exception (e.g., ACTIVE, EXPIRED).",
+                        "parameters": {
+                                "type": "object",
+                                "properties": {
+                                        "exception_id": {"type": "string"},
+                                        "status": {"type": "string"}
+                                },
+                                "required": ["exception_id", "status"]
+                        }
+                }
         }

@@ -1,82 +1,66 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateAircraftLocation(Tool):
     """
-    A tool for updating the location of an aircraft.
+    A tool to update aircraft location.
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], aircraft_id: str, new_location: str) -> str:
-        aircraft_list = data.get("aircraft", {}).values()
-        airports = data.get("airports", {}).values()
-
-        # Locate the aircraft
+    def invoke(data: Dict[str, Any], aircraft_id: str, new_location: str) -> str:
+        aircraft_list = list(data.get("aircraft", {}).values())
+        airports = list(data.get("airports", {}).values())
+        
+        # Find the aircraft
         for aircraft in aircraft_list:
             if aircraft.get("aircraft_id") == aircraft_id:
-                old_location = aircraft.get("location", {}).values().get("iata_code")
-
-                # Locate the airport using the IATA code
+                old_location = aircraft.get("location", {}).get("iata_code")
+                
+                # Find the airport by IATA code
                 airport_found = False
-                for airport in airports.values():
+                for airport in airports:
                     if airport.get("iata_code") == new_location:
                         aircraft["location"] = {
                             "airport_id": airport.get("airport_id"),
-                            "iata_code": new_location,
+                            "iata_code": new_location
                         }
-                        aircraft["last_updated"] = datetime.now().isoformat()
+                        aircraft["last_updated"] = datetime(2025, 9, 15, 0, 0, 0).isoformat().replace("+00:00", "Z")
                         airport_found = True
                         break
-
+                
                 if not airport_found:
-                    payload = {
-                        "status": "Airport not found",
+                    return json.dumps({
+                        "status": "Airport not found", 
                         "aircraft_id": aircraft_id,
-                        "requested_location": new_location,
-                    }
-                    out = json.dumps(payload)
-                    return out
-                payload = {
+                        "requested_location": new_location
+                    })
+                
+                return json.dumps({
                     "aircraft_id": aircraft_id,
                     "old_location": old_location,
                     "new_location": new_location,
-                    "updated_at": aircraft["last_updated"],
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"status": "Aircraft not found", "aircraft_id": aircraft_id}
-        out = json.dumps(payload)
-        return out
+                    "updated_at": aircraft["last_updated"]
+                })
+        
+        return json.dumps({"status": "Aircraft not found", "aircraft_id": aircraft_id})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "updateAircraftLocation",
+                "name": "update_aircraft_location",
                 "description": "Update aircraft location to a new airport by IATA code.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "aircraft_id": {
-                            "type": "string",
-                            "description": "The aircraft ID.",
-                        },
-                        "new_location": {
-                            "type": "string",
-                            "description": "New airport IATA code for the aircraft location.",
-                        },
+                        "aircraft_id": {"type": "string", "description": "The aircraft ID."},
+                        "new_location": {"type": "string", "description": "New airport IATA code for the aircraft location."}
                     },
-                    "required": ["aircraft_id", "new_location"],
-                },
-            },
+                    "required": ["aircraft_id", "new_location"]
+                }
+            }
         }

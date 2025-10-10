@@ -1,18 +1,19 @@
-from tau_bench.envs.tool import Tool
-import datetime
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CleanOriginalDirectoryTool(Tool):
-    """Emulates removing all original files following a successful copy and verification process."""
+    """Simulates deleting all original files after a successful copy and verify operation."""
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CleanOriginalDirectory",
+                "name": "clean_original_directory",
                 "description": "Deletes the original files that have been successfully moved and returns the count of cleaned files.",
                 "parameters": {
                     "type": "object",
@@ -23,15 +24,15 @@ class CleanOriginalDirectoryTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: dict[str, Any], target_directory: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        target_directory = kwargs["target_directory"]
         cleaned_count = 0
 
-        # Count files present in the file_list (these are the ones being cleaned)
+        # Count files that were in the file_list (these are the ones being cleaned)
         if "file_list" in data:
             cleaned_count = len(data["file_list"])
 
-        # Save the count of cleaned files for output
+        # Store the cleaned files count for output
         data["cleaned_files_count"] = cleaned_count
-        payload = {"status": "success", "cleaned_files_count": cleaned_count}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"status": "success", "cleaned_files_count": cleaned_count})

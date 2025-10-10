@@ -1,20 +1,20 @@
-from tau_bench.envs.tool import Tool
-from typing import Any, Dict
+# Copyright Sierra
+
 import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AddBeneficiaryTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, beneficiary_name: str = None, 
-               account_number: str = None, routing_number: str = None, bank_name: str = None, iban: str = None) -> str:
-        beneficiaries = data.get('beneficiaries', {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get('customer_id')
+        beneficiary_name = kwargs.get('beneficiary_name')
+        account_number = kwargs.get('account_number')
+        routing_number = kwargs.get('routing_number')
+        bank_name = kwargs.get('bank_name')
+
+        beneficiaries = list(data.get('beneficiaries', {}).values())
 
         beneficiary_id = f"ben_{generate_unique_id()}"
 
@@ -28,11 +28,8 @@ class AddBeneficiaryTool(Tool):
             "status": "Active",
             "date_added": get_current_timestamp()
         }
-        
-        if iban:
-            new_beneficiary["iban"] = iban
 
-        data["beneficiaries"][new_beneficiary["beneficiarie_id"]] = new_beneficiary
+        beneficiaries.append(new_beneficiary)
 
         return json.dumps({
             "beneficiary_id": beneficiary_id,
@@ -40,12 +37,13 @@ class AddBeneficiaryTool(Tool):
             "status": "Active",
             "date_added": new_beneficiary["date_added"]
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddBeneficiary",
+                "name": "add_beneficiary",
                 "description": "Add a new payment beneficiary",
                 "parameters": {
                     "type": "object",

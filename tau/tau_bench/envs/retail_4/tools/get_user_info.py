@@ -1,58 +1,45 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetUserInfo(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str) -> str:
+    def invoke(data: Dict[str, Any], user_id: str) -> str:
         """
         Get basic user information
         Data Sources: users.json (user_id, name, email, address)
         """
-        users = data.get("users", {}).values()
-        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
+        users = list(data.get("users", {}).values())
+        user = next((u for u in users if u.get("user_id") == user_id), None)
 
         if not user:
-            payload = {"error": f"User {user_id} not found", "status": "failed"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"User {user_id} not found", "status": "failed"})
 
-        payload = {
+        return json.dumps({
             "status": "success",
             "user_id": user_id,
-            "name": list(user.get("name", {}).values()),
+            "name": user.get("name", {}),
             "email": user.get("email", ""),
-            "address": list(user.get("address", {}).values()),
-            "total_orders": len(user.get("orders", [])),
-        }
-        out = json.dumps(payload)
-        return out
+            "address": user.get("address", {}),
+            "total_orders": len(user.get("orders", []))
+        })
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getUserInfo",
+                "name": "get_user_info",
                 "description": "Get basic user information",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "user_id": {
-                            "type": "string",
-                            "description": "User identifier (e.g., 'liam_wilson_6720')",
-                        }
+                        "user_id": {"type": "string", "description": "User identifier (e.g., 'lucas_brown_6720')"}
                     },
-                    "required": ["user_id"],
-                },
-            },
+                    "required": ["user_id"]
+                }
+            }
         }

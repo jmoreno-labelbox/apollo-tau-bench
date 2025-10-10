@@ -1,37 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetApiRateLimitConfig(Tool):
-    """Retrieve rate limit settings for a specified API endpoint."""
+    """Fetch rate limit configuration for a given API endpoint."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], api_endpoint: Any) -> str:
+    def invoke(data: Dict[str, Any], api_endpoint: Any) -> str:
+        api_endpoint = api_endpoint
         if not api_endpoint:
             return _error("api_endpoint is required.")
 
-        rate_limits = data.get("api_rate_limits", {}).values()
-        configs = [rl for rl in rate_limits.values() if rl.get("api_endpoint") == api_endpoint]
+        rate_limits = data.get("api_rate_limits", [])
+        configs = [rl for rl in rate_limits if rl.get("api_endpoint") == api_endpoint]
         if not configs:
             return _error(f"Rate limit for '{api_endpoint}' not found.")
         latest = configs[-1]
-        payload = latest
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(latest, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetApiRateLimitConfig",
+                "name": "get_api_rate_limit_config",
                 "description": "Fetch rate limit configuration for a given API endpoint.",
                 "parameters": {
                     "type": "object",

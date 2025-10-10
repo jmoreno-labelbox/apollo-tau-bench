@@ -1,26 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from itertools import islice
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class DraftSellerBrokerBatch(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], client_id: str = None, property_ids: list = None) -> str:
-        props = property_ids or []
-        drafts_uri = (
-            f"https://test.storage.com/drafts/client_{client_id}_props_{len(props)}.pdf"
-        )
-        payload = {"client_id": client_id, "property_ids": props, "drafts_uri": drafts_uri}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        props = kwargs.get("property_ids") or []
+        client_id = kwargs.get("client_id")
+        drafts_uri = f"https://test.storage.com/drafts/client_{client_id}_props_{len(props)}.pdf"
+        return json.dumps({"client_id": client_id, "property_ids": props, "drafts_uri": drafts_uri}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "DraftSellerBrokerBatch",
+                "name": "draft_seller_broker_batch",
                 "description": "Generate a drafts bundle for seller broker emails.",
                 "parameters": {
                     "type": "object",

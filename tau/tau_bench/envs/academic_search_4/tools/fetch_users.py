@@ -1,80 +1,41 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-import uuid
-from collections import Counter
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FetchUsers(Tool):
-    """Utility for locating users by their ID, name, or research area."""
-
+    """Tool to search for users by ID, name, or research field."""
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: Any = None, name: Any = None, research_field: Any = None, availability: Any = None, institution: Any = None) -> str:
-        user_id = user_id
-        name = name
-        research_field = research_field
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get('user_id')
+        name = kwargs.get('name')
+        research_field = kwargs.get('research_field')
 
-        users = data.get("users", {}).values()
+        users = list(data.get('users', {}).values())
 
         if user_id:
-            for user in users.values():
-                if user.get("person_id") == user_id:
-                    payload = [user]
-                    out = json.dumps(payload, indent=2)
-                    return out
-            payload = []
-            out = json.dumps(payload)
-            return out
+            for user in users:
+                if user.get('user_id') == user_id:
+                    return json.dumps([user], indent=2)
+            return json.dumps([])
 
         if not name and not research_field:
-            payload = {"error": "Either user_id, name, or research_field is required."}
-            out = json.dumps(
-                payload)
-            return out
+            return json.dumps({"error": "Either user_id, name, or research_field is required."})
 
         results = []
-        for user in users.values():
+        for user in users:
             match = True
-            if name and name.lower() not in user.get("name", "").lower():
+            if name and name.lower() not in user.get('name', '').lower():
                 match = False
-            if (
-                research_field
-                and research_field.lower() not in user.get("research_field", "").lower()
-            ):
+            if research_field and research_field.lower() not in user.get('research_field', '').lower():
                 match = False
             if match:
                 results.append(user)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "FetchUsers",
-                "description": "Searches for users by their name or research field.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "name": {
-                            "type": "string",
-                            "description": "The name of the user to search for.",
-                        },
-                        "research_field": {
-                            "type": "string",
-                            "description": "The research field of the user.",
-                        },
-                    },
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function","function": {"name": "fetch_users","description": "Searches for users by their name or research field.","parameters": {"type": "object","properties": {"name": {"type": "string", "description": "The name of the user to search for."}, "research_field": {"type": "string", "description": "The research field of the user."}}}}}

@@ -1,29 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateGroceryListWithSubstitutes(Tool):
-    """Implement substitutions on grocery_list_items by modifying ingredient_id and updating grocery_section."""
-
+    """Apply substitutions on grocery_list_items by changing ingredient_id and refreshing grocery_section."""
     @staticmethod
-    def invoke(data: dict[str, Any], list_id: int = None, substitutions: list = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        list_id = kwargs.get("list_id")
+        substitutions = kwargs.get("substitutions", [])
         if list_id is None or not isinstance(substitutions, list):
             return _json_dump({"error": "list_id and substitutions are required"})
-        mapping = {
-            int(s["ingredient_id"]): int(s["substitute_ingredient_id"])
-            for s in substitutions
-            if "ingredient_id" in s and "substitute_ingredient_id" in s
-        }
+        mapping = {int(s["ingredient_id"]): int(s["substitute_ingredient_id"])
+                   for s in substitutions if "ingredient_id" in s and "substitute_ingredient_id" in s}
         updated = 0
-        for it in data.get("grocery_list_items", {}).values():
+        for it in data.get("grocery_list_items", []):
             if int(it.get("list_id")) != int(list_id):
                 continue
             old = int(it.get("ingredient_id"))
@@ -34,20 +27,14 @@ class UpdateGroceryListWithSubstitutes(Tool):
                 it["grocery_section"] = (ing or {}).get("grocery_section", "Misc")
                 updated += 1
         return _json_dump({"updated_items": updated})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "UpdateGroceryListWithSubstitutes",
-                "description": "Replace ingredient_ids on list items using a substitution mapping.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "list_id": {"type": "integer"},
-                        "substitutions": {"type": "array", "items": {"type": "object"}},
-                    },
-                    "required": ["list_id", "substitutions"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"update_grocery_list_with_substitutes",
+            "description":"Replace ingredient_ids on list items using a substitution mapping.",
+            "parameters":{"type":"object","properties":{
+                "list_id":{"type":"integer"},
+                "substitutions":{"type":"array","items":{"type":"object"}}
+            },"required":["list_id","substitutions"]}
+        }}

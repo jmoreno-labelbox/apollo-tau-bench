@@ -1,29 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, time, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetLoanApplicationDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], application_id: str = None) -> str:
-        application = next((app for app in data.get('loan_applications', {}).values() if app['application_id'] == application_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        application_id = kwargs.get("application_id")
+        application = next((app for app in data.get('loan_applications', []) if app['application_id'] == application_id), None)
         if application:
             return json.dumps(application)
         return json.dumps({"error": "Loan application not found."})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "GetLoanApplicationDetails",
+                        "name": "get_loan_application_details",
                         "description": "Retrieves the full details of a single loan application.",
                         "parameters": {
                                 "type": "object",

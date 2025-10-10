@@ -1,38 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class SendingToSlack(Tool):
     @staticmethod
-    #primary invocation function
-    def invoke(data: dict[str, Any], channel: str = None, report_link: str = None, playlist_links: list = None, report_id: str = None) -> str:
-        if playlist_links is None:
-            playlist_links = []
-        payload = {"post_status": "posted"}
-        out = json.dumps(payload, indent=2)
-        return out
+        # main invoke function
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        channel = kwargs.get("channel")
+        report_link = kwargs.get("report_link")
+        playlist_links = kwargs.get("playlist_links", [])
+        report_id = kwargs.get("report_id")
+        # return result
+        return json.dumps({"post_status": "posted"}, indent=2)
+
     @staticmethod
-    #metadata information
-    def get_info() -> dict[str, Any]:
-        pass
-        #return result
-        return {
-            "type": "function",
-            "function": {
-                "name": "postings",
-                "description": "Sends links to Slack and logs workflow run.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "channel": {"type": "string"},
-                        "report_link": {"type": "string"},
-                        "playlist_links": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                        },
-                        "report_id": {"type": "string"},
-                    },
-                    "required": ["channel", "report_link", "report_id"],
-                },
-            },
-        }
+        # info metadata
+    def get_info() -> Dict[str, Any]:
+        # return result
+        return {"type": "function", "function": {"name": "postings", "description": "Sends links to Slack and logs workflow run.", "parameters": {"type": "object", "properties": {"channel": {"type": "string"}, "report_link": {"type": "string"}, "playlist_links": {"type": "array", "items": {"type": "string"}}, "report_id": {"type": "string"}}, "required": ["channel", "report_link", "report_id"]}}}

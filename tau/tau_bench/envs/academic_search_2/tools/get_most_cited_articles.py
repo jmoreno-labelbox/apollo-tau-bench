@@ -1,34 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from collections import Counter
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetMostCitedArticles(Tool):
-    """Utility to obtain a list of the most referenced articles."""
-
+    """Tool to get a list of the most cited articles."""
     @staticmethod
-    def invoke(data: dict[str, Any], citations: list[dict[str, Any]] = []) -> str:
-        cited_ids = [c["referenced_paper_id"] for c in citations]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        citations = list(data.get('citations', {}).values())
+        cited_ids = [c['cited_article_id'] for c in citations]
         citation_counts = Counter(cited_ids)
-        sorted_articles = sorted(
-            citation_counts.items(), key=lambda item: item[1], reverse=True
-        )
-        result = [
-            {"article_id": article_id, "citation_count": count}
-            for article_id, count in sorted_articles
-        ]
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+        sorted_articles = sorted(citation_counts.items(), key=lambda item: item[1], reverse=True)
+        result = [{"article_id": article_id, "citation_count": count} for article_id, count in sorted_articles]
+        return json.dumps(result, indent=2)
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetMostCitedArticles",
-                "description": "Returns a list of articles sorted by how many times they have been cited.",
-                "parameters": {"type": "object", "properties": {}},
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function","function": {"name": "get_most_cited_articles","description": "Returns a list of articles sorted by how many times they have been cited.","parameters": {"type": "object", "properties": {}}}}

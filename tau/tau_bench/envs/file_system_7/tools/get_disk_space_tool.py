@@ -1,18 +1,19 @@
-from tau_bench.envs.tool import Tool
-import datetime
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetDiskSpaceTool(Tool):
-    """Emulates the process of checking available disk space."""
+    """Simulates checking available disk space."""
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetDiskSpace",
+                "name": "get_disk_space",
                 "description": "Returns the available disk space. In this simulation, it returns a fixed large number for determinism.",
                 "parameters": {
                     "type": "object",
@@ -28,9 +29,8 @@ class GetDiskSpaceTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: dict[str, Any], path: str) -> str:
-        available_space = 10**12  # 1 Terabyte.
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        path = kwargs["path"]
+        available_space = 10**12  # 1TB
         data[f"disk_space_{path.replace('/', '_')}"] = available_space
-        payload = {"available_space": available_space, "path": path}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"available_space": available_space, "path": path})

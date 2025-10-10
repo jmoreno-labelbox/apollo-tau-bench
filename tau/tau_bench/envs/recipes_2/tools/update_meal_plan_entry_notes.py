@@ -1,37 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateMealPlanEntryNotes(Tool):
-    """Modifies the notes for a particular meal plan entry."""
-
+    """Updates the notes for a specific meal plan entry."""
     @staticmethod
-    def invoke(data: dict[str, Any], entry_id: str = None, new_notes: str = None) -> str:
-        entries = data.get("meal_plan_entries", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        entry_id = kwargs.get("entry_id")
+        new_notes = kwargs.get("new_notes")
+
+        entries = data.get("meal_plan_entries", [])
         for entry in entries:
             if entry.get("entry_id") == entry_id:
                 entry["notes"] = new_notes
-                payload = entry
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Meal plan entry with ID '{entry_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(entry)
+        return json.dumps({"error": f"Meal plan entry with ID '{entry_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateMealPlanEntryNotes",
+                "name": "update_meal_plan_entry_notes",
                 "description": "Updates the notes for a specific meal plan entry.",
                 "parameters": {
                     "type": "object",

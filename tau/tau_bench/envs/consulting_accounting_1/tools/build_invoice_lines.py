@@ -1,21 +1,16 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class BuildInvoiceLines(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], time_entries: list = None, hourly_rate: float = 0.0) -> str:
-        time_entries_ids = time_entries or []
-        hourly_rate = float(hourly_rate)
-        entries_index = {t["time_entry_id"]: t for t in data.get("time_entries", {}).values()}
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        time_entries_ids = kwargs.get("time_entries", [])
+        hourly_rate = float(kwargs.get("hourly_rate", 0.0))
+        entries_index = {t["time_entry_id"]: t for t in data.get("time_entries", [])}
         lines = []
         subtotal = 0.0
         for idx, tid in enumerate(time_entries_ids, start=1):
@@ -25,35 +20,10 @@ class BuildInvoiceLines(Tool):
             hours = float(te.get("hours_worked", 0.0))
             amount = round(hours * hourly_rate, 2)
             line_id = f"LINE-AUTO-{idx:03d}"
-            lines.append(
-                {
-                    "invoice_line_id": line_id,
-                    "project_id": te.get("project_id"),
-                    "hours_billed": hours,
-                    "hourly_rate": hourly_rate,
-                    "line_amount": amount,
-                }
-            )
+            lines.append({"invoice_line_id": line_id,"project_id": te.get("project_id"),"hours_billed": hours,"hourly_rate": hourly_rate,"line_amount": amount})
             subtotal += amount
-        payload = {"invoice_lines": lines, "subtotal": round(subtotal, 2)}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        return json.dumps({"invoice_lines": lines,"subtotal": round(subtotal, 2)}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "BuildInvoiceLines",
-                "description": "Build invoice lines from a list of time entry IDs and an hourly rate.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "time_entries": {"type": "array", "items": {"type": "string"}},
-                        "hourly_rate": {"type": "number"},
-                    },
-                    "required": ["time_entries", "hourly_rate"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function","function": {"name": "build_invoice_lines","description": "Build invoice lines from a list of time entry IDs and an hourly rate.","parameters": {"type": "object","properties": {"time_entries": {"type": "array","items": {"type": "string"}},"hourly_rate": {"type": "number"}},"required": ["time_entries","hourly_rate"]}}}

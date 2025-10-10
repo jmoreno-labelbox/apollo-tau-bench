@@ -1,25 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateRepository(Tool):
-    """Generates a new repository that is owned by the current user."""
+    """Creates a new repository owned by the current user."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str = None, visibility: str = "public", default_branch: str = "main") -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        repo_name = kwargs.get("repo_name")
+        visibility = kwargs.get("visibility", "public")
+        default_branch = kwargs.get("default_branch", "main")
+
         if not repo_name:
-            payload = {"error": "repo_name is required."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "repo_name is required."}, indent=2)
 
         me = _auth(data)["username"]
 
         repos = _repos(data)
-        if any(r["owner"] == me and r["repo_name"] == repo_name for r in repos.values()):
-            payload = {"error": "Repository already exists."}
-            out = json.dumps(payload, indent=2)
-            return out
+        if any(r["owner"] == me and r["repo_name"] == repo_name for r in repos):
+            return json.dumps({"error": "Repository already exists."}, indent=2)
 
         new_repo = {
             "owner": me,
@@ -35,18 +37,15 @@ class CreateRepository(Tool):
             "releases": [],
         }
         repos.append(new_repo)
-        payload = {"message": "Repository created", "repo_name": repo_name}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+
+        return json.dumps({"message": "Repository created", "repo_name": repo_name}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "CreateRepository",
+                "name": "create_repository",
                 "description": "Creates a new repository for the current user.",
                 "parameters": {
                     "type": "object",
@@ -55,7 +54,7 @@ class CreateRepository(Tool):
                         "visibility": {"type": "string"},
                         "default_branch": {"type": "string"},
                     },
-                    "required": ["repo_name"],
-                },
-            },
+                    "required": ["repo_name"]
+                }
+            }
         }

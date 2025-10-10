@@ -1,48 +1,39 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class GetCustomersAboveXSpend(Tool):  #VIEW
+class GetCustomersAboveXSpend(Tool): # READ
     @staticmethod
-    def invoke(data: dict[str, Any], transactions: list[dict[str, Any]] = None, amount: float = None) -> str:
+    def invoke(data: Dict[str, Any], amount: float) -> str:
+        transactions = list(data.get("transactions", {}).values())
         spend_by_customer = {}
-        # Use transactions from data if not provided
-        txn_list = transactions if transactions is not None else data.get("transactions", {}).values()
-        for txn in txn_list:
+        for txn in transactions:
             customer_id = txn.get("customer_id")
             total_amount = txn.get("total_amount", 0.0)
             if customer_id:
-                spend_by_customer[customer_id] = (
-                    spend_by_customer.get(customer_id, 0.0) + total_amount
-                )
+                spend_by_customer[customer_id] = spend_by_customer.get(customer_id, 0.0) + total_amount
         result = [cid for cid, spend in spend_by_customer.items() if spend > amount]
-        payload = result
-        out = json.dumps(payload)
-        return out
+        return json.dumps(result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCustomersAboveXSpend",
+                "name": "get_customers_above_x_spend",
                 "description": "Return a list of customer IDs who have spent more than the specified amount across all transactions.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "amount": {
-                            "type": "integer",
-                            "description": "The minimum total spend threshold.",
+                            "type": "int",
+                            "description": "The minimum total spend threshold."
                         }
                     },
-                    "required": ["amount"],
-                },
-            },
+                    "required": ["amount"]
+                }
+            }
         }

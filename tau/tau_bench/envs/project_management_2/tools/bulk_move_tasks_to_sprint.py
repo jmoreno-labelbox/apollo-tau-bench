@@ -1,61 +1,48 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class BulkMoveTasksToSprint(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], task_ids: list = None, target_sprint_id: str = None) -> str:
-        if task_ids is None:
-            task_ids = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        task_ids = kwargs.get("task_ids", [])
+        target_sprint_id = kwargs.get("target_sprint_id")
 
         if not all([task_ids, target_sprint_id]):
-            payload = {"error": "task_ids and target_sprint_id are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "task_ids and target_sprint_id are required"})
 
-        tasks = data.get("tasks", {}).values()
-        sprints = data.get("sprints", {}).values()
-        teams = data.get("teams", {}).values()
+        tasks = list(data.get("tasks", {}).values())
+        sprints = data.get("sprints", [])
+        teams = data.get("teams", [])
 
         sprint = next(
-            (s for s in sprints.values() if s.get("sprint_id") == target_sprint_id), None
+            (s for s in sprints if s.get("sprint_id") == target_sprint_id), None
         )
         if not sprint:
-            payload = {"error": f"Sprint '{target_sprint_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Sprint '{target_sprint_id}' not found"})
 
         if sprint.get("status") not in ["planning", "active"]:
-            payload = {
+            return json.dumps(
+                {
                     "error": f"Cannot add tasks to sprint in '{sprint.get('status')}' status"
                 }
-            out = json.dumps(
-                payload)
-            return out
+            )
 
         team = next(
-            (t for t in teams.values() if t.get("team_id") == sprint.get("team_id")), None
+            (t for t in teams if t.get("team_id") == sprint.get("team_id")), None
         )
         if not team:
-            payload = {"error": "Sprint team not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Sprint team not found"})
 
         team_members = team.get("members", [])
 
         completed_sprints = [
             s
-            for s in sprints.values() if s.get("team_id") == team.get("team_id")
+            for s in sprints
+            if s.get("team_id") == team.get("team_id")
             and s.get("status") == "completed"
         ]
 
@@ -63,13 +50,13 @@ class BulkMoveTasksToSprint(Tool):
             recent_sprints = sorted(
                 completed_sprints, key=lambda x: x.get("end_date", ""), reverse=True
             )[:3]
-            avg_velocity = sum(s.get("velocity", 0) for s in recent_sprints.values() / 3)
+            avg_velocity = sum(s.get("velocity", 0) for s in recent_sprints) / 3
             capacity_limit = avg_velocity * 0.8
         else:
             capacity_limit = len(team_members) * 20
 
-        sprint_tasks = [t for t in tasks.values() if t.get("sprint_id") == target_sprint_id]
-        current_points = sum(t.get("story_points", 0) for t in sprint_tasks.values())
+        sprint_tasks = [t for t in tasks if t.get("sprint_id") == target_sprint_id]
+        current_points = sum(t.get("story_points", 0) for t in sprint_tasks)
 
         moved_tasks = []
         failed_tasks = []
@@ -85,7 +72,7 @@ class BulkMoveTasksToSprint(Tool):
             )
 
         for task_id in task_ids:
-            task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
+            task = next((t for t in tasks if t.get("task_id") == task_id), None)
             if not task:
                 failed_tasks.append({"task_id": task_id, "reason": "Task not found"})
                 continue
@@ -144,7 +131,9 @@ class BulkMoveTasksToSprint(Tool):
             task["updated_date"] = datetime.now().isoformat()
 
         sprint["planned_story_points"] = current_points + total_points_to_add
-        payload = {
+
+        return json.dumps(
+            {
                 "success": True,
                 "moved_count": len(moved_tasks),
                 "failed_count": len(failed_tasks),
@@ -153,15 +142,14 @@ class BulkMoveTasksToSprint(Tool):
                 "failed_tasks": failed_tasks,
                 "sprint_total_points": sprint["planned_story_points"],
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "BulkMoveTasksToSprint",
+                "name": "bulk_move_tasks_to_sprint",
                 "description": "Move multiple tasks to a sprint at once",
                 "parameters": {
                     "type": "object",

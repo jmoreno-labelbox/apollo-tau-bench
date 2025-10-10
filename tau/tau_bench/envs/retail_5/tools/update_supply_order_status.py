@@ -1,73 +1,60 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpdateSupplyOrderStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], supply_order_id: str = None, new_status: str = None) -> str:
-        if not supply_order_id or not new_status:
-            payload = {"error": "supply_order_id and new_status are required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        supply_order_id = kwargs.get('supply_order_id')
+        new_status = kwargs.get('new_status')
 
-        supply_orders = data["supply_orders"]
-        order = next(
-            (o for o in supply_orders.values() if o["supply_order_id"] == supply_order_id), None
-        )
+        if not supply_order_id or not new_status:
+            return json.dumps({'error': 'supply_order_id and new_status are required'})
+
+        supply_orders = data['supply_orders']
+        order = next((o for o in supply_orders if o['supply_order_id'] == supply_order_id), None)
 
         if not order:
-            payload = {"error": "Supply order not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({'error': 'Supply order not found'})
 
-        old_status = order["status"]
-        order["status"] = new_status
+        old_status = order['status']
+        order['status'] = new_status
 
-        # Update inventory if the order is finalized
-        if new_status == "completed":
-            suppliers = data["suppliers"]
-            supplier = next(
-                (s for s in suppliers.values() if s["supplier_id"] == order["supplier_id"]), None
-            )
+        # If order is completed, update inventory
+        if new_status == 'completed':
+            suppliers = data['suppliers']
+            supplier = next((s for s in suppliers if s['supplier_id'] == order['supplier_id']), None)
 
-            if supplier and order["item_id"] in supplier["item_stock"]:
-                current_stock = supplier["item_stock"][order["item_id"]]
+            if supplier and order['item_id'] in supplier['item_stock']:
+                current_stock = supplier['item_stock'][order['item_id']]
                 if isinstance(current_stock, int):
-                    supplier["item_stock"][order["item_id"]] = (
-                        current_stock + order["quantity"]
-                    )
-        payload = {
-            "success": True,
-            "supply_order_id": supply_order_id,
-            "old_status": old_status,
-            "new_status": new_status,
-            "updated_at": get_current_timestamp(),
-        }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+                    supplier['item_stock'][order['item_id']] = current_stock + order['quantity']
+
+        return json.dumps({
+            'success': True,
+            'supply_order_id': supply_order_id,
+            'old_status': old_status,
+            'new_status': new_status,
+            'updated_at': get_current_timestamp()
+        }, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "updateSupplyOrderStatus",
-                "description": "Update the status of a supply order. Automatically updates inventory when marked as completed.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "supply_order_id": {
-                            "type": "string",
-                            "description": "Supply order ID to update",
-                        },
-                        "new_status": {
-                            "type": "string",
-                            "description": "New status for the supply order",
-                        },
+            'type': 'function',
+            'function': {
+                'name': 'update_supply_order_status',
+                'description': 'Update the status of a supply order. Automatically updates inventory when marked as completed.',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'supply_order_id': {'type': 'string', 'description': 'Supply order ID to update'},
+                        'new_status': {'type': 'string', 'description': 'New status for the supply order'}
                     },
-                    "required": ["supply_order_id", "new_status"],
-                },
-            },
+                    'required': ['supply_order_id', 'new_status']
+                }
+            }
         }

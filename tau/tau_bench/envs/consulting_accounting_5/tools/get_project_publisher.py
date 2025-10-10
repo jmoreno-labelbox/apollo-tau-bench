@@ -1,17 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any, Dict
-from datetime import timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetProjectPublisher(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], name: str) -> str:
-        record = next((pr for pr in data["pipeline_opportunities"].values()
-                       if pr["project_title"] == name),
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        record = next((pr for pr in data["pipeline_opportunities"]
+                       if pr["project_title"] == kwargs["name"]),
                       None)
 
         return json.dumps(record["publisher_id"])
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {

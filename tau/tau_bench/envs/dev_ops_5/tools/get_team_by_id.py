@@ -1,36 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetTeamById(Tool):
-    """Fetches a team using its ID."""
+    """Retrieves a team by its ID."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        team_id = kwargs.get("id")
+        teams = data.get("teams", [])
+        for team in teams:
+            if team.get("id") == team_id:
+                return json.dumps(team)
+        return json.dumps({"error": f"Team with ID '{team_id}' not found."})
 
     @staticmethod
-    def invoke(data: dict[str, Any], id: str = None) -> str:
-        team_id = id
-        teams = data.get("teams", {}).values()
-        for team in teams.values():
-            if team.get("id") == team_id:
-                payload = team
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Team with ID '{team_id}' not found."}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetTeamById",
+                "name": "get_team_by_id",
                 "description": "Retrieves a team by its ID.",
                 "parameters": {
                     "type": "object",

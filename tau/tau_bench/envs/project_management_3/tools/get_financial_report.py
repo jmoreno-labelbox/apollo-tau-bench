@@ -1,47 +1,43 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetFinancialReport(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], report_type: str, entity_id: str, fiscal_year: int = datetime.now().year) -> str:
-        if not all([report_type, entity_id]):
-            payload = {"error": "report_type and entity_id are required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        report_type = kwargs.get("report_type")
+        entity_id = kwargs.get("entity_id")
+        fiscal_year = kwargs.get("fiscal_year", datetime.now().year)
+        quarter = kwargs.get("quarter")
 
-        budgets = data.get("budgets", {}).values()
-        expenses = data.get("expenses", {}).values()
-        purchase_orders = data.get("purchase_orders", {}).values()
+        if not all([report_type, entity_id]):
+            return json.dumps({"error": "report_type and entity_id are required"})
+
+        budgets = data.get("budgets", [])
+        expenses = data.get("expenses", [])
+        purchase_orders = data.get("purchase_orders", [])
 
         if report_type == "project":
             budget = next(
                 (
                     b
-                    for b in budgets.values() if b.get("project_id") == entity_id
+                    for b in budgets
+                    if b.get("project_id") == entity_id
                     and b.get("fiscal_year") == fiscal_year
                 ),
                 None,
             )
 
             if not budget:
-                payload = {"error": f"No budget found for project {entity_id}"}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"error": f"No budget found for project {entity_id}"})
 
             project_expenses = [
                 e
-                for e in expenses.values() if e.get("project_id") == entity_id
+                for e in expenses
+                if e.get("project_id") == entity_id
                 and e.get("fiscal_year") == fiscal_year
                 and e.get("status") == "approved"
             ]
@@ -75,45 +71,41 @@ class GetFinancialReport(Tool):
                     "pending": len(
                         [
                             po
-                            for po in purchase_orders.values() if po.get("project_id") == entity_id
+                            for po in purchase_orders
+                            if po.get("project_id") == entity_id
                             and po.get("status") == "pending_approval"
                         ]
                     ),
                     "approved": len(
                         [
                             po
-                            for po in purchase_orders.values() if po.get("project_id") == entity_id
+                            for po in purchase_orders
+                            if po.get("project_id") == entity_id
                             and po.get("status") == "approved"
                         ]
                     ),
                 },
                 "compliance": {
-                    "budget_health": (
-                        "critical"
-                        if budget.get("spent_amount", 0) > budget["total_budget"] * 0.9
-                        else (
-                            "warning"
-                            if budget.get("spent_amount", 0)
-                            > budget["total_budget"] * 0.8
-                            else "healthy"
-                        )
-                    ),
+                    "budget_health": "critical"
+                    if budget.get("spent_amount", 0) > budget["total_budget"] * 0.9
+                    else "warning"
+                    if budget.get("spent_amount", 0) > budget["total_budget"] * 0.8
+                    else "healthy",
                     "requires_review": budget.get("spent_amount", 0)
                     < budget["total_budget"] * 0.3,
                 },
             }
-            payload = report
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"error": f"Report type '{report_type}' not implemented"}
-        out = json.dumps(payload)
-        return out
+
+            return json.dumps(report, indent=2)
+
+        return json.dumps({"error": f"Report type '{report_type}' not implemented"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetFinancialReport",
+                "name": "get_financial_report",
                 "description": "Generate financial reports for projects, departments, or vendors",
                 "parameters": {
                     "type": "object",

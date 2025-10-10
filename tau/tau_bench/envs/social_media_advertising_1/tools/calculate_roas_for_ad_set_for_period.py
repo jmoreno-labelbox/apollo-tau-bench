@@ -1,48 +1,39 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CalculateROASForAdSetForPeriod(Tool):
-    """Computes ROAS for a specific ad set during a specified timeframe."""
+    """Calculates ROAS for a specific ad set over a period."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None, start_date: str = None, end_date: str = None) -> str:
-        insights = data.get("f_insights", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
+        start_date = kwargs.get("start_date")
+        end_date = kwargs.get("end_date")
+        insights = data.get("f_insights", [])
         total_revenue = 0
         total_spend = 0
-
+        
         for insight in insights:
-            if (
-                insight.get("adset_id") == adset_id
-                and start_date <= insight.get("date") <= end_date
-            ):
+            if insight.get("adset_id") == adset_id and start_date <= insight.get("date") <= end_date:
                 total_revenue += insight.get("revenue", 0)
                 total_spend += insight.get("spend", 0)
-
+        
         if total_spend == 0:
-            payload = {"error": "No spend found for the period."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({"error": "No spend found for the period."})
+        
         roas = total_revenue / total_spend
-        payload = {"roas": roas}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"roas": roas})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateAdsetRoasForPeriod",
+                "name": "calculate_adset_roas_for_period",
                 "description": "Calculates ROAS for a specific ad set over a period.",
                 "parameters": {
                     "type": "object",
@@ -58,7 +49,7 @@ class CalculateROASForAdSetForPeriod(Tool):
                         "end_date": {
                             "type": "string",
                             "description": "End date in YYYY-MM-DD format.",
-                        },
+                        }
                     },
                     "required": ["adset_id", "start_date", "end_date"],
                 },

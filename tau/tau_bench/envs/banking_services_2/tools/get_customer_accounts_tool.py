@@ -1,22 +1,18 @@
-from tau_bench.envs.tool import Tool
-from typing import Any, Dict
+# Copyright Sierra
+
 import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCustomerAccountsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
-        accounts = data.get('accounts', {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get('customer_id')
+        accounts = list(data.get('accounts', {}).values())
 
         customer_accounts = []
-        for account in accounts.values():
+        for account in accounts:
             if account['customer_id'] == customer_id:
                 customer_accounts.append({
                     'account_id': account['account_id'],
@@ -27,12 +23,13 @@ class GetCustomerAccountsTool(Tool):
                 })
 
         return json.dumps(customer_accounts, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCustomerAccounts",
+                "name": "get_customer_accounts",
                 "description": "Get all accounts for a specific customer",
                 "parameters": {
                     "type": "object",

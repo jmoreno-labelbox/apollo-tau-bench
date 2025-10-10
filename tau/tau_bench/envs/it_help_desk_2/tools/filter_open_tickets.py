@@ -1,32 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FilterOpenTickets(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        tickets = data.get("tickets", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        tickets = list(data.get("tickets", {}).values())
         open_statuses = ["New", "In Progress", "On Hold", "Open"]
-        open_tickets = [t for t in tickets.values() if t.get("status") in open_statuses]
-        payload = open_tickets
-        out = json.dumps(payload, indent=2)
-        return out
+        open_tickets = [t for t in tickets if t.get("status") in open_statuses]
+        return json.dumps(open_tickets, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "filterOpenTickets",
-                "description": "Filters a list of tickets to return only those that are not resolved or closed.",
-                "parameters": {"type": "object", "properties": {}, "required": []},
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "filter_open_tickets", "description": "Filters a list of tickets to return only those that are not resolved or closed.", "parameters": {"type": "object", "properties": {}, "required": []}}}

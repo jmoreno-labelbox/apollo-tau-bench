@@ -1,34 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ListAllSuppliers(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        suppliers = data["suppliers"]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        suppliers = data['suppliers']
 
-        # Provide basic supplier information without extensive inventory details
+        # Return basic supplier info without detailed inventory
         supplier_list = []
-        for supplier in suppliers.values():
-            supplier_list.append(
-                {
-                    "supplier_id": supplier["supplier_id"],
-                    "name": supplier["name"],
-                    "contact_info": supplier["contact_info"],
-                    "total_products": len(supplier["products"]),
-                }
-            )
-        payload = supplier_list
-        out = json.dumps(payload, indent=2)
-        return out
+        for supplier in suppliers:
+            supplier_list.append({
+                'supplier_id': supplier['supplier_id'],
+                'name': supplier['name'],
+                'contact_info': supplier['contact_info'],
+                'total_products': len(supplier['products'])
+            })
+
+        return json.dumps(supplier_list, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "listAllSuppliers",
-                "description": "Get a list of all suppliers with basic information.",
-                "parameters": {"type": "object", "properties": {}},
-            },
+            'type': 'function',
+            'function': {
+                'name': 'list_all_suppliers',
+                'description': 'Get a list of all suppliers with basic information.',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {}
+                }
+            }
         }

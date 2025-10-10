@@ -1,35 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CheckSupplyOrderStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], product_id: str) -> str:
+    def invoke(data: Dict[str, Any], product_id: str) -> str:
         """
         Check supply order status for inventory replenishment planning
         """
         # Rule: Supply orders must reference valid supplier_id and existing product_id
-        supply_orders = data.get("supply_orders", {}).values()
-        product_supply_orders = [
-            so for so in supply_orders.values() if so.get("product_id") == product_id
-        ]
+        supply_orders = data.get("supply_orders", [])
+        product_supply_orders = [so for so in supply_orders if so.get("product_id") == product_id]
 
         if not product_supply_orders:
-            payload = {
+            return json.dumps({
                 "error": f"No supply orders found for product {product_id}",
-                "status": "not_found",
-            }
-            out = json.dumps(payload)
-            return out
+                "status": "not_found"
+            })
 
         # Rule: Supply orders with status 'cancelled' require alternative sourcing and cannot be fulfilled
         active_orders = []
@@ -46,15 +36,9 @@ class CheckSupplyOrderStatus(Tool):
                 active_orders.append(order)
 
         # Calculate totals
-        total_pending_quantity = sum(
-            order.get("quantity", 0) for order in active_orders
-        )
-        total_fulfilled_quantity = sum(
-            order.get("quantity", 0) for order in fulfilled_orders
-        )
-        total_cancelled_quantity = sum(
-            order.get("quantity", 0) for order in cancelled_orders
-        )
+        total_pending_quantity = sum(order.get("quantity", 0) for order in active_orders)
+        total_fulfilled_quantity = sum(order.get("quantity", 0) for order in fulfilled_orders)
+        total_cancelled_quantity = sum(order.get("quantity", 0) for order in cancelled_orders)
 
         result = {
             "status": "success",
@@ -67,32 +51,24 @@ class CheckSupplyOrderStatus(Tool):
             "fulfilled_quantity": total_fulfilled_quantity,
             "cancelled_quantity": total_cancelled_quantity,
             "requires_alternative_sourcing": len(cancelled_orders) > 0,
-            "recent_orders": (
-                product_supply_orders[-3:]
-                if len(product_supply_orders) >= 3
-                else product_supply_orders
-            ),
+            "recent_orders": product_supply_orders[-3:] if len(product_supply_orders) >= 3 else product_supply_orders
         }
-        payload = result
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(result)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CheckSupplyOrderStatus",
+                "name": "check_supply_order_status",
                 "description": "Check supply order status and inventory replenishment for a product",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "product_id": {
-                            "type": "string",
-                            "description": "Product identifier to check supply orders for",
-                        }
+                        "product_id": {"type": "string", "description": "Product identifier to check supply orders for"}
                     },
-                    "required": ["product_id"],
-                },
-            },
+                    "required": ["product_id"]
+                }
+            }
         }

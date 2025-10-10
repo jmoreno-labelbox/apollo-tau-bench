@@ -1,42 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchTasks(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        task_id: str = None, 
-        title: str = None, 
-        status: str = None, 
-        assignee_id: str = None, 
-        sprint_id: str = None, 
-        priority: str = None
-    ) -> str:
-        tasks = data.get("tasks", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        task_id = kwargs.get("task_id")
+        title = kwargs.get("title")
+        status = kwargs.get("status")
+        assignee_id = kwargs.get("assignee_id")
+        sprint_id = kwargs.get("sprint_id")
+        priority = kwargs.get("priority")
+
+        tasks = list(data.get("tasks", {}).values())
 
         if task_id:
-            for task in tasks.values():
+            for task in tasks:
                 if task.get("task_id") == task_id:
-                    payload = task
-                    out = json.dumps(payload, indent=2)
-                    return out
-            payload = {"error": f"Task with ID '{task_id}' not found"}
-            out = json.dumps(payload)
-            return out
+                    return json.dumps(task, indent=2)
+            return json.dumps({"error": f"Task with ID '{task_id}' not found"})
 
         results = []
-        for task in tasks.values():
+        for task in tasks:
             match = True
 
             if title and title.lower() not in task.get("title", "").lower():
@@ -52,15 +40,15 @@ class SearchTasks(Tool):
 
             if match:
                 results.append(task)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchTasks",
+                "name": "search_tasks",
                 "description": "Search for tasks by various criteria",
                 "parameters": {
                     "type": "object",

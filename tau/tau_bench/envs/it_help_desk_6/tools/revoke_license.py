@@ -1,25 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class RevokeLicense(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        account_id: str,
-        employee_id: str,
-        license_id: str,
-        revoked_at: str,
-    ) -> str:
-        pass
+    def invoke(data: Dict[str, Any], account_id: str, employee_id: str, license_id: str, revoked_at: str) -> str:
         inv = _find_one(data["license_inventory"], license_id=license_id)
         if not inv:
-            payload = {"status": "error", "reason": "license_not_found"}
-            out = json.dumps(payload)
-            return out
-        #locate the current assignment
+            return json.dumps({"status": "error", "reason": "license_not_found"})
+        # find active assignment
         row = None
-        for a in data["license_assignments"].values():
+        for a in data["license_assignments"]:
             if (
                 a["account_id"] == account_id
                 and a["employee_id"] == employee_id
@@ -29,23 +23,19 @@ class RevokeLicense(Tool):
                 row = a
                 break
         if not row:
-            payload = {"status": "error", "reason": "assignment_not_found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "assignment_not_found"})
         row["status"] = "revoked"
         row["revoked_at"] = revoked_at
         if inv["used_seats"] > 0:
             inv["used_seats"] -= 1
-        payload = {"status": "ok", "assignment": row, "inventory": inv}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "assignment": row, "inventory": inv})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RevokeLicense",
+                "name": "revoke_license",
                 "description": "Revoke an active license and decrement used seats.",
                 "parameters": {
                     "type": "object",
@@ -55,12 +45,7 @@ class RevokeLicense(Tool):
                         "license_id": {"type": "string"},
                         "revoked_at": {"type": "string"},
                     },
-                    "required": [
-                        "account_id",
-                        "employee_id",
-                        "license_id",
-                        "revoked_at",
-                    ],
+                    "required": ["account_id", "employee_id", "license_id", "revoked_at"],
                 },
             },
         }

@@ -1,10 +1,13 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class SetCachePartitionKey(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], partition_key: str, version: str) -> str:
+    def invoke(data: Dict[str, Any], partition_key: str, version: str) -> str:
         settings = _ensure_table(data, "custom_settings")
         name = "CacheAPI.ExternalSystemPartitionKeyVersion"
         row = _find_one(settings, name=name)
@@ -21,12 +24,13 @@ class SetCachePartitionKey(Tool):
                 }
             )
         return _json({"applied_version": version})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SetCachePartitionKey",
+                "name": "set_cache_partition_key",
                 "description": "Set the cache partition key version.",
                 "parameters": {
                     "type": "object",

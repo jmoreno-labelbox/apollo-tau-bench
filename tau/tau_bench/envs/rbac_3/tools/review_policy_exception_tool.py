@@ -1,25 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ReviewPolicyExceptionTool(Tool):
     """review_policy_exception
-    Deterministically authorize or deny a policy exception record by ID. Reflects the behavior of ReviewAccessRequestTool.
+    Deterministically approve or reject a policy exception record by ID. Mirrors the behaviour of ReviewAccessRequestTool.
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], exception_id: str = None, reviewer_id: str = None, approve: bool = None, notes: str = None) -> str:
-        exceptions = data.get("policy_exceptions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        exception_id = kwargs.get("exception_id")
+        reviewer_id = kwargs.get("reviewer_id")
+        approve = kwargs.get("approve")
+        notes = kwargs.get("notes")
+
+        exceptions = data.get("policy_exceptions", [])
         for pe in exceptions:
             if pe.get("exception_id") == exception_id:
                 pe["status"] = "APPROVED" if approve else "DENIED"
@@ -27,7 +25,7 @@ class ReviewPolicyExceptionTool(Tool):
                 pe["reviewed_on"] = _HARD_TS
                 if notes:
                     pe["decision_notes"] = notes
-                # examine
+                # audit
                 logs = data.setdefault("audit_logs", [])
                 log_id = f"LOG-{exception_id}-decision"
                 audit_entry = {
@@ -45,20 +43,17 @@ class ReviewPolicyExceptionTool(Tool):
                     logs.append(audit_entry)
                 out = dict(pe)
                 out["audit_log"] = audit_entry
-                payload = out
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Policy exception {exception_id} not found"}
-        out = json.dumps(
-            payload, indent=2
+                return json.dumps(out, indent=2)
+        return json.dumps(
+            {"error": f"Policy exception {exception_id} not found"}, indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "reviewPolicyException",
+                "name": "review_policy_exception",
                 "description": (
                     "Approve or reject a policy exception by ID with reviewer notes."
                 ),

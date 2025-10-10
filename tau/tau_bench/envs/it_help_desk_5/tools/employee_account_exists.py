@@ -1,59 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class EmployeeAccountExists(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], first_name: str = None, last_name: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        first_name = kwargs.get('first_name')
+        last_name = kwargs.get('last_name')
+
         if first_name is None or last_name is None:
-            payload = {"error": "first_name and last_name are required."}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({'error': 'first_name and last_name are required.'}, indent=2)
 
-        employees = data.get("employees", {}).values()
+        employees = list(data.get('employees', {}).values())
 
-        for employee in employees.values():
-            if (
-                employee["first_name"] == first_name
-                and employee["last_name"] == last_name
-            ):
-                payload = {"account_exists": True}
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"account_exists": False}
-        out = json.dumps(payload, indent=2)
-        return out
+        for employee in employees:
+            if employee['first_name'] == first_name and employee['last_name'] == last_name:
+                return json.dumps({'account_exists': True}, indent=2)
+        return json.dumps({'account_exists': False}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "employeeAccountExists",
-                "description": "Checks whether an employee account exists.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "first_name": {
-                            "type": "string",
-                            "description": "The first name of the employee to search for.",
-                        },
-                        "last_name": {
-                            "type": "string",
-                            "description": "The last name of the employee to search for.",
-                        },
+            'type': 'function',
+            'function': {
+                'name': 'employee_account_exists',
+                'description': 'Checks whether an employee account exists.',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'first_name': {'type': 'string', 'description': 'The first name of the employee to search for.'},
+                        'last_name': {'type': 'string', 'description': 'The last name of the employee to search for.'},
                     },
-                    "required": ["first_name", "last_name"],
-                },
-            },
+                    'required': ['first_name', 'last_name']
+                }
+            }
         }

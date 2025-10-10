@@ -1,45 +1,39 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetTaskHistory(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], task_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        task_id = kwargs.get("task_id")
+
         if not task_id:
-            payload = {"error": "task_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "task_id is required"})
 
-        task_history = data.get("task_history", {}).values()
+        task_history = data.get("task_history", [])
 
-        history_entries = [h for h in task_history.values() if h.get("task_id") == task_id]
+        history_entries = [h for h in task_history if h.get("task_id") == task_id]
 
         history_entries.sort(key=lambda x: x.get("timestamp", ""))
-        payload = {
+
+        return json.dumps(
+            {
                 "task_id": task_id,
                 "history_count": len(history_entries),
                 "history": history_entries,
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetTaskHistory",
+                "name": "get_task_history",
                 "description": "Get the history of changes for a task",
                 "parameters": {
                     "type": "object",

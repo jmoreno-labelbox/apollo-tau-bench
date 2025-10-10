@@ -1,26 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from itertools import islice
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateOrUpdateCompReport(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        client_id: str,
-        subject_property_id: str,
-        created_by_broker_id: str,
-        final_status: str = "draft"
-    ) -> str:
-        reports = data.get("comp_reports", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        client_id = kwargs.get("client_id")
+        subject_property_id = kwargs.get("subject_property_id")
+        created_by_broker_id = kwargs.get("created_by_broker_id")
+        final_status = kwargs.get("final_status", "draft")
+
+        reports = data.get("comp_reports", [])
         new_report_id = _next_auto_id(reports, "report_id")
         doc_uri = f"https://test.storage.com/reports/comp_{new_report_id:03d}.pdf"
         rpt = {
@@ -32,18 +25,18 @@ class CreateOrUpdateCompReport(Tool):
             "doc_uri": doc_uri,
             "status": final_status,
         }
-        data["comp_reports"][rpt["comp_report_id"]] = rpt
+        reports.append(rpt)
 
-        comps_table = data.get("comparables", {}).values()
-        props = _by_key(data.get("properties", {}).values(), "property_id")
+        comps_table = data.get("comparables", [])
+        props = _by_key(list(data.get("properties", {}).values()), "property_id")
         candidates = []
-        for lst in data.get("listings", {}).values() or []:
+        for lst in (list(data.get("listings", {}).values()) or []):
             if lst.get("status") != "active":
                 continue
             pid = lst.get("property_id")
             if pid == subject_property_id:
                 continue
-            props.get(pid, {}).values()
+            pr = props.get(pid, {})
             candidates.append(
                 {
                     "comp_property_id": pid,
@@ -56,7 +49,7 @@ class CreateOrUpdateCompReport(Tool):
             comp_id = _next_auto_id(comps_table, "comp_id")
             comps_table.append({"comp_id": comp_id, "report_id": new_report_id, **comp})
 
-        documents = data.get("documents", {}).values()
+        documents = data.get("documents", [])
         new_doc_id = _next_auto_id(documents, "document_id")
         documents.append(
             {
@@ -70,37 +63,28 @@ class CreateOrUpdateCompReport(Tool):
             }
         )
 
-        audits = data.get("audit_events", {}).values()
+        audits = data.get("audit_events", [])
         new_audit_id = _next_auto_id(audits, "event_id")
         audits.append(
             {
                 "event_id": new_audit_id,
                 "actor_id": created_by_broker_id,
-                "action": (
-                    "comp_report_saved"
-                    if final_status != "sent_to_client"
-                    else "comp_report_sent"
-                ),
+                "action": "comp_report_saved" if final_status != "sent_to_client" else "comp_report_sent",
                 "entity_type": "comp_reports",
                 "entity_id": new_report_id,
                 "occurred_at": _now_iso_fixed(),
-                "metadata_json": {
-                    "comps_count": min(3, len(candidates)),
-                    "search_tiers": "neighborhood_first_with_borders",
-                },
+                "metadata_json": {"comps_count": min(3, len(candidates)), "search_tiers": "neighborhood_first_with_borders"},
             }
         )
-        payload = {"report_id": new_report_id, "doc_uri": doc_uri, "status": final_status}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+
+        return json.dumps({"report_id": new_report_id, "doc_uri": doc_uri, "status": final_status}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateOrUpdateCompReport",
+                "name": "create_or_update_comp_report",
                 "description": "Create/update a comp report; writes comp_reports, comparables, documents, audit_events.",
                 "parameters": {
                     "type": "object",
@@ -110,11 +94,7 @@ class CreateOrUpdateCompReport(Tool):
                         "created_by_broker_id": {"type": "integer"},
                         "final_status": {"type": "string"},
                     },
-                    "required": [
-                        "client_id",
-                        "subject_property_id",
-                        "created_by_broker_id",
-                    ],
+                    "required": ["client_id", "subject_property_id", "created_by_broker_id"],
                 },
             },
         }

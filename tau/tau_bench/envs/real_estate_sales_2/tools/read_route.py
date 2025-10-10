@@ -1,34 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from itertools import islice
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ReadRoute(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], route_id: str = None) -> str:
-        rid = route_id
-        r = next((x for x in data.get("routes", {}).values() if x.get("route_id") == rid), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        rid = kwargs.get("route_id")
+        r = next((x for x in list(data.get("routes", {}).values()) if x.get("route_id") == rid), None)
         if not r:
-            payload = {"error": f"route_id {rid} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = r
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": f"route_id {rid} not found"}, indent=2)
+        return json.dumps(r, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ReadRoute",
+                "name": "read_route",
                 "description": "Fetch a route by ID.",
                 "parameters": {
                     "type": "object",

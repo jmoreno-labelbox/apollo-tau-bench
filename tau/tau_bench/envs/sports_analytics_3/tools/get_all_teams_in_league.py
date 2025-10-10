@@ -1,55 +1,51 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAllTeamsInLeague(Tool):
-    """Retrieve all teams associated with a specific league."""
+    """Fetch all teams belonging to a given league."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], league: str = None) -> str:
-        #1) Confirm validity
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        league = kwargs.get("league")
+
+        # 1) Validate
         if not isinstance(league, str) or league == "":
-            payload = {"error": "Missing required field: league"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Missing required field: league"}, indent=2)
 
-        #2) Retrieve DB using provided data
-        teams: list[dict[str, Any]] = data.get("teams", {}).values()
+        # 2) Get DB from passed-in data
+        teams: List[Dict[str, Any]] = data.get("teams", [])
 
-        #3) Filter teams based on exact league
-        matching_teams = [team for team in teams.values() if team.get("league") == league]
+        # 3) Filter teams by exact league
+        matching_teams = [
+            team for team in teams
+            if team.get("league") == league
+        ]
 
         if not matching_teams:
-            payload = {"error": f"No teams found in league {league}"}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = matching_teams
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": f"No teams found in league {league}"}, indent=2)
+
+        return json.dumps(matching_teams, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getAllTeamsInLeague",
+                "name": "get_all_teams_in_league",
                 "description": "Fetch all team records belonging to the specified league (exact, case-sensitive).",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "league": {
                             "type": "string",
-                            "description": "Exact league name to retrieve teams for (e.g., 'American League').",
+                            "description": "Exact league name to retrieve teams for (e.g., 'American League')."
                         }
                     },
-                    "required": ["league"],
-                },
-            },
+                    "required": ["league"]
+                }
+            }
         }

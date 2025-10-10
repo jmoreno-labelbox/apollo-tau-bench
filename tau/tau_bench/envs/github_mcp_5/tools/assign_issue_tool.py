@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AssignIssueTool(Tool):
     """
@@ -41,46 +29,30 @@ class AssignIssueTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str, issue_number: int, assignees: list[str] = None) -> str:
-        if assignees is None:
-            assignees = []
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            issue_number = _validate_param({"issue_number": issue_number}, "issue_number", int)
-            assignees = (
-                _validate_param({"assignees": assignees}, "assignees", list, required=False, subtype=str)
-                or []
-            )
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            issue_number = _validate_param(kwargs, "issue_number", int)
+            assignees = _validate_param(kwargs, "assignees", list, required=False, subtype=str) or []
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        issues = data.get("issues", {}).values()
-        issue = next(
-            (
-                i
-                for i in issues.values() if i.get("repo") == repo_name and i.get("number") == issue_number
-            ),
-            None,
-        )
+        issues = list(data.get("issues", {}).values())
+        issue = next((i for i in issues if i.get("repo") == repo_name and i.get("number") == issue_number), None)
 
         if not issue:
-            return _response(
-                "error",
-                ERROR_MESSAGES["NOT_FOUND"].format(
-                    entity="Issue", entity_id=issue_number
-                ),
-                "NOT_FOUND",
-            )
+            return _response("error", ERROR_MESSAGES["NOT_FOUND"].format(entity="Issue", entity_id=issue_number), "NOT_FOUND")
 
         issue["assignees"] = [_normalize_user(a) for a in assignees]
         issue["updated_at"] = CURRENT_DATE
         return _response("ok", issue)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AssignIssue",
+                "name": "assign_issue",
                 "description": "Assign users to an issue deterministically.",
                 "parameters": {
                     "type": "object",

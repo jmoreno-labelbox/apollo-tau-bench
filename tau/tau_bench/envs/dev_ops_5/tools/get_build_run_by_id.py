@@ -1,45 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetBuildRunById(Tool):
-    """Fetches a particular build run using its ID."""
+    """Retrieves a specific build run by its ID."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        build_run_id = kwargs.get("id")
+        build_runs = data.get("build_runs", [])
+        for run in build_runs:
+            if run.get("id") == build_run_id:
+                return json.dumps(run)
+        return json.dumps({"error": f"Build run with ID '{build_run_id}' not found."})
 
     @staticmethod
-    def invoke(data: dict[str, Any], id: str = None) -> str:
-        build_run_id = id
-        build_runs = data.get("build_runs", {}).values()
-        for run in build_runs.values():
-            if run.get("id") == build_run_id:
-                payload = run
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Build run with ID '{build_run_id}' not found."}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetBuildRunById",
+                "name": "get_build_run_by_id",
                 "description": "Retrieves a specific build run by its ID.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "id": {
-                            "type": "string",
-                            "description": "The unique ID of the build run.",
-                        }
-                    },
+                    "properties": {"id": {"type": "string", "description": "The unique ID of the build run."}},
                     "required": ["id"],
                 },
             },

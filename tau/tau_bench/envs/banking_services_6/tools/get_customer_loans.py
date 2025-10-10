@@ -1,28 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, time, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCustomerLoans(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
-        loans = data.get("loans", {}).values()
-        customer_loans = [loan for loan in loans.values() if loan.get("customer_id") == customer_id]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        loans = list(data.get("loans", {}).values())
+        customer_loans = [loan for loan in loans if loan.get("customer_id") == customer_id]
         return json.dumps(customer_loans)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "GetCustomerLoans",
+                        "name": "get_customer_loans",
                         "description": "Retrieves all loans associated with a given customer ID.",
                         "parameters": {
                                 "type": "object",

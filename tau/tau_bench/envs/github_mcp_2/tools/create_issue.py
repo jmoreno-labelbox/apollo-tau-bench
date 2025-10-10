@@ -1,17 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateIssue(Tool):
-    """Generates a new issue within a repository."""
+    """Creates a new issue in a repository."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str, title: str, body: str = "", labels: list = []) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        repo_name = kwargs.get("repo_name")
+        title = kwargs.get("title")
+        body = kwargs.get("body", "")
+        labels = kwargs.get("labels", [])
+
         if not all([repo_name, title]):
-            payload = {"error": "repo_name and title are required."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "repo_name and title are required."}, indent=2)
 
         number = get_next_issue_number()
         me = _auth(data)["username"]
@@ -26,19 +31,18 @@ class CreateIssue(Tool):
             "creator": me,
             "comments": [],
         }
-        #print("issue:", issue)
+        # print("issue:", issue)
 
         _issues(data).append(issue)
-        payload = {"message": "Issue created", "number": number}
-        out = json.dumps(payload, indent=2)
-        return out
+        # print("final data:", _issues(data))
+        return json.dumps({"message": "Issue created", "number": number}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "CreateIssue",
+                "name": "create_issue",
                 "description": "Creates a new issue in a repository.",
                 "parameters": {
                     "type": "object",
@@ -46,9 +50,9 @@ class CreateIssue(Tool):
                         "repo_name": {"type": "string"},
                         "title": {"type": "string"},
                         "body": {"type": "string"},
-                        "labels": {"type": "array", "items": {"type": "string"}},
+                        "labels": {"type": "array", "items": {"type": "string"}}
                     },
-                    "required": ["repo_name", "title"],
-                },
-            },
+                    "required": ["repo_name", "title"]
+                }
+            }
         }

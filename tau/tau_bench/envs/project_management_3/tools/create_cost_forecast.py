@@ -1,52 +1,41 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateCostForecast(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_id: str,
-        forecast_months: int = 3,
-        include_contingency: bool = True,
-        fiscal_year: int = datetime.now().year,
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        forecast_months = kwargs.get("forecast_months", 3)
+        include_contingency = kwargs.get("include_contingency", True)
+        fiscal_year = kwargs.get("fiscal_year", datetime.now().year)
+
         if not project_id:
-            payload = {"error": "project_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "project_id is required"})
 
-        projects = data.get("projects", {}).values()
-        allocations = data.get("allocations", {}).values()
-        employees = data.get("employees", {}).values()
-        budgets = data.get("budgets", {}).values()
-        cost_forecasts = data.get("cost_forecasts", {}).values()
+        projects = list(data.get("projects", {}).values())
+        allocations = data.get("allocations", [])
+        employees = list(data.get("employees", {}).values())
+        budgets = data.get("budgets", [])
+        cost_forecasts = data.get("cost_forecasts", [])
 
-        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
+        project = next((p for p in projects if p.get("project_id") == project_id), None)
         if not project:
-            payload = {"error": f"Project {project_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Project {project_id} not found"})
 
         project_allocations = [
             a
-            for a in allocations.values() if a.get("project_id") == project_id and a.get("status") == "active"
+            for a in allocations
+            if a.get("project_id") == project_id and a.get("status") == "active"
         ]
 
         monthly_personnel_cost = 0
         for alloc in project_allocations:
             employee = next(
-                (e for e in employees.values() if e.get("employee_id") == alloc["employee_id"]),
+                (e for e in employees if e.get("employee_id") == alloc["employee_id"]),
                 None,
             )
             if employee:
@@ -65,6 +54,7 @@ class CreateCostForecast(Tool):
 
         for month in range(1, forecast_months + 1):
             if include_contingency:
+
                 month_cost = monthly_total * (1 + 0.1 * month / forecast_months)
             else:
                 month_cost = monthly_total
@@ -74,16 +64,14 @@ class CreateCostForecast(Tool):
             forecast_data.append(
                 {
                     "month": month,
-                    "personnel_cost": (
-                        monthly_personnel_cost * (1 + 0.1 * month / forecast_months)
-                        if include_contingency
-                        else monthly_personnel_cost
-                    ),
-                    "non_personnel_cost": (
-                        monthly_non_personnel * (1 + 0.1 * month / forecast_months)
-                        if include_contingency
-                        else monthly_non_personnel
-                    ),
+                    "personnel_cost": monthly_personnel_cost
+                    * (1 + 0.1 * month / forecast_months)
+                    if include_contingency
+                    else monthly_personnel_cost,
+                    "non_personnel_cost": monthly_non_personnel
+                    * (1 + 0.1 * month / forecast_months)
+                    if include_contingency
+                    else monthly_non_personnel,
                     "total_cost": month_cost,
                     "cumulative_cost": cumulative_cost,
                 }
@@ -92,7 +80,8 @@ class CreateCostForecast(Tool):
         current_budget = next(
             (
                 b
-                for b in budgets.values() if b.get("project_id") == project_id
+                for b in budgets
+                if b.get("project_id") == project_id
                 and b.get("fiscal_year") == fiscal_year
             ),
             None,
@@ -122,16 +111,16 @@ class CreateCostForecast(Tool):
             "created_date": datetime.now().isoformat(),
         }
 
-        data["cost_forecasts"][new_forecast["cost_forecast_id"]] = new_forecast
-        payload = {"success": True, "forecast": new_forecast}
-        out = json.dumps(payload)
-        return out
+        cost_forecasts.append(new_forecast)
+
+        return json.dumps({"success": True, "forecast": new_forecast})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateCostForecast",
+                "name": "create_cost_forecast",
                 "description": "Create a cost forecast for a project",
                 "parameters": {
                     "type": "object",

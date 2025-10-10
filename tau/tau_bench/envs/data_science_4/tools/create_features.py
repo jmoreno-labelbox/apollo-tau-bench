@@ -1,21 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateFeatures(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], input_csv_path: str = None) -> str:
-        if not input_csv_path:
-            payload = {"error": "input_csv_path is a required argument."}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        input_path = kwargs.get("input_csv_path")
+        if not input_path:
+            return json.dumps({"error": "input_csv_path is a required argument."})
 
         features_id = "FEATURES_001"
         new_features_path = "/processed_data/features_001.csv"
 
         feature_entry = {
             "features_id": features_id,
-            "source_csv_path": input_csv_path,
+            "source_csv_path": input_path,
             "features_csv_path": new_features_path,
             "feature_names": [
                 "precip_24h_mm",
@@ -25,15 +27,14 @@ class CreateFeatures(Tool):
         }
 
         data.setdefault("features", []).append(feature_entry)
-        payload = feature_entry
-        out = json.dumps(payload)
-        return out
+        return json.dumps(feature_entry)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createFeatures",
+                "name": "CreateFeatures",
                 "description": "Takes a path to a processed timeseries CSV and engineers a standard set of features required for modeling.",
                 "parameters": {
                     "type": "object",

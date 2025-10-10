@@ -1,32 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AppendTerminal(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], message: str = None) -> str:
-        if not message:
-            payload = {"error": "message is required."}
-            out = json.dumps(payload, indent=2)
-            return out
-        entry = {"printed_ts": get_current_timestamp(), "message": str(message)}
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        msg = kwargs.get("message")
+        if not msg:
+            return json.dumps({"error": "message is required."}, indent=2)
+        entry = {"printed_ts": get_current_timestamp(), "message": str(msg)}
         _terminal(data).append(entry)
-        payload = entry
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(entry, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "AppendTerminal",
+                "name": "append_terminal",
                 "description": "Appends a message to terminal log with timestamp.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"message": {"type": "string"}},
-                    "required": ["message"],
-                },
-            },
+                    "properties": {
+                        "message": {"type": "string"}
+                    },
+                    "required": ["message"]
+                }
+            }
         }

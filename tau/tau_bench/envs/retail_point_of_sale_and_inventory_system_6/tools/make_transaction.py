@@ -1,87 +1,76 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import OrderedDict, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class make_transaction(Tool):
-    """Tool for managing purchases and refunds, adding records to transactions and updating stock as needed."""
+    """
+    Tool for handling a purchases and refunds. Adds the record to the transactions and updates the stock if necessary
+    """
 
     @staticmethod
     def get_detailed_line_item_price(data, **kwargs):
-        pass
         sku = kwargs.get("sku")
         barcode = kwargs.get("barcode")
-        kwargs.get("quantity", 1)
+        quantity = kwargs.get("quantity", 1)
 
         if (sku is None) and (barcode is None):
-            payload = {"error": "sku or barcode must be sent"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "sku or barcode must be sent"}, indent=2)
 
-        products = data.get("products", {}).values()
-        promotions = data.get("promotions", {}).values()
+        products = list(data.get("products", {}).values())
+        promotions = data.get("promotions", [])
 
-        for product in products.values():
+        for product in products:
             if ((sku is not None) and (product["sku"] == sku)) or (
                 (barcode is not None) and (product["barcode"] == barcode)
             ):
-                #Fetch the sku if a barcode was utilized
+                # Get the sku if barcode was used
                 sku = product["sku"]
 
-                #Acquire the promotional information
-                for promotion in promotions.values():
+                # Get the promotion information
+                for promotion in promotions:
                     if sku in promotion["applicable_skus"]:
+                        use_promotion = promotion
                         break
 
-                #Apply the discount rate for products identified as discountable; otherwise, set it to 0
-                #if use_promotion["type"] equals "percentage"
+                # Use the discount rate if the product is marked as discountable, otherwise set as 0
+                # if use_promotion["type"] == "percentage"
                 discount_rate = (
                     product["discount_rate"] if product["is_discountable"] else 0.0
                 )
 
-                #Assess the discount amount
-                #discount = round(product["price"] * discount_rate, 2)
+                # Calculate the discount amount
+                # discount = round(product["price"] * discount_rate, 2)
 
                 tax_rate = product["tax_rate"]
-                payload = {
+
+                return json.dumps(
+                    {
                         "sku": sku,
                         "unit_price": product["price"],
                         "discount_rate": discount_rate,
                         "tax_rate": tax_rate,
-                    }
-                out = json.dumps(
-                    payload, indent=2,
+                    },
+                    indent=2,
                 )
-                return out
-        payload = {"error": "product not found"}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"error": "product not found"})
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        timestamp: str = None,
-        store_id: str = None,
-        employee_id: str = None,
-        customer_id: str = None,
-        line_items: str = None,
-        payment_method: str = None,
-        status: str = None,
-        payment_amount: float = None,
-        commit_transaction: bool = True
-    ) -> str:
-        if isinstance(line_items, str):
-            item_list = json.loads(line_items)
-        else:
-            item_list = line_items
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        timestamp = kwargs.get("timestamp")
+        store_id = kwargs.get("store_id")
+        employee_id = kwargs.get("employee_id")
+        customer_id = kwargs.get("customer_id")
+        item_list = kwargs.get("line_items")
+        if isinstance(item_list, str):
+            item_list = json.loads(item_list)
+        payment_method = kwargs.get("payment_method")
+        status = kwargs.get("status")
+        amount_paid = kwargs.get("payment_amount")
+        commit_transaction = kwargs.get("commit_transaction", True)
 
         if (
             (store_id is None)
@@ -89,18 +78,18 @@ class make_transaction(Tool):
             or (customer_id is None)
             or (item_list is None)
         ):
-            payload = {
-                "error": "store_id, employee_id, customer_id and item_list must be sent"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": "store_id, employee_id, customer_id and item_list must be sent"
+                }
+            )
 
-        transactions = data.get("transactions", {}).values()
+        transactions = list(data.get("transactions", {}).values())
 
-        # Items that are appropriate for a transaction record
+        # Line items suitable for a transaction record
         line_items = []
 
-        # Tracking the overall order progress
+        # Running trackers for the overall order
         total_amount = 0
         tax_amount = 0
         tax_rate = 0
@@ -110,27 +99,27 @@ class make_transaction(Tool):
             barcode = item.get("barcode")
             quantity = item.get("quantity")
 
-            # Obtain the pricing details for the item
+            # Get the price info for the item
             line_item_info = make_transaction.get_detailed_line_item_price(
                 data, sku=sku, barcode=barcode
             )
             line_item_info = json.loads(line_item_info)
 
-            # Extract the values
+            # Unpack values
             sku = line_item_info["sku"]
             unit_price = line_item_info["unit_price"]
             unit_tax_rate = line_item_info["tax_rate"]
             discount_rate = line_item_info["discount_rate"]
 
-            # Determine totals for line items
-            # TODO: additional work required for discount to handle various discount types
+            # Calculate line item totals
+            # TODO: discount needs more work to account for different discount types
             unit_discount = unit_price * discount_rate
             item_sub_total = quantity * (unit_price - unit_discount)
             item_discount = round(quantity * unit_discount, 2)
             item_tax_amount = round(item_sub_total * unit_tax_rate, 2)
             item_final_amount = round(item_sub_total + item_tax_amount, 2)
 
-            # Establish the transaction log for line items
+            # Create the line item transaction log
             line_item = {
                 "sku": sku,
                 "quantity": quantity,
@@ -139,32 +128,32 @@ class make_transaction(Tool):
             }
             line_items.append(line_item)
 
-            # Adjust the ongoing totals
+            # Update the running totals
             total_amount += item_final_amount
             tax_amount += item_tax_amount
             discount_total += item_discount
             tax_rate = max(tax_rate, unit_tax_rate)
 
-        # Verify adequate payment and compute change
-        if (status == "completed") and (payment_amount < round(total_amount, 2)):
+        # Check for sufficent payment and calculate change
+        if (status == "completed") and (amount_paid < round(total_amount, 2)):
             if commit_transaction:
-                payload = {
-                    "error": "Amount paid is insufficient. Order total is: {}".format(
-                        total_amount
-                    )
-                }
-                out = json.dumps(payload)
-                return out
+                return json.dumps(
+                    {
+                        "error": "Amount paid is insufficient. Order total is: {}".format(
+                            total_amount
+                        )
+                    }
+                )
             else:
-                change_given = payment_amount
+                change_given = amount_paid
         else:
-            change_given = round(payment_amount - total_amount, 2)
+            change_given = round(amount_paid - total_amount, 2)
 
-        # Compile the final transaction log
+        # Build the final transaction log
 
-        # Retrieve the most recent transaction id and increase it by one
+        # Get the latest transaction id and increment by one
         transaction_id = (
-            max([int(x["transaction_id"].split("-")[1]) for x in transactions.values()]) + 1
+            max([int(x["transaction_id"].split("-")[1]) for x in transactions]) + 1
         )
 
         total_amount = round(total_amount, 2)
@@ -189,18 +178,18 @@ class make_transaction(Tool):
         }
         # transaction_row = json.dumps(transaction_row, indent = 2)
 
-        # Insert into the database and return the item
+        # Add to the database and return the item
         if commit_transaction:
-            data["transactions"][transaction_id] = transaction_row
-        payload = transaction_row
-        out = json.dumps(payload, indent=2)
-        return out
+            transactions.append(transaction_row)
+
+        return json.dumps(transaction_row, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "MakeTransaction",
+                "name": "make_transaction",
                 "description": "Creates the transaction log for a purchase",
                 "parameters": {
                     "type": "object",
@@ -238,7 +227,7 @@ class make_transaction(Tool):
                             "description": "A list of items being purchased. This should be a json object with a structure like so: [{'sku' : XXX, 'quantity' : 1}, {'barcode' : YYY, 'quantity' : 2}]",
                         },
                         "commit_transaction": {
-                            "type": "boolean",
+                            "type": "bool",
                             "description": "If true, the transaction will be commited and processed. If false, the function will just do a dry run and return the transaction information. Defaults to True",
                         },
                     },

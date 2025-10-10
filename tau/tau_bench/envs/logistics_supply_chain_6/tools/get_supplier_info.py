@@ -1,48 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetSupplierInfo(Tool):
-    """Utility for retrieving details regarding a supplier."""
+    """Tool to get information about a supplier."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], supplier_id: str) -> str:
-        """Run the tool with the provided parameters."""
-        suppliers = data.get("supplier_master", {}).values()
-        for supplier in suppliers.values():
+    def invoke(data: Dict[str, Any], supplier_id: str) -> str:
+        """Execute the tool with given parameters."""
+        suppliers = data.get("supplier_master", [])
+        for supplier in suppliers:
             if supplier.get("supplier_id") == supplier_id:
-                payload = supplier
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Supplier with ID {supplier_id} not found"}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+                return json.dumps(supplier, indent=2)
+        return json.dumps({"error": f"Supplier with ID {supplier_id} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        """Provide the specifications of the tool for the AI agent."""
-        pass
+    def get_info() -> Dict[str, Any]:
+        """Return tool specification for AI agent."""
         return {
             "type": "function",
             "function": {
-                "name": "GetSupplierInfo",
+                "name": "get_supplier_info",
                 "description": "Retrieves detailed information about a specific supplier.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "supplier_id": {
-                            "type": "string",
-                            "description": "The ID of the supplier.",
-                        }
+                        "supplier_id": {"type": "string", "description": "The ID of the supplier."}
                     },
                     "required": ["supplier_id"],
                 },

@@ -1,36 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateTransaction(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        store_id: str = None,
-        employee_id: str = None,
-        total_amount: float = 0.0,
-        tax_amount: float = 0.0,
-        payment_method: str = None,
-        discount_total: float = 0.0,
-        customer_id: str = None,
-        line_items: list = []
-,
-    status: Any = None,
-    ) -> str:
-        transactions = data.get("transactions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        store_id = kwargs.get('store_id')
+        employee_id = kwargs.get('employee_id')
+        total_amount = kwargs.get('total_amount', 0.0)
+        tax_amount = kwargs.get('tax_amount', 0.0)
+        payment_method = kwargs.get('payment_method')
+        discount_total = kwargs.get('discount_total', 0.0)
+        customer_id = kwargs.get('customer_id')
+        line_items = kwargs.get('line_items', [])
+
+        transactions = list(data.get("transactions", {}).values())
 
         max_transaction_id_num = 0
-        for transaction in transactions.values():
+        for transaction in transactions:
             txn_id = transaction.get("transaction_id")
             if isinstance(txn_id, str):
                 match = re.match(r"TXN-(\d+)", txn_id)
@@ -56,18 +46,17 @@ class CreateTransaction(Tool):
             "line_items": line_items,
         }
 
-        data["transactions"][transaction_id] = new_transaction
+        transactions.append(new_transaction)
         data["transactions"] = transactions
-        payload = {"transaction_id": new_transaction_id}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"transaction_id": new_transaction_id})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateTransaction",
+                "name": "create_transaction",
                 "description": "Creates a new transaction record for a completed sale.",
                 "parameters": {
                     "type": "object",
@@ -114,25 +103,11 @@ class CreateTransaction(Tool):
                                     "unit_price": {"type": "number", "format": "float"},
                                     "discount": {"type": "number", "format": "float"},
                                 },
-                                "required": [
-                                    "sku",
-                                    "quantity",
-                                    "unit_price",
-                                    "discount",
-                                ],
+                                "required": ["sku", "quantity", "unit_price", "discount"],
                             },
                         },
                     },
-                    "required": [
-                        "store_id",
-                        "employee_id",
-                        "total_amount",
-                        "tax_amount",
-                        "payment_method",
-                        "discount_total",
-                        "customer_id",
-                        "line_items",
-                    ],
+                    "required": ["store_id", "employee_id", "total_amount", "tax_amount", "payment_method", "discount_total", "customer_id", "line_items"],
                 },
             },
         }

@@ -1,90 +1,73 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateAccessRequest(Tool):
-    """Initiates a new access request for a user to obtain a particular role for a resource."""
+    """ Creates a new access request for a user to receive a specific role for a resource. """
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        user_id: str = None,
-        resource_id: str = None,
-        role_id: str = None,
-        justification: str = None,
-        timestamp: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         try:
-            requests = data.get("access_requests", {}).values()
+            requests = data.get('access_requests', [])
         except (KeyError, json.JSONDecodeError):
             requests = []
 
-        existing_ids = [
-            int(r["request_id"].replace("AR-", ""))
-            for r in requests.values() if r.get("request_id", "").startswith("AR-")
-        ]
+        existing_ids = [int(r["request_id"].replace("AR-", "")) for r in requests if r.get("request_id", "").startswith("AR-")]
         next_id_num = max(existing_ids) + 1 if existing_ids else 1
         request_id = f"AR-{next_id_num:03d}"
 
         new_request = {
             "request_id": request_id,
-            "user_id": user_id,
-            "resource_id": resource_id,
-            "requested_role_id": role_id,
-            "justification": justification,
+            "user_id": kwargs.get("user_id"),
+            "resource_id": kwargs.get("resource_id"),
+            "requested_role_id": kwargs.get("role_id"),
+            "justification": kwargs.get("justification"),
             "status": "PENDING",
-            "submitted_at": timestamp,
+            "submitted_at": kwargs.get("timestamp"),
             "reviewed_by": None,
-            "decision_at": None,
+            "decision_at": None
         }
 
-        data["access_requests"][new_request["access_request_id"]] = new_request
+        requests.append(new_request)
         data["access_requests.json"] = json.dumps(requests, indent=4)
-        payload = new_request
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(new_request)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateAccessRequest",
+                "name": "create_access_request",
                 "description": "Submits a request for a user to be granted a role. Requires subsequent approval.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "user_id": {
                             "type": "string",
-                            "description": "The ID of the user who will receive the role.",
+                            "description": "The ID of the user who will receive the role."
                         },
                         "resource_id": {
                             "type": "string",
-                            "description": "The ID of the resource the role applies to.",
+                            "description": "The ID of the resource the role applies to."
                         },
                         "role_id": {
                             "type": "string",
-                            "description": "The ID of the requested role.",
+                            "description": "The ID of the requested role."
                         },
                         "justification": {
                             "type": "string",
-                            "description": "A brief reason for the request.",
+                            "description": "A brief reason for the request."
                         },
                         "timestamp": {
                             "type": "string",
-                            "description": "The current timestamp for when the request is submitted.",
-                        },
+                            "description": "The current timestamp for when the request is submitted."
+                        }
                     },
-                    "required": ["user_id", "resource_id", "role_id", "justification"],
-                },
-            },
+                    "required": ["user_id", "resource_id", "role_id", "justification"]
+                }
+            }
         }

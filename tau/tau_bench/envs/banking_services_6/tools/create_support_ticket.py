@@ -1,32 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, time, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateSupportTicket(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, priority: str = None, category: str = None, details: str = None, target_entity: str = None, target_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         ticket_id = _get_next_support_ticket_id(data)
         new_ticket = {
                 "ticket_id": ticket_id,
-                "customer_id": customer_id,
+                "customer_id": kwargs.get("customer_id"),
                 "status": "Open",
-                "priority": priority,
-                "category": category,
+                "priority": kwargs.get("priority"),
+                "category": kwargs.get("category"),
                 "request_details": {
-                        "details": details,
-                        "target_entity": target_entity,
-                        "target_id": target_id,
+                        "details": kwargs.get("details"),
+                        "target_entity": kwargs.get("target_entity"),
+                        "target_id": kwargs.get("target_id"),
                 }
         }
         data['support_tickets'].append(new_ticket)
         return json.dumps(new_ticket)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "CreateSupportTicket",
+                        "name": "create_support_ticket",
                         "description": "Creates a new support ticket for a customer issue.",
                         "parameters": {
                                 "type": "object",

@@ -1,56 +1,39 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateMentorshipRelationship(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any], relationship_id: str, updates: dict[str, Any]
+        data: Dict[str, Any], relationship_id: str, updates: Dict[str, Any]
     ) -> str:
         rel = next(
             (
                 r
-                for r in data.get("user_mentorship_relationships", {}).values()
+                for r in data.get("user_mentorship_relationships", [])
                 if r["relationship_id"] == relationship_id
             ),
             None,
         )
         if not rel:
-            payload = {"error": "relationship not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "relationship not found"})
 
-        #--- SIMPLIFIED LOGIC ---
-        #The tool now solely executes a direct update.
+        # --- SIMPLIFIED LOGIC ---
+        # The tool now only performs a direct update.
         rel.update(updates)
-        payload = {"success": f"relationship {relationship_id} updated"}
-        out = json.dumps(payload)
-        return out
+        # --- END OF SIMPLIFICATION ---
 
-
-        #--- SIMPLIFIED LOGIC ---
-        #The tool now solely executes a direct update.
-        rel.update(updates)
-        payload = {"success": f"relationship {relationship_id} updated"}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"success": f"relationship {relationship_id} updated"})
 
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "UpdateMentorshipRelationship",
+                "name": "update_mentorship_relationship",
                 "description": "Modify attributes of an existing mentorship relationship by overwriting them with new values.",
                 "parameters": {
                     "type": "object",

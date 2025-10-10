@@ -1,35 +1,20 @@
-from tau_bench.envs.tool import Tool
-import ast
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAdsetsByCategory(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], category: str = None) -> str:
-        rows = [r for r in data.get("adsets", {}).values() if r.get("category") == category]
-        payload = {"adsets": rows}
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        c = kwargs.get("category")
+        rows = [r for r in data.get("adsets", []) if r.get("category") == c]
+        return json.dumps({"adsets": rows})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "getAdsetsByCategory",
-                "description": "Lists ad sets by category.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"category": {"type": "string"}},
-                    "required": ["category"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function",
+                "function": {"name": "get_adsets_by_category", "description": "Lists ad sets by category.",
+                             "parameters": {"type": "object", "properties": {"category": {"type": "string"}},
+                                            "required": ["category"]}}}

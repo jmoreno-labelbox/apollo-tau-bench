@@ -1,95 +1,63 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchCodeTool(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], owner: str = None, repo: str = None, query: str = None) -> str:
-        if not all([owner, repo, query]):
-            payload = {
-                    "status": "error",
-                    "message": "Missing required parameters for search_code.",
-                    "required": ["owner", "repo", "query"],
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner = kwargs.get('owner')
+        repo = kwargs.get('repo')
+        query = kwargs.get('query')
 
-        repositories = data.get("repositories", {}).values()
-        repository = next(
-            (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
-            None,
-        )
+        if not all([owner, repo, query]):
+            return json.dumps({
+                "status": "error",
+                "message": "Missing required parameters for search_code.",
+                "required": ["owner", "repo", "query"]
+            }, indent=2)
+
+        repositories = list(data.get('repositories', {}).values())
+        repository = next((r for r in repositories if r['repo_name'] == repo and r['owner'] == owner), None)
 
         if not repository:
-            payload = {
-                    "status": "error",
-                    "message": f"Repository '{repo}' not found for owner '{owner}'.",
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({
+                "status": "error",
+                "message": f"Repository '{repo}' not found for owner '{owner}'.",
+            }, indent=2)
 
         # Search code based on file contents
         found_occurrences = []
-        for file_path, file_content in zip(
-            repository.get("file_paths", {}).values()), repository.get("file_contents", {}).values()
-        :
+        for file_path, file_content in zip(repository.get('file_paths', {}), repository.get('file_contents', {})):
             if query in file_content:
                 # Code snippet contains the keyword
-                found_occurrences.append(
-                    {
-                        "path": file_path,
-                        "line": file_content.count(
-                            query
-                        ),  # A simplistic way to indicate presence
-                        "match": query,
-                    }
-                )
-        payload = {"status": "success", "query": query, "occurrences": found_occurrences}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+                found_occurrences.append({
+                    "path": file_path,
+                    "line": file_content.count(query), # A simplistic way to indicate presence
+                    "match": query
+                })
+
+        return json.dumps({
+            "status": "success",
+            "query": query,
+            "occurrences": found_occurrences
+        }, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "searchCode",
+                "name": "search_code",
                 "description": "Searches for code patterns within the files of a repository.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "owner": {
-                            "type": "string",
-                            "description": "The owner of the repository.",
-                        },
-                        "repo": {
-                            "type": "string",
-                            "description": "The name of the repository.",
-                        },
-                        "query": {
-                            "type": "string",
-                            "description": "The code pattern to search for.",
-                        },
+                        "owner": {"type": "string", "description": "The owner of the repository."},
+                        "repo": {"type": "string", "description": "The name of the repository."},
+                        "query": {"type": "string", "description": "The code pattern to search for."}
                     },
                     "required": ["owner", "repo", "query"],
                 },

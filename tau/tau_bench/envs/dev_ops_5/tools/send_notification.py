@@ -1,94 +1,60 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SendNotification(Tool):
-    """Emulates sending a notification by appending it to the notifications log."""
-
+    """Simulates sending a notification by adding it to the notifications log."""
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_id: str,
-        notification_type: str = "system_notification",
-        title: str = None,
-        message: str = None,
-        recipient_id: str = None,
-        channel: str = "slack"
-    ) -> str:
-        notifications = data.get("notifications", {}).values()
-
-        # Create a new distinct ID
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        notifications = list(data.get("notifications", {}).values())
+        
+        # Generate a new unique ID
         if not notifications:
             new_id_num = 1
         else:
-            new_id_num = max(int(n["id"].split("_")[1]) for n in notifications.values() + 1)
+            new_id_num = max(int(n["id"].split("_")[1]) for n in notifications) + 1
         new_id = f"notification_{new_id_num:03d}"
-
-        # Construct the new notification object
+        
+        # Create the new notification object
         new_notification = {
             "id": new_id,
-            "project_id": project_id,
-            "notification_type": notification_type,
-            "title": title,
-            "message": message,
-            "recipient_id": recipient_id,
-            "channel": channel,
-            "sent_at": "2025-01-28T00:00:00Z",  # Utilize a standard placeholder timestamp
-            "read_at": None,
+            "project_id": kwargs.get("project_id"),
+            "notification_type": kwargs.get("notification_type", "system_notification"),
+            "title": kwargs.get("title"),
+            "message": kwargs.get("message"),
+            "recipient_id": kwargs.get("recipient_id"),
+            "channel": kwargs.get("channel", "slack"),
+            "sent_at": "2025-01-28T00:00:00Z",  # Use a consistent placeholder timestamp
+            "read_at": None
         }
-
-        data["notifications"][notification_id] = new_notification
-        payload = {
+        
+        notifications.append(new_notification)
+        
+        return json.dumps({
             "status": "success",
             "message": f"Notification '{new_id}' sent successfully.",
-            "notification_id": new_id,
-        }
-        out = json.dumps(payload)
-        return out
+            "notification_id": new_id
+        })
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SendNotification",
+                "name": "send_notification",
                 "description": "Simulates sending a notification by adding it to the notifications log.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "project_id": {
-                            "type": "string",
-                            "description": "The ID of the project related to the notification.",
-                        },
-                        "recipient_id": {
-                            "type": "string",
-                            "description": "The ID of the user who should receive the notification.",
-                        },
-                        "title": {
-                            "type": "string",
-                            "description": "The title of the notification.",
-                        },
-                        "message": {
-                            "type": "string",
-                            "description": "The body content of the notification.",
-                        },
-                        "channel": {
-                            "type": "string",
-                            "description": "The channel for the notification (e.g., 'slack', 'email').",
-                            "default": "slack",
-                        },
-                        "notification_type": {
-                            "type": "string",
-                            "description": "The type of notification (e.g., 'incident_alert', 'bug_assignment').",
-                            "default": "system_notification",
-                        },
+                        "project_id": {"type": "string", "description": "The ID of the project related to the notification."},
+                        "recipient_id": {"type": "string", "description": "The ID of the user who should receive the notification."},
+                        "title": {"type": "string", "description": "The title of the notification."},
+                        "message": {"type": "string", "description": "The body content of the notification."},
+                        "channel": {"type": "string", "description": "The channel for the notification (e.g., 'slack', 'email').", "default": "slack"},
+                        "notification_type": {"type": "string", "description": "The type of notification (e.g., 'incident_alert', 'bug_assignment').", "default": "system_notification"}
                     },
                     "required": ["project_id", "recipient_id", "title", "message"],
                 },

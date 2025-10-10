@@ -1,65 +1,58 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateAllocation(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        employee_id: str,
-        project_id: str,
-        hours_per_week: int = 0,
-        role: str = None,
-        start_date: str = "",
-        end_date: str = "",
-        status: str = "active",
-        cross_department: bool = False,
-        allocation_id: str = None
-,
-    department: Any = None,
-    ) -> str:
-        if not all([employee_id, project_id, role]):
-            payload = {
-                "error": "employee_id, project_id, hours_per_week, and role are required"
-            }
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        project_id = kwargs.get("project_id")
+        hours_per_week = kwargs.get("hours_per_week", 0)
+        role = kwargs.get("role")
+        start_date = kwargs.get("start_date", "")
+        end_date = kwargs.get("end_date", "")
+        status = kwargs.get("status", "active")
+        cross_department = kwargs.get("cross_department", False)
 
-        allocations = data.get("allocations", {}).values()
-        projects = data.get("projects", {}).values()
-        skill_requirements = data.get("skill_requirements", {}).values()
+        if not all([employee_id, project_id, role]):
+            return json.dumps(
+                {
+                    "error": "employee_id, project_id, hours_per_week, and role are required"
+                }
+            )
+
+        allocations = data.get("allocations", [])
+        projects = list(data.get("projects", {}).values())
+        skill_requirements = data.get("skill_requirements", [])
 
         is_temporary = any(
             term in role.lower()
             for term in ["consultant", "emergency", "temporary", "interim"]
         )
 
-        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
+        project = next((p for p in projects if p.get("project_id") == project_id), None)
 
         skill_gap_filled = 0
         if project:
+
             project_requirements = next(
                 (
                     req
-                    for req in skill_requirements.values() if req.get("project_id") == project_id
+                    for req in skill_requirements
+                    if req.get("project_id") == project_id
                 ),
                 None,
             )
 
             if project_requirements:
+
                 current_allocations = [
                     alloc
-                    for alloc in allocations.values() if alloc.get("project_id") == project_id
+                    for alloc in allocations
+                    if alloc.get("project_id") == project_id
                     and alloc.get("status") == "active"
                 ]
                 current_hours = sum(
@@ -75,7 +68,7 @@ class CreateAllocation(Tool):
                 new_gap = max(0, total_hours_needed - (current_hours + hours_per_week))
                 skill_gap_filled = previous_gap - new_gap
 
-        allocation_id = allocation_id or f"alloc_{uuid.uuid4().hex[:8]}"
+        allocation_id = kwargs.get("allocation_id") or f"alloc_{uuid.uuid4().hex[:8]}"
 
         new_allocation = {
             "allocation_id": allocation_id,
@@ -89,7 +82,7 @@ class CreateAllocation(Tool):
             "cross_department": cross_department,
         }
 
-        data["allocations"][allocation_id] = new_allocation
+        allocations.append(new_allocation)
 
         result = {
             "success": True,
@@ -102,15 +95,15 @@ class CreateAllocation(Tool):
 
         if skill_gap_filled > 0:
             result["skill_gap_filled"] = skill_gap_filled
-        payload = result
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateAllocation",
+                "name": "create_allocation",
                 "description": "Create a new resource allocation",
                 "parameters": {
                     "type": "object",

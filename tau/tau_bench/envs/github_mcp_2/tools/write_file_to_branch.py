@@ -1,21 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class WriteFileToBranch(Tool):
-    """Inserts or modifies a file in a branch (without committing)."""
+    """Adds or updates a file in a branch (does not commit)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str = None, branch: str = None, path: str = None, content: str = None,
-    commit_message: Any = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        repo_name = kwargs.get("repo_name")
+        branch = kwargs.get("branch")
+        path = kwargs.get("path")
+        content = kwargs.get("content")
+
         if not all([repo_name, branch, path, content]):
-            payload = {"error": "repo_name, branch, path, and content are required."}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({"error": "repo_name, branch, path, and content are required."}, indent=2)
 
         try:
             repo = _find_repo_record(data, repo_name)
@@ -30,27 +31,23 @@ class WriteFileToBranch(Tool):
             else:
                 files.append(path)
                 contents.append(content)
-            payload = {
-                    "message": "File added or updated",
-                    "repo": repo_name,
-                    "branch": branch,
-                    "path": path,
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+
+            return json.dumps({
+                "message": "File added or updated",
+                "repo": repo_name,
+                "branch": branch,
+                "path": path
+            }, indent=2)
 
         except Exception as e:
-            payload = {"error": str(e)}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": str(e)}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "WriteFileToBranch",
+                "name": "write_file_to_branch",
                 "description": "Adds or updates a file in the given branch (without committing).",
                 "parameters": {
                     "type": "object",
@@ -58,9 +55,9 @@ class WriteFileToBranch(Tool):
                         "repo_name": {"type": "string"},
                         "branch": {"type": "string"},
                         "path": {"type": "string"},
-                        "content": {"type": "string"},
+                        "content": {"type": "string"}
                     },
-                    "required": ["repo_name", "branch", "path", "content"],
-                },
-            },
+                    "required": ["repo_name", "branch", "path", "content"]
+                }
+            }
         }

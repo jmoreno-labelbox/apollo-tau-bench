@@ -1,52 +1,41 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone, date, timedelta
-import calendar
-from typing import Any, Dict
-import random
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AddNewLoanForCustomer(Tool):
+    """Adds a new loan entry for a customer based on loan application and collateral details."""
 
     @staticmethod
-    def invoke(
-        data: Dict[str, Any],
-        application_id: str = None,
-        collateral_info: str = None,
-        collateral_type: str = None,
-        currency: str = "USD",
-        customer_id: str = None
-    ) -> str:
-        loan_application_id = application_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        loan_application_id = kwargs.get("application_id")
+        collateral_type = kwargs.get("collateral_type")
+        collateral_info = kwargs.get("collateral_info")
+        currency = kwargs.get("currency", "USD")
 
         if not all([customer_id, loan_application_id, collateral_type, collateral_info]):
             return json.dumps({
                 "error": "customer_id, application_id, collateral_type, and collateral_info are required."
             }, indent=2)
 
-        customers = data.get("customers", {}).values()
-        loan_applications = data.get("loan_applications", {}).values()
+        customers = list(data.get("customers", {}).values())
+        loan_applications = data.get("loan_applications", [])
 
         # Get customer object
-        customer = next((c for c in customers.values() if c["customer_id"] == customer_id), None)
+        customer = next((c for c in customers if c["customer_id"] == customer_id), None)
         if not customer:
             return json.dumps({"error": "Customer not found."}, indent=2)
 
         # Get loan application
-        application = next((a for a in loan_applications.values() if a["application_id"] == loan_application_id), None)
+        application = next((a for a in loan_applications if a["application_id"] == loan_application_id), None)
         if not application:
             return json.dumps({"error": "Loan application not found."}, indent=2)
 
-        loan_details = application.get("loan_details", {}).values()
-        decision = application.get("decision", {}).values()
+        loan_details = application.get("loan_details", {})
+        decision = application.get("decision", {})
         loan_type = loan_details.get("loan_type")
 
         # Generate IDs
@@ -112,12 +101,13 @@ class AddNewLoanForCustomer(Tool):
             "loan_account_id": loan_account_id,
             "loan_type": loan_type
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddNewLoanForCustomer",
+                "name": "add_new_loan_for_customer",
                 "description": (
                     "Creates a new loan entry based on a customer's loan application and collateral details. "
                     "Generates new loan and account IDs and links them to the customer."

@@ -1,53 +1,45 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCalendarEventsForClient(Tool):
-    """Fetch calendar events associated with a specific client."""
-
+    """Retrieve calendar events for a specific client."""
+    
     @staticmethod
-    def invoke(data: dict[str, Any], client_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        client_id = kwargs.get('client_id')
         if not client_id:
-            payload = {"error": "client_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
-
-        # Fetch calendar events for the client
-        events = data.get("calendar_events", {}).values()
-        client_events = [e for e in events.values() if e.get("client_id") == client_id]
-        payload = {
+            return json.dumps({"error": "client_id is required"}, indent=2)
+        
+        # Get calendar events for client
+        events = data.get('calendar_events', [])
+        client_events = [e for e in events if e.get('client_id') == client_id]
+        
+        return json.dumps({
             "client_id": client_id,
             "event_count": len(client_events),
-            "events": client_events,
-        }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+            "events": client_events
+        }, indent=2)
+    
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getCalendarEventsForClient",
+                "name": "get_calendar_events_for_client",
                 "description": "Retrieve calendar events for a specific client",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "client_id": {
                             "type": "integer",
-                            "description": "Client ID to get events for",
+                            "description": "Client ID to get events for"
                         }
                     },
-                    "required": ["client_id"],
-                },
-            },
+                    "required": ["client_id"]
+                }
+            }
         }

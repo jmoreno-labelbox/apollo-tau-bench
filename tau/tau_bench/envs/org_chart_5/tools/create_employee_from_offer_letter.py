@@ -1,31 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class create_employee_from_offer_letter(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], offer_doc_id: str = None, employee_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        offer_doc_id = kwargs.get("offer_doc_id")
+        employee_id = kwargs.get("employee_id")
         if not offer_doc_id or not employee_id:
-            payload = {"error": "offer_doc_id and employee_id are required"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": "offer_doc_id and employee_id are required"}, indent=2
             )
-            return out
-        if find_employee(data.get("employees", {}).values(), employee_id):
-            payload = {"error": f"employee_id {employee_id} already exists"}
-            out = json.dumps(
-                payload, indent=2
+        if find_employee(list(data.get("employees", {}).values()), employee_id):
+            return json.dumps(
+                {"error": f"employee_id {employee_id} already exists"}, indent=2
             )
-            return out
 
         new_employee = {
             "employee_id": employee_id,
@@ -34,20 +26,20 @@ class create_employee_from_offer_letter(Tool):
             "status": "Active",
             "notes": f"Created from offer doc {offer_doc_id}",
         }
-        data["employees"][new_employee["employee_id"]] = new_employee
-        payload = {
+        list(data.get("employees", {}).values()).append(new_employee)
+        return json.dumps(
+            {
                 "success": f"Employee {employee_id} created from offer letter {offer_doc_id}"
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createEmployeeFromOfferLetter",
+                "name": "create_employee_from_offer_letter",
                 "description": "Creates a new employee record based on an offer letter.",
                 "parameters": {
                     "type": "object",

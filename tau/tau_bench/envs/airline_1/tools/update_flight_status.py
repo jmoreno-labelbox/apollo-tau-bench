@@ -1,64 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateFlightStatus(Tool):
-
+    """
+    A tool to update the status of a flight on a specific date.
+    """
     @staticmethod
-    def invoke(
-        data: dict[str, Any], flight_number: str, date: str, new_status: str
-    ) -> str:
-        flights_data = data.get("flights", {}).values()
+    def invoke(data: Dict[str, Any], flight_number: str, date: str, new_status: str) -> str:
+        flights_data = list(data.get("flights", {}).values())
+        new_status = new_status.upper()
         for flight_route in flights_data:
             if flight_route.get("flight_number") == flight_number:
-                if date in flight_route.get("dates", {}).values():
+                if date in flight_route.get("dates", {}):
                     flight_route["dates"][date]["status"] = new_status
-                    payload = {
-                        "flight_number": flight_number,
-                        "date": date,
-                        "new_status": new_status,
-                    }
-                    out = json.dumps(payload)
-                    return out
-        payload = {"error": "Flight not found", "flight_number": flight_number, "date": date}
-        out = json.dumps(payload)
-        return out
-                    
+                    return json.dumps({"flight_number": flight_number, "date": date, "new_status": new_status})
+        return json.dumps({"error": "Flight not found", "flight_number": flight_number, "date": date})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateFlightStatus",
+                "name": "update_flight_status",
                 "description": "Updates the status of a specific flight on a given date (e.g., 'cancelled', 'delayed').",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "flight_number": {
-                            "type": "string",
-                            "description": "The flight number.",
-                        },
-                        "date": {
-                            "type": "string",
-                            "description": "The flight date in YYYY-MM-DD format.",
-                        },
-                        "new_status": {
-                            "type": "string",
-                            "description": "The new status.",
-                        },
+                        "flight_number": {"type": "string", "description": "The flight number."},
+                        "date": {"type": "string", "description": "The flight date in YYYY-MM-DD format."},
+                        "new_status": {"type": "string", "description": "The new status."}
                     },
-                    "required": ["flight_number", "date", "new_status"],
-                },
-            },
+                    "required": ["flight_number", "date", "new_status"]
+                }
+            }
         }

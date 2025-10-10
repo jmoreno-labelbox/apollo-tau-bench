@@ -1,11 +1,13 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class RefundOrderPartial(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: Any, amount: Any, reason: Any) -> str:
+    def invoke(data: Dict[str, Any], order_id: str, amount: Any, reason: str) -> str:
         if not order_id or amount is None or not reason:
             return _err("order_id, amount, reason are required.")
         order_id = _as_id(order_id)
@@ -20,16 +22,15 @@ class RefundOrderPartial(Tool):
             "kind": "partial",
             "reason": reason,
         }
-        data["refunds"][rec["refund_id"]] = rec
-        payload = rec
-        out = json.dumps(payload, indent=2)
-        return out
+        refunds.append(rec)
+        return json.dumps(rec, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RefundOrderPartial",
+                "name": "refund_order_partial",
                 "description": "Create a partial refund ledger entry for an order.",
                 "parameters": {
                     "type": "object",

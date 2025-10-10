@@ -1,54 +1,41 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCertificationTool(Tool):
-    """Provide a single certification record using certification_id (read operation, predictable)."""
+    """Return a single certification record by certification_id (read operation, deterministic)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], certification_id: str = None) -> str:
-        certifications = data.get("certifications", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        certifications = data.get("certifications", [])
         if not isinstance(certifications, list):
-            payload = {"error": "certifications must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "certifications must be a list"}, indent=2)
 
+        certification_id = kwargs.get("certification_id")
         if not isinstance(certification_id, str) or not certification_id.strip():
-            payload = {"error": "certification_id must be a non-empty string"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "certification_id must be a non-empty string"}, indent=2)
 
         for c in certifications:
             if c.get("certification_id") == certification_id:
-                payload = c
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Certification {certification_id} not found"}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+                return json.dumps(c, indent=2)
+        return json.dumps({"error": f"Certification {certification_id} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCertification",
+                "name": "get_certification",
                 "description": "Retrieve a certification by certification_id.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"certification_id": {"type": "string"}},
-                    "required": ["certification_id"],
-                },
-            },
+                    "properties": {
+                        "certification_id": {"type": "string"}
+                    },
+                    "required": ["certification_id"]
+                }
+            }
         }

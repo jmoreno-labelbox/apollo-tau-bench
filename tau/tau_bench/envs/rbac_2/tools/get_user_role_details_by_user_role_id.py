@@ -1,50 +1,43 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetUserRoleDetailsByUserRoleId(Tool):
-    """Fetches the details of a specific user role assignment using its user_role_id."""
+    """ Retrieves the details of a specific user role assignment by its user_role_id. """
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_role_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_role_id = kwargs.get("user_role_id")
         try:
-            user_roles = data.get("user_roles", {}).values()
+            user_roles = data.get("user_roles", [])
         except:
             user_roles = []
 
         for user_role in user_roles:
             if user_role.get("user_role_id") == user_role_id:
-                payload = user_role
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"User role with ID '{user_role_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(user_role)
+
+        return json.dumps({"error": f"User role with ID \'{user_role_id}\' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetUserRoleDetailsByUserRoleId",
-                "description": "Retrieves the full details of a specific user role assignment by its user_role_id (e.g., 'UR-029').",
+                "name": "get_user_role_details_by_user_role_id",
+                "description": "Retrieves the full details of a specific user role assignment by its user_role_id (e.g., \'UR-029\').",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "user_role_id": {
                             "type": "string",
-                            "description": "The unique identifier of the user role assignment to retrieve (e.g., 'UR-029').",
+                            "description": "The unique identifier of the user role assignment to retrieve (e.g., \'UR-029\')."
                         }
                     },
-                    "required": ["user_role_id"],
-                },
-            },
+                    "required": ["user_role_id"]
+                }
+            }
         }

@@ -1,33 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, time, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RemoveBeneficiary(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], beneficiary_id: str = None) -> str:
-        beneficiaries = data.get('beneficiaries', {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        beneficiary_id = kwargs.get("beneficiary_id")
+        beneficiaries = list(data.get('beneficiaries', {}).values())
 
         initial_len = len(beneficiaries)
-        data['beneficiaries'] = [b for b in beneficiaries.values() if b['beneficiary_id'] != beneficiary_id]
+        data['beneficiaries'] = [b for b in beneficiaries if b['beneficiary_id'] != beneficiary_id]
 
         if len(data['beneficiaries']) < initial_len:
             return json.dumps({"status": "Success", "beneficiary_id": beneficiary_id, "action": "removed"})
         return json.dumps({"error": "Beneficiary not found or could not be removed."})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "RemoveBeneficiary",
+                        "name": "remove_beneficiary",
                         "description": "Removes a beneficiary from the database.",
                         "parameters": {
                                 "type": "object",

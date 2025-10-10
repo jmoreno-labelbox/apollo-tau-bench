@@ -1,33 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CaV2GetUnpaidInvoices(Tool):
-    """Retrieve all outstanding invoices."""
+    """Get all unpaid invoices."""
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        invoices = data.get("invoices", {}).values()
-        unpaid_invoices = [inv for inv in invoices.values() if not inv.get("paid_at")]
-        payload = unpaid_invoices
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        invoices = data.get("invoices", [])
+        unpaid_invoices = [inv for inv in invoices if not inv.get("paid_at")]
+        return json.dumps(unpaid_invoices)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CaV2GetUnpaidInvoices",
+                "name": "ca_v2_get_unpaid_invoices",
                 "description": "Get all invoices that have not been paid yet.",
                 "parameters": {"type": "object", "properties": {}, "required": []},
             },

@@ -1,27 +1,17 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AddNewCustomer(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], name: str, email: str, phone_number: str, address: str
-    ) -> str:
-        customers = data.get("customers", {}).values()
+    def invoke(data: Dict[str, Any], name: str, email: str, phone_number: str, address: str) -> str:
+        customers = list(data.get("customers", {}).values())
 
-        if any(c.get("email") == email for c in customers.values()):
-            payload = {"error": f"Customer with email {email} already exists."}
-            out = json.dumps(payload)
-            return out
+        if any(c.get("email") == email for c in customers):
+            return json.dumps({"error": f"Customer with email {email} already exists."})
 
         customer_id = f"CUST-{len(customers) + 5001:04d}"
 
@@ -32,68 +22,30 @@ class AddNewCustomer(Tool):
             "phone_number": phone_number,
             "address": address,
             "loyalty_points": 0,
-            "membership_level": "bronze",
+            "membership_level": "bronze"
         }
 
-        data["customers"][customer_id] = new_customer
+        customers.append(new_customer)
         data["customers"] = customers
-        payload = new_customer
-        out = json.dumps(payload, indent=2)
-        return out
-        pass
-        customers = data.get("customers", {}).values()
 
-        if any(c.get("email") == email for c in customers.values()):
-            payload = {"error": f"Customer with email {email} already exists."}
-            out = json.dumps(payload)
-            return out
-
-        customer_id = f"CUST-{len(customers) + 5001:04d}"
-
-        new_customer = {
-            "customer_id": customer_id,
-            "name": name,
-            "email": email,
-            "phone_number": phone_number,
-            "address": address,
-            "loyalty_points": 0,
-            "membership_level": "bronze",
-        }
-
-        data["customers"][customer_id] = new_customer
-        data["customers"] = customers
-        payload = new_customer
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(new_customer, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddNewCustomer",
+                "name": "add_new_customer",
                 "description": "Add a new customer to the system.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "name": {
-                            "type": "string",
-                            "description": "Customer's full name.",
-                        },
-                        "email": {
-                            "type": "string",
-                            "description": "Customer's email address.",
-                        },
-                        "phone_number": {
-                            "type": "string",
-                            "description": "Customer's phone number.",
-                        },
-                        "address": {
-                            "type": "string",
-                            "description": "Customer's address.",
-                        },
+                        "name": {"type": "string", "description": "Customer's full name."},
+                        "email": {"type": "string", "description": "Customer's email address."},
+                        "phone_number": {"type": "string", "description": "Customer's phone number."},
+                        "address": {"type": "string", "description": "Customer's address."}
                     },
-                    "required": ["name", "email", "phone_number", "address"],
-                },
-            },
+                    "required": ["name", "email", "phone_number", "address"]
+                }
+            }
         }

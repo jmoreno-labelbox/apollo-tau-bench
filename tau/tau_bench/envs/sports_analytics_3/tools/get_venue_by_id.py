@@ -1,54 +1,47 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetVenueById(Tool):
-    """Retrieve a venue record using its venue_id."""
+    """Fetch a venue record by its venue_id."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], venue_id: str = None) -> str:
-        #1) Confirm validity
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        venue_id = kwargs.get("venue_id")
+
+        # 1) Validate
         if venue_id is None:
-            payload = {"error": "Missing required field: venue_id"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Missing required field: venue_id"}, indent=2)
 
-        #2) Retrieve DB using provided data
-        venues: list[dict[str, Any]] = data.get("venues", {}).values()
+        # 2) Get DB from passed-in data
+        venues: List[Dict[str, Any]] = data.get("venues", [])
 
-        #3) Lookup for exact matches
+        # 3) Exact match lookup
         for venue in venues:
             if venue.get("venue_id") == venue_id:
-                payload = venue
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"No venue found with ID {venue_id}"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(venue, indent=2)
+
+        return json.dumps({"error": f"No venue found with ID {venue_id}"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetVenueById",
+                "name": "get_venue_by_id",
                 "description": "Fetch a single venue's full details by venue_id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "venue_id": {
                             "type": "integer",
-                            "description": "Exact venue ID to retrieve.",
+                            "description": "Exact venue ID to retrieve."
                         }
                     },
-                    "required": ["venue_id"],
-                },
-            },
+                    "required": ["venue_id"]
+                }
+            }
         }

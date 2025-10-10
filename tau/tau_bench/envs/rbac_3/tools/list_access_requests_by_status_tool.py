@@ -1,35 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListAccessRequestsByStatusTool(Tool):
-    """ListAccessRequestsByStatus"""
+    """list_access_requests_by_status"""
 
     @staticmethod
-    def invoke(data: dict[str, Any], status: str) -> str:
-        out = [r for r in data.get("access_requests", {}).values() if r.get("status") == status]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        status = kwargs["status"]
+        out = [r for r in data.get("access_requests", []) if r.get("status") == status]
         out = sorted(
             out, key=lambda r: (r.get("submitted_at") or "", r.get("request_id") or "")
         )
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListAccessRequestsByStatus",
+                "name": "list_access_requests_by_status",
                 "description": "Filter access_requests by status.",
                 "parameters": {
                     "type": "object",

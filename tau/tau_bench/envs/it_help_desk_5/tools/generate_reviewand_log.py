@@ -1,27 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GenerateReviewandLog(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], log_data: Any = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        log_data = kwargs.get('log_data')
         if log_data is None:
-            payload = {"status": "error", "description": "The log_data field is required."}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({'status': 'error', 'description': 'The log_data field is required.'}, indent=2)
 
-        formatted_date = FIXED_NOW.split("T")[0].replace("-", "_")
+        formatted_date = FIXED_NOW.split('T')[0].replace('-','_')
         new_report = {
             "run_id": f"rpt_{formatted_date}_0000",
             "report_type": "review_log",
@@ -30,31 +21,24 @@ class GenerateReviewandLog(Tool):
             "output_path_pdf": f"s3://reports/Report_{formatted_date}.pdf",
         }
 
-        reports = data.get("validation_issues", {}).values()
-        data["validation_issues"][new_report["validation_issue_id"]] = new_report
-        payload = {
-                "status": "ok",
-                "description": "Successfully created pdf and added report to validation_issues.",
-            }
-        out = json.dumps(
-            payload)
-        return out
+        reports = data.get('validation_issues', [])
+        reports.append(new_report)
+
+        return json.dumps({'status': 'ok', 'description': 'Successfully created pdf and added report to validation_issues.'})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "generateReviewAndLog",
-                "description": "Generates a review packet pdf from input data and creates a log in validation_issues.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "log_data": {
-                            "type": "string",
-                            "description": "The data to log in the report.",
-                        },
+            'type': 'function',
+            'function': {
+                'name': 'generate_review_and_log',
+                'description': 'Generates a review packet pdf from input data and creates a log in validation_issues.',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'log_data': {'type': 'string', 'description': 'The data to log in the report.'},
                     },
-                    "required": ["log_data"],
-                },
-            },
+                    'required': ['log_data']
+                }
+            }
         }

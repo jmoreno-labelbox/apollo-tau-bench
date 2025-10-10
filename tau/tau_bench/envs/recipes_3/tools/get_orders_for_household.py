@@ -1,22 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetOrdersForHousehold(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], household_id: int) -> str:
-        orders = _get_table(data, "orders")
-        rows = [o for o in orders.values() if o.get("household_id") == household_id]
-        payload = {"orders": rows}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], household_id: int) -> str:
+        rows = [
+            o for o in list(data.get("orders", {}).values()) if int(o.get("household_id")) == int(household_id)
+        ]
+        return _json({"orders": rows})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetOrdersForHousehold",
-                "description": "Returns all orders for a household.",
+                "name": "get_orders_for_household",
+                "description": "List orders for a household.",
                 "parameters": {
                     "type": "object",
                     "properties": {"household_id": {"type": "integer"}},

@@ -1,42 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SubmitReimbursement(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        employee_id: str,
-        submission_date: str = None,
-        expense_date: str = None,
-        amount: float = None,
-        description: str = None,
-        category: str = None,
-        receipt_provided: bool = True,
-        project_id: str = None,
-        reimbursement_id: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+
         from datetime import timezone
 
-        if submission_date is None:
-            submission_date = datetime.now(timezone.utc).isoformat()
+        employee_id = kwargs.get("employee_id")
+        submission_date = kwargs.get("submission_date", datetime.now(timezone.utc).isoformat())
+        expense_date = kwargs.get("expense_date")
+        amount = kwargs.get("amount")
+        description = kwargs.get("description")
+        category = kwargs.get("category")
+        receipt_provided = kwargs.get("receipt_provided", True)
+        project_id = kwargs.get("project_id")
 
         if not all([employee_id, expense_date, amount, description, category]):
-            payload = {"error": "Missing required fields"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Missing required fields"})
 
-        reimbursements = data.get("reimbursements", {}).values()
+        reimbursements = data.get("reimbursements", [])
 
         expense_dt = datetime.fromisoformat(expense_date.replace("Z", "+00:00"))
 
@@ -45,12 +32,11 @@ class SubmitReimbursement(Tool):
         days_elapsed = (submission_dt - expense_dt).days
 
         if not receipt_provided and amount > 75:
-            payload = {"error": "Receipts are required for expenses over $75 without receipt"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "Receipts are required for expenses over $75 without receipt"}
+            )
 
-        if reimbursement_id is None:
-            reimbursement_id = f"reimb_{uuid.uuid4().hex[:8]}"
+        reimbursement_id = kwargs.get("reimbursement_id", f"reimb_{uuid.uuid4().hex[:8]}")
 
         new_reimbursement = {
             "reimbursement_id": reimbursement_id,
@@ -66,25 +52,22 @@ class SubmitReimbursement(Tool):
             "days_to_submit": days_elapsed,
         }
 
-        data["reimbursements"][reimbursement_id] = new_reimbursement
-        payload = {"success": True, "reimbursement": new_reimbursement}
-        out = json.dumps(payload)
-        return out
+        reimbursements.append(new_reimbursement)
+
+        return json.dumps({"success": True, "reimbursement": new_reimbursement})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SubmitReimbursement",
+                "name": "submit_reimbursement",
                 "description": "Submit an expense reimbursement request",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "employee_id": {"type": "string", "description": "Employee ID"},
-                        "reimbursement_id": {
-                            "type": "string",
-                            "description": "Reimbursement ID",
-                        },
+                        "reimbursement_id": {"type": "string", "description": "Reimbursement ID"},
                         "expense_date": {
                             "type": "string",
                             "description": "Date of expense (ISO format)",

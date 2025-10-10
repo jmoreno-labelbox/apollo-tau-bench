@@ -1,41 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetSprintDetails(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], sprint_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        sprint_id = kwargs.get("sprint_id")
+
         if not sprint_id:
-            payload = {"error": "sprint_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "sprint_id is required"})
 
-        sprints = data.get("sprints", {}).values()
+        sprints = data.get("sprints", [])
 
-        for sprint in sprints.values():
+        for sprint in sprints:
             if sprint.get("sprint_id") == sprint_id:
-                payload = sprint
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Sprint '{sprint_id}' not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(sprint, indent=2)
+
+        return json.dumps({"error": f"Sprint '{sprint_id}' not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetSprintDetails",
+                "name": "get_sprint_details",
                 "description": "Get details of a specific sprint",
                 "parameters": {
                     "type": "object",

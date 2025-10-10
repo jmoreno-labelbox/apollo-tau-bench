@@ -1,41 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetLatestRelease(Tool):
-    """Provides the most recent release (sorted by timestamp) for a repository."""
+    """Returns the latest release (by timestamp) for a repo."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        repo_name = kwargs.get("repo_name")
         if not repo_name:
-            payload = {"error": "repo_name is required."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "repo_name is required."}, indent=2)
 
         repo = _find_repo_record(data, repo_name)
         releases = repo.get("releases", [])
         if not releases:
-            payload = {"error": "No releases found."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "No releases found."}, indent=2)
 
         latest = sorted(releases, key=lambda r: r["created_at"], reverse=True)[0]
-        payload = latest
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(latest, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GetLatestRelease",
+                "name": "get_latest_release",
                 "description": "Gets the latest release for a repository.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"repo_name": {"type": "string"}},
-                    "required": ["repo_name"],
-                },
-            },
+                    "properties": {
+                        "repo_name": {"type": "string"}
+                    },
+                    "required": ["repo_name"]
+                }
+            }
         }

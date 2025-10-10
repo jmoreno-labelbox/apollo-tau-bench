@@ -1,24 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone, date, timedelta
-import calendar
-from typing import Any, Dict
-import random
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class PayToBeneficiarySameCurrency(Tool):
+    """Debits a source account and pays a beneficiary in the same currency for a given customer."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, beneficiary_id: str = None, 
-               source_account_id: str = None, amount: float = None, currency: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id       = kwargs.get("customer_id")
+        beneficiary_id    = kwargs.get("beneficiary_id")
+        source_account_id = kwargs.get("source_account_id")
+        amount            = kwargs.get("amount")
+        currency          = kwargs.get("currency")
+
         if not all([customer_id, beneficiary_id, source_account_id, amount, currency]):
             return json.dumps(
                 {"error": "customer_id, beneficiary_id, source_account_id, amount, and currency are required."},
@@ -27,7 +24,7 @@ class PayToBeneficiarySameCurrency(Tool):
 
         # Lookup beneficiary and verify ownership
         ben = next(
-            (b for b in data.get("beneficiaries", {}).values()
+            (b for b in list(data.get("beneficiaries", {}).values())
              if b.get("beneficiary_id") == beneficiary_id and b.get("customer_id") == customer_id),
             None
         )
@@ -36,7 +33,7 @@ class PayToBeneficiarySameCurrency(Tool):
 
         # Lookup source account and verify ownership
         acct = next(
-            (a for a in data.get("accounts", {}).values()
+            (a for a in list(data.get("accounts", {}).values())
              if a.get("account_id") == source_account_id and a.get("customer_id") == customer_id),
             None
         )
@@ -67,12 +64,13 @@ class PayToBeneficiarySameCurrency(Tool):
             "currency": currency,
             "new_source_balance": acct["balance"]
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "PayToBeneficiarySameCurrency",
+                "name": "pay_to_beneficiary_same_currency",
                 "description": "Pays a beneficiary in the same currency by debiting the source account for the given customer.",
                 "parameters": {
                     "type": "object",

@@ -1,45 +1,36 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateTaskDependency(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], task_id: str = None, depends_on_task_id: str = None, block_task: bool = False) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        task_id = kwargs.get("task_id")
+        depends_on_task_id = kwargs.get("depends_on_task_id")
+        block_task = kwargs.get("block_task")
+
         if not all([task_id, depends_on_task_id]):
-            payload = {"error": "task_id and depends_on_task_id are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "task_id and depends_on_task_id are required"})
 
         if task_id == depends_on_task_id:
-            payload = {"error": "Task cannot depend on itself"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Task cannot depend on itself"})
 
-        tasks = data.get("tasks", {}).values()
+        tasks = list(data.get("tasks", {}).values())
 
-        task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
+        task = next((t for t in tasks if t.get("task_id") == task_id), None)
         dependency_task = next(
-            (t for t in tasks.values() if t.get("task_id") == depends_on_task_id), None
+            (t for t in tasks if t.get("task_id") == depends_on_task_id), None
         )
 
         if not task:
-            payload = {"error": f"Task '{task_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Task '{task_id}' not found"})
         if not dependency_task:
-            payload = {"error": f"Dependency task '{depends_on_task_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": f"Dependency task '{depends_on_task_id}' not found"}
+            )
 
         def has_circular_dependency(start_id, check_id, visited=None):
             if visited is None:
@@ -49,7 +40,7 @@ class CreateTaskDependency(Tool):
             visited.add(start_id)
 
             task_to_check = next(
-                (t for t in tasks.values() if t.get("task_id") == start_id), None
+                (t for t in tasks if t.get("task_id") == start_id), None
             )
             if not task_to_check:
                 return False
@@ -62,9 +53,9 @@ class CreateTaskDependency(Tool):
             return False
 
         if has_circular_dependency(depends_on_task_id, task_id):
-            payload = {"error": "Creating this dependency would create a circular dependency"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "Creating this dependency would create a circular dependency"}
+            )
 
         if depends_on_task_id not in task.get("dependencies", []):
             if "dependencies" not in task:
@@ -80,15 +71,15 @@ class CreateTaskDependency(Tool):
             if "blocked_by" not in task:
                 task["blocked_by"] = []
             task["blocked_by"].append(depends_on_task_id)
-        payload = {"success": True, "task": task}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"success": True, "task": task})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateTaskDependency",
+                "name": "create_task_dependency",
                 "description": "Create a dependency between two tasks",
                 "parameters": {
                     "type": "object",

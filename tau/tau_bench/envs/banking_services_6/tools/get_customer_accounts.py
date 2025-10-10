@@ -1,28 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, time, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCustomerAccounts(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
-        accounts = data.get("accounts", {}).values()
-        customer_accounts = [acc for acc in accounts.values() if acc.get("customer_id") == customer_id]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        accounts = list(data.get("accounts", {}).values())
+        customer_accounts = [acc for acc in accounts if acc.get("customer_id") == customer_id]
         return json.dumps(customer_accounts)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "GetCustomerAccounts",
+                        "name": "get_customer_accounts",
                         "description": "Retrieves all accounts associated with a given customer ID.",
                         "parameters": {
                                 "type": "object",

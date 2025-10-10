@@ -1,36 +1,25 @@
-from tau_bench.envs.tool import Tool
-import html
+# Copyright Sierra
+
 import json
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CompareBeforeAfterVisuals(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], before_release_id: str = None, after_release_id: str = None) -> str:
-        if not before_release_id or not after_release_id:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        if not kwargs.get("before_release_id") or not kwargs.get("after_release_id"):
             missing = []
-            if not before_release_id:
+            if not kwargs.get("before_release_id"):
                 missing.append("before_release_id")
-            if not after_release_id:
+            if not kwargs.get("after_release_id"):
                 missing.append("after_release_id")
-            payload = {"error": f"Missing required fields: {', '.join(missing)}"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"Missing required fields: {', '.join(missing)}"}, indent=2)
 
-        release_diffs: list[dict[str, Any]] = data.get("release_diffs", {}).values()
+        release_diffs: List[Dict[str, Any]] = data.get("release_diffs", [])
         diff_by_id = {d.get("release_id"): d for d in release_diffs}
 
-        def lineage(rid: str) -> list[str]:
+        def lineage(rid: str) -> List[str]:
             ids = []
             cur = rid
             seen = set()
@@ -41,12 +30,12 @@ class CompareBeforeAfterVisuals(Tool):
             ids.reverse()
             return ids
 
-        def artifacts_for_release(rid: str) -> list[str]:
+        def artifacts_for_release(rid: str) -> List[str]:
             if rid not in diff_by_id:
                 return []
             s = set()
             for lr in lineage(rid):
-                d = diff_by_id.get(lr, {}).values()
+                d = diff_by_id.get(lr, {})
                 for a in d.get("frames_added") or []:
                     s.add(a)
                 for u in d.get("frames_updated") or []:
@@ -56,54 +45,47 @@ class CompareBeforeAfterVisuals(Tool):
                         s.remove(r)
             return sorted(s)
 
+        before_release_id = kwargs.get("before_release_id")
+        after_release_id = kwargs.get("after_release_id")
+
         if before_release_id not in diff_by_id:
-            payload = {"error": f"No release_diff for release_id '{before_release_id}'"}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({"error": f"No release_diff for release_id '{before_release_id}'"}, indent=2)
         if after_release_id not in diff_by_id:
-            payload = {"error": f"No release_diff for release_id '{after_release_id}'"}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({"error": f"No release_diff for release_id '{after_release_id}'"}, indent=2)
 
         before_list = artifacts_for_release(before_release_id)
         after_list = set(before_list)
         after_diff = diff_by_id[after_release_id]
-        for a in after_diff.get("frames_removed") or []:
+        for a in (after_diff.get("frames_removed") or []):
             after_list.discard(a)
-        for a in after_diff.get("frames_added") or []:
+        for a in (after_diff.get("frames_added") or []):
             after_list.add(a)
-        for a in after_diff.get("frames_updated") or []:
+        for a in (after_diff.get("frames_updated") or []):
             after_list.add(a)
         final_after_list = sorted(after_list)
-        payload = {
+
+        return json.dumps(
+            {
                 "before": {"release_id": before_release_id, "artifacts": before_list},
-                "after": {
-                    "release_id": after_release_id,
-                    "artifacts": final_after_list,
-                },
-            }
-        out = json.dumps(
-            payload, indent=2,
+                "after": {"release_id": after_release_id, "artifacts": final_after_list}
+            },
+            indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "compareBeforeAfterVisuals",
+                "name": "compare_before_after_visuals",
                 "description": "Return artifact lists for a before release and an after release, carrying all before artifacts forward unless removed in the after release.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "before_release_id": {"type": "string"},
-                        "after_release_id": {"type": "string"},
+                        "after_release_id": {"type": "string"}
                     },
-                    "required": ["before_release_id", "after_release_id"],
-                },
-            },
+                    "required": ["before_release_id", "after_release_id"]
+                }
+            }
         }

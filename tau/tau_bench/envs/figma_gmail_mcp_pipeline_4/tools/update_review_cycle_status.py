@@ -1,71 +1,46 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateReviewCycleStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], cycle_id: str = None, new_status: str = None, approver_id: str = None, comments: str = "", reviewer_email: str = None, status_notes: str = None, completion_notes: str = None, updated_by: str = None) -> str:
-        # Support reviewer_email as alternative to approver_id
-        if reviewer_email is not None:
-            approver_id = reviewer_email
-        # Support status_notes or completion_notes as alternative to comments
-        if status_notes is not None:
-            comments = status_notes
-        if completion_notes is not None:
-            comments = completion_notes
-        # Support updated_by as alternative to approver_id
-        if updated_by is not None:
-            approver_id = updated_by
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
-        Modifies the status of a review cycle and manages status transitions.
+        Updates the status of a review cycle and handles status transitions.
         """
+        cycle_id = kwargs.get('cycle_id')
+        new_status = kwargs.get('new_status')
+        approver_id = kwargs.get('approver_id')
+        comments = kwargs.get('comments', '')
+
         if not all([cycle_id, new_status]):
-            payload = {"error": "cycle_id and new_status are required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "cycle_id and new_status are required."})
 
-        # Check the validity of status values
-        valid_statuses = [
-            "IN_FLIGHT",
-            "NEEDS_REVIEW",
-            "APPROVED",
-            "CHANGES_REQUESTED",
-            "ESCALATED",
-        ]
+        # Validate status values
+        valid_statuses = ['IN_FLIGHT', 'NEEDS_REVIEW', 'APPROVED', 'CHANGES_REQUESTED', 'ESCALATED']
         if new_status not in valid_statuses:
-            payload = {
-                "error": f"Invalid status. Must be one of: {', '.join(valid_statuses)}"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Invalid status. Must be one of: {', '.join(valid_statuses)}"})
 
-        review_cycles = data.get("review_cycles", {}).values()
-        review_approvals = data.get("review_approvals", {}).values()
+        review_cycles = data.get('review_cycles', [])
+        review_approvals = data.get('review_approvals', [])
 
-        # Locate the review cycle
+        # Find the review cycle
         cycle_found = False
-        for cycle in review_cycles.values():
-            if cycle.get("cycle_id") == cycle_id:
+        for cycle in review_cycles:
+            if cycle.get('cycle_id') == cycle_id:
                 cycle_found = True
-                old_status = cycle.get("status")
+                old_status = cycle.get('status')
 
-                # Modify the status of the cycle
-                cycle["status"] = new_status
-                cycle["last_updated"] = datetime.now().isoformat()
+                # Update the cycle status
+                cycle['status'] = new_status
+                cycle['last_updated'] = datetime.now().isoformat()
 
-                # Manage logic based on status
-                if new_status == "APPROVED" and approver_id:
-                    # Generate an approval record
+                # Handle status-specific logic
+                if new_status == 'APPROVED' and approver_id:
+                    # Create approval record
                     approval_id = f"approval_{uuid.uuid4().hex[:8]}"
                     new_approval = {
                         "approval_id": approval_id,
@@ -73,79 +48,61 @@ class UpdateReviewCycleStatus(Tool):
                         "approver_id": approver_id,
                         "approval_date": datetime.now().isoformat(),
                         "comments": comments,
-                        "status": "APPROVED",
+                        "status": "APPROVED"
                     }
-                    data["review_approvals"][new_approval["review_approval_id"]] = new_approval
+                    review_approvals.append(new_approval)
 
-                elif new_status == "CHANGES_REQUESTED" and comments:
-                    # Include change request in comments
-                    if "change_requests" not in cycle:
-                        cycle["change_requests"] = []
-                    cycle["change_requests"].append(
-                        {
-                            "request_id": f"req_{uuid.uuid4().hex[:8]}",
-                            "requester_id": approver_id,
-                            "request_date": datetime.now().isoformat(),
-                            "comments": comments,
-                        }
-                    )
+                elif new_status == 'CHANGES_REQUESTED' and comments:
+                    # Add change request to comments
+                    if 'change_requests' not in cycle:
+                        cycle['change_requests'] = []
+                    cycle['change_requests'].append({
+                        "request_id": f"req_{uuid.uuid4().hex[:8]}",
+                        "requester_id": approver_id,
+                        "request_date": datetime.now().isoformat(),
+                        "comments": comments
+                    })
 
-                # Record the change in status
-                if "status_history" not in cycle:
-                    cycle["status_history"] = []
-                cycle["status_history"].append(
-                    {
-                        "from_status": old_status,
-                        "to_status": new_status,
-                        "changed_by": approver_id,
-                        "changed_at": datetime.now().isoformat(),
-                        "comments": comments,
-                    }
-                )
+                # Log the status change
+                if 'status_history' not in cycle:
+                    cycle['status_history'] = []
+                cycle['status_history'].append({
+                    "from_status": old_status,
+                    "to_status": new_status,
+                    "changed_by": approver_id,
+                    "changed_at": datetime.now().isoformat(),
+                    "comments": comments
+                })
 
                 break
 
         if not cycle_found:
-            payload = {"error": f"Review cycle with ID '{cycle_id}' not found."}
-            out = json.dumps(payload)
-            return out
-        payload = {
+            return json.dumps({"error": f"Review cycle with ID '{cycle_id}' not found."})
+
+        return json.dumps({
             "success": True,
             "cycle_id": cycle_id,
             "old_status": old_status,
             "new_status": new_status,
-            "updated_at": datetime.now().isoformat(),
-        }
-        out = json.dumps(payload)
-        return out
+            "updated_at": datetime.now().isoformat()
+        })
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateReviewCycleStatus",
+                "name": "update_review_cycle_status",
                 "description": "Updates the status of a design review cycle and handles status transitions including approvals and change requests.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "cycle_id": {
-                            "type": "string",
-                            "description": "The ID of the review cycle to update.",
-                        },
-                        "new_status": {
-                            "type": "string",
-                            "description": "The new status for the review cycle. Must be one of: IN_FLIGHT, NEEDS_REVIEW, APPROVED, CHANGES_REQUESTED, ESCALATED.",
-                        },
-                        "approver_id": {
-                            "type": "string",
-                            "description": "The ID of the person making the status change.",
-                        },
-                        "comments": {
-                            "type": "string",
-                            "description": "Optional comments about the status change or change request.",
-                        },
+                        "cycle_id": {"type": "string", "description": "The ID of the review cycle to update."},
+                        "new_status": {"type": "string", "description": "The new status for the review cycle. Must be one of: IN_FLIGHT, NEEDS_REVIEW, APPROVED, CHANGES_REQUESTED, ESCALATED."},
+                        "approver_id": {"type": "string", "description": "The ID of the person making the status change."},
+                        "comments": {"type": "string", "description": "Optional comments about the status change or change request."}
                     },
-                    "required": ["cycle_id", "new_status"],
-                },
-            },
+                    "required": ["cycle_id", "new_status"]
+                }
+            }
         }

@@ -1,10 +1,11 @@
-from tau_bench.envs.tool import Tool
-import json
-import uuid
-from datetime import datetime
-from typing import Any
+# Copyright Sierra
 
-class LogJobApplication(Tool):
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class log_job_application(Tool):
     @staticmethod
     def invoke(
         data,
@@ -12,7 +13,7 @@ class LogJobApplication(Tool):
         job_id: str,
         apply_date: str,
         skill_match_score: int,
-        application_id: str | None = None
+        application_id: Optional[str] = None,
     ) -> str:
         application = {
             "application_id": application_id or "APP001",
@@ -22,22 +23,19 @@ class LogJobApplication(Tool):
             "skill_match_score": skill_match_score,
         }
         data.setdefault("job_applications", []).append(application)
-        payload = {
-            "success": f"Application {application['application_id']} logged for candidate {candidate_id}"
-        }
-        out = json.dumps(
-            payload, indent=2,
+        return json.dumps(
+            {
+                "success": f"Application {application['application_id']} logged for candidate {candidate_id}"
+            },
+            indent=2,
         )
-        return out
-        return out
 
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "logJobApplication",
+                "name": "log_job_application",
                 "description": "Log a new job application record for an external candidate.",
                 "parameters": {
                     "type": "object",

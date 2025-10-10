@@ -1,25 +1,13 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateSupplyOrderTerms(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        supply_order_id: str,
-        new_unit_cost: float = None,
-        payment_terms: str = None,
-        delivery_deadline: str = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], supply_order_id: str, new_unit_cost: float = None, payment_terms: str = None, delivery_deadline: str = None) -> str:
         """
         Update supply order terms and conditions
 
@@ -27,38 +15,29 @@ class UpdateSupplyOrderTerms(Tool):
         Data Sources: supply_orders.json (supply_order_id, unit_cost, quantity)
         """
         if new_unit_cost is not None and new_unit_cost < 0:
-            payload = {"error": "Unit cost cannot be negative", "status": "failed"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Unit cost cannot be negative", "status": "failed"})
 
         # Find the supply order to update
-        supply_orders = data.get("supply_orders", {}).values()
+        supply_orders = data.get("supply_orders", [])
         supply_order_to_update = None
         order_index = None
 
-        for i, order in enumerate(supply_orders.values()):
+        for i, order in enumerate(supply_orders):
             if order.get("supply_order_id") == supply_order_id:
                 supply_order_to_update = order
                 order_index = i
                 break
 
         if not supply_order_to_update:
-            payload = {
-                "error": f"Supply order {supply_order_id} not found",
-                "status": "failed",
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Supply order {supply_order_id} not found", "status": "failed"})
 
         # Rule: Supply orders with status 'cancelled' require alternative sourcing and cannot be fulfilled
         current_status = supply_order_to_update.get("status")
         if current_status == "fulfilled":
-            payload = {
+            return json.dumps({
                 "error": f"Cannot modify terms for fulfilled supply order {supply_order_id}",
-                "status": "failed",
-            }
-            out = json.dumps(payload)
-            return out
+                "status": "failed"
+            })
 
         # WRITE OPERATION: Update supply order terms
         updates_applied = []
@@ -91,49 +70,32 @@ class UpdateSupplyOrderTerms(Tool):
             "item_id": supply_order_to_update.get("item_id"),
             "product_id": supply_order_to_update.get("product_id"),
             "updates_applied": updates_applied,
-            "cost_changes": (
-                {
-                    "previous_unit_cost": old_unit_cost,
-                    "new_unit_cost": supply_order_to_update.get("unit_cost"),
-                    "new_total_cost": supply_order_to_update.get("total_cost"),
-                }
-                if new_unit_cost is not None
-                else None
-            ),
-            "terms_updated": supply_order_to_update["terms_updated"],
+            "cost_changes": {
+                "previous_unit_cost": old_unit_cost,
+                "new_unit_cost": supply_order_to_update.get("unit_cost"),
+                "new_total_cost": supply_order_to_update.get("total_cost")
+            } if new_unit_cost is not None else None,
+            "terms_updated": supply_order_to_update["terms_updated"]
         }
-        payload = result
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(result)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateSupplyOrderTerms",
+                "name": "update_supply_order_terms",
                 "description": "Update supply order terms and conditions",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "supply_order_id": {
-                            "type": "string",
-                            "description": "Supply order identifier (e.g., '#SO9359')",
-                        },
-                        "new_unit_cost": {
-                            "type": "number",
-                            "description": "New unit cost",
-                        },
-                        "payment_terms": {
-                            "type": "string",
-                            "description": "Payment terms (e.g., 'NET30', 'COD')",
-                        },
-                        "delivery_deadline": {
-                            "type": "string",
-                            "description": "Delivery deadline (ISO format)",
-                        },
+                        "supply_order_id": {"type": "string", "description": "Supply order identifier (e.g., '#SO9359')"},
+                        "new_unit_cost": {"type": "number", "description": "New unit cost"},
+                        "payment_terms": {"type": "string", "description": "Payment terms (e.g., 'NET30', 'COD')"},
+                        "delivery_deadline": {"type": "string", "description": "Delivery deadline (ISO format)"}
                     },
-                    "required": ["supply_order_id"],
-                },
-            },
+                    "required": ["supply_order_id"]
+                }
+            }
         }

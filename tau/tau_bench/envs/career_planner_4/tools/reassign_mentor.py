@@ -1,15 +1,16 @@
-from tau_bench.envs.tool import Tool
-import json
-import uuid
-from datetime import datetime
-from typing import Any
+# Copyright Sierra
 
-class ReassignMentor(Tool):
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class reassign_mentor(Tool):
     @staticmethod
     def invoke(
         data, user_id: str, old_mentor_id: str, new_mentor_id: str, relationship_id: str
     ) -> str:
-        # To keep it straightforward, create a new record reflecting the change.
+        # For simplicity, add a new record indicating the change.
         record = {
             "relationship_id": relationship_id,
             "user_id": user_id,
@@ -18,22 +19,19 @@ class ReassignMentor(Tool):
             "updated_date": "2023-10-05",
         }
         data.setdefault("mentorship_reassignments", []).append(record)
-        payload = {
-            "success": f"Mentor reassigned for {user_id}: now under mentor {new_mentor_id}"
-        }
-        out = json.dumps(
-            payload, indent=2,
+        return json.dumps(
+            {
+                "success": f"Mentor reassigned for {user_id}: now under mentor {new_mentor_id}"
+            },
+            indent=2,
         )
-        return out
-
 
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "reassignMentor",
+                "name": "reassign_mentor",
                 "description": "Reassign a mentorship from an old mentor to a new mentor for a specific user.",
                 "parameters": {
                     "type": "object",

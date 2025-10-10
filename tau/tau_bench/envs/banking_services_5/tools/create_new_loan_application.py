@@ -1,39 +1,36 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone, date, timedelta
-import calendar
-from typing import Any, Dict
-import random
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateNewLoanApplication(Tool):
+    """Submits a new loan application using customer_id by auto-extracting customer data from the database."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, loan_type: str = None, 
-               requested_amount: float = None, requested_term_months: int = None, 
-               purpose: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        loan_type = kwargs.get("loan_type")
+        requested_amount = kwargs.get("requested_amount")
+        requested_term_months = kwargs.get("requested_term_months")
+        purpose = kwargs.get("purpose")
+
+
         if not all([customer_id, loan_type, requested_amount, requested_term_months, purpose]):
             return json.dumps({"error": "All loan-related fields and customer_id are required."}, indent=2)
 
         # Look up customer in the database
-        customers = data.get("customers", {}).values()
-        customer = next((c for c in customers.values() if c.get("customer_id") == customer_id), None)
+        customers = list(data.get("customers", {}).values())
+        customer = next((c for c in customers if c.get("customer_id") == customer_id), None)
 
         if not customer:
             return json.dumps({"error": f"Customer with ID '{customer_id}' not found."}, indent=2)
 
         # Extract data from customer profile
-        personal_info = customer.get("personal_info", {}).values()
-        contact_info = customer.get("contact_info", {}).values()
-        financial_profile = customer.get("financial_profile", {}).values()
+        personal_info = customer.get("personal_info", {})
+        contact_info = customer.get("contact_info", {})
+        financial_profile = customer.get("financial_profile", {})
 
         first_name = personal_info.get("first_name")
         last_name = personal_info.get("last_name")
@@ -91,12 +88,13 @@ class CreateNewLoanApplication(Tool):
             "application_id": application_id,
             "application_status": "Submitted"
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateNewLoanApplication",
+                "name": "create_new_loan_application",
                 "description": (
                     "Submits a new loan application using the customer's existing record. "
                     "Only customer_id and loan details are required as input."

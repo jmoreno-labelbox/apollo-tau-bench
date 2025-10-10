@@ -1,29 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class get_review_cycle(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], cycle_id: str) -> str:
-        cyc = next(
-            (c for c in _table(data, "review_cycles") if c.get("cycle_id") == cycle_id),
-            None,
-        )
+    def invoke(data: Dict[str, Any], cycle_id: str) -> str:
+        cyc = next((c for c in _table(data, "review_cycles") if c.get("cycle_id") == cycle_id), None)
         if not cyc:
-            payload = {"error": f"cycle_id '{cycle_id}' not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"cycle_id": cyc.get("cycle_id"), "status": cyc.get("status")}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+            return json.dumps({"error": f"cycle_id '{cycle_id}' not found"}, indent=2)
+        return json.dumps({"cycle_id": cyc.get("cycle_id"), "status": cyc.get("status")}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetReviewCycle",
+                "name": "get_review_cycle",
                 "description": "Return (cycle_id, status) as a structured JSON object.",
                 "parameters": {
                     "type": "object",

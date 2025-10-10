@@ -1,64 +1,30 @@
-from tau_bench.envs.tool import Tool
-import ast
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class LogCreativeRotation(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        adset_id: str = None,
-        old_ad_id: str = None,
-        new_ad_id: str = None,
-        rotated_at: str = None,
-        rationale: str = None, change_id: Any = None) -> str:
-        rows = data.get("creative_rotations", {}).values()
-        nid = f"CR-{max((int(r['rotation_id'][3:]) for r in rows.values()), default=0) + 1}"
-        rec = {
-            "rotation_id": nid,
-            "adset_id": adset_id,
-            "old_ad_id": old_ad_id,
-            "new_ad_id": new_ad_id,
-            "rotated_at": rotated_at,
-            "rationale": rationale,
-        }
-        data["creative_rotations"][rec["creative_rotation_id"]] = rec
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        rows = data.get("creative_rotations", [])
+        nid = f"CR-{max((int(r['rotation_id'][3:]) for r in rows), default=0) + 1}"
+        rec = {"rotation_id": nid, "adset_id": kwargs.get("adset_id"), "old_ad_id": kwargs.get("old_ad_id"),
+               "new_ad_id": kwargs.get("new_ad_id"), "rotated_at": kwargs.get("rotated_at"),
+               "rationale": kwargs.get("rationale")}
+        rows.append(rec)
         data["creative_rotations"] = rows
-        payload = rec
-        out = json.dumps(payload)
-        return out
+        return json.dumps(rec)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "LogCreativeRotation",
-                "description": "Appends a creative rotation log entry.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "adset_id": {"type": "string"},
-                        "old_ad_id": {"type": "string"},
-                        "new_ad_id": {"type": "string"},
-                        "rotated_at": {"type": "string"},
-                        "rationale": {"type": "string"},
-                    },
-                    "required": [
-                        "adset_id",
-                        "old_ad_id",
-                        "new_ad_id",
-                        "rotated_at",
-                        "rationale",
-                    ],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function",
+                "function": {"name": "log_creative_rotation", "description": "Appends a creative rotation log entry.",
+                             "parameters": {"type": "object", "properties": {"adset_id": {"type": "string"},
+                                                                             "old_ad_id": {"type": "string"},
+                                                                             "new_ad_id": {"type": "string"},
+                                                                             "rotated_at": {"type": "string"},
+                                                                             "rationale": {"type": "string"}},
+                                            "required": ["adset_id", "old_ad_id", "new_ad_id", "rotated_at",
+                                                         "rationale"]}}}

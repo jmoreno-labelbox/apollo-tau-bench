@@ -1,36 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindWorkItemByTitle(Tool):
-    """Locates a work item using its title."""
+    """Finds a work item by its title."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        title_query = kwargs.get("title")
+        work_items = data.get("work_items", [])
+        for item in work_items:
+            if title_query in item.get("title", ""):
+                return json.dumps(item)
+        return json.dumps({"error": f"No work item found with title containing '{title_query}'."})
 
     @staticmethod
-    def invoke(data: dict[str, Any], title: str = None) -> str:
-        title_query = title
-        work_items = data.get("work_items", {}).values()
-        for item in work_items.values():
-            if title_query in item.get("title", ""):
-                payload = item
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"No work item found with title containing '{title_query}'."}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindWorkItemByTitle",
+                "name": "find_work_item_by_title",
                 "description": "Finds a work item by its title.",
                 "parameters": {
                     "type": "object",

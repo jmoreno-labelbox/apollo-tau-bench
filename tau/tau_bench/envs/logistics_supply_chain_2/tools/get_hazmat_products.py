@@ -1,47 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetHazmatProducts(Tool):
-    """Utility for compiling a list of all hazardous material products."""
+    """Tool to list all hazardous material products."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], list_of_ids: list[str] = None) -> str:
-        products = data.get("product_master", {}).values()
-        result = [
-            p["sku"]
-            for p in products.values() if p.get("hazmat_information", {}).values().get("is_hazmat")
-        ]
-        if list_of_ids:
-            result = [r for r in result.values() if r in list_of_ids]
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        products = data.get("product_master", [])
+        list_of_products = kwargs.get("list_of_ids", None)
+        result = [p['sku'] for p in products if p.get("hazmat_information", {}).get("is_hazmat")]
+        if list_of_products:
+            result = [r for r in result if r in list_of_products]
+        return json.dumps(result, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetHazmatProducts",
+                "name": "get_hazmat_products",
                 "description": "List all products classified as hazardous materials.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "list_of_ids": {
                             "type": "array",
-                            "items": {"type": "string"},
-                            "description": "List of products to choose from.",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "List of products to choose from."
                         }
-                    },
-                },
-            },
+                    }
+                }
+            }
         }

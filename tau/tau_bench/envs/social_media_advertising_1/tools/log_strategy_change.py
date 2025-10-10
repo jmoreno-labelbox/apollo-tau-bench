@@ -1,44 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class LogStrategyChange(Tool):
-    """Inserts a new record into the strategy_changes table."""
+    """Adds a new entry to the strategy_changes table."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        adset_id: str = None,
-        old_strategy: str = None,
-        new_strategy: str = None,
-        old_bid: float = None,
-        new_bid: float = None,
-        changed_at: str = None,
-        reason: str = None
-,
-    change_id: Any = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
+        old_strategy = kwargs.get("old_strategy")
+        new_strategy = kwargs.get("new_strategy")
+        old_bid = kwargs.get("old_bid")
+        new_bid = kwargs.get("new_bid")
+        changed_at = kwargs.get("changed_at")
+        reason = kwargs.get("reason")
+        
         if not adset_id:
-            payload = {"error": "adset_id is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "adset_id is a required parameter."})
         if not old_strategy:
-            payload = {"error": "old_strategy is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "old_strategy is a required parameter."})
         if not new_strategy:
-            payload = {"error": "new_strategy is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "new_strategy is a required parameter."})
         if not changed_at:
-            payload = {"error": "changed_at is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "changed_at is a required parameter."})
         if not reason:
-            payload = {"error": "reason is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "reason is a required parameter."})
 
         new_strategy_change = {
             "change_id": f"SC-{adset_id}",
@@ -48,25 +37,27 @@ class LogStrategyChange(Tool):
             "old_bid": old_bid,
             "new_bid": new_bid,
             "changed_at": changed_at,
-            "reason": reason,
+            "reason": reason
         }
-
+        
         if "strategy_changes" not in data:
             data["strategy_changes"] = []
+            
+        data['strategy_changes'].append(new_strategy_change)
 
-        data["strategy_changes"].append(new_strategy_change)
-        payload = {
-            "status": "success",
-            "message": f"New strategy change was added: {new_strategy_change}",
-        }
-        out = json.dumps(payload)
-        return out
+        return json.dumps(
+            {
+                "status": "success",
+                "message": f"New strategy change was added: {new_strategy_change}",
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "LogStrategyChange",
+                "name": "log_strategy_change",
                 "description": "Adds a new entry to the strategy_changes table.",
                 "parameters": {
                     "type": "object",
@@ -98,15 +89,9 @@ class LogStrategyChange(Tool):
                         "reason": {
                             "type": "string",
                             "description": "The reason for the strategy change.",
-                        },
+                        }
                     },
-                    "required": [
-                        "adset_id",
-                        "old_strategy",
-                        "new_strategy",
-                        "changed_at",
-                        "reason",
-                    ],
+                    "required": ["adset_id", "old_strategy", "new_strategy", "changed_at", "reason"],
                 },
             },
         }

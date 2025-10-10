@@ -1,40 +1,44 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class SummarizeReallocation(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], reallocated_employees: list = None, cancelled_project_id: str = None, new_projects: list = None) -> str:
-        reallocated_employees = reallocated_employees or []
-        new_projects = new_projects or []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        reallocated_employees = kwargs.get("reallocated_employees", [])
+        cancelled_project_id = kwargs.get("cancelled_project_id")
+        new_projects = kwargs.get("new_projects", [])
 
         if not all([reallocated_employees, cancelled_project_id]):
-            payload = {"error": "reallocated_employees and cancelled_project_id are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "reallocated_employees and cancelled_project_id are required"}
+            )
 
         reallocated_count = len(reallocated_employees)
 
         all_resources_assigned = len(new_projects) >= reallocated_count
-        payload = {
-            "reallocated_count": reallocated_count,
-            "all_resources_assigned": all_resources_assigned,
-            "cancelled_project": cancelled_project_id,
-            "reallocated_employees": reallocated_employees,
-            "new_projects": new_projects,
-            "summary": f"Successfully reallocated {reallocated_count} employees from cancelled project {cancelled_project_id}",
-            "status": "completed",
-        }
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(
+            {
+                "reallocated_count": reallocated_count,
+                "all_resources_assigned": all_resources_assigned,
+                "cancelled_project": cancelled_project_id,
+                "reallocated_employees": reallocated_employees,
+                "new_projects": new_projects,
+                "summary": f"Successfully reallocated {reallocated_count} employees from cancelled project {cancelled_project_id}",
+                "status": "completed",
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "summarizeReallocation",
+                "name": "summarize_reallocation",
                 "description": "Generate a summary of employee reallocation after project cancellation",
                 "parameters": {
                     "type": "object",

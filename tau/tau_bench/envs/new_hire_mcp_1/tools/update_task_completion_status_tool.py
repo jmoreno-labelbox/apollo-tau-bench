@@ -1,48 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateTaskCompletionStatusTool(Tool):
-    """Refreshes existing records in the `checklist_items` array by marking status as 'Completed'."""
+    """Updates existing records in `checklist_items` array by setting status to 'Completed'."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], item_ids: list = None) -> str:
-        if item_ids is None:
-            item_ids = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        item_ids = kwargs.get("item_ids", [])
         if not item_ids:
             return _err("item_ids array is required.")
 
-        checklist_items = data.get("checklist_items", {}).values()
+        checklist_items = data.get("checklist_items", [])
         updated_items = []
 
         for item_id in item_ids:
-            item = next(
-                (i for i in checklist_items.values() if i.get("item_id") == item_id), None
-            )
+            item = next((i for i in checklist_items if i.get("item_id") == item_id), None)
             if item:
                 item["status"] = "Completed"
                 item["updated_ts"] = HARD_TS
                 item["reminder_sent_flag"] = False
                 updated_items.append(item)
-        payload = updated_items
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(updated_items, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateTaskCompletionStatus",
+                "name": "update_task_completion_status",
                 "description": "Updates `checklist_items` to mark tasks as 'Completed'.",
                 "parameters": {
                     "type": "object",

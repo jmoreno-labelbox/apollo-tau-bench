@@ -1,33 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class LogBudgetChange(Tool):
-    """Inserts a new record into the budget_changes table."""
+    """Adds a new entry to the budget_changes table."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None, old_budget: float = None, new_budget: float = None, changed_at: str = None, reason: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
+        old_budget = kwargs.get("old_budget")
+        new_budget = kwargs.get("new_budget")
+        changed_at = kwargs.get("changed_at")
+        reason = kwargs.get("reason")
+        
         if not adset_id:
-            payload = {"error": "adset_id is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "adset_id is a required parameter."})
         if not old_budget:
-            payload = {"error": "old_budget is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "old_budget is a required parameter."})
         if not new_budget:
-            payload = {"error": "new_budget is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "new_budget is a required parameter."})
         if not changed_at:
-            payload = {"error": "changed_at is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "changed_at is a required parameter."})
         if not reason:
-            payload = {"error": "reason is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "reason is a required parameter."})
 
         new_budget_change = {
             "change_id": f"BC-{adset_id}",
@@ -35,25 +33,27 @@ class LogBudgetChange(Tool):
             "old_budget": old_budget,
             "new_budget": new_budget,
             "changed_at": changed_at,
-            "reason": reason,
+            "reason": reason
         }
-
+        
         if "budget_changes" not in data:
             data["budget_changes"] = []
+            
+        data['budget_changes'].append(new_budget_change)
 
-        data["budget_changes"].append(new_budget_change)
-        payload = {
+        return json.dumps(
+            {
                 "status": "success",
                 "message": f"New budget change was added: {new_budget_change}",
             }
-        out = json.dumps(payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "LogBudgetChange",
+                "name": "log_budget_change",
                 "description": "Adds a new entry to the budget_changes table.",
                 "parameters": {
                     "type": "object",
@@ -77,16 +77,9 @@ class LogBudgetChange(Tool):
                         "reason": {
                             "type": "string",
                             "description": "The reason for the budget change.",
-                        },
+                        }
                     },
-                    "required": [
-                        "change_id",
-                        "adset_id",
-                        "old_budget",
-                        "new_budget",
-                        "changed_at",
-                        "reason",
-                    ],
+                    "required": ["change_id", "adset_id", "old_budget", "new_budget", "changed_at", "reason"],
                 },
             },
         }

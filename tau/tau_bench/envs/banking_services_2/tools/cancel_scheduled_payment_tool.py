@@ -1,19 +1,17 @@
-from tau_bench.envs.tool import Tool
-from typing import Any, Dict
+# Copyright Sierra
+
 import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CancelScheduledPaymentTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], payment_id: str, reason: str = 'Customer request') -> str:
-        scheduled_payments = data.get('scheduled_payments', {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        payment_id = kwargs.get('payment_id')
+        reason = kwargs.get('reason', 'Customer request')
+
+        scheduled_payments = data.get('scheduled_payments', [])
 
         for payment in scheduled_payments:
             if payment['payment_id'] == payment_id:
@@ -31,12 +29,13 @@ class CancelScheduledPaymentTool(Tool):
                 }, indent=2)
 
         return json.dumps({"error": f"Scheduled payment {payment_id} not found"}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CancelScheduledPayment",
+                "name": "cancel_scheduled_payment",
                 "description": "Cancel a scheduled payment",
                 "parameters": {
                     "type": "object",

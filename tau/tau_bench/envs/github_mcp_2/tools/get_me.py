@@ -1,54 +1,42 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetMe(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], username: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         existing = data.get("_me")
-        if isinstance(existing, dict) and "username" in existing and not username:
-            payload = existing
-            out = json.dumps(payload, indent=2)
-            return out
+        if isinstance(existing, dict) and "username" in existing and not kwargs:
+            return json.dumps(existing, indent=2)
 
+        username = kwargs.get("username")
         if username:
             auth_list = data.get("authentication") or []
-            match = next((a for a in auth_list.values() if a.get("username") == username), None)
+            match = next((a for a in auth_list if a.get("username") == username), None)
             if not match:
-                payload = {"error": f"Unknown username: {username}"}
-                out = json.dumps(payload, indent=2)
-                return out
+                return json.dumps({"error": f"Unknown username: {username}"}, indent=2)
             me = {"username": match.get("username"), "email": match.get("email")}
             data["_me"] = me
-            payload = me
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"error": "No acting identity set. Provide username to get_me."}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+            return json.dumps(me, indent=2)
+
+        return json.dumps({"error": "No acting identity set. Provide username to get_me."}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GetMe",
+                "name": "get_me",
                 "description": "Gets/sets the acting identity.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"username": {"type": "string"}},
-                    "required": ["username"],
-                },
-            },
+                    "properties": {
+                        "username": {"type": "string"}
+                    },
+                    "required": ["username"]
+                }
+            }
         }

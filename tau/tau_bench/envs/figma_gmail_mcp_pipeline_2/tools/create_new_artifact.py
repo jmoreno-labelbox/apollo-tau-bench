@@ -1,114 +1,63 @@
-from tau_bench.envs.tool import Tool
-import html
+# Copyright Sierra
+
 import json
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateNewArtifact(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        artifact_type: str,
-        artifact_name: str,
-        figma_file_id: str,
-        page_id: str,
-        owner_email: str,
-        deep_link: str,
-        frame_id_nullable: str = None,
-        current_tags: list = None
-    ) -> str:
-        required = [
-            "artifact_type",
-            "artifact_name",
-            "figma_file_id",
-            "page_id",
-            "owner_email",
-            "deep_link",
-        ]
-        params_dict = {k: v for k, v in locals().items() if k != "data"}
-
-        missing = [f for f in required.values() if params_dict.get(f) is None]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        required = ["artifact_type", "artifact_name", "figma_file_id", "page_id", "owner_email", "deep_link"]
+        missing = [f for f in required if f not in kwargs or kwargs[f] is None]
         if missing:
-            payload = {"error": f"Missing required fields: {', '.join(missing)}"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"Missing required fields: {', '.join(missing)}"}, indent=2)
 
-        if artifact_type == "FRAME" and not frame_id_nullable:
-            payload = {"error": "frame_id_nullable is required for FRAME artifacts"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+        if kwargs.get("artifact_type") == "FRAME" and not kwargs.get("frame_id_nullable"):
+            return json.dumps({"error": "frame_id_nullable is required for FRAME artifacts"}, indent=2)
 
-        artifacts = data.get("figma_artifacts", {}).values()
+        artifacts = data.get("figma_artifacts", [])
         artifact_id = get_next_art_id(data)
         created_ts = get_now_timestamp()
-        current_tags = current_tags or []
+        current_tags = kwargs.get("current_tags") or []
 
         new_row = {
             "artifact_id": artifact_id,
-            "figma_file_id": figma_file_id,
-            "page_id": page_id,
-            "frame_id_nullable": (
-                frame_id_nullable if artifact_type == "FRAME" else None
-            ),
-            "artifact_type": artifact_type,
-            "artifact_name": artifact_name,
-            "owner_email": owner_email,
+            "figma_file_id": kwargs["figma_file_id"],
+            "page_id": kwargs["page_id"],
+            "frame_id_nullable": kwargs.get("frame_id_nullable") if kwargs.get("artifact_type") == "FRAME" else None,
+            "artifact_type": kwargs["artifact_type"],
+            "artifact_name": kwargs["artifact_name"],
+            "owner_email": kwargs["owner_email"],
             "modified_ts": created_ts,
-            "deep_link": deep_link,
+            "deep_link": kwargs["deep_link"],
             "current_tags": current_tags,
         }
 
-        data["figma_artifacts"][new_row["figma_artifact_id"]] = new_row
+        artifacts.append(new_row)
         data["figma_artifacts"] = artifacts
-        payload = new_row
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(new_row, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateNewArtifact",
+                "name": "create_new_artifact",
                 "description": "Create a new figma_artifacts row. If artifact_type=FRAME, frame_id_nullable is required.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "artifact_type": {
-                            "type": "string",
-                            "enum": ["FILE", "PAGE", "FRAME"],
-                        },
+                        "artifact_type": {"type": "string", "enum": ["FILE", "PAGE", "FRAME"]},
                         "artifact_name": {"type": "string"},
                         "figma_file_id": {"type": "string"},
                         "page_id": {"type": "string"},
                         "frame_id_nullable": {"type": ["string", "null"]},
                         "owner_email": {"type": "string"},
                         "deep_link": {"type": "string"},
-                        "current_tags": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "default": [],
-                        },
+                        "current_tags": {"type": "array", "items": {"type": "string"}, "default": []}
                     },
-                    "required": [
-                        "artifact_type",
-                        "artifact_name",
-                        "figma_file_id",
-                        "page_id",
-                        "owner_email",
-                        "deep_link",
-                    ],
-                },
-            },
+                    "required": ["artifact_type", "artifact_name", "figma_file_id", "page_id", "owner_email", "deep_link"]
+                }
+            }
         }

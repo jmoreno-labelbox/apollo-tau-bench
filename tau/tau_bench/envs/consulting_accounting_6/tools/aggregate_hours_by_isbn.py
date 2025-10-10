@@ -1,36 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AggregateHoursByISBN(Tool):
-    """Sum hours by ISBN across a collection of time logs."""
-
+    """Aggregate hours by ISBN within a set of time entries."""
     @staticmethod
-    def invoke(data: dict[str, Any], rows: list[dict[str, Any]] = None) -> str:
-        rows = rows or []
-        grouped: dict[str, float] = {}
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        rows = kwargs.get("rows") or []
+        grouped: Dict[str, float] = {}
         for r in rows:
             isbn = r.get("isbn")
             if not isbn:
                 continue
             grouped[isbn] = grouped.get(isbn, 0.0) + float(r.get("hours_worked", 0.0))
-        payload = {"grouped_hours": grouped}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"grouped_hours": grouped}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "AggregateHoursByIsbn",
-                "description": "Sum hours per ISBN.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "rows": {"type": "array", "items": {"type": "object"}}
-                    },
-                    "required": ["rows"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "aggregate_hours_by_isbn",
+            "description": "Sum hours per ISBN.",
+            "parameters": {"type": "object", "properties": {
+                "rows": {"type": "array", "items": {"type": "object"}}
+            }, "required": ["rows"]}
+        }}

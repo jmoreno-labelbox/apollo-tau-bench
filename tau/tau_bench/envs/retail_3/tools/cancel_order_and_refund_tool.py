@@ -1,26 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CancelOrderAndRefundTool(Tool):
     """
-    Cancel an order and optionally generate an automatic refund entry.
+    Cancel an order and optionally create an automatic refund entry.
 
     Behavior:
-    - Confirms the order exists and is not already completed or cancelled.
-    - Changes order.status to "cancelled".
-    - If refund_amount > 0, adds a refund entry to payment_history.
-    - Does NOT modify tracking.json; callers must manage carrier processes independently.
+    - Validates the order exists and is not already completed/cancelled.
+    - Sets order.status = "cancelled".
+    - If refund_amount > 0, appends a refund entry to payment_history.
+    - Does NOT touch tracking.json; callers should handle carrier processes separately.
 
     Input (kwargs):
         order_id (str, required)
@@ -32,31 +25,26 @@ class CancelOrderAndRefundTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str = None, refund_amount: float = 0, payment_method_id: str = None) -> str:
-        if not order_id:
-            payload = {"error": "order_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
-        if refund_amount > 0 and not payment_method_id:
-            payload = {"error": "payment_method_id is required when refund_amount > 0"}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get("order_id")
+        refund_amount = float(kwargs.get("refund_amount", 0) or 0)
+        payment_method_id = kwargs.get("payment_method_id")
 
-        orders = data.get("orders", {}).values()
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
+        if not order_id:
+            return json.dumps({"error": "order_id is required"}, indent=2)
+        if refund_amount > 0 and not payment_method_id:
+            return json.dumps(
+                {"error": "payment_method_id is required when refund_amount > 0"},
+                indent=2,
+            )
+
+        orders = list(data.get("orders", {}).values())
+        order = next((o for o in orders if o.get("order_id") == order_id), None)
         if not order:
-            payload = {"error": f"order_id '{order_id}' not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"order_id '{order_id}' not found"}, indent=2)
 
         if order.get("status") in {"completed", "cancelled"}:
-            payload = {"error": f"order already {order.get('status')}"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"order already {order.get('status')}"}, indent=2)
 
         items_to_return = order.get("items", [])
 
@@ -79,21 +67,22 @@ class CancelOrderAndRefundTool(Tool):
                 }
             )
             refund_created = True
-        payload = {
+
+        return json.dumps(
+            {
                 "order_id": order_id,
                 "status": "cancelled",
                 "refund_created": refund_created,
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CancelOrderAndRefund",
+                "name": "cancel_order_and_refund",
                 "description": "Cancel an existing order and optionally append a refund entry in orders.json.",
                 "parameters": {
                     "type": "object",

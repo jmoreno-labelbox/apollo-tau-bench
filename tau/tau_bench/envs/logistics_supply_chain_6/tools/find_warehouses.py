@@ -1,110 +1,56 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindWarehouses(Tool):
-    """Utility for locating warehouses according to their location or features."""
+    """Tool to find warehouses based on location or capabilities."""
 
     @staticmethod
     def invoke(
-        data: dict[str, Any],
-        city: str | None = None,
-        country: str | None = None,
-        special_capability: str | None = None,
-        special_capabilities: list | None = None
+        data: Dict[str, Any],
+        city: Optional[str] = None,
+        country: Optional[str] = None,
+        special_capability: Optional[str] = None,
+        special_capabilities: Optional[List] = None,
     ) -> str:
-        """Run the tool using the specified parameters."""
-        warehouses = data.get("warehouses", {}).values()
+        """Execute the tool with given parameters."""
+        warehouses = data.get("warehouses", [])
         results = []
-        for warehouse in warehouses.values():
+        for warehouse in warehouses:
             has_capability = False
             if special_capability:
-                if (
-                    special_capability in warehouse.get("special_capabilities", [])
-                    or warehouse.get("warehouse_type") == special_capability
-                ):
+                if special_capability in warehouse.get("special_capabilities", []) or warehouse.get("warehouse_type") == special_capability:
                     has_capability = True
 
             if special_capabilities:
-                if bool(set(special_capabilities)) and set(
-                    special_capabilities
-                ).issubset(warehouse.get("special_capabilities", [])):
+                if bool(set(special_capabilities)) and set(special_capabilities).issubset(warehouse.get("special_capabilities", [])):
                     has_capability = True
 
-            if (
-                (not city or warehouse.get("city") == city)
-                and (not country or warehouse.get("country") == country)
-                and (not special_capability or has_capability)
-                and (not special_capabilities or has_capability)
-            ):
+            if (not city or warehouse.get("city") == city) and \
+               (not country or warehouse.get("country") == country) and \
+               (not special_capability or has_capability) and \
+               (not special_capabilities or has_capability):
                 results.append(warehouse)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
-        """Run the tool using the specified parameters."""
-        pass
-        warehouses = data.get("warehouses", {}).values()
-        results = []
-        for warehouse in warehouses.values():
-            has_capability = False
-            if special_capability:
-                if (
-                    special_capability in warehouse.get("special_capabilities", [])
-                    or warehouse.get("warehouse_type") == special_capability
-                ):
-                    has_capability = True
-
-            if special_capabilities:
-                if bool(set(special_capabilities)) and set(
-                    special_capabilities
-                ).issubset(warehouse.get("special_capabilities", [])):
-                    has_capability = True
-
-            if (
-                (not city or warehouse.get("city") == city)
-                and (not country or warehouse.get("country") == country)
-                and (not special_capability or has_capability)
-                and (not special_capabilities or has_capability)
-            ):
-                results.append(warehouse)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(results, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        """Provide tool specifications for the AI agent."""
-        pass
+    def get_info() -> Dict[str, Any]:
+        """Return tool specification for AI agent."""
         return {
             "type": "function",
             "function": {
-                "name": "FindWarehouses",
+                "name": "find_warehouses",
                 "description": "Finds warehouses based on location or special capabilities.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "city": {"type": "string", "description": "Filter by city."},
-                        "country": {
-                            "type": "string",
-                            "description": "Filter by country.",
-                        },
-                        "special_capability": {
-                            "type": "string",
-                            "description": "Filter by a special capability (e.g., 'Cold Storage', 'Hazmat Certified').",
-                        },
-                        "special_capabilities": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "Filter by multiple special capabilities (e.g., 'Cold Storage', 'Hazmat Certified').",
-                        },
+                        "country": {"type": "string", "description": "Filter by country."},
+                        "special_capability": {"type": "string", "description": "Filter by a special capability (e.g., 'Cold Storage', 'Hazmat Certified')."},
+                        "special_capabilities": {"type": "list", "description": "Filter by multiple special capabilities (e.g., 'Cold Storage', 'Hazmat Certified')."},
                     },
                 },
             },

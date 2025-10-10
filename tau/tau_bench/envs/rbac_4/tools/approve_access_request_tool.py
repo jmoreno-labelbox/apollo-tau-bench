@@ -1,53 +1,41 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ApproveAccessRequestTool(Tool):
-    """Authorize an access request."""
+    """Approve an access request."""
 
-    @staticmethod  #<-- necessary to align with base class definition
-    def invoke(data: dict[str, Any], request_id: str, reviewer_id: str, decision_at: str) -> str:
-        rid = request_id
-        reviewer = reviewer_id
-        decision_at = decision_at  #<-- additional mandatory argument!
-        for req in data.get("access_requests", {}).values():
+    @staticmethod  # <-- required to match base class definition
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        rid = kwargs.get("request_id")
+        reviewer = kwargs.get("reviewer_id")
+        decision_at = kwargs.get("decision_at")  # <-- new required argument!
+        for req in data.get("access_requests", []):
             if req["request_id"] == rid:
                 req["status"] = "APPROVED"
                 req["reviewed_by"] = reviewer
-                req["decision_at"] = decision_at  #<-- utilize argument, AVOID hardcoding!
-                payload = {"success": f"Request {rid} approved"}
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Request {rid} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                req["decision_at"] = decision_at   # <-- use argument, NOT hardcoded!
+                return json.dumps({"success": f"Request {rid} approved"}, indent=2)
+        return json.dumps({"error": f"Request {rid} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ApproveAccessRequest",
+                "name": "approve_access_request",
                 "description": "Approve a pending access request",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "request_id": {"type": "string"},
                         "reviewer_id": {"type": "string"},
-                        "decision_at": {"type": "string"},  #<-- Include in properties!
+                        "decision_at": {"type": "string"},  # <-- Add to properties!
                     },
-                    "required": [
-                        "request_id",
-                        "reviewer_id",
-                        "decision_at",
-                    ],  #<-- Include in required!
-                },
-            },
+                    "required": ["request_id", "reviewer_id", "decision_at"],  # <-- Add to required!
+                }
+            }
         }

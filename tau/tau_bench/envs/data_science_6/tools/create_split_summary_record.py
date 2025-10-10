@@ -1,61 +1,42 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateSplitSummaryRecord(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        method: str = None,
-        test_fraction: float = None,
-        train_index_count: int = None,
-        test_index_count: int = None,
-        split_summary_json_path: str = None,
-        split_ts: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        method = kwargs.get("method")
+        test_fraction = kwargs.get("test_fraction")
+        train_index_count = kwargs.get("train_index_count")
+        test_index_count = kwargs.get("test_index_count")
+        split_summary_json_path = kwargs.get("split_summary_json_path")
+        split_ts = kwargs.get("split_ts")
+
         if method != "time_based":
-            payload = {"error": "Only 'time_based' method is supported."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Only 'time_based' method is supported."})
         try:
             test_fraction = float(test_fraction)
             train_index_count = int(train_index_count)
             test_index_count = int(test_index_count)
         except Exception:
-            payload = {"error": "Invalid numeric fields."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error":"Invalid numeric fields."})
         if not split_summary_json_path or not isinstance(split_summary_json_path, str):
-            payload = {"error": "split_summary_json_path is required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "split_summary_json_path is required."})
         if not split_ts or not isinstance(split_ts, str):
-            payload = {"error": "split_ts is required (ISO 8601)."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "split_ts is required (ISO 8601)."})
 
-        ds = data.get("dataset_split", {}).values()
-        for rec in ds.values():
-            if (
-                rec.get("method") == method
-                and rec.get("test_fraction") == test_fraction
-                and rec.get("train_index_count") == train_index_count
-                and rec.get("test_index_count") == test_index_count
-                and rec.get("split_summary_json_path") == split_summary_json_path
-                and rec.get("split_ts") == split_ts
-            ):
-                payload = rec
-                out = json.dumps(payload)
-                return out
+        ds = data.get("dataset_split", [])
+        for rec in ds:
+            if (rec.get("method") == method and
+                rec.get("test_fraction") == test_fraction and
+                rec.get("train_index_count") == train_index_count and
+                rec.get("test_index_count") == test_index_count and
+                rec.get("split_summary_json_path") == split_summary_json_path and
+                rec.get("split_ts") == split_ts):
+                return json.dumps(rec)
 
         new_rec = {
             "method": method,
@@ -63,38 +44,30 @@ class CreateSplitSummaryRecord(Tool):
             "train_index_count": train_index_count,
             "test_index_count": test_index_count,
             "split_summary_json_path": split_summary_json_path,
-            "split_ts": split_ts,
+            "split_ts": split_ts
         }
-        data["dataset_split"][new_rec["dataset_split_id"]] = new_rec
+        ds.append(new_rec)
         data["dataset_split"] = ds
-        payload = new_rec
-        out = json.dumps(payload)
-        return out
+        return json.dumps(new_rec)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "CreateSplitSummaryRecord",
-                "description": "Creates a deterministic split summary record in dataset_split (no extra fields).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "method": {"type": "string", "enum": ["time_based"]},
-                        "test_fraction": {"type": "number"},
-                        "train_index_count": {"type": "integer"},
-                        "test_index_count": {"type": "integer"},
-                        "split_summary_json_path": {"type": "string"},
-                        "split_ts": {"type": "string"},
+            "type":"function",
+            "function":{
+                "name":"create_split_summary_record",
+                "description":"Creates a deterministic split summary record in dataset_split (no extra fields).",
+                "parameters":{
+                    "type":"object",
+                    "properties":{
+                        "method":{"type":"string","enum":["time_based"]},
+                        "test_fraction":{"type":"number"},
+                        "train_index_count":{"type":"integer"},
+                        "test_index_count":{"type":"integer"},
+                        "split_summary_json_path":{"type":"string"},
+                        "split_ts":{"type":"string"}
                     },
-                    "required": [
-                        "method",
-                        "test_fraction",
-                        "train_index_count",
-                        "test_index_count",
-                        "split_summary_json_path",
-                        "split_ts",
-                    ],
-                },
-            },
+                    "required":["method","test_fraction","train_index_count","test_index_count","split_summary_json_path","split_ts"]
+                }
+            }
         }

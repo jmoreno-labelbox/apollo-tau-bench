@@ -1,46 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetTrackingHistory(Tool):
-    """Obtain the tracking history for a specified order_id from tracking.json entries."""
+    """Retrieve tracking history for a given order_id from tracking.json records."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str) -> str:
-        tracking_records = data.get("tracking", {}).values()
-        # Entries in tracking.json are expected to include: order_id, tracking_history, tracking_id[], address, etc.
+    def invoke(data: Dict[str, Any], order_id: str) -> str:
+        tracking_records = data.get("tracking", [])
+        # tracking.json entries are assumed to have: order_id, tracking_history, tracking_id[], address, etc.
         for rec in tracking_records:
             if rec.get("order_id") == order_id:
-                payload = {
+                return json.dumps({
                     "order_id": order_id,
                     "tracking_id": rec.get("tracking_id"),
                     "delivery_carrier": rec.get("delivery_carrier"),
-                    "tracking_history": list(rec.get("tracking_history", {}).values()),
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Tracking record not found", "order_id": order_id}
-        out = json.dumps(payload)
-        return out
+                    "tracking_history": rec.get("tracking_history", {})
+                })
+        return json.dumps({"error": "Tracking record not found", "order_id": order_id})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetTrackingHistory",
+                "name": "get_tracking_history",
                 "description": "Get tracking history for an order from tracking.json.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"order_id": {"type": "string"}},
-                    "required": ["order_id"],
-                },
-            },
+                    "properties": {
+                        "order_id": {"type": "string"}
+                    },
+                    "required": ["order_id"]
+                }
+            }
         }

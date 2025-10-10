@@ -1,24 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AddAuditLog(Tool):
-    """Inserts a new record into the audit logs."""
-
+    """Adds a new entry to the audit logs."""
     @staticmethod
-    def invoke(data: dict[str, Any], household_id: int, user_id: int, entity_type: str, entity_id: int, action_enum: str, payload_json: dict = {}) -> str:
-        logs = data.get("audit_logs", {}).values()
-        # Automatically create the next audit_id
-        new_id = max([log.get("audit_id", 0) for log in logs.values()]) + 1 if logs else 12001
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        household_id = kwargs.get("household_id")
+        user_id = kwargs.get("user_id")
+        entity_type = kwargs.get("entity_type")
+        entity_id = kwargs.get("entity_id")
+        action_enum = kwargs.get("action_enum")
+        payload_json = kwargs.get("payload_json", {})
+        
+        logs = data.get("audit_logs", [])
+        # Automatically generate the next audit_id
+        new_id = max([log.get("audit_id", 0) for log in logs]) + 1 if logs else 12001
 
         new_log = {
             "audit_id": new_id,
@@ -28,45 +28,29 @@ class AddAuditLog(Tool):
             "entity_id": entity_id,
             "action_enum": action_enum,
             "payload_json": payload_json,
-            "created_at": "2025-08-25T11:00:05Z",  # Applying a fixed timestamp for reliability
+            "created_at": "2025-08-25T11:00:05Z" # Using a fixed timestamp for consistency
         }
         data["audit_logs"].append(new_log)
-        payload = new_log
-        out = json.dumps(payload)
-        return out
+        return json.dumps(new_log)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddAuditLog",
+                "name": "add_audit_log",
                 "description": "Adds a new entry to the audit logs.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "household_id": {"type": "integer"},
                         "user_id": {"type": "integer"},
-                        "entity_type": {
-                            "type": "string",
-                            "description": "The type of entity being logged (e.g., meal_plans, orders).",
-                        },
+                        "entity_type": {"type": "string", "description": "The type of entity being logged (e.g., meal_plans, orders)."},
                         "entity_id": {"type": "integer"},
-                        "action_enum": {
-                            "type": "string",
-                            "description": "The action performed (e.g., create, update, delete).",
-                        },
-                        "payload_json": {
-                            "type": "object",
-                            "description": "JSON object with details about the action.",
-                        },
+                        "action_enum": {"type": "string", "description": "The action performed (e.g., create, update, delete)."},
+                        "payload_json": {"type": "object", "description": "JSON object with details about the action."},
                     },
-                    "required": [
-                        "household_id",
-                        "user_id",
-                        "entity_type",
-                        "entity_id",
-                        "action_enum",
-                    ],
+                    "required": ["household_id", "user_id", "entity_type", "entity_id", "action_enum"],
                 },
             },
         }

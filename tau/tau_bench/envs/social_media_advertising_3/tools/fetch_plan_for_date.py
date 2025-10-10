@@ -1,46 +1,31 @@
-from tau_bench.envs.tool import Tool
-import csv
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FetchPlanForDate(Tool):
-    """Provide a frozen snapshot of the plan for a specified date."""
+    """Return a frozen plan snapshot for a given date."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        target_date = kwargs.get("date")
+        for plan in data.get("plans", []):
+            if plan.get("date") == target_date:
+                return json.dumps(plan)
+        return json.dumps({"error": f"No plan found for {target_date}"})
 
     @staticmethod
-    def invoke(data: dict[str, Any], date: str = None) -> str:
-        target_date = date
-        for plan in data.get("plans", {}).values():
-            if plan.get("date") == target_date:
-                payload = plan
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"No plan found for {target_date}"}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FetchPlanForDate",
+                "name": "fetch_plan_for_date",
                 "description": "Return a frozen plan snapshot for a specific date.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "date": {
-                            "type": "string",
-                            "description": "Plan date (YYYY-MM-DD)",
-                        }
+                        "date": {"type": "string", "description": "Plan date (YYYY-MM-DD)"}
                     },
                     "required": ["date"],
                 },

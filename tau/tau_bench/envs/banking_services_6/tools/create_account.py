@@ -1,12 +1,17 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, time, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateAccount(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, account_type: str = None, currency: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         account_id = _get_next_account_id(data)
+        customer_id = kwargs.get("customer_id")
+        account_type = kwargs.get("account_type")
+        currency = kwargs.get("currency")
 
         customer = next((c for c in data['customers'] if c['customer_id'] == customer_id), None)
         if not customer:
@@ -33,12 +38,13 @@ class CreateAccount(Tool):
         customer['account_ids'].append(account_id)
 
         return json.dumps(new_account)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "CreateAccount",
+                        "name": "create_account",
                         "description": "Creates a new bank account for a customer.",
                         "parameters": {
                                 "type": "object",

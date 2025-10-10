@@ -1,20 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any, Dict
-from datetime import timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetBankAccountDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_type: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
         Returns bank_account_id(s). Optionally filter by account_type (chequing/savings).
         """
+        account_type = kwargs.get("account_type")
         if account_type:
-            ids = [b["account_id"] for b in data["bank_accounts"].values() if b["account_type"] == account_type]
+            ids = [b["account_id"] for b in data["bank_accounts"] if b["account_type"] == account_type]
         else:
-            ids = [b["account_id"] for b in data["bank_accounts"].values()]
+            ids = [b["account_id"] for b in data["bank_accounts"]]
         return json.dumps(ids)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {

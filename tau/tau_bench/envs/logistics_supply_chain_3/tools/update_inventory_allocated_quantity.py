@@ -1,59 +1,55 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateInventoryAllocatedQuantity(Tool):
-    """Modifies the allocated and available quantities for a product in a warehouse when an order is created."""
+    """Updates the allocated and available quantities for a product in a warehouse upon order creation."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], sku: str = None, warehouse_id: str = None, quantity_to_allocate: int = None) -> str:
-        inventory_items = data.get("inventory", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        inventory_items = list(data.get("inventory", {}).values())
+        sku = kwargs.get("sku")
+        warehouse_id = kwargs.get("warehouse_id")
+        quantity_to_allocate = kwargs.get("quantity_to_allocate")
 
         if not all([sku, warehouse_id, quantity_to_allocate]):
-            payload = {"error": "SKU, warehouse ID, and quantity to allocate are required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "SKU, warehouse ID, and quantity to allocate are required."}
+            )
 
         for item in inventory_items:
             if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id:
                 available = item.get("quantity_available", 0)
                 if available < quantity_to_allocate:
-                    payload = {
-                        "error": f"Insufficient quantity available. Available: {available}, Required: {quantity_to_allocate}"
-                    }
-                    out = json.dumps(payload)
-                    return out
+                    return json.dumps(
+                        {
+                            "error": f"Insufficient quantity available. Available: {available}, Required: {quantity_to_allocate}"
+                        }
+                    )
 
                 original_allocated = item.get("quantity_allocated", 0)
                 item["quantity_available"] = available - quantity_to_allocate
                 item["quantity_allocated"] = original_allocated + quantity_to_allocate
-                payload = {
-                    "status": "success",
-                    "inventory_id": item.get("inventory_id"),
-                    "new_available_quantity": item["quantity_available"],
-                    "new_allocated_quantity": item["quantity_allocated"],
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Inventory record not found to update"}
-        out = json.dumps(payload)
-        return out
+
+                return json.dumps(
+                    {
+                        "status": "success",
+                        "inventory_id": item.get("inventory_id"),
+                        "new_available_quantity": item["quantity_available"],
+                        "new_allocated_quantity": item["quantity_allocated"],
+                    }
+                )
+        return json.dumps({"error": "Inventory record not found to update"})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateInventoryAllocatedQuantity",
+                "name": "update_inventory_allocated_quantity",
                 "description": "Allocates stock for an outbound order, decreasing available quantity and increasing allocated quantity.",
                 "parameters": {
                     "type": "object",

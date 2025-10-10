@@ -1,21 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ListRooms(Tool):
-    """Provide all rooms along with their current lists of devices."""
+    """Return all rooms and their current device lists."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], rooms: list = None) -> str:
-        payload = rooms if rooms is not None else []
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any]) -> str:  # no extra args
+        return json.dumps(data.get("rooms", []), indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "listRooms",
+                "name": "list_rooms",
                 "description": "Return all rooms and their current device lists.",
                 "parameters": {
                     "type": "object",

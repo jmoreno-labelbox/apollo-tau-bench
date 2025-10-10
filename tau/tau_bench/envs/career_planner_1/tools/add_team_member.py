@@ -1,46 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AddTeamMember(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], team_id: str, user_id: str) -> str:
-        teams = data.get("teams", {}).values()
-        team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
+    def invoke(data: Dict[str, Any], team_id: str, user_id: str) -> str:
+        teams = data.get("teams", [])
+        team = next((t for t in teams if t.get("team_id") == team_id), None)
         if team:
             team_members = team.setdefault("team_members", [])
             if user_id not in team_members:
                 team_members.append(user_id)
-                payload = {"success": f"User {user_id} added to team {team_id}"}
-                out = json.dumps(
-                    payload, indent=2
+                return json.dumps(
+                    {"success": f"User {user_id} added to team {team_id}"}, indent=2
                 )
-                return out
             else:
-                payload = {"success": f"User {user_id} already in team {team_id}"}
-                out = json.dumps(
-                    payload, indent=2
+                return json.dumps(
+                    {"success": f"User {user_id} already in team {team_id}"}, indent=2
                 )
-                return out
-        payload = {"error": "Team not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"error": "Team not found"}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "addTeamMember",
+                "name": "add_team_member",
                 "description": "Add a team member to a team",
                 "parameters": {
                     "type": "object",

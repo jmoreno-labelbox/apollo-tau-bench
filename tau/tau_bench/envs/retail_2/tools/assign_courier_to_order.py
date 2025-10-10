@@ -1,119 +1,57 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AssignCourierToOrder(Tool):
     """
-    Insert a courier tracking ID into the fulfillments of an order.
-    Predictable: necessitates specific tracking_ids and item_ids.
+    Add a courier tracking ID into an order's fulfillments.
+    Deterministic: requires explicit tracking_ids and item_ids.
     """
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        order_id: str,
-        courier_id: str,
-        tracking_ids: list[str],
-        item_ids: list[str]
-    ) -> str:
-        # Check if the courier is present and possesses all tracking_ids
-        couriers = data.get("couriers", {}).values()
+    def invoke(data: Dict[str, Any], order_id: str, courier_id: str, tracking_ids: List[str], item_ids: List[str]) -> str:
+        # Verify courier exists and owns all tracking_ids
+        couriers = data.get("couriers", [])
         courier = None
-        for c in couriers.values():
+        for c in couriers:
             if c.get("courier_id") == courier_id:
                 courier = c
                 break
         if courier is None:
-            payload = {"error": "Courier not found", "courier_id": courier_id}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Courier not found", "courier_id": courier_id})
 
         for t in tracking_ids:
             if t not in courier.get("tracking_ids", []):
-                payload = {
-                    "error": "Tracking ID not owned by courier",
-                    "courier_id": courier_id,
-                    "tracking_id": t,
-                }
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"error": "Tracking ID not owned by courier", "courier_id": courier_id, "tracking_id": t})
 
-        # Revise order fulfillments
-        orders = data.get("orders", {}).values()
-        for order in orders.values():
+        # Update order fulfillments
+        orders = list(data.get("orders", {}).values())
+        for order in orders:
             if order.get("order_id") == order_id:
                 fulfillments = order.get("fulfillments", [])
-                fulfillments.append({"tracking_id": tracking_ids, "item_ids": item_ids})
+                fulfillments.append({
+                    "tracking_id": tracking_ids,
+                    "item_ids": item_ids
+                })
                 order["fulfillments"] = fulfillments
-                payload = {
+                return json.dumps({
                     "status": "success",
                     "order_id": order_id,
                     "courier_id": courier_id,
-                    "fulfillments": fulfillments,
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Order not found", "order_id": order_id}
-        out = json.dumps(payload)
-        return out
-        pass
-        #Check if the courier is present and possesses all tracking_ids
-        couriers = data.get("couriers", {}).values()
-        courier = None
-        for c in couriers.values():
-            if c.get("courier_id") == courier_id:
-                courier = c
-                break
-        if courier is None:
-            payload = {"error": "Courier not found", "courier_id": courier_id}
-            out = json.dumps(payload)
-            return out
+                    "fulfillments": fulfillments
+                })
 
-        for t in tracking_ids:
-            if t not in courier.get("tracking_ids", []):
-                payload = {
-                        "error": "Tracking ID not owned by courier",
-                        "courier_id": courier_id,
-                        "tracking_id": t,
-                    }
-                out = json.dumps(
-                    payload)
-                return out
-
-        #Revise order fulfillments
-        orders = data.get("orders", {}).values()
-        for order in orders.values():
-            if order.get("order_id") == order_id:
-                fulfillments = order.get("fulfillments", [])
-                fulfillments.append({"tracking_id": tracking_ids, "item_ids": item_ids})
-                order["fulfillments"] = fulfillments
-                payload = {
-                        "status": "success",
-                        "order_id": order_id,
-                        "courier_id": courier_id,
-                        "fulfillments": fulfillments,
-                    }
-                out = json.dumps(
-                    payload)
-                return out
-        payload = {"error": "Order not found", "order_id": order_id}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"error": "Order not found", "order_id": order_id})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AssignCourierToOrder",
+                "name": "assign_courier_to_order",
                 "description": "Assign courier tracking to an order by adding a fulfillment record.",
                 "parameters": {
                     "type": "object",
@@ -121,9 +59,9 @@ class AssignCourierToOrder(Tool):
                         "order_id": {"type": "string"},
                         "courier_id": {"type": "string"},
                         "tracking_ids": {"type": "array", "items": {"type": "string"}},
-                        "item_ids": {"type": "array", "items": {"type": "string"}},
+                        "item_ids": {"type": "array", "items": {"type": "string"}}
                     },
-                    "required": ["order_id", "courier_id", "tracking_ids", "item_ids"],
-                },
-            },
+                    "required": ["order_id", "courier_id", "tracking_ids", "item_ids"]
+                }
+            }
         }

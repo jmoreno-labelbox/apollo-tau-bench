@@ -1,26 +1,19 @@
-from tau_bench.envs.tool import Tool
-import datetime
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SlackMessageDispatcherTool(Tool):
-    """Manages message delivery to specified Slack channels."""
+    """Handles message delivery to designated Slack channels."""
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SendSlackNotification",
+                "name": "send_slack_notification",
                 "description": "Sends a message to a specified Slack channel.",
                 "parameters": {
                     "type": "object",
@@ -40,19 +33,23 @@ class SlackMessageDispatcherTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: dict[str, Any], channel: str, message: str, mention_users: list = None, priority: str = None) -> str:
-        target_channel = channel
-        msg_content = message
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        target_channel = kwargs["channel"]
+        msg_content = kwargs["message"]
 
-        # Set up slack logging if it is absent
+        # Initialize slack logging if not present
         if data.get("slack_log") is None:
             data["slack_log"] = []
 
-        # Generate and save a log record
-        notification_entry = {"channel": target_channel, "message": msg_content}
+        # Create and store log record
+        notification_entry = {
+            "channel": target_channel,
+            "message": msg_content
+        }
         data["slack_log"].append(notification_entry)
 
-        result = {"status": "success", "log_entry": notification_entry}
-        payload = result
-        out = json.dumps(payload)
-        return out
+        result = {
+            "status": "success",
+            "log_entry": notification_entry
+        }
+        return json.dumps(result)

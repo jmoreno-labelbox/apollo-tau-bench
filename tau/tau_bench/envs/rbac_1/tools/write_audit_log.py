@@ -1,58 +1,45 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class WriteAuditLog(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], actor_id: str = None, action_type: str = None, target_id: str = None, timestamp: str = None, details: str = None, thread_id: Any = None) -> str:
-        logs = data.get("audit_logs", {}).values()
-        new_id_num = max((int(l["log_id"][2:]) for l in logs.values()), default=0) + 1
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        logs = data.get('audit_logs', [])
+        new_id_num = max((int(l['log_id'][2:]) for l in logs), default=0) + 1
         new_log_id = f"L-{new_id_num:03d}"
         new_log = {
-            "log_id": new_log_id,
-            "actor_id": actor_id,
-            "action_type": action_type,
-            "target_id": target_id,
-            "timestamp": timestamp,
-            "details": details,
+                "log_id": new_log_id,
+                "actor_id": kwargs.get("actor_id"),
+                "action_type": kwargs.get("action_type"),
+                "target_id": kwargs.get("target_id"),
+                "timestamp": kwargs.get("timestamp"),
+                "details": kwargs.get("details"),
         }
-        data["audit_logs"][new_log["audit_log_id"]] = new_log
-        data["audit_logs"] = logs
-        payload = new_log
-        out = json.dumps(payload)
-        return out
+        logs.append(new_log)
+        data['audit_logs'] = logs
+        return json.dumps(new_log)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "WriteAuditLog",
-                "description": "Writes an entry to the audit log.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "actor_id": {"type": "string"},
-                        "action_type": {"type": "string"},
-                        "target_id": {"type": "string"},
-                        "timestamp": {"type": "string"},
-                        "details": {"type": "string"},
-                    },
-                    "required": [
-                        "actor_id",
-                        "action_type",
-                        "target_id",
-                        "timestamp",
-                        "details",
-                    ],
-                },
-            },
+                "type": "function",
+                "function": {
+                        "name": "write_audit_log",
+                        "description": "Writes an entry to the audit log.",
+                        "parameters": {
+                                "type": "object",
+                                "properties": {
+                                        "actor_id": {"type": "string"},
+                                        "action_type": {"type": "string"},
+                                        "target_id": {"type": "string"},
+                                        "timestamp": {"type": "string"},
+                                        "details": {"type": "string"}
+                                },
+                                "required": ["actor_id", "action_type", "target_id", "timestamp", "details"]
+                        }
+                }
         }

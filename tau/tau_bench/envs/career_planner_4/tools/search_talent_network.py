@@ -1,36 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class SearchTalentNetwork(Tool):
+class search_talent_network(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str) -> str:
-        talent_network = data.get("talent_network", {}).values()
-        for candidate in talent_network:
+    def invoke(data, candidate_id: str) -> str:
+        for candidate in data.get("talent_network", []):
             if candidate.get("candidate_id") == candidate_id:
-                payload = candidate
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": "Candidate not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(candidate, indent=2)
+        return json.dumps({"error": "Candidate not found"}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "searchTalentNetwork",
+                "name": "search_talent_network",
                 "description": "Search for an external candidate by candidate_id in the talent network.",
                 "parameters": {
                     "type": "object",

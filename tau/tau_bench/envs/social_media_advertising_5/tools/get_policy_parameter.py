@@ -1,40 +1,22 @@
-from tau_bench.envs.tool import Tool
-import ast
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetPolicyParameter(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], param_name: str = None) -> str:
-        n = param_name
-        for r in data.get("policy_params", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        n = kwargs.get("param_name")
+        for r in data.get("policy_params", []):
             if r.get("param_name") == n:
-                payload = r
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"policy {n} not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(r)
+        return json.dumps({"error": f"policy {n} not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetPolicyParameter",
-                "description": "Gets a single policy parameter.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"param_name": {"type": "string"}},
-                    "required": ["param_name"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function",
+                "function": {"name": "get_policy_parameter", "description": "Gets a single policy parameter.",
+                             "parameters": {"type": "object", "properties": {"param_name": {"type": "string"}},
+                                            "required": ["param_name"]}}}

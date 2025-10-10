@@ -1,55 +1,42 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CalculateVelocityBudgetRatio(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        team_id: str, 
-        lookback_sprints: int = 3, 
-        fiscal_year: int = datetime.now().year
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        team_id = kwargs.get("team_id")
+        lookback_sprints = kwargs.get("lookback_sprints", 3)
+        fiscal_year = kwargs.get("fiscal_year", datetime.now().year)
+
         if not team_id:
-            payload = {"error": "team_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "team_id is required"})
 
-        teams = data.get("teams", {}).values()
-        sprints = data.get("sprints", {}).values()
-        budgets = data.get("budgets", {}).values()
-        expenses = data.get("expenses", {}).values()
-        data.get("task_logs", {}).values()
-        employees = data.get("employees", {}).values()
+        teams = data.get("teams", [])
+        sprints = data.get("sprints", [])
+        budgets = data.get("budgets", [])
+        expenses = data.get("expenses", [])
+        task_logs = data.get("task_logs", [])
+        employees = list(data.get("employees", {}).values())
 
-        team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
+        team = next((t for t in teams if t.get("team_id") == team_id), None)
         if not team:
-            payload = {"error": f"Team {team_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Team {team_id} not found"})
 
         team_sprints = [
             s
-            for s in sprints.values() if s.get("team_id") == team_id and s.get("status") == "completed"
+            for s in sprints
+            if s.get("team_id") == team_id and s.get("status") == "completed"
         ]
 
         team_sprints.sort(key=lambda x: x.get("end_date", ""), reverse=True)
         recent_sprints = team_sprints[:lookback_sprints]
 
         if not recent_sprints:
-            payload = {"error": "No completed sprints found for team"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "No completed sprints found for team"})
 
         sprint_metrics = []
         total_velocity = 0
@@ -69,7 +56,7 @@ class CalculateVelocityBudgetRatio(Tool):
 
             for member_id in team.get("members", []):
                 employee = next(
-                    (e for e in employees.values() if e.get("employee_id") == member_id), None
+                    (e for e in employees if e.get("employee_id") == member_id), None
                 )
                 if employee:
                     hourly_rate = (
@@ -81,10 +68,11 @@ class CalculateVelocityBudgetRatio(Tool):
 
             sprint_expenses = [
                 e
-                for e in expenses.values() if e.get("sprint_id") == sprint["sprint_id"]
+                for e in expenses
+                if e.get("sprint_id") == sprint["sprint_id"]
                 and e.get("status") == "approved"
             ]
-            sprint_expense_total = sum(e.get("amount", 0) for e in sprint_expenses.values())
+            sprint_expense_total = sum(e.get("amount", 0) for e in sprint_expenses)
             sprint_cost += sprint_expense_total
 
             total_cost += sprint_cost
@@ -95,11 +83,9 @@ class CalculateVelocityBudgetRatio(Tool):
                     "sprint_name": sprint["sprint_name"],
                     "velocity": sprint_velocity,
                     "cost": sprint_cost,
-                    "cost_per_point": (
-                        round(sprint_cost / sprint_velocity, 2)
-                        if sprint_velocity > 0
-                        else 0
-                    ),
+                    "cost_per_point": round(sprint_cost / sprint_velocity, 2)
+                    if sprint_velocity > 0
+                    else 0,
                     "duration_weeks": round(duration_weeks, 1),
                 }
             )
@@ -108,7 +94,8 @@ class CalculateVelocityBudgetRatio(Tool):
         budget = next(
             (
                 b
-                for b in budgets.values() if b.get("project_id") == project_id
+                for b in budgets
+                if b.get("project_id") == project_id
                 and b.get("fiscal_year") == fiscal_year
             ),
             None,
@@ -138,23 +125,19 @@ class CalculateVelocityBudgetRatio(Tool):
             },
             "velocity_metrics": {
                 "average_velocity": round(avg_velocity, 2),
-                "velocity_trend": (
-                    "improving"
-                    if len(sprint_metrics) > 1
-                    and sprint_metrics[0]["velocity"] > sprint_metrics[-1]["velocity"]
-                    else "stable"
-                ),
+                "velocity_trend": "improving"
+                if len(sprint_metrics) > 1
+                and sprint_metrics[0]["velocity"] > sprint_metrics[-1]["velocity"]
+                else "stable",
             },
             "cost_metrics": {
                 "average_cost_per_sprint": round(avg_cost_per_sprint, 2),
                 "average_cost_per_story_point": round(avg_cost_per_point, 2),
-                "cost_efficiency_trend": (
-                    "improving"
-                    if len(sprint_metrics) > 1
-                    and sprint_metrics[0]["cost_per_point"]
-                    < sprint_metrics[-1]["cost_per_point"]
-                    else "stable"
-                ),
+                "cost_efficiency_trend": "improving"
+                if len(sprint_metrics) > 1
+                and sprint_metrics[0]["cost_per_point"]
+                < sprint_metrics[-1]["cost_per_point"]
+                else "stable",
             },
             "budget_projection": {
                 "remaining_budget": remaining_budget,
@@ -173,15 +156,15 @@ class CalculateVelocityBudgetRatio(Tool):
             analysis["recommendations"].append(
                 "Budget running low - consider requesting budget modification"
             )
-        payload = analysis
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(analysis, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateVelocityBudgetRatio",
+                "name": "calculate_velocity_budget_ratio",
                 "description": "Calculate team velocity to budget ratio and project future capacity",
                 "parameters": {
                     "type": "object",

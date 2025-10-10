@@ -1,37 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetStatusForAd(Tool):
-    """Fetches the current status of a specific ad."""
+    """Retrieves the status for a specific ad."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], ad_id: str = None) -> str:
-        ads = data.get("ads", {}).values()
-
-        for ad in ads.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ad_id = kwargs.get("ad_id")
+        ads = list(data.get("ads", {}).values())
+        
+        for ad in ads:
             if ad.get("ad_id") == ad_id:
-                payload = {"status": ad.get("status")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Ad with ID '{ad_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"status": ad.get('status')})
+        
+        return json.dumps({"error": f"Ad with ID '{ad_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetStatusForAd",
+                "name": "get_status_for_ad",
                 "description": "Retrieves the status for a specific ad.",
                 "parameters": {
                     "type": "object",

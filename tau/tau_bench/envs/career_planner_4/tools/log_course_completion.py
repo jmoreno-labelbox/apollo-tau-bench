@@ -1,28 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class LogCourseCompletion(Tool):
+class log_course_completion(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any], user_id: str, course_id: str, completion_date: str
+        data: Dict[str, Any], user_id: str, course_id: str, completion_date: str
     ) -> str:
-        # Modify current course progress or establish a new record
-        courses = data.get("user_course_progress", {}).values()
+        # Update existing course progress or create new record
+        courses = data.get("user_course_progress", [])
         course = next(
             (
                 c
-                for c in courses.values() if c.get("user_id") == user_id and c.get("course_id") == course_id
+                for c in courses
+                if c.get("user_id") == user_id and c.get("course_id") == course_id
             ),
             None,
         )
@@ -44,20 +38,17 @@ class LogCourseCompletion(Tool):
                     "current_progress_percent": 100,
                 }
             )
-        payload = {"success": f"Course {course_id} completion logged for user {user_id}"}
-        out = json.dumps(
-            payload, indent=2,
+        return json.dumps(
+            {"success": f"Course {course_id} completion logged for user {user_id}"},
+            indent=2,
         )
-        return out
-        return out
 
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "logCourseCompletion",
+                "name": "log_course_completion",
                 "description": "Log course completion for a user",
                 "parameters": {
                     "type": "object",

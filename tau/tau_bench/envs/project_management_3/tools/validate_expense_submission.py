@@ -1,54 +1,44 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ValidateExpenseSubmission(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        employee_id: str = None,
-        project_id: str = None,
-        amount: float = None,
-        expense_date: str = None,
-        category: str = None,
-        sprint_id: str = None,
-        task_id: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        project_id = kwargs.get("project_id")
+        amount = kwargs.get("amount")
+        expense_date = kwargs.get("expense_date")
+        category = kwargs.get("category")
+        sprint_id = kwargs.get("sprint_id")
+
         if not all([employee_id, project_id, amount, category]):
-            payload = {"error": "employee_id, project_id, amount, and category are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "employee_id, project_id, amount, and category are required"}
+            )
 
-        allocations = data.get("allocations", {}).values()
-        projects = data.get("projects", {}).values()
-        sprints = data.get("sprints", {}).values()
-        tasks = data.get("tasks", {}).values()
+        allocations = data.get("allocations", [])
+        projects = list(data.get("projects", {}).values())
+        sprints = data.get("sprints", [])
+        tasks = list(data.get("tasks", {}).values())
 
-        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
+        project = next((p for p in projects if p.get("project_id") == project_id), None)
         if not project:
-            payload = {"error": f"Project {project_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Project {project_id} not found"})
 
         if project.get("status") in ["cancelled", "completed"]:
-            payload = {"error": f"Cannot submit expense for {project.get('status')} project"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": f"Cannot submit expense for {project.get('status')} project"}
+            )
 
         employee_allocation = next(
             (
                 a
-                for a in allocations.values() if a.get("employee_id") == employee_id
+                for a in allocations
+                if a.get("employee_id") == employee_id
                 and a.get("project_id") == project_id
                 and a.get("status") == "active"
             ),
@@ -56,11 +46,11 @@ class ValidateExpenseSubmission(Tool):
         )
 
         if not employee_allocation:
-            payload = {
-                "error": f"Employee {employee_id} is not allocated to project {project_id}"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": f"Employee {employee_id} is not allocated to project {project_id}"
+                }
+            )
 
         allocation_percentage = employee_allocation.get("hours_per_week", 0) / 40
         base_limit = 1000
@@ -76,7 +66,7 @@ class ValidateExpenseSubmission(Tool):
         }
 
         if sprint_id:
-            sprint = next((s for s in sprints.values() if s.get("sprint_id") == sprint_id), None)
+            sprint = next((s for s in sprints if s.get("sprint_id") == sprint_id), None)
             if sprint:
                 if sprint.get("status") != "active":
                     validation_result["warnings"].append(
@@ -94,23 +84,19 @@ class ValidateExpenseSubmission(Tool):
                         sprint["end_date"].replace("Z", "+00:00")
                     )
 
-                    if not (
-                        sprint_start.timestamp()
-                        <= expense_dt.timestamp()
-                        <= sprint_end.timestamp()
-                    ):
+                    if not (sprint_start.timestamp() <= expense_dt.timestamp() <= sprint_end.timestamp()):
                         validation_result["warnings"].append(
                             "Expense date is outside sprint duration"
                         )
 
-        if task_id:
-            task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
+        if task_id := kwargs.get("task_id"):
+            task = next((t for t in tasks if t.get("task_id") == task_id), None)
             if task:
                 if task.get("assignee_id") != employee_id:
                     validation_result["valid"] = False
-                    validation_result["error"] = (
-                        f"Task {task_id} is not assigned to employee {employee_id}"
-                    )
+                    validation_result[
+                        "error"
+                    ] = f"Task {task_id} is not assigned to employee {employee_id}"
                 elif task.get("status") == "todo":
                     validation_result["warnings"].append(
                         "Task has not been started yet"
@@ -120,15 +106,15 @@ class ValidateExpenseSubmission(Tool):
             validation_result["warnings"].append(
                 f"Amount exceeds adjusted limit of ${adjusted_limit}"
             )
-        payload = validation_result
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(validation_result, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ValidateExpenseSubmission",
+                "name": "validate_expense_submission",
                 "description": "Validate expense submission against employee allocation and project rules",
                 "parameters": {
                     "type": "object",

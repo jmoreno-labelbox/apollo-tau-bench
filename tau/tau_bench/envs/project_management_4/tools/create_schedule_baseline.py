@@ -1,75 +1,63 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateScheduleBaseline(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_id: str,
-        baseline_name: str,
-        baseline_type: str = "initial",
-        pmo_approval: bool = False,
-        baseline_id: str = None,
-        create_date: str = None,
-        approval_ref: str = None,
-        executive_approval: bool = False,
-        notes: str = ""
-    ) -> str:
-        if not all([project_id, baseline_name]):
-            payload = {"error": "project_id and baseline_name are required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        baseline_name = kwargs.get("baseline_name")
+        baseline_type = kwargs.get("baseline_type", "initial")
+        pmo_approval = kwargs.get("pmo_approval", False)
 
-        milestones = data.get("milestones", {}).values()
-        schedule_baselines = data.get("schedule_baselines", {}).values()
+        if not all([project_id, baseline_name]):
+            return json.dumps({"error": "project_id and baseline_name are required"})
+
+        milestones = list(data.get("milestones", {}).values())
+        schedule_baselines = data.get("schedule_baselines", [])
 
         current_quarter = (datetime.now(timezone.utc).month - 1) // 3 + 1
         current_year = datetime.now(timezone.utc).year
 
         quarterly_baselines = [
             b
-            for b in schedule_baselines.values() if b.get("project_id") == project_id
+            for b in schedule_baselines
+            if b.get("project_id") == project_id
             and b.get("year") == current_year
             and b.get("quarter") == current_quarter
             and b.get("baseline_type") != "initial"
         ]
 
         if len(quarterly_baselines) >= 1 and not pmo_approval:
-            payload = {
-                "error": "Only one baseline update allowed per quarter without PMO approval. Set pmo_approval=True if approved."
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": "Only one baseline update allowed per quarter without PMO approval. Set pmo_approval=True if approved."
+                }
+            )
 
         project_milestones = [
-            m for m in milestones.values() if m.get("project_id") == project_id
+            m for m in milestones if m.get("project_id") == project_id
         ]
 
         if not project_milestones:
-            payload = {"error": f"No milestones found for project '{project_id}'"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": f"No milestones found for project '{project_id}'"}
+            )
 
-        baseline_id = baseline_id or f"base_{uuid.uuid4().hex[:8]}"
-        create_date = create_date or datetime.now(timezone.utc).isoformat()
+        baseline_id = kwargs.get("baseline_id", f"base_{uuid.uuid4().hex[:8]}")
+        create_date = kwargs.get("create_date", datetime.now(timezone.utc).isoformat())
 
         downstream_impacts = []
-        for milestone in project_milestones.values():
-            deps = data.get("milestone_dependencies", {}).values()
+        for milestone in project_milestones:
+
+            deps = data.get("milestone_dependencies", [])
             successors = [
                 d.get("successor_id")
-                for d in deps.values() if d.get("predecessor_id") == milestone.get("milestone_id")
+                for d in deps
+                if d.get("predecessor_id") == milestone.get("milestone_id")
             ]
 
             if successors:
@@ -85,7 +73,8 @@ class CreateScheduleBaseline(Tool):
         milestone_snapshots = []
         max_variance = 0
 
-        for milestone in project_milestones.values():
+        for milestone in project_milestones:
+
             original_baseline_start = milestone.get(
                 "original_baseline_start",
                 milestone.get("baseline_start", milestone.get("start_date")),
@@ -127,35 +116,35 @@ class CreateScheduleBaseline(Tool):
 
             milestone_snapshots.append(snapshot)
 
-            if variance_percentage > 20 and not executive_approval:
-                payload = {
-                    "error": f"Milestone '{milestone.get('milestone_name')}' has {variance_percentage:.1f}% variance from original baseline. Executive approval required."
-                }
-                out = json.dumps(payload)
-                return out
+            if variance_percentage > 20 and not kwargs.get("executive_approval", False):
+                return json.dumps(
+                    {
+                        "error": f"Milestone '{milestone.get('milestone_name')}' has {variance_percentage:.1f}% variance from original baseline. Executive approval required."
+                    }
+                )
 
         new_baseline = {
             "baseline_id": baseline_id,
             "project_id": project_id,
             "baseline_name": baseline_name,
             "baseline_type": baseline_type,
-            "approval_ref": approval_ref,
+            "approval_ref": kwargs.get("approval_ref"),
             "pmo_approval": pmo_approval,
-            "executive_approval": executive_approval,
-            "notes": notes,
+            "executive_approval": kwargs.get("executive_approval", False),
+            "notes": kwargs.get("notes", ""),
             "milestone_count": len(milestone_snapshots),
             "max_variance_days": max_variance,
             "variance_percentage": 0,
             "milestone_snapshots": milestone_snapshots,
             "downstream_impacts": downstream_impacts,
             "created_date": create_date,
-            "year": datetime.fromisoformat(create_date.replace("Z", "+00:00")).year,
+            "year": datetime.fromisoformat(create_date).year,
             "quarter": (datetime.now(timezone.utc).month - 1) // 3 + 1,
         }
 
-        data["schedule_baselines"][new_baseline["schedule_baseline_id"]] = new_baseline
+        schedule_baselines.append(new_baseline)
 
-        for milestone in project_milestones.values():
+        for milestone in project_milestones:
             if "original_baseline_start" not in milestone:
                 milestone["original_baseline_start"] = milestone.get(
                     "baseline_start", milestone.get("start_date")
@@ -167,22 +156,22 @@ class CreateScheduleBaseline(Tool):
 
             milestone["baseline_start"] = milestone.get("start_date")
             milestone["baseline_target"] = milestone.get("target_date")
-        payload = {"success": True, "baseline": new_baseline}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"success": True, "baseline": new_baseline})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateScheduleBaseline",
+                "name": "create_schedule_baseline",
                 "description": "Create a schedule baseline for a project",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "project_id": {"type": "string", "description": "Project ID"},
                         "baseline_id": {"type": "string", "description": "Baseline ID"},
-                        "create_date": {"type": "string", "description": "Creation date"},
+                        "create_date": {"type": "date", "description": "Creation date"},
                         "baseline_name": {
                             "type": "string",
                             "description": "Name of the baseline",

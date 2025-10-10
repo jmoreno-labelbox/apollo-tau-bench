@@ -1,14 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class BucketizeAging(Tool):
-    """Assign days overdue to standard Accounts Receivable aging categories."""
-
+    """Map days outstanding to standard Accounts Receivable aging buckets."""
     @staticmethod
-    def invoke(data: dict[str, Any], aging: list[dict[str, Any]] = None) -> str:
-        aging = aging or []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        aging = kwargs.get("aging") or []
         buckets = []
         for a in aging:
             days = int(a.get("days_outstanding", 0))
@@ -25,22 +26,14 @@ class BucketizeAging(Tool):
             else:
                 b = "not_due"
             buckets.append({"invoice_number": a.get("invoice_number"), "bucket": b})
-        payload = {"buckets": buckets}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"buckets": buckets}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "BucketizeAging",
-                "description": "Convert days-outstanding to buckets (incl. 'upcoming_due').",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "aging": {"type": "array", "items": {"type": "object"}}
-                    },
-                    "required": ["aging"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "bucketize_aging",
+            "description": "Convert days-outstanding to buckets (incl. 'upcoming_due').",
+            "parameters": {"type": "object", "properties": {
+                "aging": {"type": "array", "items": {"type": "object"}}
+            }, "required": ["aging"]}
+        }}

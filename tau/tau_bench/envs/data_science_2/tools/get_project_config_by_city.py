@@ -1,46 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetProjectConfigByCity(Tool):
-    """Fetches a project_config entry based on target_city."""
-
+    """
+    Retrieves a project_config entry by target_city.
+    """
     @staticmethod
-    def invoke(data: dict[str, Any], target_city: str) -> str:
-        rows = data.get("project_config", {}).values()
+    def invoke(data: Dict[str, Any], target_city: str) -> str:
+        rows = data.get("project_config", [])
         for row in rows:
             if row.get("target_city") == target_city:
-                payload = row
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "project_config not found", "target_city": target_city}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(row)
+        return json.dumps({"error": "project_config not found", "target_city": target_city})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetProjectConfigByCity",
+                "name": "get_project_config_by_city",
                 "description": "Retrieves a project_config entry by target_city.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "target_city": {
-                            "type": "string",
-                            "description": "City name key in project_config.",
-                        }
+                        "target_city": {"type": "string", "description": "City name key in project_config."}
                     },
-                    "required": ["target_city"],
-                },
-            },
+                    "required": ["target_city"]
+                }
+            }
         }

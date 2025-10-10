@@ -1,36 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
-from decimal import ROUND_HALF_UP, Decimal
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAllOrderItemsByOrderId(Tool):
+    """Return all order_items rows for a given order_id."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: Any, order_items: list[dict[str, Any]] = None) -> str:
+    def invoke(data: Dict[str, Any], order_id: Any) -> str:
         order_id = _idstr(order_id)
         if not order_id:
-            payload = {"error": "Missing required field: order_id"}
-            out = json.dumps(payload, indent=2)
-            return out
-        order_items = order_items or data.get("order_items", {}).values()
-        items = [item for item in order_items.values() if item.get("order_id") == order_id]
-        payload = items
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": "Missing required field: order_id"}, indent=2)
+        order_items: List[Dict[str, Any]] = data.get("order_items", [])
+        items = [item for item in order_items if item.get("order_id") == order_id]
+        return json.dumps(items, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAllOrderItemsByOrderId",
+                "name": "get_all_order_items_by_order_id",
                 "description": "Return all order items for the specified order_id.",
                 "parameters": {
                     "type": "object",

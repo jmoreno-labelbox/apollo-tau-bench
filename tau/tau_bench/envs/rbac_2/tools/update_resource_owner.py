@@ -1,26 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateResourceOwner(Tool):
-    """Modifies the 'owner_id' field for a specific resource in the database."""
+    """ Updates the 'owner_id' field for a specific resource in the database. """
 
     @staticmethod
-    def invoke(data: dict[str, Any], resource_id: str = None, new_owner_id: str = None) -> str:
-        resource_id_to_update = resource_id
-        new_owner_id = new_owner_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        resource_id_to_update = kwargs.get("resource_id")
+        new_owner_id = kwargs.get("new_owner_id")
 
         try:
-            resources = data.get("resources", {}).values()
+            resources = data.get('resources', [])
         except (KeyError, json.JSONDecodeError):
             resources = []
 
@@ -32,39 +26,34 @@ class UpdateResourceOwner(Tool):
                 break
 
         if not resource_to_update:
-            payload = {"error": f"Resource with ID '{resource_id_to_update}' not found."}
-            out = json.dumps(
-                payload)
-            return out
+            return json.dumps({"error": f"Resource with ID '{resource_id_to_update}' not found."})
 
-        data["resources"] = resources
-        payload = {
-                "message": "Resource owner updated successfully.",
-                "resource_details": resource_to_update,
-            }
-        out = json.dumps(
-            payload)
-        return out
+        data['resources'] = resources
+        return json.dumps({
+            "message": "Resource owner updated successfully.",
+            "resource_details": resource_to_update
+        })
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateResourceOwner",
+                "name": "update_resource_owner",
                 "description": "Updates the owner of a specific resource.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "resource_id": {
                             "type": "string",
-                            "description": "The unique ID of the resource whose owner needs to be updated.",
+                            "description": "The unique ID of the resource whose owner needs to be updated."
                         },
                         "new_owner_id": {
                             "type": "string",
-                            "description": "The user ID of the new owner for the resource.",
-                        },
+                            "description": "The user ID of the new owner for the resource."
+                        }
                     },
-                    "required": ["resource_id", "new_owner_id"],
-                },
-            },
+                    "required": ["resource_id", "new_owner_id"]
+                }
+            }
         }

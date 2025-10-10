@@ -1,41 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpdateEmailMetadata(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], message_id: str = None, fields: dict[str, Any] = None) -> str:
-        if fields is None:
-            fields = {}
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        message_id = kwargs.get("message_id")
+        fields = kwargs.get("fields", {})
         rows = _ensure_list(data, "emails")
         row = _find_by_key(rows, "message_id", message_id)
         if row:
             for k, v in fields.items():
                 row[k] = v
-            payload = {"message_id": message_id, "updated": True, "fields": fields}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        payload = {"message_id": message_id, "updated": False, "reason": "email_not_found"}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+            return json.dumps({"message_id": message_id, "updated": True, "fields": fields}, indent=2)
+        return json.dumps({"message_id": message_id, "updated": False, "reason": "email_not_found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "UpdateEmailMetadata",
-                "description": "Update email metadata fields.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "message_id": {"type": "string"},
-                        "fields": {"type": "object"},
-                    },
-                    "required": ["message_id", "fields"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function",
+                "function": {"name": "update_email_metadata", "description": "Update email metadata fields.",
+                             "parameters": {"type": "object", "properties": {"message_id": {"type": "string"},
+                                                                             "fields": {"type": "object"}},
+                                            "required": ["message_id", "fields"]}}}

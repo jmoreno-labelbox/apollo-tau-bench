@@ -1,27 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any, Dict
-from datetime import timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AddSchedulerRun(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], run_id: str = None, task_name: str = None, run_date: str = None, status: str = None, notes: str = "", note: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
         Logs a scheduler run event.
         """
-        # Accept either 'note' or 'notes' parameter
-        if note is not None:
-            notes = note
         new_run = {
-            "run_id": run_id,
-            "task_name": task_name,
-            "run_date": run_date,
-            "status": status,
-            "notes": notes
+            "run_id": kwargs.get("run_id"),
+            "task_name": kwargs.get("task_name"),
+            "run_date": kwargs["run_date"],
+            "status": kwargs.get("status"),
+            "notes": kwargs.get("notes", "")
         }
         data["scheduler_runs"].append(new_run)
         return json.dumps(new_run["run_id"])
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
@@ -38,7 +37,7 @@ class AddSchedulerRun(Tool):
                         "status": {"type": "string"},
                         "notes": {"type": "string"}
                     },
-                    "required": ["run_date"],
+                    "required": ["run_date",],
                 },
             },
         }

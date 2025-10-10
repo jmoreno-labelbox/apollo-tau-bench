@@ -1,16 +1,17 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GenerateClientBriefingDocumentTool(Tool):
-    """Creates a client briefing PDF and adds a documents row (entity_type=client)."""
+    """Generates a client briefing PDF and inserts a documents row (entity_type=client)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], client_id: int = None, created_by: int = None) -> str:
-        client_id = _as_int(client_id)
-        created_by = _as_int(created_by)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        client_id = _as_int(kwargs.get("client_id"))
+        created_by = _as_int(kwargs.get("created_by"))
         if client_id is None or created_by is None:
             return _err("client_id and created_by are required")
 
@@ -28,16 +29,16 @@ class GenerateClientBriefingDocumentTool(Tool):
             "created_by": int(created_by),
             "created_at": HARD_TS,
         }
-        data["documents"][doc_row["document_id"]] = doc_row
-        payload = {"document": doc_row}
-        out = json.dumps(payload, indent=2)
-        return out
+        docs.append(doc_row)
+
+        return json.dumps({"document": doc_row}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GenerateClientBriefingDocument",
+                "name": "generate_client_briefing_document",
                 "description": (
                     "Generate client briefing PDF and insert into documents table."
                 ),

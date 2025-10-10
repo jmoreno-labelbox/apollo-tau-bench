@@ -1,32 +1,14 @@
-from tau_bench.envs.tool import Tool
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class EscalateDiscrepancy(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], escalation_level: str = "regional", adjustment_id: Any = None,
-    store_id: Any = None,
-    sku: str = None,
-    amount: float = None,
-    ) -> str:
-        payload = {"escalated": True, "level": escalation_level}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        return json.dumps({"escalated": True, "level": kwargs.get("escalation_level", "regional")}, indent=2)
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "EscalateDiscrepancy",
-                "parameters": {
-                    "store_id": {"type": "string"},
-                    "sku": {"type": "string"},
-                    "amount": {"type": "number"},
-                    "escalation_level": {"type": "string"},
-                },
-                "required": ["store_id", "sku", "amount", "escalation_level"],
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "escalate_discrepancy", "parameters": {"store_id": {"type": "string"}, "sku": {"type": "string"}, "amount": {"type": "number"}, "escalation_level": {"type": "string"}}, "required": ["store_id", "sku", "amount", "escalation_level"]}}

@@ -1,34 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RecommendCourseForGap(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, target_role: str = None) -> str:
-        gaps = data.get("skill_gap_analysis", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        target_role = kwargs.get("target_role")
+        gaps = data.get("skill_gap_analysis", [])
         user_gaps = [
             g
-            for g in gaps.values() if g["user_id"] == user_id and g["target_role"] == target_role
+            for g in gaps
+            if g["user_id"] == user_id and g["target_role"] == target_role
         ]
 
         if not user_gaps:
-            payload = {"error": "No gap found."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "No gap found."}, indent=2)
 
-        # Identify the most critical skill gap along with the courses that are offered
+        # Find the highest priority skill gap with available courses
         skill_gaps = user_gaps[0].get("skill_gaps", [])
         highest_priority_gap = None
 
-        # Arrange by priority (High to Low) and severity of the gap (High to Low)
+        # Sort by priority (High -> Medium -> Low) and gap severity (High -> Medium -> Low)
         priority_order = {"High": 3, "Medium": 2, "Low": 1}
         severity_order = {"High": 3, "Medium": 2, "Low": 1}
 
@@ -37,7 +33,7 @@ class RecommendCourseForGap(Tool):
                 if not highest_priority_gap:
                     highest_priority_gap = skill_gap
                 else:
-                    # Evaluate based on priority initially, followed by severity
+                    # Compare by priority first, then by severity
                     current_priority = priority_order.get(
                         skill_gap.get("priority", "Low"), 1
                     )
@@ -59,27 +55,27 @@ class RecommendCourseForGap(Tool):
                         highest_priority_gap = skill_gap
 
         if highest_priority_gap:
-            payload = {
-                "recommended_course": highest_priority_gap.get(
-                    "recommended_courses"
-                )[0],
-                "skill": highest_priority_gap.get("skill_name"),
-                "priority": highest_priority_gap.get("priority"),
-                "gap_severity": highest_priority_gap.get("gap_severity"),
-            }
-            out = json.dumps(
-                payload, indent=2,
+            # Return the first course for the highest priority gap (deterministic)
+            return json.dumps(
+                {
+                    "recommended_course": highest_priority_gap.get(
+                        "recommended_courses"
+                    )[0],
+                    "skill": highest_priority_gap.get("skill_name"),
+                    "priority": highest_priority_gap.get("priority"),
+                    "gap_severity": highest_priority_gap.get("gap_severity"),
+                },
+                indent=2,
             )
-            return out
-        payload = {"error": "No suitable course found."}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"error": "No suitable course found."}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RecommendCourseForGap",
+                "name": "recommend_course_for_gap",
                 "description": "Recommends the highest priority course from the catalog to close a user's skill gap for a target role.",
                 "parameters": {
                     "type": "object",

@@ -1,23 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetInventoryBySkuWarehouse(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], sku: str, warehouse_id: str) -> str:
-        inventory = data.get("inventory", {}).values()
+        inventory = list(data.get("inventory", {}).values())
 
         inventory_item = next(
-            (item for item in inventory.values() if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id),
+            (item for item in inventory
+             if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id),
             None
         )
 
@@ -27,12 +22,13 @@ class GetInventoryBySkuWarehouse(Tool):
             })
 
         return json.dumps(inventory_item)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetInventoryBySkuWarehouse",
+                "name": "get_inventory_by_sku_warehouse",
                 "description": "Retrieve inventory details for specific SKU in a warehouse",
                 "parameters": {
                     "type": "object",

@@ -1,35 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreatePullRequestReview(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        owner: str,
-        repo: str,
-        pullNumber: int,
-        body: str,
-        event: str,
-    ) -> str:
+    def invoke(data: Dict[str, Any], owner: str, repo: str, pullNumber: int, body: str, event: str) -> str:
         """Create a PR review (comment/approval)."""
-        pass
-        pull_requests = data.get("pull_requests", {}).values()
+        pull_requests = list(data.get("pull_requests", {}).values())
 
-        for pr_entry in pull_requests.values():
+        for pr_entry in pull_requests:
             if pr_entry["owner"] == owner and pr_entry["repo_name"] == repo:
                 try:
                     pr_idx = pr_entry["pr_numbers"].index(pullNumber)
 
-                    #Incorporate review into the current structure
+                    # Add review to existing structure
                     if not pr_entry["pr_comments"][pr_idx]:
                         pr_entry["pr_comments"][pr_idx] = [[]]
                         pr_entry["pr_comment_users"][pr_idx] = [[]]
@@ -44,23 +31,18 @@ class CreatePullRequestReview(Tool):
                     pr_entry["review_events"][pr_idx][0].append(event)
 
                     review_id = len(pr_entry["pr_comments"][pr_idx][0])
-                    payload = {"review_id": review_id, "state": event}
-                    out = json.dumps(
-                        payload, indent=2
-                    )
-                    return out
+                    return json.dumps({"review_id": review_id, "state": event}, indent=2)
                 except ValueError:
                     pass
-        payload = {"error": f"Pull request #{pullNumber} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"error": f"Pull request #{pullNumber} not found"}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createPullRequestReview",
+                "name": "create_pull_request_review",
                 "description": "Create a PR review (comment/approval).",
                 "parameters": {
                     "type": "object",
@@ -69,9 +51,9 @@ class CreatePullRequestReview(Tool):
                         "repo": {"type": "string", "description": "Repository name"},
                         "pullNumber": {"type": "integer", "description": "PR number"},
                         "body": {"type": "string", "description": "Review body"},
-                        "event": {"type": "string", "description": "Review event type"},
+                        "event": {"type": "string", "description": "Review event type"}
                     },
-                    "required": ["owner", "repo", "pullNumber", "body", "event"],
-                },
-            },
+                    "required": ["owner", "repo", "pullNumber", "body", "event"]
+                }
+            }
         }

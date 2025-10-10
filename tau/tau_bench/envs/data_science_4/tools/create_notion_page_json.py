@@ -1,58 +1,54 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateNotionPageJson(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        title: str = None,
-        parent_database_id_nullable: str = None,
-        parent_page_id_nullable: str = None,
-        icon_emoji_nullable: str = None,
-        cover_image_url_nullable: str = None,
-        tags: list = None,
-        status_nullable: str = None,
-        properties: dict = None,
-        blocks: list = None,
-        attachments_paths: list = None
-    ) -> str:
-        """Generates a Notion-like page JSON (including metadata and block structure). Does NOT interact with Notion; solely documents a consistent JSON artifact."""
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        """
+        Creates a Notion-style page JSON (metadata + block structure).
+        Does NOT call Notion; only records a deterministic JSON artifact.
+        """
+        title = kwargs.get("title")
         if not title:
-            payload = {"error": "title is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "title is required"})
 
-        page_id = "NOTION_PAGE_001"  # consistent for evaluations
+        page_id = "NOTION_PAGE_001"  # deterministic for evals
         slug = "_".join(title.lower().split())
         json_path = f"/notion/pages/{page_id}.json"
 
         page_entry = {
             "page_id": page_id,
             "title": title,
-            "parent_database_id_nullable": parent_database_id_nullable,
-            "parent_page_id_nullable": parent_page_id_nullable,
-            "icon_emoji_nullable": icon_emoji_nullable,
-            "cover_image_url_nullable": cover_image_url_nullable,
-            "tags": tags or [],
-            "status_nullable": status_nullable,
-            "properties": properties or {},  # for example, {"Model":"SF_V1","AUC":0.87}
-            "blocks": blocks or [],  # for instance, [{"type":"heading_2","text":"Overview"}, ...]
-            "attachments_paths": attachments_paths or [],
+            "parent_database_id_nullable": kwargs.get("parent_database_id_nullable"),
+            "parent_page_id_nullable": kwargs.get("parent_page_id_nullable"),
+            "icon_emoji_nullable": kwargs.get("icon_emoji_nullable"),
+            "cover_image_url_nullable": kwargs.get("cover_image_url_nullable"),
+            "tags": kwargs.get("tags", []),
+            "status_nullable": kwargs.get("status_nullable"),
+            "properties": kwargs.get(
+                "properties", {}
+            ),  # e.g., {"Model":"SF_V1","AUC":0.87}
+            "blocks": kwargs.get(
+                "blocks", []
+            ),  # e.g., [{"type":"heading_2","text":"Overview"}, ...]
+            "attachments_paths": kwargs.get("attachments_paths", []),
             "json_path": json_path,
             "slug": slug,
         }
 
         data.setdefault("notion_pages.json", []).append(page_entry)
-        payload = {"page_id": page_id, "json_path": json_path}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"page_id": page_id, "json_path": json_path})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createNotionPageJson",
+                "name": "CreateNotionPageJson",
                 "description": "Creates a Notion-style page JSON (metadata + block structure + attachments).",
                 "parameters": {
                     "type": "object",

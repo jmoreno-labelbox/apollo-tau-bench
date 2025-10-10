@@ -1,50 +1,45 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CaV2GetTimeEntriesForPeriod(Tool):
-    """Retrieve time logs for a specific project within a date range."""
+    """Get time entries for a specific project and date range."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: str = None, start_date: str = None, end_date: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        start_date = kwargs.get("start_date")
+        end_date = kwargs.get("end_date")
+
         if not all([project_id, start_date, end_date]):
             return _error("project_id, start_date, and end_date are required.")
 
-        time_entries = data.get("time_entries", {}).values()
+        time_entries = data.get("time_entries", [])
         filtered_entries = []
 
-        for entry in time_entries.values():
-            if (
-                entry.get("project_id") == project_id
-                and start_date <= entry.get("entry_date", "") <= end_date
-            ):
+        for entry in time_entries:
+            if (entry.get("project_id") == project_id and
+                start_date <= entry.get("entry_date", "") <= end_date):
                 filtered_entries.append(entry)
-        payload = filtered_entries
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(filtered_entries)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CaV2GetTimeEntriesForPeriod",
+                "name": "ca_v2_get_time_entries_for_period",
                 "description": "Get time entries for a specific project within a date range.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "project_id": {"type": "string"},
                         "start_date": {"type": "string", "format": "date"},
-                        "end_date": {"type": "string", "format": "date"},
+                        "end_date": {"type": "string", "format": "date"}
                     },
                     "required": ["project_id", "start_date", "end_date"],
                 },

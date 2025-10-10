@@ -1,17 +1,12 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class get_employee_by_ids_by_region(Tool):
-    REGION_MAP: dict[str, set[str]] = {
+    REGION_MAP: Dict[str, Set[str]] = {
         "EU": {
             "AT",
             "BE",
@@ -38,37 +33,39 @@ class get_employee_by_ids_by_region(Tool):
             "RO",
             "SK",
             "SI",
-            "ESP",
+            "ES",
             "SE",
         }
     }
 
     @staticmethod
-    def invoke(data: dict[str, Any], region: str = None, status: str = "Active") -> str:
-        if not region or region not in get_employee_by_ids_by_region.REGION_MAP:
-            payload = {"error": f"Invalid or unsupported region: {region}"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        region = kwargs.get("region")
+        status_filter = kwargs.get("status", "Active")
 
-        employees = data.get("employees", {}).values()
+        if not region or region not in get_employee_by_ids_by_region.REGION_MAP:
+            return json.dumps(
+                {"error": f"Invalid or unsupported region: {region}"}, indent=2
+            )
+
+        employees = list(data.get("employees", {}).values())
         target_nationalities = get_employee_by_ids_by_region.REGION_MAP[region]
 
         found_employees = [
             emp
-            for emp in employees.values() if emp.get("nationality") in target_nationalities
-            and emp.get("status") == status
+            for emp in employees
+            if emp.get("nationality") in target_nationalities
+            and emp.get("status") == status_filter
         ]
-        payload = found_employees
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(found_employees, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getEmployeeByIdsByRegion",
+                "name": "get_employee_by_ids_by_region",
                 "description": "Retrieves a list of employees belonging to a specific geographical or political region (e.g., EU).",
                 "parameters": {
                     "type": "object",

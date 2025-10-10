@@ -1,44 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateOnboardingFile(Tool):
-    """Establish or insert an onboarding document for a candidate."""
+    """Create or upsert an onboarding file for a candidate."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], file_id: str, candidate_id: str, doc_type: str, status: str = "pending", uploaded_at: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         f = {
-            "file_id": file_id,
-            "candidate_id": candidate_id,
-            "doc_type": doc_type,
-            "status": status,
-            "uploaded_at": uploaded_at,
+            "file_id": kwargs.get("file_id"),
+            "candidate_id": kwargs.get("candidate_id"),
+            "doc_type": kwargs.get("doc_type"),
+            "status": kwargs.get("status", "pending"),
+            "uploaded_at": kwargs.get("uploaded_at"),
         }
         if not f["file_id"] or not f["candidate_id"] or not f["doc_type"]:
-            payload = {"error": "missing_required_fields"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "missing_required_fields"}, indent=2)
         data.setdefault("onboarding_files", [])
         for i, existing in enumerate(data["onboarding_files"]):
             if existing.get("file_id") == f["file_id"]:
                 updated = dict(existing)
                 updated.update({k: v for k, v in f.items() if v is not None})
                 data["onboarding_files"][i] = updated
-                payload = updated
-                out = json.dumps(payload, indent=2)
-                return out
+                return json.dumps(updated, indent=2)
         data["onboarding_files"].append(f)
-        payload = f
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(f, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createOnboardingFile",
+                "name": "create_onboarding_file",
                 "description": "Create or upsert an onboarding file for a candidate.",
                 "parameters": {
                     "type": "object",
@@ -49,7 +45,7 @@ class CreateOnboardingFile(Tool):
                         "status": {"type": "string"},
                         "uploaded_at": {"type": "string"},
                     },
-                    "required": ["file_id", "candidate_id", "doc_type"],
-                },
-            },
+                    "required": ["file_id", "candidate_id", "doc_type"]
+                }
+            }
         }

@@ -1,56 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CaV2CreateInvoice(Tool):
-    """Generate a new invoice."""
+    """Create a new invoice."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        invoice_id: str = None,
-        invoice_number: str = None,
-        publisher_id: str = None,
-        invoice_date: str = None,
-        period_start: str = None,
-        period_end: str = None,
-        subtotal: float = None,
-        sent_at: str = None,
-        paid_at: str = None,
-        created_at: str = None,
-    ) -> str:
-        # Necessary parameters
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        # Required parameters
+        invoice_id = kwargs.get("invoice_id")
+        invoice_number = kwargs.get("invoice_number")
+        publisher_id = kwargs.get("publisher_id")
+        invoice_date = kwargs.get("invoice_date")
+        period_start = kwargs.get("period_start")
+        period_end = kwargs.get("period_end")
+        subtotal = kwargs.get("subtotal")
 
-        if not all(
-            [
-                invoice_number,
-                publisher_id,
-                invoice_date,
-                period_start,
-                period_end,
-                subtotal,
-            ]
-        ):
-            return _error(
-                "Required fields: invoice_number, publisher_id, invoice_date, period_start, period_end, subtotal"
-            )
+        if not all([invoice_number, publisher_id, invoice_date,
+                   period_start, period_end, subtotal]):
+            return _error("Required fields: invoice_number, publisher_id, invoice_date, period_start, period_end, subtotal")
 
-        # Compute HST and overall total
+        # Calculate HST and total
         hst_amount = _calculate_hst(subtotal)
         total_due = round(subtotal + hst_amount, 2)
 
-        # Generate invoice entry
+        # Create invoice record
         new_invoice = {
-            "invoice_id": invoice_id or f"INV{len(data.get('invoices', {})) + 1:03d}",
+            "invoice_id": invoice_id or f"INV{len(data.get('invoices', [])) + 1:03d}",
             "invoice_number": invoice_number,
             "publisher_id": publisher_id,
             "invoice_date": invoice_date,
@@ -60,27 +39,27 @@ class CaV2CreateInvoice(Tool):
             "hst_amount": hst_amount,
             "total_due": total_due,
             "pdf_path": f"/invoices/{invoice_date[:4]}/{invoice_number}.pdf",
-            "sent_at": sent_at,
-            "paid_at": paid_at,
-            "created_at": created_at or invoice_date + "T00:00:00Z",
+            "sent_at": kwargs.get("sent_at"),
+            "paid_at": kwargs.get("paid_at"),
+            "created_at": kwargs.get("created_at", invoice_date + "T00:00:00Z")
         }
 
-        # Insert into data
+        # Add to data
         data.setdefault("invoices", []).append(new_invoice)
 
         return _ok(
             invoice_id=invoice_id,
             invoice_number=invoice_number,
             total_due=total_due,
-            hst_amount=hst_amount,
+            hst_amount=hst_amount
         )
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CaV2CreateInvoice",
+                "name": "ca_v2_create_invoice",
                 "description": "Create a new invoice with automatic HST calculation.",
                 "parameters": {
                     "type": "object",
@@ -94,16 +73,9 @@ class CaV2CreateInvoice(Tool):
                         "subtotal": {"type": "number"},
                         "sent_at": {"type": "string"},
                         "paid_at": {"type": "string"},
-                        "created_at": {"type": "string"},
+                        "created_at": {"type": "string"}
                     },
-                    "required": [
-                        "invoice_number",
-                        "publisher_id",
-                        "invoice_date",
-                        "period_start",
-                        "period_end",
-                        "subtotal",
-                    ],
+                    "required": ["invoice_number", "publisher_id", "invoice_date", "period_start", "period_end", "subtotal"],
                 },
             },
         }

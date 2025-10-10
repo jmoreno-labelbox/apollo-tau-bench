@@ -1,17 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any, Dict
-from datetime import timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateInvoiceLine(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], invoice_id: str, project_id: str, hours: int = 1, rate: float = 1.0, hst_rate: float = 0.13) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
         Insert a new invoice line linked to an existing invoice_id.
         Deterministic: uses provided invoice_id, project_id, isbn, hours, rate, hst_rate.
         Returns created line_id.
         """
+        invoice_id = kwargs["invoice_id"]
+        project_id = kwargs["project_id"]
+        hours = kwargs.get("hours", 1)
+        rate = kwargs.get("rate", 1)
+        hst_rate = kwargs.get("hst_rate", 0.13)
+
         line_id = f"LINE-{len(data['invoice_lines'])+1:04d}"
         line_total = round(hours * rate, 2)
         hst_amount = round(line_total * hst_rate, 2)
@@ -27,6 +34,7 @@ class CreateInvoiceLine(Tool):
         }
         data["invoice_lines"].append(new_line)
         return json.dumps(new_line)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
@@ -37,10 +45,9 @@ class CreateInvoiceLine(Tool):
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "invoice_id": {"type": "string", "description": "Invoice ID to add line to"},
-                        "project_id": {"type": "string", "description": "Project ID for the line item"}
+                        "publisher_id": {"type": "string", "description": "Publisher ID to filter invoices by"}
                     },
-                    "required": ["invoice_id", "project_id"],
+                    "required": ["invoice_id",'project_id'],
                 },
             },
         }

@@ -1,51 +1,31 @@
-from tau_bench.envs.tool import Tool
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SummarizeAuditTool(Tool):
-    """Summarize counts of DS and A11y findings for an audit."""
+    """Summarize DS and A11y finding counts for an audit."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], audit_id: str = None) -> str:
-        audit_id = _require_str(audit_id, "audit_id")
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        audit_id = _require_str(kwargs.get("audit_id"), "audit_id")
         if not audit_id:
-            payload = {"error": "audit_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error":"audit_id is required"})
 
-        ds = data.get("audit_findings_ds", {}).values()
-        a11y = data.get("audit_findings_a11y", {}).values()
-        ds_count = sum(1 for r in ds.values() if r.get("audit_id") == audit_id)
-        a11y_count = sum(1 for r in a11y.values() if r.get("audit_id") == audit_id)
-        payload = {
-                "audit_id": audit_id,
-                "ds_findings": ds_count,
-                "a11y_findings": a11y_count,
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        ds = data.get("audit_findings_ds", [])
+        a11y = data.get("audit_findings_a11y", [])
+        ds_count = sum(1 for r in ds if r.get("audit_id") == audit_id)
+        a11y_count = sum(1 for r in a11y if r.get("audit_id") == audit_id)
+        return json.dumps({"audit_id": audit_id, "ds_findings": ds_count, "a11y_findings": a11y_count}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "SummarizeAudit",
-                "description": "Return simple counts of design-system and accessibility findings for an audit.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"audit_id": {"type": "string"}},
-                    "required": ["audit_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"summarize_audit",
+            "description":"Return simple counts of design-system and accessibility findings for an audit.",
+            "parameters":{"type":"object","properties":{
+                "audit_id":{"type":"string"}
+            },"required":["audit_id"]}
+        }}

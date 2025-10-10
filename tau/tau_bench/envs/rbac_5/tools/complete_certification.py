@@ -1,89 +1,65 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CompleteCertification(Tool):
     """
-    Finalize a certification by changing the status to COMPLETED and setting completed_on to a consistent timestamp.
+    Complete a certification by setting status to COMPLETED and completed_on to deterministic timestamp.
 
     kwargs:
-      certification_id: str (mandatory)
-      reviewer_id: str (mandatory)
+      certification_id: str (required)
+      reviewer_id: str (required)
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], certification_id: str = "", reviewer_id: str = "") -> str:
-        certs = data.get("certifications", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        certification_id = kwargs.get("certification_id", "")
+        reviewer_id = kwargs.get("reviewer_id", "")
+
+        certs = data.get("certifications", [])
         cert = _find_by_id(certs, "certification_id", certification_id)
         if not cert:
-            payload = {"error": f"certification_id {certification_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"certification_id {certification_id} not found"})
 
         if cert.get("reviewer_id") != reviewer_id:
-            payload = {
-                "error": f"reviewer_id {reviewer_id} does not match certification reviewer"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"reviewer_id {reviewer_id} does not match certification reviewer"})
 
         if cert.get("status") not in ("PENDING", "IN_PROGRESS"):
-            # Idempotent completion yields the current state
+            # idempotent completion returns current
             if cert.get("status") == "COMPLETED":
-                payload = {"ok": True, "certification": cert}
-                out = json.dumps(payload)
-                return out
-            payload = {
-                "error": f"certification {certification_id} not completable from status {cert.get('status')}"
-            }
-            out = json.dumps(payload)
-            return out
+                return json.dumps({"ok": True, "certification": cert})
+            return json.dumps({"error": f"certification {certification_id} not completable from status {cert.get('status')}"})
 
         updated = dict(cert)
-        updated.update(
-            {
-                "status": "COMPLETED",
-                "completed_on": get_current_timestamp(),
-            }
-        )
+        updated.update({
+            "status": "COMPLETED",
+            "completed_on": get_current_timestamp(),
+        })
 
         for i, c in enumerate(certs):
             if c.get("certification_id") == certification_id:
                 data["certifications"][i] = updated
                 break
-        payload = {"ok": True, "certification": updated}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"ok": True, "certification": updated})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CompleteCertification",
+                "name": "complete_certification",
                 "description": "Complete a certification with deterministic completion timestamp.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "certification_id": {
-                            "type": "string",
-                            "description": "Certification id (C-###).",
-                        },
-                        "reviewer_id": {
-                            "type": "string",
-                            "description": "Reviewer user_id.",
-                        },
+                        "certification_id": {"type": "string", "description": "Certification id (C-###)."},
+                        "reviewer_id": {"type": "string", "description": "Reviewer user_id."}
                     },
                     "required": ["certification_id", "reviewer_id"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

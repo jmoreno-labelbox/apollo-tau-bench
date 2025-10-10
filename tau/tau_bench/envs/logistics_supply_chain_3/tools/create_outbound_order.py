@@ -1,60 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateOutboundOrder(Tool):
-    """Generates a new outbound order record."""
+    """Creates a new outbound order record."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        warehouse_id: str = None,
-        carrier_scac: str = None,
-        sales_order_number: str = None,
-        customer_id: str = None,
-        customer_name: str = None,
-        customer_address: str = None,
-        customer_city: str = None,
-        customer_country: str = None,
-        destination_address: str = None,
-        destination_city: str = None,
-        destination_country: str = None,
-        order_date: str = None,
-        promised_ship_date: str = None,
-        expected_delivery_date: str = None,
-        number_of_line_items: int = 1,
-        total_units: int = 1,
-        number_of_packages: int = None,
-        packaging_type: str = "Insulated Box",
-        total_weight_kg: float = 1.0,
-        total_volume_cbm: float = None,
-        value_currency: str = "USD",
-        total_value: float = None,
-        carrier_name: str = None,
-        mode_of_transport: str = None,
-        shipping_service_level: str = None,
-        shipping_cost: float = None,
-        payment_terms: str = "Net 30",
-        temperature_control_required: bool = False,
-        temperature_celsius: float = None,
-        hazmat: bool = False,
-        hazmat_class: str = None,
-        fragile: bool = True,
-        priority_level: str = "Medium",
-        notes: str = None
-    ) -> str:
-        outbound_orders = data.get("outbound_orders", {}).values()
-        warehouses = data.get("warehouses", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        outbound_orders = data.get("outbound_orders", [])
+        warehouses = data.get("warehouses", [])
 
+        # --- Auto-increment unique ID ---
         max_order_num = 0
         for order in outbound_orders:
             order_id = order.get("order_id", "ORD-0000")
@@ -63,76 +22,82 @@ class CreateOutboundOrder(Tool):
                 max_order_num = max(max_order_num, int(order_num_str))
         new_order_id = f"ORD-{max_order_num + 1:04d}"
 
+        # --- Look up warehouse details for defaults ---
+        warehouse_id = kwargs.get("warehouse_id")
         warehouse_details = next(
-            (wh for wh in warehouses.values() if wh.get("warehouse_id") == warehouse_id), {}
+            (wh for wh in warehouses if wh.get("warehouse_id") == warehouse_id), {}
         )
         warehouse_name = warehouse_details.get("warehouse_name", "")
         warehouse_address = warehouse_details.get("address", "")
         origin_city = warehouse_details.get("city", "")
         origin_country = warehouse_details.get("country", "")
+        carrier_scac = kwargs.get("carrier_scac", None)
 
         new_order = {
             "order_id": new_order_id,
-            "sales_order_number": sales_order_number,
-            "customer_id": customer_id,
-            "customer_name": customer_name,
-            "customer_address": customer_address,
-            "customer_city": customer_city,
-            "customer_country": customer_country,
-            "destination_address": destination_address,
-            "destination_city": destination_city,
-            "destination_country": destination_country,
+            "sales_order_number": kwargs.get("sales_order_number"),
+            "customer_id": kwargs.get("customer_id"),
+            "customer_name": kwargs.get("customer_name"),
+            "customer_address": kwargs.get("customer_address"),
+            "customer_city": kwargs.get("customer_city"),
+            "customer_country": kwargs.get("customer_country"),
+            "destination_address": kwargs.get("destination_address"),
+            "destination_city": kwargs.get("destination_city"),
+            "destination_country": kwargs.get("destination_country"),
             "warehouse_id": warehouse_id,
             "warehouse_name": warehouse_name,
             "warehouse_address": warehouse_address,
             "origin_city": origin_city,
             "origin_country": origin_country,
-            "order_date": order_date,
-            "promised_ship_date": promised_ship_date,
+            "order_date": kwargs.get("order_date"),
+            "promised_ship_date": kwargs.get("promised_ship_date"),
             "actual_ship_date": None,
-            "expected_delivery_date": expected_delivery_date,
+            "expected_delivery_date": kwargs.get("expected_delivery_date"),
             "actual_delivery_date": None,
             "status": "Pending",
-            "number_of_line_items": number_of_line_items,
-            "total_units": total_units,
-            "number_of_packages": number_of_packages,
-            "packaging_type": packaging_type,
-            "total_weight_kg": total_weight_kg,
-            "total_volume_cbm": total_volume_cbm,
+            "number_of_line_items": kwargs.get("number_of_line_items", 1),
+            "total_units": kwargs.get("total_units", 1),
+            "number_of_packages": kwargs.get("number_of_packages"),
+            "packaging_type": kwargs.get("packaging_type", "Insulated Box"),
+            "total_weight_kg": kwargs.get("total_weight_kg", 1.0),
+            "total_volume_cbm": kwargs.get("total_volume_cbm"),
             "unit_of_measure_weight": "kg",
             "unit_of_measure_volume": "cbm",
-            "value_currency": value_currency,
-            "total_value": total_value,
-            "carrier_name": carrier_name,
+            "value_currency": kwargs.get("value_currency", "USD"),
+            "total_value": kwargs.get("total_value"),
+            "carrier_name": kwargs.get("carrier_name"),
             "carrier_scac": carrier_scac,
-            "mode_of_transport": mode_of_transport,
-            "shipping_service_level": shipping_service_level,
+            "mode_of_transport": kwargs.get("mode_of_transport"),
+            "shipping_service_level": kwargs.get("shipping_service_level"),
             "tracking_number": None,
-            "shipping_cost": shipping_cost,
-            "payment_terms": payment_terms,
-            "temperature_control_required": temperature_control_required,
-            "temperature_celsius": temperature_celsius,
-            "hazmat": hazmat,
-            "hazmat_class": hazmat_class,
-            "fragile": fragile,
-            "priority_level": priority_level,
+            "shipping_cost": kwargs.get("shipping_cost"),
+            "payment_terms": kwargs.get("payment_terms", "Net 30"),
+            "temperature_control_required": kwargs.get(
+                "temperature_control_required", False
+            ),
+            "temperature_celsius": kwargs.get("temperature_celsius", None),
+            "hazmat": kwargs.get("hazmat", False),
+            "hazmat_class": kwargs.get("hazmat_class", None),
+            "fragile": kwargs.get("fragile", True),
+            "priority_level": kwargs.get("priority_level", "Medium"),
             "return_status": "None",
-            "notes": notes,
+            "notes": kwargs.get("notes"),
         }
-        outbound_data["orders"][order_id] = new_order
-        payload = {
-            "status": "success",
-            "order_id": new_order_id,
-        }
-        out = json.dumps(payload)
-        return out
+        outbound_orders.append(new_order)
+
+        return json.dumps(
+            {
+                "status": "success",
+                "order_id": new_order_id,
+            }
+        )
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateOutboundOrder",
+                "name": "create_outbound_order",
                 "description": "Creates a new outbound order record in a 'Pending' state.",
                 "parameters": {
                     "type": "object",

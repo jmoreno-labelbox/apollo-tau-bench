@@ -1,64 +1,50 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetRoleMembersTool(Tool):
-    """Provide user records for individuals in a specified role (read operation, predictable)."""
+    """Return user records for members of a given role (read operation, deterministic)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], role_id: str, status: str = None) -> str:
-        users = data.get("users", {}).values()
-        user_roles = data.get("user_roles", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        users = list(data.get("users", {}).values())
+        user_roles = data.get("user_roles", [])
+
+        role_id = kwargs.get("role_id")
+        status_filter = kwargs.get("status")  # optional: e.g., "ACTIVE"
 
         if not isinstance(user_roles, list) or not isinstance(users, list):
-            payload = {"error": "users and user_roles must be lists"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "users and user_roles must be lists"}, indent=2)
         if not isinstance(role_id, str) or not role_id.strip():
-            payload = {"error": "role_id must be a non-empty string"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "role_id must be a non-empty string"}, indent=2)
 
-        member_user_ids = {
-            ur["user_id"] for ur in user_roles.values() if ur.get("role_id") == role_id
-        }
+        member_user_ids = {ur["user_id"] for ur in user_roles if ur.get("role_id") == role_id}
         results = []
-        for u in users.values():
+        for u in users:
             if u.get("user_id") in member_user_ids:
-                if status and u.get("status") != status:
+                if status_filter and u.get("status") != status_filter:
                     continue
                 results.append(u)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetRoleMembers",
+                "name": "get_role_members",
                 "description": "List user records for members assigned to a role. Optional filter by user status.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "role_id": {
-                            "type": "string",
-                            "description": "The role_id to lookup",
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "Optional user status filter, e.g. ACTIVE",
-                        },
+                        "role_id": {"type": "string", "description": "The role_id to lookup"},
+                        "status": {"type": "string", "description": "Optional user status filter, e.g. ACTIVE"}
                     },
-                    "required": ["role_id"],
+                    "required": ["role_id"]
                 },
             },
         }

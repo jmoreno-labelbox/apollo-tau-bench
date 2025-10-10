@@ -1,42 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateProject(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_name: str,
-        department: str,
-        required_hours_per_week: int,
-        status: str = "active",
-        priority: str = "low",
-        need_resources: str = "true",
-        start_date: str = "to be defined",
-        end_date: str = "to be defined",
-        project_id: str = None
-    ) -> str:
-        if project_id is None:
-            project_id = f"project_{uuid.uuid4().hex[:8]}"
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_name = kwargs.get("project_name")
+        department = kwargs.get("department")
+        status = kwargs.get("status", "active")
+        priority = kwargs.get("priority", "low")
+        required_hours_per_week = kwargs.get("required_hours_per_week")
+        need_resources = kwargs.get("need_resources", "true")
+        start_date = kwargs.get("start_date", "to be defined")
+        end_date = kwargs.get("end_date", "to be defined")
+        project_id = kwargs.get("project_id", f"project_{uuid.uuid4().hex[:8]}")
 
         if not all([project_name, department, required_hours_per_week]):
-            payload = {
-                "error": "project_name, required_hours_per_week and department are required parameters"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "project_name, required_hours_per_week and department are required parameters"})
 
-        projects = data.get("projects", {}).values()
+        projects = list(data.get("projects", {}).values())
 
         new_project = {
             "project_id": project_id,
@@ -50,21 +35,23 @@ class CreateProject(Tool):
             "end_date": end_date,
         }
 
-        data["projects"][project_id] = new_project
-        payload = {
-            "success": True,
-            "project_id": project_id,
-            "name": project_name,
-            "department": department,
-        }
-        out = json.dumps(payload)
-        return out
+        projects.append(new_project)
+
+        return json.dumps(
+            {
+                "success": True,
+                "project_id": project_id,
+                "name": project_name,
+                "department": department,
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateProject",
+                "name": "create_project",
                 "description": "Create a new project",
                 "parameters": {
                     "type": "object",
@@ -75,7 +62,7 @@ class CreateProject(Tool):
                             "description": "ID for the project",
                         },
                         "priority": {
-                            "type": "string",
+                            "type": "str",
                             "description": "Project's priority",
                         },
                         "status": {
@@ -91,7 +78,7 @@ class CreateProject(Tool):
                             "description": "Project's end date",
                         },
                         "required_hours_per_week": {
-                            "type": "integer",
+                            "type": "int",
                             "description": "Project's required allocation hours per week",
                         },
                         "department": {
@@ -99,15 +86,11 @@ class CreateProject(Tool):
                             "description": "Project's department",
                         },
                         "needs_resources": {
-                            "type": "boolean",
+                            "type": "bool",
                             "description": "Indicates if the project need more allocation",
                         },
                     },
-                    "required": [
-                        "project_name",
-                        "department",
-                        "required_hours_per_week",
-                    ],
+                    "required": ["project_name", "department", "required_hours_per_week"],
                 },
             },
         }

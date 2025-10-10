@@ -1,37 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import OrderedDict, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class find_customers(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        customer_id: str = None,
-        phone_number: str = None,
-        membership_level: str = None,
-        birthdate: str = None,
-        opt_in_marketing: bool = None,
-        status: str = None,
-        name: str = None,
-        email: str = None,
-        address: str = None,
-        birth_month: str = None,
-        city: str = None,
-    ) -> str:
-        customers = data.get("customers", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customers = list(data.get("customers", {}).values())
 
-        # If a customer id is provided, it will supersede all other criteria
+        # If customer id is sent, then it will override all other criteria
+        customer_id = kwargs.get("customer_id")
 
-        # These columns will match exactly with the provided value
+        # These columns will be matched exactly to the value sent
         exact_match_cols = [
             "phone_number",
             "membership_level",
@@ -39,37 +21,25 @@ class find_customers(Tool):
             "opt_in_marketing",
             "status",
         ]
-        exact_match_values = {
-            "phone_number": phone_number,
-            "membership_level": membership_level,
-            "birthdate": birthdate,
-            "opt_in_marketing": opt_in_marketing,
-            "status": status,
-        }
+        exact_match_values = {k: kwargs.get(k) for k in exact_match_cols}
 
-        # These columns will match as long as the database field has the provided value
+        # These columns will be matched as long as the database field contains the sent value
         approximate_match_cols = ["name", "email", "address"]
-        approximate_match_values = {
-            "name": name,
-            "email": email,
-            "address": address,
-        }
+        approximate_match_values = {k: kwargs.get(k) for k in approximate_match_cols}
 
-        # These columns have distinct matching criteria
+        # These columns have special matching criteria
         special_match_values = {
-            "birth_month": birth_month,
-            "city": city,
+            "birth_month": kwargs.get("birth_month"),
+            "city": kwargs.get("city"),
         }
 
         matches = []
-        for customer in customers.values():
-            # customer_id is given priority
+        for customer in customers:
+            # customer_id takes priority
             if (customer_id is not None) and (customer["customer_id"] == customer_id):
-                payload = customer
-                out = json.dumps(payload, indent=2)
-                return out
+                return json.dumps(customer, indent=2)
 
-            # Include in the return list if all provided criteria match
+            # If all sent criteria match, then add it to the return list
             elif (
                 all(
                     [
@@ -88,34 +58,30 @@ class find_customers(Tool):
                 and all(
                     [
                         (
-                            (
-                                "-{}-".format(special_match_values["birth_month"])
-                                in customer["birthdate"]
-                            )
-                            if special_match_values["birth_month"] is not None
-                            else True
-                        ),
+                            "-{}-".format(special_match_values["birth_month"])
+                            in customer["birthdate"]
+                        )
+                        if special_match_values["birth_month"] is not None
+                        else True,
                         (
-                            (
-                                special_match_values["city"].lower()
-                                == customer["address"].split(",")[1].strip().lower()
-                            )
-                            if special_match_values["city"] is not None
-                            else True
-                        ),
+                            special_match_values["city"].lower()
+                            == customer["address"].split(",")[1].strip().lower()
+                        )
+                        if special_match_values["city"] is not None
+                        else True,
                     ]
                 )
             ):
                 matches.append(customer)
-        payload = matches
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(matches, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindCustomers",
+                "name": "find_customers",
                 "description": "Finds customer matching the sent criteria. Returns an empty list if there are none",
                 "parameters": {
                     "type": "object",
@@ -141,7 +107,7 @@ class find_customers(Tool):
                             "description": "birth date of the customer. Will do an exact match",
                         },
                         "opt_in_marketing": {
-                            "type": "boolean",
+                            "type": "bool",
                             "description": "opt in marketing of the customer. Will do an exact match",
                         },
                         "name": {
@@ -157,7 +123,7 @@ class find_customers(Tool):
                             "description": "address of the customer. Will do an approximate match",
                         },
                         "birth_month": {
-                            "type": "integer",
+                            "type": "int",
                             "description": "The month the person was born in. Will ignore year and day when matching to birth month",
                         },
                         "city": {

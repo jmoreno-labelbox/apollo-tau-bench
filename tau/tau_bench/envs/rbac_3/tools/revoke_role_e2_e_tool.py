@@ -1,34 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RevokeRoleE2ETool(Tool):
     """
     revoke_role_e2e
-    Comprehensive right-sizing revocation:
-      - Rescind the role (idempotent)
-      - Add to audit log with a deterministic id
-      - Return roles and active sessions for the user along with audit log id
+    End-to-end right-sizing revoke:
+      - Revoke the role (idempotent)
+      - Append audit log with deterministic id
+      - Return roles and active sessions for the user plus audit log id
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, role_id: str = None, revoked_by: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        role_id = kwargs.get("role_id")
+        revoked_by = kwargs.get("revoked_by")
         if not user_id or not role_id or not revoked_by:
-            payload = {"error": "user_id, role_id, revoked_by are required"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": "user_id, role_id, revoked_by are required"}, indent=2
             )
-            return out
 
         revoke_res = json.loads(
             RevokeUserRoleTool.invoke(
@@ -36,29 +30,29 @@ class RevokeRoleE2ETool(Tool):
             )
         )
 
-        # Confirm audit entry (predictable id)
+        # Ensure audit entry (deterministic id)
         audit = json.loads(
             AppendAuditLogTool.invoke(
                 data,
                 log_id=f"LOG-{user_id}-{role_id}-revoke",
                 access_request=f"{user_id}-{role_id}-revoke",
                 actor_id=revoked_by,
-                action_type="RevokeRole",
+                action_type="revoke_role",
                 target_id=f"{user_id}:{role_id}",
                 timestamp=_HARD_TS,
-                details=revoke_res.get("log_info", {}).values().get("details")
+                details=revoke_res.get("log_info", {}).get("details")
                 or ("REMOVED" if revoke_res.get("removed") else "NOOP"),
             )
         )
 
         roles_after = [
             ur.get("role_id")
-            for ur in data.get("user_roles", {}).values()
+            for ur in data.get("user_roles", [])
             if ur.get("user_id") == user_id and not ur.get("expires_on")
         ]
         sessions_after = [
             s
-            for s in data.get("sessions", {}).values()
+            for s in data.get("sessions", [])
             if s.get("user_id") == user_id and not s.get("end_time")
         ]
 
@@ -70,15 +64,14 @@ class RevokeRoleE2ETool(Tool):
             "sessions": sessions_after,
             "audit_log_id": audit.get("log_id"),
         }
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "revokeRoleE2e",
+                "name": "revoke_role_e2e",
                 "description": (
                     "End-to-end right-sizing revoke with audit and verification outputs."
                 ),

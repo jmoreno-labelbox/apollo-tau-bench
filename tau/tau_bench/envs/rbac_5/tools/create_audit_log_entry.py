@@ -1,31 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateAuditLogEntry(Tool):
     """
-    Create a consistent audit log entry.
+    Write a deterministic audit log entry.
 
     kwargs:
-      action_type: str (mandatory)
-      actor_id: str (mandatory)
-      target_id: str (mandatory)
-      details: str (mandatory)
-      timestamp: str ISO (defaults to now)
+      action_type: str (required)
+      actor_id: str (required)
+      target_id: str (required)
+      details: str (required)
+      timestamp: str ISO (defaults now)
     """
-
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        action_type: str = "", 
-        actor_id: str = "", 
-        target_id: str = "", 
-        details: str = "", 
-        timestamp: str = None
-    ) -> str:
-        if timestamp is None:
-            timestamp = get_current_timestamp()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        action_type = kwargs.get("action_type", "")
+        actor_id = kwargs.get("actor_id", "")
+        target_id = kwargs.get("target_id", "")
+        details = kwargs.get("details", "")
+        timestamp = kwargs.get("timestamp") or get_current_timestamp()
 
         log = {
             "log_id": _next_id(data, "audit_logs", "L"),
@@ -37,42 +34,26 @@ class CreateAuditLogEntry(Tool):
         }
 
         data.setdefault("audit_logs", []).append(log)
-        payload = {"ok": True, "audit_log": log}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"ok": True, "audit_log": log})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateAuditLogEntry",
+                "name": "create_audit_log_entry",
                 "description": "Append an audit log entry with deterministic timestamp.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "action_type": {
-                            "type": "string",
-                            "description": "Audit action type.",
-                        },
-                        "actor_id": {
-                            "type": "string",
-                            "description": "User performing the action.",
-                        },
-                        "target_id": {
-                            "type": "string",
-                            "description": "Target entity id (request, user, resource, etc.).",
-                        },
-                        "details": {
-                            "type": "string",
-                            "description": "Deterministic details string.",
-                        },
-                        "timestamp": {
-                            "type": "string",
-                            "description": "ISO timestamp (optional).",
-                        },
+                        "action_type": {"type": "string", "description": "Audit action type."},
+                        "actor_id": {"type": "string", "description": "User performing the action."},
+                        "target_id": {"type": "string", "description": "Target entity id (request, user, resource, etc.)."},
+                        "details": {"type": "string", "description": "Deterministic details string."},
+                        "timestamp": {"type": "string", "description": "ISO timestamp (optional)."}
                     },
                     "required": ["action_type", "actor_id", "target_id", "details"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

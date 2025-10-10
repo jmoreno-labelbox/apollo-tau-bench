@@ -1,30 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class GetSoftSkills(Tool):
+class get_soft_skills(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], skill: str) -> str:
-        payload = data.get("soft_skills", {}).values().get(skill, {}).values()
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data, skill: str) -> str:
+        return json.dumps(data.get("soft_skills", {}).get(skill, {}), indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "getSoftSkills",
+                "name": "get_soft_skills",
                 "description": "Return details for a specific soft skill.",
                 "parameters": {
                     "type": "object",

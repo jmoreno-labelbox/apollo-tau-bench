@@ -1,8 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class RegisterNewBeneficiaryTool(Tool):
     """
@@ -20,36 +21,12 @@ class RegisterNewBeneficiaryTool(Tool):
     """
 
     @staticmethod
-    def invoke(
-        data: Dict[str, Any],
-        customer_id: str = None,
-        beneficiary_name: str = None,
-        country: str = None,
-        bank_details: dict = None,
-        beneficiary_id: str = None,
-        beneficiary_type: str = None,
-        relationship: str = None
-    ) -> str:
-        beneficiary_id = beneficiary_id or f"ben_{generate_unique_id()}"
-
-        if not all([customer_id, beneficiary_name, country, bank_details]):
-            return json.dumps({"error": "Missing required fields"}, indent=2)
-
-        result = {
-            "beneficiary_id": beneficiary_id,
-            "customer_id": customer_id,
-            "beneficiary_name": beneficiary_name,
-            "country": country,
-            "bank_details": bank_details,
-            "status": "Active",
-        }
-        if beneficiary_type:
-            result["beneficiary_type"] = beneficiary_type
-        if relationship:
-            result["relationship"] = relationship
-        
-        return json.dumps(result, indent=2)
-        beneficiary_id = beneficiary_id or f"ben_{generate_unique_id()}"
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        beneficiary_name = kwargs.get("beneficiary_name")
+        country = kwargs.get("country")
+        bank_details = kwargs.get("bank_details")
+        beneficiary_id = kwargs.get("beneficiary_id") or f"ben_{generate_unique_id()}"
 
         if not all([customer_id, beneficiary_name, country, bank_details]):
             return json.dumps({"error": "Missing required fields"}, indent=2)
@@ -65,12 +42,14 @@ class RegisterNewBeneficiaryTool(Tool):
             },
             indent=2,
         )
+
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RegisterNewBeneficiary",
+                "name": "register_new_beneficiary",
                 "description": "Add a new beneficiary to the customer's profile with validations.",
                 "parameters": {
                     "type": "object",

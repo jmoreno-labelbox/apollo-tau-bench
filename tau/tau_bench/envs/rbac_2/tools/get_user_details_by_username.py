@@ -1,51 +1,43 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetUserDetailsByUsername(Tool):
-    """Obtains a user's complete details via their username."""
+    """Retrieves a user's full details using their username."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], username: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        username = kwargs.get("username")
         try:
-            users = data.get("users", {}).values()
+           users = list(data.get('users', {}).values())
         except (KeyError, json.JSONDecodeError):
             users = []
 
-        for user in users.values():
-            if user.get("username") == username:
-                payload = user
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "User not found"}
-        out = json.dumps(payload)
-        return out
+        for user in users:
+            if user.get('username') == username:
+                return json.dumps(user)
+
+        return json.dumps({"error": "User not found"})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetUserDetailsByUsername",
+                "name": "get_user_details_by_username",
                 "description": "Retrieves full user details based on their username.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "username": {
                             "type": "string",
-                            "description": "The username to search for.",
+                            "description": "The username to search for."
                         }
                     },
-                    "required": ["username"],
-                },
-            },
+                "required": ["username"]
+                }
+            }
         }

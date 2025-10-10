@@ -1,16 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateCustomerAccountTool(Tool):
     """
@@ -29,17 +22,16 @@ class CreateCustomerAccountTool(Tool):
     """
 
     @staticmethod
-    def invoke(
-        data: Dict[str, Any],
-        account_type: str = None,
-        currency: str = None,
-        customer_id: str = None,
-        initial_limit: int = 0
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        account_type = kwargs.get("account_type")
+        currency = kwargs.get("currency")
+        initial_limit = kwargs.get("initial_limit", 0)
+
         if not all([customer_id, account_type, currency]):
             return json.dumps({"error": "Missing required fields"}, indent=2)
 
-        accounts = data.get("accounts", {}).values()
+        accounts = list(data.get("accounts", {}).values())
         account_id = f"acc_{generate_unique_id()}"
         new_account = {
             "account_id": account_id,
@@ -50,36 +42,18 @@ class CreateCustomerAccountTool(Tool):
             "status": "Active",
             "created_at": get_current_timestamp(),
         }
-        data["accounts"][account_id] = new_account
+        accounts.append(new_account)
 
         return json.dumps(
             {"message": "Account created", "account_id": account_id}, indent=2
         )
-        if not all([customer_id, account_type, currency]):
-            return json.dumps({"error": "Missing required fields"}, indent=2)
 
-        accounts = data.get("accounts", {}).values()
-        account_id = f"acc_{generate_unique_id()}"
-        new_account = {
-            "account_id": account_id,
-            "customer_id": customer_id,
-            "account_type": account_type,
-            "currency": currency,
-            "balance": initial_limit,
-            "status": "Active",
-            "created_at": get_current_timestamp(),
-        }
-        data["accounts"][account_id] = new_account
-
-        return json.dumps(
-            {"message": "Account created", "account_id": account_id}, indent=2
-        )
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateCustomerAccount",
+                "name": "create_customer_account",
                 "description": "Create a new customer account with a specific account type and initial limit.",
                 "parameters": {
                     "type": "object",

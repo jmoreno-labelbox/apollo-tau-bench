@@ -1,55 +1,46 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetPermissionDetails(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], permission_id: str = None, permission_name: str = None) -> str:
-        if not permission_id and not permission_name:
-            payload = {"error": "Either permission_id or permission_name must be provided."}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        permission_id = kwargs.get("permission_id")
+        permission_name = kwargs.get("permission_name")
 
-        for permission in data.get("permissions", {}).values():
-            if permission_id and permission.get("permission_id") == permission_id:
-                payload = permission
-                out = json.dumps(payload)
-                return out
-            if permission_name and permission.get("action") == permission_name:
-                payload = permission
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Permission not found"}
-        out = json.dumps(payload)
-        return out
+        if not permission_id and not permission_name:
+            return json.dumps({"error": "Either permission_id or permission_name must be provided."})
+
+        for permission in list(data.get('permissions', {}).values()):
+            if permission_id and permission.get('permission_id') == permission_id:
+                return json.dumps(permission)
+            if permission_name and permission.get('action') == permission_name:
+                return json.dumps(permission)
+
+        return json.dumps({"error": "Permission not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "GetPermissionDetails",
-                "description": "Retrieves the full details of a permission by its ID or name.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "permission_id": {
-                            "type": "string",
-                            "description": "The ID of the permission to retrieve.",
-                        },
-                        "permission_name": {
-                            "type": "string",
-                            "description": "The name (action) of the permission to retrieve.",
-                        },
-                    },
-                },
-            },
+                "type": "function",
+                "function": {
+                        "name": "get_permission_details",
+                        "description": "Retrieves the full details of a permission by its ID or name.",
+                        "parameters": {
+                                "type": "object",
+                                "properties": {
+                                        "permission_id": {
+                                                "type": "string",
+                                                "description": "The ID of the permission to retrieve."
+                                        },
+                                        "permission_name": {
+                                                "type": "string",
+                                                "description": "The name (action) of the permission to retrieve."
+                                        }
+                                }
+                        }
+                }
         }

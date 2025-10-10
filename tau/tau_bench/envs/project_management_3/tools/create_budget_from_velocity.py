@@ -1,63 +1,59 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateBudgetFromVelocity(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: str, target_story_points: int, buffer_percentage: int = 20) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        target_story_points = kwargs.get("target_story_points")
+        buffer_percentage = kwargs.get("buffer_percentage", 20)
+
         if not all([project_id, target_story_points]):
-            payload = {"error": "project_id and target_story_points are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "project_id and target_story_points are required"}
+            )
 
-        projects = data.get("projects", {}).values()
-        teams = data.get("teams", {}).values()
-        sprints = data.get("sprints", {}).values()
-        budgets = data.get("budgets", {}).values()
-        employees = data.get("employees", {}).values()
+        projects = list(data.get("projects", {}).values())
+        teams = data.get("teams", [])
+        sprints = data.get("sprints", [])
+        budgets = data.get("budgets", [])
+        employees = list(data.get("employees", {}).values())
 
-        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
+        project = next((p for p in projects if p.get("project_id") == project_id), None)
         if not project:
-            payload = {"error": f"Project {project_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Project {project_id} not found"})
 
         project_team = next(
-            (t for t in teams.values() if t.get("project_id") == project_id), None
+            (t for t in teams if t.get("project_id") == project_id), None
         )
         if not project_team:
-            payload = {"error": "No team assigned to project"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "No team assigned to project"})
 
         team_sprints = [
             s
-            for s in sprints.values() if s.get("team_id") == project_team["team_id"]
+            for s in sprints
+            if s.get("team_id") == project_team["team_id"]
             and s.get("status") == "completed"
         ]
 
         if not team_sprints:
+
             avg_velocity = 40
             avg_cost_per_point = 500
         else:
-            total_velocity = sum(s.get("velocity", 0) for s in team_sprints.values())
+
+            total_velocity = sum(s.get("velocity", 0) for s in team_sprints)
             total_sprints = len(team_sprints)
             avg_velocity = total_velocity / total_sprints if total_sprints > 0 else 40
 
             total_cost = 0
             for member_id in project_team.get("members", []):
                 employee = next(
-                    (e for e in employees.values() if e.get("employee_id") == member_id), None
+                    (e for e in employees if e.get("employee_id") == member_id), None
                 )
                 if employee:
                     hourly_rate = (
@@ -98,16 +94,16 @@ class CreateBudgetFromVelocity(Tool):
             "department": project.get("department"),
         }
 
-        data["budgets"][budget_id] = new_budget
-        payload = {"success": True, "budget": new_budget}
-        out = json.dumps(payload)
-        return out
+        budgets.append(new_budget)
+
+        return json.dumps({"success": True, "budget": new_budget})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateBudgetFromVelocity",
+                "name": "create_budget_from_velocity",
                 "description": "Create project budget based on team velocity and story point targets",
                 "parameters": {
                     "type": "object",

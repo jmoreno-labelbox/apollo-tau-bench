@@ -1,28 +1,16 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CaptureLocContext(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], keys: list[str]) -> str:
+    def invoke(data: Dict[str, Any], keys: List[str]) -> str:
         context = {k: f"artifact://context/{k}" for k in keys}
-        payload = {"context_uris": context}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"context_uris": context}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "CaptureLocContext",
-                "description": "Returns deterministic context media URIs per string key.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "keys": {"type": "array", "items": {"type": "string"}}
-                    },
-                    "required": ["keys"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "capture_loc_context", "description": "Returns deterministic context media URIs per string key.", "parameters": {"type": "object", "properties": {"keys": {"type": "array", "items": {"type": "string"}}}, "required": ["keys"]}}}

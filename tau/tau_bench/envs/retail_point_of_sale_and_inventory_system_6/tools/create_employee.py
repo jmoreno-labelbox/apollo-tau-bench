@@ -1,33 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import OrderedDict, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class create_employee(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        timestamp: str,
-        name: str = None,
-        phone_number: str = None,
-        email: str = None,
-        role: str = None,
-        hire_date: str = None,
-        store_id: str = None,
-    ) -> str:
-        employees = data.get("employees", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employees = list(data.get("employees", {}).values())
 
-        # A timestamp is required for database records
+        # Timestamp needs to be sent for database records
+        timestamp = kwargs.get("timestamp")
 
-        # These values are required to be provided
+        # These values must be sent
         required_cols = [
             "name",
             "phone_number",
@@ -37,20 +23,14 @@ class create_employee(Tool):
             "store_id",
         ]
 
-        # Default values will apply if these are not provided
+        # These values have defaults if not sent
         optional_cols = []
 
-        required_values = {
-            "name": name,
-            "phone_number": phone_number,
-            "email": email,
-            "role": role,
-            "hire_date": hire_date,
-            "store_id": store_id,
-        }
+        required_values = {k: kwargs.get(k) for k in required_cols}
         optional_values = {}
+        optional_values.update({k: kwargs[k] for k in optional_cols if k in kwargs})
 
-        # The function calculates these values
+        # These values are calculated by the function
         fill_in = {
             "employee_id": "EMP-1{employee_id:03}".format(
                 employee_id=max(
@@ -63,21 +43,20 @@ class create_employee(Tool):
             "status": "active",
         }
 
-        # Raise an error if any required values are missing
+        # Throw an error if any of the required values are missing
         if any([required_values[k] is None for k in required_values.keys()]):
-            payload = {
-                "error": "required values not sent: "
-                + ", ".join(
-                    [k for k in required_values.values() if required_values[k] is None]
-                )
-            }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {
+                    "error": "required values not sent: "
+                    + ", ".join(
+                        [k for k in required_values if required_values[k] is None]
+                    )
+                },
+                indent=2,
             )
-            return out
 
-        # This represents the order of items in the database
-        # While not crucial due to the unordered nature of dictionaries, having items in a consistent order can facilitate validation
+        # This is the order that the items appear in the database
+        # May not be necessary since dictionaries are unordered, but it can make valiation easier if the items appear in the same order everytime
         col_order = [
             "employee_id",
             "name",
@@ -89,23 +68,24 @@ class create_employee(Tool):
             "status",
         ]
 
-        # Arrange the items
+        # Order the items
         row = required_values | optional_values | fill_in
         row_final = OrderedDict()
         for k in col_order:
             row_final[k] = row[k]
 
-        # Insert into the database
+        # Add to the database
         employees.append(json.dumps(row_final, indent=2))
-        payload = row_final
-        out = json.dumps(payload, indent=2)
-        return out
+
+        # Return the whole row for reference
+        return json.dumps(row_final, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createEmployee",
+                "name": "create_employee",
                 "description": "Creates a new employee record",
                 "parameters": {
                     "type": "object",

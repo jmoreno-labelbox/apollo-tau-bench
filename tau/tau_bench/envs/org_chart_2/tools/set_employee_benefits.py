@@ -1,47 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class set_employee_benefits(Tool):
     """
-    Replaces the benefit_plan_ids array for an employee to precisely align with the
-    list provided in `benefit_plan_ids`.
+    Overwrites the benefit_plan_ids array for an employee to match exactly the
+    list supplied in `benefit_plan_ids`.
     """
 
     @staticmethod
     def invoke(
-        data: dict[str, Any], employee_id: str, benefit_plan_ids: list[str]
+        data: Dict[str, Any], employee_id: str, benefit_plan_ids: List[str]
     ) -> str:
-        employees = data.get("employees", {}).values()
+        employees = list(data.get("employees", {}).values())
 
-        for e in employees.values():
+        for e in employees:
             if e["employee_id"] == employee_id:
                 e["benefit_plan_ids"] = benefit_plan_ids
                 data["employees"] = employees
-                payload = {"success": f"benefits for {employee_id} updated"}
-                out = json.dumps(
-                    payload, indent=2
+                return json.dumps(
+                    {"success": f"benefits for {employee_id} updated"}, indent=2
                 )
-                return out
-        payload = {"error": f"employee_id {employee_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
-    
+
+        return json.dumps({"error": f"employee_id {employee_id} not found"}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SetEmployeeBenefits",
+                "name": "set_employee_benefits",
                 "description": "Replace an employee's benefit_plan_ids array with the supplied list.",
                 "parameters": {
                     "type": "object",

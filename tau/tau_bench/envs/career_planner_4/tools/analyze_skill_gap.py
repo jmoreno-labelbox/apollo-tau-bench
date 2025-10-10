@@ -1,10 +1,11 @@
-from tau_bench.envs.tool import Tool
-import json
-import uuid
-from datetime import datetime
-from typing import Any
+# Copyright Sierra
 
-class AnalyzeSkillGap(Tool):
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class analyze_skill_gap(Tool):
     @staticmethod
     def invoke(
         data,
@@ -23,18 +24,14 @@ class AnalyzeSkillGap(Tool):
             "recommended_courses": recommended_courses,
         }
         data.setdefault("skill_gap_analysis", []).append(analysis)
-        payload = analysis
-        out = json.dumps(payload, indent=2)
-        return out
-        return out
+        return json.dumps(analysis, indent=2)
 
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "analyzeSkillGap",
+                "name": "analyze_skill_gap",
                 "description": "Perform and log a skill gap analysis for a given user and skill.",
                 "parameters": {
                     "type": "object",

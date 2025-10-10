@@ -1,30 +1,23 @@
-from tau_bench.envs.tool import Tool
-import html
+# Copyright Sierra
+
 import json
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAllArtifactsOfTypeWithTagsAndEmail(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], artifact_type: str = None, tags: list = None, owner_email: str = None) -> str:
-        if not artifact_type:
-            payload = {"error": "Missing required field: artifact_type"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        if not kwargs.get("artifact_type"):
+            return json.dumps({"error": "Missing required field: artifact_type"}, indent=2)
 
-        artifacts = data.get("figma_artifacts", {}).values()
+        artifact_type = kwargs.get("artifact_type")
+        tags = kwargs.get("tags")
+        owner_email = kwargs.get("owner_email")
+
+        artifacts = data.get("figma_artifacts", [])
         results = []
-        for row in artifacts.values():
+        for row in artifacts:
             if row.get("artifact_type") != artifact_type:
                 continue
             if tags:
@@ -36,24 +29,23 @@ class GetAllArtifactsOfTypeWithTagsAndEmail(Tool):
             results.append(row)
 
         results.sort(key=lambda r: str(r.get("artifact_id")))
-        payload = {"count": len(results), "artifacts": results}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"count": len(results), "artifacts": results}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAllArtifactsOfTypeWithTagsAndEmail",
+                "name": "get_all_artifacts_of_type_with_tags_and_email",
                 "description": "Return artifacts of the given type, optionally filtered to include all specified tags and a specific owner_email.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "artifact_type": {"type": "string"},
                         "tags": {"type": "array", "items": {"type": "string"}},
-                        "owner_email": {"type": "string"},
+                        "owner_email": {"type": "string"}
                     },
-                    "required": ["artifact_type"],
-                },
-            },
+                    "required": ["artifact_type"]
+                }
+            }
         }

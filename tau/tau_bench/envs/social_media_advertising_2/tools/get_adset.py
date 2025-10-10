@@ -1,38 +1,27 @@
-from tau_bench.envs.tool import Tool
-import csv
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAdset(Tool):
-    """Provide information for an ad set using its ID."""
+    """Return details for an ad set by ID."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None) -> str:
-        aid = adset_id
-        for a in data.get("adsets", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        aid = kwargs.get("adset_id")
+        for a in data.get("adsets", []):
             if a.get("adset_id") == aid:
-                payload = a
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Adset {aid} not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(a)
+        return json.dumps({"error": f"Adset {aid} not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAdset",
+                "name": "get_adset",
                 "description": "Return details for an ad set by ID.",
                 "parameters": {
                     "type": "object",

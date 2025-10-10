@@ -1,64 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class StoreWaterLevels(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        datum_nullable: str = None,
-        end_ts: str = None,
-        fetched_ts: str = None,
-        raw_json_path_nullable: str = None,
-        start_ts: str = None,
-        station_id: str = None,
-        station_name_nullable: str = None,
-        timestamps: list = None,
-        units: str = None,
-        water_level_m: float = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         req = ["station_id", "timestamps", "water_level_m", "units"]
-        err = _require(locals(), req)
-        if err:
-            return err
-        row = {
-            "station_id": station_id,
-            "station_name_nullable": station_name_nullable,
-            "start_ts": start_ts,
-            "end_ts": end_ts,
-            "timestamps": timestamps,
-            "water_level_m": water_level_m,
-            "units": units,
-            "datum_nullable": datum_nullable,
-            "provider": "noaa-tides-currents",
-            "raw_json_path_nullable": raw_json_path_nullable,
-            "fetched_ts": fetched_ts,
-        }
-        payload = _append(data.setdefault("water_levels", []), row)
-        out = json.dumps(payload, indent=2)
-        return out
+        err = _require(kwargs, req)
+        if err: return err
+        row = {"station_id": kwargs["station_id"], "station_name_nullable": kwargs.get("station_name_nullable"),
+               "start_ts": kwargs.get("start_ts"), "end_ts": kwargs.get("end_ts"),
+               "timestamps": kwargs["timestamps"], "water_level_m": kwargs["water_level_m"],
+               "units": kwargs["units"], "datum_nullable": kwargs.get("datum_nullable"),
+               "provider": "noaa-tides-currents", "raw_json_path_nullable": kwargs.get("raw_json_path_nullable"),
+               "fetched_ts": kwargs.get("fetched_ts")}
+        return json.dumps(_append(data.setdefault("water_levels", []), row), indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "StoreWaterLevels",
-                "description": "Stores observed water levels for a station and window.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "station_id": {"type": "string"},
-                        "station_name_nullable": {"type": "string"},
-                        "start_ts": {"type": "string"},
-                        "end_ts": {"type": "string"},
-                        "timestamps": {"type": "array", "items": {"type": "string"}},
-                        "water_level_m": {"type": "array", "items": {"type": "number"}},
-                        "units": {"type": "string"},
-                        "datum_nullable": {"type": "string"},
-                        "raw_json_path_nullable": {"type": "string"},
-                        "fetched_ts": {"type": "string"},
-                    },
-                    "required": ["station_id", "timestamps", "water_level_m", "units"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "store_water_levels",
+            "description": "Stores observed water levels for a station and window.",
+            "parameters": {"type": "object", "properties": {
+                "station_id": {"type": "string"}, "station_name_nullable": {"type": "string"},
+                "start_ts": {"type": "string"}, "end_ts": {"type": "string"},
+                "timestamps": {"type": "array", "items": {"type": "string"}},
+                "water_level_m": {"type": "array", "items": {"type": "number"}},
+                "units": {"type": "string"}, "datum_nullable": {"type": "string"},
+                "raw_json_path_nullable": {"type": "string"}, "fetched_ts": {"type": "string"}},
+                "required": ["station_id", "timestamps", "water_level_m", "units"]}}}

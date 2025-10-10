@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListAlertsBySeverityTool(Tool):
     """
@@ -46,34 +34,33 @@ class ListAlertsBySeverityTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str, severity: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            severity = _validate_param({"severity": severity}, "severity", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            severity = _validate_param(kwargs, "severity", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        alerts = data.get("code_scanning_alerts", {}).values()
+        alerts = data.get("code_scanning_alerts", [])
         filtered = [
             {
-                "alert_id": _safe_id(
-                    a, "alert_id", f"ALERT_{repo_name}_", ["description", "file"]
-                ),
+                "alert_id": _safe_id(a, "alert_id", f"ALERT_{repo_name}_", ["description", "file"]),
                 "severity": (a.get("severity") or "unknown").lower(),
                 "state": a.get("state"),
                 "description": a.get("description"),
                 "report_date": CURRENT_DATE,
             }
-            for a in alerts.values() if a.get("repo") == repo_name
-            and (a.get("severity") or "").lower() == severity.lower()
+            for a in alerts
+            if a.get("repo") == repo_name and (a.get("severity") or "").lower() == severity.lower()
         ]
         return _response("ok", filtered)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListAlertsBySeverity",
+                "name": "list_alerts_by_severity",
                 "description": "List security alerts for a repository filtered by severity.",
                 "parameters": {
                     "type": "object",

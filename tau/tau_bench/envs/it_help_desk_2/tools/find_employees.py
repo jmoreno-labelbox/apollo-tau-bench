@@ -1,15 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class FindEmployees(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
-        department: str | None = None,
-        job_title: str | None = None,
-        status: str | None = None,
-        manager_id: str | None = None
+        data: Dict[str, Any],
+        department: Optional[str] = None,
+        job_title: Optional[str] = None,
+        status: Optional[str] = None,
+        manager_id: Optional[str] = None,
     ) -> str:
         results = _find_all(
             data["employees"],
@@ -18,16 +21,14 @@ class FindEmployees(Tool):
             status=status,
             manager_id=manager_id,
         )
-        payload = {"status": "ok", "employees": results}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "employees": results})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "findEmployees",
+                "name": "find_employees",
                 "description": "Find employees filtered by department, job_title, status, and/or manager_id.",
                 "parameters": {
                     "type": "object",

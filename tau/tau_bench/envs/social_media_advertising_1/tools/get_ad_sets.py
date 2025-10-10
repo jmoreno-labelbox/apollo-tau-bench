@@ -1,34 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAdSets(Tool):
-    """Fetches all IDs of ad sets."""
+    """Retrieves all ad set IDs."""
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        adsets = data.get("adsets", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adsets = data.get("adsets", [])
         ids_ = []
         for i in adsets:
             ids_ += [i.get("adset_id")]
-        payload = {"adset_ids": ids_}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"adset_ids": ids_})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getAdsets",
+                "name": "get_adsets",
                 "description": "Retrieves all ad set IDs.",
                 "parameters": {},
             },

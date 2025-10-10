@@ -1,31 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class get_org_diversity_metrics(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], department_id: str = None, level: str = None) -> str:
-        employees_to_scan = data.get("employees", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        department_id = kwargs.get("department_id")
+        level = kwargs.get("level")
+
+        employees_to_scan = list(data.get("employees", {}).values())
         if department_id:
             employees_to_scan = [
-                e for e in employees_to_scan.values() if e.get("department_id") == department_id
+                e for e in employees_to_scan if e.get("department_id") == department_id
             ]
         if level:
             employees_to_scan = [
-                e for e in employees_to_scan.values() if e.get("level_id") == level
+                e for e in employees_to_scan if e.get("level_id") == level
             ]
 
-        gender_counts = Counter(e.get("gender") for e in employees_to_scan.values())
-        ethnicity_counts = Counter(e.get("ethnicity_code") for e in employees_to_scan.values())
+        gender_counts = Counter(e.get("gender") for e in employees_to_scan)
+        ethnicity_counts = Counter(e.get("ethnicity_code") for e in employees_to_scan)
 
         metrics = {
             "filter_department": department_id,
@@ -34,15 +31,14 @@ class get_org_diversity_metrics(Tool):
             "gender_distribution": dict(gender_counts),
             "ethnicity_distribution": dict(ethnicity_counts),
         }
-        payload = metrics
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(metrics, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetOrgDiversityMetrics",
+                "name": "get_org_diversity_metrics",
                 "description": "Return diversity metrics (gender, ethnicity) by department, level, or company-wide.",
                 "parameters": {
                     "type": "object",

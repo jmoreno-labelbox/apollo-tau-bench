@@ -1,51 +1,43 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetPolicyExceptionById(Tool):
-    """Retrieve complete details of a specific policy exception by its ID."""
+    """ Get the full details of a specific policy exception using its ID. """
 
     @staticmethod
-    def invoke(data: dict[str, Any], exception_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        exception_id = kwargs.get("exception_id")
         try:
-            policy_exceptions = data.get("policy_exceptions", {}).values()
+            policy_exceptions = data.get('policy_exceptions', [])
         except:
             policy_exceptions = []
 
         for exc in policy_exceptions:
             if exc.get("exception_id") == exception_id:
-                payload = exc
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Policy exception with ID '{exception_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(exc)
+
+        return json.dumps({"error": f"Policy exception with ID '{exception_id}' not found."})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPolicyExceptionById",
+                "name": "get_policy_exception_by_id",
                 "description": "Retrieves the full details of a specific policy exception using its unique ID (e.g., 'PE-010').",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "exception_id": {
                             "type": "string",
-                            "description": "The unique ID of the policy exception to retrieve.",
+                            "description": "The unique ID of the policy exception to retrieve."
                         }
                     },
-                    "required": ["exception_id"],
-                },
-            },
+                    "required": ["exception_id"]
+                }
+            }
         }

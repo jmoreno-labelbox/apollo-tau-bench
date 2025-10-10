@@ -1,42 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetModelInfo(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], model_name: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        model_name = kwargs.get("model_name")
         if not model_name:
-            payload = {"error": "Missing model_name"}
-            out = json.dumps(payload)
-            return out
-        for rec in data.get("models", {}).values():
+            return json.dumps({"error":"Missing model_name"})
+        for rec in list(data.get("models", {}).values()):
             if rec.get("model_name") == model_name:
-                payload = {"model_name": model_name, "model_path": rec.get("model_path")}
-                out = json.dumps(payload)
-                return out
-        payload = {}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"model_name": model_name, "model_path": rec.get("model_path")})
+        return json.dumps({})
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetModelInfo",
-                "description": "Returns model artifact info such as model_path for a model_name.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"model_name": {"type": "string"}},
-                    "required": ["model_name"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{"name":"get_model_info","description":"Returns model artifact info such as model_path for a model_name.","parameters":{"type":"object","properties":{"model_name":{"type":"string"}},"required":["model_name"]}}}

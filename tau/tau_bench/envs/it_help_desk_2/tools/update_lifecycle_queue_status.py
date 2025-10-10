@@ -1,43 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateLifecycleQueueStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], lifecycle_id: str = None, status: str = None) -> str:
-        queue = data.get("lifecycle_queue", {}).values()
-        entry = next((e for e in queue.values() if e.get("lifecycle_id") == lifecycle_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        lifecycle_id = kwargs.get("lifecycle_id")
+        status = kwargs.get("status")
+        queue = data.get("lifecycle_queue", [])
+        entry = next((e for e in queue if e.get("lifecycle_id") == lifecycle_id), None)
         if not entry:
-            payload = {"error": f"Lifecycle entry {lifecycle_id} not found."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"Lifecycle entry {lifecycle_id} not found."}, indent=2)
         entry["status"] = status
-        payload = entry
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(entry, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "updateLifecycleQueueStatus",
-                "description": "Updates the status of an event in the lifecycle queue (e.g., to 'completed').",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "lifecycle_id": {"type": "string"},
-                        "status": {"type": "string"},
-                    },
-                    "required": ["lifecycle_id", "status"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "update_lifecycle_queue_status", "description": "Updates the status of an event in the lifecycle queue (e.g., to 'completed').", "parameters": {"type": "object", "properties": {"lifecycle_id": {"type": "string"}, "status": {"type": "string"}}, "required": ["lifecycle_id", "status"]}}}

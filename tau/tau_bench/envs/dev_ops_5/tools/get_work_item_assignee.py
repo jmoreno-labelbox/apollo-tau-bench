@@ -1,39 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetWorkItemAssignee(Tool):
-    """Fetches the assignee for a work item."""
-
+    """Retrieves the assignee for a work item."""
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        id: Any = None,
-        item_id: str = None
-    ) -> str:
-        work_items = data.get("work_items", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        item_id = kwargs.get("id")
+        work_items = data.get("work_items", [])
         for item in work_items:
             if item.get("id") == item_id:
-                payload = {"assignee_id": item.get("assignee_id")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Work item with ID '{item_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"assignee_id": item.get("assignee_id")})
+        return json.dumps({"error": f"Work item with ID '{item_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetWorkItemAssignee",
+                "name": "get_work_item_assignee",
                 "description": "Retrieves the assignee for a work item.",
                 "parameters": {
                     "type": "object",

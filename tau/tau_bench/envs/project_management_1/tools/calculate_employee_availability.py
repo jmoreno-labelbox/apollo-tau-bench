@@ -1,29 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CalculateEmployeeAvailability(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
         if not employee_id:
-            payload = {"error": "employee_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "employee_id is required"})
 
-        allocations = data.get("allocations", {}).values()
+        allocations = data.get("allocations", [])
         employee_allocations = [
             alloc
-            for alloc in allocations.values() if alloc.get("employee_id") == employee_id
+            for alloc in allocations
+            if alloc.get("employee_id") == employee_id
             and alloc.get("status") == "active"
         ]
 
@@ -31,22 +24,23 @@ class CalculateEmployeeAvailability(Tool):
             alloc.get("hours_per_week", 0) for alloc in employee_allocations
         )
         available_hours = max(0, 40 - total_allocated)
-        payload = {
+
+        return json.dumps(
+            {
                 "employee_id": employee_id,
                 "total_allocated_hours": total_allocated,
                 "available_hours": available_hours,
                 "availability_percentage": round((available_hours / 40) * 100, 1),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateEmployeeAvailability",
+                "name": "calculate_employee_availability",
                 "description": "Calculate available hours for an employee",
                 "parameters": {
                     "type": "object",

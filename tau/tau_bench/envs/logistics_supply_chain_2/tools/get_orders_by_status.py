@@ -1,52 +1,46 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetOrdersByStatus(Tool):
-    """Utility for fetching outbound orders based on their status."""
+    """Tool to retrieve outbound orders by status."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], status: str, list_of_ids: list[str] = None) -> str:
-        orders = data.get("outbound_orders", {}).values()
-        result = [
-            order["order_id"]
-            for order in orders.values() if order["status"].lower() == status.lower()
-        ]
-        if list_of_ids:
-            result = [r for r in result.values() if r in list_of_ids]
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        status = kwargs.get("status")
+        list_of_orders = kwargs.get("list_of_ids", None)
+        orders = data.get("outbound_orders", [])
+        result = [order['order_id'] for order in orders if order["status"].lower() == status.lower()]
+        if list_of_orders:
+            result = [r for r in result if r in list_of_orders]
+        return json.dumps(result, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetOrdersByStatus",
+                "name": "get_orders_by_status",
                 "description": "Retrieve all outbound orders with a given status.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "status": {
                             "type": "string",
-                            "description": "Status of the order (e.g., 'Shipped', 'Delivered')",
+                            "description": "Status of the order (e.g., 'Shipped', 'Delivered')"
                         },
                         "list_of_ids": {
                             "type": "array",
-                            "items": {"type": "string"},
-                            "description": "List of orders to choose from.",
-                        },
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "List of orders to choose from."
+                        }
                     },
-                    "required": ["status"],
-                },
-            },
+                    "required": ["status"]
+                }
+            }
         }

@@ -1,22 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetRecipeDetails(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], recipe_id: int) -> str:
-        recipes = _get_table(data, "recipes")
-        row = next((r for r in recipes if r.get("recipe_id") == recipe_id), None)
-        payload = {"recipe": row}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], recipe_id: int) -> str:
+        return _json({"recipe": _recipe_by_id(data, int(recipe_id))})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetRecipeDetails",
-                "description": "Returns the recipe row for recipe_id.",
+                "name": "get_recipe_details",
+                "description": "Get recipe row by id.",
                 "parameters": {
                     "type": "object",
                     "properties": {"recipe_id": {"type": "integer"}},

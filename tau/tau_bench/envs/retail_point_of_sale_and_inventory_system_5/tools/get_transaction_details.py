@@ -1,33 +1,17 @@
-from tau_bench.envs.tool import Tool
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetTransactionDetails(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], transaction_id: str = None) -> str:
-        transactions = data.get("transactions", {}).values()
-        result = [
-            item for item in transactions.values() if item["transaction_id"] == transaction_id
-        ]
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        transaction_id = kwargs.get("transaction_id")
+        transactions = list(data.get("transactions", {}).values())
+        result = [item for item in transactions if item["transaction_id"] == transaction_id]
+        return json.dumps(result, indent=2)
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetTransactionDetails",
-                "parameters": {"transaction_id": {"type": "string"}},
-                "required": ["transaction_id"],
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "get_transaction_details", "parameters": {"transaction_id": {"type": "string"}}, "required": ["transaction_id"]}}

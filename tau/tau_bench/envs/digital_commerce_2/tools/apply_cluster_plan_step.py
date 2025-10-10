@@ -1,154 +1,141 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
-from decimal import ROUND_HALF_UP, Decimal
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ApplyClusterPlanStep(Tool):
+    name = "apply_cluster_plan_step"
+    description = "Apply a single step of the most recent cluster plan."
 
     @staticmethod
-    def invoke(data: dict[str, Any], plan_id: Any, step_index: Any) -> str:
-        pass
-        plan_id = _idstr(plan_id)
-        step_index = int(step_index)
-        # retrieve the plan
-        plan = None
-        for p in data.get("aws_plans", {}).values():
-            if p.get("plan_id") == plan_id and p.get("type") == "cluster":
-                plan = p
-                break
-        if not plan:
-            payload = {"error": f"No cluster plan '{plan_id}'"}
-            out = json.dumps(payload, indent=2)
-            return out
+    def invoke(
+        data: Dict[str, Any],
+        plan_id: Any,
+        step_index: Any,
+    ) -> Dict[str, Any]:
+        clusters = data.get("aws_clusters", [])
+        rules = data.get("aws_security_group_rules", [])
+
+        def find_cluster(cid):
+            if isinstance(clusters, dict):
+                return clusters.get(cid)
+            for c in clusters:
+                if c.get("cluster_id") == cid:
+                    return c
+            return None
+
+        def find_rule(rid):
+            if isinstance(rules, dict):
+                return rules.get(rid)
+            for r in rules:
+                if r.get("rule_id") == rid:
+                    return r
+            return None
+
+        def iter_rules():
+            if isinstance(rules, dict):
+                return list(rules.values())
+            return list(rules)
+
+        def remove_rules(ids):
+            if isinstance(rules, dict):
+                for rid in ids:
+                    rules.pop(rid, None)
+            else:
+                idxs = [i for i, r in enumerate(rules) if r.get("rule_id") in ids]
+                for i in sorted(idxs, reverse=True):
+                    rules.pop(i)
+
+        last_cid = data.get("_last_cluster_plan_cluster_id")
+        if not last_cid:
+            return {"error": f"No cluster plan '{plan_id}'"}
+        cluster = find_cluster(last_cid)
+        if not cluster:
+            return {"error": f"No cluster plan '{plan_id}'"}
+        plan = cluster.get("_pending_cluster_plan")
+        if not plan or plan.get("plan_id") != plan_id:
+            return {"error": f"No cluster plan '{plan_id}'"}
+        i = int(step_index)
         steps = plan.get("steps", [])
-        if step_index < 0 or step_index >= len(steps):
-            payload = {"error": f"Invalid step_index {step_index}"}
-            out = json.dumps(payload, indent=2)
-            return out
-
-        # find the cluster
-        cl = None
-        for c in data.get("aws_elasticache_clusters", {}).values():
-            if c.get("cluster_id") == plan["cluster_id"]:
-                cl = c
-                break
-        if not cl:
-            payload = {"error": f"Missing cluster '{plan['cluster_id']}'"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-
-        step = steps[step_index]
-        if step == "attach_sg":
-            cl["security_group_id"] = plan["security_group_id"]
-            payload = cl
-            out = json.dumps(payload, indent=2)
-            return out
-
-        if step == "set_subnet":
-            cl["subnet_group_id"] = plan["subnet_group_id"]
-            payload = cl
-            out = json.dumps(payload, indent=2)
-            return out
-
-        if step == "set_status":
-            cl["status"] = plan["new_status"]
-            payload = cl
-            out = json.dumps(payload, indent=2)
-            return out
-
-        if step == "set_name":
-            cl["cluster_name"] = plan["new_name"]
-            payload = cl
-            out = json.dumps(payload, indent=2)
-            return out
-
-        if step == "set_note":
-            cl["instance_type_note"] = plan["note"]
-            payload = cl
-            out = json.dumps(payload, indent=2)
-            return out
-
-        if step == "standardize_env_on_sg" or step == "consolidate_redis_on_sg":
-            # manage rules for this Security Group
-            sg_id = plan["security_group_id"]
-            rules = data.get("aws_security_group_rules", {}).values()
-            if step == "standardize_env_on_sg":
-                tag = plan["env_tag"]
-                changed = []
-                tag_norm = (
-                    tag if tag.startswith("[") and tag.endswith("]") else f"[{tag}]"
-                )
-                for r in rules.values():
-                    if r.get("security_group_id") == sg_id and r.get("port") == 6379:
-                        d = r.get("description", "")
-                        if tag_norm not in d:
-                            r["description"] = (d + " " + tag_norm).strip()
-                            changed.append(r)
-                payload = {"updated": changed, "count": len(changed)}
-                out = json.dumps(payload, indent=2)
-                return out
-
-            if step == "consolidate_redis_on_sg":
-                keep = None
-                removed = []
-                remain = []
-                for r in rules.values():
-                    if r.get("security_group_id") == sg_id and r.get("port") == 6379:
-                        if keep is None:
-                            keep = r
-                        else:
-                            removed.append(r)
-                            continue
-                    remain.append(r)
-                data["aws_security_group_rules"] = remain + ([keep] if keep else [])
-                if keep is None:
-                    new_rule = {
-                        "rule_id": f"sgr-auto-{len(data['aws_security_group_rules'])+1:04d}",
-                        "security_group_id": sg_id,
-                        "port": 6379,
-                        "protocol": "TCP",
-                        "source_ip": plan["consolidate_cidr"],
-                        "description": plan["consolidate_desc"],
-                    }
-                    data["aws_security_group_rules"].append(new_rule)
-                    payload = {"consolidated_rule": new_rule, "removed": removed}
-                    out = json.dumps(
-                        payload, indent=2
-                    )
-                    return out
-                else:
+        if i < 0 or i >= len(steps):
+            return {"error": f"Invalid step_index '{step_index}'"}
+        action = steps[i]
+        if action == "attach_sg":
+            rule = find_rule(plan["reference_rule_id"])
+            if rule:
+                cluster["security_group_id"] = rule["security_group_id"]
+            return {
+                "cluster_id": cluster["cluster_id"],
+                "security_group_id": cluster.get("security_group_id"),
+            }
+        if action == "attach_subnet_group":
+            cluster["subnet_group_id"] = plan["subnet_group_id"]
+            return {
+                "cluster_id": cluster["cluster_id"],
+                "subnet_group_id": cluster["subnet_group_id"],
+            }
+        if action == "set_status":
+            cluster["status"] = plan["new_status"]
+            return {"cluster_id": cluster["cluster_id"], "status": cluster["status"]}
+        if action == "set_name":
+            cluster["name"] = plan["new_name"]
+            return {"cluster_id": cluster["cluster_id"], "name": cluster["name"]}
+        if action == "set_note":
+            cluster["note"] = plan["note"]
+            return {"cluster_id": cluster["cluster_id"], "note": cluster["note"]}
+        if action == "consolidate_ingress":
+            sg_id = cluster.get("security_group_id")
+            port = 6379
+            proto = "TCP"
+            same = [
+                r
+                for r in iter_rules()
+                if r.get("security_group_id") == sg_id
+                and r.get("port", 6379) == port
+                and r.get("protocol", "TCP") == proto
+            ]
+            keep = same[0] if same else None
+            removed = [r["rule_id"] for r in same[1:]] if len(same) > 1 else []
+            if removed:
+                remove_rules(removed)
+            if keep:
+                if plan.get("consolidate_cidr") is not None:
                     keep["source_ip"] = plan["consolidate_cidr"]
+                if plan.get("consolidate_desc") is not None:
                     keep["description"] = plan["consolidate_desc"]
-                    payload = {"consolidated_rule": keep, "removed": removed}
-                    out = json.dumps(
-                        payload, indent=2
-                    )
-                    return out
+            return {"security_group_id": sg_id, "port": port}
+        if action == "standardize_env_on_sg":
+            tag = plan.get("env_tag")
+            updated = 0
+            if tag:
+                sg_id = cluster.get("security_group_id")
+                for r in iter_rules():
+                    if r.get("security_group_id") != sg_id:
+                        continue
+                    if not str(r.get("description", "")).endswith(f" [{tag}]"):
+                        r["description"] = f"{r['description']} [{tag}]"
+                        updated += 1
+            return {"updated": updated}
+        if action == "set_endpoint":
+            ep = plan.get("endpoint_url")
+            if ep == "NULL":
+                cluster["endpoint_url"] = None
+            elif ep and ep != "NOCHANGE":
+                cluster["endpoint_url"] = ep
+            return {
+                "cluster_id": cluster["cluster_id"],
+                "endpoint_url": cluster.get("endpoint_url"),
+            }
+        return {"error": f"Unknown step '{action}'"}
 
-        if step == "set_endpoint":
-            cl["endpoint_url"] = plan["endpoint_url"]
-            payload = cl
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"error": f"Unsupported step '{step}'"}
-        out = json.dumps(payload, indent=2)
-        return out
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ApplyClusterPlanStep",
+                "name": "apply_cluster_plan_step",
                 "description": "Apply a single step by index for a previously created cluster plan.",
                 "parameters": {
                     "type": "object",

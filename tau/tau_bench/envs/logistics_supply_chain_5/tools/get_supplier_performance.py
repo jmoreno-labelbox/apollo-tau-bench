@@ -1,24 +1,16 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetSupplierPerformance(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], supplier_id: str, supplier_name: str = None, performance_rating: float = None, 
-               on_time_delivery_percentage: float = None, relationship_status: str = None, 
-               certifications: list = None, standard_lead_time_days: int = None, payment_terms: str = None) -> str:
-        suppliers = data.get("supplier_master", {}).values()
+    def invoke(data: Dict[str, Any], supplier_id: str) -> str:
+        suppliers = data.get("supplier_master", [])
 
-        supplier = next((s for s in suppliers.values() if s.get("supplier_id") == supplier_id), None)
+        supplier = next((s for s in suppliers if s.get("supplier_id") == supplier_id), None)
 
         if not supplier:
             return json.dumps({"error": f"Supplier {supplier_id} not found"})
@@ -35,12 +27,13 @@ class GetSupplierPerformance(Tool):
         }
 
         return json.dumps(performance_data)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetSupplierPerformance",
+                "name": "get_supplier_performance",
                 "description": "Retrieve supplier performance metrics and details",
                 "parameters": {
                     "type": "object",

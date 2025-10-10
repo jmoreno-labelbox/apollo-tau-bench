@@ -1,27 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ValidateUserGoalAlignment(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, target_role: str = None) -> str:
-        goals = data.get("goals", {}).values()
-        user_goals = [g for g in goals.values() if g["user_id"] == user_id]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        target_role = kwargs.get("target_role")
+        goals = data.get("goals", [])
+        user_goals = [g for g in goals if g["user_id"] == user_id]
 
         if not user_goals:
-            payload = {"valid": False, "reason": "No goals found for user"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"valid": False, "reason": "No goals found for user"}, indent=2
             )
-            return out
 
         for goal_group in user_goals:
             for goal in goal_group.get("goals", []):
@@ -33,22 +28,20 @@ class ValidateUserGoalAlignment(Tool):
                     or target_role.lower() in goal_target_role
                     or goal_target_role == target_role.lower()
                 ):
-                    payload = {"valid": True, "goal_id": goal.get("goal_id")}
-                    out = json.dumps(
-                        payload, indent=2
+                    return json.dumps(
+                        {"valid": True, "goal_id": goal.get("goal_id")}, indent=2
                     )
-                    return out
-        payload = {"valid": False, "reason": "No goals found for target role"}
-        out = json.dumps(
-            payload, indent=2
+
+        return json.dumps(
+            {"valid": False, "reason": "No goals found for target role"}, indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ValidateUserGoalAlignment",
+                "name": "validate_user_goal_alignment",
                 "description": "Validates that a user has goals aligned with a target role.",
                 "parameters": {
                     "type": "object",

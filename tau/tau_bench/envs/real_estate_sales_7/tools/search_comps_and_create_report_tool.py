@@ -1,35 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchCompsAndCreateReportTool(Tool):
-    """Performs a neighborhood-first search, ranks candidates, and generates the comp report entry in one step."""
+    """Runs neighborhood-first search, ranks candidates, and creates the comp report entry in a single step."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        subject_property_id: str,
-        client_id: int,
-        created_by_broker_id: int,
-        client_neighborhoods: list[int] = None,
-        max_selections: int = 3,
-        price_tolerance_pct: float = 0.10
-    ) -> str:
-        #--- Parameters sourced from both tools ---
-        client_id = _as_int(client_id)
-        created_by_broker_id = _as_int(created_by_broker_id)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        # --- Parameters from both tools ---
+        subject_property_id = kwargs.get("subject_property_id")
+        client_id = _as_int(kwargs.get("client_id"))
+        created_by_broker_id = _as_int(kwargs.get("created_by_broker_id"))
 
-        # Verification for mandatory parameters
+        # Validation for required params
         if client_id is None or not subject_property_id or created_by_broker_id is None:
             return _err(
                 "client_id, subject_property_id, and created_by_broker_id are required"
@@ -39,15 +25,15 @@ class SearchCompsAndCreateReportTool(Tool):
         if need_prop:
             return _err(need_prop)
 
-        #--- Logic for Search & Rank (from SearchAndRankCompsTool) ---
+        # --- Search & Rank Logic (from SearchAndRankCompsTool) ---
         client_neighborhoods = {
             v
-            for v in (_as_int(x) for x in (client_neighborhoods or []))
+            for v in (_as_int(x) for x in (kwargs.get("client_neighborhoods") or []))
             if v is not None
         }
-        max_selections = _as_int(max_selections) or 3
+        max_selections = _as_int(kwargs.get("max_selections")) or 3
         try:
-            price_tolerance_pct = float(price_tolerance_pct or 0.10)
+            price_tolerance_pct = float(kwargs.get("price_tolerance_pct") or 0.10)
         except Exception:
             price_tolerance_pct = 0.10
 
@@ -58,7 +44,7 @@ class SearchCompsAndCreateReportTool(Tool):
             )
         subject_price = subject_listing.get("list_price")
 
-        listings_map = {str(l.get("property_id")): l for l in data.get("listings", {}).values()}
+        listings_map = {str(l.get("property_id")): l for l in list(data.get("listings", {}).values())}
         candidate_ids = set(listings_map.keys())
 
         candidates = []
@@ -136,7 +122,7 @@ class SearchCompsAndCreateReportTool(Tool):
             "selected_comparables": selected,
         }
 
-        #--- Logic for Report Creation (from CreateCompReportEntryTool) ---
+        # --- Create Report Logic (from CreateCompReportEntryTool) ---
         rows = data.setdefault("comp_reports", [])
         report_id = _next_int_id(rows, "report_id")
         report_rec = {
@@ -149,20 +135,22 @@ class SearchCompsAndCreateReportTool(Tool):
             "status": "draft",
         }
         rows.append(report_rec)
-        payload = {
+
+        # --- Combine and return ---
+        return json.dumps(
+            {
                 "report_entry": report_rec,
                 "search_results": search_and_rank_output,
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchCompsAndCreateReport",
+                "name": "search_comps_and_create_report",
                 "description": (
                     "Searches for comparable properties, ranks them, and creates a new comp report entry."
                 ),

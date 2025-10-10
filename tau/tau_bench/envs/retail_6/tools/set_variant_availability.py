@@ -1,42 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class SetVariantAvailability(Tool):
-    """Adjust a variant's 'available' status."""
-
+    """Set a variant's 'available' flag."""
     @staticmethod
-    def invoke(data, item_id=None, available=None) -> str:
+    def invoke(data, **kwargs) -> str:
+        item_id = kwargs.get('item_id')
+        available = kwargs.get('available')
         if item_id is None or available is None:
-            payload = {"error": "item_id and available are required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error":"item_id and available are required"}, indent=2)
         prod, variant = _find_product_by_item(data, item_id)
         if not prod:
-            payload = {"error": f"item_id {item_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        prod["variants"][item_id]["available"] = bool(available)
-        payload = {"success": True, "item_id": item_id, "available": bool(available)}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+            return json.dumps({"error":f"item_id {item_id} not found"}, indent=2)
+        prod['variants'][item_id]['available'] = bool(available)
+        return json.dumps({"success": True, "item_id": item_id, "available": bool(available)}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "setVariantAvailability",
-                "description": "Set the boolean 'available' flag for a variant.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "item_id": {"type": "string"},
-                        "available": {"type": "boolean"},
-                    },
-                    "required": ["item_id", "available"],
-                },
-            },
-        }
+        return {"type":"function","function":{"name":"set_variant_availability","description":"Set the boolean 'available' flag for a variant.","parameters":{"type":"object","properties":{"item_id":{"type":"string"},"available":{"type":"boolean"}},"required":["item_id","available"]}}}

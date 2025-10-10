@@ -1,45 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class TakeBacklogSnapshot(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         snapshot_id: str,
         taken_at: str,
-        statuses_in_scope: list[str],
+        statuses_in_scope: List[str],
     ) -> str:
-        pass
-        open_ids = [
-            t["ticket_id"] for t in data["tickets"].values() if t["status"] in statuses_in_scope
-        ]
+        open_ids = [t["ticket_id"] for t in data["tickets"] if t["status"] in statuses_in_scope]
         row = {
             "snapshot_id": snapshot_id,
             "taken_at": taken_at,
             "open_ticket_ids": open_ids,
         }
         _append_row(data["backlog_snapshot_open"], row)
-        payload = {"status": "ok", "snapshot": row}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "snapshot": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "TakeBacklogSnapshot",
+                "name": "take_backlog_snapshot",
                 "description": "Write a backlog snapshot of ticket IDs for the given statuses.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "snapshot_id": {"type": "string"},
                         "taken_at": {"type": "string"},
-                        "statuses_in_scope": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                        },
+                        "statuses_in_scope": {"type": "array", "items": {"type": "string"}},
                     },
                     "required": ["snapshot_id", "taken_at", "statuses_in_scope"],
                 },

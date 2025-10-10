@@ -1,25 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AddTrackingCustomEventTool(Tool):
     """
-    Add a custom event to the status_history of a tracking record.
+    Append a custom event to the status_history of a tracking record.
 
     Behavior:
-    - Confirms that tracking_id exists in tracking.json.
-    - Adds {"status": <event_status>, "timestamp": UTC ISO, "note": <optional str>}.
-    - Does not alter orders.json (pure tracking enhancement).
+    - Validates tracking_id exists in tracking.json.
+    - Appends {"status": <event_status>, "timestamp": UTC ISO, "note": <optional str>}.
+    - Does not modify orders.json (pure tracking enrichment).
 
     Input (kwargs):
         tracking_id (str, required)
@@ -31,45 +24,43 @@ class AddTrackingCustomEventTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], tracking_id: str = None, event_status: str = None, note: str = None) -> str:
-        if not tracking_id or not event_status:
-            payload = {"error": "tracking_id and event_status are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        tracking_id = kwargs.get("tracking_id")
+        event_status = kwargs.get("event_status")
+        note = kwargs.get("note")
 
-        tracking = data.get("tracking", {}).values()
-        rec = next(
-            (t for t in tracking.values() if tracking_id in (t.get("tracking_id") or [])), None
-        )
+        if not tracking_id or not event_status:
+            return json.dumps({"error": "tracking_id and event_status are required"}, indent=2)
+
+        tracking = data.get("tracking", [])
+        rec = next((t for t in tracking if tracking_id in (t.get("tracking_id") or [])), None)
         if not rec:
-            payload = {"error": f"tracking_id '{tracking_id}' not found in tracking records"}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"tracking_id '{tracking_id}' not found in tracking records"},
+                indent=2,
             )
-            return out
 
         event = {"status": str(event_status), "timestamp": _now_iso()}
         if note:
             event["note"] = str(note)
 
         rec.setdefault("status_history", []).append(event)
-        payload = {
+
+        return json.dumps(
+            {
                 "tracking_id": tracking_id,
                 "new_status": event_status,
                 "history_len": len(rec.get("status_history", [])),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddTrackingCustomEvent",
+                "name": "add_tracking_custom_event",
                 "description": "Append a custom status event (with optional note) to a tracking record's status_history.",
                 "parameters": {
                     "type": "object",

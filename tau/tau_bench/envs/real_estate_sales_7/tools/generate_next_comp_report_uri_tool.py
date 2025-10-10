@@ -1,27 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GenerateNextCompReportUriTool(Tool):
-    """Creates the next comp_###.pdf URI based on the highest report_id in comp_reports."""
+    """Generates next comp_###.pdf URI based on highest report_id in comp_reports."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], base_url: str = "https://storage.example.com/reports/", 
-               prefix: str = "comp_", ext: str = ".pdf", pad_width: int = 3) -> str:
-        pass
-        # Locate the current maximum report_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        base_url = kwargs.get("base_url") or "https://storage.example.com/reports/"
+        prefix = kwargs.get("prefix") or "comp_"
+        ext = kwargs.get("ext") or ".pdf"
+        pad_width = _as_int(kwargs.get("pad_width")) or 3  # 21 -> 021
+
+        # Find current max report_id
         max_id = 0
-        for r in data.get("comp_reports", {}).values():
+        for r in data.get("comp_reports", []):
             rid = _as_int(r.get("report_id") or r.get("id") or r.get("entity_id"))
             if rid is not None and rid > max_id:
                 max_id = rid
@@ -33,19 +29,18 @@ class GenerateNextCompReportUriTool(Tool):
         out = {
             "next_report_id": next_id,
             "padded_id": padded,
-            "file_uri": uri,  # ease of use
-            "doc_uri": uri,  # compatible with update_comp_report_doc_uri
+            "file_uri": uri,  # convenience
+            "doc_uri": uri,  # compat with update_comp_report_doc_uri
             "generated_at": HARD_TS,
         }
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "generateNextCompReportUri",
+                "name": "generate_next_comp_report_uri",
                 "description": (
                     "Builds https://storage.example.com/reports/comp_###.pdf using max report_id + 1 from comp_reports."
                 ),

@@ -1,66 +1,64 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchNeighborhoods(Tool):
-    """Look for neighborhoods according to specified criteria."""
-
+    """Search for neighborhoods based on criteria."""
+    
     @staticmethod
-    def invoke(data: dict[str, Any], city: str = None, min_avg_price: float = 0, max_avg_price: float = float("inf"),
-    neighborhood_name: Any = None,
-    ) -> str:
-        neighborhoods = data.get("neighborhoods", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        city = kwargs.get('city')
+        min_avg_price = kwargs.get('min_avg_price', 0)
+        max_avg_price = kwargs.get('max_avg_price', float('inf'))
+        
+        neighborhoods = data.get('neighborhoods', [])
         results = []
-
+        
         for neighborhood in neighborhoods:
-            avg_price = neighborhood.get("avg_home_price", 0)
-            if city and city.lower() not in neighborhood.get("city", "").lower():
+            avg_price = neighborhood.get('avg_home_price', 0)
+            if city and city.lower() not in neighborhood.get('city', '').lower():
                 continue
             if not (min_avg_price <= avg_price <= max_avg_price):
                 continue
             results.append(neighborhood)
-        payload = {
-                "search_criteria": {
-                    "city": city,
-                    "min_avg_price": min_avg_price,
-                    "max_avg_price": max_avg_price,
-                },
-                "neighborhood_count": len(results),
-                "neighborhoods": results,
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        
+        return json.dumps({
+            "search_criteria": {
+                "city": city,
+                "min_avg_price": min_avg_price,
+                "max_avg_price": max_avg_price
+            },
+            "neighborhood_count": len(results),
+            "neighborhoods": results
+        }, indent=2)
+    
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchNeighborhoods",
+                "name": "search_neighborhoods",
                 "description": "Search for neighborhoods based on criteria",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "city": {"type": "string", "description": "City to search CO"},
+                        "city": {
+                            "type": "string",
+                            "description": "City to search in"
+                        },
                         "min_avg_price": {
                             "type": "number",
-                            "description": "Minimum average home price",
+                            "description": "Minimum average home price"
                         },
                         "max_avg_price": {
                             "type": "number",
-                            "description": "Maximum average home price",
-                        },
+                            "description": "Maximum average home price"
+                        }
                     },
-                    "required": [],
-                },
-            },
+                    "required": []
+                }
+            }
         }

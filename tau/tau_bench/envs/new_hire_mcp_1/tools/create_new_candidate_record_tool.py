@@ -1,34 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateNewCandidateRecordTool(Tool):
-    """Adds a candidate to the candidates table with validation, duplicate checking, and initial status assignment."""
+    """Inserts candidate into candidates table with validation, duplicate checking, and initial status setting."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        candidate_name: str = None,
-        role_title: str = None,
-        start_date: str = None,
-        candidate_email: str = None,
-        manager_email: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_name = kwargs.get("candidate_name")
+        role_title = kwargs.get("role_title")
+        start_date = kwargs.get("start_date")
+        candidate_email = kwargs.get("candidate_email")
+        manager_email = kwargs.get("manager_email")
+
         if not all([candidate_name, role_title, start_date, candidate_email]):
-            return _err(
-                "candidate_name, role_title, start_date, and candidate_email are required"
-            )
+            return _err("candidate_name, role_title, start_date, and candidate_email are required")
 
         candidates = data.setdefault("candidates", [])
 
-        # Check for duplicates
-        if any(c.get("candidate_email") == candidate_email for c in candidates.values()):
-            return _err(
-                f"Candidate with email '{candidate_email}' already exists.",
-                code="conflict",
-            )
+        # Duplicate check
+        if any(c.get("candidate_email") == candidate_email for c in candidates):
+            return _err(f"Candidate with email '{candidate_email}' already exists.", code="conflict")
 
         new_candidate = {
             "candidate_id": _next_str_id(candidates, "candidate_id", "CAND-"),
@@ -43,50 +38,30 @@ class CreateNewCandidateRecordTool(Tool):
             "checklist_follow_up_ts_nullable": None,
             "orientation_invite_ts_nullable": None,
             "manager_intro_invite_ts_nullable": None,
-            "welcome_email_message_id_nullable": None,
+            "welcome_email_message_id_nullable": None
         }
 
-        data["candidates"][candidate_id] = new_candidate
-        payload = new_candidate
-        out = json.dumps(payload, indent=2)
-        return out
+        candidates.append(new_candidate)
+
+        return json.dumps(new_candidate, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateNewCandidateRecord",
+                "name": "create_new_candidate_record",
                 "description": "Inserts candidate into candidates table with validation, duplicate checking, and initial status setting.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "candidate_name": {
-                            "type": "string",
-                            "description": "Full name from user input",
-                        },
-                        "role_title": {
-                            "type": "string",
-                            "description": "Job position title",
-                        },
-                        "start_date": {
-                            "type": "string",
-                            "description": "Start date in YYYY-MM-DD format",
-                        },
-                        "candidate_email": {
-                            "type": "string",
-                            "description": "Company email address",
-                        },
-                        "manager_email": {
-                            "type": "string",
-                            "description": "Manager email if known",
-                        },
+                        "candidate_name": {"type": "string", "description": "Full name from user input"},
+                        "role_title": {"type": "string", "description": "Job position title"},
+                        "start_date": {"type": "string", "description": "Start date in YYYY-MM-DD format"},
+                        "candidate_email": {"type": "string", "description": "Company email address"},
+                        "manager_email": {"type": "string", "description": "Manager email if known"}
                     },
-                    "required": [
-                        "candidate_name",
-                        "role_title",
-                        "start_date",
-                        "candidate_email",
-                    ],
+                    "required": ["candidate_name", "role_title", "start_date", "candidate_email"],
                 },
             },
         }

@@ -1,32 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ReturnOrder(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], order_id: Any, lines: Any, reason: Any = None
-    ) -> str:
-        order_id = _as_id(order_id)
+    def invoke(data: Dict[str, Any], order_id: str, lines: Any, reason: str = None) -> str:
         if not order_id or lines is None:
             return _err("order_id and lines are required.")
         lines = _coerce_ids_in(lines)
-        orders = data.get("orders", {}).values()
-        order = next((o for o in orders.values() if _as_id(o.get("order_id")) == order_id), None)
+        orders = list(data.get("orders", {}).values())
+        order = next((o for o in orders if _as_id(o.get("order_id")) == order_id), None)
         if not order:
             return _err("Order not found.")
 
-        order_items = data.get("order_items", {}).values()
-        products = data.get("products", {}).values()
+        order_items = data.get("order_items", [])
+        products = list(data.get("products", {}).values())
 
         items_processed = []
         total_refund = 0.0
@@ -39,8 +30,8 @@ class ReturnOrder(Tool):
             oi = next(
                 (
                     x
-                    for x in order_items.values() if _as_id(x.get("order_id")) == order_id
-                    and _as_id(x.get("product_id")) == pid
+                    for x in order_items
+                    if _as_id(x.get("order_id")) == order_id and _as_id(x.get("product_id")) == pid
                 ),
                 None,
             )
@@ -50,9 +41,7 @@ class ReturnOrder(Tool):
             refund = unit * qty
             total_refund += refund
 
-            prod = next(
-                (p for p in products.values() if _as_id(p.get("product_id")) == pid), None
-            )
+            prod = next((p for p in products if _as_id(p.get("product_id")) == pid), None)
             if prod:
                 prod["stock_quantity"] = int(prod.get("stock_quantity", 0)) + qty
 
@@ -66,24 +55,22 @@ class ReturnOrder(Tool):
             )
 
         order["status"] = "Return Pending"
-        payload = {
+        return json.dumps(
+            {
                 "order_id": order_id,
                 "items_processed": items_processed,
                 "total_refund_amount": round(total_refund, 2),
                 "order_status": order["status"],
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
-           
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ReturnOrder",
+                "name": "return_order",
                 "description": "Return one or more lines from an order and restock quantities.",
                 "parameters": {
                     "type": "object",

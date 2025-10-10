@@ -1,52 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateSupplierInfo(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        supplier_id: str,
-        contact_updates: dict[str, str] = None,
-        performance_rating: float = None,
-        notes: str = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], supplier_id: str, contact_updates: Dict[str, str] = None, performance_rating: float = None, notes: str = None) -> str:
         """
         Update supplier contact information and performance metrics
 
         Writes to: suppliers.json (updates existing supplier contact_info and adds performance data)
         Data Sources: suppliers.json (supplier_id, name, contact_info)
         """
-        suppliers = data.get("suppliers", {}).values()
+        suppliers = data.get("suppliers", [])
         supplier_to_update = None
         supplier_index = None
 
         # Find the supplier
-        for i, supplier in enumerate(suppliers.values()):
+        for i, supplier in enumerate(suppliers):
             if supplier.get("supplier_id") == supplier_id:
                 supplier_to_update = supplier
                 supplier_index = i
                 break
 
         if not supplier_to_update:
-            payload = {"error": f"Supplier {supplier_id} not found", "status": "failed"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Supplier {supplier_id} not found", "status": "failed"})
 
         # WRITE OPERATION: Update supplier information
         updates_applied = []
 
         if contact_updates:
-            current_contact = supplier_to_update.get("contact_info", {}).values()
+            current_contact = supplier_to_update.get("contact_info", {})
 
             if "phone" in contact_updates:
                 current_contact["phone"] = contact_updates["phone"]
@@ -61,20 +47,13 @@ class UpdateSupplierInfo(Tool):
         # Add performance tracking
         if performance_rating is not None:
             if not (0.0 <= performance_rating <= 5.0):
-                payload = {
-                    "error": "Performance rating must be between 0.0 and 5.0",
-                    "status": "failed",
-                }
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"error": "Performance rating must be between 0.0 and 5.0", "status": "failed"})
 
             if "performance_metrics" not in supplier_to_update:
                 supplier_to_update["performance_metrics"] = {}
 
             supplier_to_update["performance_metrics"]["rating"] = performance_rating
-            supplier_to_update["performance_metrics"][
-                "last_updated"
-            ] = datetime.now().isoformat()
+            supplier_to_update["performance_metrics"]["last_updated"] = datetime.now().isoformat()
             updates_applied.append("performance_rating")
 
         if notes:
@@ -91,48 +70,36 @@ class UpdateSupplierInfo(Tool):
             "supplier_id": supplier_id,
             "supplier_name": supplier_to_update.get("name"),
             "updates_applied": updates_applied,
-            "updated_contact_info": list(supplier_to_update.get("contact_info", {}).values()),
-            "performance_rating": supplier_to_update.get("performance_metrics", {}).values().get(
-                "rating"
-            ),
-            "last_updated": supplier_to_update["last_updated"],
+            "updated_contact_info": supplier_to_update.get("contact_info", {}),
+            "performance_rating": supplier_to_update.get("performance_metrics", {}).get("rating"),
+            "last_updated": supplier_to_update["last_updated"]
         }
-        payload = result
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(result)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateSupplierInfo",
+                "name": "update_supplier_info",
                 "description": "Update supplier contact information and performance metrics",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "supplier_id": {
-                            "type": "string",
-                            "description": "Supplier identifier (e.g., '#SUP0001')",
-                        },
+                        "supplier_id": {"type": "string", "description": "Supplier identifier (e.g., '#SUP0001')"},
                         "contact_updates": {
                             "type": "object",
                             "properties": {
                                 "phone": {"type": "string"},
-                                "email": {"type": "string"},
+                                "email": {"type": "string"}
                             },
-                            "description": "Contact information updates",
+                            "description": "Contact information updates"
                         },
-                        "performance_rating": {
-                            "type": "number",
-                            "description": "Performance rating between 0.0 and 5.0",
-                        },
-                        "notes": {
-                            "type": "string",
-                            "description": "Additional notes about supplier",
-                        },
+                        "performance_rating": {"type": "number", "description": "Performance rating between 0.0 and 5.0"},
+                        "notes": {"type": "string", "description": "Additional notes about supplier"}
                     },
-                    "required": ["supplier_id"],
-                },
-            },
+                    "required": ["supplier_id"]
+                }
+            }
         }

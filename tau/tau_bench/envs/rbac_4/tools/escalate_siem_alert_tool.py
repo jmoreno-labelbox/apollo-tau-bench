@@ -1,54 +1,45 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class EscalateSiemAlertTool(Tool):
-    """Increase the severity of a SIEM alert and optionally generate an incident ticket."""
+    """Escalate the severity of a SIEM alert and optionally create an incident ticket."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], alert_id: str = None, severity: str = None, reason: str = None) -> str:
-        alerts = data.get("siem_alerts", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        alerts = data.get("siem_alerts", [])
 
-        alert = next((a for a in alerts.values() if a["alert_id"] == alert_id), None)
+        alert_id = kwargs.get("alert_id")
+        new_severity = kwargs.get("severity")
+        reason = kwargs.get("reason")
+
+        alert = next((a for a in alerts if a["alert_id"] == alert_id), None)
         if not alert:
-            payload = {"error": f"Alert {alert_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"Alert {alert_id} not found"}, indent=2)
 
         severity_order = ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
 
-        # Thoroughly verify severity value prior to using .index()
-        if not severity or severity not in severity_order:
-            payload = {"error": "Invalid severity level"}
-            out = json.dumps(payload, indent=2)
-            return out
+        # Robustly check severity value before using .index()
+        if not new_severity or new_severity not in severity_order:
+            return json.dumps({"error": "Invalid severity level"}, indent=2)
         if alert["severity"] not in severity_order:
-            payload = {"error": "Existing severity value invalid"}
-            out = json.dumps(payload, indent=2)
-            return out
-        if severity_order.index(severity) <= severity_order.index(alert["severity"]):
-            payload = {"error": "Only escalation permitted"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Existing severity value invalid"}, indent=2)
+        if severity_order.index(new_severity) <= severity_order.index(alert["severity"]):
+            return json.dumps({"error": "Only escalation permitted"}, indent=2)
 
-        alert["severity"] = severity
-        payload = {"success": f"Alert {alert_id} escalated to {severity}"}
-        out = json.dumps(payload, indent=2)
-        return out
+        alert["severity"] = new_severity
+
+        return json.dumps({"success": f"Alert {alert_id} escalated to {new_severity}"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "EscalateSiemAlert",
+                "name": "escalate_siem_alert",
                 "description": (
                     "Escalate SIEM alert severity. Only escalation (not downgrade) allowed."
                 ),
@@ -61,5 +52,5 @@ class EscalateSiemAlertTool(Tool):
                     },
                     "required": ["alert_id", "severity", "reason"],
                 },
-            },
+            }
         }

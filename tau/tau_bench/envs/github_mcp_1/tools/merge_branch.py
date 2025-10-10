@@ -1,14 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class MergeBranch(Tool):
     """
@@ -26,170 +21,113 @@ class MergeBranch(Tool):
     """
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        owner: str = None,
-        repo_name: str = None,
-        source_branch_name: str = None,
-        target_branch_name: str = None
-    ) -> str:
-        pass
-        owner = (owner or "").strip()
-        repo_name = (repo_name or "").strip()
-        source_branch_name = (source_branch_name or "").strip()
-        target_branch_name = (target_branch_name or "").strip()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner = (kwargs.get("owner") or "").strip()
+        repo_name = (kwargs.get("repo_name") or kwargs.get("reponame") or "").strip()
+        source_branch_name = (kwargs.get("source_branch_name") or "").strip()
+        target_branch_name = (kwargs.get("target_branch_name") or "").strip()
 
-        if (
-            not owner
-            or not repo_name
-            or not source_branch_name
-            or not target_branch_name
-        ):
-            payload = {
-                    "error": "Required: owner, repo_name, source_branch_name, target_branch_name."
-                }
-            out = json.dumps(
-                payload, indent=2,
+        if not owner or not repo_name or not source_branch_name or not target_branch_name:
+            return json.dumps(
+                {"error": "Required: owner, repo_name, source_branch_name, target_branch_name."},
+                indent=2
             )
-            return out
         if source_branch_name == target_branch_name:
-            payload = {"error": "source_branch_name and target_branch_name must differ."}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": "source_branch_name and target_branch_name must differ."},
+                indent=2
             )
-            return out
 
-        #Load repositories DB
-        repos: list[dict[str, Any]] = data.get("repositories", {}).values()
+        # Load repositories DB
+        repos: List[Dict[str, Any]] = list(data.get("repositories", {}).values())
         if not isinstance(repos, list):
-            payload = {"error": "Invalid database: 'repositories' must be a list."}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "Invalid database: 'repositories' must be a list."}, indent=2)
 
-        #Locate repository
-        repo = next(
-            (
-                r
-                for r in repos
-                if r.get("owner") == owner and r.get("repo_name") == repo_name
-            ),
-            None,
-        )
+        # Locate repository
+        repo = next((r for r in repos if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
         if repo is None:
-            payload = {"error": f"Repository '{owner}/{repo_name}' not found."}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"Repository '{owner}/{repo_name}' not found."}, indent=2)
 
-        branches: list[str] = repo.get("branches", [])
+        branches: List[str] = repo.get("branches", [])
         if source_branch_name not in branches:
-            payload = {"error": f"Source branch '{source_branch_name}' not found."}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"Source branch '{source_branch_name}' not found."}, indent=2)
         if target_branch_name not in branches:
-            payload = {"error": f"Target branch '{target_branch_name}' not found."}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"Target branch '{target_branch_name}' not found."}, indent=2)
 
         src_idx = branches.index(source_branch_name)
         tgt_idx = branches.index(target_branch_name)
 
-        #Ensure per-branch arrays are present and padded
-        branch_files_all: list[list[str]] = repo.setdefault("branch_files", [])
-        branch_contents_all: list[list[str]] = repo.setdefault("branch_contents", [])
-        branch_shas: list[str] = repo.setdefault("branch_shas", [])
+        # Ensure per-branch arrays are present and padded
+        branch_files_all: List[List[str]] = repo.setdefault("branch_files", [])
+        branch_contents_all: List[List[str]] = repo.setdefault("branch_contents", [])
+        branch_shas: List[str] = repo.setdefault("branch_shas", [])
 
-        while len(branch_files_all) < len(branches):
-            branch_files_all.append([])
-        while len(branch_contents_all) < len(branches):
-            branch_contents_all.append([])
-        while len(branch_shas) < len(branches):
-            branch_shas.append("")
+        while len(branch_files_all)    < len(branches): branch_files_all.append([])
+        while len(branch_contents_all) < len(branches): branch_contents_all.append([])
+        while len(branch_shas)        < len(branches): branch_shas.append("")
 
-        #Source snapshot
+        # Source snapshot
         src_files = list(branch_files_all[src_idx])
         src_contents_full = list(branch_contents_all[src_idx])
-        #Normalize content length to file list length
-        normalized_src_contents: list[str] = []
+        # Normalize content length to file list length
+        normalized_src_contents: List[str] = []
         for i, _path in enumerate(src_files):
-            normalized_src_contents.append(
-                src_contents_full[i] if i < len(src_contents_full) else ""
-            )
+            normalized_src_contents.append(src_contents_full[i] if i < len(src_contents_full) else "")
 
-        #Replace target with source snapshot
+        # Replace target with source snapshot
         branch_files_all[tgt_idx] = list(src_files)
         branch_contents_all[tgt_idx] = list(normalized_src_contents)
 
-        #If target is default branch, mirror to repo-level files
+        # If target is default branch, mirror to repo-level files
         default_branch = repo.get("default_branch", "main")
         if target_branch_name == default_branch:
             repo["file_paths"] = list(src_files)
             repo["file_contents"] = list(normalized_src_contents)
 
-        #Deterministic timestamp and new target SHA
+        # Deterministic timestamp and new target SHA
         new_ts = get_current_updated_timestamp()
         repo["updated_ts"] = new_ts
 
-        new_target_sha = get_next_merge_sha(data)  #e.g., "branch_sha_<N>"
+        new_target_sha = get_next_merge_sha(data)  # e.g., "branch_sha_<N>"
 
         branch_shas[tgt_idx] = new_target_sha
 
-        #Terminal log
+        # Terminal log
         add_terminal_message(
             data,
             f"Merged '{source_branch_name}' into '{target_branch_name}' for {owner}/{repo_name} with SHA {new_target_sha}.",
-            new_ts,
+            new_ts
         )
-        payload = {
+
+        return json.dumps(
+            {
                 "success": f"Merged '{source_branch_name}' into '{target_branch_name}' for {owner}/{repo_name} with SHA {new_target_sha}.",
                 "repo": f"{owner}/{repo_name}",
                 "source_branch": source_branch_name,
                 "target_branch": target_branch_name,
                 "target_branch_file_count": len(src_files),
                 "target_branch_sha": new_target_sha,
-                "updated_ts": new_ts,
-            }
-        out = json.dumps(
-            payload, indent=2,
+                "updated_ts": new_ts
+            },
+            indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "MergeBranch",
+                "name": "merge_branch",
                 "description": "Replace target branch files/contents with a snapshot of source (source snapshot wins); mirrors to repo-level if target is default; assigns new deterministic SHA to target; updates repo updated_ts; logs a terminal entry.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "owner": {"type": "string", "description": "Repository owner."},
-                        "repo_name": {
-                            "type": "string",
-                            "description": "Repository name (alias: reponame).",
-                        },
-                        "source_branch_name": {
-                            "type": "string",
-                            "description": "Branch to copy FROM.",
-                        },
-                        "target_branch_name": {
-                            "type": "string",
-                            "description": "Branch to replace (copy INTO).",
-                        },
+                        "repo_name": {"type": "string", "description": "Repository name (alias: reponame)."},
+                        "source_branch_name": {"type": "string", "description": "Branch to copy FROM."},
+                        "target_branch_name": {"type": "string", "description": "Branch to replace (copy INTO)."}
                     },
-                    "required": [
-                        "owner",
-                        "repo_name",
-                        "source_branch_name",
-                        "target_branch_name",
-                    ],
-                },
-            },
+                    "required": ["owner", "repo_name", "source_branch_name", "target_branch_name"]
+                }
+            }
         }

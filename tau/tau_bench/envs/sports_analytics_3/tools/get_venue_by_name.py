@@ -1,54 +1,47 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetVenueByName(Tool):
-    """Retrieve a venue record using its venue_name (exact, case-sensitive)."""
+    """Fetch a venue record by its venue_name (exact, case-sensitive)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], name: str = None) -> str:
-        #1) Confirm validity
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name = kwargs.get("name")
+
+        # 1) Validate
         if not isinstance(name, str) or name == "":
-            payload = {"error": "Missing required field: name"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Missing required field: name"}, indent=2)
 
-        #2) Retrieve DB
-        venues: list[dict[str, Any]] = data.get("venues", {}).values()
+        # 2) Get DB
+        venues: List[Dict[str, Any]] = data.get("venues", [])
 
-        #3) Exact match (without normalization)
+        # 3) Exact match (no normalization)
         for venue in venues:
             if venue.get("venue_name") == name:
-                payload = venue
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"No venue found with name {name}"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(venue, indent=2)
+
+        return json.dumps({"error": f"No venue found with name {name}"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getVenueByName",
+                "name": "get_venue_by_name",
                 "description": "Fetch a single venue's full details by exact venue_name (case-sensitive).",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "name": {
                             "type": "string",
-                            "description": "Exact venue name to retrieve (e.g., 'Charlotte').",
+                            "description": "Exact venue name to retrieve (e.g., 'New York Stadium')."
                         }
                     },
-                    "required": ["name"],
-                },
-            },
+                    "required": ["name"]
+                }
+            }
         }

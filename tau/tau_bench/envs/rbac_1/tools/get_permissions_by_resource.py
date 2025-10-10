@@ -1,46 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetPermissionsByResource(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], resource_id: str = None) -> str:
-        for res in data.get("resources", {}).values():
-            if res.get("resource_id") == resource_id:
-                resource_id = res.get("resource_id")
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        resource_id = kwargs.get("resource_id")
+        for res in data.get('resources', []):
+            if res.get('resource_id') == resource_id:
+                resource_id = res.get('resource_id')
                 break
         if not resource_id:
-            payload = {"error": "Resource not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Resource not found"})
 
         perms = []
-        for perm in data.get("permissions", {}).values():
-            if perm.get("resource_id") == resource_id:
+        for perm in list(data.get('permissions', {}).values()):
+            if perm.get('resource_id') == resource_id:
                 perms.append(perm)
-        payload = perms
-        out = json.dumps(payload)
-        return out
+        return json.dumps(perms)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "GetPermissionsByResource",
-                "description": "Retrieves all permissions referencing a given resource.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"resource_id": {"type": "string"}},
-                    "required": ["resource_id"],
-                },
-            },
+                "type": "function",
+                "function": {
+                        "name": "get_permissions_by_resource",
+                        "description": "Retrieves all permissions referencing a given resource.",
+                        "parameters": {
+                                "type": "object",
+                                "properties": {
+                                        "resource_id": {"type": "string"}
+                                },
+                                "required": ["resource_id"]
+                        }
+                }
         }

@@ -1,45 +1,36 @@
-from tau_bench.envs.tool import Tool
-import html
+# Copyright Sierra
+
 import json
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAssetById(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], asset_id: str = None) -> str:
-        if not asset_id:
-            payload = {"error": "Missing required field: asset_id"}
-            out = json.dumps(payload, indent=2)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        if not kwargs.get("asset_id"):
+            return json.dumps({"error": "Missing required field: asset_id"}, indent=2)
 
-        assets = data.get("assets", {}).values()
-        for row in assets.values():
+        asset_id = kwargs.get("asset_id")
+        assets = data.get("assets", [])
+        for row in assets:
             if row.get("asset_id") == asset_id:
-                payload = row
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"No asset with id '{asset_id}'"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(row, indent=2)
+        return json.dumps({"error": f"No asset with id '{asset_id}'"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAssetById",
+                "name": "get_asset_by_id",
                 "description": "Fetch a single asset object by asset_id.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"asset_id": {"type": "string"}},
-                    "required": ["asset_id"],
-                },
-            },
+                    "properties": {
+                        "asset_id": {"type": "string"}
+                    },
+                    "required": ["asset_id"]
+                }
+            }
         }

@@ -1,10 +1,13 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ExtractFailureSignals(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], run_id: str) -> str:
+    def invoke(data: Dict[str, Any], run_id: str) -> str:
         artifacts = _get_table(data, "artifacts")
         build_runs = _get_table(data, "build_runs")
         crashes = _get_table(data, "crash_events")
@@ -17,43 +20,11 @@ class ExtractFailureSignals(Tool):
             artifacts.append(art)
         reduced_log_uri = f"artifact://reduced_log/{run_id}"
         symbolicated_stack_uri = f"artifact://symbolicated_stack/{run_id}"
-        art.update(
-            {
-                "reduced_log_uri": reduced_log_uri,
-                "symbolicated_stack_uri": symbolicated_stack_uri,
-            }
-        )
+        art.update({"reduced_log_uri": reduced_log_uri, "symbolicated_stack_uri": symbolicated_stack_uri})
         signature = f"sig:{run.get('commit_sha') or run_id}:first_failure"
-        crashes.append(
-            {
-                "crash_id": f"CR-{run_id}",
-                "fingerprint": signature,
-                "build_number": run_id,
-                "platform": run.get("provider"),
-                "count_24h": 1,
-                "top_frame": "main()",
-                "symbolicated_stack_uri": symbolicated_stack_uri,
-            }
-        )
-        payload = {
-            "reduced_log_uri": reduced_log_uri,
-            "symbolicated_stack_uri": symbolicated_stack_uri,
-            "error_signature": signature,
-        }
-        out = json.dumps(payload, indent=2)
-        return out
+        crashes.append({"crash_id": f"CR-{run_id}", "fingerprint": signature, "build_number": run_id, "platform": run.get("provider"), "count_24h": 1, "top_frame": "main()", "symbolicated_stack_uri": symbolicated_stack_uri})
+        return json.dumps({"reduced_log_uri": reduced_log_uri, "symbolicated_stack_uri": symbolicated_stack_uri, "error_signature": signature}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ExtractFailureSignals",
-                "description": "Creates deterministic reduced log and symbolicated stack URIs and stores an error signature.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"run_id": {"type": "string"}},
-                    "required": ["run_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "extract_failure_signals", "description": "Creates deterministic reduced log and symbolicated stack URIs and stores an error signature.", "parameters": {"type": "object", "properties": {"run_id": {"type": "string"}}, "required": ["run_id"]}}}

@@ -1,22 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from itertools import islice
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class OpenHousesForProperties(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], property_ids: list[int] = None, date_from: str = None, date_to: str = None) -> str:
-        pids = set(property_ids or [])
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        pids = set(kwargs.get("property_ids") or [])
+        date_from = kwargs.get("date_from")
+        date_to = kwargs.get("date_to")
         rows = []
-        for oh in data.get("open_houses", {}).values() or []:
+        for oh in (data.get("open_houses", []) or []):
             if pids and oh.get("property_id") not in pids:
                 continue
             dt = oh.get("start_at", "")
@@ -25,15 +21,14 @@ class OpenHousesForProperties(Tool):
             if date_to and dt > f"{date_to}T23:59:59Z":
                 continue
             rows.append(oh)
-        payload = {"matches": rows}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"matches": rows}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "OpenHousesForProperties",
+                "name": "open_houses_for_properties",
                 "description": "Fetch open house windows for specific properties within a date range.",
                 "parameters": {
                     "type": "object",

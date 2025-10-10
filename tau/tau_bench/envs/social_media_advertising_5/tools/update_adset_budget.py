@@ -1,47 +1,27 @@
-from tau_bench.envs.tool import Tool
-import ast
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateAdsetBudget(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str, new_budget: float, updated_at: str) -> str:
-        aid = adset_id
-        nb = float(new_budget)
-        for a in data.get("adsets", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        aid = kwargs.get("adset_id")
+        nb = float(kwargs.get("new_budget"))
+        for a in data.get("adsets", []):
             if a.get("adset_id") == aid:
                 a["daily_budget"] = nb
-                a["updated_at"] = updated_at
-                payload = a
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"adset {aid} not found"}
-        out = json.dumps(payload)
-        return out
+                a["updated_at"] = kwargs.get("updated_at")
+                return json.dumps(a)
+        return json.dumps({"error": f"adset {aid} not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "UpdateAdsetBudget",
-                "description": "Updates an ad set budget.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "adset_id": {"type": "string"},
-                        "new_budget": {"type": "number"},
-                        "updated_at": {"type": "string"},
-                    },
-                    "required": ["adset_id", "new_budget", "updated_at"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function",
+                "function": {"name": "update_adset_budget", "description": "Updates an ad set budget.",
+                             "parameters": {"type": "object", "properties": {"adset_id": {"type": "string"},
+                                                                             "new_budget": {"type": "number"},
+                                                                             "updated_at": {"type": "string"}},
+                                            "required": ["adset_id", "new_budget", "updated_at"]}}}

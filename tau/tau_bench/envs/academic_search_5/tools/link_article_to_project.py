@@ -1,72 +1,45 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class LinkArticleToProject(Tool):
-    """Utility for associating an article with a research project."""
-
+    """Tool to link an article to a research project."""
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: Any = None, article_id: Any = None) -> str:
-        project_id = project_id
-        article_id = article_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get('project_id')
+        article_id = kwargs.get('article_id')
         if not project_id or not article_id:
-            payload = {"error": "project_id and article_id are required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "project_id and article_id are required."})
 
-        projects = data.get("projects", {}).values()
-        for project in projects.values():
-            if project.get("project_id") == project_id:
-                if "linked_articles" not in project:
-                    project["linked_articles"] = []
-                if article_id not in project["linked_articles"]:
-                    project["linked_articles"].append(article_id)
-                    payload = {
-                            "success": True,
-                            "project_id": project_id,
-                            "article_id": article_id,
-                        }
-                    out = json.dumps(
-                        payload)
-                    return out
+        projects = list(data.get('projects', {}).values())
+        for project in projects:
+            if project.get('project_id') == project_id:
+                if 'linked_articles' not in project:
+                    project['linked_articles'] = []
+                if article_id not in project['linked_articles']:
+                    project['linked_articles'].append(article_id)
+                    return json.dumps({"success": True, "project_id": project_id, "article_id": article_id})
                 else:
-                    payload = {"error": "Article already linked to this project."}
-                    out = json.dumps(
-                        payload)
-                    return out
-        payload = {"error": "Project not found."}
-        out = json.dumps(payload)
-        return out
+                    return json.dumps({"error": "Article already linked to this project."})
+        return json.dumps({"error": "Project not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "LinkArticleToProject",
+                "name": "link_article_to_project",
                 "description": "Links an existing article to a research project.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "project_id": {
-                            "type": "string",
-                            "description": "The ID of the project.",
-                        },
-                        "article_id": {
-                            "type": "string",
-                            "description": "The ID of the article to link.",
-                        },
+                        "project_id": {"type": "string", "description": "The ID of the project."},
+                        "article_id": {"type": "string", "description": "The ID of the article to link."}
                     },
-                    "required": ["project_id", "article_id"],
-                },
-            },
+                    "required": ["project_id", "article_id"]
+                }
+            }
         }

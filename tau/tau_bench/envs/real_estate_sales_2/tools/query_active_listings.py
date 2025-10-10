@@ -1,42 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from itertools import islice
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class QueryActiveListings(Tool):
-    """Select and provide active listings based on specified criteria."""
+    """Filter and return active listings by given constraints."""
 
     @staticmethod
-    def _by_key(rows: list[dict[str, Any]], key: str) -> dict[Any, dict[str, Any]]:
-        pass
+    def _by_key(rows: List[Dict[str, Any]], key: str) -> Dict[Any, Dict[str, Any]]:
         return {r.get(key): r for r in rows or []}
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        neighborhood_ids: list[int] = None,
-        price_min: float = None,
-        price_max: float = None,
-        beds: int = None,
-        baths: int = None,
-        sqft_min: int = None,
-        sqft_max: int = None,
-        property_type: str = None,
-        limit: int = 15
-    ) -> str:
-        neighborhoods = set(neighborhood_ids or [])
-        props = QueryActiveListings._by_key(data.get("properties", {}).values(), "property_id")
-        listings = data.get("listings") or []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        neighborhood_ids = kwargs.get("neighborhood_ids")
+        price_min: Optional[float] = kwargs.get("price_min")
+        price_max: Optional[float] = kwargs.get("price_max")
+        beds: Optional[int] = kwargs.get("beds")
+        baths: Optional[int] = kwargs.get("baths")
+        sqft_min: Optional[int] = kwargs.get("sqft_min")
+        sqft_max: Optional[int] = kwargs.get("sqft_max")
+        property_type: Optional[str] = kwargs.get("property_type")
+        limit: int = kwargs.get("limit", 15)
 
-        def within(val: float | None, lo: float | None, hi: float | None) -> bool:
+        neighborhoods = set(neighborhood_ids or [])
+        props = QueryActiveListings._by_key(list(data.get("properties", {}).values()), "property_id")
+        listings = (data.get("listings") or [])
+
+        def within(val: Optional[float], lo: Optional[float], hi: Optional[float]) -> bool:
             v = 0 if val is None else val
             if lo is not None and v < lo:
                 return False
@@ -44,7 +36,7 @@ class QueryActiveListings(Tool):
                 return False
             return True
 
-        def matches(pr: dict[str, Any], lst: dict[str, Any]) -> bool:
+        def matches(pr: Dict[str, Any], lst: Dict[str, Any]) -> bool:
             return (
                 lst.get("status") == "active"
                 and (not neighborhoods or pr.get("neighborhood_id") in neighborhoods)
@@ -68,28 +60,24 @@ class QueryActiveListings(Tool):
                 "listing_url": lst.get("listing_url"),
                 "street_view_url": lst.get("street_view_url"),
             }
-            for lst in listings.values() if (pr := props.get(lst.get("property_id"))) is not None
-            and matches(pr, lst)
+            for lst in listings
+            if (pr := props.get(lst.get("property_id"))) is not None and matches(pr, lst)
         )
 
         results = list(islice(result_iter, limit))
-        payload = {"results": results}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"results": results}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "QueryActiveListings",
+                "name": "query_active_listings",
                 "description": "Search active listings by neighborhood(s) and criteria.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "neighborhood_ids": {
-                            "type": "array",
-                            "items": {"type": "integer"},
-                        },
+                        "neighborhood_ids": {"type": "array", "items": {"type": "integer"}},
                         "price_min": {"type": "integer"},
                         "price_max": {"type": "integer"},
                         "beds": {"type": "integer"},

@@ -1,25 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ReopenCancelledOrderTool(Tool):
     """
-    Reopen an order that was previously cancelled by changing its status back to 'pending'.
+    Reopen a previously cancelled order by setting status back to 'pending'.
 
     Behavior:
-    - Confirms the order exists and is currently 'cancelled'.
-    - Updates order['status'] to 'pending'.
-    - Does not alter items, payment_history, or fulfillments.
+    - Validates order exists and is currently 'cancelled'.
+    - Sets order['status'] = 'pending'.
+    - Does not modify items, payment_history, or fulfillments.
 
     Input (kwargs):
         order_id (str, required)
@@ -29,38 +22,32 @@ class ReopenCancelledOrderTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get("order_id")
         if not order_id:
-            payload = {"error": "order_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "order_id is required"}, indent=2)
 
-        orders = data.get("orders", {}).values()
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
+        orders = list(data.get("orders", {}).values())
+        order = next((o for o in orders if o.get("order_id") == order_id), None)
         if not order:
-            payload = {"error": f"order_id '{order_id}' not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"order_id '{order_id}' not found"}, indent=2)
 
         if order.get("status") != "cancelled":
-            payload = {
-                    "error": f"order status must be 'cancelled', found '{order.get('status')}'"
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"order status must be 'cancelled', found '{order.get('status')}'"},
+                indent=2,
             )
-            return out
 
         order["status"] = "pending"
-        payload = {"order_id": order_id, "status": "pending"}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"order_id": order_id, "status": "pending"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ReopenCancelledOrder",
+                "name": "reopen_cancelled_order",
                 "description": "Reopen a cancelled order by setting its status back to 'pending'.",
                 "parameters": {
                     "type": "object",

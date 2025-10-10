@@ -1,42 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateMilestoneStatus(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        milestone_id: str = None,
-        new_status: str = None,
-        progress_percentage: int = None,
-        health: str = None,
-        deliverables_completed: list = None,
-        status_notes: str = ""
-    ) -> str:
-        if deliverables_completed is None:
-            deliverables_completed = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        milestone_id = kwargs.get("milestone_id")
+        new_status = kwargs.get("new_status")
+        progress_percentage = kwargs.get("progress_percentage")
+        health = kwargs.get("health")
+        deliverables_completed = kwargs.get("deliverables_completed", [])
 
         if not all([milestone_id, new_status]):
-            payload = {"error": "milestone_id and new_status are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "milestone_id and new_status are required"})
 
-        milestones = data.get("milestones", {}).values()
-        milestone_updates = data.get("milestone_updates", {}).values()
+        milestones = list(data.get("milestones", {}).values())
+        milestone_updates = data.get("milestone_updates", [])
 
-        for milestone in milestones.values():
+        for milestone in milestones:
             if milestone.get("milestone_id") == milestone_id:
-                milestone.get("status")
+                old_status = milestone.get("status")
                 old_health = milestone.get("health")
 
                 if new_status == "completed":
@@ -46,20 +32,20 @@ class UpdateMilestoneStatus(Tool):
                     current_date = datetime.now(timezone.utc)
 
                     if current_date < start_date:
-                        payload = {
-                            "error": "Cannot mark milestone as completed before its start date"
-                        }
-                        out = json.dumps(payload)
-                        return out
+                        return json.dumps(
+                            {
+                                "error": "Cannot mark milestone as completed before its start date"
+                            }
+                        )
 
                     total_deliverables = len(milestone.get("deliverables", []))
                     if total_deliverables > 0:
                         if len(deliverables_completed) < total_deliverables:
-                            payload = {
-                                "error": f"All {total_deliverables} deliverables must be completed before marking milestone as completed. Only {len(deliverables_completed)} completed."
-                            }
-                            out = json.dumps(payload)
-                            return out
+                            return json.dumps(
+                                {
+                                    "error": f"All {total_deliverables} deliverables must be completed before marking milestone as completed. Only {len(deliverables_completed)} completed."
+                                }
+                            )
 
                     milestone["actual_completion_date"] = datetime.now(
                         timezone.utc
@@ -79,24 +65,25 @@ class UpdateMilestoneStatus(Tool):
                     "milestone_id": milestone_id,
                     "progress_percentage": milestone["progress_percentage"],
                     "status": new_status,
-                    "status_notes": status_notes,
+                    "status_notes": kwargs.get("status_notes", ""),
                     "deliverables_completed": deliverables_completed,
                     "health_change": f"{old_health} -> {milestone['health']}",
                     "updated_date": datetime.now(timezone.utc).isoformat(),
                 }
-                data["milestone_updates"][update_record["milestone_update_id"]] = update_record
-                payload = {"success": True, "milestone": milestone, "update": update_record}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Milestone '{milestone_id}' not found"}
-        out = json.dumps(payload)
-        return out
+                milestone_updates.append(update_record)
+
+                return json.dumps(
+                    {"success": True, "milestone": milestone, "update": update_record}
+                )
+
+        return json.dumps({"error": f"Milestone '{milestone_id}' not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateMilestoneStatus",
+                "name": "update_milestone_status",
                 "description": "Update milestone status, progress, and health",
                 "parameters": {
                     "type": "object",

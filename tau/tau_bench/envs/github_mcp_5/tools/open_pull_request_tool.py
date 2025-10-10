@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class OpenPullRequestTool(Tool):
     """
@@ -43,27 +31,17 @@ class OpenPullRequestTool(Tool):
     """
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        repo_name: str,
-        title: str,
-        body: str,
-        head_branch: str,
-        base_branch: str
-,
-    author: Any = None,
-    ) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            title = _validate_param({"title": title}, "title", str)
-            body = _validate_param({"body": body}, "body", str)
-            head_branch = _validate_param({"head_branch": head_branch}, "head_branch", str)
-            base_branch = _validate_param({"base_branch": base_branch}, "base_branch", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            title = _validate_param(kwargs, "title", str)
+            body = _validate_param(kwargs, "body", str)
+            head_branch = _validate_param(kwargs, "head_branch", str)
+            base_branch = _validate_param(kwargs, "base_branch", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        prs = data.get("pull_requests", {}).values()
+        prs = list(data.get("pull_requests", {}).values())
         new_number = len(prs) + 1
         new_pr = {
             "repo": repo_name,
@@ -75,17 +53,16 @@ class OpenPullRequestTool(Tool):
             "state": "open",
             "created_at": CURRENT_DATE,
         }
-        new_pr["pr_id"] = _safe_id(
-            new_pr, "pr_id", f"PR_{repo_name}_", ["title", "head_branch", "base_branch"]
-        )
-        data["pull_requests"][new_pr["pull_request_id"]] = new_pr
+        new_pr["pr_id"] = _safe_id(new_pr, "pr_id", f"PR_{repo_name}_", ["title", "head_branch", "base_branch"])
+        prs.append(new_pr)
         return _response("ok", new_pr)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "OpenPullRequest",
+                "name": "open_pull_request",
                 "description": "Open a new pull request deterministically (in-memory only).",
                 "parameters": {
                     "type": "object",
@@ -96,13 +73,7 @@ class OpenPullRequestTool(Tool):
                         "head_branch": {"type": "string"},
                         "base_branch": {"type": "string"},
                     },
-                    "required": [
-                        "repo_name",
-                        "title",
-                        "body",
-                        "head_branch",
-                        "base_branch",
-                    ],
+                    "required": ["repo_name", "title", "body", "head_branch", "base_branch"],
                 },
             },
         }

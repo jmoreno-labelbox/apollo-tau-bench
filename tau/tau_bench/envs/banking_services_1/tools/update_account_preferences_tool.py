@@ -1,8 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpdateAccountPreferencesTool(Tool):
     """
@@ -20,13 +21,10 @@ class UpdateAccountPreferencesTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, preferences: Dict[str, Any] = None, notifications_enabled: bool = None) -> str:
-        # Support both preferences dict and direct parameters
-        if preferences is None:
-            preferences = {}
-        if notifications_enabled is not None:
-            preferences["notifications_enabled"] = notifications_enabled
-            
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        preferences = kwargs.get("preferences", {})
+
         if not customer_id or not isinstance(preferences, dict):
             return json.dumps(
                 {"error": "customer_id and preferences (dict) are required"}, indent=2
@@ -46,12 +44,13 @@ class UpdateAccountPreferencesTool(Tool):
             return json.dumps({"error": "Customer account not found"}, indent=2)
 
         return json.dumps({"status": "updated", "preferences": updated_prefs}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateAccountPreferences",
+                "name": "update_account_preferences",
                 "description": "Update the customer's notification, language, or communication preferences.",
                 "parameters": {
                     "type": "object",

@@ -1,39 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetPermissionDetailsTool(Tool):
-    """Retrieve comprehensive information about a permission using its ID."""
+    """Get full details of a permission by ID."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], permission_id: str = None) -> str:
-        for p in data.get("permissions", {}).values():
-            if p["permission_id"] == permission_id:
-                payload = p
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Permission {permission_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        pid = kwargs.get("permission_id")
+        for p in list(data.get("permissions", {}).values()):
+            if p["permission_id"] == pid:
+                return json.dumps(p, indent=2)
+        return json.dumps({"error": f"Permission {pid} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPermissionDetails",
+                "name": "get_permission_details",
                 "description": "Get full permission record from permission_id",
                 "parameters": {
                     "type": "object",
-                    "properties": {"permission_id": {"type": "string"}},
-                    "required": ["permission_id"],
-                },
-            },
+                    "properties": {
+                        "permission_id": {"type": "string"}
+                    },
+                    "required": ["permission_id"]
+                }
+            }
         }

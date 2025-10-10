@@ -1,32 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindReservationsByUser(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str) -> str:
-        res = [r for r in data.get("reservations", {}).values() if r.get("user_id") == user_id]
+    def invoke(data: Dict[str, Any], user_id: str) -> str:
+        res = [r for r in list(data.get("reservations", {}).values()) if r.get("user_id") == user_id]
         return _j(res)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "FindReservationsByUser",
-                "description": "Return all reservations for a user_id.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"user_id": {"type": "string"}},
-                    "required": ["user_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"find_reservations_by_user",
+            "description":"Return all reservations for a user_id.",
+            "parameters":{"type":"object","properties":{"user_id":{"type":"string"}},"required":["user_id"]}
+        }}

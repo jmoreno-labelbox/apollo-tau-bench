@@ -1,42 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCertificationDetailsTool(Tool):
-    """Retrieve information about a certification."""
+    """Get details of a certification."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], certification_id: str = None,
-    user_id: Any = None,
-    ) -> str:
-        cid = certification_id
-        for c in data.get("certifications", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cid = kwargs.get("certification_id")
+        for c in data.get("certifications", []):
             if c["certification_id"] == cid:
-                payload = c
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Certification {cid} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(c, indent=2)
+        return json.dumps({"error": f"Certification {cid} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCertificationDetails",
+                "name": "get_certification_details",
                 "description": "Get details of a certification record",
                 "parameters": {
                     "type": "object",
-                    "properties": {"certification_id": {"type": "string"}},
-                    "required": ["certification_id"],
-                },
-            },
+                    "properties": {
+                        "certification_id": {"type": "string"}
+                    },
+                    "required": ["certification_id"]
+                }
+            }
         }

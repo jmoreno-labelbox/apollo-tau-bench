@@ -1,32 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RevokeUserRoleTool(Tool):
     """
-    Revoke a user's role (compliant with specifications).
-    - Parameters: user_id, role_id, revoked_by
-    - Functionality: delete the corresponding user_roles entry if it exists; if you prefer a soft-revoke for consistency,
-      set expires_on to the assignment's assigned_on.
-    - Result: {"removed": true/false}
+    Revoke a user's role (spec-compliant).
+    - Params: user_id, role_id, revoked_by
+    - Behavior: remove matching user_roles entry if present; if you prefer soft-revoke for determinism,
+      mark expires_on to the assignment's assigned_on.
+    - Output: {"removed": true/false}
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, role_id: str = None, revoked_by: str = None) -> str:
-        assignments = data.get("user_roles", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        role_id = kwargs.get("role_id")
+        revoked_by = kwargs.get("revoked_by")
+
+        assignments = data.get("user_roles", [])
         removed = False
 
-        kept: list[dict[str, Any]] = []
+        kept: List[Dict[str, Any]] = []
         for assignment in assignments:
             if (
                 assignment.get("user_id") == user_id
@@ -40,32 +37,33 @@ class RevokeUserRoleTool(Tool):
         if removed:
             data["user_roles"] = kept
 
-        # Set up information for the audit log
+        # Prepare audit log info
         action_details = "REMOVED" if removed else "NOOP"
         log_info = {
             "log_id": f"LOG-{user_id}-{role_id}-revoke",
             "actor_id": revoked_by,
-            "action_type": "RevokeRole",
+            "action_type": "revoke_role",
             "target_id": f"{user_id}:{role_id}",
             "timestamp": _HARD_TS,
             "details": action_details,
         }
-        payload = {
-            "removed": bool(removed),
-            "user_id": user_id,
-            "role_id": role_id,
-            "log_info": log_info,
-        }
-        out = json.dumps(
-            payload, indent=2,
+
+        return json.dumps(
+            {
+                "removed": bool(removed),
+                "user_id": user_id,
+                "role_id": role_id,
+                "log_info": log_info,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "revokeUserRole",
+                "name": "revoke_user_role",
                 "description": (
                     "Revoke a specific role from a user (remove the assignment). Returns info for follow-up audit logging."
                 ),

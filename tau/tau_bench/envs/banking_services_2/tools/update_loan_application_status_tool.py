@@ -1,19 +1,19 @@
-from tau_bench.envs.tool import Tool
-from typing import Any, Dict
+# Copyright Sierra
+
 import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateLoanApplicationStatusTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], application_id: str, status: str, approved_amount: float = None, notes: str = '') -> str:
-        loan_applications = data.get('loan_applications', {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        application_id = kwargs.get('application_id')
+        status = kwargs.get('status')
+        approved_amount = kwargs.get('approved_amount')
+        notes = kwargs.get('notes', '')
+
+        loan_applications = data.get('loan_applications', [])
 
         for application in loan_applications:
             if application['application_id'] == application_id:
@@ -34,12 +34,13 @@ class UpdateLoanApplicationStatusTool(Tool):
                 }, indent=2)
 
         return json.dumps({"error": f"Application {application_id} not found"}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "updateLoanApplicationStatus",
+                "name": "update_loan_application_status",
                 "description": "Update the status of a loan application",
                 "parameters": {
                     "type": "object",

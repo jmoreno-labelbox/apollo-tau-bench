@@ -1,25 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone, date, timedelta
-import calendar
-from typing import Any, Dict
-import random
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CancelPaymentByScheduledPaymentId(Tool):
+    """Cancels a scheduled payment by updating its status to 'Cancelled' using the scheduled_payment_id,
+       and ensures it belongs to the given customer."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = "", scheduled_payment_id: str = "") -> str:
-        customer_id = customer_id.strip()
-        scheduled_payment_id = scheduled_payment_id.strip()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id", "").strip()
+        scheduled_payment_id = kwargs.get("scheduled_payment_id", "").strip()
 
         # Validate inputs
         missing = []
@@ -34,8 +27,8 @@ class CancelPaymentByScheduledPaymentId(Tool):
             )
 
         # Find and cancel the payment
-        scheduled_payments = data.get("scheduled_payments", {}).values()
-        for payment in scheduled_payments.values():
+        scheduled_payments = data.get("scheduled_payments", [])
+        for payment in scheduled_payments:
             if (payment.get("payment_id") == scheduled_payment_id and
                     payment.get("customer_id") == customer_id):
                 payment["status"] = "Cancelled"
@@ -49,12 +42,13 @@ class CancelPaymentByScheduledPaymentId(Tool):
         return json.dumps({
             "error": "Scheduled payment not found for the given ID and customer."
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CancelPaymentByScheduledPaymentId",
+                "name": "cancel_payment_by_scheduled_payment_id",
                 "description": "Cancels a scheduled payment by setting its status to 'Cancelled', verifying customer ownership.",
                 "parameters": {
                     "type": "object",

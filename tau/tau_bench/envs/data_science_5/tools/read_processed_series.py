@@ -1,21 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ReadProcessedSeries(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], series_name: str = None, start: str = None, end: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name = kwargs.get("series_name")
+        start = kwargs.get("start")
+        end = kwargs.get("end")
         rows = []
-        for r in data.get("processed_timeseries", {}).values() or []:
-            if series_name and r.get("series_name") != series_name:
+        for r in data.get("processed_timeseries", []) or []:
+            if name and r.get("series_name") != name:
                 continue
             ts = r.get("timestamp", "")
             if start and ts < start:
@@ -23,24 +21,16 @@ class ReadProcessedSeries(Tool):
             if end and ts > end:
                 continue
             rows.append(r)
-        payload = {"series_name": series_name, "rows": rows}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"series_name": name, "rows": rows}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ReadProcessedSeries",
-                "description": "Read processed series rows by name and optional range.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "series_name": {"type": "string"},
-                        "start": {"type": "string"},
-                        "end": {"type": "string"},
-                    },
-                    "required": ["series_name"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "read_processed_series",
+            "description": "Read processed series rows by name and optional range.",
+            "parameters": {"type": "object", "properties": {
+                "series_name": {"type": "string"},
+                "start": {"type": "string"},
+                "end": {"type": "string"}
+            }, "required": ["series_name"]}
+        }}

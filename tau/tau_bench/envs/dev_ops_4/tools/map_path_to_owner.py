@@ -1,36 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class MapPathToOwner(Tool):
-    """Associate a code/asset path with its owner utilizing ownership_map."""
+    """Map a code/asset path to its owner using ownership_map."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        file_path = kwargs.get("file_path")
+        maps = data.get("ownership_map", [])
+        rec = next((m for m in maps if m.get("file_path") == file_path), None)
+        return json.dumps({"owner_map": rec}, indent=2)
 
     @staticmethod
-    def invoke(data: dict[str, Any], file_path: str = None) -> str:
-        maps = data.get("ownership_map", {}).values()
-        rec = next((m for m in maps.values() if m.get("file_path") == file_path), None)
-        payload = {"owner_map": rec}
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "MapPathToOwner",
+                "name": "map_path_to_owner",
                 "description": "Look up an ownership record by exact file_path.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"file_path": {"type": "string"}},
-                    "required": ["file_path"],
-                },
-            },
+                    "properties": {
+                        "file_path": {"type": "string"}
+                    },
+                    "required": ["file_path"]
+                }
+            }
         }

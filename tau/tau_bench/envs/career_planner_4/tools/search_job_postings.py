@@ -1,44 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class SearchJobPostings(Tool):
+class search_job_postings(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        filters: Any = None,
-        job_id: str = None
-    ) -> str:
-        job_postings = data.get("job_postings", {}).values()
-        if job_id is not None:
+    def invoke(data: Dict[str, Any], filters: dict) -> str:
+        job_postings = data.get("job_postings", [])
+        if "job_id" in filters:
             job = next(
-                (j for j in job_postings.values() if j.get("job_id") == job_id), None
+                (j for j in job_postings if j.get("job_id") == filters["job_id"]), None
             )
             return (
                 json.dumps(job, indent=2)
                 if job
                 else json.dumps({"error": "Job not found"}, indent=2)
             )
-        payload = {"job_postings": job_postings}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"job_postings": job_postings}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "searchJobPostings",
+                "name": "search_job_postings",
                 "description": "Search for job postings by filters",
                 "parameters": {
                     "type": "object",

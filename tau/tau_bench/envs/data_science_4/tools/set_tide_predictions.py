@@ -1,19 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SetTidePredictions(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], station_id: str = None) -> str:
-        # This is a mockup; in an actual setting, this would retrieve data from NOAA.
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        station_id = kwargs.get("station_id")
+        # This is a simulation; in a real environment, this would fetch data from NOAA.
 
         tide_prediction_data = {
             "station_id": station_id,
@@ -23,16 +19,15 @@ class SetTidePredictions(Tool):
             ],
             "raw_json_path_nullable": f"/data/raw/tide_predictions_{station_id}.json",
         }
-        data["tide_predictions"][tide_prediction_data["tide_prediction_id"]] = tide_prediction_data
-        payload = tide_prediction_data
-        out = json.dumps(payload)
-        return out
+        data.get("tide_predictions", []).append(tide_prediction_data)
+        return json.dumps(tide_prediction_data)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "setTidePredictions",
+                "name": "SetTidePredictions",
                 "parameters": {
                     "type": "object",
                     "properties": {

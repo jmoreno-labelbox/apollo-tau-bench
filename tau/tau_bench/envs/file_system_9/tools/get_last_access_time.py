@@ -1,57 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetLastAccessTime(Tool):
-    """Fetches the last access timestamp for a particular file on a specified server."""
-
+    """Retrieves the last access timestamp for a specific file on a specific server."""
     @staticmethod
-    def invoke(data: dict[str, Any], filepath: str = None, server_hostname: str = None) -> str:
-        for server in data.get("file_system", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        filepath = kwargs.get("filepath")
+        server_hostname = kwargs.get("server_hostname")
+
+        for server in data.get("file_system", []):
             if server.get("hostname") == server_hostname:
                 for directory in server.get("directories", []):
                     for file in directory.get("files", []):
-                        if (
-                            f"{directory.get('path')}/{file.get('filename')}"
-                            == filepath
-                        ):
-                            payload = {"last_accessed": file.get("last_accessed")}
-                            out = json.dumps(
-                                payload)
-                            return out
-                payload = {"error": f"File not found: {filepath} on server {server_hostname}"}
-                out = json.dumps(
-                    payload)
-                return out
-        payload = {"error": f"Server not found: {server_hostname}"}
-        out = json.dumps(payload)
-        return out
+                        if f"{directory.get('path')}/{file.get('filename')}" == filepath:
+                            return json.dumps({"last_accessed": file.get("last_accessed")})
+                return json.dumps({"error": f"File not found: {filepath} on server {server_hostname}"})
+        return json.dumps({"error": f"Server not found: {server_hostname}"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getLastAccessTime",
+                "name": "get_last_access_time",
                 "description": "Retrieves the last access timestamp for a specific file on a specific server.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "filepath": {
-                            "type": "string",
-                            "description": "The full path to the file.",
-                        },
-                        "server_hostname": {
-                            "type": "string",
-                            "description": "The hostname of the server where the file is located.",
-                        },
+                        "filepath": {"type": "string", "description": "The full path to the file."},
+                        "server_hostname": {"type": "string", "description": "The hostname of the server where the file is located."}
                     },
                     "required": ["filepath", "server_hostname"],
                 },

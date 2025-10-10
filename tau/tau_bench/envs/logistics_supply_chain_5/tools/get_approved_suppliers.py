@@ -1,36 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetApprovedSuppliers(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], sku: str, preferred_supplier: str = None) -> str:
-        suppliers = data.get("supplier_master", {}).values()
-        product_master = data.get("product_master", {}).values()
+    def invoke(data: Dict[str, Any], sku: str, **kwargs) -> str:
+        suppliers = data.get("supplier_master", [])
+        product_master = data.get("product_master", [])
+        preferred_supplier = kwargs.get("preferred_supplier", None)
 
-        # Identify the product to determine its category
-        product = next((p for p in product_master.values() if p.get("sku") == sku), None)
+        # Find the product to get its category
+        product = next((p for p in product_master if p.get("sku") == sku), None)
         if not product:
             return json.dumps({"error": f"Product {sku} not found"})
 
         product_category = product.get("category", "")
 
-        # Locate suppliers that offer products within this category
+        # Find suppliers that provide products in this category
         approved_suppliers = []
-        for supplier in suppliers.values():
+        for supplier in suppliers:
             supplier_categories = supplier.get("product_categories", [])
 
             if preferred_supplier and supplier.get("supplier_id") == preferred_supplier:
-                # When a preferred supplier is indicated, give it priority
+                # If a preferred supplier is specified, prioritize it
                 approved_suppliers.insert(0, {
                     "supplier_id": supplier.get("supplier_id"),
                     "supplier_name": supplier.get("supplier_name"),
@@ -42,8 +37,8 @@ class GetApprovedSuppliers(Tool):
                 })
                 break
             else:
-                # Verify if the supplier caters to this product category and is operational
-                if (any(cat in product_category for cat in supplier_categories.values()) and
+                # Check if supplier serves this product category and is active
+                if (any(cat in product_category for cat in supplier_categories) and
                     supplier.get("relationship_status") == "Active" and
                     supplier.get("performance_rating", 0) >= 4.0):
 
@@ -63,12 +58,13 @@ class GetApprovedSuppliers(Tool):
             "approved_suppliers": approved_suppliers,
             "supplier_count": len(approved_suppliers)
         })
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetApprovedSuppliers",
+                "name": "get_approved_suppliers",
                 "description": "Get list of approved suppliers for a specific SKU based on product category and performance criteria",
                 "parameters": {
                     "type": "object",

@@ -1,37 +1,18 @@
-from tau_bench.envs.tool import Tool
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetStoreInventory(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], store_id: str = None, sku: str = None) -> str:
-        inventory = data.get("inventory", {}).values()
-        result = [
-            item
-            for item in inventory.values() if item["store_id"] == store_id and item["sku"] == sku
-        ]
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        store_id = kwargs.get("store_id")
+        sku = kwargs.get("sku")
+        inventory = list(data.get("inventory", {}).values())
+        result = [item for item in inventory if item["store_id"] == store_id and item["sku"] == sku]
+        return json.dumps(result, indent=2)
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetStoreInventory",
-                "parameters": {
-                    "store_id": {"type": "string"},
-                    "sku": {"type": "string"},
-                },
-                "required": ["store_id", "sku"],
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "get_store_inventory", "parameters": {"store_id": {"type": "string"}, "sku": {"type": "string"}}, "required": ["store_id", "sku"]}}

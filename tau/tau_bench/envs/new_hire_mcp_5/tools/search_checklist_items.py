@@ -1,49 +1,44 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchChecklistItems(Tool):
-    """Filter checklist_items based on candidate_id, with optional status and optional due_date_lte."""
+    """Filter checklist_items by candidate_id, optional status, optional due_date_lte."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str, status: str = None, due_date_lte: str = None, message_id: Any = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cand_id = kwargs["candidate_id"]
+        status = kwargs.get("status")
+        due_lte = kwargs.get("due_date_lte")
         rows = []
-        for it in data.get("checklist_items", {}).values():
-            if it.get("candidate_id") != candidate_id:
+        for it in data.get("checklist_items", []):
+            if it.get("candidate_id") != cand_id:
                 continue
             if status and it.get("status") != status:
                 continue
-            if due_date_lte and it.get("due_date") and it["due_date"] > due_date_lte:
+            if due_lte and it.get("due_date") and it["due_date"] > due_lte:
                 continue
             rows.append(it)
-        payload = {"items": rows}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"items": rows}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchChecklistItems",
+                "name": "search_checklist_items",
                 "description": "Search checklist items for a candidate with simple filters.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "candidate_id": {"type": "string"},
                         "status": {"type": "string"},
-                        "due_date_lte": {"type": "string"},
+                        "due_date_lte": {"type": "string"}
                     },
-                    "required": ["candidate_id"],
-                },
-            },
+                    "required": ["candidate_id"]
+                }
+            }
         }

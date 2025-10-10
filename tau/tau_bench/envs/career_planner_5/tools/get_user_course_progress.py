@@ -1,22 +1,17 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class GetUserCourseProgress(Tool):
+class get_user_course_progress(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str, course_id: str) -> str:
+    def invoke(data: Dict[str, Any], user_id: str, course_id: str) -> str:
         progress = next(
             (
                 p
-                for p in data.get("user_course_progress", {}).values()
+                for p in data.get("user_course_progress", [])
                 if p.get("user_id") == user_id and p.get("course_id") == course_id
             ),
             None,
@@ -26,13 +21,13 @@ class GetUserCourseProgress(Tool):
             if progress
             else json.dumps({"error": "Course progress not found"}, indent=2)
         )
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "getUserCourseProgress",
+                "name": "get_user_course_progress",
                 "description": "Get course progress for a specific user and course",
                 "parameters": {
                     "type": "object",

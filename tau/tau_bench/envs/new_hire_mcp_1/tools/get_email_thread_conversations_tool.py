@@ -1,36 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetEmailThreadConversationsTool(Tool):
-    """Tracks email threads by utilizing thread_id and reply relationships to recreate conversation flows."""
+    """Traces email threads using thread_id and reply relationships to reconstruct conversation flows."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str = None, include_draft_responses: bool = False) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
+        include_drafts = kwargs.get("include_draft_responses", False)
+
         if not candidate_id:
             return _err("candidate_id is required")
 
-        emails = data.get("emails", {}).values()
+        emails = data.get("emails", [])
 
         candidate_emails = [
-            e
-            for e in emails.values() if str(e.get("candidate_id_nullable")) == str(candidate_id)
+            e for e in emails
+            if str(e.get("candidate_id_nullable")) == str(candidate_id)
         ]
 
-        if not include_draft_responses:
-            candidate_emails = [e for e in candidate_emails.values() if not e.get("draft_flag")]
+        if not include_drafts:
+            candidate_emails = [e for e in candidate_emails if not e.get("draft_flag")]
 
-        # Organize by thread_id
+        # Group by thread_id
         threads = {}
         for email in candidate_emails:
             thread_id = email.get("thread_id_nullable")
@@ -39,30 +35,24 @@ class GetEmailThreadConversationsTool(Tool):
                     threads[thread_id] = []
                 threads[thread_id].append(email)
 
-        # Arrange emails in each thread by date
+        # Sort emails within each thread by date
         for thread_id in threads:
             threads[thread_id].sort(key=lambda e: e.get("date_ts", ""))
-        payload = threads
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(threads, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetEmailThreadConversations",
+                "name": "get_email_thread_conversations",
                 "description": "Traces email threads using thread_id and reply relationships to reconstruct conversation flows.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "candidate_id": {
-                            "type": "string",
-                            "description": "Target candidate",
-                        },
-                        "include_draft_responses": {
-                            "type": "boolean",
-                            "description": "Include unsent draft replies",
-                        },
+                        "candidate_id": {"type": "string", "description": "Target candidate"},
+                        "include_draft_responses": {"type": "boolean", "description": "Include unsent draft replies"}
                     },
                     "required": ["candidate_id"],
                 },

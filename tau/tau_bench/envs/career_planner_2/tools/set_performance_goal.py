@@ -1,24 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class SetPerformanceGoal(Tool):
-    """Introduce a performance objective."""
+    """Add a performance goal."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, goal: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        uid = kwargs.get("user_id")
+        goal = kwargs.get("goal")
         tbl = data.setdefault("goals", [])
-        tbl.append({"user_id": user_id, "goals": [goal]})
-        payload = {"success": f"Goal set for {user_id}"}
-        out = json.dumps(payload, indent=2)
-        return out
+        tbl.append({"user_id": uid, "goals": [goal]})
+        return json.dumps({"success": f"Goal set for {uid}"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SetPerformanceGoal",
+                "name": "set_performance_goal",
                 "description": "Set performance goal.",
                 "parameters": {
                     "type": "object",

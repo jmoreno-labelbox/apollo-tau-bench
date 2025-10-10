@@ -1,37 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetMilestoneDependencies(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], milestone_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        milestone_id = kwargs.get("milestone_id")
         if not milestone_id:
-            payload = {"error": "milestone_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "milestone_id is required"})
 
-        milestone_dependencies = data.get("milestone_dependencies", {}).values()
-        milestones = data.get("milestones", {}).values()
+        milestone_dependencies = data.get("milestone_dependencies", [])
+        milestones = list(data.get("milestones", {}).values())
 
         predecessors = []
         successors = []
 
-        for dep in milestone_dependencies.values():
+        for dep in milestone_dependencies:
             if dep.get("successor_id") == milestone_id:
                 pred_milestone = next(
                     (
                         m
-                        for m in milestones.values() if m.get("milestone_id") == dep.get("predecessor_id")
+                        for m in milestones
+                        if m.get("milestone_id") == dep.get("predecessor_id")
                     ),
                     None,
                 )
@@ -54,7 +47,8 @@ class GetMilestoneDependencies(Tool):
                 succ_milestone = next(
                     (
                         m
-                        for m in milestones.values() if m.get("milestone_id") == dep.get("successor_id")
+                        for m in milestones
+                        if m.get("milestone_id") == dep.get("successor_id")
                     ),
                     None,
                 )
@@ -72,22 +66,23 @@ class GetMilestoneDependencies(Tool):
                             "zero_lag": dep.get("zero_lag", False),
                         }
                     )
-        payload = {
+
+        return json.dumps(
+            {
                 "milestone_id": milestone_id,
                 "predecessors": predecessors,
                 "successors": successors,
                 "total_dependencies": len(predecessors) + len(successors),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetMilestoneDependencies",
+                "name": "get_milestone_dependencies",
                 "description": "Get all dependencies (predecessors and successors) for a milestone",
                 "parameters": {
                     "type": "object",

@@ -1,40 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetSupplierProducts(Tool):
-    """Provide a list of product_ids provided by a specific supplier."""
+    """Return list of product_ids supplied by a given supplier."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], supplier_id: str) -> str:
-        suppliers = data.get("suppliers", {}).values()
-        for s in suppliers.values():
+    def invoke(data: Dict[str, Any], supplier_id: str) -> str:
+        suppliers = data.get("suppliers", [])
+        for s in suppliers:
             if s.get("supplier_id") == supplier_id:
-                payload = {"supplier_id": supplier_id, "products": s.get("products", [])}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Supplier not found", "supplier_id": supplier_id}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"supplier_id": supplier_id, "products": s.get("products", [])})
+        return json.dumps({"error": "Supplier not found", "supplier_id": supplier_id})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetSupplierProducts",
+                "name": "get_supplier_products",
                 "description": "List product_ids provided by a supplier.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"supplier_id": {"type": "string"}},
-                    "required": ["supplier_id"],
-                },
-            },
+                    "properties": {
+                        "supplier_id": {"type": "string"}
+                    },
+                    "required": ["supplier_id"]
+                }
+            }
         }

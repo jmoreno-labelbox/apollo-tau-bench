@@ -1,49 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetSupplierDetails(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        supplier_id: str,
-        name: str = None,
-        contact_info: dict[str, Any] = None,
-        performance_metrics: dict[str, Any] = None,
-        notes: str = "",
-        products: list[str] = None,
-        item_stock: dict[str, Any] = None,
-        last_updated: str = "Never"
-    ) -> str:
+    def invoke(data: Dict[str, Any], supplier_id: str) -> str:
         """
         Retrieve comprehensive supplier information and performance metrics
 
         Data Sources: suppliers.json (supplier_id, name, contact_info, products, item_stock)
         """
-        suppliers = data.get("suppliers", {}).values()
+        suppliers = data.get("suppliers", [])
         supplier_found = None
 
-        for supplier in suppliers.values():
+        for supplier in suppliers:
             if supplier.get("supplier_id") == supplier_id:
                 supplier_found = supplier
                 break
 
         if not supplier_found:
-            payload = {"error": f"Supplier {supplier_id} not found", "status": "not_found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({
+                "error": f"Supplier {supplier_id} not found",
+                "status": "not_found"
+            })
 
         # Calculate stock metrics
-        item_stock = supplier_found.get("item_stock", {}).values()
+        item_stock = supplier_found.get("item_stock", {})
         total_items = len(item_stock)
         available_items = 0
         out_of_stock_items = 0
@@ -60,22 +45,20 @@ class GetSupplierDetails(Tool):
                 total_stock_value += int(stock_level)
 
         # Calculate availability rate
-        availability_rate = (
-            (available_items / total_items * 100) if total_items > 0 else 0
-        )
+        availability_rate = (available_items / total_items * 100) if total_items > 0 else 0
 
         result = {
             "status": "success",
             "supplier_id": supplier_id,
             "supplier_info": {
                 "name": supplier_found.get("name"),
-                "contact_info": list(supplier_found.get("contact_info", {}).values()),
-                "performance_metrics": list(supplier_found.get("performance_metrics", {}).values()),
-                "notes": supplier_found.get("notes", ""),
+                "contact_info": supplier_found.get("contact_info", {}),
+                "performance_metrics": supplier_found.get("performance_metrics", {}),
+                "notes": supplier_found.get("notes", "")
             },
             "product_portfolio": {
                 "total_products": len(supplier_found.get("products", [])),
-                "product_ids": supplier_found.get("products", []),
+                "product_ids": supplier_found.get("products", [])
             },
             "inventory_summary": {
                 "total_items": total_items,
@@ -83,29 +66,26 @@ class GetSupplierDetails(Tool):
                 "out_of_stock_items": out_of_stock_items,
                 "discontinued_items": discontinued_items,
                 "availability_rate_percent": round(availability_rate, 1),
-                "total_stock_units": total_stock_value,
+                "total_stock_units": total_stock_value
             },
-            "last_updated": supplier_found.get("last_updated", "Never"),
+            "last_updated": supplier_found.get("last_updated", "Never")
         }
-        payload = result
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetSupplierDetails",
+                "name": "get_supplier_details",
                 "description": "Retrieve comprehensive supplier information and performance metrics",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "supplier_id": {
-                            "type": "string",
-                            "description": "Supplier identifier (e.g., '#SUP0001')",
-                        }
+                        "supplier_id": {"type": "string", "description": "Supplier identifier (e.g., '#SUP0001')"}
                     },
-                    "required": ["supplier_id"],
-                },
-            },
+                    "required": ["supplier_id"]
+                }
+            }
         }

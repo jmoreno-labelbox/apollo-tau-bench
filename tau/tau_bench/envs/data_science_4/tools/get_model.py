@@ -1,30 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetModel(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], model_name: str = None, model_type: str = None, features_id: list[str] = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+
+        model_name = kwargs.get("model_name")
         model_id = f"MODEL_{model_name}"
 
         model_entry = {
             "model_id": model_id,
             "model_name": model_name,
             "model_path": f"/models/{model_id}.joblib",
-            "model_type": model_type,
-            "feature_names": features_id,
+            "model_type": kwargs.get("model_type"),
+            "feature_names": kwargs.get("features_id"),
             "train_metrics_json_path_nullable": f"/metrics/{model_id}_train_metrics.json",
         }
         data.setdefault("models", []).append(model_entry)
-        payload = model_entry
-        out = json.dumps(payload)
-        return out
+        return json.dumps(model_entry)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getModel",
+                "name": "GetModel",
                 "parameters": {
                     "type": "object",
                     "properties": {

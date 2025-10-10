@@ -1,21 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, time, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateTransaction(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], source_account_id: str = None, destination_account_id: str = None, amount: float = 0.0, description: str = "") -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         transaction_id = _get_next_transaction_id(data)
+        source_account_id = kwargs.get("source_account_id")
+        destination_account_id = kwargs.get("destination_account_id")
+        amount = kwargs.get("amount")
+        description = kwargs.get("description")
 
-        source_account = next((acc for acc in data["accounts"].values() if acc["account_id"] == source_account_id), None)
+        source_account = next((acc for acc in data["accounts"] if acc["account_id"] == source_account_id), None)
         if not source_account:
             return json.dumps({"error": "Source account not found."})
 
         source_account["balance"] -= amount
 
         if destination_account_id:
-            dest_account = next((acc for acc in data["accounts"].values() if acc["account_id"] == destination_account_id), None)
+            dest_account = next((acc for acc in data["accounts"] if acc["account_id"] == destination_account_id), None)
             if dest_account:
                 dest_account["balance"] += amount
 
@@ -30,15 +36,16 @@ class CreateTransaction(Tool):
                 "status": "Completed",
                 "channel": "Online"
         }
-        data["transactions"][transaction_id] = new_transaction
+        data["transactions"].append(new_transaction)
 
         return json.dumps(new_transaction)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "CreateTransaction",
+                        "name": "create_transaction",
                         "description": "Creates a new transaction between accounts.",
                         "parameters": {
                                 "type": "object",

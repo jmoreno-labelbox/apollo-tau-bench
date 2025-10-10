@@ -1,38 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CompleteCertificationsAndAuditTool(Tool):
     """
     complete_certifications_and_audit
-    Finalize all IN_PROGRESS certifications and create a single audit log.
+    Complete all IN_PROGRESS certifications and write a single audit log.
     """
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        log_id: str = "LOG-CERT-CLOSE", 
-        actor_id: str = None, 
-        target_id: str = "CERT:ALL", 
-        details: str = "Certifications completed."
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        log_id = kwargs.get("log_id") or "LOG-CERT-CLOSE"
+        actor_id = kwargs.get("actor_id")
+        target_id = kwargs.get("target_id") or "CERT:ALL"
+        details = kwargs.get("details") or "Certifications completed."
         if not actor_id:
-            payload = {"error": "actor_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "actor_id is required"}, indent=2)
 
-        completed: list[str] = []
-        for cert in data.get("certifications", {}).values():
+        completed: List[str] = []
+        for cert in data.get("certifications", []):
             if cert.get("status") == "IN_PROGRESS":
                 cert["status"] = "COMPLETED"
                 cert["completed_on"] = _HARD_TS
@@ -50,20 +39,21 @@ class CompleteCertificationsAndAuditTool(Tool):
                 details=details,
             )
         )
-        payload = {
+
+        return json.dumps(
+            {
                 "completed_ids": completed,
                 "audit_log_id": audit.get("log_id"),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "completeCertificationsAndAudit",
+                "name": "complete_certifications_and_audit",
                 "description": (
                     "Complete all IN_PROGRESS certifications and write a single audit log."
                 ),

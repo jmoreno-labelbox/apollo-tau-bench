@@ -1,30 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class Aims(Tool):
     @staticmethod
-    #primary invocation function
-    def invoke(data: dict[str, Any], goal_count_per_player: int = 2) -> str:
-        payload = {"player_goals": f"goals_per_player_{goal_count_per_player}"}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        # main invoke function
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        goal_count_per_player = kwargs.get("goal_count_per_player", 2)
+        # return result
+        return json.dumps({"player_goals": f"goals_per_player_{goal_count_per_player}"}, indent=2)
+
     @staticmethod
-    #metadata information
-    def get_info() -> dict[str, Any]:
-        pass
-        #return result
-        return {
-            "type": "function",
-            "function": {
-                "name": "aimsplay",
-                "description": "Creates personalized development goals for players.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"goal_count_per_player": {"type": "integer"}},
-                    "required": [],
-                },
-            },
-        }
+        # info metadata
+    def get_info() -> Dict[str, Any]:
+        # return result
+        return {"type": "function", "function": {"name": "aimsplay", "description": "Creates personalized development goals for players.", "parameters": {"type": "object", "properties": {"goal_count_per_player": {"type": "integer"}}, "required": []}}}

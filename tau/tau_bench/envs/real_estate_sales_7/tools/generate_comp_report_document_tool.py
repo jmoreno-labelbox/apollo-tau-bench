@@ -1,25 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GenerateCompReportDocumentTool(Tool):
-    """Creates a PDF report for comparable analysis."""
+    """Generates PDF comparable analysis report."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        report_id: int = None,
-        subject_property_data: dict = None,
-        comparable_data: list = None,
-        market_analysis: dict = None,
-        mortgage_calculations: dict = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        report_id = kwargs.get("report_id")
+        subject_property_data = kwargs.get("subject_property_data") or {}
+        comparable_data = kwargs.get("comparable_data") or []
+        market_analysis = kwargs.get("market_analysis") or {}
+        mortgage_calculations = kwargs.get("mortgage_calculations") or {}
+
         if report_id is None:
             return _err("report_id is required")
 
-        # Deterministic URI derived from report_id
+        # Deterministic URI based on report_id
         uri = f"https://storage.example.com/reports/comp_{int(report_id):03d}.pdf"
         out = {
             "document_uri": uri,
@@ -35,22 +35,21 @@ class GenerateCompReportDocumentTool(Tool):
             ],
             "generation_timestamp": HARD_TS,
         }
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "generateCompReportDocument",
+                "name": "generate_comp_report_document",
                 "description": "Generate PDF comparable analysis report.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "report_id": {"type": "integer"},
                         "subject_property_data": {"type": "object"},
-                        "comparable_data": {"type": "array", "items": {"type": "object"}},
+                        "comparable_data": {"type": "array"},
                         "market_analysis": {"type": "object"},
                         "mortgage_calculations": {"type": "object"},
                     },

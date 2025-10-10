@@ -1,22 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetHouseholdByPrimaryUser(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: int) -> str:
-        households = _get_table(data, "households")
-        hh = next((h for h in households if h.get("primary_user_id") == user_id), None)
-        payload = {"household": hh}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], user_id: int) -> str:
+        hh = next(
+            (
+                h
+                for h in data.get("households", [])
+                if int(h.get("primary_user_id")) == int(user_id)
+            ),
+            None,
+        )
+        return _json({"household": hh})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetHouseholdByPrimaryUser",
-                "description": "Returns the household where primary_user_id matches user_id.",
+                "name": "get_household_by_primary_user",
+                "description": "Retrieve household row where primary_user_id == user_id.",
                 "parameters": {
                     "type": "object",
                     "properties": {"user_id": {"type": "integer"}},

@@ -1,73 +1,50 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateCrewAssignment(Tool):
-
+    """
+    A tool to update an existing flight crew assignment with a new crew member.
+    """
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        assignment_id: str,
-        new_crew_member_id: str,
-        new_crew_member_full_name: str,
-    ) -> str:
-        assignments = data.get("flight_crew_assignments", {}).values()
+    def invoke(data: Dict[str, Any], assignment_id: str, new_crew_member_id: str, new_crew_member_full_name: str) -> str:
+        assignments = data.get("flight_crew_assignments", [])
         for assignment in assignments:
             if assignment.get("assignment_id") == assignment_id:
                 assignment["crew_member"] = {
                     "crew_member_id": new_crew_member_id,
-                    "full_name": new_crew_member_full_name,
+                    "full_name": new_crew_member_full_name
                 }
-                payload = {
-                    "status": "success",
-                    "assignment_id": assignment_id,
-                    "new_crew_member_id": new_crew_member_id,
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Assignment not found", "assignment_id": assignment_id}
-        out = json.dumps(payload)
-        return out
-        
+                return json.dumps({"status": "success", "assignment_id": assignment_id, "new_crew_member_id": new_crew_member_id})
+        return json.dumps({"error": "Assignment not found", "assignment_id": assignment_id})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateCrewAssignment",
+                "name": "update_crew_assignment",
                 "description": "Updates an existing flight crew assignment with a new crew member.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "assignment_id": {
                             "type": "string",
-                            "description": "The unique ID of the assignment to update (e.g., 'AS001').",
+                            "description": "The unique ID of the assignment to update (e.g., 'AS001')."
                         },
                         "new_crew_member_id": {
                             "type": "string",
-                            "description": "The unique ID of the new crew member.",
+                            "description": "The unique ID of the new crew member."
                         },
                         "new_crew_member_full_name": {
                             "type": "string",
-                            "description": "The full name of the new crew member.",
-                        },
+                            "description": "The full name of the new crew member."
+                        }
                     },
-                    "required": [
-                        "assignment_id",
-                        "new_crew_member_id",
-                        "new_crew_member_full_name",
-                    ],
-                },
-            },
+                    "required": ["assignment_id", "new_crew_member_id", "new_crew_member_full_name"]
+                }
+            }
         }

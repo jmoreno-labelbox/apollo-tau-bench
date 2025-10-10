@@ -1,33 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class NotifyManagementTeam(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], report_path: str = None, recipient_group: str = None, subject: str = None) -> str:
-        payload = {
-            "status": "notified",
-            "recipient_group": recipient_group,
-            "subject": subject,
-        }
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        report_path = kwargs.get("report_path")
+        recipient_group = kwargs.get("recipient_group")
+        subject = kwargs.get("subject")
+        return json.dumps({"status": "notified", "recipient_group": recipient_group, "subject": subject}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "notifyManagementTeam",
-                "description": "Send notification to management team with report.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "report_path": {"type": "string"},
-                        "recipient_group": {"type": "string"},
-                        "subject": {"type": "string"},
-                    },
-                    "required": ["report_path", "recipient_group", "subject"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "notify_management_team", "description": "Send notification to management team with report.", "parameters": {"type": "object", "properties": {"report_path": {"type": "string"}, "recipient_group": {"type": "string"}, "subject": {"type": "string"}}, "required": ["report_path", "recipient_group", "subject"]}}}

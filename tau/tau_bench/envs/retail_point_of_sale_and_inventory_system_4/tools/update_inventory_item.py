@@ -1,77 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class UpdateInventoryItem(Tool):  #CREATE
+class UpdateInventoryItem(Tool): # WRITE
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        sku: str,
-        store_id: str,
-        quantity_change: int,
-        current_time: str
-    ) -> str:
-        db = _convert_db_to_list(data.get("inventory", {}).values())
-        filtered_db = _filter_db(db, {"sku": sku, "store_id": store_id})
+    def invoke(data: Dict[str, Any], sku: str, store_id: str, quantity_change: int, current_time: str) -> str:
+        db = list(data.get("inventory", {}).values())
+        filtered_db = _filter_db(db, {"sku":sku, "store_id":store_id})
         if len(filtered_db) == 1:
             row = filtered_db[0]
             row["quantity"] = row.get("quantity", 0) + quantity_change
             row["updated_at"] = current_time
-            payload = {"result": row}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"result": row})
         else:
-            payload = {"error": f"Inventory item {sku} in store {store_id} not found"}
-            out = json.dumps(payload)
-            return out
-        pass
-        db = _convert_db_to_list(data.get("inventory", {}).values())
-        filtered_db = _filter_db(db, {"sku": sku, "store_id": store_id})
-        if len(filtered_db) == 1:
-            row = filtered_db[0]
-            row["quantity"] = row.get("quantity", 0) + quantity_change
-            row["updated_at"] = current_time
-            payload = {"result": row}
-            out = json.dumps(payload)
-            return out
-        else:
-            payload = {"error": f"Inventory item {sku} in store {store_id} not found"}
-            out = json.dumps(
-                payload)
-            return out
+            return json.dumps({"error": f"Inventory item {sku} in store {store_id} not found"})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateInventoryItem",
+                "name": "update_inventory_item",
                 "description": "Update the quantity and updated_at time of an inventory item by inventory_id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "inventory_id": {
-                            "type": "string",
-                            "description": "The inventory item's id to update.",
-                        },
-                        "quantity_change": {
-                            "type": "integer",
-                            "description": "The amount to change the quantity by (can be negative).",
-                        },
-                        "current_time": {
-                            "type": "string",
-                            "description": "Timestamp for updated_at.",
-                        },
+                        "inventory_id": {"type": "string", "description": "The inventory item's id to update."},
+                        "quantity_change": {"type": "int", "description": "The amount to change the quantity by (can be negative)."},
+                        "current_time": {"type": "string", "description": "Timestamp for updated_at."}
                     },
-                    "required": ["inventory_id", "quantity_change", "current_time"],
-                },
-            },
+                    "required": ["inventory_id", "quantity_change", "current_time"]
+                }
+            }
         }

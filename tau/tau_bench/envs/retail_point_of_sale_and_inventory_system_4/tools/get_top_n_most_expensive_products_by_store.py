@@ -1,52 +1,42 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class GetTopNMostExpensiveProductsByStore(Tool):  #VIEW
+class GetTopNMostExpensiveProductsByStore(Tool): # READ
     @staticmethod
-    def invoke(data: dict[str, Any], store_id: str, n: int) -> str:
-        products = {p["sku"]: p["price"] for p in data.get("products", {}).values()}
-        inventory = {i["sku"]: i["store_id"] for i in data.get("inventory", {}).values()}
+    def invoke(data: Dict[str, Any], store_id: str, n: int) -> str:
+        products = {p["sku"]: p["price"] for p in list(data.get("products", {}).values())}
+        inventory = {i["sku"]: i["store_id"] for i in list(data.get("inventory", {}).values())}
 
-        items = [
-            {"sku": sku, "price": price}
-            for sku, price in products.items()
-            if inventory.get(sku) == store_id
-        ]
+        items = [{"sku":sku, "price":price} for sku, price in products.items() if inventory.get(sku) == store_id]
 
-        # Order by price from highest to lowest and select top x
+        # Sort by price descending and take top x
         top_items = sorted(items, key=lambda i: i["price"], reverse=True)[:n]
-        payload = top_items
-        out = json.dumps(payload)
-        return out
+        return json.dumps(top_items)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetTopNMostExpensiveProductsByStore",
+                "name": "get_top_n_most_expensive_products_by_store",
                 "description": "Return the top n most expensive products available in a given store, based on product price.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "store_id": {
                             "type": "string",
-                            "description": "The unique ID of the store.",
+                            "description": "The unique ID of the store."
                         },
                         "n": {
                             "type": "integer",
-                            "description": "The number of top expensive products to return.",
-                        },
+                            "description": "The number of top expensive products to return."
+                        }
                     },
-                    "required": ["store_id", "n"],
-                },
-            },
+                    "required": ["store_id", "n"]
+                }
+            }
         }

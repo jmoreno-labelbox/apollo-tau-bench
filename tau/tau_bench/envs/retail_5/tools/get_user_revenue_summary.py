@@ -1,51 +1,48 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetUserRevenueSummary(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get('user_id')
+
         if not user_id:
-            payload = {"error": "user_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({'error': 'user_id is required'})
 
-        orders = data["orders"]
-        revenue_data = {"user_id": user_id, "total_revenue": 0.0, "order_count": 0}
+        orders = data['orders']
+        revenue_data = {
+            'user_id': user_id,
+            'total_revenue': 0.0,
+            'order_count': 0
+        }
 
-        for order in orders.values():
-            if order["user_id"] == user_id and order["status"] in [
-                "delivered",
-                "completed",
-                "processed",
-            ]:
-                order_total = sum(item["price"] for item in order["items"])
-                revenue_data["total_revenue"] += order_total
-                revenue_data["order_count"] += 1
+        for order in orders:
+            if order['user_id'] == user_id and order['status'] in ['delivered', 'completed', 'processed']:
+                order_total = sum(item['price'] for item in order['items'])
+                revenue_data['total_revenue'] += order_total
+                revenue_data['order_count'] += 1
 
-        revenue_data["average_order_value"] = revenue_data["total_revenue"] / max(
-            1, revenue_data["order_count"]
-        )
-        payload = revenue_data
-        out = json.dumps(payload, indent=2)
-        return out
+        revenue_data['average_order_value'] = revenue_data['total_revenue'] / max(1, revenue_data['order_count'])
+
+        return json.dumps(revenue_data, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "getUserRevenueSummary",
-                "description": "Get revenue summary for a specific user including total revenue, order count, and order details.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "user_id": {
-                            "type": "string",
-                            "description": "User ID to get revenue summary for",
-                        }
+            'type': 'function',
+            'function': {
+                'name': 'get_user_revenue_summary',
+                'description': 'Get revenue summary for a specific user including total revenue, order count, and order details.',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'user_id': {'type': 'string', 'description': 'User ID to get revenue summary for'}
                     },
-                    "required": ["user_id"],
-                },
-            },
+                    'required': ['user_id']
+                }
+            }
         }

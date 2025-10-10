@@ -1,41 +1,36 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import OrderedDict, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class remove_product(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], sku: str = None) -> str:
-        products = data.get("products", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        products = list(data.get("products", {}).values())
+
+        sku = kwargs.get("sku")
 
         if sku is None:
-            payload = {"error": "sku must be sent"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "sku must be sent"}, indent=2)
 
-        for product in products.values():
+        for product in products:
             if product["sku"] == sku:
                 del product
-                payload = {"success": f"Removed product: {sku}"}
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": "No sku found"}
-        out = json.dumps(payload, indent=2)
-        return out
+
+                return json.dumps(
+                    {"success": "Removed product: {}".format(sku)}, indent=2
+                )
+
+        return json.dumps({"error": "No sku found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RemoveProduct",
+                "name": "remove_product",
                 "description": "Removes a product from the products table. This means that the supplier no longer offers it. Use remove_inventory if it is only being removed from a single store.",
                 "parameters": {
                     "type": "object",

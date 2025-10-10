@@ -1,18 +1,13 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateScoutingReport(Tool):
     """
-    Establish a new scouting report.
+    Create a new scouting report.
 
     Required inputs (exact names):
       - report_type (string)
@@ -23,34 +18,31 @@ class CreateScoutingReport(Tool):
       - core_narrative_text (string)
 
     Behavior:
-      - report_id is auto-generated: max existing + 1 (starting at 1).
+      - report_id auto-generated: max existing + 1 (starts at 1).
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], report_type: str = None, game_pk: Any = None, core_narrative_text: str = None) -> str:
-        #1) Confirm validity
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        report_type = kwargs.get("report_type")
+        game_pk = kwargs.get("game_pk")
+        core_narrative_text = kwargs.get("core_narrative_text")
+
+        # 1) Validate
         missing = []
-        if not isinstance(report_type, str) or report_type == "":
-            missing.append("report_type")
-        if game_pk is None:
-            missing.append("game_pk")
-        if not isinstance(core_narrative_text, str) or core_narrative_text == "":
-            missing.append("core_narrative_text")
+        if not isinstance(report_type, str) or report_type == "": missing.append("report_type")
+        if game_pk is None: missing.append("game_pk")
+        if not isinstance(core_narrative_text, str) or core_narrative_text == "": missing.append("core_narrative_text")
 
         if missing:
-            payload = {"error": f"Missing required field(s): {', '.join(missing)}"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"Missing required field(s): {', '.join(missing)}"}, indent=2)
 
-        #2) Retrieve DB
-        reports: list[dict[str, Any]] = data.get("scouting_reports", {}).values()
+        # 2) Get DB
+        reports: List[Dict[str, Any]] = data.get("scouting_reports", [])
 
-        #3) Create a new id
+        # 3) Generate new id
         new_id = get_next_scouting_report_id(data)
 
-        #4) Add
+        # 4) Insert
         new_row = {
             "report_id": new_id,
             "report_type": report_type,
@@ -58,37 +50,24 @@ class CreateScoutingReport(Tool):
             "created_at": get_today_date(),
             "s3_pdf_path": f"s3://reports/scouting/{new_id}.pdf",
             "gslides_link": f"https://docs.google.com/presentation/d/{new_id}",
-            "core_narrative_text": core_narrative_text,
+            "core_narrative_text": core_narrative_text
         }
         reports.append(new_row)
-        payload = new_row
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(new_row, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         props = {
-            "report_type": {
-                "type": "string",
-                "description": "e.g., 'Pre-Game', 'Post-Game', 'Opponent Analysis', 'Series Summary', 'Player Focus'",
-            },
-            "game_pk": {
-                "type": "integer",
-                "description": "Game primary key this report is about.",
-            },
-            "core_narrative_text": {
-                "type": "string",
-                "description": "Main narrative text for the report.",
-            },
+            "report_type": {"type": "string", "description": "e.g., 'Pre-Game', 'Post-Game', 'Opponent Analysis', 'Series Summary', 'Player Focus'"},
+            "game_pk": {"type": "integer", "description": "Game primary key this report is about."},
+            "core_narrative_text": {"type": "string", "description": "Main narrative text for the report."}
         }
         return {
             "type": "function",
             "function": {
-                "name": "CreateScoutingReport",
+                "name": "create_scouting_report",
                 "description": "Create a new scouting report; report_id auto-generated (max existing + 1).",
-                "parameters": {
-                    "type": "object",
-                    "properties": props,
-                    "required": list(props.keys()),
-                },
-            },
+                "parameters": {"type": "object", "properties": props, "required": list(props.keys())}
+            }
         }

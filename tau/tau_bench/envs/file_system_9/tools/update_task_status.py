@@ -1,55 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateTaskStatus(Tool):
-    """Modifies the status of a task across different logs."""
-
+    """Updates the status of a task in various logs."""
     @staticmethod
-    def invoke(data: dict[str, Any], task_id: str = None, new_status: str = None) -> str:
-        for task in data.get("task_logs", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        task_id = kwargs.get("task_id")
+        new_status = kwargs.get("new_status")
+        for task in data.get("task_logs", []):
             if task.get("task_id") == task_id:
                 task["result"] = new_status
-                payload = {
-                    "status": "success",
-                    "message": f"Task {task_id} status updated to {new_status}.",
-                }
-                out = json.dumps(payload)
-                return out
-        for task in data.get("archive_instructions", {}).values():
+                return json.dumps({"status": "success", "message": f"Task {task_id} status updated to {new_status}."})
+        for task in data.get("archive_instructions", []):
             if task.get("archive_id") == task_id:
                 task["status"] = new_status
-                payload = {
-                    "status": "success",
-                    "message": f"Task {task_id} status updated to {new_status}.",
-                }
-                out = json.dumps(payload)
-                return out
-        for task in data.get("directories", {}).values():
-            if task.get("operation_id") == task_id:
-                payload = {
-                    "status": "success",
-                    "message": f"Task {task_id} status noted as {new_status}.",
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Task not found: {task_id}"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"status": "success", "message": f"Task {task_id} status updated to {new_status}."})
+        for task in data.get("directories", []):
+             if task.get("operation_id") == task_id:
+                return json.dumps({"status": "success", "message": f"Task {task_id} status noted as {new_status}."})
+        return json.dumps({"error": f"Task not found: {task_id}"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateTaskStatus",
+                "name": "update_task_status",
                 "description": "Updates the status of a task in various logs.",
                 "parameters": {
                     "type": "object",

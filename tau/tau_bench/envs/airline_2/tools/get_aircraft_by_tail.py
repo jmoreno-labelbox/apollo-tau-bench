@@ -1,34 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAircraftByTail(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], tail_number: str) -> str:
-        for a in data.get("aircraft", {}).values():
+    def invoke(data: Dict[str, Any], tail_number: str) -> str:
+        for a in list(data.get("aircraft", {}).values()):
             if a.get("tail_number") == tail_number:
                 return _j(a)
         return _j({})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetAircraftByTail",
-                "description": "Return an aircraft row by tail number.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"tail_number": {"type": "string"}},
-                    "required": ["tail_number"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"get_aircraft_by_tail",
+            "description":"Return an aircraft row by tail number.",
+            "parameters":{"type":"object","properties":{"tail_number":{"type":"string"}},"required":["tail_number"]}
+        }}

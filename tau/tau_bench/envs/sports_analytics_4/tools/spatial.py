@@ -1,30 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class Spatial(Tool):
     @staticmethod
-    #primary invocation function
-    def invoke(data: dict[str, Any],
-    source_table: Any = None,
-    ) -> str:
-        payload = {"grid": "12x12_catcher_view"}
-        out = json.dumps(payload, indent=2)
-        return out
+        # main invoke function
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        # return result
+        return json.dumps({"grid": "12x12_catcher_view"}, indent=2)
+
     @staticmethod
-    #metadata information
-    def get_info() -> dict[str, Any]:
-        pass
-        #return result
-        return {
-            "type": "function",
-            "function": {
-                "name": "norming",
-                "description": "Standardizes spatial pitch/location data.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"source_table": {"type": "string"}},
-                },
-                "required": [],
-            },
-        }
+        # info metadata
+    def get_info() -> Dict[str, Any]:
+        # return result
+        return {"type": "function", "function": {"name": "norming", "description": "Standardizes spatial pitch/location data.", "parameters": {"type": "object", "properties": {"source_table": {"type": "string"}}}, "required": []}}

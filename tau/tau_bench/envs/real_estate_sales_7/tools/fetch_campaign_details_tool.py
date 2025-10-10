@@ -1,30 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FetchCampaignDetailsTool(Tool):
-    """Retrieve a campaign along with the associated email count and audit records."""
+    """Fetch a campaign and related email count and audit entries."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], campaign_id: int = None) -> str:
-        campaign_id = _as_int(campaign_id)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        campaign_id = _as_int(kwargs.get("campaign_id"))
         if campaign_id is None:
             return _err("campaign_id is required")
 
         campaign = next(
             (
                 c
-                for c in data.get("campaigns", {}).values()
+                for c in list(data.get("campaigns", {}).values())
                 if _as_int(c.get("campaign_id")) == campaign_id
             ),
             None,
@@ -34,12 +27,12 @@ class FetchCampaignDetailsTool(Tool):
 
         emails = [
             e
-            for e in data.get("emails", {}).values()
+            for e in data.get("emails", [])
             if _as_int(e.get("campaign_id")) == campaign_id
         ]
         audits = [
             a
-            for a in data.get("audit_events", {}).values()
+            for a in data.get("audit_events", [])
             if a.get("entity_type") == "campaign"
             and _as_int(a.get("entity_id")) == campaign_id
         ]
@@ -52,15 +45,14 @@ class FetchCampaignDetailsTool(Tool):
             "emails_count": len(emails),
             "audit_events": audits_sorted[:10],
         }
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FetchCampaignDetails",
+                "name": "fetch_campaign_details",
                 "description": (
                     "Fetch campaign record with email count and audit history."
                 ),

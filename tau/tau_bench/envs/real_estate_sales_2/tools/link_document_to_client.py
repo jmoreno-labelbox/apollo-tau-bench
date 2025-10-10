@@ -1,42 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from itertools import islice
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class LinkDocumentToClient(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], client_id: str, doc_type: str = "briefing_doc", file_uri: str = None, created_by: str = None,
-    document_id: Any = None,
-    ) -> str:
-        documents = data.get("documents", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        documents = data.get("documents", [])
         new_id = _next_auto_id(documents, "document_id")
         row = {
             "document_id": new_id,
             "entity_type": "client",
-            "entity_id": client_id,
-            "doc_type": doc_type,
-            "file_uri": file_uri,
-            "created_by": created_by,
+            "entity_id": kwargs.get("client_id"),
+            "doc_type": kwargs.get("doc_type") or "briefing_doc",
+            "file_uri": kwargs.get("file_uri"),
+            "created_by": kwargs.get("created_by"),
             "created_at": _now_iso_fixed(),
         }
-        data["documents"][document_id] = row
-        payload = row
-        out = json.dumps(payload, indent=2)
-        return out
+        documents.append(row)
+        return json.dumps(row, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "LinkDocumentToClient",
+                "name": "link_document_to_client",
                 "description": "Attach a provided file_uri to a client as a document.",
                 "parameters": {
                     "type": "object",

@@ -1,27 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class TrainModel(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        model_name: str = None, 
-        model_type: str = None, 
-        features_id: str = None, 
-        config_id: str = None, 
-        split_id: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        model_name = kwargs.get("model_name")
         model_id = f"MODEL_{model_name}"
         predictions_id = "PRED_001"
 
         model_entry = {
             "model_id": model_id,
             "model_name": model_name,
-            "model_type": model_type,
-            "features_id": features_id,
-            "config_id": config_id,
-            "split_id": split_id,
+            "model_type": kwargs.get("model_type"),
+            "features_id": kwargs.get("features_id"),
+            "config_id": kwargs.get("config_id"),
+            "split_id": kwargs.get("split_id"),
             "model_path": f"/models/{model_id}.joblib",
         }
 
@@ -33,15 +30,15 @@ class TrainModel(Tool):
 
         data.setdefault("models.json", []).append(model_entry)
         data.setdefault("predictions.json", []).append(predictions_entry)
-        payload = predictions_entry
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(predictions_entry)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "trainModel",
+                "name": "TrainModel",
                 "description": "Trains a simple logistic regression model using the specified features, configuration, and data split.",
                 "parameters": {
                     "type": "object",

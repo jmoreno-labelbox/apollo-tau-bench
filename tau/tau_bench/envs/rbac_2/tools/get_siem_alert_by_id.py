@@ -1,51 +1,42 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetSiemAlertById(Tool):
-    """Retrieve complete details of a specific SIEM alert by its ID."""
-
+    """ Get the full details of a specific SIEM alert using its ID. """
     @staticmethod
-    def invoke(data: dict[str, Any], alert_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        alert_id = kwargs.get("alert_id")
         try:
-            siem_alerts = data.get("siem_alerts", {}).values()
+            siem_alerts = data.get('siem_alerts', [])
         except:
             siem_alerts = []
 
         for alert in siem_alerts:
             if alert.get("alert_id") == alert_id:
-                payload = alert
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"SIEM alert with ID '{alert_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(alert)
+
+        return json.dumps({"error": f"SIEM alert with ID '{alert_id}' not found."})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetSiemAlertById",
+                "name": "get_siem_alert_by_id",
                 "description": "Retrieves the full details of a specific SIEM alert using its unique ID (e.g., 'ALRT-012').",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "alert_id": {
                             "type": "string",
-                            "description": "The unique ID of the SIEM alert to retrieve.",
+                            "description": "The unique ID of the SIEM alert to retrieve."
                         }
                     },
-                    "required": ["alert_id"],
-                },
-            },
+                    "required": ["alert_id"]
+                }
+            }
         }

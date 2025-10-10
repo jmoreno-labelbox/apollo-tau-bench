@@ -1,7 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateCapacityPlan(Tool):
     @staticmethod
@@ -31,12 +33,13 @@ class CreateCapacityPlan(Tool):
             "status": "Created",
             "optimization_strategy": optimization_strategy
         })
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateCapacityPlan",
+                "name": "create_capacity_plan",
                 "description": "Create warehouse capacity optimization plan",
                 "parameters": {
                     "type": "object",

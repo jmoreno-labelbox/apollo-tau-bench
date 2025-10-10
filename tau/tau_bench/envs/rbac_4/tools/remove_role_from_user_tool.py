@@ -1,66 +1,48 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RemoveRoleFromUserTool(Tool):
-    """Eliminate a specific role assignment from a user (write operation, predictable)."""
+    """Remove a specific role assignment from a user (write operation, deterministic)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, role_id: str = None) -> str:
-        user_roles = data.get("user_roles", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_roles = data.get("user_roles", [])
         if not isinstance(user_roles, list):
-            payload = {"error": "user_roles must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "user_roles must be a list"}, indent=2)
+
+        user_id = kwargs.get("user_id")
+        role_id = kwargs.get("role_id")
 
         for fld, val in [("user_id", user_id), ("role_id", role_id)]:
             if not isinstance(val, str) or not val.strip():
-                payload = {"error": f"{fld} must be a non-empty string"}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
+                return json.dumps({"error": f"{fld} must be a non-empty string"}, indent=2)
 
         before = len(user_roles)
-        data["user_roles"] = [
-            ur
-            for ur in user_roles.values() if not (ur.get("user_id") == user_id and ur.get("role_id") == role_id)
-        ]
+        data["user_roles"] = [ur for ur in user_roles if not (ur.get("user_id") == user_id and ur.get("role_id") == role_id)]
         removed = before - len(data["user_roles"])
 
         if removed == 0:
-            payload = {"error": f"No assignment of {role_id} found for {user_id}"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        payload = {"success": f"Removed {removed} assignment(s) of {role_id} from {user_id}"}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+            return json.dumps({"error": f"No assignment of {role_id} found for {user_id}"}, indent=2)
+        return json.dumps({"success": f"Removed {removed} assignment(s) of {role_id} from {user_id}"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RemoveRoleFromUser",
+                "name": "remove_role_from_user",
                 "description": "Remove a role assignment for a user. Deletes matching rows from user_roles.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "user_id": {"type": "string"},
-                        "role_id": {"type": "string"},
+                        "role_id": {"type": "string"}
                     },
-                    "required": ["user_id", "role_id"],
-                },
-            },
+                    "required": ["user_id", "role_id"]
+                }
+            }
         }

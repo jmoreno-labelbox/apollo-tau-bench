@@ -1,35 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class SetModelConfig(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        classification_threshold_m: float = None, 
-        precip_24h_threshold_mm: float = None, 
-        test_split_fraction: float = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         config_id = "MODEL_CONFIG_001"
 
         config_entry = {
             "config_id": config_id,
-            "classification_threshold_m": classification_threshold_m,
-            "precip_24h_threshold_mm": precip_24h_threshold_mm,
-            "test_split_fraction": test_split_fraction,
+            "classification_threshold_m": kwargs.get("classification_threshold_m"),
+            "precip_24h_threshold_mm": kwargs.get("precip_24h_threshold_mm"),
+            "test_split_fraction": kwargs.get("test_split_fraction"),
             "config_json_path": f"/configs/model_config_{config_id}.json",
         }
 
         data.setdefault("model_config", []).append(config_entry)
-        payload = config_entry
-        out = json.dumps(payload)
-        return out
+        return json.dumps(config_entry)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "setModelConfig",
+                "name": "SetModelConfig",
                 "description": "Creates a configuration record for the modeling process with specified parameters.",
                 "parameters": {
                     "type": "object",

@@ -1,17 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class StartEtlRun(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], weather_raw_path: str = None, tides_raw_path: str = None, water_levels_raw_path: str = None, city_name: str = None) -> str:
-        pass
-        weather = weather_raw_path
-        tides = tides_raw_path
-        water = water_levels_raw_path
-        city_name  # This line seems to be unused, but kept for consistency
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        weather = kwargs.get("weather_raw_path")
+        tides = kwargs.get("tides_raw_path")
+        water = kwargs.get("water_levels_raw_path")
+        city = kwargs.get("city_name")
 
-        #consistently generate processed path
+        # deterministically produce processed path
         elt_id = "ETL_001"
         processed_path = f"/data/processed/timeseries_{elt_id}.csv"
 
@@ -22,15 +24,14 @@ class StartEtlRun(Tool):
             "processed_path": processed_path,
         }
         data.setdefault("etl_runs", []).append(etl_entry)
-        payload = {"status": "completed", **etl_entry}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "completed", **etl_entry})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "startEtlRun",
+                "name": "StartEtlRun",
                 "parameters": {
                     "type": "object",
                     "properties": {

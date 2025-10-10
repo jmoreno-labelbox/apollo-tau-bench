@@ -1,50 +1,41 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateCrewMemberStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], crew_member_id: str, new_status: str) -> str:
-        crew_members = data.get("crew_members", {}).values()
+    def invoke(data: Dict[str, Any], crew_member_id: str, new_status: str) -> str:
+        crew_members = data.get("crew_members", [])
+        new_status = new_status.upper()
         for member in crew_members:
             if member.get("crew_member_id") == crew_member_id:
                 member["status"] = new_status
-                payload = member
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Crew member not found", "crew_member_id": crew_member_id}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(member)
+        return json.dumps({"error": "Crew member not found", "crew_member_id": crew_member_id})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateCrewMemberStatus",
+                "name": "update_crew_member_status",
                 "description": "Updates the operational status of a specific crew member (e.g., to 'ON_SICK_LEAVE').",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "crew_member_id": {
                             "type": "string",
-                            "description": "The unique ID of the crew member to update.",
+                            "description": "The unique ID of the crew member to update."
                         },
                         "new_status": {
                             "type": "string",
-                            "description": "The new status for the crew member.",
-                        },
+                            "description": "The new status for the crew member."
+                        }
                     },
-                    "required": ["crew_member_id", "new_status"],
-                },
-            },
+                    "required": ["crew_member_id", "new_status"]
+                }
+            }
         }

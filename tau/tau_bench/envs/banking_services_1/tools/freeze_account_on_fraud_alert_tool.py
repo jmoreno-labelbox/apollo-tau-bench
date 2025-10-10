@@ -1,16 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FreezeAccountOnFraudAlertTool(Tool):
     """
@@ -28,14 +21,17 @@ class FreezeAccountOnFraudAlertTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, alert_reason: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get("account_id")
+        alert_reason = kwargs.get("alert_reason")
+
         if not account_id or not alert_reason:
             return json.dumps(
                 {"error": "account_id and alert_reason are required"}, indent=2
             )
 
-        accounts = data.get("accounts", {}).values()
-        account = next((a for a in accounts.values() if a["account_id"] == account_id), None)
+        accounts = list(data.get("accounts", {}).values())
+        account = next((a for a in accounts if a["account_id"] == account_id), None)
         if not account:
             return json.dumps({"error": "Account not found"}, indent=2)
 
@@ -51,12 +47,13 @@ class FreezeAccountOnFraudAlertTool(Tool):
             },
             indent=2,
         )
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FreezeAccountOnFraudAlert",
+                "name": "freeze_account_on_fraud_alert",
                 "description": "Freeze an account if fraud indicators are detected.",
                 "parameters": {
                     "type": "object",

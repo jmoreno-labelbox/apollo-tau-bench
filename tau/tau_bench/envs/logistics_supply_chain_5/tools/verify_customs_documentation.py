@@ -1,29 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class VerifyCustomsDocumentation(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], shipment_id: str, customs_clearance_status: str = None, duty_paid: bool = False) -> str:
-        inbound_shipments = data.get("inbound_shipments", {}).values()
+    def invoke(data: Dict[str, Any], shipment_id: str) -> str:
+        inbound_shipments = data.get("inbound_shipments", [])
 
-        shipment = next((s for s in inbound_shipments.values() if s.get("shipment_id") == shipment_id), None)
+        shipment = next((s for s in inbound_shipments if s.get("shipment_id") == shipment_id), None)
         if not shipment:
             return json.dumps({"error": f"Shipment {shipment_id} not found"})
 
         documentation_complete = True
         missing_docs = []
 
-        # Verify the necessary documentation
+        # Check required documentation
         if not shipment.get("bill_of_lading"):
             documentation_complete = False
             missing_docs.append("bill_of_lading")
@@ -37,15 +31,16 @@ class VerifyCustomsDocumentation(Tool):
             "shipment_id": shipment_id,
             "documentation_complete": documentation_complete,
             "missing_documents": missing_docs,
-            "customs_status": customs_clearance_status,
-            "duty_paid": duty_paid
+            "customs_status": shipment.get("customs_clearance_status"),
+            "duty_paid": shipment.get("duty_paid", False)
         })
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "VerifyCustomsDocumentation",
+                "name": "verify_customs_documentation",
                 "description": "Verify completeness of customs documentation for a shipment",
                 "parameters": {
                     "type": "object",

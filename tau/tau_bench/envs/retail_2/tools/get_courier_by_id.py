@@ -1,40 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCourierById(Tool):
-    """Obtain courier information from couriers.json using courier_id."""
+    """Retrieve courier details from couriers.json by courier_id."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], courier_id: str) -> str:
-        couriers = data.get("couriers", {}).values()
-        for c in couriers.values():
+    def invoke(data: Dict[str, Any], courier_id: str) -> str:
+        couriers = data.get("couriers", [])
+        for c in couriers:
             if c.get("courier_id") == courier_id:
-                payload = c
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Courier not found", "courier_id": courier_id}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(c)
+        return json.dumps({"error": "Courier not found", "courier_id": courier_id})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCourierById",
+                "name": "get_courier_by_id",
                 "description": "Get courier details from couriers.json by courier_id.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"courier_id": {"type": "string"}},
-                    "required": ["courier_id"],
-                },
-            },
+                    "properties": {
+                        "courier_id": {"type": "string"}
+                    },
+                    "required": ["courier_id"]
+                }
+            }
         }

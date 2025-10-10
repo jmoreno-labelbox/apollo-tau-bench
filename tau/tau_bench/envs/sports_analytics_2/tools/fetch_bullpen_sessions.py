@@ -1,31 +1,17 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class FetchBullpenSessions(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], **kwargs) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         date_range = kwargs.get("date_range")
-        kwargs.get("normalize_metrics", True)
-        payload = {"bullpen_session_data": f"sessions_{date_range}"}
-        out = json.dumps(payload, indent=2)
-        return out
+        normalize_metrics = kwargs.get("normalize_metrics", True)
+        return json.dumps({"bullpen_session_data": f"sessions_{date_range}"}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "fetchBullpenSessions",
-                "description": "Fetches recent bullpen session data.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "date_range": {"type": "string"},
-                        "normalize_metrics": {"type": "boolean"},
-                    },
-                    "required": ["date_range"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "fetch_bullpen_sessions", "description": "Fetches recent bullpen session data.", "parameters": {"type": "object", "properties": {"date_range": {"type": "string"}, "normalize_metrics": {"type": "boolean"}}, "required": ["date_range"]}}}

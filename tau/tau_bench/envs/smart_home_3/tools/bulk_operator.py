@@ -1,27 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class BulkOperator(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], operation: str = None, target_type: str = None, filters: dict = {}, updates: dict = {}) -> str:
-        if not operation or not target_type:
-            payload = {"error": "operation and target_type required"}
-            out = json.dumps(payload, indent=2)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        operation = kwargs.get('operation')
+        target_type = kwargs.get('target_type')
+        filters = kwargs.get('filters', {})
+        updates = kwargs.get('updates', {})
 
-        targets = data.get(target_type, {}).values()
+        if not operation or not target_type:
+            return json.dumps({"error": "operation and target_type required"}, indent=2)
+
+        targets = data.get(target_type, [])
         affected = []
 
-        if operation == "bulk_update":
+        if operation == 'bulk_update':
             for item in targets:
                 match = True
                 for key, value in filters.items():
@@ -30,9 +28,9 @@ class BulkOperator(Tool):
                         break
                 if match:
                     item.update(updates)
-                    affected.append(item.get("id", item.get("name", "unnamed")))
+                    affected.append(item.get('id', item.get('name', 'unnamed')))
 
-        elif operation == "bulk_state_update" and target_type == "devices":
+        elif operation == 'bulk_state_update' and target_type == 'devices':
             for device in targets:
                 match = True
                 for key, value in filters.items():
@@ -41,49 +39,32 @@ class BulkOperator(Tool):
                         break
                 if match:
                     existing_updates = {
-                        k: v for k, v in updates.items() if k in device["state"]
+                       k: v for k, v in updates.items()
+                        if k in device['state']
                     }
-                    device["state"].update(existing_updates)
-                    device["state"]["last_updated"] = _now_iso()
-                    affected.append(device["id"])
-        payload = {"success": f"Updated {len(affected)} items"}
-        out = json.dumps(payload, indent=2)
-        return out
+                    device['state'].update(existing_updates)
+                    device['state']['last_updated'] = _now_iso()
+                    affected.append(device['id'])
+
+        return json.dumps({"success": f"Updated {len(affected)} items"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "BulkOperator",
+                "name": "bulk_operator",
                 "description": "Perform bulk operations across multiple entities",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "operation": {
-                            "type": "string",
-                            "enum": ["bulk_update", "bulk_state_update"],
-                        },
-                        "target_type": {
-                            "type": "string",
-                            "enum": [
-                                "devices",
-                                "scenes",
-                                "custom_lists",
-                                "reminders",
-                                "members",
-                            ],
-                        },
-                        "filters": {
-                            "type": "object",
-                            "description": "Criteria to match items",
-                        },
-                        "updates": {
-                            "type": "object",
-                            "description": "Updates to apply",
-                        },
+                        "operation": {"type": "string", "enum": ["bulk_update", "bulk_state_update"]},
+                        "target_type": {"type": "string", "enum": ["devices", "scenes", "custom_lists", "reminders", "members"]},
+                        "filters": {"type": "object", "description": "Criteria to match items"},
+                        "updates": {"type": "object", "description": "Updates to apply"}
                     },
                     "required": ["operation", "target_type"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

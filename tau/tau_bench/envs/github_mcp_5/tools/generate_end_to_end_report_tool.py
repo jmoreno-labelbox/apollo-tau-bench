@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GenerateEndToEndReportTool(Tool):
     """
@@ -47,39 +35,32 @@ class GenerateEndToEndReportTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str) -> str:
-        pass
-        commits = data.get("commits", {}).values()
-        issues = data.get("issues", {}).values()
-        prs = data.get("pull_requests", {}).values()
-        alerts = data.get("code_scanning_alerts", {}).values()
-        releases = data.get("releases", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
+        repo_name = _validate_param(kwargs, "repo_name", str)
+
+        commits = list(data.get("commits", {}).values())
+        issues = list(data.get("issues", {}).values())
+        prs = list(data.get("pull_requests", {}).values())
+        alerts = data.get("code_scanning_alerts", [])
+        releases = data.get("releases", [])
 
         report = {
             "repo": repo_name,
-            "commits_count": sum(1 for c in commits.values() if c.get("repo") == repo_name),
-            "open_issues": sum(
-                1
-                for i in issues.values() if i.get("repo") == repo_name and i.get("state") == "open"
-            ),
-            "merged_prs": sum(
-                1
-                for p in prs.values() if p.get("repo") == repo_name and p.get("state") == "merged"
-            ),
-            "open_alerts": sum(
-                1
-                for a in alerts.values() if a.get("repo") == repo_name and a.get("state") == "open"
-            ),
-            "releases_count": sum(1 for r in releases.values() if r.get("repo") == repo_name),
+            "commits_count": sum(1 for c in commits if c.get("repo") == repo_name),
+            "open_issues": sum(1 for i in issues if i.get("repo") == repo_name and i.get("state") == "open"),
+            "merged_prs": sum(1 for p in prs if p.get("repo") == repo_name and p.get("state") == "merged"),
+            "open_alerts": sum(1 for a in alerts if a.get("repo") == repo_name and a.get("state") == "open"),
+            "releases_count": sum(1 for r in releases if r.get("repo") == repo_name),
             "report_date": CURRENT_DATE,
         }
         return _response("ok", report)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GenerateEndToEndReport",
+                "name": "generate_end_to_end_report",
                 "description": "Generate deterministic end-to-end report (issues, PRs, commits, alerts, releases).",
                 "parameters": {
                     "type": "object",

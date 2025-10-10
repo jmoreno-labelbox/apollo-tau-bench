@@ -1,92 +1,74 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCandidatesNeedingOrientationSchedulingTool(Tool):
-    """Recognizes candidates prepared for orientation based on their status, access checks, and absent invitation timestamps."""
+    """Identifies candidates ready for orientation based on status, access checks, and missing invitation timestamps."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], days_until_start: int = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        days_until_start = _as_int(kwargs.get("days_until_start"))
         if days_until_start is None:
             return _err("days_until_start (integer) is required")
 
-        candidates = data.get("candidates", {}).values()
-        access_checks = data.get("access_checks", {}).values()
-        emails = data.get("emails", {}).values()
+        candidates = data.get("candidates", [])
+        access_checks = data.get("access_checks", [])
+        emails = data.get("emails", [])
 
         ready_candidates = []
-        for candidate in candidates.values():
+        for candidate in candidates:
             start_date = candidate.get("start_date")
             cid = str(candidate.get("candidate_id"))
 
             if not start_date:
                 continue
 
-            # Verify days remaining until start
-            if _days_between(HARD_TS.split("T")[0], start_date) > days_until_start:
+            # Check days until start
+            if _days_between(HARD_TS.split('T')[0], start_date) > days_until_start:
                 continue
 
-            # Examine status (assuming 'Asset Pending' or 'Packet Sent' indicate readiness)
-            if candidate.get("onboarding_status") not in [
-                "Asset Pending",
-                "Packet Sent",
-                "Started",
-            ]:
+            # Check status (assuming 'Asset Pending' or 'Packet Sent' are ready states)
+            if candidate.get("onboarding_status") not in ["Asset Pending", "Packet Sent", "Started"]:
+                 continue
+
+            # Check access checks
+            candidate_access_checks = [ac for ac in access_checks if str(ac.get("candidate_id")) == cid]
+            if not candidate_access_checks or any(ac.get("status") == "Failed" for ac in candidate_access_checks):
                 continue
 
-            # Review access checks
-            candidate_access_checks = [
-                ac for ac in access_checks.values() if str(ac.get("candidate_id")) == cid
-            ]
-            if not candidate_access_checks or any(
-                ac.get("status") == "Failed" for ac in candidate_access_checks
-            ):
-                continue
-
-            # Look for an existing orientation invitation by examining the subject
+            # Check for existing orientation invitation by searching subject
             has_invitation = any(
                 "orientation invitation" in str(e.get("subject", "")).lower()
-                for e in emails.values() if str(e.get("candidate_id_nullable")) == cid
+                for e in emails
+                if str(e.get("candidate_id_nullable")) == cid
             )
             if has_invitation:
                 continue
 
             candidate_copy = candidate.copy()
-            # Basic priority scoring
-            priority_score = 100 - _days_between(HARD_TS.split("T")[0], start_date)
+            # Simple priority scoring
+            priority_score = 100 - _days_between(HARD_TS.split('T')[0], start_date)
             candidate_copy["scheduling_priority_score"] = priority_score
-            ready_data["candidates"][candidate_id] = candidate_copy
+            ready_candidates.append(candidate_copy)
 
-        ready_candidates.sort(
-            key=lambda x: x["scheduling_priority_score"], reverse=True
-        )
-        payload = ready_candidates
-        out = json.dumps(payload, indent=2)
-        return out
+        ready_candidates.sort(key=lambda x: x["scheduling_priority_score"], reverse=True)
+
+        return json.dumps(ready_candidates, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCandidatesNeedingOrientationScheduling",
+                "name": "get_candidates_needing_orientation_scheduling",
                 "description": "Identifies candidates ready for orientation based on status, access checks, and missing invitation timestamps.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "days_until_start": {
-                            "type": "integer",
-                            "description": "How many days before start date to schedule",
-                        }
+                        "days_until_start": {"type": "integer", "description": "How many days before start date to schedule"}
                     },
                     "required": ["days_until_start"],
                 },

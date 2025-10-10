@@ -1,35 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class BuildFeatureValidationRunId(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], city_slug: str = None, model_name: str = None, created_ts: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        city_slug = kwargs.get("city_slug")
+        model_name = kwargs.get("model_name")
+        created_ts = kwargs.get("created_ts")
         if not city_slug or not model_name or not created_ts:
-            payload = {"error": "Missing city_slug, model_name or created_ts"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error":"Missing city_slug, model_name or created_ts"})
         ymd = created_ts[:10].replace("-", "")
         run_id = f"fv_{city_slug}_{model_name}_{ymd}_v1"
-        payload = {"run_id": run_id, "ymd": ymd}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"run_id": run_id, "ymd": ymd})
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "BuildFeatureValidationRunId",
-                "description": "Builds canonical run_id for feature validation from city_slug, model_name, and created_ts.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "city_slug": {"type": "string"},
-                        "model_name": {"type": "string"},
-                        "created_ts": {"type": "string"},
-                    },
-                    "required": ["city_slug", "model_name", "created_ts"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{"name":"build_feature_validation_run_id","description":"Builds canonical run_id for feature validation from city_slug, model_name, and created_ts.","parameters":{"type":"object","properties":{"city_slug":{"type":"string"},"model_name":{"type":"string"},"created_ts":{"type":"string"}},"required":["city_slug","model_name","created_ts"]}}}

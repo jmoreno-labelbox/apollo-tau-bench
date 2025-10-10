@@ -1,22 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetCurrentTimestamp(Tool):
-    """Provides a fixed current timestamp value."""
+    """Returns a hardcoded current timestamp value."""
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        payload = {"timestamp": "2025-08-13T01:01:01Z"}
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        return json.dumps({"timestamp": "2025-08-13T01:01:01Z"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCurrentTimestamp",
+                "name": "get_current_timestamp",
                 "description": "Returns a hardcoded current timestamp value (2025-08-13T01:01:01Z).",
                 "parameters": {},
             },

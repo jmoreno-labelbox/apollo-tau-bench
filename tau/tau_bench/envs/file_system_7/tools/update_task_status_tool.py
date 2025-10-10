@@ -1,26 +1,19 @@
-from tau_bench.envs.tool import Tool
-import datetime
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateTaskStatusTool(Tool):
-    """Modifies the status of a task within the file_check_db."""
+    """Updates the status of a task in the file_check_db."""
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateTaskStatus",
+                "name": "update_task_status",
                 "description": "Updates the 'completed' field for a task in the file_check_db.",
                 "parameters": {
                     "type": "object",
@@ -34,15 +27,14 @@ class UpdateTaskStatusTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: dict[str, Any], task_id: str, completed: bool) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        task_id, completed = kwargs["task_id"], kwargs["completed"]
         task = next(
-            (t for t in data.get("file_check_db", {}).values() if t["task_id"] == task_id), None
+            (t for t in data.get("file_check_db", []) if t["task_id"] == task_id), None
         )
         if task:
             task["completed"] = completed
-            payload = {"status": "success", "task_id": task_id, "completed": completed}
-            out = json.dumps(payload)
-            return out
-        payload = {"error": f"Task ID {task_id} not found."}
-        out = json.dumps(payload)
-        return out
+            return json.dumps(
+                {"status": "success", "task_id": task_id, "completed": completed}
+            )
+        return json.dumps({"error": f"Task ID {task_id} not found."})

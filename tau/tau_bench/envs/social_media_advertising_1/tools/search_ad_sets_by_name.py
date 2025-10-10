@@ -1,41 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchAdSetsByName(Tool):
-    """Looks for ad sets whose names include the specified text."""
+    """Searches for ad sets with names containing the specified text."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], name_query: str = None) -> str:
-        adsets = data.get("adsets", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name_query = kwargs.get("name_query")
+        adsets = data.get("adsets", [])
         matching_adsets = []
         
-        if not name_query:
-            payload = {"adset_ids": []}
-            out = json.dumps(payload)
-            return out
-
         for adset in adsets:
             if name_query.lower() in adset.get("name", "").lower():
                 matching_adsets.append(adset.get("adset_id"))
-        payload = {"adset_ids": matching_adsets}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"adset_ids": matching_adsets})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchAdsetsByName",
+                "name": "search_adsets_by_name",
                 "description": "Searches for ad sets with names containing the specified text.",
                 "parameters": {
                     "type": "object",

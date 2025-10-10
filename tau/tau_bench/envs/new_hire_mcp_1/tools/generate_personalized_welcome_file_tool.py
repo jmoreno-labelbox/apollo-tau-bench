@@ -1,22 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GeneratePersonalizedWelcomeFileTool(Tool):
-    """Generates tailored welcome markdown in the onboarding_files table for one or more candidates."""
+    """Creates customized welcome markdown in onboarding_files table for one or more candidates."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str = None, candidate_ids: list[str] = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
+        candidate_ids = kwargs.get("candidate_ids")
+
         ids_to_process = []
         if candidate_ids:
             ids_to_process.extend(candidate_ids)
@@ -26,9 +22,7 @@ class GeneratePersonalizedWelcomeFileTool(Tool):
         if not ids_to_process:
             return _err("candidate_id or candidate_ids is required.")
 
-        candidates_map = {
-            str(c.get("candidate_id")): c for c in data.get("candidates", {}).values()
-        }
+        candidates_map = {str(c.get("candidate_id")): c for c in data.get("candidates", [])}
         onboarding_files = data.setdefault("onboarding_files", [])
         created_files = []
 
@@ -39,15 +33,15 @@ class GeneratePersonalizedWelcomeFileTool(Tool):
                     return _err(f"Candidate '{cid}' not found.", code="not_found")
                 continue
 
-            #Fixed markdown template
+            # Hardcoded markdown template
             template_content = """
-    lcome, {{candidate_name}}!
+# Welcome, {{candidate_name}}!
 
-    re thrilled to have you join us as a {{role_title}}. Your first day will be on {{start_date}}.
-     manager will be {{manager_email_nullable}}.
+We are thrilled to have you join us as a {{role_title}}. Your first day will be on {{start_date}}.
+Your manager will be {{manager_email_nullable}}.
 
-    e prepared this packet to help you get started.
-    """
+We've prepared this packet to help you get started.
+"""
 
             context = candidate
             content = _render_template(template_content, context)
@@ -60,33 +54,25 @@ class GeneratePersonalizedWelcomeFileTool(Tool):
                 "mime_type": "text/markdown",
                 "created_ts": HARD_TS,
                 "updated_ts": HARD_TS,
-                "candidate_id": cid,
+                "candidate_id": cid
             }
             onboarding_files.append(new_file)
             created_files.append(new_file)
-        payload = created_files
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(created_files, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GeneratePersonalizedWelcomeFile",
+                "name": "generate_personalized_welcome_file",
                 "description": "Creates customized welcome markdown for one or more candidates.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "candidate_id": {
-                            "type": "string",
-                            "description": "A single target candidate identifier.",
-                        },
-                        "candidate_ids": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "A list of target candidate identifiers.",
-                        },
+                        "candidate_id": {"type": "string", "description": "A single target candidate identifier."},
+                        "candidate_ids": {"type": "array", "items": {"type": "string"}, "description": "A list of target candidate identifiers."}
                     },
                 },
             },

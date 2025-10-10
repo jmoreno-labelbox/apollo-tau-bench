@@ -1,46 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ReadOnboardingMemo(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], memo_id: str = None) -> str:
-        memo = next(
-            (
-                m
-                for m in data.get("hr_memos", {}).values()
-                if m.get("memo_id") == memo_id and m.get("type") == "onboarding"
-            ),
-            None,
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        memo_id = kwargs.get("memo_id")
+        memo = next((m for m in data.get("hr_memos", []) if m.get("memo_id") == memo_id and m.get("type") == "onboarding"), None)
         if not memo:
-            payload = {"error": f"Onboarding memo {memo_id} not found."}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        payload = memo
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": f"Onboarding memo {memo_id} not found."}, indent=2)
+        return json.dumps(memo, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "readOnboardingMemo",
-                "description": "Reads and returns a specific onboarding memo from the HR memos table.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"memo_id": {"type": "string"}},
-                    "required": ["memo_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "read_onboarding_memo", "description": "Reads and returns a specific onboarding memo from the HR memos table.", "parameters": {"type": "object", "properties": {"memo_id": {"type": "string"}}, "required": ["memo_id"]}}}

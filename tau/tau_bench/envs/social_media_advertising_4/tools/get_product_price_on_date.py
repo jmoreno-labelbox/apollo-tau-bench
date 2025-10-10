@@ -1,46 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetProductPriceOnDate(Tool):
-    """Finds the price of a product on a given date."""
+    """Looks up the price of a product on a specific date."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        product_id, query_date = kwargs.get("product_id"), kwargs.get("date")
+        for entry in data.get('f_price', []):
+            if entry.get('product_id') == product_id and entry.get('date') == query_date:
+                return json.dumps(entry)
+        return json.dumps({"error": "Price not found."})
 
     @staticmethod
-    def invoke(data: dict[str, Any], product_id: str = None, query_date: str = None, date: Any = None) -> str:
-        for entry in data.get("f_price", {}).values():
-            if (
-                entry.get("product_id") == product_id
-                and entry.get("date") == query_date
-            ):
-                payload = entry
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Price not found."}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetProductPriceOnDate",
-                "description": "Retrieves the price of a specific product on a given date.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "product_id": {"type": "string"},
-                        "date": {"type": "string"},
-                    },
-                    "required": ["product_id", "date"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "get_product_price_on_date", "description": "Retrieves the price of a specific product on a given date.", "parameters": {"type": "object", "properties": {"product_id": {"type": "string"}, "date": {"type": "string"}}, "required": ["product_id", "date"]}}}

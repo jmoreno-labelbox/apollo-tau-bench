@@ -1,26 +1,25 @@
-from tau_bench.envs.tool import Tool
-import json
-import uuid
-from datetime import datetime
-from typing import Any
+# Copyright Sierra
 
-class AddTeamTrainingSession(Tool):
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class add_team_training_session(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], team_id: str, training: dict) -> str:
+    def invoke(data: Dict[str, Any], team_id: str, training: dict) -> str:
         training["team_id"] = team_id
         data.setdefault("team_training_sessions", []).append(training)
-        payload = {"success": f"Training session added for team {team_id}"}
-        out = json.dumps(
-            payload, indent=2
+        return json.dumps(
+            {"success": f"Training session added for team {team_id}"}, indent=2
         )
-        return out
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "addTeamTrainingSession",
+                "name": "add_team_training_session",
                 "description": "Add a training session for a team",
                 "parameters": {
                     "type": "object",

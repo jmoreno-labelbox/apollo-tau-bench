@@ -1,43 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AddUser(Tool):
-    """Incorporates a new user."""
+    """Adds a new user."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        email = kwargs.get("email")
+        full_name = kwargs.get("full_name")
+        users = list(data.get("users", {}).values())
+        if any(user.get("email") == email for user in users):
+            return json.dumps({"error": f"User with email '{email}' already exists."})
+        new_id = max([u.get("user_id", 0) for u in users]) + 1 if users else 101
+        new_user = {
+            "user_id": new_id, "email": email, "full_name": full_name,
+            "created_at": "2025-08-22T10:00:00Z"
+        }
+        data["users"].append(new_user)
+        return json.dumps(new_user)
 
     @staticmethod
-    def invoke(data: dict[str, Any], email: str = None, full_name: str = None) -> str:
-        users = data.get("users", {}).values()
-        if any(user.get("email") == email for user in users.values()):
-            payload = {"error": f"User with email '{email}' already exists."}
-            out = json.dumps(payload)
-            return out
-        new_id = max([u.get("user_id", 0) for u in users.values()]) + 1 if users else 101
-        new_user = {
-            "user_id": new_id,
-            "email": email,
-            "full_name": full_name,
-            "created_at": "2025-08-22T10:00:00Z",
-        }
-        data["users"][user_id] = new_user
-        payload = new_user
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "addUser",
+                "name": "add_user",
                 "description": "Adds a new user.",
                 "parameters": {
                     "type": "object",

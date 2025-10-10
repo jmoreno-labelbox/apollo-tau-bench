@@ -1,59 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetPropertyAndListing(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], property_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        property_id = kwargs.get("property_id")
         if not property_id:
-            payload = {"error": "property_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
-        prop = next(
-            (
-                p
-                for p in data.get("properties", {}).values()
-                if p.get("property_id") == property_id
-            ),
-            None,
-        )
+            return json.dumps({"error": "property_id is required"}, indent=2)
+        prop = next((p for p in list(data.get("properties", {}).values()) if p.get("property_id") == property_id), None)
         if not prop:
-            payload = {"error": f"Property '{property_id}' not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        listings = [
-            l for l in data.get("listings", {}).values() if l.get("property_id") == property_id
-        ]
+            return json.dumps({"error": f"Property '{property_id}' not found"}, indent=2)
+        listings = [l for l in list(data.get("listings", {}).values()) if l.get("property_id") == property_id]
         listing = None
         if listings:
-            listing = max(
-                listings,
-                key=lambda x: (x.get("updated_at") or "", x.get("listing_id", 0)),
-            )
-        payload = {"property": prop, "listing": listing}
-        out = json.dumps(payload, indent=2)
-        return out
+            listing = max(listings, key=lambda x: (x.get("updated_at") or "", x.get("listing_id", 0)))
+        return json.dumps({"property": prop, "listing": listing}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "getPropertyAndListing",
-                "description": "Get a property's details and its most recent listing (if available).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"property_id": {"type": "string"}},
-                    "required": ["property_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"get_property_and_listing",
+            "description":"Get a property's details and its most recent listing (if available).",
+            "parameters":{"type":"object","properties":{"property_id":{"type":"string"}},"required":["property_id"]}
+        }}

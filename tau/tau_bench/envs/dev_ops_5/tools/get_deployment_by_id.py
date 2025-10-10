@@ -1,36 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetDeploymentById(Tool):
-    """Fetches a deployment using its ID."""
-
+    """Retrieves a deployment by its ID."""
     @staticmethod
-    def invoke(data: dict[str, Any], id: str = None) -> str:
-        deployment_id = id
-        deployments = data.get("deployments", {}).values()
-        for d in deployments.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        deployment_id = kwargs.get("id")
+        deployments = list(data.get("deployments", {}).values())
+        for d in deployments:
             if d.get("id") == deployment_id:
-                payload = d
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Deployment with ID '{deployment_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(d)
+        return json.dumps({"error": f"Deployment with ID '{deployment_id}' not found."})
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetDeploymentById",
+                "name": "get_deployment_by_id",
                 "description": "Retrieves a deployment by its ID.",
                 "parameters": {
                     "type": "object",

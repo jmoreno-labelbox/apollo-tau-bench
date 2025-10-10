@@ -1,54 +1,46 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetWarehousesByOwnershipStatus(Tool):
-    """Utility for fetching warehouses based on their ownership status."""
+    """Tool to retrieve a warehouses by ownership status."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], ownership_status: str, list_of_ids: list = None) -> str:
-        if list_of_ids is None:
-            list_of_ids = []
-        warehouses = data.get("warehouses", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ownership_status = kwargs.get("ownership_status")
+        list_of_ids = kwargs.get("list_of_ids", [])
+        warehouses = data.get("warehouses", [])
         result = []
-        for warehouse in warehouses.values():
+        for warehouse in warehouses:
             if warehouse["ownership_status"].lower() == ownership_status.lower():
                 result.append(warehouse["warehouse_id"])
         if list_of_ids:
-            result = [r for r in result.values() if r in list_of_ids]
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+            result = [r for r in result if r in list_of_ids]
+        return json.dumps(result, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetWarehousesByOwnershipStatus",
+                "name": "get_warehouses_by_ownership_status",
                 "description": "Retrieve full warehouse details using warehouse ID.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "ownership_status": {
-                            "type": "string",
-                            "description": "Owned, Leased",
-                        },
+                        "ownership_status": {"type": "string", "description": "Owned, Leased"},
                         "list_of_ids": {
                             "type": "array",
-                            "items": {"type": "string"},
-                            "description": "List of suppliers to choose from.",
-                        },
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "List of suppliers to choose from."
+                        }
                     },
-                    "required": ["ownership_status"],
-                },
-            },
+                    "required": ["ownership_status"]
+                }
+            }
         }

@@ -1,35 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetTeamTrainingLog(Tool):
-    """Retrieve entries from the team training log."""
+    """Get team training log entries."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], team_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        tid = kwargs.get("team_id")
         logs = [
             log
-            for log in data.get("team_training_logs", {}).values()
-            if log.get("team_id") == team_id
+            for log in data.get("team_training_logs", [])
+            if log.get("team_id") == tid
         ]
-        payload = logs
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(logs, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetTeamTrainingLog",
+                "name": "get_team_training_log",
                 "description": "Get team training log.",
                 "parameters": {
                     "type": "object",

@@ -1,14 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpsertMember(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], member: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], member: Dict[str, Any]) -> str:
         if not member:
-            payload = {"error": "member object required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "member object required"}, indent=2)
         members = _load("members", data)
         idx, _ = _find(members, member["id"])
         if idx is not None:
@@ -18,15 +19,14 @@ class UpsertMember(Tool):
             members.append(member)
             msg = "added"
             data["members"] = members
-        payload = {"success": f"member {msg}", "member": member}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"success": f"member {msg}", "member": member}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpsertMember",
+                "name": "upsert_member",
                 "description": "Create or update a household member record.",
                 "parameters": {
                     "type": "object",
@@ -34,11 +34,11 @@ class UpsertMember(Tool):
                         "member": {
                             "type": "object",
                             "description": "Full or partial member object.",
-                            "additionalProperties": True,
+                            "additionalProperties": True
                         }
                     },
                     "required": ["member"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

@@ -1,10 +1,13 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class RunCacheWarmJobs(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], mode: str) -> str:
+    def invoke(data: Dict[str, Any], mode: str) -> str:
         jobs = _ensure_table(data, "cache_jobs")
         job_name = "Load API Metadata" if mode == "metadata" else "Populate Cache Job"
         job_id = _stable_id("job", job_name)
@@ -29,18 +32,17 @@ class RunCacheWarmJobs(Tool):
                 "items_warmed": items_warmed,
             }
         )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RunCacheWarmJobs",
+                "name": "run_cache_warm_jobs",
                 "description": "Execute cache warm jobs for metadata or populate.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "mode": {"type": "string", "enum": ["metadata", "populate"]}
-                    },
+                    "properties": {"mode": {"type": "string", "enum": ["metadata", "populate"]}},
                     "required": ["mode"],
                 },
             },

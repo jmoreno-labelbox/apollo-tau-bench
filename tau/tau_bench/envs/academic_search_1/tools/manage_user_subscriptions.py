@@ -1,108 +1,71 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ManageUserSubscriptions(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: Any = None, topic: Any = None, action: Any = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
-        Modifies a user's subscription to a topic by adding or removing it.
-        - Needs user_id, topic, and action ('add' or 'remove').
+        Adds or removes a user's subscription to a topic.
+        - Requires user_id, topic, and action ('add' or 'remove').
         """
+        user_id = kwargs.get('user_id')
+        topic = kwargs.get('topic')
+        action = kwargs.get('action')
+
         if not all([user_id, topic, action]):
-            payload = {"error": "user_id, topic, and action are required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "user_id, topic, and action are required."})
 
-        subscriptions = data.get("subscriptions", {}).values()
+        subscriptions = list(data.get('subscriptions', {}).values())
 
-        if action.lower() == "add":
-            already_subscribed = any(
-                sub.get("person_id") == user_id and sub.get("subject") == topic
-                for sub in subscriptions.values()
-            )
+        if action.lower() == 'add':
+            already_subscribed = any(sub.get('user_id') == user_id and sub.get('topic') == topic for sub in subscriptions)
             if already_subscribed:
-                payload = {
-                    "success": False,
-                    "message": "User is already subscribed to this topic.",
-                }
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"success": False, "message": "User is already subscribed to this topic."})
 
             new_sub_id = f"sub_topic_{uuid.uuid4().hex[:6]}"
             new_subscription = {
-                "membership_id": new_sub_id,
-                "person_id": user_id,
-                "subject": topic,
+                "subscription_id": new_sub_id,
+                "user_id": user_id,
+                "topic": topic
             }
-            data["subscriptions"][new_subscription["subscription_id"]] = new_subscription
-            payload = {"success": True, "subscription": new_subscription}
-            out = json.dumps(payload)
-            return out
+            subscriptions.append(new_subscription)
+            return json.dumps({"success": True, "subscription": new_subscription})
 
-        elif action.lower() == "remove":
+        elif action.lower() == 'remove':
             initial_count = len(subscriptions)
-            # Generate a new list that omits the subscription intended for removal.
-            data["subscriptions"] = [
-                sub
-                for sub in subscriptions.values() if not (sub.get("person_id") == user_id and sub.get("subject") == topic)
-            ]
+            # Create a new list excluding the subscription to be removed
+            data['subscriptions'] = [sub for sub in subscriptions if not (sub.get('user_id') == user_id and sub.get('topic') == topic)]
 
-            if len(data["subscriptions"]) < initial_count:
-                payload = {
-                    "success": True,
-                    "message": f"Subscription to topic '{topic}' for user '{user_id}' removed.",
-                }
-                out = json.dumps(payload)
-                return out
+            if len(data['subscriptions']) < initial_count:
+                return json.dumps({"success": True, "message": f"Subscription to topic '{topic}' for user '{user_id}' removed."})
             else:
-                payload = {"error": "Subscription not found to remove."}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"error": "Subscription not found to remove."})
 
         else:
-            payload = {"error": "Invalid action. Must be 'add' or 'remove'."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Invalid action. Must be 'add' or 'remove'."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         """
-        Provides the function schema intended for the language model.
+        Returns the function schema for the language model.
         """
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "ManageUserSubscriptions",
+                "name": "manage_user_subscriptions",
                 "description": "Adds or removes a user's subscription to a specific topic.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "user_id": {
-                            "type": "string",
-                            "description": "The ID of the user.",
-                        },
-                        "topic": {
-                            "type": "string",
-                            "description": "The topic to subscribe to or unsubscribe from.",
-                        },
-                        "action": {
-                            "type": "string",
-                            "enum": ["add", "remove"],
-                            "description": "The action to perform: 'add' or 'remove' the subscription.",
-                        },
+                        "user_id": {"type": "string", "description": "The ID of the user."},
+                        "topic": {"type": "string", "description": "The topic to subscribe to or unsubscribe from."},
+                        "action": {"type": "string", "enum": ["add", "remove"], "description": "The action to perform: 'add' or 'remove' the subscription."}
                     },
-                    "required": ["user_id", "topic", "action"],
-                },
-            },
+                    "required": ["user_id", "topic", "action"]
+                }
+            }
         }

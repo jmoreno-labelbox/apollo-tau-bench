@@ -1,55 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpdateHubspotTicketTool(Tool):
     """update_hubspot_ticket
-    Modifies ticket fields; deterministically sets updated_at and closed_at when status == CLOSED.
-    If actor_id is supplied, also logs an idempotent audit (similar to review_access_request) and
+    Updates ticket fields; sets updated_at deterministically and closed_at when status == CLOSED.
+    If actor_id is provided, also writes an idempotent audit log (like review_access_request) and
     returns it under 'audit_log' in the response.
     """
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        ticket_id: str = None,
-        subject: str = None,
-        description: str = None,
-        status: str = None,
-        priority: str = None,
-        assignee_id: str = None,
-        requester_id: str = None,
-        category: str = None,
-        actor_id: str = None,
-        note: str = None
-    ) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ticket_id = kwargs.get("ticket_id")
         if not ticket_id:
-            payload = {"error": "ticket_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "ticket_id is required"}, indent=2)
 
         updatable_fields = {
-            "subject": subject,
-            "description": description,
-            "status": status,
-            "priority": priority,
-            "assignee_id": assignee_id,
-            "requester_id": requester_id,
-            "category": category,
+            "subject": kwargs.get("subject"),
+            "description": kwargs.get("description"),
+            "status": kwargs.get("status"),
+            "priority": kwargs.get("priority"),
+            "assignee_id": kwargs.get("assignee_id"),
+            "requester_id": kwargs.get("requester_id"),
+            "category": kwargs.get("category"),
         }
 
-        tickets: list[dict[str, Any]] = data.setdefault("hubspot_tickets", [])
+        tickets: List[Dict[str, Any]] = data.setdefault("hubspot_tickets", [])
         t = next((x for x in tickets if x.get("ticket_id") == ticket_id), None)
         if not t:
-            payload = {"error": f"Ticket {ticket_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"Ticket {ticket_id} not found"}, indent=2)
 
-        # Monitor modified fields for audit information
-        changed_fields: list[str] = []
+        # Track changed fields for audit details
+        changed_fields: List[str] = []
         for k, v in updatable_fields.items():
             if v is not None and t.get(k) != v:
                 t[k] = v
@@ -61,6 +46,8 @@ class UpdateHubspotTicketTool(Tool):
         if t.get("status") == "CLOSED":
             t["closed_at"] = _HARD_TS
 
+        actor_id = kwargs.get("actor_id")
+        note = kwargs.get("note")
         audit_entry = None
         if actor_id:
             logs = data.setdefault("audit_logs", [])
@@ -96,15 +83,14 @@ class UpdateHubspotTicketTool(Tool):
         out = dict(t)
         if audit_entry:
             out["audit_log"] = audit_entry
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "updateHubspotTicket",
+                "name": "update_hubspot_ticket",
                 "description": (
                     "Update HubSpot ticket fields; sets updated_at deterministically and closed_at when status == CLOSED. "
                     "If actor_id is provided, also records an idempotent audit log and returns it as 'audit_log'."

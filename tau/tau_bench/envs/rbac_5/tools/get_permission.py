@@ -1,83 +1,65 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetPermission(Tool):
     """
-    Retrieve permissions based on ID, action, or resource.
+    Retrieve permissions by ID, action, or resource.
 
     kwargs:
       permission_id: str (optional) - Specific permission ID to retrieve
-      action: str (optional) - Filter by the action of the permission
-      resource_id: str (optional) - Filter by the resource associated with permissions
+      action: str (optional) - Filter by permission action
+      resource_id: str (optional) - Filter by resource involved in permissions
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], permission_id: str = None, action: str = None, resource_id: str = None, description: str = None) -> str:
-        permissions = data.get("permissions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        permission_id = kwargs.get("permission_id")
+        action = kwargs.get("action")
+        resource_id = kwargs.get("resource_id")
+        description = kwargs.get("description")
 
-        # If permission_id is supplied, return the specific permission
+        permissions = list(data.get("permissions", {}).values())
+
+        # If permission_id is provided, return single permission
         if permission_id:
             permission = _find_by_id(permissions, "permission_id", permission_id)
             if not permission:
-                payload = {"error": f"permission_id {permission_id} not found"}
-                out = json.dumps(payload)
-                return out
-            payload = {"ok": True, "permission": permission}
-            out = json.dumps(payload)
-            return out
+                return json.dumps({"error": f"permission_id {permission_id} not found"})
+            return json.dumps({"ok": True, "permission": permission})
 
-        # Narrow down permissions according to the supplied criteria
+        # Filter permissions based on provided criteria
         filtered_permissions = []
-        for permission in permissions.values():
+        for permission in permissions:
             if action and permission.get("action") != action:
                 continue
             if resource_id and permission.get("resource_id") != resource_id:
                 continue
             if description and permission.get("description") != description:
                 continue
-            filtered_data["permissions"][permission_id] = permission
-        payload = {"ok": True, "permissions": filtered_permissions}
-        out = json.dumps(payload)
-        return out
+            filtered_permissions.append(permission)
+
+        return json.dumps({"ok": True, "permissions": filtered_permissions})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPermission",
+                "name": "get_permission",
                 "description": "Retrieve permissions by ID, action, or resource.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "permission_id": {
-                            "type": "string",
-                            "description": "Specific permission ID to retrieve.",
-                        },
-                        "action": {
-                            "type": "string",
-                            "description": "Filter by permission action.",
-                        },
-                        "resource_id": {
-                            "type": "string",
-                            "description": "Filter by resource involved in permissions.",
-                        },
-                        "description": {
-                            "type": "string",
-                            "description": "Filter by permission description.",
-                        },
+                        "permission_id": {"type": "string", "description": "Specific permission ID to retrieve."},
+                        "action": {"type": "string", "description": "Filter by permission action."},
+                        "resource_id": {"type": "string", "description": "Filter by resource involved in permissions."},
+                        "description": {"type": "string", "description": "Filter by permission description."}
                     },
                     "required": [],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

@@ -1,8 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class VerifyCustomerIdentityTool(Tool):
     """
@@ -20,7 +21,10 @@ class VerifyCustomerIdentityTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, id_document: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        id_document = kwargs.get("id_document")
+
         if not customer_id or not id_document:
             return json.dumps(
                 {
@@ -32,7 +36,7 @@ class VerifyCustomerIdentityTool(Tool):
             )
 
         customers = load_json("customers_documents.json")
-        customer = next((c for c in customers.values() if c["customer_id"] == customer_id), None)
+        customer = next((c for c in customers if c["customer_id"] == customer_id), None)
 
         if not customer:
             return json.dumps(
@@ -44,12 +48,13 @@ class VerifyCustomerIdentityTool(Tool):
         return json.dumps(
             {"status": "success", "verified": True, "confidence": 0.97}, indent=2
         )
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "VerifyCustomerIdentity",
+                "name": "verify_customer_identity",
                 "description": "Verify a customer's identity using a valid official document (e.g., passport, national ID, or license).",
                 "parameters": {
                     "type": "object",

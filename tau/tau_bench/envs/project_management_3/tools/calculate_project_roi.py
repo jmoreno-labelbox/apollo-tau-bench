@@ -1,69 +1,60 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CalculateProjectROI(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_id: str,
-        revenue_generated: float = 0,
-        cost_savings: float = 0,
-        fiscal_year: int = datetime.now().year
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        revenue_generated = kwargs.get("revenue_generated", 0)
+        cost_savings = kwargs.get("cost_savings", 0)
+        fiscal_year = kwargs.get("fiscal_year", datetime.now().year)
+
         if not project_id:
-            payload = {"error": "project_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "project_id is required"})
 
-        projects = data.get("projects", {}).values()
-        budgets = data.get("budgets", {}).values()
-        expenses = data.get("expenses", {}).values()
-        allocations = data.get("allocations", {}).values()
-        employees = data.get("employees", {}).values()
-        task_logs = data.get("task_logs", {}).values()
-        tasks = data.get("tasks", {}).values()
+        projects = list(data.get("projects", {}).values())
+        budgets = data.get("budgets", [])
+        expenses = data.get("expenses", [])
+        allocations = data.get("allocations", [])
+        employees = list(data.get("employees", {}).values())
+        task_logs = data.get("task_logs", [])
+        tasks = list(data.get("tasks", {}).values())
 
-        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
+        project = next((p for p in projects if p.get("project_id") == project_id), None)
         if not project:
-            payload = {"error": f"Project {project_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Project {project_id} not found"})
 
         project_budget = next(
             (
                 b
-                for b in budgets.values() if b.get("project_id") == project_id
+                for b in budgets
+                if b.get("project_id") == project_id
                 and b.get("fiscal_year") == fiscal_year
             ),
             None,
         )
 
         budgeted_amount = project_budget["total_budget"] if project_budget else 0
-        project_budget.get("spent_amount", 0) if project_budget else 0
+        spent_amount = project_budget.get("spent_amount", 0) if project_budget else 0
 
         project_tasks = [
             t
-            for t in tasks.values() if any(
+            for t in tasks
+            if any(
                 a.get("project_id") == project_id
-                for a in allocations.values() if a.get("employee_id") == t.get("assignee_id")
+                for a in allocations
+                if a.get("employee_id") == t.get("assignee_id")
             )
         ]
 
         actual_personnel_cost = 0
         for task in project_tasks:
             task_time_logs = [
-                log for log in task_logs.values() if log.get("task_id") == task["task_id"]
+                log for log in task_logs if log.get("task_id") == task["task_id"]
             ]
 
             for log in task_time_logs:
@@ -71,7 +62,7 @@ class CalculateProjectROI(Tool):
                 hours = log.get("hours", 0)
 
                 employee = next(
-                    (e for e in employees.values() if e.get("employee_id") == employee_id), None
+                    (e for e in employees if e.get("employee_id") == employee_id), None
                 )
                 if employee:
                     hourly_rate = (
@@ -81,10 +72,11 @@ class CalculateProjectROI(Tool):
 
         project_expenses = [
             e
-            for e in expenses.values() if e.get("project_id") == project_id and e.get("status") == "approved"
+            for e in expenses
+            if e.get("project_id") == project_id and e.get("status") == "approved"
         ]
 
-        total_expense_cost = sum(e.get("amount", 0) for e in project_expenses.values())
+        total_expense_cost = sum(e.get("amount", 0) for e in project_expenses)
 
         total_actual_cost = actual_personnel_cost + total_expense_cost
 
@@ -120,29 +112,25 @@ class CalculateProjectROI(Tool):
             "roi_calculations": {
                 "roi_percentage": round(roi_percentage, 2),
                 "net_benefit": total_benefit - total_actual_cost,
-                "benefit_cost_ratio": (
-                    round(total_benefit / total_actual_cost, 2)
-                    if total_actual_cost > 0
-                    else 0
-                ),
-                "payback_period_months": (
-                    round(payback_months, 1)
-                    if payback_months != float("inf")
-                    else "N/A"
-                ),
+                "benefit_cost_ratio": round(total_benefit / total_actual_cost, 2)
+                if total_actual_cost > 0
+                else 0,
+                "payback_period_months": round(payback_months, 1)
+                if payback_months != float("inf")
+                else "N/A",
             },
             "roi_status": "positive" if roi_percentage > 0 else "negative",
             "meets_target": roi_percentage >= 15,
         }
-        payload = roi_analysis
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(roi_analysis, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateProjectRoi",
+                "name": "calculate_project_roi",
                 "description": "Calculate return on investment (ROI) for a project",
                 "parameters": {
                     "type": "object",

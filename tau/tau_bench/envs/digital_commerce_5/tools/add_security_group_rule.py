@@ -1,12 +1,14 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AddSecurityGroupRule(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         group_id: Any,
         direction: Any,
         protocol: Any,
@@ -19,24 +21,21 @@ class AddSecurityGroupRule(Tool):
         rec = {
             "rule_id": rid,
             "group_id": _as_id(group_id),
-            "direction": str(direction),  #"ingress" or "egress"
-            "protocol": str(protocol),  #for example, "tcp"
+            "direction": str(direction),  # "ingress" | "egress"
+            "protocol": str(protocol),  # e.g., "tcp"
             "port": int(port),
             "cidr": str(cidr),
             "description": str(description),
         }
         rules.append(rec)
-        payload = rec
-        out = json.dumps(payload, indent=2)
-        return out
-        return out
+        return json.dumps(rec, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddSecurityGroupRule",
+                "name": "add_security_group_rule",
                 "description": "Authorize a CIDR rule on a security group.",
                 "parameters": {
                     "type": "object",

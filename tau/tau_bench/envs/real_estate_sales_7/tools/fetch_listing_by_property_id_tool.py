@@ -1,28 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class FetchListingByPropertyIdTool(Tool):
-    """Retrieves listing details for a specific property."""
+    """Gets listing information for specific property."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], property_id: str = None) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        property_id = kwargs.get("property_id")
         need = _require_property_id(property_id)
         if need:
             return _err(need)
 
         listing = _collect_listing_by_property(data, property_id)
         if not listing:
-            # Error management guideline: verify sales for historical information
+            # Error handling rule: check sales for historical data
             sales = _collect_sales_history(data, property_id)
             if not sales:
                 return _err(
-                    f"no listing WA sales history for {property_id}", code="not_found"
+                    f"no listing or sales history for {property_id}", code="not_found"
                 )
-            # Generate a synthetic listing-style view based on the most recent sale
+            # Provide a synthetic listing-like view from latest sale
             srec = _latest(sales, "sale_date") or sales[0]
             out = {
                 "listing_id": None,
@@ -35,9 +36,7 @@ class FetchListingByPropertyIdTool(Tool):
                 "listed_at": srec.get("sale_date"),
                 "updated_at": srec.get("sale_date"),
             }
-            payload = out
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps(out, indent=2)
 
         out = {
             "listing_id": listing.get("listing_id"),
@@ -50,15 +49,14 @@ class FetchListingByPropertyIdTool(Tool):
             "listed_at": listing.get("listed_at"),
             "updated_at": listing.get("updated_at"),
         }
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "fetchListingByPropertyId",
+                "name": "fetch_listing_by_property_id",
                 "description": "Gets listing information for a property (HTX###).",
                 "parameters": {
                     "type": "object",

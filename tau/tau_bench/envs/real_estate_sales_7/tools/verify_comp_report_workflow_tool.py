@@ -1,28 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class VerifyCompReportWorkflowTool(Tool):
-    """Confirms that the entire comparable analysis workflow was performed accurately."""
+    """Verifies complete comparable analysis workflow was executed correctly."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], report_id: int = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        report_id = kwargs.get("report_id")
         if report_id is None:
             return _err("report_id is required")
 
         reports = {
             int(r.get("report_id")): r
-            for r in data.get("comp_reports", {}).values()
+            for r in data.get("comp_reports", [])
             if r.get("report_id") is not None
         }
         r = reports.get(int(report_id))
@@ -32,20 +26,21 @@ class VerifyCompReportWorkflowTool(Tool):
 
         comps = [
             c
-            for c in data.get("comparables", {}).values()
+            for c in data.get("comparables", [])
             if int(c.get("report_id", -1)) == int(report_id)
         ]
         comparables_count = len(comps)
 
-        emails = data.get("emails", {}).values()
+        emails = data.get("emails", [])
         emails_sent = sum(
             1
-            for e in emails.values() if r and int(e.get("client_id", -1)) == int(r.get("client_id", -2))
+            for e in emails
+            if r and int(e.get("client_id", -1)) == int(r.get("client_id", -2))
         )
 
         audits = [
             a
-            for a in data.get("audit_events", {}).values()
+            for a in data.get("audit_events", [])
             if a.get("entity_type") == "comp_report"
             and str(a.get("entity_id")) == str(report_id)
         ]
@@ -74,15 +69,14 @@ class VerifyCompReportWorkflowTool(Tool):
                 "workflow_complete": bool(workflow_complete),
             }
         }
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "verifyCompReportWorkflow",
+                "name": "verify_comp_report_workflow",
                 "description": "Verify comparable analysis workflow end state.",
                 "parameters": {
                     "type": "object",

@@ -1,37 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetPerformanceReview(Tool):
-    """Retrieve performance review workflows for a specific user and time frame."""
+    """Fetch performance review workflows for a user and period."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, period: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        uid = kwargs.get("user_id")
+        per = kwargs.get("period")
         reviews = [
             wf
-            for wf in data.get("hr_workflows", {}).values()
+            for wf in data.get("hr_workflows", [])
             if wf.get("workflow_type") == "Performance Review"
-            and wf.get("employee_id") == user_id
-            and wf.get("review_period") == period
+            and wf.get("employee_id") == uid
+            and wf.get("review_period") == per
         ]
-        payload = reviews
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(reviews, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPerformanceReview",
+                "name": "get_performance_review",
                 "description": "Get performance review by period.",
                 "parameters": {
                     "type": "object",

@@ -1,26 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetAutomationRun(Tool):
-    """Retrieve an automation run using id."""
+    """Fetch an automation run by id."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], id: str = None) -> str:
-        rows = _table(data, "automation_runs")
-        row = next((r for r in rows if r.get("id") == id), None)
-        return _ok({"automation_run": row}) if row else _err("automation_run not found")
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        aid = kwargs.get('id')
+        rows = _table(data, 'automation_runs')
+        row = next((r for r in rows if r.get('id') == aid), None)
+        return _ok({'automation_run': row}) if row else _err('automation_run not found')
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "getAutomationRun",
-                "description": "Fetch an automation run by id.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"id": {"type": "string"}},
-                    "required": ["id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {'type': 'function', 'function': {'name': 'get_automation_run', 'description': 'Fetch an automation run by id.', 'parameters': {'type': 'object', 'properties': {'id': {'type': 'string'}}, 'required': ['id']}}}

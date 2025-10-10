@@ -1,43 +1,36 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AssignPermissionToRole(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], role_id: str = None, permission_id: str = None) -> str:
-        role_permissions = data.get("role_permissions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        role_permissions = data.get('role_permissions', [])
         assignment = {
-            "role_id": role_id,
-            "permission_id": permission_id,
+                "role_id": kwargs.get("role_id"),
+                "permission_id": kwargs.get("permission_id")
         }
-        role_data["permissions"][permission_id] = assignment
-        data["role_permissions"] = role_permissions
-        payload = assignment
-        out = json.dumps(payload)
-        return out
+        role_permissions.append(assignment)
+        data['role_permissions'] = role_permissions
+        return json.dumps(assignment)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "AssignPermissionToRole",
-                "description": "Assigns a permission to a role.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "role_id": {"type": "string"},
-                        "permission_id": {"type": "string"},
-                    },
-                    "required": ["role_id", "permission_id"],
-                },
-            },
+                "type": "function",
+                "function": {
+                        "name": "assign_permission_to_role",
+                        "description": "Assigns a permission to a role.",
+                        "parameters": {
+                                "type": "object",
+                                "properties": {
+                                        "role_id": {"type": "string"},
+                                        "permission_id": {"type": "string"}
+                                },
+                                "required": ["role_id", "permission_id"]
+                        }
+                }
         }

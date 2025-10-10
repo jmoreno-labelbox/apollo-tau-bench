@@ -1,67 +1,48 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateSiemAlert(Tool):
     """
-    Establish a new SIEM alert for security incidents.
+    Create a new SIEM alert for security incidents.
 
     kwargs:
-      user_id: str (mandatory) - ID of the user initiating the alert
-      resource_id: str (mandatory) - ID of the resource involved
+      user_id: str (required) - ID of the user triggering the alert
+      resource_id: str (required) - ID of the resource involved
       alert_type: str (default: "UNAUTHORIZED_ACCESS_ATTEMPT")
       severity: str (default: "HIGH") - CRITICAL, HIGH, MEDIUM, LOW
-      timestamp: str ISO (defaults to now)
+      timestamp: str ISO (defaults now)
     """
-
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        user_id: str = "", 
-        resource_id: str = "", 
-        alert_type: str = "UNAUTHORIZED_ACCESS_ATTEMPT", 
-        severity: str = "HIGH", 
-        timestamp: str = None
-    ) -> str:
-        if timestamp is None:
-            timestamp = get_current_timestamp()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id", "")
+        resource_id = kwargs.get("resource_id", "")
+        alert_type = kwargs.get("alert_type", "UNAUTHORIZED_ACCESS_ATTEMPT")
+        severity = kwargs.get("severity", "HIGH")
+        timestamp = kwargs.get("timestamp") or get_current_timestamp()
 
         if not user_id or not resource_id:
-            payload = {"error": "user_id and resource_id required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "user_id and resource_id required"})
 
-        # Confirm severity
+        # Validate severity
         valid_severities = ["CRITICAL", "HIGH", "MEDIUM", "LOW"]
         if severity not in valid_severities:
-            payload = {"error": f"severity must be one of: {valid_severities}"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"severity must be one of: {valid_severities}"})
 
-        # Confirm the user is present
-        users = data.get("users", {}).values()
+        # Validate user exists
+        users = list(data.get("users", {}).values())
         user = _find_by_id(users, "user_id", user_id)
         if not user:
-            payload = {"error": f"User {user_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"User {user_id} not found"})
 
-        # Confirm the resource is present
-        resources = data.get("resources", {}).values()
+        # Validate resource exists
+        resources = data.get("resources", [])
         resource = _find_by_id(resources, "resource_id", resource_id)
         if not resource:
-            payload = {"error": f"Resource {resource_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Resource {resource_id} not found"})
 
         alert_id = _next_id(data, "siem_alerts", "ALRT")
 
@@ -71,48 +52,30 @@ class CreateSiemAlert(Tool):
             "user_id": user_id,
             "resource_id": resource_id,
             "alert_type": alert_type,
-            "severity": severity,
+            "severity": severity
         }
 
         data.setdefault("siem_alerts", []).append(alert_record)
-        payload = {"ok": True, "siem_alert": alert_record}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"ok": True, "siem_alert": alert_record})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateSiemAlert",
+                "name": "create_siem_alert",
                 "description": "Create a new SIEM alert for security incidents.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "user_id": {
-                            "type": "string",
-                            "description": "ID of the user triggering the alert.",
-                        },
-                        "resource_id": {
-                            "type": "string",
-                            "description": "ID of the resource involved.",
-                        },
-                        "alert_type": {
-                            "type": "string",
-                            "description": "Type of alert.",
-                            "default": "UNAUTHORIZED_ACCESS_ATTEMPT",
-                        },
-                        "severity": {
-                            "type": "string",
-                            "description": "Alert severity: CRITICAL, HIGH, MEDIUM, LOW.",
-                            "default": "HIGH",
-                        },
-                        "timestamp": {
-                            "type": "string",
-                            "description": "ISO timestamp (optional).",
-                        },
+                        "user_id": {"type": "string", "description": "ID of the user triggering the alert."},
+                        "resource_id": {"type": "string", "description": "ID of the resource involved."},
+                        "alert_type": {"type": "string", "description": "Type of alert.", "default": "UNAUTHORIZED_ACCESS_ATTEMPT"},
+                        "severity": {"type": "string", "description": "Alert severity: CRITICAL, HIGH, MEDIUM, LOW.", "default": "HIGH"},
+                        "timestamp": {"type": "string", "description": "ISO timestamp (optional)."}
                     },
                     "required": ["user_id", "resource_id"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

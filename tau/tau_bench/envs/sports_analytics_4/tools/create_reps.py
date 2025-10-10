@@ -1,52 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateReps(Tool):
     @staticmethod
-    #primary invocation function
-    def invoke(data: dict[str, Any], report_type: str, game_pk: str, s3_pdf_path: str, insights_data: Any = None, video_data: list = []) -> str:
+        # main invoke function
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        report_type = kwargs.get("report_type")
+        game_pk = kwargs.get("game_pk")
+        s3_pdf_path = kwargs.get("s3_pdf_path")
+        insights_data = kwargs.get("insights_data")
+        video_data = kwargs.get("video_data", [])
         scouting_reports = _load_table(data, "scouting_reports")
         report_id = f"RPT-{game_pk}-{report_type}"
-        scouting_reports.append(
-            {
-                "report_id": report_id,
-                "report_type": report_type,
-                "game_pk": game_pk,
-                "s3_pdf_path": s3_pdf_path,
-            }
-        )
+        scouting_reports.append({"report_id": report_id, "report_type": report_type, "game_pk": game_pk, "s3_pdf_path": s3_pdf_path})
         playlists = _load_table(data, "video_playlists")
         for link in video_data:
             playlists.append({"report_id": report_id, "internal_portal_link": link})
-        payload = {"report_id": report_id}
-        out = json.dumps(payload, indent=2)
-        return out
+        # return result
+        return json.dumps({"report_id": report_id}, indent=2)
+
     @staticmethod
-    #metadata information
-    def get_info() -> dict[str, Any]:
-        pass
-        #return result
-        return {
-            "type": "function",
-            "function": {
-                "name": "report",
-                "description": "Persists report and playlist artifacts.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "report_type": {"type": "string"},
-                        "game_pk": {"type": "string"},
-                        "s3_pdf_path": {"type": "string"},
-                        "insights_data": {"type": "string"},
-                        "video_data": {"type": "array", "items": {"type": "string"}},
-                    },
-                    "required": [
-                        "report_type",
-                        "game_pk",
-                        "s3_pdf_path",
-                        "insights_data",
-                    ],
-                },
-            },
-        }
+        # info metadata
+    def get_info() -> Dict[str, Any]:
+        # return result
+        return {"type": "function", "function": {"name": "report", "description": "Persists report and playlist artifacts.", "parameters": {"type": "object", "properties": {"report_type": {"type": "string"}, "game_pk": {"type": "string"}, "s3_pdf_path": {"type": "string"}, "insights_data": {"type": "string"}, "video_data": {"type": "array", "items": {"type": "string"}}}, "required": ["report_type", "game_pk", "s3_pdf_path", "insights_data"]}}}

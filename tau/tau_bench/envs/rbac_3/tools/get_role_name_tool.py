@@ -1,35 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetRoleNameTool(Tool):
     """get_role_name
-    Find a role using role_id and return its role_name and metadata.
+    Lookup a role by role_id and return its role_name and metadata.
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], role_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        role_id = kwargs.get("role_id")
         if not role_id:
-            payload = {"error": "role_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "role_id is required"}, indent=2)
 
-        roles: list[dict[str, Any]] = data.get("roles", {}).values()
+        roles: List[Dict[str, Any]] = list(data.get("roles", {}).values())
         rec = next((r for r in roles if r.get("role_id") == role_id), None)
         if not rec:
-            payload = {"error": f"Role {role_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"Role {role_id} not found"}, indent=2)
 
         out = {
             "role_id": rec.get("role_id"),
@@ -37,15 +27,14 @@ class GetRoleNameTool(Tool):
             "description": rec.get("description"),
             "is_temporary": rec.get("is_temporary"),
         }
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getRoleName",
+                "name": "get_role_name",
                 "description": "Return role_name and metadata for a given role_id.",
                 "parameters": {
                     "type": "object",

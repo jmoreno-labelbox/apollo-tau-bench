@@ -1,26 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any, Dict
-from datetime import timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpdatePaymentBehavior(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], publisher_id: str, avg_days_to_pay: int = None, late_payment_frequency: int = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
         Updates or inserts a payment behavior record for a publisher.
         """
-        record = next((pb for pb in data["payment_behavior"].values() if pb["publisher_id"] == publisher_id), None)
+        publisher_id = kwargs["publisher_id"]
+        record = next((pb for pb in data["payment_behavior"] if pb["publisher_id"] == publisher_id), None)
 
         if record:
-            if avg_days_to_pay is not None:
-                record["avg_days_to_pay"] = avg_days_to_pay
-            if late_payment_frequency is not None:
-                record["late_payment_frequency"] = late_payment_frequency
+            if "avg_days_to_pay" in kwargs:
+                record["avg_days_to_pay"] = kwargs["avg_days_to_pay"]
+            if "late_payment_frequency" in kwargs:
+                record["late_payment_frequency"] = kwargs["late_payment_frequency"]
             record["last_updated"] = datetime.now().isoformat()
             return json.dumps(record["behavior_id"])
 
         return json.dumps({"error": f"No payment behavior profile found for publisher {publisher_id}"})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {

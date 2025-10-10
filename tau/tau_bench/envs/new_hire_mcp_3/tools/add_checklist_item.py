@@ -1,37 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AddChecklistItem(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], item: dict = None) -> str:
-        new_item = item or {}
-        items = data.get("checklist_items", {}).values()
-        data["checklist_items"][new_item["checklist_item_id"]] = new_item
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        new_item = kwargs.get("item") or {}
+        items = data.get("checklist_items", [])
+        items.append(new_item)
         data["checklist_items"] = items
-        payload = {"added_item": new_item}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"added_item": new_item}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "addChecklistItem",
-                "description": "Add a new checklist item.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"item": {"type": "object"}},
-                    "required": ["item"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"add_checklist_item",
+            "description":"Add a new checklist item.",
+            "parameters":{"type":"object","properties":{"item":{"type":"object"}},"required":["item"]}
+        }}

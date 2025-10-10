@@ -1,32 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class SearchRepositories(Tool):
-    """Looks for repositories using a name substring or owner."""
+    """Searches repositories by name substring or owner."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], name: str = "", owner: str = "") -> str:
-        name_query = name.lower()
-        owner_query = owner.lower()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name_query = kwargs.get("name", "").lower()
+        owner_query = kwargs.get("owner", "").lower()
         results = []
 
         for repo in _repos(data):
-            if (name_query and name_query in repo.get("repo_name", "").lower()) or (
-                owner_query and owner_query in repo.get("owner", "").lower()
+            if (
+                (name_query and name_query in repo.get("repo_name", "").lower()) or
+                (owner_query and owner_query in repo.get("owner", "").lower())
             ):
                 results.append(repo)
-        payload = {"results": results}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"results": results}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "SearchRepositories",
+                "name": "search_repositories",
                 "description": "Search repositories by name or owner substring.",
                 "parameters": {
                     "type": "object",
@@ -35,5 +37,5 @@ class SearchRepositories(Tool):
                         "owner": {"type": "string"},
                     },
                 },
-            },
+            }
         }

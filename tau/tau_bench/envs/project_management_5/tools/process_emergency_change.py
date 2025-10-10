@@ -1,64 +1,54 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ProcessEmergencyChange(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        cr_id: str,
-        authorized_by: str,
-        emergency_type: str,
-        justification: str,
-        log_id: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
+        authorized_by = kwargs.get("authorized_by")
+        emergency_type = kwargs.get("emergency_type")
+        justification = kwargs.get("justification")
+
         if not all([cr_id, authorized_by, emergency_type, justification]):
-            payload = {
-                "error": "cr_id, authorized_by, emergency_type, and justification are required"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": "cr_id, authorized_by, emergency_type, and justification are required"
+                }
+            )
 
-        change_requests = data.get("change_requests", {}).values()
-        emergency_logs = data.get("emergency_logs", {}).values()
-        approval_workflows = data.get("approval_workflows", {}).values()
-        stakeholders = data.get("stakeholders", {}).values()
+        change_requests = data.get("change_requests", [])
+        emergency_logs = data.get("emergency_logs", [])
+        approval_workflows = data.get("approval_workflows", [])
+        stakeholders = data.get("stakeholders", [])
 
-        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:
-            payload = {"error": f"Change request '{cr_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Change request '{cr_id}' not found"})
 
         authorizer = next(
-            (s for s in stakeholders.values() if s.get("stakeholder_id") == authorized_by), None
+            (s for s in stakeholders if s.get("stakeholder_id") == authorized_by), None
         )
         if not authorizer or "emergency" not in str(
             authorizer.get("approval_authority", [])
         ):
+
             if not authorizer or authorizer.get("role") not in [
                 "executive_sponsor",
                 "pmo_director",
             ]:
-                payload = {"error": "Authorizer does not have emergency approval authority"}
-                out = json.dumps(payload)
-                return out
+                return json.dumps(
+                    {"error": "Authorizer does not have emergency approval authority"}
+                )
 
         current_time = datetime.now()
         documentation_deadline = (current_time + timedelta(hours=24)).isoformat()
         retroactive_approval_deadline = (current_time + timedelta(hours=48)).isoformat()
 
-        log_id = log_id or f"elog_{uuid.uuid4().hex[:8]}"
+        log_id = kwargs.get("log_id", f"elog_{uuid.uuid4().hex[:8]}")
 
         emergency_log = {
             "log_id": log_id,
@@ -74,7 +64,7 @@ class ProcessEmergencyChange(Tool):
             "requires_automatic_rollback": True,
         }
 
-        data["emergency_logs"][emergency_log["emergency_log_id"]] = emergency_log
+        emergency_logs.append(emergency_log)
 
         cr["status"] = "approved"
         cr["approval_date"] = current_time.isoformat()
@@ -107,27 +97,29 @@ class ProcessEmergencyChange(Tool):
             "retroactive_deadline": retroactive_approval_deadline,
         }
 
-        data["approval_workflows"][emergency_workflow["approval_workflow_id"]] = emergency_workflow
-        payload = {
-            "success": True,
-            "emergency_approval": {
-                "cr_id": cr_id,
-                "log_id": log_id,
-                "status": "approved",
-                "requires_retroactive_approval": True,
-                "documentation_deadline": documentation_deadline,
-                "retroactive_approval_deadline": retroactive_approval_deadline,
-                "warning": "Must be documented within 24 hours and receive retroactive approval within 48 hours or automatic rollback will be triggered",
-            },
-        }
-        out = json.dumps(payload)
-        return out
+        approval_workflows.append(emergency_workflow)
+
+        return json.dumps(
+            {
+                "success": True,
+                "emergency_approval": {
+                    "cr_id": cr_id,
+                    "log_id": log_id,
+                    "status": "approved",
+                    "requires_retroactive_approval": True,
+                    "documentation_deadline": documentation_deadline,
+                    "retroactive_approval_deadline": retroactive_approval_deadline,
+                    "warning": "Must be documented within 24 hours and receive retroactive approval within 48 hours or automatic rollback will be triggered",
+                },
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ProcessEmergencyChange",
+                "name": "process_emergency_change",
                 "description": "Process an emergency change request with expedited approval",
                 "parameters": {
                     "type": "object",

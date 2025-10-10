@@ -1,66 +1,43 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetFileTextByPath(Tool):
-    """Provides file content and metadata from file_store using the specified path."""
-
+    """
+    Returns file text and metadata from file_store by path.
+    """
     @staticmethod
-    def invoke(data: dict[str, Any], path: str) -> str:
-        rows = data.get("file_store", {}).values()
+    def invoke(data: Dict[str, Any], path: str) -> str:
+        rows = data.get("file_store", [])
         for row in rows:
             paths = row.get("paths", [])
             if path in paths:
                 i = paths.index(path)
                 out = {
                     "path": path,
-                    "file_contents_text": (
-                        row.get("file_contents_text", [None] * len(paths))[i]
-                        if i < len(row.get("file_contents_text", []))
-                        else None
-                    ),
-                    "file_mime_types": (
-                        row.get("file_mime_types", [None] * len(paths))[i]
-                        if i < len(row.get("file_mime_types", []))
-                        else None
-                    ),
-                    "char_counts": (
-                        row.get("char_counts", [None] * len(paths))[i]
-                        if i < len(row.get("char_counts", []))
-                        else None
-                    ),
+                    "file_contents_text": row.get("file_contents_text", [None]*len(paths))[i] if i < len(row.get("file_contents_text", [])) else None,
+                    "file_mime_types": row.get("file_mime_types", [None]*len(paths))[i] if i < len(row.get("file_mime_types", [])) else None,
+                    "char_counts": row.get("char_counts", [None]*len(paths))[i] if i < len(row.get("char_counts", [])) else None
                 }
-                payload = out
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "file not found", "path": path}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(out)
+        return json.dumps({"error": "file not found", "path": path})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetFileTextByPath",
+                "name": "get_file_text_by_path",
                 "description": "Returns file text and metadata from file_store by path.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "path": {
-                            "type": "string",
-                            "description": "Exact file path stored in file_store.paths.",
-                        }
+                        "path": {"type": "string", "description": "Exact file path stored in file_store.paths."}
                     },
-                    "required": ["path"],
-                },
-            },
+                    "required": ["path"]
+                }
+            }
         }

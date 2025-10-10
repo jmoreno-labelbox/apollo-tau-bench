@@ -1,23 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AppendTerminal(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], command: str) -> str:
+    def invoke(data: Dict[str, Any], command: str) -> str:
         """Execute terminal-like commands for GitHub operations analysis and workflow insights."""
-        pass
-        #Confirm that terminal data is present and correctly structured
+        # Ensure terminal data exists and has the correct structure
         if "terminal" not in data or not data["terminal"]:
-            data["terminal"] = [{"printed_ts": [], "commands": [], "outputs": []}]
+            data["terminal"] = [{
+                "printed_ts": [],
+                "commands": [],
+                "outputs": []
+            }]
 
         terminal_data = data["terminal"]
 
-        #Verify that the first element is present and properly structured
+        # Ensure the first element exists and has the correct structure
         if not terminal_data or not isinstance(terminal_data[0], dict):
-            terminal_data[0] = {"printed_ts": [], "commands": [], "outputs": []}
+            terminal_data[0] = {
+                "printed_ts": [],
+                "commands": [],
+                "outputs": []
+            }
 
-        #Confirm that all necessary keys are present
+        # Ensure all required keys exist
         if "printed_ts" not in terminal_data[0]:
             terminal_data[0]["printed_ts"] = []
         if "commands" not in terminal_data[0]:
@@ -29,7 +39,7 @@ class AppendTerminal(Tool):
         terminal_data[0]["printed_ts"].append(timestamp)
         terminal_data[0]["commands"].append(command)
 
-        #Handle various terminal commands for analyzing GitHub workflows
+        # Process different terminal commands for GitHub workflow analysis
         if command.startswith("git status"):
             output = "Repository status: Clean working directory, all changes committed"
         elif command.startswith("git log"):
@@ -47,13 +57,11 @@ class AppendTerminal(Tool):
         elif command.startswith("npm"):
             output = "Dependencies: All packages installed, security audit passed, no vulnerabilities"
         elif command.startswith("echo"):
-            #Retrieve the message following the echo
-            message = command.replace("echo ", "").strip("\"'")
+            # Extract message after echo
+            message = command.replace("echo ", "").strip('"\'')
             output = f"DEBUG: {message}"
         elif command.startswith("cat"):
-            output = (
-                "File contents: Configuration loaded successfully, secrets validated"
-            )
+            output = "File contents: Configuration loaded successfully, secrets validated"
         elif command.startswith("grep"):
             output = "Search results: Pattern found in 3 files, context extracted"
         elif command.startswith("tail"):
@@ -70,33 +78,30 @@ class AppendTerminal(Tool):
             output = f"Command executed: {command} - GitHub workflow operation logged"
 
         terminal_data[0]["outputs"].append(output)
-        payload = {
-                "command": command,
-                "output": output,
-                "timestamp": timestamp,
-                "session_id": "github-actions-session-001",
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+
+        return json.dumps({
+            "command": command,
+            "output": output,
+            "timestamp": timestamp,
+            "session_id": "github-actions-session-001"
+        }, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "appendTerminal",
+                "name": "append_terminal",
                 "description": "Execute terminal-like commands for GitHub operations analysis, debugging, and workflow insights. Supports git, system, and CI/CD commands.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "command": {
                             "type": "string",
-                            "description": "Terminal command to execute (e.g., 'git status', 'ps aux', 'echo \"Debug message\"', 'curl api/health')",
+                            "description": "Terminal command to execute (e.g., 'git status', 'ps aux', 'echo \"Debug message\"', 'curl api/health')"
                         }
                     },
-                    "required": ["command"],
-                },
-            },
+                    "required": ["command"]
+                }
+            }
         }

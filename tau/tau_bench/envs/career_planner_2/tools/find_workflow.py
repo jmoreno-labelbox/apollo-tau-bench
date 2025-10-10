@@ -1,56 +1,44 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindWorkflow(Tool):
-    """Locate a workflow ID using the employee ID and workflow name."""
+    """Find a workflow ID by employee ID and workflow name."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None, workflow_name: str = None) -> str:
-        uid = employee_id
-        name = workflow_name
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        uid = kwargs.get("employee_id")
+        name = kwargs.get("workflow_name")
 
-        for wf in data.get("hr_workflows", {}).values():
-            # Verify if the workflow name matches initially
+        for wf in data.get("hr_workflows", []):
+            # Check if the workflow name matches first
             if wf.get("workflow_name", "").lower() == name.lower():
-                # Verify the presence of a top-level employee_id (e.g., Performance Review)
+                # Check for a top-level employee_id (e.g., Performance Review)
                 if wf.get("employee_id") == uid:
-                    payload = {"workflow_id": wf.get("workflow_id")}
-                    out = json.dumps(payload)
-                    return out
+                    return json.dumps({"workflow_id": wf.get("workflow_id")})
 
-                # Confirm if the user is included in the 'candidates' list (e.g., Succession Planning)
+                # Check if the user is in the 'candidates' list (e.g., Succession Planning)
                 if any(
                     candidate.get("employee_id") == uid
                     for candidate in wf.get("candidates", [])
                 ):
-                    payload = {"workflow_id": wf.get("workflow_id")}
-                    out = json.dumps(payload)
-                    return out
+                    return json.dumps({"workflow_id": wf.get("workflow_id")})
 
-                # Verify if the user appears in the 'target_audience' list (e.g., Training Initiative)
+                # Check if the user is in the 'target_audience' list (e.g., Training Initiative)
                 if uid in wf.get("target_audience", []):
-                    payload = {"workflow_id": wf.get("workflow_id")}
-                    out = json.dumps(payload)
-                    return out
-        payload = {"error": "Workflow not found"}
-        out = json.dumps(payload)
-        return out
+                    return json.dumps({"workflow_id": wf.get("workflow_id")})
+
+        return json.dumps({"error": "Workflow not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindWorkflow",
+                "name": "find_workflow",
                 "description": "Find a workflow ID by employee and workflow name.",
                 "parameters": {
                     "type": "object",

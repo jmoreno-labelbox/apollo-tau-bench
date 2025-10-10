@@ -1,8 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpdateCustomerEmailTool(Tool):
     """
@@ -20,7 +21,11 @@ class UpdateCustomerEmailTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, new_email: str = None, new_phone: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        new_email = kwargs.get("new_email")
+        new_phone = kwargs.get("new_phone")
+
         if not customer_id or not new_email or not new_phone:
             return json.dumps(
                 {
@@ -35,7 +40,7 @@ class UpdateCustomerEmailTool(Tool):
         updated = False
         for acc in accounts:
             if acc["customer_id"] == customer_id:
-                acc.setdefault("contact_info", {}).values()["email_address"] = new_email
+                acc.setdefault("contact_info", {})["email_address"] = new_email
                 acc["contact_info"]["phone_numbers"] = [
                     {"number": new_phone, "is_primary": True}
                 ]
@@ -62,12 +67,13 @@ class UpdateCustomerEmailTool(Tool):
             },
             indent=2,
         )
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateCustomerEmail",
+                "name": "update_customer_email",
                 "description": "Update a customer's email and phone number with format validation and fraud checks.",
                 "parameters": {
                     "type": "object",

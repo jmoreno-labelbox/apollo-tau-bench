@@ -1,82 +1,67 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CheckProductAvailability(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], item_id: str = None, product_id: str = None) -> str:
-        if not item_id and not product_id:
-            payload = {"error": "Either item_id or product_id is required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        item_id = kwargs.get('item_id')
+        product_id = kwargs.get('product_id')
 
-        products = data["products"]
+        if not item_id and not product_id:
+            return json.dumps({'error': 'Either item_id or product_id is required'})
+
+        products = data['products']
 
         if item_id:
-            for product in products.values():
-                for variant_id, variant in product["variants"].items():
-                    if variant["item_id"] == item_id:
-                        payload = {
-                                "item_id": item_id,
-                                "product_name": product["name"],
-                                "available": variant["available"],
-                                "price": variant["price"],
-                                "options": variant["options"],
-                            }
-                        out = json.dumps(
-                            payload, indent=2,
-                        )
-                        return out
-            payload = {"error": "Item not found"}
-            out = json.dumps(payload)
-            return out
+            for product in products:
+                for variant_id, variant in product['variants'].items():
+                    if variant['item_id'] == item_id:
+                        return json.dumps({
+                            'item_id': item_id,
+                            'product_name': product['name'],
+                            'available': variant['available'],
+                            'price': variant['price'],
+                            'options': variant['options']
+                        }, indent=2)
+            return json.dumps({'error': 'Item not found'})
 
         if product_id:
-            product = next((p for p in products.values() if p["product_id"] == product_id), None)
+            product = next((p for p in products if p['product_id'] == product_id), None)
             if not product:
-                payload = {"error": "Product not found"}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({'error': 'Product not found'})
 
             available_variants = []
-            for variant_id, variant in product["variants"].items():
-                if variant["available"]:
-                    available_variants.append(
-                        {
-                            "item_id": variant["item_id"],
-                            "price": variant["price"],
-                            "options": variant["options"],
-                        }
-                    )
-            payload = {
-                    "product_id": product_id,
-                    "product_name": product["name"],
-                    "available_variants": available_variants,
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            for variant_id, variant in product['variants'].items():
+                if variant['available']:
+                    available_variants.append({
+                        'item_id': variant['item_id'],
+                        'price': variant['price'],
+                        'options': variant['options']
+                    })
+
+            return json.dumps({
+                'product_id': product_id,
+                'product_name': product['name'],
+                'available_variants': available_variants
+            }, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "checkProductAvailability",
-                "description": "Check availability of a specific product variant or all variants of a product.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "item_id": {
-                            "type": "string",
-                            "description": "Specific item ID to check",
-                        },
-                        "product_id": {
-                            "type": "string",
-                            "description": "Product ID to check all variants",
-                        },
-                    },
-                },
-            },
+            'type': 'function',
+            'function': {
+                'name': 'check_product_availability',
+                'description': 'Check availability of a specific product variant or all variants of a product.',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'item_id': {'type': 'string', 'description': 'Specific item ID to check'},
+                        'product_id': {'type': 'string', 'description': 'Product ID to check all variants'}
+                    }
+                }
+            }
         }

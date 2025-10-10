@@ -1,33 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetJobApplications(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], job_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        job_id = kwargs.get("job_id")
         apps = [
             app
-            for app in data.get("job_applications", {}).values()
+            for app in data.get("job_applications", [])
             if app.get("job_id") == job_id
         ]
-        payload = apps
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(apps, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetJobApplications",
+                "name": "get_job_applications",
                 "description": "Returns all applications for a given job ID.",
                 "parameters": {
                     "type": "object",

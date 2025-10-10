@@ -1,25 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateCustomer(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], name: str = None, membership_level: str = None, 
-               opt_in_marketing: bool = None, loyalty_points: int = None) -> str:
-        customers = data.get("customers", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name = kwargs.get('name')
+        membership_level = kwargs.get('membership_level')
+        opt_in_marketing = kwargs.get('opt_in_marketing')
+        loyalty_points = kwargs.get('loyalty_points')
+
+        customers = list(data.get("customers", {}).values())
 
         max_customer_id_num = 0
-        for customer in customers.values():
+        for customer in customers:
             if isinstance(customer.get("customer_id"), str):
                 match = re.match(r"CUST-(\d+)", customer["customer_id"])
                 if match:
@@ -39,21 +36,20 @@ class CreateCustomer(Tool):
             "membership_level": membership_level,
             "birthdate": None,
             "opt_in_marketing": opt_in_marketing,
-            "status": "active",
+            "status": "active"
         }
 
-        data["customers"][customer_id] = new_customer
+        customers.append(new_customer)
         data["customers"] = customers
-        payload = {"customer_id": new_customer_id}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"customer_id": new_customer_id})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateCustomer",
+                "name": "create_customer",
                 "description": "Creates a new customer record with specified details.",
                 "parameters": {
                     "type": "object",
@@ -73,14 +69,9 @@ class CreateCustomer(Tool):
                         "loyalty_points": {
                             "type": "integer",
                             "description": "The initial loyalty points for the customer.",
-                        },
+                        }
                     },
-                    "required": [
-                        "name",
-                        "membership_level",
-                        "opt_in_marketing",
-                        "loyalty_points",
-                    ],
+                    "required": ["name", "membership_level", "opt_in_marketing", "loyalty_points"],
                 },
             },
         }

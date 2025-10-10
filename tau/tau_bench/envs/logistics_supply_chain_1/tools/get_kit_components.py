@@ -1,40 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import random
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetKitComponents(Tool):
     """
-    Fetches the list of component SKUs and their quantities for a specified virtual kit,
-    identified by either SKU or a user-friendly name.
+    Retrieves the list of component SKUs and quantities for a given virtual kit,
+    identified either by SKU or by human‑friendly name.
     """
-
     KITS_DATABASE = {
         "KIT-ROBO-S1": {
             "kit_name": "Basic Robotic Starter Kit",
             "components": [
-                {
-                    "sku": "TECH-ROBO-N14",
-                    "quantity": 1,
-                    "product_name": "Articulated Robotic Arm",
-                },
-                {
-                    "sku": "TECH-BATT-Q17",
-                    "quantity": 2,
-                    "product_name": "Lithium‑Ion Battery Pack",
-                },
-            ],
+                {"sku": "TECH-ROBO-N14", "quantity": 1, "product_name": "Articulated Robotic Arm"},
+                {"sku": "TECH-BATT-Q17", "quantity": 2, "product_name": "Lithium‑Ion Battery Pack"}
+            ]
         }
     }
-
     @staticmethod
-    def invoke(data: dict[str, Any], kit_sku: str = None, kit_name: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        kit_sku: str | None = kwargs.get("kit_sku")
+        kit_name: str | None = kwargs.get("kit_name")
+
         if not kit_sku and not kit_name:
-            payload = {"error": "You must provide either 'kit_sku' or 'kit_name'."}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": "You must provide either 'kit_sku' or 'kit_name'."},
+                indent=2,
             )
-            return out
         kit_data = GetKitComponents.KITS_DATABASE.get(kit_sku) if kit_sku else None
         if not kit_data and kit_name:
             kit_data = next(
@@ -48,18 +42,15 @@ class GetKitComponents(Tool):
 
         if not kit_data:
             missing = f"SKU '{kit_sku}'" if kit_sku else f"name '{kit_name}'"
-            payload = {"error": f"Kit with {missing} not found."}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = kit_data["components"]
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": f"Kit with {missing} not found."}, indent=2)
+
+        return json.dumps(kit_data["components"], indent=2)
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetKitComponents",
+                "name": "get_kit_components",
                 "description": (
                     "Retrieves the bill of materials (component SKUs and their "
                     "quantities) for a virtual kit identified by SKU or name."
@@ -69,16 +60,16 @@ class GetKitComponents(Tool):
                     "properties": {
                         "kit_sku": {
                             "type": "string",
-                            "description": "The SKU of the virtual kit (e.g., 'KIT-ROBO-S1').",
+                            "description": "The SKU of the virtual kit (e.g., 'KIT-ROBO-S1')."
                         },
                         "kit_name": {
                             "type": "string",
                             "description": "The friendly name of the virtual kit "
-                            "(e.g., 'Basic Robotic Starter Kit').",
-                        },
+                                           "(e.g., 'Basic Robotic Starter Kit')."
+                        }
                     },
-                    #No field is mandatory; at least one is required in the logic
-                    "required": [],
-                },
-            },
+                    # Nenhum campo é obrigatório; exige‑se pelo menos um na lógica
+                    "required": []
+                }
+            }
         }

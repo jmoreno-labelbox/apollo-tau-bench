@@ -1,44 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class SearchTeams(Tool):
+class search_teams(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        filters: Any = None,
-        team_id: str = None
-    ) -> str:
-        teams = data.get("teams", {}).values()
-        if team_id is not None:
+    def invoke(data: Dict[str, Any], filters: dict) -> str:
+        teams = data.get("teams", [])
+        if "team_id" in filters:
             team = next(
-                (t for t in teams.values() if t.get("team_id") == team_id), None
+                (t for t in teams if t.get("team_id") == filters["team_id"]), None
             )
             return (
                 json.dumps(team, indent=2)
                 if team
                 else json.dumps({"error": "Team not found"}, indent=2)
             )
-        payload = {"teams": teams}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"teams": teams}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "searchTeams",
+                "name": "search_teams",
                 "description": "Search for teams by filters",
                 "parameters": {
                     "type": "object",

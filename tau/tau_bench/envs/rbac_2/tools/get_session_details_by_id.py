@@ -1,50 +1,43 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetSessionDetailsById(Tool):
-    """Retrieve complete details of a specific session by its ID."""
+    """Get the full details of a specific session using its ID."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], session_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        session_id = kwargs.get("session_id")
         try:
-            sessions = data.get("sessions", {}).values()
+            sessions = data.get('sessions', [])
         except (KeyError, json.JSONDecodeError):
             sessions = []
 
-        for session in sessions.values():
+        for session in sessions:
             if session.get("session_id") == session_id:
-                payload = session
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Session with ID '{session_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(session)
+
+        return json.dumps({"error": f"Session with ID '{session_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetSessionDetailsById",
+                "name": "get_session_details_by_id",
                 "description": "Retrieves the full details of a specific user session using its unique ID (e.g., 'S-028').",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "session_id": {
                             "type": "string",
-                            "description": "The unique ID of the session to retrieve.",
+                            "description": "The unique ID of the session to retrieve."
                         }
                     },
-                    "required": ["session_id"],
-                },
-            },
+                    "required": ["session_id"]
+                }
+            }
         }

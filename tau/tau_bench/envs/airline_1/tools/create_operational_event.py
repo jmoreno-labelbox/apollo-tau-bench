@@ -1,29 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateOperationalEvent(Tool):
-
+    """
+    A tool to create a new operational event.
+    """
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         airport_id: str,
         event_type: str,
         details: str,
-        flight_number: str | None = None,
-        date: str | None = None,
+        flight_number: Optional[str] = None,
+        date: Optional[str] = None
     ) -> str:
-        events = data.get("operational_events", {}).values()
+        events = data.get("operational_events", [])
 
         last_id_numeric = 0
         if events:
@@ -47,49 +42,50 @@ class CreateOperationalEvent(Tool):
             "event_type": event_type,
             "details": details,
             "status": "LOGGED",
-            "airport_id": airport_id,
+            "airport_id": airport_id
         }
 
         if flight_number and date:
-            new_event["flight"] = {"flight_number": flight_number, "date": date}
+            new_event["flight"] = {
+                "flight_number": flight_number,
+                "date": date
+            }
 
-        data["operational_events"][new_event["operational_event_id"]] = new_event
-        payload = new_event
-        out = json.dumps(payload)
-        return out
+        events.append(new_event)
+        return json.dumps(new_event)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateOperationalEvent",
+                "name": "create_operational_event",
                 "description": "Creates a new operational event log.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "airport_id": {
                             "type": "string",
-                            "description": "The unique airport ID where the event occurred.",
+                            "description": "The unique airport ID where the event occurred."
                         },
                         "event_type": {
                             "type": "string",
-                            "description": "The type of event (e.g., 'WEATHER_ALERT', 'MAINTENANCE').",
+                            "description": "The type of event (e.g., 'WEATHER_ALERT', 'MAINTENANCE')."
                         },
                         "details": {
                             "type": "string",
-                            "description": "A detailed description of the event.",
+                            "description": "A detailed description of the event."
                         },
                         "flight_number": {
                             "type": "string",
-                            "description": "Optional: The flight number this event is related to.",
+                            "description": "Optional: The flight number this event is related to."
                         },
                         "date": {
                             "type": "string",
-                            "description": "Optional: The date of the related flight in YYYY-MM-DD format.",
-                        },
+                            "description": "Optional: The date of the related flight in YYYY-MM-DD format."
+                        }
                     },
-                    "required": ["airport_id", "event_type", "details"],
-                },
-            },
+                    "required": ["airport_id", "event_type", "details"]
+                }
+            }
         }

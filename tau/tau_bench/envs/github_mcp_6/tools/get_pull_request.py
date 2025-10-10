@@ -1,23 +1,17 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetPullRequest(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], owner: str, repo: str, pullNumber: int) -> str:
+    def invoke(data: Dict[str, Any], owner: str, repo: str, pullNumber: int) -> str:
         """Get PR details by number."""
-        pass
-        pull_requests = data.get("pull_requests", {}).values()
+        pull_requests = list(data.get("pull_requests", {}).values())
 
-        for pr_entry in pull_requests.values():
+        for pr_entry in pull_requests:
             if pr_entry["owner"] == owner and pr_entry["repo_name"] == repo:
                 try:
                     pr_idx = pr_entry["pr_numbers"].index(pullNumber)
@@ -25,32 +19,29 @@ class GetPullRequest(Tool):
                         "state": pr_entry["pr_states"][pr_idx],
                         "head": pr_entry["head_branches"][pr_idx],
                         "base": pr_entry["base_branches"][pr_idx],
-                        "mergeable": pr_entry["mergeable_flags"][pr_idx],
+                        "mergeable": pr_entry["mergeable_flags"][pr_idx]
                     }
-                    payload = result
-                    out = json.dumps(payload, indent=2)
-                    return out
+                    return json.dumps(result, indent=2)
                 except ValueError:
                     pass
-        payload = {"error": f"Pull request #{pullNumber} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"error": f"Pull request #{pullNumber} not found"}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getPullRequest",
+                "name": "get_pull_request",
                 "description": "Get PR details by number.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "owner": {"type": "string", "description": "Repository owner"},
                         "repo": {"type": "string", "description": "Repository name"},
-                        "pullNumber": {"type": "integer", "description": "PR number"},
+                        "pullNumber": {"type": "integer", "description": "PR number"}
                     },
-                    "required": ["owner", "repo", "pullNumber"],
-                },
-            },
+                    "required": ["owner", "repo", "pullNumber"]
+                }
+            }
         }

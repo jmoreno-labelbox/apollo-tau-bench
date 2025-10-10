@@ -1,56 +1,41 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AddMoneyToGiftCard(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        user_id: str,
-        gift_card_id: str,
-        payment_method_id: str,
-        amount: float,
-    ) -> str:
-        pass
+    def invoke(data: Dict[str, Any], user_id: str, gift_card_id: str, payment_method_id: str, amount: float) -> str:
         users = data["users"]
-        #Verify if the user is present
-        user = [row for row in users.values() if row["user_id"] == user_id]
+        # Check if the user exists
+        user = [row for row in users if row["user_id"] == user_id]
         if len(user) > 1:
-            payload = {"error": "Multiple users found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Multiple users found"})
         if len(user) == 0:
-            payload = {"error": "User not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "User not found"})
         user = user[0]
-        #Verify if the gift card is present
+        # Check if the gift card exists
         if gift_card_id not in user["payment_methods"]:
-            payload = {"error": "gift card not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "gift card not found"})
 
-        #Verify if the payment method is available
+        # Check if the payment method exists
         if payment_method_id not in user["payment_methods"]:
-            payload = {"error": "payment method not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "payment method not found"})
 
-        #Deposit funds into the gift card
+        # Add money to the gift card
         user["payment_methods"][gift_card_id]["balance"] += amount
-        user["payment_methods"][gift_card_id]["balance"] = round(
-            user["payment_methods"][gift_card_id]["balance"], 2
-        )
-        payload = user
-        out = json.dumps(payload)
-        return out
+        user["payment_methods"][gift_card_id]["balance"] = round(user["payment_methods"][gift_card_id]["balance"], 2)
+
+        return json.dumps(user)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddMoneyToGiftCard",
+                "name": "add_money_to_gift_card",
                 "description": "Add money to a user's gift card.",
                 "parameters": {
                     "type": "object",

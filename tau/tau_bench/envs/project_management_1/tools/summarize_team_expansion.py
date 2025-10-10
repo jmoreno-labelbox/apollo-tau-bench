@@ -1,22 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class SummarizeTeamExpansion(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: str, new_team_members: list = [], additional_hours: int = 0, existing_hours: int = 0) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        new_team_members = kwargs.get("new_team_members", [])
+        additional_hours = kwargs.get("additional_hours", 0)
+        existing_hours = kwargs.get("existing_hours", 0)
+
         if not all([project_id, new_team_members, additional_hours is not None]):
-            payload = {
+            return json.dumps(
+                {
                     "error": "project_id, new_team_members, and additional_hours are required"
                 }
-            out = json.dumps(
-                payload)
-            return out
+            )
 
         total_hours = existing_hours + additional_hours
-        payload = {
+
+        return json.dumps(
+            {
                 "project_id": project_id,
                 "new_team_members": new_team_members,
                 "additional_hours": additional_hours,
@@ -28,15 +35,14 @@ class SummarizeTeamExpansion(Tool):
                     "status": "completed",
                 },
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SummarizeTeamExpansion",
+                "name": "summarize_team_expansion",
                 "description": "Generate a summary of team expansion operations",
                 "parameters": {
                     "type": "object",

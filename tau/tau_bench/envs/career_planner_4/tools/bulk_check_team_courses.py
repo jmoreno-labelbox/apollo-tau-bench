@@ -1,40 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class BulkCheckTeamCourses(Tool):
+class bulk_check_team_courses(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        team_id: str,
-        teams: list = None,
-        user_course_progress: list = None
-    ) -> str:
-        teams = teams if teams is not None else data.get("teams", {}).values()
+    def invoke(data: Dict[str, Any], team_id: str) -> str:
+        teams = data.get("teams", [])
         team = next((t for t in teams if t.get("team_id") == team_id), None)
         if not team:
-            payload = {"error": "Team not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Team not found"}, indent=2)
 
         members = team.get("team_members", [])
-        progress_data = user_course_progress if user_course_progress is not None else data.get("user_course_progress", {}).values()
+        progress_data = data.get("user_course_progress", [])
         team_progress = []
 
         for member_id in members:
-            member_courses = [p for p in progress_data.values() if p.get("user_id") == member_id]
+            member_courses = [p for p in progress_data if p.get("user_id") == member_id]
             avg_progress = (
-                sum(c.get("current_progress_percent", 0) for c in member_courses.values())
+                sum(c.get("current_progress_percent", 0) for c in member_courses)
                 / len(member_courses)
                 if member_courses
                 else 0
@@ -42,18 +28,17 @@ class BulkCheckTeamCourses(Tool):
             team_progress.append(
                 {"user_id": member_id, "average_progress": avg_progress}
             )
-        payload = {"team_id": team_id, "member_progress": team_progress}
-        out = json.dumps(
-            payload, indent=2
+
+        return json.dumps(
+            {"team_id": team_id, "member_progress": team_progress}, indent=2
         )
-        return out
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "bulkCheckTeamCourses",
+                "name": "bulk_check_team_courses",
                 "description": "Check course progress for all team members",
                 "parameters": {
                     "type": "object",

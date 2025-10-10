@@ -1,13 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetTopCommitAuthors(Tool):
-    """Delivers the leading commit authors across all repositories globally."""
+    """Returns top commit authors globally across all repositories."""
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         commits = _commits(data)
         counter = Counter()
 
@@ -16,18 +18,18 @@ class GetTopCommitAuthors(Tool):
                 counter.update(author_list)
 
         top_authors = counter.most_common(10)
-        payload = [{"author": a, "commits": count} for a, count in top_authors]
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        return json.dumps([{"author": a, "commits": count} for a, count in top_authors], indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getTopCommitAuthors",
+                "name": "get_top_commit_authors",
                 "description": "Returns top commit authors across all repositories.",
-                "parameters": {"type": "object", "properties": {}},
-            },
+                "parameters": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
         }

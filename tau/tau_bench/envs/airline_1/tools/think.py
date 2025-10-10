@@ -1,17 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class Think(Tool):
+    """
+    A tool for the agent to log its reasoning process without taking an action.
+    """
+    @staticmethod
+    def invoke(data: Dict[str, Any], thought: str) -> str:
+        return ""
 
     @staticmethod
-    def invoke(data: dict[str, Any], thought: str) -> str:
-        pass
-        return ""
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
@@ -22,10 +25,10 @@ class Think(Tool):
                     "properties": {
                         "thought": {
                             "type": "string",
-                            "description": "The thought process to be logged.",
+                            "description": "The thought process to be logged."
                         }
                     },
-                    "required": ["thought"],
-                },
-            },
+                    "required": ["thought"]
+                }
+            }
         }

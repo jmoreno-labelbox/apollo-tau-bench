@@ -1,44 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AssignAsset(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], asset_tag: str = None, candidate_id: str = None) -> str:
-        assets = data.get("inventory_assets", {}).values()
-        for a in assets.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        asset_tag = kwargs.get("asset_tag")
+        candidate_id = kwargs.get("candidate_id")
+        assets = data.get("inventory_assets", [])
+        for a in assets:
             if a.get("asset_tag") == asset_tag:
                 a["assigned_candidate_id_nullable"] = candidate_id
                 a["status"] = "Assigned"
                 a["updated_at"] = _fixed_now_iso()
-        payload = {"assigned_asset_tag": asset_tag, "candidate_id": candidate_id}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        return json.dumps({"assigned_asset_tag": asset_tag, "candidate_id": candidate_id}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "AssignAsset",
-                "description": "Assign an asset to a candidate.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "asset_tag": {"type": "string"},
-                        "candidate_id": {"type": "string"},
-                    },
-                    "required": ["asset_tag", "candidate_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"assign_asset",
+            "description":"Assign an asset to a candidate.",
+            "parameters":{"type":"object","properties":{"asset_tag":{"type":"string"},"candidate_id":{"type":"string"}},"required":["asset_tag","candidate_id"]}
+        }}

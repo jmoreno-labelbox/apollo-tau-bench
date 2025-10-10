@@ -1,11 +1,16 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, time, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpdateCustomerSecurityQuestion(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, security_question: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        security_question = kwargs.get("security_question")
+
         customer = next((c for c in data['customers'] if c['customer_id'] == customer_id), None)
         if not customer:
             return json.dumps({"error": "Customer not found"})
@@ -17,12 +22,13 @@ class UpdateCustomerSecurityQuestion(Tool):
             customer["security"]["security_question"] = security_question
 
         return json.dumps(customer["security"])
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "UpdateCustomerSecurityQuestion",
+                        "name": "update_customer_security_question",
                         "description": "Updates a customer's security question.",
                         "parameters": {
                                 "type": "object",

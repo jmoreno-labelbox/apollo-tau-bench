@@ -1,26 +1,19 @@
-from tau_bench.envs.tool import Tool
-import datetime
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindAndStatFilesTool(Tool):
-    """Emulates the search for files based on specific criteria and records their metadata."""
+    """Simulates finding files based on criteria and logging their metadata."""
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindAndStatFiles",
+                "name": "find_and_stat_files",
                 "description": "Finds files on a remote server matching last access time and gets their metadata. Simulates a parallel 'find | xargs stat' pipeline.",
                 "parameters": {
                     "type": "object",
@@ -34,49 +27,28 @@ class FindAndStatFilesTool(Tool):
         }
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        last_access_days: int = None,
-        parallel_processes: Any = None,
-        target_directory: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        last_access_days = kwargs.get("last_access_days")
         log_name = "file_check_log.json"
-        all_remote_files: list[dict[str, Any]] = []
+        all_remote_files: List[Dict[str, Any]] = []
 
-        # Traverse the simulated file_system structure to gather files in a deterministic manner.
-        for server in data.get("file_system", {}).values():
+        # Walk the simulated file_system structure and collect files deterministically.
+        for server in data.get("file_system", []):
             server_host = server.get("host", server.get("remote_address", "unknown"))
             for directory in server.get("directories", []):
                 dir_path = directory.get("path", "")
                 for f in directory.get("files", []) or []:
-                    # accommodate string entries or dictionaries with different keys.
+                    # support string entries or dicts with varying keys
                     if isinstance(f, str):
                         name = f
-                        path = (
-                            f
-                            if f.startswith("/")
-                            else f"{dir_path}/{f}".replace("//", "/")
-                        )
+                        path = f if f.startswith("/") else f"{dir_path}/{f}".replace("//", "/")
                         size = 0
                         user = "unknown"
                         last_access = None
                     elif isinstance(f, dict):
-                        name = (
-                            f.get("name")
-                            or f.get("filename")
-                            or f.get("file_name")
-                            or (f.get("path") and f.get("path").split("/")[-1])
-                        )
-                        path = f.get("path") or (
-                            f"{dir_path}/{name}".replace("//", "/")
-                            if name
-                            else f"{dir_path}/"
-                        )
-                        size = (
-                            int(f.get("size", 0))
-                            if isinstance(f.get("size", 0), (int, float, str))
-                            else 0
-                        )
+                        name = f.get("name") or f.get("filename") or f.get("file_name") or (f.get("path") and f.get("path").split("/")[-1])
+                        path = f.get("path") or (f"{dir_path}/{name}".replace("//", "/") if name else f"{dir_path}/")
+                        size = int(f.get("size", 0)) if isinstance(f.get("size", 0), (int, float, str)) else 0
                         user = f.get("user", "unknown")
                         last_access = f.get("last_access")
                     else:
@@ -92,12 +64,6 @@ class FindAndStatFilesTool(Tool):
                     }
                     all_remote_files.append(entry)
 
-        # Log persistence should be deterministic.
+        # Persist log deterministically
         data[log_name] = {"data": all_remote_files}
-        payload = {
-            "status": "success",
-            "log_name": log_name,
-            "file_count": len(all_remote_files),
-        }
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "success", "log_name": log_name, "file_count": len(all_remote_files)})

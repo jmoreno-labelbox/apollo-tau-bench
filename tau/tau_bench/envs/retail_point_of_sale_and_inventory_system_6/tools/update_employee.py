@@ -1,41 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import OrderedDict, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class update_employee(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        employee_id: str = None,
-        timestamp: str = None,
-        name: str = None,
-        phone_number: str = None,
-        email: str = None,
-        hire_date: str = None,
-        status: str = None,
-        role: str = None
-    ) -> str:
-        employees = data.get("employees", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employees = list(data.get("employees", {}).values())
 
-        # These parameters are essential for updates
-        row_id = employee_id
-        timestamp = timestamp
+        # These parameters are mandatory for updates
+        row_id = kwargs.get("employee_id")
+        timestamp = kwargs.get("timestamp")
 
         if (row_id is None) or (timestamp is None):
-            payload = {"error": "employee_id and timestamp must be sent"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "employee_id and timestamp must be sent"})
 
-        # These parameters are being submitted for the update
+        # These are the parameters being sent for update
         updatable_cols = [
             "name",
             "phone_number",
@@ -44,35 +26,27 @@ class update_employee(Tool):
             "status",
             "role",
         ]
-        updating_values = {
-            "name": name,
-            "phone_number": phone_number,
-            "email": email,
-            "hire_date": hire_date,
-            "status": status,
-            "role": role
-        }
+        updating_values = {k: kwargs.get(k) for k in updatable_cols}
 
-        for employee in employees.values():
+        for employee in employees:
             if employee["employee_id"] == row_id:
                 for col, value in updating_values.items():
-                    # Revise any provided values
+                    # Update any sent values
                     if value is not None:
                         employee[col] = value
 
                 employee["updated_at"] = timestamp
-                payload = employee
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": "no matching records found"}
-        out = json.dumps(payload)
-        return out
+
+                return json.dumps(employee, indent=2)
+
+        return json.dumps({"error": "no matching records found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateEmployee",
+                "name": "update_employee",
                 "description": "Creates a new employee record",
                 "parameters": {
                     "type": "object",

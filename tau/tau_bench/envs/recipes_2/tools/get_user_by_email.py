@@ -1,36 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetUserByEmail(Tool):
-    """Fetches a user's information using their email address."""
+    """Retrieves a user's details by their email address."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        email = kwargs.get("email")
+        users = list(data.get("users", {}).values())
+        for user in users:
+            if user.get("email") == email:
+                return json.dumps(user)
+        return json.dumps({"error": f"User with email '{email}' not found."})
 
     @staticmethod
-    def invoke(data: dict[str, Any], email: str = None) -> str:
-        users = data.get("users", {}).values()
-        for user in users.values():
-            if user.get("email") == email:
-                payload = user
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"User with email '{email}' not found."}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getUserByEmail",
+                "name": "get_user_by_email",
                 "description": "Retrieves a user's details by their email address.",
                 "parameters": {
                     "type": "object",

@@ -1,52 +1,44 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetResourceByName(Tool):
-    """Locate a resource by its user-friendly name."""
+    """Find a resource using its human-readable name."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], resource_name: str = None) -> str:
-        resource_name_to_find = resource_name
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        resource_name = kwargs.get("resource_name")
         try:
-            all_resources = data.get("resources", {}).values()
-        except:
+            all_resources = data.get('resources', [])
+        except (KeyError, json.JSONDecodeError):
             all_resources = []
 
         for resource in all_resources:
-            if resource.get("name") == resource_name_to_find:
-                payload = resource
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Resource with name '{resource_name_to_find}' not found."}
-        out = json.dumps(payload)
-        return out
+            if resource.get("name") == resource_name:
+                return json.dumps(resource)
+
+        # 5. If no match is found after checking all resources, return an error message.
+        return json.dumps({"error": f"Resource with name '{resource_name}' not found."})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetResourceByName",
-                "description": "Retrieves the full details of a resource by searching for its exact name (e.g., 'Sales Reporting Dashboard').",
+                "name": "get_resource_by_name",
+                "description": "Retrieves the full details of a resource by searching for its exact name (e.g., 'sales-reporting-dashboard').",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "resource_name": {
                             "type": "string",
-                            "description": "The unique, human-readable name of the resource.",
+                            "description": "The unique, human-readable name of the resource."
                         }
                     },
-                    "required": ["resource_name"],
-                },
-            },
+                    "required": ["resource_name"]
+                }
+            }
         }

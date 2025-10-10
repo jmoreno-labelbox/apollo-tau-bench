@@ -1,68 +1,48 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AssignAppAccount(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None, app_id: str = None) -> str:
-        if employee_id is None or app_id is None:
-            payload = {
-                    "status": "error",
-                    "description": "The employee_id and app_id fields are required.",
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get('employee_id')
+        app_id = kwargs.get('app_id')
 
-        accounts = data.get("app_accounts")
+        if employee_id is None or app_id is None:
+            return json.dumps({'status': 'error', 'description': 'The employee_id and app_id fields are required.'}, indent=2)
+
+        accounts = data.get('app_accounts')
 
         new_account = {
-            "app_account_id": "appacc_000000",
-            "employee_id": employee_id,
-            "app_id": app_id,
-            "status": "active",
-            "created_at": FIXED_NOW,
+                "app_account_id": "appacc_000000",
+                "employee_id": employee_id,
+                "app_id": app_id,
+                "status": "active",
+                "created_at": FIXED_NOW
         }
 
-        data["app_accounts"][new_account["app_account_id"]] = new_account
-        payload = {
-                "status": "ok",
-                "description": f"Added {app_id} account for {employee_id}",
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        accounts.append(new_account)
+
+        return json.dumps({'status': 'ok', 'description': f'Added {app_id} account for {employee_id}'}, indent=2)
+
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "assignAppAccount",
-                "description": "Assigns an app to a user by appending to the app_accounts database.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "employee_id": {
-                            "type": "string",
-                            "description": "The id of the employee to assign licenses to.",
-                        },
-                        "app_id": {
-                            "type": "string",
-                            "description": "The id of the app to assign.",
-                        },
+            'type': 'function',
+            'function': {
+                'name': 'assign_app_account',
+                'description': 'Assigns an app to a user by appending to the app_accounts database.',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'employee_id': {'type': 'string', 'description': 'The id of the employee to assign licenses to.'},
+                        'app_id': {'type': 'string', 'description': 'The id of the app to assign.'}
                     },
-                    "required": ["employee_id", "app_id"],
-                },
-            },
+                    'required': ['employee_id', 'app_id']
+                }
+            }
         }

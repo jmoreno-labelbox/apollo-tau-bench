@@ -1,55 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateInventoryQuantity(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], inventory_id: str, new_quantity: int) -> str:
-        inventory = data.get("inventory", {}).values()
+    def invoke(data: Dict[str, Any], inventory_id: str, new_quantity: int) -> str:
+        inventory = list(data.get("inventory", {}).values())
 
         for i, inv_record in enumerate(inventory):
             if inv_record.get("id") == inventory_id:
                 inventory[i]["quantity"] = new_quantity
-                inventory[i]["updated_at"] = datetime.now().strftime(
-                    "%Y-%m-%d %H:%M:%S"
-                )
+                inventory[i]["updated_at"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 data["inventory"] = inventory
-                payload = inventory[i]
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Inventory record with ID {inventory_id} not found."}
-        out = json.dumps(
-            payload)
-        return out
+                return json.dumps(inventory[i], indent=2)
+
+        return json.dumps({"error": f"Inventory record with ID {inventory_id} not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "updateInventoryQuantity",
+                "name": "update_inventory_quantity",
                 "description": "Update the quantity of an inventory record.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "inventory_id": {
-                            "type": "string",
-                            "description": "Unique identifier of the inventory record.",
-                        },
-                        "new_quantity": {
-                            "type": "integer",
-                            "description": "New quantity for the inventory record.",
-                        },
+                        "inventory_id": {"type": "string", "description": "Unique identifier of the inventory record."},
+                        "new_quantity": {"type": "integer", "description": "New quantity for the inventory record."}
                     },
-                    "required": ["inventory_id", "new_quantity"],
-                },
-            },
+                    "required": ["inventory_id", "new_quantity"]
+                }
+            }
         }

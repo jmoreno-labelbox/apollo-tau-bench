@@ -1,31 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AppendPaymentTool(Tool):
     """
-    Add a payment or refund entry to an order's payment_history in orders.json.
+    Append a payment or refund entry to an order's payment_history in orders.json.
 
     Behavior:
-    - Confirms the target order exists.
-    - Adds an entry with fields:
+    - Validates the target order exists.
+    - Appends an entry with fields:
         {
           "transaction_type": "payment" | "refund",
           "amount": float,
           "payment_method_id": str,
           "timestamp": "UTC ISO"
         }
-    - No automatic reconciliation occurs; the caller manages amounts.
+    - No automatic reconciliation is performed; caller controls amounts.
 
     Input (kwargs):
         order_id (str, required)
@@ -38,56 +31,53 @@ class AppendPaymentTool(Tool):
     """
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        order_id: str = None, 
-        transaction_type: str = None, 
-        amount: float = None, 
-        payment_method_id: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get("order_id")
+        txn_type = kwargs.get("transaction_type")
+        amount = kwargs.get("amount")
+        pm_id = kwargs.get("payment_method_id")
+
         if (
             not order_id
-            or transaction_type not in {"payment", "refund"}
+            or txn_type not in {"payment", "refund"}
             or not isinstance(amount, (int, float))
             or amount <= 0
-            or not payment_method_id
+            or not pm_id
         ):
-            payload = {
+            return json.dumps(
+                {
                     "error": "order_id, transaction_type('payment'|'refund'), positive amount, payment_method_id required"
-                }
-            out = json.dumps(
-                payload, indent=2,
+                },
+                indent=2,
             )
-            return out
 
-        orders = data.get("orders", {}).values()
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
+        orders = list(data.get("orders", {}).values())
+        order = next((o for o in orders if o.get("order_id") == order_id), None)
         if not order:
-            payload = {"error": f"order_id '{order_id}' not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"order_id '{order_id}' not found"}, indent=2)
 
         entry = {
-            "transaction_type": transaction_type,
+            "transaction_type": txn_type,
             "amount": float(amount),
-            "payment_method_id": payment_method_id,
+            "payment_method_id": pm_id,
             "timestamp": _now_iso(),
         }
         (order.setdefault("payment_history", [])).append(entry)
-        payload = {
+
+        return json.dumps(
+            {
                 "order_id": order_id,
                 "payment_history_len": len(order["payment_history"]),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AppendPayment",
+                "name": "append_payment",
                 "description": "Append a payment or refund entry to an order's payment_history in orders.json.",
                 "parameters": {
                     "type": "object",

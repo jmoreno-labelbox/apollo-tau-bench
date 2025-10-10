@@ -1,8 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ApplyForLoanWithCheckTool(Tool):
     """
@@ -21,7 +22,11 @@ class ApplyForLoanWithCheckTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, amount: int = None, purpose: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        amount = kwargs.get("amount")
+        purpose = kwargs.get("purpose")
+
         if not all([customer_id, amount, purpose]):
             return json.dumps({"error": "Missing required fields"}, indent=2)
 
@@ -44,12 +49,13 @@ class ApplyForLoanWithCheckTool(Tool):
             },
             indent=2,
         )
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ApplyForLoanWithCheck",
+                "name": "apply_for_loan_with_check",
                 "description": "Submit a loan request and automatically evaluate the customer's risk score.",
                 "parameters": {
                     "type": "object",

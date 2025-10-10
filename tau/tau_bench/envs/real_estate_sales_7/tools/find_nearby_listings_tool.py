@@ -1,54 +1,41 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindNearbyListingsTool(Tool):
-    """Identifies the closest listings to a subject property by extracting map coordinates from URLs."""
+    """Finds nearest listings to a subject property by parsing map coordinates from URLs."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        subject_property_id: str,
-        max_results: int = 3,
-        status_filter: list[str] = None
-    ) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        subject_property_id = kwargs.get("subject_property_id")
         need = _require_property_id(subject_property_id)
         if need:
             return _err(need)
 
         try:
-            max_results = int(max_results or 3)
+            max_results = int(kwargs.get("max_results") or 3)
         except Exception:
             max_results = 3
 
         allowed_status = set(
-            status_filter
+            kwargs.get("status_filter")
             or ["active", "pending", "for_sale", "sold", "off_market", "rented"]
-        )  # default to broad
+        )  # broad by default
 
-        def _extract_latlon(url: str | None) -> tuple[float, float] | None:
-            pass
+        def _extract_latlon(url: Optional[str]) -> Optional[Tuple[float, float]]:
             if not url or not isinstance(url, str):
                 return None
-            # Attempt viewpoint=lat,lon
+            # Try viewpoint=lat,lon
             m = re.search(r"viewpoint=([\-\d\.]+),([\-\d\.]+)", url)
             if m:
                 try:
                     return float(m.group(1)), float(m.group(2))
                 except Exception:
                     pass
-            # Attempt q=lat,lon
+            # Try q=lat,lon
             m = re.search(r"[?&]q=([\-\d\.]+),([\-\d\.]+)", url)
             if m:
                 try:
@@ -58,8 +45,7 @@ class FindNearbyListingsTool(Tool):
             return None
 
         def _haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
-            pass
-            # Radius of the Earth in kilometers
+            # Earth radius in kilometers
             R = 6371.0
             dlat = math.radians(lat2 - lat1)
             dlon = math.radians(lon2 - lon1)
@@ -83,7 +69,7 @@ class FindNearbyListingsTool(Tool):
 
         lat1, lon1 = subj_ll
         candidates = []
-        for l in data.get("listings", {}).values():
+        for l in list(data.get("listings", {}).values()):
             pid = str(l.get("property_id"))
             if not pid or pid == subject_property_id:
                 continue
@@ -110,15 +96,14 @@ class FindNearbyListingsTool(Tool):
             "nearby_property_ids": [c["property_id"] for c in top],
             "neighbors": top,
         }
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindNearbyListings",
+                "name": "find_nearby_listings",
                 "description": (
                     "Find nearest property_ids to a subject using parsed map coordinates."
                 ),

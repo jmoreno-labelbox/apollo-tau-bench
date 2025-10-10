@@ -1,55 +1,49 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ListSupplyOrdersByStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], status: str, supplier_id: str = None, limit: int = 20) -> str:
-        if not status:
-            payload = {"error": "status is required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        status = kwargs.get('status')
+        supplier_id = kwargs.get('supplier_id')
+        limit = kwargs.get('limit', 20)
 
-        supply_orders = data["supply_orders"]
+        if not status:
+            return json.dumps({'error': 'status is required'})
+
+        supply_orders = data['supply_orders']
         filtered_orders = []
 
-        for order in supply_orders.values():
-            if order["status"] == status:
-                if supplier_id and order["supplier_id"] != supplier_id:
+        for order in supply_orders:
+            if order['status'] == status:
+                if supplier_id and order['supplier_id'] != supplier_id:
                     continue
                 filtered_orders.append(order)
 
-        # Arrange by order date, with the latest first
-        filtered_orders.sort(key=lambda x: x["order_date"], reverse=True)
-        payload = filtered_orders[:limit]
-        out = json.dumps(payload, indent=2)
-        return out
+        # Sort by order date, most recent first
+        filtered_orders.sort(key=lambda x: x['order_date'], reverse=True)
+
+        return json.dumps(filtered_orders[:limit], indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "listSupplyOrdersByStatus",
-                "description": "Get supply orders filtered by status, optionally by supplier.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "status": {
-                            "type": "string",
-                            "description": "Status to filter by (pending, fulfilled, cancelled)",
-                        },
-                        "supplier_id": {
-                            "type": "string",
-                            "description": "Optional supplier ID to filter by",
-                        },
-                        "limit": {
-                            "type": "integer",
-                            "description": "Maximum number of orders to return",
-                            "default": 20,
-                        },
+            'type': 'function',
+            'function': {
+                'name': 'list_supply_orders_by_status',
+                'description': 'Get supply orders filtered by status, optionally by supplier.',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'status': {'type': 'string', 'description': 'Status to filter by (pending, fulfilled, cancelled)'},
+                        'supplier_id': {'type': 'string', 'description': 'Optional supplier ID to filter by'},
+                        'limit': {'type': 'integer', 'description': 'Maximum number of orders to return', 'default': 20}
                     },
-                    "required": ["status"],
-                },
-            },
+                    'required': ['status']
+                }
+            }
         }

@@ -1,46 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListSiemAlertsTool(Tool):
-    """Display SIEM alerts with optional filters."""
+    """List SIEM alerts with optional filtering."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], resource_id: str = None, severity: str = None,
-    severity_in: Any = None,
-    ) -> str:
-        alerts = data.get("siem_alerts", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        res_id = kwargs.get("resource_id")
+        sev = kwargs.get("severity")
+        alerts = data.get("siem_alerts", [])
         results = []
-        for a in alerts.values():
-            if resource_id and a["resource_id"] != resource_id:
+        for a in alerts:
+            if res_id and a["resource_id"] != res_id:
                 continue
-            if severity and a["severity"] != severity:
+            if sev and a["severity"] != sev:
                 continue
             results.append(a)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListSiemAlerts",
+                "name": "list_siem_alerts",
                 "description": "List SIEM alerts filtered by resource or severity",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "resource_id": {"type": "string"},
-                        "severity": {"type": "string"},
-                    },
-                },
-            },
+                        "severity": {"type": "string"}
+                    }
+                }
+            }
         }

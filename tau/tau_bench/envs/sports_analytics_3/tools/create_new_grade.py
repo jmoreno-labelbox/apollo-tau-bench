@@ -1,18 +1,13 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateNewGrade(Tool):
     """
-    Establish a new pitch execution grade.
+    Create a new pitch execution grade.
     Required fields:
       - pitch_id (int)
       - game_pk (int)
@@ -24,44 +19,33 @@ class CreateNewGrade(Tool):
     """
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        pitch_id: int = None,
-        game_pk: int = None,
-        intended_quadrant_model: str = None,
-        actual_quadrant: str = None,
-        miss_distance_inches: float = None,
-        execution_grade: str = None
-    ) -> str:
-        #1) Confirm required fields
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        pitch_id = kwargs.get("pitch_id")
+        game_pk = kwargs.get("game_pk")
+        intended_quadrant_model = kwargs.get("intended_quadrant_model")
+        actual_quadrant = kwargs.get("actual_quadrant")
+        miss_distance_inches = kwargs.get("miss_distance_inches")
+        execution_grade = kwargs.get("execution_grade")
+
+        # 1) Validate required fields
         missing = []
-        if pitch_id is None:
-            missing.append("pitch_id")
-        if game_pk is None:
-            missing.append("game_pk")
-        if intended_quadrant_model is None:
-            missing.append("intended_quadrant_model")
-        if actual_quadrant is None:
-            missing.append("actual_quadrant")
-        if miss_distance_inches is None:
-            missing.append("miss_distance_inches")
-        if not isinstance(execution_grade, str) or execution_grade == "":
-            missing.append("execution_grade")
+        if pitch_id is None: missing.append("pitch_id")
+        if game_pk is None: missing.append("game_pk")
+        if intended_quadrant_model is None: missing.append("intended_quadrant_model")
+        if  actual_quadrant is None: missing.append("actual_quadrant")
+        if miss_distance_inches is None: missing.append("miss_distance_inches")
+        if not isinstance(execution_grade, str) or execution_grade == "": missing.append("execution_grade")
 
         if missing:
-            payload = {"error": f"Missing required field(s): {', '.join(missing)}"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"Missing required field(s): {', '.join(missing)}"}, indent=2)
 
-        #2) Retrieve DB
-        grades: list[dict[str, Any]] = data.get("pitch_execution_grades", {}).values()
+        # 2) Get DB
+        grades: List[Dict[str, Any]] = data.get("pitch_execution_grades", [])
 
-        #3) Create a new grade_id
+        # 3) Generate new grade_id
         new_id = get_next_grade_id(data)
 
-        #4) Establish a new record
+        # 4) Create new record
         new_record = {
             "grade_id": new_id,
             "pitch_id": pitch_id,
@@ -69,46 +53,46 @@ class CreateNewGrade(Tool):
             "intended_quadrant_model": intended_quadrant_model,
             "actual_quadrant": actual_quadrant,
             "miss_distance_inches": miss_distance_inches,
-            "execution_grade": execution_grade,
+            "execution_grade": execution_grade
         }
         grades.append(new_record)
-        payload = new_record
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(new_record, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateNewGrade",
+                "name": "create_new_grade",
                 "description": "Create a new pitch execution grade with auto-generated grade_id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "pitch_id": {
                             "type": "integer",
-                            "description": "Pitch ID this grade belongs to.",
+                            "description": "Pitch ID this grade belongs to."
                         },
                         "game_pk": {
                             "type": "integer",
-                            "description": "Game primary key.",
+                            "description": "Game primary key."
                         },
                         "intended_quadrant_model": {
                             "type": "integer",
-                            "description": "Intended quadrant from the model.",
+                            "description": "Intended quadrant from the model."
                         },
                         "actual_quadrant": {
                             "type": "integer",
-                            "description": "Actual quadrant observed.",
+                            "description": "Actual quadrant observed."
                         },
                         "miss_distance_inches": {
                             "type": "number",
-                            "description": "Distance missed in inches.",
+                            "description": "Distance missed in inches."
                         },
                         "execution_grade": {
                             "type": "string",
-                            "description": "Execution grade value.",
-                        },
+                            "description": "Execution grade value."
+                        }
                     },
                     "required": [
                         "pitch_id",
@@ -116,8 +100,8 @@ class CreateNewGrade(Tool):
                         "intended_quadrant_model",
                         "actual_quadrant",
                         "miss_distance_inches",
-                        "execution_grade",
-                    ],
-                },
-            },
+                        "execution_grade"
+                    ]
+                }
+            }
         }

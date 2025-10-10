@@ -1,8 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class DownloadStatementByDateTool(Tool):
     """
@@ -20,17 +21,20 @@ class DownloadStatementByDateTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, month: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get("account_id")
+        month = kwargs.get("month")
         if not account_id or not month:
             return json.dumps({"error": "account_id and month are required"}, indent=2)
         url = f"https://bank.example.com/statements/{account_id}/{month}.pdf"
         return json.dumps({"statement_url": url}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "DownloadStatementByDate",
+                "name": "download_statement_by_date",
                 "description": "Download the account statement for a given month or date range.",
                 "parameters": {
                     "type": "object",

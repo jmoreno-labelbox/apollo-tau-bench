@@ -1,41 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetProjectFinancialSummary(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: str, fiscal_year: int = datetime.now().year) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        fiscal_year = kwargs.get("fiscal_year", datetime.now().year)
+
         if not project_id:
-            payload = {"error": "project_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "project_id is required"})
 
-        projects = data.get("projects", {}).values()
-        budgets = data.get("budgets", {}).values()
-        expenses = data.get("expenses", {}).values()
-        allocations = data.get("allocations", {}).values()
-        employees = data.get("employees", {}).values()
+        projects = list(data.get("projects", {}).values())
+        budgets = data.get("budgets", [])
+        expenses = data.get("expenses", [])
+        allocations = data.get("allocations", [])
+        employees = list(data.get("employees", {}).values())
 
-        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
+        project = next((p for p in projects if p.get("project_id") == project_id), None)
         if not project:
-            payload = {"error": f"Project {project_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Project {project_id} not found"})
 
         current_budget = next(
             (
                 b
-                for b in budgets.values() if b.get("project_id") == project_id
+                for b in budgets
+                if b.get("project_id") == project_id
                 and b.get("fiscal_year") == fiscal_year
             ),
             None,
@@ -43,13 +36,14 @@ class GetProjectFinancialSummary(Tool):
 
         project_allocations = [
             a
-            for a in allocations.values() if a.get("project_id") == project_id and a.get("status") == "active"
+            for a in allocations
+            if a.get("project_id") == project_id and a.get("status") == "active"
         ]
 
         weekly_resource_cost = 0
         for alloc in project_allocations:
             employee = next(
-                (e for e in employees.values() if e.get("employee_id") == alloc["employee_id"]),
+                (e for e in employees if e.get("employee_id") == alloc["employee_id"]),
                 None,
             )
             if employee:
@@ -60,7 +54,8 @@ class GetProjectFinancialSummary(Tool):
 
         approved_expenses = sum(
             e.get("amount", 0)
-            for e in expenses.values() if e.get("project_id") == project_id and e.get("status") == "approved"
+            for e in expenses
+            if e.get("project_id") == project_id and e.get("status") == "approved"
         )
 
         summary = {
@@ -68,23 +63,21 @@ class GetProjectFinancialSummary(Tool):
             "project_name": project["name"],
             "project_status": project["status"],
             "financial_summary": {
-                "budget_allocated": (
-                    current_budget["total_budget"] if current_budget else 0
-                ),
-                "budget_spent": (
-                    current_budget.get("spent_amount", 0) if current_budget else 0
-                ),
+                "budget_allocated": current_budget["total_budget"]
+                if current_budget
+                else 0,
+                "budget_spent": current_budget.get("spent_amount", 0)
+                if current_budget
+                else 0,
                 "weekly_burn_rate": weekly_resource_cost,
                 "monthly_burn_rate": weekly_resource_cost * 4.33,
                 "total_expenses": approved_expenses,
                 "remaining_budget": (
-                    (
-                        current_budget["total_budget"]
-                        - current_budget.get("spent_amount", 0)
-                    )
-                    if current_budget
-                    else 0
-                ),
+                    current_budget["total_budget"]
+                    - current_budget.get("spent_amount", 0)
+                )
+                if current_budget
+                else 0,
             },
             "resource_allocation": {
                 "active_allocations": len(project_allocations),
@@ -94,15 +87,15 @@ class GetProjectFinancialSummary(Tool):
                 "weekly_resource_cost": weekly_resource_cost,
             },
         }
-        payload = summary
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(summary, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetProjectFinancialSummary",
+                "name": "get_project_financial_summary",
                 "description": "Get comprehensive financial summary for a project",
                 "parameters": {
                     "type": "object",

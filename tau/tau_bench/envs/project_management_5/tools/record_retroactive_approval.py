@@ -1,48 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RecordRetroactiveApproval(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        emergency_log_id: str,
-        approver_id: str,
-        approval_decision: str,
-        comments: str = ""
-    ) -> str:
-        if not all([emergency_log_id, approver_id, approval_decision]):
-            payload = {
-                "error": "emergency_log_id, approver_id, and approval_decision are required"
-            }
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        emergency_log_id = kwargs.get("emergency_log_id")
+        approver_id = kwargs.get("approver_id")
+        approval_decision = kwargs.get("approval_decision")
+        comments = kwargs.get("comments", "")
 
-        emergency_logs = data.get("emergency_logs", {}).values()
-        change_requests = data.get("change_requests", {}).values()
+        if not all([emergency_log_id, approver_id, approval_decision]):
+            return json.dumps(
+                {
+                    "error": "emergency_log_id, approver_id, and approval_decision are required"
+                }
+            )
+
+        emergency_logs = data.get("emergency_logs", [])
+        change_requests = data.get("change_requests", [])
 
         log = next(
-            (e for e in emergency_logs.values() if e.get("log_id") == emergency_log_id), None
+            (e for e in emergency_logs if e.get("log_id") == emergency_log_id), None
         )
         if not log:
-            payload = {"error": f"Emergency log '{emergency_log_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": f"Emergency log '{emergency_log_id}' not found"}
+            )
 
         if log.get("retroactive_status") != "pending":
-            payload = {"error": f"Emergency log already {log.get('retroactive_status')}"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": f"Emergency log already {log.get('retroactive_status')}"}
+            )
 
         current_time = datetime.now()
         deadline = datetime.fromisoformat(
@@ -52,24 +44,26 @@ class RecordRetroactiveApproval(Tool):
         )
 
         if current_time > deadline:
+
             log["retroactive_status"] = "failed_deadline"
             log["automatic_rollback_triggered"] = True
             log["rollback_trigger_date"] = current_time.isoformat()
 
             cr = next(
-                (c for c in change_requests.values() if c.get("cr_id") == log.get("cr_id")), None
+                (c for c in change_requests if c.get("cr_id") == log.get("cr_id")), None
             )
             if cr:
                 cr["requires_rollback"] = True
                 cr["rollback_triggered_date"] = current_time.isoformat()
-            payload = {
-                "error": "Retroactive approval deadline exceeded. Automatic rollback has been triggered.",
-                "deadline_was": log.get("retroactive_approval_deadline"),
-                "current_time": current_time.isoformat(),
-                "rollback_triggered": True,
-            }
-            out = json.dumps(payload)
-            return out
+
+            return json.dumps(
+                {
+                    "error": "Retroactive approval deadline exceeded. Automatic rollback has been triggered.",
+                    "deadline_was": log.get("retroactive_approval_deadline"),
+                    "current_time": current_time.isoformat(),
+                    "rollback_triggered": True,
+                }
+            )
 
         if "retroactive_approvers" not in log:
             log["retroactive_approvers"] = []
@@ -86,29 +80,33 @@ class RecordRetroactiveApproval(Tool):
             log["rejection_comments"] = comments
 
             cr = next(
-                (c for c in change_requests.values() if c.get("cr_id") == log.get("cr_id")), None
+                (c for c in change_requests if c.get("cr_id") == log.get("cr_id")), None
             )
             if cr:
                 cr["requires_rollback"] = True
                 cr["rollback_triggered_date"] = current_time.isoformat()
                 log["automatic_rollback_triggered"] = True
-        payload = {
-            "success": True,
-            "retroactive_approval": {
-                "log_id": emergency_log_id,
-                "decision": approval_decision,
-                "status": log["retroactive_status"],
-                "rollback_triggered": log.get("automatic_rollback_triggered", False),
-            },
-        }
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(
+            {
+                "success": True,
+                "retroactive_approval": {
+                    "log_id": emergency_log_id,
+                    "decision": approval_decision,
+                    "status": log["retroactive_status"],
+                    "rollback_triggered": log.get(
+                        "automatic_rollback_triggered", False
+                    ),
+                },
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RecordRetroactiveApproval",
+                "name": "record_retroactive_approval",
                 "description": "Record retroactive approval for emergency changes",
                 "parameters": {
                     "type": "object",

@@ -1,46 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindReservationByCode(Tool):
-
+    """
+    A tool to find a reservation by its unique code.
+    """
     @staticmethod
-    def invoke(data: dict[str, Any], reservation_code: str) -> str:
-        reservations = data.get("reservations", {}).values()
+    def invoke(data: Dict[str, Any], reservation_code: str) -> str:
+        reservations = list(data.get("reservations", {}).values())
         for res in reservations:
             if res.get("reservation_id") == reservation_code:
-                payload = res
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Reservation not found", "reservation_code": reservation_code}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(res)
+        return json.dumps({"error": "Reservation not found", "reservation_code": reservation_code})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindReservationByCode",
+                "name": "find_reservation_by_code",
                 "description": "Retrieves the full details of a reservation using its unique code.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "reservation_code": {
-                            "type": "string",
-                            "description": "The unique reservation code (e.g., '4WQ150').",
-                        }
+                        "reservation_code": {"type": "string", "description": "The unique reservation code (e.g., '4WQ150')."}
                     },
-                    "required": ["reservation_code"],
-                },
-            },
+                    "required": ["reservation_code"]
+                }
+            }
         }

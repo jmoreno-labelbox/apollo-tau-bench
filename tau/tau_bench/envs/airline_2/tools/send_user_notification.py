@@ -1,28 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class SendUserNotification(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], channel_or_user_id: str, message: str) -> str:
-        pass
-        #This tool does not store notifications — it provides a deterministic response
-        return _j({"notified": channel_or_user_id, "message": message})
+    def invoke(data: Dict[str, Any], channel_or_user_id: str, message: str) -> str:
+        notifications = list(data.get("notifications", {}).values())
+        the_notification = {
+            "channel_or_user_id": channel_or_user_id,
+            "message": message
+        }
+        notifications.append(the_notification)
+        data["notifications"] = notifications
+        return _j({
+            "notified": the_notification
+        })
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SendUserNotification",
+                "name": "send_user_notification",
                 "description": "Send a message to a specified user or operations channel (non-persistent, returns confirmation).",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "channel_or_user_id": {"type": "string"},
-                        "message": {"type": "string"},
+                        "message": {"type": "string"}
                     },
-                    "required": ["channel_or_user_id", "message"],
-                },
-            },
+                    "required": ["channel_or_user_id", "message"]
+                }
+            }
         }

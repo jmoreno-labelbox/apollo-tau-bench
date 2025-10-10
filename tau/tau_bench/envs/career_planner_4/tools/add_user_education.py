@@ -1,26 +1,25 @@
-from tau_bench.envs.tool import Tool
-import json
-import uuid
-from datetime import datetime
-from typing import Any
+# Copyright Sierra
 
-class AddUserEducation(Tool):
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class add_user_education(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str, education: dict) -> str:
+    def invoke(data: Dict[str, Any], user_id: str, education: dict) -> str:
         education["user_id"] = user_id
         data.setdefault("user_education", []).append(education)
-        payload = {"success": f"Education record added for user {user_id}"}
-        out = json.dumps(
-            payload, indent=2
+        return json.dumps(
+            {"success": f"Education record added for user {user_id}"}, indent=2
         )
-        return out
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "addUserEducation",
+                "name": "add_user_education",
                 "description": "Add education record for a user",
                 "parameters": {
                     "type": "object",

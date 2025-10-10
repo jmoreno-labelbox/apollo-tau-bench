@@ -1,28 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetHubspotTicketsByAssigneeTool(Tool):
-    """get_hubspot_tickets_by_assignee: filter tickets based on assignee."""
+    """get_hubspot_tickets_by_assignee: filter tickets by assignee."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], assignee_id: str = None) -> str:
-        pass
-        #utilize the list tool again with a post-filter
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        # reuse list tool with post-filter
         tickets = json.loads(ListHubspotTicketsTool.invoke(data))
-        payload = [t for t in tickets.values() if t.get("assignee_id") == assignee_id]
-        out = json.dumps(
-            payload, indent=2
+        assignee_id = kwargs.get("assignee_id")
+        return json.dumps(
+            [t for t in tickets if t.get("assignee_id") == assignee_id], indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getHubspotTicketsByAssignee",
+                "name": "get_hubspot_tickets_by_assignee",
                 "description": "List HubSpot tickets for an assignee.",
                 "parameters": {
                     "type": "object",

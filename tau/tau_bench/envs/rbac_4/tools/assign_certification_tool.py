@@ -1,115 +1,77 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AssignCertificationTool(Tool):
-    """Establish/assign a certification record to a user (write operation, predictable)."""
+    """Create/assign a certification record to a user (write operation, deterministic)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], certification_id: str, user_id: str, assigned_on: str = None, status: str = "ASSIGNED") -> str:
-        certifications = data.get("certifications", {}).values()
-        users = data.get("users", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        certifications = data.get("certifications", [])
+        users = list(data.get("users", {}).values())
 
         if not isinstance(certifications, list):
-            payload = {"error": "certifications must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "certifications must be a list"}, indent=2)
         if not isinstance(users, list):
-            payload = {"error": "users must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "users must be a list"}, indent=2)
+
+        certification_id = kwargs.get("certification_id")
+        user_id = kwargs.get("user_id")
+        assigned_on = kwargs.get("assigned_on")  # ISO8601 or similar deterministic string
+        status = kwargs.get("status") or "ASSIGNED"
 
         if not isinstance(certification_id, str) or not certification_id.strip():
-            payload = {"error": "certification_id must be a non-empty string"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "certification_id must be a non-empty string"}, indent=2)
         if not isinstance(user_id, str) or not user_id.strip():
-            payload = {"error": "user_id must be a non-empty string"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "user_id must be a non-empty string"}, indent=2)
         if assigned_on is not None and not isinstance(assigned_on, str):
-            payload = {"error": "assigned_on must be a string if provided"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "assigned_on must be a string if provided"}, indent=2)
         if not isinstance(status, str) or not status.strip():
-            payload = {"error": "status must be a non-empty string"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "status must be a non-empty string"}, indent=2)
 
-        #Confirm user existence
-        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
+        # Validate user exists
+        user = next((u for u in users if u.get("user_id") == user_id), None)
         if not user:
-            payload = {"error": f"user_id {user_id} not found in users"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"user_id {user_id} not found in users"}, indent=2)
 
-        #Verify that certification_id is distinct
-        if any(c.get("certification_id") == certification_id for c in certifications.values()):
-            payload = {"error": f"certification_id {certification_id} already exists"}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+        # Ensure certification_id is unique
+        if any(c.get("certification_id") == certification_id for c in certifications):
+            return json.dumps({"error": f"certification_id {certification_id} already exists"}, indent=2)
 
-        #Add a minimal, schema-compliant record utilizing only recognized field names from datasets
+        # Append minimal, schema-safe record using only known field names from datasets
         new_record = {
             "certification_id": certification_id,
             "user_id": user_id,
             "status": status,
         }
         if assigned_on:
-            new_record["assigned_on"] = (
-                assigned_on  #field name is present in project datasets (e.g., user_roles)
-            )
+            new_record["assigned_on"] = assigned_on  # field name exists in project datasets (e.g., user_roles)
 
-        data["certifications"][certification_id] = new_record
-        payload = {
-                "success": f"Certification {certification_id} assigned to user {user_id}",
-                "certification": new_record,
-            }
-        out = json.dumps(
-            payload, indent=2,
+        certifications.append(new_record)
+        return json.dumps(
+            {"success": f"Certification {certification_id} assigned to user {user_id}", "certification": new_record},
+            indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AssignCertification",
+                "name": "assign_certification",
                 "description": "Create/assign a certification record to a user.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "certification_id": {
-                            "type": "string",
-                            "description": "Unique certification identifier",
-                        },
+                        "certification_id": {"type": "string", "description": "Unique certification identifier"},
                         "user_id": {"type": "string", "description": "Target user_id"},
-                        "assigned_on": {
-                            "type": "string",
-                            "description": "Deterministic assignment timestamp",
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "Initial status (defaults to ASSIGNED)",
-                        },
+                        "assigned_on": {"type": "string", "description": "Deterministic assignment timestamp"},
+                        "status": {"type": "string", "description": "Initial status (defaults to ASSIGNED)"}
                     },
-                    "required": ["certification_id", "user_id"],
+                    "required": ["certification_id", "user_id"]
                 },
             },
         }

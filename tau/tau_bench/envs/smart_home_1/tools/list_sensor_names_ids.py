@@ -1,39 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListSensorNamesIds(Tool):
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        payload = [
-            {"name": s["name"], "sensor_id": s["id"]}
-            for s in data.get("sensors", {}).values()
-        ]
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+    def invoke(data: Dict[str, Any]) -> str:
+        return json.dumps([{"name": s["name"], "sensor_id": s["id"]} for s in data.get("sensors", [])], indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListSensorNamesIds",
+                "name": "list_sensor_names_ids",
                 "description": "Return all sensors' names and ids (state is read-only).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {},
-                    "required": [],
-                    "additionalProperties": False,
-                },
+                "parameters": {"type": "object", "properties": {}, "required": [], "additionalProperties": False},
             },
         }

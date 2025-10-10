@@ -1,34 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetProjectKey(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: str | None = None) -> str:
+    def invoke(data: Dict[str, Any], project_id: Optional[str] = None) -> str:
         projects = _get_table(data, "projects")
         proj = None
         if project_id:
             proj = next((p for p in projects if p.get("id") == project_id), None)
         if not proj:
-            proj = (
-                sorted(projects, key=lambda x: x.get("id", ""))[0] if projects else None
-            )
+            # Fallback deterministically to the lexicographically smallest id
+            proj = sorted(projects, key=lambda x: x.get("id", ""))[0] if projects else None
         key = (proj or {}).get("project_key")
-        payload = {"project_key": key}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"project_key": key}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetProjectKey",
-                "description": "Returns a deterministic project_key from projects.json (by id if provided, else first by id).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"project_id": {"type": "string"}},
-                    "required": [],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "get_project_key", "description": "Returns a deterministic project_key from projects.json (by id if provided, else first by id).", "parameters": {"type": "object", "properties": {"project_id": {"type": "string"}}, "required": []}}}

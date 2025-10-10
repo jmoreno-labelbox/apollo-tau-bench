@@ -1,57 +1,55 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateInventoryRecord(Tool):
-    """Generates a new, blank inventory record for a product in a designated warehouse."""
+    """Creates a new, empty inventory record for a product in a specific warehouse."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], sku: str = None, warehouse_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        sku = kwargs.get("sku")
+        warehouse_id = kwargs.get("warehouse_id")
+
         if not sku or not warehouse_id:
-            payload = {"error": "SKU and warehouse_id are required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "SKU and warehouse_id are required."})
 
-        inventory_items = data.get("inventory", {}).values()
-        for item in inventory_items.values():
+        # Check if the record already exists
+        inventory_items = list(data.get("inventory", {}).values())
+        for item in inventory_items:
             if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id:
-                payload = {
-                    "error": f"Inventory record for SKU {sku} at warehouse {warehouse_id} already exists."
-                }
-                out = json.dumps(payload)
-                return out
+                return json.dumps(
+                    {
+                        "error": f"Inventory record for SKU {sku} at warehouse {warehouse_id} already exists."
+                    }
+                )
 
+        # Get product and warehouse details to populate the new record
         product_details = {}
-        products = data.get("product_master", {}).values()
-        for p in products.values():
+        products = data.get("product_master", [])
+        for p in products:
             if p.get("sku") == sku:
                 product_details = p
                 break
 
         warehouse_details = {}
-        warehouses = data.get("warehouses", {}).values()
+        warehouses = data.get("warehouses", [])
         warehouse_details = next(
-            (wh for wh in warehouses.values() if wh.get("warehouse_id") == warehouse_id), {}
+            (wh for wh in warehouses if wh.get("warehouse_id") == warehouse_id), {}
         )
 
         if not product_details or not warehouse_details:
-            payload = {
-                "error": "Could not find product or warehouse details to create the record."
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": "Could not find product or warehouse details to create the record."
+                }
+            )
 
+        # Auto-increment inventory ID
         max_inv_num = 0
-        for item in inventory_items.values():
+        for item in inventory_items:
             inv_id = item.get("inventory_id", "INV-0000")
             inv_num_str = inv_id.split("-")[-1]
             if inv_num_str.isdigit():
@@ -71,7 +69,9 @@ class CreateInventoryRecord(Tool):
             "quantity_allocated": 0,
             "quantity_inbound": 0,
             "quantity_damaged": 0,
-            "unit_cost": product_details.get("unit_price"),
+            "unit_cost": product_details.get(
+                "unit_price"
+            ),  # Using unit_price as a proxy for cost
             "total_value": 0.00,
             "currency": product_details.get("currency"),
             "unit_weight_kg": product_details.get("weight_kg"),
@@ -80,26 +80,27 @@ class CreateInventoryRecord(Tool):
             "expiration_date": None,
             "received_date": None,
             "last_counted_date": None,
-            "reorder_point": 0,
+            "reorder_point": 0,  # Default reorder point
             "stock_status": "Out of Stock",
             "storage_requirements": product_details.get("storage_requirements"),
         }
 
-        data["inventory"][inventory_id] = new_record
-        payload = {
-            "status": "success",
-            "inventory_id": new_inventory_id,
-            "message": "New inventory record created.",
-        }
-        out = json.dumps(payload)
-        return out
+        inventory_items.append(new_record)
+
+        return json.dumps(
+            {
+                "status": "success",
+                "inventory_id": new_inventory_id,
+                "message": "New inventory record created.",
+            }
+        )
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateInventoryRecord",
+                "name": "create_inventory_record",
                 "description": "Creates a new, empty inventory record for a given SKU at a specific warehouse. Fails if a record already exists.",
                 "parameters": {
                     "type": "object",

@@ -1,11 +1,13 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class VerifyColdChainIntegrity(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], shipment_id: str, carrier_scac: str, required_range: Any = None) -> str:
+    def invoke(data: Dict[str, Any], shipment_id: str, carrier_scac: str) -> str:
         return json.dumps({
             "shipment_id": shipment_id,
             "carrier_scac": carrier_scac,
@@ -13,12 +15,13 @@ class VerifyColdChainIntegrity(Tool):
             "temperature_maintained": True,
             "verification_date": get_current_timestamp()
         })
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "VerifyColdChainIntegrity",
+                "name": "verify_cold_chain_integrity",
                 "description": "Verify cold chain integrity for temperature-sensitive shipments",
                 "parameters": {
                     "type": "object",

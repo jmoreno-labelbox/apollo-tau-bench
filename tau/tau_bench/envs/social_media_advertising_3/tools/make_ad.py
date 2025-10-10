@@ -1,43 +1,33 @@
-from tau_bench.envs.tool import Tool
-import csv
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class MakeAd(Tool):
-    """Establish a new ad within an ad set."""
-
+    """Create a new ad in an adset."""
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None, name: str = None, format: str = None, status: str = None) -> str:
-        ads = data.get("ads", {}).values()
-        new_id = str(max((int(a["ad_id"]) for a in ads.values()), default=1000) + 1)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ads = list(data.get("ads", {}).values())
+        new_id = str(max((int(a["ad_id"]) for a in ads), default=1000) + 1)
         ad = {
             "ad_id": new_id,
-            "adset_id": adset_id,
-            "name": name,
-            "format": format,
-            "status": status if status is not None else "paused",
+            "adset_id": kwargs.get("adset_id"),
+            "name": kwargs.get("name"),
+            "format": kwargs.get("format"),
+            "status": "paused",
         }
-        data["ads"][ad_id] = ad
+        ads.append(ad)
         data["ads"] = ads
-        payload = ad
-        out = json.dumps(payload)
-        return out
+        return json.dumps(ad)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "MakeAd",
+                "name": "make_ad",
                 "description": "Create a new ad in a given adset.",
                 "parameters": {
                     "type": "object",

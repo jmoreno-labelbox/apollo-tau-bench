@@ -1,56 +1,47 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetUmpiresDetailsByName(Tool):
-    """Retrieve an umpire record using full_name (exact, case-sensitive)."""
+    """Fetch an umpire record by full_name (exact, case-sensitive)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], full_name: str = None) -> str:
-        #1) Confirm validity
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        full_name = kwargs.get("full_name")
+
+        # 1) Validate
         if not isinstance(full_name, str) or full_name == "":
-            payload = {"error": "Missing required field: full_name"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Missing required field: full_name"}, indent=2)
 
-        #2) Retrieve DB
-        umpires: list[dict[str, Any]] = data.get("umpires", {}).values()
+        # 2) Get DB
+        umpires: List[Dict[str, Any]] = data.get("umpires", [])
 
-        #3) Exact match (without normalization)
+        # 3) Exact match (no normalization)
         for ump in umpires:
             if ump.get("full_name") == full_name:
-                payload = ump
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"No umpire found with full_name {full_name}"}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+                return json.dumps(ump, indent=2)
+
+        return json.dumps({"error": f"No umpire found with full_name {full_name}"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getUmpiresDetailsByName",
+                "name": "get_umpires_details_by_name",
                 "description": "Fetch a single umpire's full details by exact full_name (case-sensitive).",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "full_name": {
                             "type": "string",
-                            "description": "Exact umpire full name to retrieve.",
+                            "description": "Exact umpire full name to retrieve."
                         }
                     },
-                    "required": ["full_name"],
-                },
-            },
+                    "required": ["full_name"]
+                }
+            }
         }

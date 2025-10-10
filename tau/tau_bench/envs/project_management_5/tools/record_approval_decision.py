@@ -1,61 +1,49 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RecordApprovalDecision(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        cr_id: str,
-        approver_id: str,
-        decision: str,
-        comments: str = "",
-        conditions: list = [],
-        approval_id: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
+        approver_id = kwargs.get("approver_id")
+        decision = kwargs.get("decision")
+        comments = kwargs.get("comments", "")
+        conditions = kwargs.get("conditions", [])
+
         if not all([cr_id, approver_id, decision]):
-            payload = {"error": "cr_id, approver_id, and decision are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "cr_id, approver_id, and decision are required"}
+            )
 
         if decision not in ["approve", "reject", "approve_with_conditions"]:
-            payload = {
-                "error": "Decision must be: approve, reject, or approve_with_conditions"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": "Decision must be: approve, reject, or approve_with_conditions"
+                }
+            )
 
-        change_requests = data.get("change_requests", {}).values()
-        approval_workflows = data.get("approval_workflows", {}).values()
-        change_approvals = data.get("change_approvals", {}).values()
+        change_requests = data.get("change_requests", [])
+        approval_workflows = data.get("approval_workflows", [])
+        change_approvals = data.get("change_approvals", [])
 
-        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:
-            payload = {"error": f"Change request '{cr_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Change request '{cr_id}' not found"})
 
         workflow = next(
             (
                 w
-                for w in approval_workflows.values() if w.get("cr_id") == cr_id and w.get("status") == "active"
+                for w in approval_workflows
+                if w.get("cr_id") == cr_id and w.get("status") == "active"
             ),
             None,
         )
         if not workflow:
-            payload = {"error": f"No active workflow found for CR '{cr_id}'"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"No active workflow found for CR '{cr_id}'"})
 
         current_step = {}
         for step in workflow.get("steps", []):
@@ -66,15 +54,10 @@ class RecordApprovalDecision(Tool):
                 current_step = step
                 break
 
-        if current_step and current_step.get("step_number") != workflow.get(
-            "current_step"
-        ):
-            payload = {"error": "Cannot approve out of sequence"}
-            out = json.dumps(payload)
-            return out
+        if current_step and current_step.get("step_number") != workflow.get("current_step"):
+            return json.dumps({"error": "Cannot approve out of sequence"})
 
-        if approval_id is None:
-            approval_id = f"appr_ch_{uuid.uuid4().hex[:8]}"
+        approval_id = kwargs.get("approval_id", f"appr_ch_{uuid.uuid4().hex[:8]}")
 
         approval_record = {
             "approval_id": approval_id,
@@ -87,7 +70,7 @@ class RecordApprovalDecision(Tool):
             "action_date": datetime.now().isoformat(),
         }
 
-        data["change_approvals"][approval_record["change_approval_id"]] = approval_record
+        change_approvals.append(approval_record)
 
         current_step["status"] = "approved" if decision != "reject" else "rejected"
         current_step["action_date"] = datetime.now().isoformat()
@@ -99,6 +82,7 @@ class RecordApprovalDecision(Tool):
             cr["rejection_date"] = datetime.now().isoformat()
             cr["can_resubmit_after"] = (datetime.now() + timedelta(days=30)).isoformat()
         else:
+
             approval_level = current_step.get("approval_level")
             if "approvals_received" not in cr:
                 cr["approvals_received"] = []
@@ -118,21 +102,23 @@ class RecordApprovalDecision(Tool):
                     cr["status"] = "approved"
                     cr["approval_date"] = datetime.now().isoformat()
             else:
+
                 workflow["current_step"] = current_step.get("step_number", 0) + 1
 
-        payload = {
-            "success": True,
-            "approval": approval_record,
-            "workflow_status": workflow.get("status"),
-        }
-        out = json.dumps(payload)
-        return out
+        return json.dumps(
+            {
+                "success": True,
+                "approval": approval_record,
+                "workflow_status": workflow.get("status"),
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RecordApprovalDecision",
+                "name": "record_approval_decision",
                 "description": "Record an approval decision for a change request",
                 "parameters": {
                     "type": "object",

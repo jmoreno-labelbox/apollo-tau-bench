@@ -1,46 +1,43 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetUserSkillGap(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, target_role: str = None) -> str:
-        gaps = data.get("skill_gap_analysis", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        target_role = kwargs.get("target_role")
+        gaps = data.get("skill_gap_analysis", [])
         result = [
             g
-            for g in gaps.values() if g["user_id"] == user_id and g["target_role"] == target_role
+            for g in gaps
+            if g["user_id"] == user_id and g["target_role"] == target_role
         ]
 
         if not result:
-            payload = {
+            return json.dumps(
+                {
                     "error": "No skill gap found",
                     "user_id": user_id,
                     "target_role": target_role,
                     "available_analyses": [
                         f"{g['user_id']} -> {g['target_role']}" for g in gaps
                     ],
-                }
-            out = json.dumps(
-                payload, indent=2,
+                },
+                indent=2,
             )
-            return out
-        payload = result[0]
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(result[0], indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetUserSkillGap",
+                "name": "get_user_skill_gap",
                 "description": "Gets the skill gap for a user targeting a specific role.",
                 "parameters": {
                     "type": "object",

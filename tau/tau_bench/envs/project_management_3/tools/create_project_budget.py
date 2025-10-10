@@ -1,56 +1,43 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateProjectBudget(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_id: str = None,
-        fiscal_year: int = None,
-        total_budget: float = None,
-        budget_categories: dict = None,
-        budget_id: str = None
-    ) -> str:
-        if budget_categories is None:
-            budget_categories = {}
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        fiscal_year = kwargs.get("fiscal_year")
+        total_budget = kwargs.get("total_budget")
+        budget_categories = kwargs.get("budget_categories", {})
 
         if not all([project_id, fiscal_year, total_budget]):
-            payload = {"error": "project_id, fiscal_year, and total_budget are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "project_id, fiscal_year, and total_budget are required"}
+            )
 
-        budgets = data.get("budgets", {}).values()
-        projects = data.get("projects", {}).values()
-        allocations = data.get("allocations", {}).values()
-        employees = data.get("employees", {}).values()
+        budgets = data.get("budgets", [])
+        projects = list(data.get("projects", {}).values())
+        allocations = data.get("allocations", [])
+        employees = list(data.get("employees", {}).values())
 
-        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
+        project = next((p for p in projects if p.get("project_id") == project_id), None)
         if not project:
-            payload = {"error": f"Project {project_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Project {project_id} not found"})
 
         if project.get("status") not in ["active", "planning"]:
-            payload = {
-                "error": f"Cannot create budget for project with status: {project.get('status')}"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": f"Cannot create budget for project with status: {project.get('status')}"
+                }
+            )
 
         project_allocations = [
             a
-            for a in allocations.values() if a.get("project_id") == project_id and a.get("status") == "active"
+            for a in allocations
+            if a.get("project_id") == project_id and a.get("status") == "active"
         ]
 
         total_personnel_cost = 0
@@ -58,11 +45,13 @@ class CreateProjectBudget(Tool):
             employee = next(
                 (
                     e
-                    for e in employees.values() if e.get("employee_id") == allocation.get("employee_id")
+                    for e in employees
+                    if e.get("employee_id") == allocation.get("employee_id")
                 ),
                 None,
             )
             if employee:
+
                 hourly_rate = (
                     150 if "senior" in employee.get("role", "").lower() else 100
                 )
@@ -72,15 +61,14 @@ class CreateProjectBudget(Tool):
                 total_personnel_cost += weekly_cost * duration_weeks
 
         if total_personnel_cost > total_budget * 0.8:
-            payload = {
-                "error": f"Personnel costs (${total_personnel_cost}) exceed 80% of total budget. Increase budget or reduce allocations.",
-                "suggested_budget": int(total_personnel_cost / 0.8),
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": f"Personnel costs (${total_personnel_cost}) exceed 80% of total budget. Increase budget or reduce allocations.",
+                    "suggested_budget": int(total_personnel_cost / 0.8),
+                }
+            )
 
-        if budget_id is None:
-            budget_id = f"budget_{uuid.uuid4().hex[:8]}"
+        budget_id = kwargs.get("budget_id", f"budget_{uuid.uuid4().hex[:8]}")
 
         new_budget = {
             "budget_id": budget_id,
@@ -100,16 +88,16 @@ class CreateProjectBudget(Tool):
             "department": project.get("department"),
         }
 
-        data["budgets"][budget_id] = new_budget
-        payload = {"success": True, "budget": new_budget}
-        out = json.dumps(payload)
-        return out
+        budgets.append(new_budget)
+
+        return json.dumps({"success": True, "budget": new_budget})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateProjectBudget",
+                "name": "create_project_budget",
                 "description": "Create a new budget for a project based on team allocations",
                 "parameters": {
                     "type": "object",

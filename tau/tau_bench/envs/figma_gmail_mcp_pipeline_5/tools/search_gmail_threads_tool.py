@@ -1,22 +1,20 @@
-from tau_bench.envs.tool import Tool
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchGmailThreadsTool(Tool):
-    """Look for Gmail threads using label, participant, or topic keyword."""
+    """Search Gmail threads by label, participant, or topic keyword."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], label: str = None, participant: str = None, keyword: str = None) -> str:
-        threads = data.get("gmail_threads", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        label = kwargs.get("label")
+        participant = kwargs.get("participant")
+        keyword = kwargs.get("keyword")
+
+        threads = data.get("gmail_threads", [])
         out = []
         for t in threads:
             if label and label not in (t.get("current_labels") or []):
@@ -25,31 +23,20 @@ class SearchGmailThreadsTool(Tool):
                 ps = (t.get("participants") or []) + (t.get("recipients") or [])
                 if participant not in ps:
                     continue
-            if keyword and keyword.lower() not in (t.get("subject", "").lower()):
+            if keyword and keyword.lower() not in (t.get("subject","").lower()):
                 continue
-            out.append(
-                _small_fields(
-                    t, ["thread_id", "subject", "current_labels", "updated_ts"]
-                )
-            )
-        out.sort(key=lambda r: r.get("thread_id", ""))
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+            out.append(_small_fields(t, ["thread_id","subject","current_labels","updated_ts"]))
+        out.sort(key=lambda r: r.get("thread_id",""))
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "SearchGmailThreads",
-                "description": "Search Gmail threads by label, participant, or subject keyword.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "label": {"type": "string"},
-                        "participant": {"type": "string"},
-                        "keyword": {"type": "string"},
-                    },
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"search_gmail_threads",
+            "description":"Search Gmail threads by label, participant, or subject keyword.",
+            "parameters":{"type":"object","properties":{
+                "label":{"type":"string"},
+                "participant":{"type":"string"},
+                "keyword":{"type":"string"}
+            }}
+        }}

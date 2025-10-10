@@ -1,17 +1,11 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import OrderedDict, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class FindCheckOutEmployee(Tool):
+class find_check_out_employee(Tool):
     priority = [
         "Cashier",
         "Customer Service Rep",
@@ -24,34 +18,32 @@ class FindCheckOutEmployee(Tool):
     ]
 
     @staticmethod
-    def invoke(data: dict[str, Any], store_id: str, ignore_ids: list[str] = None) -> str:
-        employees = data.get("employees", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employees = list(data.get("employees", {}).values())
 
-        if ignore_ids is None:
-            ignore_ids = []
-        elif isinstance(ignore_ids, str):
+        store_id = kwargs.get("store_id")
+        ignore_ids = kwargs.get("ignore_ids", [])
+        if isinstance(ignore_ids, str):
             ignore_ids = json.loads(ignore_ids)
 
-        # Inefficient nested loop, but it should work well given the small number of roles
-        for role in FindCheckOutEmployee.priority:
-            for employee in employees.values():
+        # Inefficient double loop, but should be fine due to low number of roles
+        for role in find_check_out_employee.priority:
+            for employee in employees:
                 if (
                     (employee["store_id"] == store_id)
                     and (employee["role"] == role)
                     and (employee["employee_id"] not in ignore_ids)
                 ):
-                    payload = employee
-                    out = json.dumps(payload, indent=2)
-                    return out
-        payload = {"error": "no suitable employee found"}
-        out = json.dumps(payload)
-        return out
+                    return json.dumps(employee, indent=2)
+
+        return json.dumps({"error": "no suitable employee found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindCheckOutEmployee",
+                "name": "find_check_out_employee",
                 "description": "Gets an employee to process a transaction at a store",
                 "parameters": {
                     "type": "object",

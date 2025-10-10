@@ -1,44 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateApprovalWorkflow(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        cr_id: str,
-        workflow_type: str = "standard"
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
+        workflow_type = kwargs.get("workflow_type", "standard")
+
         if not cr_id:
-            payload = {"error": "cr_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "cr_id is required"})
 
-        change_requests = data.get("change_requests", {}).values()
-        approval_workflows = data.get("approval_workflows", {}).values()
-        stakeholders = data.get("stakeholders", {}).values()
+        change_requests = data.get("change_requests", [])
+        approval_workflows = data.get("approval_workflows", [])
+        stakeholders = data.get("stakeholders", [])
 
-        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:
-            payload = {"error": f"Change request '{cr_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Change request '{cr_id}' not found"})
 
-        existing = [
-            i
-            for i in range(len(approval_workflows))
-            if approval_workflows[i].get("cr_id") == cr_id
-        ]
+        existing = [i for i in range(len(approval_workflows)) if approval_workflows[i].get("cr_id") == cr_id]
         for drop_index in existing:
             approval_workflows.pop(drop_index)
 
@@ -58,7 +42,7 @@ class CreateApprovalWorkflow(Tool):
                 mapping = approval_mapping[approval_level]
 
                 approver = next(
-                    (s for s in stakeholders.values() if mapping["role"] in s.get("role", "")),
+                    (s for s in stakeholders if mapping["role"] in s.get("role", "")),
                     None,
                 )
 
@@ -87,20 +71,20 @@ class CreateApprovalWorkflow(Tool):
             "created_date": datetime.now().isoformat(),
         }
 
-        data["approval_workflows"][new_workflow["approval_workflow_id"]] = new_workflow
+        approval_workflows.append(new_workflow)
 
         if cr.get("status") == "pending_approval" and not steps:
             cr["status"] = "approved"
             cr["approval_date"] = datetime.now().isoformat()
-        payload = {"success": True, "workflow": new_workflow}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"success": True, "workflow": new_workflow})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateApprovalWorkflow",
+                "name": "create_approval_workflow",
                 "description": "Create approval workflow for a change request",
                 "parameters": {
                     "type": "object",

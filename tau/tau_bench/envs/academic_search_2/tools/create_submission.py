@@ -1,58 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from collections import Counter
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateSubmission(Tool):
-    """Initiates a new article submission."""
-
+    """Creates a new article submission."""
     @staticmethod
-    def invoke(data: dict[str, Any], article_id: Any = None, submission_id_override: Any = None, author_user_id: Any = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        article_id, author_user_id = kwargs.get('article_id'), kwargs.get('author_user_id')
+        submission_id_override = kwargs.get('submission_id_override')
         if not all([article_id, author_user_id]):
-            payload = {"error": "article_id and author_user_id are required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "article_id and author_user_id are required."})
         new_submission = {
-            "submission_id": (
-                submission_id_override
-                if submission_id_override
-                else f"sub_{uuid.uuid4().hex[:4]}"
-            ),
+            "submission_id": submission_id_override if submission_id_override else f"sub_{uuid.uuid4().hex[:4]}",
             "article_id": article_id,
             "author_user_id": author_user_id,
             "submission_date": "2025-06-24",
             "status": "submitted",
-            "assigned_reviewers": [],
+            "assigned_reviewers": []
         }
-        data["submissions"][new_submission["submission_id"]] = new_submission
-        payload = {"success": True, "submission": new_submission}
-        out = json.dumps(payload, indent=2)
-        return out
+        list(data.get('submissions', {}).values()).append(new_submission)
+        return json.dumps({"success": True, "submission": new_submission}, indent=2)
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "CreateSubmission",
-                "description": "Creates a new article submission.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "article_id": {"type": "string"},
-                        "author_user_id": {"type": "string"},
-                        "submission_id_override": {"type": "string"},
-                    },
-                    "required": ["article_id", "author_user_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "create_submission", "description": "Creates a new article submission.", "parameters": {"type": "object", "properties": {"article_id": {"type": "string"}, "author_user_id": {"type": "string"}, "submission_id_override": {"type": "string"}}, "required": ["article_id", "author_user_id"]}}}

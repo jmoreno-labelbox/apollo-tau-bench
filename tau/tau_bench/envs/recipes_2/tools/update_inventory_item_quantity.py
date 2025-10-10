@@ -1,43 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateInventoryItemQuantity(Tool):
-    """Modifies the amount of an item in the household stock."""
-
+    """Updates the quantity of an item in the household inventory."""
     @staticmethod
-    def invoke(data: dict[str, Any], inv_item_id: str = None, new_quantity: int = None) -> str:
-        inventory = data.get("inventory_items", {}).values()
-        for item in inventory.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        inv_item_id = kwargs.get("inv_item_id")
+        new_quantity = kwargs.get("new_quantity")
+        inventory = data.get("inventory_items", [])
+        for item in inventory:
             if item.get("inv_item_id") == inv_item_id:
                 item["quantity"] = new_quantity
-                payload = item
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Inventory item {inv_item_id} not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(item)
+        return json.dumps({"error": f"Inventory item {inv_item_id} not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateInventoryItemQuantity",
+                "name": "update_inventory_item_quantity",
                 "description": "Updates the quantity of an item in the household inventory.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "inv_item_id": {"type": "integer"},
-                        "new_quantity": {"type": "number"},
+                        "inv_item_id": {"type": "integer"}, "new_quantity": {"type": "number"},
                     },
                     "required": ["inv_item_id", "new_quantity"],
                 },

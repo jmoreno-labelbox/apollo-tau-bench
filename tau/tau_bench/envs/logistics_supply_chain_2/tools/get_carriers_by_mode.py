@@ -1,59 +1,48 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCarriersByMode(Tool):
-    """Utility for fetching carriers according to their supported transportation mode."""
+    """Tool to retrieve carriers by supported mode."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], mode: str = None, list_of_scacs: list[str] = None) -> str:
-        carriers = data.get("carriers", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        carriers = data.get("carriers", [])
+        mode = kwargs.get("mode", None)
+        list_of_carriers = kwargs.get("list_of_scacs", None)
         if mode:
-            active_carriers = [
-                carrier["scac"]
-                for carrier in carriers.values() if carrier.get("active_status")
-                and mode in carrier.get("supported_modes")
-            ]
+            active_carriers = [carrier['scac'] for carrier in carriers if carrier.get("active_status") and mode in carrier.get("supported_modes")]
         else:
-            active_carriers = [
-                carrier["scac"] for carrier in carriers.values() if carrier.get("active_status")
-            ]
-        if list_of_scacs:
-            active_carriers = [
-                carrier for carrier in active_carriers if carrier in list_of_scacs
-            ]
-        payload = active_carriers
-        out = json.dumps(payload, indent=2)
-        return out
+            active_carriers = [carrier['scac'] for carrier in carriers if carrier.get("active_status")]
+        if list_of_carriers:
+            active_carriers = [carrier for carrier in active_carriers if carrier in list_of_carriers]
+        return json.dumps(active_carriers, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCarriersByMode",
+                "name": "get_carriers_by_mode",
                 "description": "Retrieve all active carriers.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "mode": {
                             "type": "string",
-                            "description": "Mode eg. Air, Sea, Truck",
+                            "description": "Mode eg. Air, Sea, Truck"
                         },
                         "list_of_scacs": {
                             "type": "array",
-                            "items": {"type": "string"},
-                            "description": "List of SCACs to choose from.",
-                        },
-                    },
-                },
-            },
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "List of SCACs to choose from."
+                        }
+                    }
+                }
+            }
         }

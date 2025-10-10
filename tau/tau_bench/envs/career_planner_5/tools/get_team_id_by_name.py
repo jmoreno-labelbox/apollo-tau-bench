@@ -1,41 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class GetTeamIdByName(Tool):
+class get_team_id_by_name(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], team_name: str) -> str:
-        _team_nameL = team_name or ''.lower()
-        pass
-        teams = data.get("teams", {}).values()
+    def invoke(data: Dict[str, Any], team_name: str) -> str:
+        teams = data.get("teams", [])
         team = next(
-            (t for t in teams.values() if t.get("team_name", "").lower() == team_name.lower()),
+            (t for t in teams if t.get("team_name", "").lower() == team_name.lower()),
             None,
         )
         if team:
-            payload = {"team_id": team["team_id"]}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"error": f"Team with name '{team_name}' not found"}
-        out = json.dumps(
-            payload, indent=2
+            return json.dumps({"team_id": team["team_id"]}, indent=2)
+        return json.dumps(
+            {"error": f"Team with name '{team_name}' not found"}, indent=2
         )
-        return out
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "getTeamIdByName",
+                "name": "get_team_id_by_name",
                 "description": "Find a team ID by its name.",
                 "parameters": {
                     "type": "object",

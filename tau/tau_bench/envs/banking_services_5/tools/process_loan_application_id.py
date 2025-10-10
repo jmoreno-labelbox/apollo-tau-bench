@@ -1,38 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone, date, timedelta
-import calendar
-from typing import Any, Dict
-import random
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ProcessLoanApplicationId(Tool):
+    """Evaluates a loan application using structured loan approval criteria and updates its status."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = "", application_id: str = "") -> str:
-        customer_id = customer_id.strip()
-        application_id = application_id.strip()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id    = kwargs.get("customer_id", "").strip()
+        application_id = kwargs.get("application_id", "").strip()
         if not customer_id or not application_id:
             return json.dumps({"error": "customer_id and application_id are required."}, indent=2)
 
-        loan_applications = data.get("loan_applications", {}).values()
-        customers = data.get("customers", {}).values()
+        loan_applications = data.get("loan_applications", [])
+        customers = list(data.get("customers", {}).values())
 
         # verify customer exists
-        if not any(c.get("customer_id") == customer_id for c in customers.values()):
+        if not any(c.get("customer_id") == customer_id for c in customers):
             return json.dumps({"error": "Customer not found."}, indent=2)
 
         # Find loan application
         loan_application = next(
-            (l for l in loan_applications.values() if l.get("application_id") == application_id
+            (l for l in loan_applications
+             if l.get("application_id") == application_id
              and l.get("customer_id") == customer_id),
             None
         )
@@ -40,13 +33,13 @@ class ProcessLoanApplicationId(Tool):
             return json.dumps({"error": "Loan application not found for this customer."}, indent=2)
 
         # Extract loan and customer financial info
-        loan_details = loan_application.get("loan_details", {}).values()
-        financials = loan_application.get("financial_snapshot", {}).values()
+        loan_details = loan_application.get("loan_details", {})
+        financials = loan_application.get("financial_snapshot", {})
         annual_income = financials.get("annual_income", 0)
         monthly_debt = financials.get("monthly_debt_payments", 0)
         employment_status = financials.get("employment_status", "").strip().lower()
         requested_amount = loan_details.get("requested_amount", 0)
-        loan_type = loan_details.get("loan_type", "Others")
+        loan_type = loan_details.get("loan_type","Others")
 
         # Derived metrics
         dti = monthly_debt / (annual_income / 12) if annual_income else 1.0
@@ -103,12 +96,13 @@ class ProcessLoanApplicationId(Tool):
             "application_status": loan_application["application_status"],
             "decision": decision
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ProcessLoanApplicationId",
+                "name": "process_loan_application_id",
                 "description": (
                     "Evaluates a loan application and determines whether it should be approved or rejected "
                     "based on standard lending criteria like income, DTI, and employment."

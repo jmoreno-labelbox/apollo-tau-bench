@@ -1,48 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class GetUnusedBonusId(Tool):
+class get_unused_bonus_id(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        bonuses = data.get("bonuses", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        bonuses = data.get("bonuses", [])
         prefix = "BON"
         start_num = 10000
 
         if not bonuses:
-            payload = f"{prefix}{start_num}"
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps(f"{prefix}{start_num}", indent=2)
 
         max_id_num = 0
         for bonus in bonuses:
             bonus_id = bonus.get("bonus_id", "")
             if bonus_id.startswith(prefix):
                 try:
-                    num = int(bonus_id[len(prefix) :])
+                    num = int(bonus_id[len(prefix):])
                     if num > max_id_num:
                         max_id_num = num
                 except (ValueError, TypeError):
                     continue
 
         next_id_num = max(start_num, max_id_num) + 1
-        payload = f"{prefix}{next_id_num}"
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(f"{prefix}{next_id_num}", indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetUnusedBonusId",
+                "name": "get_unused_bonus_id",
                 "description": "Return a bonus payment ID that is not currently in use.",
                 "parameters": {},
             },

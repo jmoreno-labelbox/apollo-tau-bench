@@ -1,19 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, time, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ListBeneficiaries(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
         customer_beneficiaries = [b for b in data['beneficiaries'] if b['customer_id'] == customer_id]
         return json.dumps(customer_beneficiaries)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "ListBeneficiaries",
+                        "name": "list_beneficiaries",
                         "description": "Lists all beneficiaries for a given customer.",
                         "parameters": {
                                 "type": "object",

@@ -1,23 +1,23 @@
-from tau_bench.envs.tool import Tool
-from typing import Any, Dict
+# Copyright Sierra
+
 import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CalculateTotalExpenditureTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str, start_date: str = None, end_date: str = None, transaction_type: str = 'Purchase') -> str:
-        transactions = data.get('transactions', {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        start_date = kwargs.get('start_date')
+        end_date = kwargs.get('end_date')
+        transaction_type = kwargs.get('transaction_type', 'Purchase')
+
+        transactions = list(data.get('transactions', {}).values())
         total = 0
         matching = []
 
-        for transaction in transactions.values():
+        for transaction in transactions:
             if transaction.get('account_id') != account_id:
                 continue
             if transaction.get('transaction_type') != transaction_type:
@@ -37,12 +37,13 @@ class CalculateTotalExpenditureTool(Tool):
             "total_expenditure": total,
             "transaction_count": len(matching)
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateTotalExpenditure",
+                "name": "calculate_total_expenditure",
                 "description": "Calculate total expenditure for purchases or other transaction types in a date range.",
                 "parameters": {
                     "type": "object",

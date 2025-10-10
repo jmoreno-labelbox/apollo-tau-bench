@@ -1,69 +1,47 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class DeviceAssignment(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None, unassign: bool = False) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get('employee_id')
         if employee_id is None:
-            payload = {"status": "error", "reason": "The employee_id field is required."}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({'status': 'error', 'reason': 'The employee_id field is required.'}, indent=2)
 
-        assets = data.get("it_assets")
+        assets = data.get('it_assets')
+        unassign = kwargs.get('unassign')
         assigned_assets = []
 
-        for asset in assets.values():
-            if asset["assigned_to"] == employee_id:
+        for asset in assets:
+            if asset['assigned_to'] == employee_id:
                 if unassign:
-                    asset["status"] = "in_stock"
-                    asset["assigned_to"] = None
-                assigned_data["it_assets"][asset["it_asset_id"]] = asset
+                    asset['status'] = 'in_stock'
+                    asset['assigned_to'] = None
+                assigned_assets.append(asset)
 
         if unassign:
-            payload = {
-                    "status": "ok",
-                    "reason": f"Successfully unassigned all devices from {employee_id}.",
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({'status': 'ok', 'reason': f'Successfully unassigned all devices from {employee_id}.'}, indent=2)
         else:
-            payload = assigned_assets
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps(assigned_assets, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "deviceAssignment",
-                "description": "Updates or returns a list of devices assigned to an employee",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "employee_id": {
-                            "type": "string",
-                            "description": "The id of the employee.",
-                        },
-                        "unassign": {
-                            "type": "boolean",
-                            "description": "Whether to unassign devices.",
-                        },
+            'type': 'function',
+            'function': {
+                'name': 'device_assignment',
+                'description': 'Updates or returns a list of devices assigned to an employee',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'employee_id': {'type': 'string', 'description': 'The id of the employee.'},
+                        'unassign': {'type': 'boolean', 'description': 'Whether to unassign devices.'}
                     },
-                    "required": ["employee_id"],
-                },
-            },
+                    'required': ['employee_id']
+                }
+            }
         }

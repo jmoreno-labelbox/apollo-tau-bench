@@ -1,12 +1,14 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class RegisterApiEndpoints(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], spec_id: str, gateway_id: str) -> str:
+    def invoke(data: Dict[str, Any], spec_id: str, gateway_id: str) -> str:
         settings = _ensure_table(data, "custom_settings")
-        # Simple mapping (to ensure consistency, we only provide a single GET endpoint)
         endpoint_id = _stable_id("ep", spec_id, gateway_id)
         route_map = {"GET /v3/offers": endpoint_id}
         key = f"Endpoints:{spec_id}:{gateway_id}"
@@ -25,19 +27,17 @@ class RegisterApiEndpoints(Tool):
                 }
             )
         return _json({"endpoint_ids": [endpoint_id], "route_map": route_map})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RegisterApiEndpoints",
+                "name": "register_api_endpoints",
                 "description": "Register endpoints from an OpenAPI spec into a gateway.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "spec_id": {"type": "string"},
-                        "gateway_id": {"type": "string"},
-                    },
+                    "properties": {"spec_id": {"type": "string"}, "gateway_id": {"type": "string"}},
                     "required": ["spec_id", "gateway_id"],
                 },
             },

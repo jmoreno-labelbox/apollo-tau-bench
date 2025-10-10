@@ -1,61 +1,54 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CompareAgainstBaseline(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_id: str,
-        baseline_version: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+
         if not project_id:
-            payload = {"error": "project_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "project_id is required"})
 
-        scope_baselines = data.get("scope_baselines", {}).values()
-        change_requests = data.get("change_requests", {}).values()
-        deliverables = data.get("deliverables", {}).values()
+        scope_baselines = data.get("scope_baselines", [])
+        change_requests = data.get("change_requests", [])
+        deliverables = data.get("deliverables", [])
 
-        if baseline_version:
+        if baseline_version := kwargs.get("baseline_version"):
             baseline = next(
                 (
                     b
-                    for b in scope_baselines.values() if b.get("project_id") == project_id
+                    for b in scope_baselines
+                    if b.get("project_id") == project_id
                     and b.get("version") == baseline_version
                 ),
                 None,
             )
         else:
+
             baseline = next(
                 (
                     b
-                    for b in scope_baselines.values() if b.get("project_id") == project_id
+                    for b in scope_baselines
+                    if b.get("project_id") == project_id
                     and b.get("status") == "approved"
                 ),
                 None,
             )
 
         if not baseline:
-            payload = {"error": f"No baseline found for project '{project_id}'"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": f"No baseline found for project '{project_id}'"}
+            )
 
         baseline_date = baseline.get("approved_date", baseline.get("created_date"))
         approved_changes = [
             cr
-            for cr in change_requests.values() if cr.get("project_id") == project_id
+            for cr in change_requests
+            if cr.get("project_id") == project_id
             and cr.get("status") == "approved"
             and cr.get("approval_date", "") > baseline_date
         ]
@@ -70,7 +63,7 @@ class CompareAgainstBaseline(Tool):
                     {
                         "cr_id": cr.get("cr_id"),
                         "title": cr.get("title"),
-                        "impact": list(cr.get("impact_assessment", {}).values()),
+                        "impact": cr.get("impact_assessment", {}),
                     }
                 )
             elif cr.get("change_type") == "scope_reduction":
@@ -78,7 +71,7 @@ class CompareAgainstBaseline(Tool):
                     {
                         "cr_id": cr.get("cr_id"),
                         "title": cr.get("title"),
-                        "impact": list(cr.get("impact_assessment", {}).values()),
+                        "impact": cr.get("impact_assessment", {}),
                     }
                 )
             elif cr.get("change_type") == "requirement_change":
@@ -86,16 +79,16 @@ class CompareAgainstBaseline(Tool):
                     {
                         "cr_id": cr.get("cr_id"),
                         "title": cr.get("title"),
-                        "impact": list(cr.get("impact_assessment", {}).values()),
+                        "impact": cr.get("impact_assessment", {}),
                     }
                 )
 
         total_budget_impact = sum(
-            cr.get("impact_assessment", {}).values().get("budget_impact", 0)
+            cr.get("impact_assessment", {}).get("budget_impact", 0)
             for cr in approved_changes
         )
         total_timeline_impact = sum(
-            cr.get("impact_assessment", {}).values().get("timeline_impact_weeks", 0)
+            cr.get("impact_assessment", {}).get("timeline_impact_weeks", 0)
             for cr in approved_changes
         )
 
@@ -104,7 +97,8 @@ class CompareAgainstBaseline(Tool):
         ]
         current_deliverable_ids = [
             d.get("deliverable_id")
-            for d in deliverables.values() if d.get("project_id") == project_id
+            for d in deliverables
+            if d.get("project_id") == project_id
         ]
 
         added_deliverables = list(
@@ -136,21 +130,19 @@ class CompareAgainstBaseline(Tool):
                 ),
                 1,
             ),
-            "recommendation": (
-                "Consider rebaselining"
-                if len(approved_changes) > 5 or total_timeline_impact > 8
-                else "Within acceptable variance"
-            ),
+            "recommendation": "Consider rebaselining"
+            if len(approved_changes) > 5 or total_timeline_impact > 8
+            else "Within acceptable variance",
         }
-        payload = variance_report
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(variance_report, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CompareAgainstBaseline",
+                "name": "compare_against_baseline",
                 "description": "Compare current project scope against baseline",
                 "parameters": {
                     "type": "object",

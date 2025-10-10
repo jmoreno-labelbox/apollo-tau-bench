@@ -1,36 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from itertools import islice
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FetchBrokerProfile(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], broker_id: str = None) -> str:
-        br = next(
-            (b for b in data.get("brokers", {}).values() if b.get("broker_id") == broker_id),
-            None,
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        broker_id = kwargs.get("broker_id")
+        br = next((b for b in data.get("brokers", []) if b.get("broker_id") == broker_id), None)
         if not br:
-            payload = {"error": f"Broker {broker_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = br
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": f"Broker {broker_id} not found"}, indent=2)
+        return json.dumps(br, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "fetchBrokerProfile",
+                "name": "fetch_broker_profile",
                 "description": "Fetch a broker profile.",
                 "parameters": {
                     "type": "object",

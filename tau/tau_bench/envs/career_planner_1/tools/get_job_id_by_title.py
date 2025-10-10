@@ -1,43 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetJobIdByTitle(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], job_title: str) -> str:
-        _job_titleL = job_title or ''.lower()
-        pass
-        postings = data.get("job_postings", {}).values()
-        # Utilize a case-insensitive partial match for reliability
+    def invoke(data: Dict[str, Any], job_title: str) -> str:
+        postings = data.get("job_postings", [])
+        # Use a case-insensitive partial match for robustness
         posting = next(
-            (p for p in postings.values() if job_title.lower() in p.get("title", "").lower()),
+            (p for p in postings if job_title.lower() in p.get("title", "").lower()),
             None,
         )
         if posting:
-            payload = {"job_id": posting["job_id"]}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"error": f"Job posting with title containing '{job_title}' not found"}
-        out = json.dumps(
-            payload, indent=2,
+            return json.dumps({"job_id": posting["job_id"]}, indent=2)
+        return json.dumps(
+            {"error": f"Job posting with title containing '{job_title}' not found"},
+            indent=2,
         )
-        return out
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GetJobIdByTitle",
+                "name": "get_job_id_by_title",
                 "description": "Find a job ID by its title.",
                 "parameters": {
                     "type": "object",

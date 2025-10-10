@@ -1,42 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateProjectStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: str = None, status: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        status = kwargs.get("status")
+
         if not all([project_id, status]):
-            payload = {"error": "project_id and status are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "project_id and status are required"})
 
-        projects = data.get("projects", {}).values()
+        projects = list(data.get("projects", {}).values())
 
-        for project in projects.values():
+        for project in projects:
             if project.get("project_id") == project_id:
                 project["status"] = status
-                payload = {"success": True, "project": project}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Project with ID '{project_id}' not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"success": True, "project": project})
+
+        return json.dumps({"error": f"Project with ID '{project_id}' not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateProjectStatus",
+                "name": "update_project_status",
                 "description": "Update the status of a project",
                 "parameters": {
                     "type": "object",

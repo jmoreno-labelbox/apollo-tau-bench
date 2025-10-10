@@ -1,23 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateSupplierImprovementPlan(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], supplier_id: str, review_cycle_days: int = 90, recommendation: str = "maintain_active",
-    reason: Any = None,
-    ) -> str:
-        suppliers = data.get("supplier_master", {}).values()
-        supplier = next((s for s in suppliers.values() if s.get("supplier_id") == supplier_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        supplier_id = kwargs.get("supplier_id")
+        review_cycle_days = kwargs.get("review_cycle_days", 90)
+        recommendation = kwargs.get("recommendation", "maintain_active")
+
+        suppliers = data.get("supplier_master", [])
+        supplier = next((s for s in suppliers if s.get("supplier_id") == supplier_id), None)
 
         if not supplier:
             return json.dumps({"error": f"Supplier {supplier_id} not found"})
@@ -55,12 +51,13 @@ class CreateSupplierImprovementPlan(Tool):
             "next_review_date": improvement_plan["next_review_date"],
             "supplier_status_recommendation": recommended_value
         })
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateSupplierImprovementPlan",
+                "name": "create_supplier_improvement_plan",
                 "description": "Create a performance improvement plan for a supplier",
                 "parameters": {
                     "type": "object",

@@ -1,26 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class RunCanonicalPitchMap(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], **kwargs) -> str:
-        pass
-        payload = {"canonical_table": "pitches_canonical"}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        return json.dumps({"canonical_table": "pitches_canonical"}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "RunCanonicalPitchMap",
-                "description": "Maps raw pitch types to canonical labels.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"source_table": {"type": "string"}},
-                },
-                "required": [],
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "run_canonical_pitch_map", "description": "Maps raw pitch types to canonical labels.", "parameters": {"type": "object", "properties": {"source_table": {"type": "string"}}}, "required": []}}

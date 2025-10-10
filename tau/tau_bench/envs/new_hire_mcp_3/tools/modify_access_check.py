@@ -1,42 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ModifyAccessCheck(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], updates: dict[str, Any] = None, check_id: str = None) -> str:
-        updates = updates or {}
-        checks = data.get("access_checks", {}).values()
-        for c in checks.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        updates = kwargs.get("updates") or {}
+        check_id = kwargs.get("check_id")
+        checks = data.get("access_checks", [])
+        for c in checks:
             if c.get("check_id") == check_id:
                 c.update(updates)
                 c["updated_at"] = _fixed_now_iso()
-        payload = {"updated_check_id": check_id, "updates": updates}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"updated_check_id": check_id, "updates": updates}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "UpdateAccessCheck",
-                "description": "Update an access check status.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "check_id": {"type": "string"},
-                        "updates": {"type": "object"},
-                    },
-                    "required": ["check_id", "updates"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"update_access_check",
+            "description":"Update an access check status.",
+            "parameters":{"type":"object","properties":{"check_id":{"type":"string"},"updates":{"type":"object"}},"required":["check_id","updates"]}
+        }}

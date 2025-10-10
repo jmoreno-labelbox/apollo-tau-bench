@@ -1,70 +1,60 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateScopeBaseline(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_id: str,
-        baseline_name: str,
-        created_by: str,
-        scope_items: list = [],
-        deliverables: list = [],
-        acceptance_criteria: dict = {},
-        success_metrics: dict = {},
-        baseline_id: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        baseline_name = kwargs.get("baseline_name")
+        scope_items = kwargs.get("scope_items", [])
+        deliverables = kwargs.get("deliverables", [])
+        acceptance_criteria = kwargs.get("acceptance_criteria", {})
+        success_metrics = kwargs.get("success_metrics", {})
+        created_by = kwargs.get("created_by")
+
         if not all([project_id, baseline_name, created_by]):
-            payload = {"error": "project_id, baseline_name, and created_by are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "project_id, baseline_name, and created_by are required"}
+            )
 
         if not deliverables:
-            payload = {"error": "RULE 2: Baseline must include deliverables"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "RULE 2: Baseline must include deliverables"})
 
         if not acceptance_criteria:
-            payload = {"error": "RULE 2: Baseline must include acceptance criteria"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "RULE 2: Baseline must include acceptance criteria"}
+            )
 
         if not success_metrics:
-            payload = {"error": "RULE 2: Baseline must include success metrics"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "RULE 2: Baseline must include success metrics"}
+            )
 
-        scope_baselines = data.get("scope_baselines", {}).values()
+        scope_baselines = data.get("scope_baselines", [])
 
         existing = next(
             (
                 b
-                for b in scope_baselines.values() if b.get("project_id") == project_id and b.get("status") == "approved"
+                for b in scope_baselines
+                if b.get("project_id") == project_id and b.get("status") == "approved"
             ),
             None,
         )
         if existing:
+
             current_version = existing.get("version", "1.0")
             major, minor = map(int, current_version.split("."))
             new_version = f"{major}.{minor + 1}"
         else:
             new_version = "1.0"
 
-        if baseline_id is None:
-            baseline_id = f"bl_{uuid.uuid4().hex[:8]}"
+        baseline_id = kwargs.get("baseline_id", f"bl_{uuid.uuid4().hex[:8]}")
 
-        total_hours = sum(d.get("estimated_hours", 0) for d in deliverables.values())
+        total_hours = sum(d.get("estimated_hours", 0) for d in deliverables)
 
         new_baseline = {
             "baseline_id": baseline_id,
@@ -87,16 +77,16 @@ class CreateScopeBaseline(Tool):
             "change_history": [],
         }
 
-        data["scope_baselines"][new_baseline["scope_baseline_id"]] = new_baseline
-        payload = {"success": True, "baseline": new_baseline}
-        out = json.dumps(payload)
-        return out
+        scope_baselines.append(new_baseline)
+
+        return json.dumps({"success": True, "baseline": new_baseline})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateScopeBaseline",
+                "name": "create_scope_baseline",
                 "description": "Create a new scope baseline for a project",
                 "parameters": {
                     "type": "object",

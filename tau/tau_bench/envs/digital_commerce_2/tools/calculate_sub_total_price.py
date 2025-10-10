@@ -1,19 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
-from decimal import ROUND_HALF_UP, Decimal
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CalculateSubTotalPrice(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], items: list[dict[str, Any]]) -> str:
+    def invoke(data: Dict[str, Any], items: Any) -> str:
+        items: List[Dict[str, Any]] = items
         if not items or not isinstance(items, list):
-            payload = {
+            return json.dumps(
+                {
                     "error": "Missing or invalid 'items'. Expected a list of {product_id, quantity, price}."
-                }
-            out = json.dumps(
-                payload, indent=2,
+                },
+                indent=2,
             )
-            return out
 
         total = Decimal("0")
         for item in items:
@@ -21,33 +23,28 @@ class CalculateSubTotalPrice(Tool):
             quantity = item.get("quantity")
             price = item.get("price")
             if product_id is None or quantity is None or price is None:
-                payload = {"error": "Each item must include product_id, quantity, price"}
-                out = json.dumps(
-                    payload, indent=2,
+                return json.dumps(
+                    {"error": "Each item must include product_id, quantity, price"}, indent=2
                 )
-                return out
             try:
                 q = int(quantity)
                 p = _money(_dec(price))
             except Exception:
-                payload = {"error": f"Invalid numeric values for product_id '{product_id}'"}
-                out = json.dumps(
-                    payload, indent=2,
+                return json.dumps(
+                    {"error": f"Invalid numeric values for product_id '{product_id}'"}, indent=2
                 )
-                return out
             line = _money(p * Decimal(q))
             total += line
 
         total = _money(total)
-        payload = {"subtotal": _to_number(total)}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"subtotal": _to_number(total)}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateSubTotalPrice",
+                "name": "calculate_sub_total_price",
                 "description": "Calculate subtotal price from a list of products, their quantities, and prices.",
                 "parameters": {
                     "type": "object",

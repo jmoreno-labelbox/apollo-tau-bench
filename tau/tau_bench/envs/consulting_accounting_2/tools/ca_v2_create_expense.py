@@ -1,43 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CaV2CreateExpense(Tool):
-    """Generate a new expense entry."""
+    """Create a new expense record."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        category_code: str = None,
-        created_at: str = None,
-        currency: str = "CAD",
-        description: str = None,
-        expense_date: str = None,
-        expense_id: str = None,
-        gross_amount: float = None,
-        payment_method: str = None,
-        receipt_path: str = None,
-        vendor: str = None
-    ) -> str:
-        if not all(
-            [expense_id, vendor, expense_date, gross_amount, description, category_code]
-        ):
-            return _error(
-                "Required fields: expense_id, vendor, expense_date, gross_amount, description, category_code"
-            )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        expense_id = kwargs.get("expense_id")
+        vendor = kwargs.get("vendor")
+        expense_date = kwargs.get("expense_date")
+        gross_amount = kwargs.get("gross_amount")
+        currency = kwargs.get("currency", "CAD")
+        description = kwargs.get("description")
+        payment_method = kwargs.get("payment_method")
+        category_code = kwargs.get("category_code")
 
-        # Retrieve category to determine permissible amount
-        expense_categories = data.get("expense_categories", {}).values()
-        category = _find_one(list(expense_categories.values()), "category_code", category_code)
+        if not all([expense_id, vendor, expense_date, gross_amount, description, category_code]):
+            return _error("Required fields: expense_id, vendor, expense_date, gross_amount, description, category_code")
+
+        # Get category to calculate allowed amount
+        expense_categories = data.get("expense_categories", [])
+        category = _find_one(expense_categories, "category_code", category_code)
 
         if not category:
             return _error(f"Expense category '{category_code}' not found.")
@@ -55,8 +42,8 @@ class CaV2CreateExpense(Tool):
             "payment_method": payment_method,
             "category_code": category_code,
             "allowed_amount": allowed_amount,
-            "receipt_path": receipt_path or f"/receipts/{expense_date[:4]}/{expense_id}_receipt.pdf",
-            "created_at": created_at or expense_date + "T00:00:00Z",
+            "receipt_path": kwargs.get("receipt_path", f"/receipts/{expense_date[:4]}/{expense_id}_receipt.pdf"),
+            "created_at": kwargs.get("created_at", expense_date + "T00:00:00Z")
         }
 
         data.setdefault("expenses", []).append(new_expense)
@@ -64,15 +51,15 @@ class CaV2CreateExpense(Tool):
         return _ok(
             expense_id=expense_id,
             allowed_amount=allowed_amount,
-            deductible_percent=category.get("deductible_percent"),
+            deductible_percent=category.get("deductible_percent")
         )
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CaV2CreateExpense",
+                "name": "ca_v2_create_expense",
                 "description": "Create a new expense record with automatic deductible amount calculation.",
                 "parameters": {
                     "type": "object",
@@ -86,16 +73,9 @@ class CaV2CreateExpense(Tool):
                         "payment_method": {"type": "string"},
                         "category_code": {"type": "string"},
                         "receipt_path": {"type": "string"},
-                        "created_at": {"type": "string"},
+                        "created_at": {"type": "string"}
                     },
-                    "required": [
-                        "expense_id",
-                        "vendor",
-                        "expense_date",
-                        "gross_amount",
-                        "description",
-                        "category_code",
-                    ],
+                    "required": ["expense_id", "vendor", "expense_date", "gross_amount", "description", "category_code"],
                 },
             },
         }

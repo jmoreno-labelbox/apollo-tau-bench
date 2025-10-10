@@ -1,72 +1,63 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateOutboundOrderDetails(Tool):
-    """Modifies one or more fields for a particular outbound order."""
+    """Updates one or more fields for a specific outbound order."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str = None, notes: str = None,
-    destination_address: Any = None,
-    return_status: Any = None,
-    status: Any = None,
-    destination_city: str = None,
-    destination_country: str = None,
-    carrier_name: str = None,
-    carrier_scac: str = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get("order_id")
         if not order_id:
-            payload = {"error": "order_id is a required argument."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "order_id is a required argument."})
 
-        outbound_orders = data.get("outbound_orders", {}).values()
+        outbound_orders = data.get("outbound_orders", [])
         order_to_update = next(
-            (o for o in outbound_orders.values() if o.get("order_id") == order_id), None
+            (o for o in outbound_orders if o.get("order_id") == order_id), None
         )
 
         if not order_to_update:
-            payload = {"error": f"Order with ID '{order_id}' not found."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Order with ID '{order_id}' not found."})
 
         updated_fields = []
 
-        if notes is not None:
-            original_note = order_to_update.get("notes", "")
-            if original_note:
-                order_to_update["notes"] = f"{original_note} | {notes}"
-            else:
-                order_to_update["notes"] = notes
-            updated_fields.append("notes")
+        # Iterate over possible fields to update
+        for key, value in kwargs.items():
+            if key == "order_id":
+                continue
+
+            if key == "notes":
+                # Append new note to existing notes
+                original_note = order_to_update.get("notes", "")
+                if original_note:
+                    order_to_update["notes"] = f"{original_note} | {value}"
+                else:
+                    order_to_update["notes"] = value
+                updated_fields.append(key)
+            elif key in order_to_update:
+                order_to_update[key] = value
+                updated_fields.append(key)
 
         if not updated_fields:
-            payload = {"message": "No valid fields provided to update."}
-            out = json.dumps(payload)
-            return out
-        payload = {
-            "status": "success",
-            "order_id": order_id,
-            "updated_fields": updated_fields,
-        }
-        out = json.dumps(payload)
-        return out
+            return json.dumps({"message": "No valid fields provided to update."})
+
+        return json.dumps(
+            {
+                "status": "success",
+                "order_id": order_id,
+                "updated_fields": updated_fields,
+            }
+        )
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateOutboundOrderDetails",
+                "name": "update_outbound_order_details",
                 "description": "Updates details of an existing outbound order. Use this to change status, destination, or add notes.",
                 "parameters": {
                     "type": "object",

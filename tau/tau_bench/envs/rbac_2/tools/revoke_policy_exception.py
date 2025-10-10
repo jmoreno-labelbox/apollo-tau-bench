@@ -1,23 +1,17 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RevokePolicyException(Tool):
-    """Cancels an active policy exception, changing its status to 'REVOKED'."""
-
+    """ Revokes an active policy exception, setting its status to 'REVOKED'. """
     @staticmethod
-    def invoke(data: dict[str, Any], exception_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        exception_id = kwargs.get("exception_id")
         try:
-            policy_exceptions = data.get("policy_exceptions", {}).values()
+            policy_exceptions = data.get('policy_exceptions', [])
         except:
             policy_exceptions = []
 
@@ -27,36 +21,26 @@ class RevokePolicyException(Tool):
                 exc["status"] = "REVOKED"
                 exception_found = True
                 break
-
+        
         if not exception_found:
-            payload = {"error": f"Policy exception with ID '{exception_id}' not found."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Policy exception with ID '{exception_id}' not found."})
 
-        data["policy_exceptions"] = policy_exceptions
-        payload = {
-            "message": "Policy exception revoked successfully.",
-            "exception_id": exception_id,
-        }
-        out = json.dumps(payload)
-        return out
+        data['policy_exceptions'] = policy_exceptions
+        return json.dumps({"message": "Policy exception revoked successfully.", "exception_id": exception_id})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RevokePolicyException",
+                "name": "revoke_policy_exception",
                 "description": "Revokes an active policy exception as a remediation action.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "exception_id": {
-                            "type": "string",
-                            "description": "The ID of the policy exception to revoke.",
-                        }
+                        "exception_id": {"type": "string", "description": "The ID of the policy exception to revoke."}
                     },
-                    "required": ["exception_id"],
-                },
-            },
+                    "required": ["exception_id"]
+                }
+            }
         }

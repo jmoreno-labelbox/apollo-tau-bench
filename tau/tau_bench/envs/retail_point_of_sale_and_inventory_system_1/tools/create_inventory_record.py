@@ -1,27 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateInventoryRecord(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], sku: str = None, store_id: str = None, location: str = None) -> str:
-        inventory_list = data.get("inventory", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        sku = kwargs.get('sku')
+        store_id = kwargs.get('store_id')
+        location = kwargs.get('location')
+
+        inventory_list = list(data.get("inventory", {}).values())  # Corrigido para lista
 
         for item in inventory_list:
             if item.get("sku") == sku and item.get("store_id") == store_id:
-                payload = {"status": "exists", "inventory_id": item.get("id")}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"status": "exists", "inventory_id": item.get("id")})
 
         max_inv_id_num = 0
         for item in inventory_list:
@@ -46,37 +41,27 @@ class CreateInventoryRecord(Tool):
             "safety_stock": 5,
             "location": location,
             "status": "out_of_stock",
-            "last_stock_count": "2025-07-28",
+            "last_stock_count": "2025-07-28"
         }
 
-        data["inventory"][new_record["inventory_id"]] = new_record
+        inventory_list.append(new_record)  # Corrigido para append
         data["inventory"] = inventory_list
-        payload = {"status": "created", "inventory_id": new_inv_id}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"status": "created", "inventory_id": new_inv_id})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateInventoryRecord",
+                "name": "create_inventory_record",
                 "description": "Creates a new inventory record for a product at a specific store, if one does not already exist.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "sku": {
-                            "type": "string",
-                            "description": "The SKU of the product.",
-                        },
-                        "store_id": {
-                            "type": "string",
-                            "description": "The ID of the store.",
-                        },
-                        "location": {
-                            "type": "string",
-                            "description": "A placeholder location for the new inventory record.",
-                        },
+                        "sku": {"type": "string", "description": "The SKU of the product."},
+                        "store_id": {"type": "string", "description": "The ID of the store."},
+                        "location": {"type": "string", "description": "A placeholder location for the new inventory record."},
                     },
                     "required": ["sku", "store_id", "location"],
                 },

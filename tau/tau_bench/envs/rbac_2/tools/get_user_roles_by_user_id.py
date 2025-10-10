@@ -1,47 +1,44 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetUserRolesByUserId(Tool):
-    """Fetches all role assignments associated with a specific user ID."""
+    """ Retrieves all role assignments for a specific user ID. """
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
         try:
-            user_roles = data.get("user_roles", {}).values()
+            user_roles = data.get('user_roles', [])
         except:
             user_roles = []
 
-        assigned_roles = [role for role in user_roles.values() if role.get("user_id") == user_id]
-        payload = assigned_roles
-        out = json.dumps(payload)
-        return out
+        assigned_roles = [
+            role for role in user_roles
+            if role.get("user_id") == user_id
+        ]
+
+        return json.dumps(assigned_roles)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetUserRolesByUserId",
+                "name": "get_user_roles_by_user_id",
                 "description": "Lists all roles currently assigned to a specific user ID.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "user_id": {
                             "type": "string",
-                            "description": "The unique ID of the user whose roles are to be listed.",
+                            "description": "The unique ID of the user whose roles are to be listed."
                         }
                     },
-                    "required": ["user_id"],
-                },
-            },
+                    "required": ["user_id"]
+                }
+            }
         }

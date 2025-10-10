@@ -1,42 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone, date, timedelta
-import calendar
-from typing import Any, Dict
-import random
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateEmailForOfCustomerId(Tool):
+    """Updates the email address of a customer given their customer ID."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, new_email: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        new_email = kwargs.get("new_email")
+
         if not customer_id or not new_email:
             return json.dumps({
                 "error": "Both customer_id and new_email are required."
             }, indent=2)
 
-        customers = data.get("customers", {}).values()
-        for customer in customers.values():
+        customers = list(data.get("customers", {}).values())
+        for customer in customers:
             if customer.get("customer_id") == customer_id:
-                contact_info = customer.setdefault("contact_info", {}).values()
+                contact_info = customer.setdefault("contact_info", {})
                 contact_info["email_address"] = new_email
                 return json.dumps({"status": "Email updated successfully."}, indent=2)
 
         return json.dumps({"error": "Customer not found."}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateEmailForOfCustomerId",
+                "name": "update_email_for_of_customer_id",
                 "description": "Updates the email address for the specified customer.",
                 "parameters": {
                     "type": "object",

@@ -1,27 +1,22 @@
-from tau_bench.envs.tool import Tool
-import html
+# Copyright Sierra
+
 import json
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetThreadBySubject(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], subject: str = None, sender_id: str = None, label: str = None) -> str:
-        if not subject:
-            payload = {"error": "Missing required field: subject"}
-            out = json.dumps(payload, indent=2)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        if not kwargs.get("subject"):
+            return json.dumps({"error": "Missing required field: subject"}, indent=2)
 
-        threads: list[dict[str, Any]] = data.get("gmail_threads", {}).values()
-        results: list[dict[str, Any]] = []
+        subject = kwargs.get("subject")
+        sender_id: Optional[str] = kwargs.get("sender_id")
+        label: Optional[str] = kwargs.get("label")
+
+        threads: List[Dict[str, Any]] = data.get("gmail_threads", [])
+        results: List[Dict[str, Any]] = []
         for row in threads:
             if row.get("subject") != subject:
                 continue
@@ -33,29 +28,24 @@ class GetThreadBySubject(Tool):
 
         results.sort(key=lambda r: str(r.get("thread_id")))
         if not results:
-            payload = {"error": f"No thread found with subject '{subject}'"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        payload = {"count": len(results), "threads": results}
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": f"No thread found with subject '{subject}'"}, indent=2)
+        return json.dumps({"count": len(results), "threads": results}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetThreadBySubject",
+                "name": "get_thread_by_subject",
                 "description": "Return Gmail threads matching a subject. Optional filters: sender_id and label.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "subject": {"type": "string"},
                         "sender_id": {"type": "string"},
-                        "label": {"type": "string"},
+                        "label": {"type": "string"}
                     },
-                    "required": ["subject"],
-                },
-            },
+                    "required": ["subject"]
+                }
+            }
         }

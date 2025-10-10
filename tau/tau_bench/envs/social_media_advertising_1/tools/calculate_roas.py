@@ -1,33 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CalculateROAS(Tool):
-    """Computes Return on Ad Spend (ROAS) based on revenue and expenditure."""
+    """Calculates Return on Ad Spend (ROAS) from revenue and spend."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], revenue: float = None, spend: float = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        revenue = kwargs.get("revenue")
+        spend = kwargs.get("spend")
+        
         if revenue is None or spend is None:
-            payload = {"error": "revenue and spend are required parameters."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({"error": "revenue and spend are required parameters."})
+        
         if spend == 0:
-            payload = {"error": "spend cannot be zero."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({"error": "spend cannot be zero."})
+        
         roas = revenue / spend
-        payload = {"roas": roas}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"roas": roas})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "calculateRoas",
+                "name": "calculate_roas",
                 "description": "Calculates Return on Ad Spend (ROAS) from revenue and spend.",
                 "parameters": {
                     "type": "object",
@@ -39,7 +39,7 @@ class CalculateROAS(Tool):
                         "spend": {
                             "type": "number",
                             "description": "The amount spent.",
-                        },
+                        }
                     },
                     "required": ["revenue", "spend"],
                 },

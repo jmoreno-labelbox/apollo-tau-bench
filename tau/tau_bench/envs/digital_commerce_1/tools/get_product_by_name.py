@@ -1,6 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetProductByName(Tool):
     @staticmethod
@@ -9,20 +12,20 @@ class GetProductByName(Tool):
         row = next((r for r in rows if str(r.get("name")) == name), None)
         if not row:
             raise ValueError(f"product not found: {name}")
-        payload = {
-            "product_id": row["product_id"],
-            "name": row["name"],
-            "sku": row.get("sku") or row.get("product_code"),
-        }
-        out = json.dumps(payload)
-        return out
+        return json.dumps(
+            {
+                "product_id": row["product_id"],
+                "name": row["name"],
+                "sku": row.get("sku") or row.get("product_code"),
+            }
+        )
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GetProductByName",
+                "name": "get_product_by_name",
                 "description": "Read an existing product by name.",
                 "parameters": {
                     "type": "object",

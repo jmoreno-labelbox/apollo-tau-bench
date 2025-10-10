@@ -1,33 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CalculateCPA(Tool):
-    """Computes Cost Per Acquisition (CPA) using expenditure and purchases."""
+    """Calculates Cost Per Acquisition (CPA) from spend and purchases."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], spend: float = None, purchases: int = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        spend = kwargs.get("spend")
+        purchases = kwargs.get("purchases")
+        
         if spend is None or purchases is None:
-            payload = {"error": "spend and purchases are required parameters."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({"error": "spend and purchases are required parameters."})
+        
         if purchases == 0:
-            payload = {"error": "purchases cannot be zero."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({"error": "purchases cannot be zero."})
+        
         cpa = spend / purchases
-        payload = {"cpa": cpa}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"cpa": cpa})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "calculateCpa",
+                "name": "calculate_cpa",
                 "description": "Calculates Cost Per Acquisition (CPA) from spend and purchases.",
                 "parameters": {
                     "type": "object",
@@ -39,7 +39,7 @@ class CalculateCPA(Tool):
                         "purchases": {
                             "type": "number",
                             "description": "The number of purchases.",
-                        },
+                        }
                     },
                     "required": ["spend", "purchases"],
                 },

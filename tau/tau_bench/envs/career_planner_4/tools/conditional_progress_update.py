@@ -1,30 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class ConditionalProgressUpdate(Tool):
+class conditional_progress_update(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         user_id: str,
         goal_id: str,
         increment: int,
         threshold: int,
         update_date: str,
     ) -> str:
-        # Retrieve the current progress of the goal
-        goals_data = data.get("goals", {}).values()
-        user_goals = next((g for g in goals_data.values() if g.get("user_id") == user_id), {}).values()
+        # Get current goal progress
+        goals_data = data.get("goals", [])
+        user_goals = next((g for g in goals_data if g.get("user_id") == user_id), {})
         goals = user_goals.get("goals", [])
         goal = next((g for g in goals if g.get("goal_id") == goal_id), None)
 
@@ -35,33 +28,27 @@ class ConditionalProgressUpdate(Tool):
                 goal.update(
                     {"progress_percent": new_progress, "last_updated": update_date}
                 )
-                payload = {
-                    "success": f"Goal {goal_id} progress updated from {current_progress}% to {new_progress}%"
-                }
-                out = json.dumps(
-                    payload, indent=2,
+                return json.dumps(
+                    {
+                        "success": f"Goal {goal_id} progress updated from {current_progress}% to {new_progress}%"
+                    },
+                    indent=2,
                 )
-                return out
             else:
-                payload = {
-                    "result": f"Goal {goal_id} progress ({current_progress}%) already meets threshold"
-                }
-                out = json.dumps(
-                    payload, indent=2,
+                return json.dumps(
+                    {
+                        "result": f"Goal {goal_id} progress ({current_progress}%) already meets threshold"
+                    },
+                    indent=2,
                 )
-                return out
-        payload = {"error": "Goal not found"}
-        out = json.dumps(payload, indent=2)
-        return out
-            
+        return json.dumps({"error": "Goal not found"}, indent=2)
 
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "conditionalProgressUpdate",
+                "name": "conditional_progress_update",
                 "description": "Conditionally update goal progress if below threshold",
                 "parameters": {
                     "type": "object",

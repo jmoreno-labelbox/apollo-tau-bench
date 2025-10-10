@@ -1,53 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class IngestLog(Tool):
     @staticmethod
-    #primary invocation function
-    def invoke(data: dict[str, Any], ingestion_log: dict = None, source_name: str = None, status_code: int = None, logs_ingested: int = None) -> str:
-        logs = data.get("ingestion_logs", {}).values()
-        # Support both dict and individual parameters
-        if ingestion_log is not None:
-            data["ingestion_logs"][ingestion_log["ingestion_log_id"]] = ingestion_log
-        else:
-            log_entry = {}
-            if source_name is not None:
-                log_entry['source_name'] = source_name
-            if status_code is not None:
-                log_entry['status_code'] = status_code
-            if logs_ingested is not None:
-                log_entry['logs_ingested'] = logs_ingested
-            data["ingestion_logs"][log_entry["ingestion_log_id"]] = log_entry
-        payload = {"status": "ok"}
-        out = json.dumps(payload, indent=2)
-        return out
+        # main invoke function
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        logs = data.get("ingestion_logs", [])
+        logs.append(kwargs)
+        # return result
+        return json.dumps({"status": "ok"}, indent=2)
+
     @staticmethod
-    #metadata information
-    def get_info() -> dict[str, Any]:
-        pass
-        #return result
-        return {
-            "type": "function",
-            "function": {
-                "name": "makeLogs",
-                "description": "Persists an ingestion log row.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "source_name": {"type": "string"},
-                        "status_code": {"type": "integer"},
-                        "logs_ingested": {"type": "integer"},
-                    },
-                    "required": ["source_name", "status_code"],
-                },
-            },
-        }
+        # info metadata
+    def get_info() -> Dict[str, Any]:
+        # return result
+        return {"type": "function", "function": {"name": "makeLogs", "description": "Persists an ingestion log row.", "parameters": {"type": "object", "properties": {"source_name": {"type": "string"}, "status_code": {"type": "integer"}, "logs_ingested": {"type": "integer"}}, "required": ["source_name", "status_code"]}}}

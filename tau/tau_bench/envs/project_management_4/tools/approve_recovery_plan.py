@@ -1,49 +1,44 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ApproveRecoveryPlan(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], plan_id: str = None, decision: str = None, approver_id: str = None, approval_notes: str = "") -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        plan_id = kwargs.get("plan_id")
+        decision = kwargs.get("decision")
+        approver_id = kwargs.get("approver_id")
+
         if not all([plan_id, decision, approver_id]):
-            payload = {"error": "plan_id, decision, and approver_id are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "plan_id, decision, and approver_id are required"}
+            )
 
-        recovery_plans = data.get("recovery_plans", {}).values()
-        milestones = data.get("milestones", {}).values()
+        recovery_plans = data.get("recovery_plans", [])
+        milestones = list(data.get("milestones", {}).values())
 
-        plan = next((p for p in recovery_plans.values() if p.get("plan_id") == plan_id), None)
+        plan = next((p for p in recovery_plans if p.get("plan_id") == plan_id), None)
         if not plan:
-            payload = {"error": f"Recovery plan '{plan_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Recovery plan '{plan_id}' not found"})
 
         if plan.get("status") != "pending_approval":
-            payload = {"error": "Plan is not in pending_approval status"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Plan is not in pending_approval status"})
 
         plan["status"] = "approved" if decision == "approve" else "rejected"
         plan["approver_id"] = approver_id
         plan["approval_date"] = datetime.now(timezone.utc).isoformat()
-        plan["approval_notes"] = approval_notes
+        plan["approval_notes"] = kwargs.get("approval_notes", "")
 
         if decision == "approve":
+
             milestone = next(
                 (
                     m
-                    for m in milestones.values() if m.get("milestone_id") == plan.get("milestone_id")
+                    for m in milestones
+                    if m.get("milestone_id") == plan.get("milestone_id")
                 ),
                 None,
             )
@@ -63,21 +58,22 @@ class ApproveRecoveryPlan(Tool):
                     milestone.get("is_critical_path")
                     and milestone.get("resource_allocation", 100) < 100
                 ):
-                    payload = {
-                        "error": "Cannot approve recovery plan that reduces critical path task resources below 100%"
-                    }
-                    out = json.dumps(payload)
-                    return out
+                    return json.dumps(
+                        {
+                            "error": "Cannot approve recovery plan that reduces critical path task resources below 100%"
+                        }
+                    )
 
-        payload = {"success": True, "recovery_plan": plan, "decision": decision}
-        out = json.dumps(payload)
-        return out
+        return json.dumps(
+            {"success": True, "recovery_plan": plan, "decision": decision}
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ApproveRecoveryPlan",
+                "name": "approve_recovery_plan",
                 "description": "Approve or reject a recovery plan",
                 "parameters": {
                     "type": "object",

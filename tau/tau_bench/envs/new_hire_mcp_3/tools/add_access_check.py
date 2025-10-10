@@ -1,37 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AddAccessCheck(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], check: dict = None) -> str:
-        new_check = check or {}
-        checks = data.get("access_checks", {}).values()
-        data["access_checks"][new_check["access_check_id"]] = new_check
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        new_check = kwargs.get("check") or {}
+        checks = data.get("access_checks", [])
+        checks.append(new_check)
         data["access_checks"] = checks
-        payload = {"added_check": new_check}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"added_check": new_check}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "AddAccessCheck",
-                "description": "Add a new access check.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"check": {"type": "object"}},
-                    "required": ["check"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"add_access_check",
+            "description":"Add a new access check.",
+            "parameters":{"type":"object","properties":{"check":{"type":"object"}},"required":["check"]}
+        }}

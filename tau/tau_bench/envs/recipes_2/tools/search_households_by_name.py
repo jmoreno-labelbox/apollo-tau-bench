@@ -1,39 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchHouseholdsByName(Tool):
-    """Looks for households whose names include the given text."""
+    """Searches for households with names containing the specified text."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name_query = kwargs.get("name_query")
+        if not name_query:
+            return json.dumps({"error": "name_query parameter is required."})
+        households = data.get("households", [])
+        matching_households = [
+            household for household in households 
+            if name_query.lower() in household.get("household_name", "").lower()
+        ]
+        return json.dumps(matching_households)
 
     @staticmethod
-    def invoke(data: dict[str, Any], name_query: str = None) -> str:
-        if not name_query:
-            payload = {"error": "name_query parameter is required."}
-            out = json.dumps(payload)
-            return out
-        households = data.get("households", {}).values()
-        matching_households = [
-            household
-            for household in households.values() if name_query.lower() in household.get("household_name", "").lower()
-        ]
-        payload = matching_households
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchHouseholdsByName",
+                "name": "search_households_by_name",
                 "description": "Searches for households with names containing the specified text.",
                 "parameters": {
                     "type": "object",

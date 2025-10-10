@@ -1,21 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ModerateSlackChannelTool(Tool):
-    """Manage Slack channel: archive, pin, unpin, or relocate canonical messages (bulk support)."""
-
+    """Moderate Slack channel: archive, pin, unpin, or move canonical messages (bulk support)."""
     @staticmethod
-    def invoke(data: dict[str, Any], channel: str, action: str, message_ids: list[str] = [], target_channel: str = None, moderator_id: str = None) -> str:
-        messages = data.get("slack_messages", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        messages = data.get("slack_messages", [])
+        channel = kwargs.get("channel")
+        action = kwargs.get("action")  # "archive", "pin", "unpin", "move"
+        message_ids = kwargs.get("message_ids", [])
+        target_channel = kwargs.get("target_channel")
+        moderator_id = kwargs.get("moderator_id")
 
         updated = []
         for msg in messages:
@@ -30,29 +29,25 @@ class ModerateSlackChannelTool(Tool):
                     msg["channel"] = target_channel
                 updated.append(msg["message_id"])
         status = {"moderated": updated, "action": action}
-        payload = status
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(status, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ModerateSlackChannel",
+                "name": "moderate_slack_channel",
                 "description": "Archive, pin, unpin, or move canonical Slack messages with proper RBAC moderation.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "channel": {"type": "string"},
-                        "action": {
-                            "type": "string",
-                            "enum": ["archive", "pin", "unpin", "move"],
-                        },
+                        "action": {"type": "string", "enum": ["archive", "pin", "unpin", "move"]},
                         "message_ids": {"type": "array", "items": {"type": "string"}},
                         "target_channel": {"type": "string"},
-                        "moderator_id": {"type": "string"},
+                        "moderator_id": {"type": "string"}
                     },
-                    "required": ["channel", "action", "message_ids", "moderator_id"],
-                },
-            },
+                    "required": ["channel", "action", "message_ids", "moderator_id"]
+                }
+            }
         }

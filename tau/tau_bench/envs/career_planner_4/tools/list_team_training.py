@@ -1,31 +1,27 @@
-from tau_bench.envs.tool import Tool
-import json
-import uuid
-from datetime import datetime
-from typing import Any
+# Copyright Sierra
 
-class ListTeamTraining(Tool):
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class list_team_training(Tool):
     @staticmethod
-    def invoke(
-        data,
-        team_id: str,
-        team_training_log: list = None
-    ) -> str:
+    def invoke(data, team_id: str) -> str:
         sessions = [
             ts
-            for ts in (team_training_log or [])
+            for ts in data.get("team_training_log", [])
             if ts.get("training_session_id", "").startswith("TS")
         ]
-        payload = {"team_training_log": sessions}
-        out = json.dumps(payload, indent=2)
-        return out
+        # (In a real scenario, you would filter by team_id)
+        return json.dumps({"team_training_log": sessions}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "listTeamTraining",
+                "name": "list_team_training",
                 "description": "List all training sessions for a specific team.",
                 "parameters": {
                     "type": "object",

@@ -1,37 +1,25 @@
-from tau_bench.envs.tool import Tool
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ComposeReleaseEmailDraftTool(Tool):
-    """Draft a release email message in gmail_messages (deterministic message_id)."""
+    """Compose a release email draft message in gmail_messages (deterministic message_id)."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        body: str = None,
-        created_ts: str = None,
-        from_email: str = None,
-        release_id: str = None,
-        subject: str = None,
-        thread_id: str = None
-    ) -> str:
-        release_id = _require_str(release_id, "release_id")
-        thread_id = _require_str(thread_id, "thread_id")
-        from_email = _require_str(from_email, "from_email")
-        created_ts = _require_str(created_ts, "created_ts")
-        subject = _require_str(subject, "subject")
-        body = _require_str(body, "body")
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        release_id = _require_str(kwargs.get("release_id"), "release_id")
+        thread_id = _require_str(kwargs.get("thread_id"), "thread_id")  # existing or new thread id
+        from_email = _require_str(kwargs.get("from_email"), "from_email")
+        created_ts = _require_str(kwargs.get("created_ts"), "created_ts")
+        subject = _require_str(kwargs.get("subject"), "subject")
+        body = _require_str(kwargs.get("body"), "body")
         if not all([release_id, thread_id, from_email, created_ts, subject, body]):
-            payload = {
-                "error": "release_id, thread_id, from_email, created_ts, subject, body required"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error":"release_id, thread_id, from_email, created_ts, subject, body required"})
 
-        message_id = _det_id(
-            "relmsg", [release_id, thread_id, created_ts, subject[:32]]
-        )
+        message_id = _det_id("relmsg", [release_id, thread_id, created_ts, subject[:32]])
         messages = _safe_table(data, "gmail_messages")
         idx = _index_by(messages, "message_id")
         row = {
@@ -41,40 +29,26 @@ class ComposeReleaseEmailDraftTool(Tool):
             "created_ts": created_ts,
             "subject": subject,
             "body": body,
-            "snippet": (body[:120] + "...") if len(body) > 123 else body,
+            "snippet": (body[:120] + "...") if len(body) > 123 else body
         }
         if message_id in idx:
             messages[idx[message_id]] = row
         else:
             messages.append(row)
-        payload = {"success": True, "message_id": message_id}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"success": True, "message_id": message_id}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ComposeReleaseEmailDraft",
-                "description": "Create/update a release email draft message (deterministic id) in an existing thread.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "release_id": {"type": "string"},
-                        "thread_id": {"type": "string"},
-                        "from_email": {"type": "string"},
-                        "created_ts": {"type": "string"},
-                        "subject": {"type": "string"},
-                        "body": {"type": "string"},
-                    },
-                    "required": [
-                        "release_id",
-                        "thread_id",
-                        "from_email",
-                        "created_ts",
-                        "subject",
-                        "body",
-                    ],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"compose_release_email_draft",
+            "description":"Create/update a release email draft message (deterministic id) in an existing thread.",
+            "parameters":{"type":"object","properties":{
+                "release_id":{"type":"string"},
+                "thread_id":{"type":"string"},
+                "from_email":{"type":"string"},
+                "created_ts":{"type":"string"},
+                "subject":{"type":"string"},
+                "body":{"type":"string"}
+            },"required":["release_id","thread_id","from_email","created_ts","subject","body"]}
+        }}

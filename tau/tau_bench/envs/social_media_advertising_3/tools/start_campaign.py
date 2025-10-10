@@ -1,39 +1,27 @@
-from tau_bench.envs.tool import Tool
-import csv
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class StartCampaign(Tool):
-    """Enable a campaign using its ID."""
-
+    """Activate a campaign by ID."""
     @staticmethod
-    def invoke(data: dict[str, Any], campaign_id: str = None, reason: Any = None) -> str:
-        cid = campaign_id
-        for c in data.get("campaigns", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cid = kwargs.get("campaign_id")
+        for c in list(data.get("campaigns", {}).values()):
             if c.get("campaign_id") == cid:
                 c["status"] = "active"
-                payload = c
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Campaign {cid} not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(c)
+        return json.dumps({"error": f"Campaign {cid} not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "StartCampaign",
+                "name": "start_campaign",
                 "description": "Activate a campaign by ID.",
                 "parameters": {
                     "type": "object",

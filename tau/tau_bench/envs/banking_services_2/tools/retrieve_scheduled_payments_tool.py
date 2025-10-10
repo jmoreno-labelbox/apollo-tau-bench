@@ -1,25 +1,22 @@
-from tau_bench.envs.tool import Tool
-from typing import Any, Dict
+# Copyright Sierra
+
 import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RetrieveScheduledPaymentsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, source_account_id: str = None, month: str = None, frequency: Any = None, source_account_ids: list = None) -> str:
-        # Support source_account_ids parameter
-        if source_account_ids and not source_account_id:
-            source_account_id = source_account_ids[0] if source_account_ids else None
-        scheduled_payments = data.get('scheduled_payments', {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get('customer_id')
+        source_account_id = kwargs.get('source_account_id')
+        month = kwargs.get('month')
+        frequency = kwargs.get('frequency', None)
+
+        scheduled_payments = data.get('scheduled_payments', [])
         results = []
 
-        for payment in scheduled_payments.values():
+        for payment in scheduled_payments:
             if payment.get('customer_id') != customer_id:
                 continue
             if payment.get('from_account_id', None) != source_account_id:
@@ -40,12 +37,13 @@ class RetrieveScheduledPaymentsTool(Tool):
             })
 
         return json.dumps(results, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RetrieveScheduledPayments",
+                "name": "retrieve_scheduled_payments",
                 "description": "Retrieve scheduled payments for a customer and account, with optional month and frequency filters.",
                 "parameters": {
                     "type": "object",

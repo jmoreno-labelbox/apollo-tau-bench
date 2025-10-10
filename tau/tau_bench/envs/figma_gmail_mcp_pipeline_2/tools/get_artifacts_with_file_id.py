@@ -1,76 +1,55 @@
-from tau_bench.envs.tool import Tool
-import html
+# Copyright Sierra
+
 import json
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetArtifactsWithFileId(Tool):
-    def invoke(
-        data: dict[str, Any],
-        artifact_type: str = None,
-        figma_file_id: str = None,
-        frame_id: str = None,
-        page_id: str = None
-    ) -> str:
-        if not figma_file_id:
-            payload = {"error": "Missing required field: figma_file_id"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        if not kwargs.get("figma_file_id"):
+            return json.dumps({"error": "Missing required field: figma_file_id"}, indent=2)
 
-        artifacts = data.get("figma_artifacts", {}).values()
+        figma_file_id = kwargs.get("figma_file_id")
+        artifact_type = kwargs.get("artifact_type")
+        page_id = kwargs.get("page_id")
+        frame_id = kwargs.get("frame_id")
+
+        artifacts = data.get("figma_artifacts", [])
         results = []
-        for row in artifacts.values():
+        for row in artifacts:
             if row.get("figma_file_id") != figma_file_id:
                 continue
             if artifact_type and row.get("artifact_type") != artifact_type:
                 continue
             if frame_id is not None and row.get("frame_id_nullable") != frame_id:
                 continue
-            if (
-                frame_id is None
-                and page_id is not None
-                and row.get("page_id") != page_id
-            ):
+            if frame_id is None and page_id is not None and row.get("page_id") != page_id:
                 continue
             results.append(row)
 
         results.sort(key=lambda r: str(r.get("artifact_id")))
         if not results:
-            payload = {"error": "No artifacts matched"}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"count": len(results), "artifacts": results}
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": "No artifacts matched"}, indent=2)
+        return json.dumps({"count": len(results), "artifacts": results}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getArtifactsWithFileId",
+                "name": "get_artifacts_with_file_id",
                 "description": "Return artifacts for a figma_file_id. Optional filters: artifact_type, page_id, frame_id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "figma_file_id": {"type": "string"},
-                        "artifact_type": {
-                            "type": "string",
-                            "enum": ["FILE", "PAGE", "FRAME"],
-                        },
+                        "artifact_type": {"type": "string", "enum": ["FILE", "PAGE", "FRAME"]},
                         "page_id": {"type": "string"},
-                        "frame_id": {"type": "string"},
+                        "frame_id": {"type": "string"}
                     },
-                    "required": ["figma_file_id"],
-                },
-            },
+                    "required": ["figma_file_id"]
+                }
+            }
         }

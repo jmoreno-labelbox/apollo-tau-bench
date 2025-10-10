@@ -1,12 +1,13 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class RecordLifecycleAudit(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], lifecycle_id: str, event: str, timestamp: str, actor: str
-    ) -> str:
+    def invoke(data: Dict[str, Any], lifecycle_id: str, event: str, timestamp: str, actor: str) -> str:
         row = {
             "audit_id": f"lcaud_{lifecycle_id}_{event}",
             "lifecycle_id": lifecycle_id,
@@ -15,17 +16,14 @@ class RecordLifecycleAudit(Tool):
             "actor": actor,
         }
         _append_row(data["lifecycle_audit"], row)
-        payload = {"status": "ok", "audit": row}
-        out = json.dumps(payload)
-        return out
-        return out
+        return json.dumps({"status": "ok", "audit": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RecordLifecycleAudit",
+                "name": "record_lifecycle_audit",
                 "description": "Append a lifecycle_audit record.",
                 "parameters": {
                     "type": "object",

@@ -1,52 +1,46 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetInventoryByWarehouse(Tool):
-    """Utility for obtaining inventory items located in a designated warehouse."""
+    """Tool to retrieve inventory items stored in a specific warehouse."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], warehouse_id: str, list_of_ids: list[str] = None) -> str:
-        inventories = data.get("inventory", {}).values()
-        filtered = [
-            item["inventory_id"]
-            for item in inventories.values() if item["warehouse_id"] == warehouse_id
-        ]
-        if list_of_ids:
-            filtered = [f for f in filtered.values() if f in list_of_ids]
-        payload = filtered
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        warehouse_id = kwargs.get("warehouse_id")
+        list_of_inventories = kwargs.get("list_of_ids", None)
+        inventories = list(data.get("inventory", {}).values())
+        filtered = [item['inventory_id'] for item in inventories if item["warehouse_id"] == warehouse_id]
+        if list_of_inventories:
+            filtered = [f for f in filtered if f in list_of_inventories]
+        return json.dumps(filtered, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetInventoryByWarehouse",
+                "name": "get_inventory_by_warehouse",
                 "description": "Retrieve inventory items from a specific warehouse.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "warehouse_id": {
                             "type": "string",
-                            "description": "Warehouse ID (e.g., 'WH-10').",
+                            "description": "Warehouse ID (e.g., 'WH-10')."
                         },
                         "list_of_ids": {
                             "type": "array",
-                            "items": {"type": "string"},
-                            "description": "List of inventories to choose from.",
-                        },
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "List of inventories to choose from."
+                        }
                     },
-                    "required": ["warehouse_id"],
-                },
-            },
+                    "required": ["warehouse_id"]
+                }
+            }
         }

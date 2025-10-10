@@ -1,39 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateInventoryReservedQuantity(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], inventory_id: str = None, change_amount: int = None) -> str:
-        inventory_items = data.get("inventory", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        inventory_id = kwargs.get('inventory_id')
+        change_amount = kwargs.get('change_amount')
+        inventory_items = list(data.get("inventory", {}).values())
         updated_item = None
         for item in inventory_items:
             if item.get("id") == inventory_id:
-                item["reserved_quantity"] = (
-                    item.get("reserved_quantity", 0) + change_amount
-                )
+                item["reserved_quantity"] = item.get("reserved_quantity", 0) + change_amount
                 updated_item = item
                 break
-        payload = {"updated_inventory_item": updated_item}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"updated_inventory_item": updated_item})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateInventoryReservedQuantity",
+                "name": "update_inventory_reserved_quantity",
                 "description": "Updates the reserved quantity for an inventory item.",
                 "parameters": {
                     "type": "object",

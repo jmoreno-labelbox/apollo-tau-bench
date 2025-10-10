@@ -1,21 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class LogCompletionMessage(Tool):
-    """Records a completion message and provides the generated msg_id."""
-
+    """Logs a completion message and returns the generated msg_id."""
     @staticmethod
-    def invoke(data: dict[str, Any], task_id: str = None, user_id: str = None, message: str = None) -> str:
-        completion_messages = data.get("completion_messages", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        completion_messages = data.get("completion_messages", [])
         max_id = 0
         if completion_messages:
             for msg in completion_messages:
@@ -30,25 +24,19 @@ class LogCompletionMessage(Tool):
 
         new_log = {
             "msg_id": msg_id,
-            "task_id": task_id,
-            "user_id": user_id,
-            "msg": message,
+            "task_id": kwargs.get("task_id"),
+            "user_id": kwargs.get("user_id"),
+            "msg": kwargs.get("message"),
         }
         data["completion_messages"].append(new_log)
-        payload = {
-                "status": "success",
-                "message": "Completion message logged.",
-                "msg_id": msg_id,
-            }
-        out = json.dumps(
-            payload)
-        return out
+        return json.dumps({"status": "success", "message": "Completion message logged.", "msg_id": msg_id})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "LogCompletionMessage",
+                "name": "log_completion_message",
                 "description": "Logs a completion message and returns the generated msg_id.",
                 "parameters": {
                     "type": "object",

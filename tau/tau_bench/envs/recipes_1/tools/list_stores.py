@@ -1,28 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListStores(Tool):
-    """Retrieve all stores."""
+    """Return all stores."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        return _json_dump(data.get("stores", []))
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        return _json_dump(data.get("stores", {}))
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "listStores",
-                "description": "List available stores.",
-                "parameters": {"type": "object", "properties": {}},
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"list_stores",
+            "description":"List available stores.",
+            "parameters":{"type":"object","properties":{}}
+        }}

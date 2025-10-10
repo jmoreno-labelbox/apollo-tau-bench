@@ -1,37 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpdateDirectoryAccountStatus(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        account_id: str,
-        status: str,
-        disabled_at: str | None = None,
-    ) -> str:
-        pass
+    def invoke(data: Dict[str, Any], account_id: str, status: str, disabled_at: Optional[str] = None) -> str:
         acct = _find_one(data["directory_accounts"], account_id=account_id)
         if not acct:
-            payload = {"status": "error", "reason": "account_not_found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "account_not_found"})
         if status not in {"enabled", "disabled"}:
-            payload = {"status": "error", "reason": "invalid_status"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "invalid_status"})
         acct["status"] = status
         acct["disabled_at"] = disabled_at
-        payload = {"status": "ok", "account": acct}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "account": acct})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateDirectoryAccountStatus",
+                "name": "update_directory_account_status",
                 "description": "Set a directory account status to 'enabled' or 'disabled'.",
                 "parameters": {
                     "type": "object",

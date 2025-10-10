@@ -1,58 +1,51 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
-from decimal import ROUND_HALF_UP, Decimal
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AddItemsToCartBatch(Tool):
+    """Add multiple products to a cart in one call."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], cart_id: Any, items: list[dict[str, Any]]) -> str:
+    def invoke(data: Dict[str, Any], cart_id: Any, items: Any) -> str:
+        cart_id = cart_id
+        items: List[Dict[str, Any]] = items
         if not cart_id or not items or not isinstance(items, list):
-            payload = {
-                "error": "Missing required fields: cart_id and list 'items' with {product_id, quantity}"
-            }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {
+                    "error": "Missing required fields: cart_id and list 'items' with {product_id, quantity}"
+                },
+                indent=2,
             )
-            return out
-        cart_items = data.get("cart_items", {}).values()
+        cart_items = data.get("cart_items", [])
         created = []
         next_num = len(cart_items) + 1
         for it in items:
             pid = it.get("product_id")
             qty = it.get("quantity")
             if not pid or qty is None:
-                payload = {"error": "Each item must include product_id and quantity"}
-                out = json.dumps(
-                    payload, indent=2,
+                return json.dumps(
+                    {"error": "Each item must include product_id and quantity"}, indent=2
                 )
-                return out
             rec = {
                 "cart_item_id": f"item_{next_num}",
                 "cart_id": cart_id,
                 "product_id": pid,
                 "quantity": int(qty),
             }
-            data["cart_items"][rec["cart_item_id"]] = rec
+            cart_items.append(rec)
             created.append(rec)
             next_num += 1
-        payload = created
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(created, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddItemsToCartBatch",
+                "name": "add_items_to_cart_batch",
                 "description": "Add multiple products to a cart in one call.",
                 "parameters": {
                     "type": "object",

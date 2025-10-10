@@ -1,40 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RunScene(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], scene_id: str) -> str:
-        _, scene = _find(data.get("scenes", {}).values(), scene_id)
+    def invoke(data: Dict[str, Any], scene_id: str) -> str:
+        _, scene = _find(list(data.get("scenes", {}).values()), scene_id)
         if not scene:
-            payload = {"error": f"scene '{scene_id}' not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"scene '{scene_id}' not found"}, indent=2)
         results = []
         for act in scene.get("actions", []):
-            res = ModifyDeviceState.invoke(
-                data, device_id=act["device_id"], update=act["update"]
-            )
+            res = ModifyDeviceState.invoke(data, device_id=act["device_id"], update=act["update"])
             results.append(json.loads(res))
-        payload = {"success": f"scene '{scene_id}' executed", "results": results}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        return json.dumps({"success": f"scene '{scene_id}' executed", "results": results}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RunScene",
+                "name": "run_scene",
                 "description": "Execute the actions of a scene immediately.",
                 "parameters": {
                     "type": "object",
@@ -42,7 +30,7 @@ class RunScene(Tool):
                         "scene_id": {"type": "string", "description": "Scene id to run"}
                     },
                     "required": ["scene_id"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

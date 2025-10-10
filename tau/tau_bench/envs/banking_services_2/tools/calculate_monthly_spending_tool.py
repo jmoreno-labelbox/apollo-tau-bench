@@ -1,25 +1,24 @@
-from tau_bench.envs.tool import Tool
-from typing import Any, Dict
+# Copyright Sierra
+
 import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CalculateMonthlySpendingTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, month: int = None, year: int = None) -> str:
-        transactions = data.get('transactions', {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        month = kwargs.get('month')
+        year = kwargs.get('year')
+
+        transactions = list(data.get('transactions', {}).values())
 
         total_spending = 0
         spending_by_category = {}
         transaction_count = 0
 
-        for transaction in transactions.values():
+        for transaction in transactions:
             if transaction['account_id'] != account_id:
                 continue
             if transaction['amount'] >= 0:
@@ -46,12 +45,13 @@ class CalculateMonthlySpendingTool(Tool):
             "spending_by_merchant": spending_by_category,
             "average_transaction": round(total_spending / max(1, transaction_count), 2)
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateMonthlySpending",
+                "name": "calculate_monthly_spending",
                 "description": "Calculate spending summary for a specific month",
                 "parameters": {
                     "type": "object",

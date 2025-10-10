@@ -1,28 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class ComputeAverageProgress(Tool):
+class compute_average_progress(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str) -> str:
-        """Provide the average completion rate for all courses associated with a user."""
+    def invoke(data: Dict[str, Any], user_id: str) -> str:
+        """Return the average completion percentage across all courses for a user."""
         records = [
             rec
-            for rec in data.get("user_course_progress", {}).values()
+            for rec in data.get("user_course_progress", [])
             if rec["user_id"] == user_id
         ]
         if not records:
-            payload = {"average_progress": 0}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"average_progress": 0})
         total, count = 0, 0
         for rec in records:
             if rec.get("status") == "Completed":
@@ -31,15 +24,14 @@ class ComputeAverageProgress(Tool):
                 total += rec.get("current_progress_percent", 0)
             count += 1
         avg = round(total / count, 2)
-        payload = {"average_progress": avg}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"average_progress": avg})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "computeAverageProgress",
+                "name": "compute_average_progress",
                 "description": "Calculate a user's average course completion percentage across all enrollments.",
                 "parameters": {
                     "type": "object",

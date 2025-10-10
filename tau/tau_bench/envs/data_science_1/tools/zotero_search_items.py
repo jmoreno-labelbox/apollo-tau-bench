@@ -1,59 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ZoteroSearchItems(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        limit: int = None,
-        query: str = None,
-        result_item_ids: list = None,
-        saved_path_nullable: str = None,
-        search_ts: str = None,
-        year_from: int = None,
-        year_to: int = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         req = ["query", "result_item_ids", "search_ts"]
-        err = _require(locals(), req)
-        if err:
-            return err
-        row = {
-            "query": query,
-            "year_from": year_from,
-            "year_to": year_to,
-            "limit": limit,
-            "result_item_ids": result_item_ids,
-            "saved_path_nullable": saved_path_nullable,
-            "search_ts": search_ts,
-        }
-        payload = _append(data.setdefault("zotero_searches", []), row)
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        err = _require(kwargs, req)
+        if err: return err
+        row = {"query": kwargs["query"], "year_from": kwargs.get("year_from"), "year_to": kwargs.get("year_to"),
+               "limit": kwargs.get("limit"), "result_item_ids": kwargs["result_item_ids"],
+               "saved_path_nullable": kwargs.get("saved_path_nullable"), "search_ts": kwargs["search_ts"]}
+        return json.dumps(_append(data.setdefault("zotero_searches", []), row), indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ZoteroSearchItems",
-                "description": "Stores results of a Zotero query (top-N IDs).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "query": {"type": "string"},
-                        "year_from": {"type": "integer"},
-                        "year_to": {"type": "integer"},
-                        "limit": {"type": "integer"},
-                        "result_item_ids": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                        },
-                        "saved_path_nullable": {"type": "string"},
-                        "search_ts": {"type": "string"},
-                    },
-                    "required": ["query", "result_item_ids", "search_ts"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "zotero_search_items",
+            "description": "Stores results of a Zotero query (top-N IDs).",
+            "parameters": {"type": "object", "properties": {
+                "query": {"type": "string"}, "year_from": {"type": "integer"}, "year_to": {"type": "integer"},
+                "limit": {"type": "integer"}, "result_item_ids": {"type": "array", "items": {"type": "string"}},
+                "saved_path_nullable": {"type": "string"}, "search_ts": {"type": "string"}},
+                "required": ["query", "result_item_ids", "search_ts"]}}}

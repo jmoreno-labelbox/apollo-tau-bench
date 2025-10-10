@@ -1,37 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ActivatePromotion(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], promotion_id: str = None) -> str:
-        promotions = data.get("promotions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        promotion_id = kwargs.get('promotion_id')
+        promotions = data.get("promotions", [])
         for promo in promotions:
             if promo.get("promotion_id") == promotion_id:
                 promo["status"] = "active"
-                payload = {"promotion_id": promotion_id, "status": "active"}
-                out = json.dumps(payload)
-                return out
-        payload = {"promotion_id": promotion_id, "status": "not_found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"promotion_id": promotion_id, "status": "active"})
+        return json.dumps({"promotion_id": promotion_id, "status": "not_found"})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ActivatePromotion",
+                "name": "activate_promotion",
                 "description": "Activates a promotion by setting its status to 'active'.",
                 "parameters": {
                     "type": "object",

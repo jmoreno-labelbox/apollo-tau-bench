@@ -1,52 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetItemStock(Tool):
-    """Provide the current stock quantity/status for an item_id at a supplier."""
+    """Return current stock quantity/status for an item_id at a supplier."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], supplier_id: str, item_id: str) -> str:
-        suppliers = data.get("suppliers", {}).values()
-        for s in suppliers.values():
+    def invoke(data: Dict[str, Any], supplier_id: str, item_id: str) -> str:
+        suppliers = data.get("suppliers", [])
+        for s in suppliers:
             if s.get("supplier_id") == supplier_id:
-                val = s.get("item_stock", {}).values().get(item_id)
+                val = s.get("item_stock", {}).get(item_id)
                 if val is None:
-                    payload = {
-                        "error": "Item not found at supplier",
-                        "supplier_id": supplier_id,
-                        "item_id": item_id,
-                    }
-                    out = json.dumps(payload)
-                    return out
-                payload = {"supplier_id": supplier_id, "item_id": item_id, "value": val}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Supplier not found", "supplier_id": supplier_id}
-        out = json.dumps(payload)
-        return out
+                    return json.dumps({"error": "Item not found at supplier", "supplier_id": supplier_id, "item_id": item_id})
+                return json.dumps({"supplier_id": supplier_id, "item_id": item_id, "value": val})
+        return json.dumps({"error": "Supplier not found", "supplier_id": supplier_id})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetItemStock",
+                "name": "get_item_stock",
                 "description": "Get supplier.item_stock value for a given item_id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "supplier_id": {"type": "string"},
-                        "item_id": {"type": "string"},
+                        "item_id": {"type": "string"}
                     },
-                    "required": ["supplier_id", "item_id"],
-                },
-            },
+                    "required": ["supplier_id", "item_id"]
+                }
+            }
         }

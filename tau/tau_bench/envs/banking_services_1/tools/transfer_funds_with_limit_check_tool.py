@@ -1,8 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class TransferFundsWithLimitCheckTool(Tool):
     """
@@ -21,7 +22,10 @@ class TransferFundsWithLimitCheckTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], from_account: str = None, to_account: str = None, amount: int = 0) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        from_account = kwargs.get("from_account")
+        to_account = kwargs.get("to_account")
+        amount = kwargs.get("amount", 0)
         if not from_account or not to_account or amount <= 0:
             return json.dumps({"error": "Invalid input"}, indent=2)
         if amount > 10000:
@@ -33,12 +37,13 @@ class TransferFundsWithLimitCheckTool(Tool):
             {"transaction_id": f"txn_{generate_unique_id()}", "status": "Success"},
             indent=2,
         )
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "TransferFundsWithLimitCheck",
+                "name": "transfer_funds_with_limit_check",
                 "description": "Transfer funds between accounts with pre-check on daily limit and balance.",
                 "parameters": {
                     "type": "object",

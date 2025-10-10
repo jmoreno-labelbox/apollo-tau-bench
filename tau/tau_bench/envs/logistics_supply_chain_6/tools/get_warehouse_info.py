@@ -1,48 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetWarehouseInfo(Tool):
-    """Utility for retrieving details about a warehouse."""
+    """Tool to get information about a warehouse."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], warehouse_id: str) -> str:
-        """Run the tool with the provided parameters."""
-        warehouses = data.get("warehouses", {}).values()
-        for warehouse in warehouses.values():
+    def invoke(data: Dict[str, Any], warehouse_id: str) -> str:
+        """Execute the tool with given parameters."""
+        warehouses = data.get("warehouses", [])
+        for warehouse in warehouses:
             if warehouse.get("warehouse_id") == warehouse_id:
-                payload = warehouse
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Warehouse with ID {warehouse_id} not found"}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+                return json.dumps(warehouse, indent=2)
+        return json.dumps({"error": f"Warehouse with ID {warehouse_id} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        """Provide the specifications of the tool for the AI agent."""
-        pass
+    def get_info() -> Dict[str, Any]:
+        """Return tool specification for AI agent."""
         return {
             "type": "function",
             "function": {
-                "name": "GetWarehouseInfo",
+                "name": "get_warehouse_info",
                 "description": "Retrieves detailed information about a specific warehouse.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "warehouse_id": {
-                            "type": "string",
-                            "description": "The ID of the warehouse.",
-                        }
+                        "warehouse_id": {"type": "string", "description": "The ID of the warehouse."}
                     },
                     "required": ["warehouse_id"],
                 },

@@ -1,75 +1,60 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetUmpiresByExperience(Tool):
     """
-    Retrieve all umpires with years_experience exceeding a specified threshold,
-    sorted by years_experience in descending order (ties resolved by smallest umpire_id).
+    Return all umpires with years_experience greater than a given threshold,
+    sorted by years_experience in descending order (ties broken by smallest umpire_id).
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], min_experience: int = None) -> str:
-        #1) Confirm validity
-        if min_experience is None:
-            payload = {"error": "Missing required field: experience"}
-            out = json.dumps(payload, indent=2)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        exp_threshold = kwargs.get("min_experience")
 
-        #2) Retrieve DB
-        umpires: list[dict[str, Any]] = data.get("umpires", {}).values()
+        # 1) Validate
+        if exp_threshold is None:
+            return json.dumps({"error": "Missing required field: experience"}, indent=2)
 
-        #3) Filter for individuals with experience exceeding threshold
+        # 2) Get DB
+        umpires: List[Dict[str, Any]] = data.get("umpires", [])
+
+        # 3) Filter for those with experience > threshold
         filtered = [
-            ump
-            for ump in umpires
-            if int(ump.get("years_experience", 0)) > min_experience
+            ump for ump in umpires
+            if int(ump.get("years_experience", 0)) > exp_threshold
         ]
 
         if not filtered:
-            payload = {
-                    "error": f"No umpires found with experience greater than {min_experience}"
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({"error": f"No umpires found with experience greater than {exp_threshold}"}, indent=2)
 
-        #4) Sort in a deterministic manner
+        # 4) Sort deterministically
         sorted_list = sorted(
             filtered,
-            key=lambda u: (
-                -int(u.get("years_experience", 0)),
-                int(u.get("umpire_id", 0)),
-            ),
+            key=lambda u: (-int(u.get("years_experience", 0)), int(u.get("umpire_id", 0)))
         )
-        payload = sorted_list
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(sorted_list, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getUmpiresByExperience",
+                "name": "get_umpires_by_experience",
                 "description": "Return all umpires with years_experience greater than the provided threshold, sorted in descending order.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "experience": {
                             "type": "integer",
-                            "description": "Minimum years_experience threshold; only umpires with greater experience are returned.",
+                            "description": "Minimum years_experience threshold; only umpires with greater experience are returned."
                         }
                     },
-                    "required": ["min_experience"],
-                },
-            },
+                    "required": ["min_experience"]
+                }
+            }
         }

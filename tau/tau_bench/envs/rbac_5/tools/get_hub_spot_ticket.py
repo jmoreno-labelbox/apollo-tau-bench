@@ -1,58 +1,46 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetHubSpotTicket(Tool):
     """
-    Retrieve HubSpot tickets using ticket_id or filter by SIEM alert ID (found in description),
+    Retrieve HubSpot tickets by ticket_id or filter by SIEM alert ID (present in description),
     status, priority, category, assignee_id, or requester_id.
 
     kwargs:
       ticket_id: str (optional) - Specific ticket ID to retrieve
-      alert_id: str (optional) - SIEM alert ID to match within the description (e.g., ALRT-012)
+      alert_id: str (optional) - SIEM alert ID to match within description (e.g., ALRT-012)
       status: str (optional) - OPEN, IN_PROGRESS, CLOSED
       priority: str (optional) - HIGH, MEDIUM, LOW
       category: str (optional) - SECURITY_INCIDENT, ACCESS_REQUEST, GENERAL, etc.
       assignee_id: str (optional)
       requester_id: str (optional)
     """
-
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        ticket_id: str = None,
-        alert_id: str = None,
-        status: str = None,
-        priority: str = None,
-        category: str = None,
-        assignee_id: str = None,
-        requester_id: str = None
-    ) -> str:
-        tickets = data.get("hubspot_tickets", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ticket_id = kwargs.get("ticket_id")
+        alert_id = kwargs.get("alert_id")
+        status = kwargs.get("status")
+        priority = kwargs.get("priority")
+        category = kwargs.get("category")
+        assignee_id = kwargs.get("assignee_id")
+        requester_id = kwargs.get("requester_id")
 
-        # If ticket_id is supplied, return the specific ticket
+        tickets = data.get("hubspot_tickets", [])
+
+        # If ticket_id is provided, return single ticket
         if ticket_id:
             t = _find_by_id(tickets, "ticket_id", ticket_id)
             if not t:
-                payload = {"error": f"ticket_id {ticket_id} not found"}
-                out = json.dumps(payload)
-                return out
-            payload = {"ok": True, "ticket": t}
-            out = json.dumps(payload)
-            return out
+                return json.dumps({"error": f"ticket_id {ticket_id} not found"})
+            return json.dumps({"ok": True, "ticket": t})
 
-        # If not, narrow down
-        out: list[dict[str, Any]] = []
-        for t in tickets.values():
+        # Otherwise, filter
+        out: List[Dict[str, Any]] = []
+        for t in tickets:
             if status and t.get("status") != status:
                 continue
             if priority and t.get("priority") != priority:
@@ -68,50 +56,29 @@ class GetHubSpotTicket(Tool):
                 if alert_id not in desc:
                     continue
             out.append(t)
-        payload = {"ok": True, "tickets": out}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"ok": True, "tickets": out})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetHubspotTicket",
+                "name": "get_hubspot_ticket",
                 "description": "Retrieve HubSpot tickets by ticket_id or filter by SIEM alert ID (in description), status, priority, category, assignee_id, or requester_id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "ticket_id": {
-                            "type": "string",
-                            "description": "Specific ticket ID to retrieve (TI-###).",
-                        },
-                        "alert_id": {
-                            "type": "string",
-                            "description": "SIEM alert ID to match in description (e.g., ALRT-012).",
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "Filter by status (OPEN, IN_PROGRESS, CLOSED).",
-                        },
-                        "priority": {
-                            "type": "string",
-                            "description": "Filter by priority (HIGH, MEDIUM, LOW).",
-                        },
-                        "category": {
-                            "type": "string",
-                            "description": "Filter by category (e.g., SECURITY_INCIDENT, ACCESS_REQUEST, GENERAL).",
-                        },
-                        "assignee_id": {
-                            "type": "string",
-                            "description": "Filter by assignee user_id.",
-                        },
-                        "requester_id": {
-                            "type": "string",
-                            "description": "Filter by requester user_id.",
-                        },
+                        "ticket_id": {"type": "string", "description": "Specific ticket ID to retrieve (TI-###)."},
+                        "alert_id": {"type": "string", "description": "SIEM alert ID to match in description (e.g., ALRT-012)."},
+                        "status": {"type": "string", "description": "Filter by status (OPEN, IN_PROGRESS, CLOSED)."},
+                        "priority": {"type": "string", "description": "Filter by priority (HIGH, MEDIUM, LOW)."},
+                        "category": {"type": "string", "description": "Filter by category (e.g., SECURITY_INCIDENT, ACCESS_REQUEST, GENERAL)."},
+                        "assignee_id": {"type": "string", "description": "Filter by assignee user_id."},
+                        "requester_id": {"type": "string", "description": "Filter by requester user_id."}
                     },
                     "required": [],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

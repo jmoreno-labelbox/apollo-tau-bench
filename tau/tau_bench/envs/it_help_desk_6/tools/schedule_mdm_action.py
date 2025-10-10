@@ -1,13 +1,13 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ScheduleMdmAction(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], asset_id: str, when: str, action: str, workflow_id: str
-    ) -> str:
-        pass
+    def invoke(data: Dict[str, Any], asset_id: str, when: str, action: str, workflow_id: str) -> str:
         row = {
             "workflow_id": workflow_id,
             "employee_id": None,
@@ -19,16 +19,14 @@ class ScheduleMdmAction(Tool):
             "completed_at": None,
         }
         _append_row(data["device_workflow"], row)
-        payload = {"status": "ok", "workflow": row}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "workflow": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ScheduleMdmAction",
+                "name": "schedule_mdm_action",
                 "description": "Schedule an MDM action for an asset (stored as a workflow entry).",
                 "parameters": {
                     "type": "object",

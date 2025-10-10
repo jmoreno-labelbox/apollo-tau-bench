@@ -1,26 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetCurrentTime(Tool):
-    """Provides a static current date and time formatted as "YYYY-MM-DD HH:MM:SS+00:00". For example, "2025-08-09 10:00:00+00:00"""
+    """ Returns a fixed current date and time formatted as "YYYY-MM-DD HH:MM:SS+00:00". e.g. "2025-08-09 10:00:00+00:00" """
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        # Format the date and time in the format "YYYY-MM-DD HH:MM:SS+00:00"
-        formatted_time = NOW.isoformat(timespec="seconds").replace("T", " ")
-        payload = {"current_time": formatted_time}
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        # Format the datetime as "YYYY-MM-DD HH:MM:SS+00:00"
+        formatted_time = NOW.isoformat(timespec='seconds').replace("T", " ")
+        return json.dumps({"current_time": formatted_time})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCurrentTime",
+                "name": "get_current_time",
                 "description": "Returns the current date and time as YYYY-MM-DD HH:MM:SS+00:00",
-                "parameters": {"type": "object", "properties": {}, "required": []},
-            },
+                "parameters": {
+                    "type": "object",
+                    "properties": {},
+                    "required": []
+                }
+            }
         }

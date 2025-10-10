@@ -1,38 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ManageProductRecommendations(Tool):
-    """Create and oversee product suggestions for customers."""
+    """Generate and manage product recommendations for customers."""
 
     @staticmethod
     def invoke(
-        data: dict[str, Any],
-        contact_id: Any,
-        recommendation_type: Any = "similar_products",
-        contacts: list = None,
-        products: list = None
+        data: Dict[str, Any], contact_id: Any, recommendation_type: Any = "similar_products"
     ) -> str:
-        pass
         contact_id = _idstr(contact_id)
         recommendation_type = f"{recommendation_type}"
         if not contact_id:
             return _error("contact_id is required.")
 
-        contacts = contacts if contacts is not None else data.get("contacts", {}).values()
-        contact = _find_one(list(contacts.values()), "contact_id", contact_id)
+        contacts = data.get("contacts", [])
+        contact = _find_one(contacts, "contact_id", contact_id)
         if not contact:
             return _error(f"Contact '{contact_id}' not found.")
 
-        products = products if products is not None else data.get("products", {}).values()
+        products = list(data.get("products", {}).values())
         recommendations = products[:3]
 
         recommendation_list = [
@@ -50,60 +40,21 @@ class ManageProductRecommendations(Tool):
             contact_id,
             {"recommendation_type": recommendation_type},
         )
-        payload = {
-                "contact_id": contact_id,
-                "recommendation_type": recommendation_type,
-                "recommendations": recommendation_list,
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
-        pass
-        contact_id = _idstr(contact_id)
-        recommendation_type = f"{recommendation_type}"
-        if not contact_id:
-            return _error("contact_id is required.")
-
-        contacts = data.get("contacts", {}).values()
-        contact = _find_one(list(contacts.values()), "contact_id", contact_id)
-        if not contact:
-            return _error(f"Contact '{contact_id}' not found.")
-
-        products = data.get("products", {}).values()
-        recommendations = products[:3]
-
-        recommendation_list = [
+        return json.dumps(
             {
-                "product_id": p.get("product_id"),
-                "product_name": p.get("name"),
-                "confidence_score": round(0.9 - (i * 0.1), 2),
-            }
-            for i, p in enumerate(recommendations)
-        ]
-
-        _append_audit(
-            data,
-            "recommendations_generated",
-            contact_id,
-            {"recommendation_type": recommendation_type},
-        )
-        payload = {
                 "contact_id": contact_id,
                 "recommendation_type": recommendation_type,
                 "recommendations": recommendation_list,
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ManageProductRecommendations",
+                "name": "manage_product_recommendations",
                 "description": "Generate and manage product recommendations for customers.",
                 "parameters": {
                     "type": "object",

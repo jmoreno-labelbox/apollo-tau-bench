@@ -1,26 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateResourceConflict(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str, competing_projects: list = [], conflict_type: str = "allocation", resolution: str = "") -> str:
-        if not all([employee_id, competing_projects]):
-            payload = {"error": "employee_id and competing_projects are required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        competing_projects = kwargs.get("competing_projects", [])
+        conflict_type = kwargs.get("conflict_type", "allocation")
+        resolution = kwargs.get("resolution", "")
 
-        resource_conflicts = data.get("resource_conflicts", {}).values()
+        if not all([employee_id, competing_projects]):
+            return json.dumps(
+                {"error": "employee_id and competing_projects are required"}
+            )
+
+        resource_conflicts = data.get("resource_conflicts", [])
 
         conflict_id = f"conflict_{uuid.uuid4().hex[:8]}"
 
@@ -34,16 +32,16 @@ class CreateResourceConflict(Tool):
             "status": "resolved" if resolution else "pending",
         }
 
-        data["resource_conflicts"][new_conflict["resource_conflict_id"]] = new_conflict
-        payload = {"success": True, "conflict": new_conflict}
-        out = json.dumps(payload)
-        return out
+        resource_conflicts.append(new_conflict)
+
+        return json.dumps({"success": True, "conflict": new_conflict})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateResourceConflict",
+                "name": "create_resource_conflict",
                 "description": "Create a record of resource conflict when multiple projects compete for the same employee",
                 "parameters": {
                     "type": "object",

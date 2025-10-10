@@ -1,66 +1,49 @@
-from tau_bench.envs.tool import Tool
-import html
+# Copyright Sierra
+
 import json
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateNewAudit(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], artifact_id: str = None, audit_type: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         required = ["artifact_id", "audit_type"]
-        params_dict = {k: v for k, v in locals().items() if k != "data"}
-
-        missing = [f for f in required.values() if params_dict.get(f) is None]
+        missing = [f for f in required if f not in kwargs or kwargs[f] is None]
         if missing:
-            payload = {"error": f"Missing required fields: {', '.join(missing)}"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"Missing required fields: {', '.join(missing)}"}, indent=2)
 
-        audits: list[dict[str, Any]] = data.get("audits", {}).values()
+        audits: List[Dict[str, Any]] = data.get("audits", [])
         audit_id = get_next_audit_id(data)
         created_ts = get_now_timestamp()
 
         new_audit = {
             "audit_id": audit_id,
-            "artifact_id": artifact_id,
-            "audit_type": audit_type,
+            "artifact_id": kwargs["artifact_id"],
+            "audit_type": kwargs["audit_type"],
             "created_ts": created_ts,
             "status": "RUNNING",
-            "report_asset_id_nullable": None,
+            "report_asset_id_nullable": None
         }
 
         audits.append(new_audit)
         data["audits"] = audits
-        payload = new_audit
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(new_audit, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createNewAudit",
+                "name": "create_new_audit",
                 "description": "Initialize a new audit session for a Figma artifact.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "artifact_id": {"type": "string"},
-                        "audit_type": {
-                            "type": "string",
-                            "enum": ["DS_MAPPING", "A11Y", "COMBINED_DS_A11Y"],
-                        },
+                        "audit_type": {"type": "string", "enum": ["DS_MAPPING", "A11Y", "COMBINED_DS_A11Y"]}
                     },
-                    "required": ["artifact_id", "audit_type"],
-                },
-            },
+                    "required": ["artifact_id", "audit_type"]
+                }
+            }
         }

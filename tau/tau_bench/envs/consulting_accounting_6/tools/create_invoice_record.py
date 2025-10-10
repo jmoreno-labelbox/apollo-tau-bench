@@ -1,94 +1,59 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateInvoiceRecord(Tool):
-    """Add a new invoice entry and return its ID and number."""
-
+    """Insert a new invoice row and return its id and number."""
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        invoice_number: str = None,
-        publisher_id: str = None,
-        invoice_date: str = None,
-        period_start: str = None,
-        period_end: str = None,
-        subtotal: float = None,
-        hst_amount: float = None,
-        total_due: float = None,
-        pdf_path: str = None,
-    ) -> str:
-        invoices = data.get("invoices", {}).values()
-        # Create sequential invoice IDs such as INV001, INV002 ...
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        invoices = data.get("invoices", [])
+        # Generate sequential invoice_id like INV001, INV002 ...
         prefix, max_num = "INV", 0
-        for inv in invoices.values():
+        for inv in invoices:
             s = str(inv.get("invoice_id", ""))
             if s.startswith(prefix):
                 try:
-                    max_num = max(max_num, int(s[len(prefix) :]))
+                    max_num = max(max_num, int(s[len(prefix):]))
                 except ValueError:
                     pass
         new_id = f"{prefix}{max_num + 1:03d}"
 
         row = {
             "invoice_id": new_id,
-            "invoice_number": invoice_number,
-            "publisher_id": publisher_id,
-            "invoice_date": invoice_date,
-            "period_start": period_start,
-            "period_end": period_end,
-            "subtotal": subtotal,
-            "hst_amount": hst_amount,
-            "total_due": total_due,
-            "pdf_path": pdf_path,
+            "invoice_number": kwargs.get("invoice_number"),
+            "publisher_id": kwargs.get("publisher_id"),
+            "invoice_date": kwargs.get("invoice_date"),
+            "period_start": kwargs.get("period_start"),
+            "period_end": kwargs.get("period_end"),
+            "subtotal": kwargs.get("subtotal"),
+            "hst_amount": kwargs.get("hst_amount"),
+            "total_due": kwargs.get("total_due"),
+            "pdf_path": kwargs.get("pdf_path"),
             "sent_at": None,
             "paid_at": None,
-            "created_at": _now_iso(),
+            "created_at": _now_iso()
         }
-        data["invoices"][invoice_id] = row
-        payload = {"invoice_id": new_id, "invoice_number": row["invoice_number"]}
-        out = json.dumps(payload, indent=2)
-        return out
+        invoices.append(row)
+        return json.dumps({"invoice_id": new_id, "invoice_number": row["invoice_number"]}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "CreateInvoiceRecord",
-                "description": "Insert a new invoice row.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "invoice_number": {"type": "string"},
-                        "publisher_id": {"type": "string"},
-                        "invoice_date": {"type": "string"},
-                        "period_start": {"type": "string"},
-                        "period_end": {"type": "string"},
-                        "subtotal": {"type": "number"},
-                        "hst_amount": {"type": "number"},
-                        "total_due": {"type": "number"},
-                        "pdf_path": {"type": "string"},
-                    },
-                    "required": [
-                        "invoice_number",
-                        "publisher_id",
-                        "invoice_date",
-                        "period_start",
-                        "period_end",
-                        "subtotal",
-                        "hst_amount",
-                        "total_due",
-                        "pdf_path",
-                    ],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "create_invoice_record",
+            "description": "Insert a new invoice row.",
+            "parameters": {"type": "object", "properties": {
+                "invoice_number": {"type": "string"},
+                "publisher_id": {"type": "string"},
+                "invoice_date": {"type": "string"},
+                "period_start": {"type": "string"},
+                "period_end": {"type": "string"},
+                "subtotal": {"type": "number"},
+                "hst_amount": {"type": "number"},
+                "total_due": {"type": "number"},
+                "pdf_path": {"type": "string"}
+            }, "required": ["invoice_number", "publisher_id", "invoice_date",
+                            "period_start", "period_end", "subtotal", "hst_amount", "total_due", "pdf_path"]}
+        }}

@@ -1,34 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class request_leave(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], leave: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], leave: Dict[str, Any]) -> str:
         if not leave:
-            payload = {"error": "leave record required"}
-            out = json.dumps(payload, indent=2)
-            return out
-        lv = data.get("leave_records", {}).values()
-        data["leave_records"][leave["leave_record_id"]] = leave
+            return json.dumps({"error": "leave record required"}, indent=2)
+        lv = data.get("leave_records", [])
+        lv.append(leave)
         data["leave_records"] = lv
-        payload = {"success": f'leave {leave["leave_id"]} requested'}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"success": f'leave {leave["leave_id"]} requested'}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RequestLeave",
+                "name": "request_leave",
                 "description": "Insert a leave request; status should start as 'Pending'.",
                 "parameters": {
                     "type": "object",

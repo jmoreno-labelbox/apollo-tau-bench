@@ -1,28 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CheckOrderStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str) -> str:
+    def invoke(data: Dict[str, Any], order_id: str) -> str:
         """
         Check order status and details based on order ID
 
         Data Sources: orders.json (order status, fulfillment, payment info)
         """
         if not order_id or not order_id.strip():
-            payload = {"error": "Order ID is required", "status": "failed"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({
+                "error": "Order ID is required",
+                "status": "failed"
+            })
 
         order_id = order_id.strip()
 
@@ -31,18 +26,19 @@ class CheckOrderStatus(Tool):
             order_id = f"#{order_id}"
 
         # Find the order
-        orders = data.get("orders", {}).values()
+        orders = list(data.get("orders", {}).values())
         target_order = None
 
-        for order in orders.values():
+        for order in orders:
             if order.get("order_id") == order_id:
                 target_order = order
                 break
 
         if not target_order:
-            payload = {"error": f"Order {order_id} not found", "status": "not_found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({
+                "error": f"Order {order_id} not found",
+                "status": "not_found"
+            })
 
         # Rule: Only process orders with valid status: pending, processed, delivered, cancelled
         order_status = target_order.get("status")
@@ -59,21 +55,13 @@ class CheckOrderStatus(Tool):
                 "courier_id": latest_fulfillment.get("courier_id"),
                 "courier_name": latest_fulfillment.get("courier_name"),
                 "fulfillment_status": latest_fulfillment.get("status"),
-                "timestamp": latest_fulfillment.get("timestamp"),
+                "timestamp": latest_fulfillment.get("timestamp")
             }
 
         # Get payment information
         payment_history = target_order.get("payment_history", [])
-        total_paid = sum(
-            payment.get("amount", 0)
-            for payment in payment_history
-            if payment.get("transaction_type") == "payment"
-        )
-        total_refunded = sum(
-            payment.get("amount", 0)
-            for payment in payment_history
-            if payment.get("transaction_type") == "refund"
-        )
+        total_paid = sum(payment.get("amount", 0) for payment in payment_history if payment.get("transaction_type") == "payment")
+        total_refunded = sum(payment.get("amount", 0) for payment in payment_history if payment.get("transaction_type") == "refund")
 
         # Get order items summary
         order_items = target_order.get("items", [])
@@ -84,7 +72,7 @@ class CheckOrderStatus(Tool):
         }
 
         # Get delivery address
-        delivery_address = target_order.get("address", {}).values()
+        delivery_address = target_order.get("address", {})
 
         # Check for cancellation info
         cancellation_info = target_order.get("cancellation_info")
@@ -95,7 +83,7 @@ class CheckOrderStatus(Tool):
         if returns:
             return_info = {
                 "return_requests": len(returns),
-                "latest_return": returns[-1] if returns else None,
+                "latest_return": returns[-1] if returns else None
             }
 
         result = {
@@ -105,38 +93,37 @@ class CheckOrderStatus(Tool):
                 "user_id": user_id,
                 "order_status": order_status,
                 "order_date": order_timestamp,
-                "last_updated": target_order.get("last_updated", order_timestamp),
+                "last_updated": target_order.get("last_updated", order_timestamp)
             },
             "items_summary": items_summary,
             "payment_info": {
                 "total_paid": round(total_paid, 2),
                 "total_refunded": round(total_refunded, 2),
-                "net_amount": round(total_paid - total_refunded, 2),
+                "net_amount": round(total_paid - total_refunded, 2)
             },
-            "delivery_info": {"address": delivery_address, "tracking": tracking_info},
+            "delivery_info": {
+                "address": delivery_address,
+                "tracking": tracking_info
+            },
             "cancellation_info": cancellation_info,
-            "return_info": return_info,
+            "return_info": return_info
         }
-        payload = result
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(result)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CheckOrderStatus",
+                "name": "check_order_status",
                 "description": "Check order status and details based on order ID",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "order_id": {
-                            "type": "string",
-                            "description": "Order identifier (e.g., 'W6893533' or '#W6893533')",
-                        }
+                        "order_id": {"type": "string", "description": "Order identifier (e.g., 'W6893533' or '#W6893533')"}
                     },
-                    "required": ["order_id"],
-                },
-            },
+                    "required": ["order_id"]
+                }
+            }
         }

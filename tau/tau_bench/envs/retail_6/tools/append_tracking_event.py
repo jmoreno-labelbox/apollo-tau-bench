@@ -1,53 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AppendTrackingEvent(Tool):
-    """Insert or replace an event timestamp in tracking_history for a tracking id (key -> timestamp)."""
-
+    """Insert/overwrite an event timestamp in tracking_history for a tracking id (key -> timestamp)."""
     @staticmethod
-    def invoke(data, tracking_id=None, event=None, timestamp=None) -> str:
+    def invoke(data, **kwargs) -> str:
+        tracking_id = kwargs.get('tracking_id')
+        event = kwargs.get('event')
+        timestamp = kwargs.get('timestamp')
         if not tracking_id or not event or not timestamp:
-            payload = {"error": "tracking_id, event, timestamp are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error":"tracking_id, event, timestamp are required"}, indent=2)
         t = _find_tracking(data, tracking_id)
         if not t:
-            payload = {"error": f"tracking_id {tracking_id} not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        history = t.setdefault("tracking_history", {}).values()
+            return json.dumps({"error": f"tracking_id {tracking_id} not found"}, indent=2)
+        history = t.setdefault('tracking_history', {})
         history[event] = timestamp
-        payload = {
-                "success": True,
-                "tracking_id": tracking_id,
-                "event": event,
-                "timestamp": timestamp,
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        return json.dumps({"success": True, "tracking_id": tracking_id, "event": event, "timestamp": timestamp}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "appendTrackingEvent",
-                "description": "Set an event timestamp in tracking.tracking_history for a given tracking_id.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "tracking_id": {"type": "string"},
-                        "event": {"type": "string"},
-                        "timestamp": {"type": "string"},
-                    },
-                    "required": ["tracking_id", "event", "timestamp"],
-                },
-            },
-        }
+        return {"type":"function","function":{"name":"append_tracking_event","description":"Set an event timestamp in tracking.tracking_history for a given tracking_id.","parameters":{"type":"object","properties":{"tracking_id":{"type":"string"},"event":{"type":"string"},"timestamp":{"type":"string"}},"required":["tracking_id","event","timestamp"]}}}

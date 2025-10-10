@@ -1,25 +1,25 @@
-from tau_bench.envs.tool import Tool
-from typing import Any, Dict
+# Copyright Sierra
+
 import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class TransferFundsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], from_account_id: str, to_account_id: str, amount: float, description: str = 'Internal transfer') -> str:
-        accounts = data.get('accounts', {}).values()
-        transactions = data.get('transactions', {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        from_account_id = kwargs.get('from_account_id')
+        to_account_id = kwargs.get('to_account_id')
+        amount = kwargs.get('amount')
+        description = kwargs.get('description', 'Internal transfer')
+
+        accounts = list(data.get('accounts', {}).values())
+        transactions = list(data.get('transactions', {}).values())
 
         from_account = None
         to_account = None
 
-        for account in accounts.values():
+        for account in accounts:
             if account['account_id'] == from_account_id:
                 from_account = account
             elif account['account_id'] == to_account_id:
@@ -58,8 +58,8 @@ class TransferFundsTool(Tool):
             "channel": "Online"
         }
 
-        data["transactions"][transaction_id] = debit_transaction
-        data["transactions"][transaction_id] = credit_transaction
+        transactions.append(debit_transaction)
+        transactions.append(credit_transaction)
 
         return json.dumps({
             "success": True,
@@ -69,12 +69,13 @@ class TransferFundsTool(Tool):
             "debit_transaction_id": debit_transaction['transaction_id'],
             "credit_transaction_id": credit_transaction['transaction_id']
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "TransferFunds",
+                "name": "transfer_funds",
                 "description": "Transfer funds between two accounts",
                 "parameters": {
                     "type": "object",

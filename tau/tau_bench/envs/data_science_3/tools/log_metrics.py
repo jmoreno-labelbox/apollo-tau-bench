@@ -1,68 +1,41 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class LogMetrics(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        model_name: str = None, 
-        metric_name: str = None, 
-        value: Any = None, 
-        dataset_split: str = None
-    ) -> str:
-        metrics = data.get("metrics", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        metrics = data.get("metrics", [])
         max_id = 0
-        for m in metrics.values():
+        for m in metrics:
             try:
                 mid = int(m.get("metric_id", 0))
-                if mid > max_id:
-                    max_id = mid
+                if mid > max_id: max_id = mid
             except (ValueError, TypeError):
                 continue
         new_id = max_id + 1
         row = {
             "metric_id": new_id,
-            "model_name": model_name,
-            "metric_name": metric_name,
-            "value": value,
-            "dataset_split": dataset_split,
-            "timestamp": _fixed_now_iso(),
+            "model_name": kwargs.get("model_name"),
+            "metric_name": kwargs.get("metric_name"),
+            "value": kwargs.get("value"),
+            "dataset_split": kwargs.get("dataset_split"),
+            "timestamp": _fixed_now_iso()
         }
-        data["metrics"][row["metric_id"]] = row
-        payload = {
-            "metric_id": new_id,
-            "model_name": row["model_name"],
-            "metric_name": row["metric_name"],
-        }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        metrics.append(row)
+        return json.dumps({"metric_id": new_id, "model_name": row["model_name"], "metric_name": row["metric_name"]}, indent=2)
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "InsertMetrics",
-                "description": "Insert a metrics row for a model and split.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "model_name": {"type": "string"},
-                        "metric_name": {"type": "string"},
-                        "value": {"type": "number"},
-                        "dataset_split": {"type": "string"},
-                    },
-                    "required": ["model_name", "metric_name", "value", "dataset_split"],
-                },
-            },
-        }
+    def get_info()->Dict[str,Any]:
+        return {"type":"function","function":{
+            "name":"insert_metrics",
+            "description":"Insert a metrics row for a model and split.",
+            "parameters":{"type":"object","properties":{
+                "model_name":{"type":"string"},
+                "metric_name":{"type":"string"},
+                "value":{"type":"number"},
+                "dataset_split":{"type":"string"}
+            },"required":["model_name","metric_name","value","dataset_split"]}
+        }}

@@ -1,47 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetMealPlansByHouseholdId(Tool):
-    """Fetches all meal plans associated with a particular household ID."""
+    """Retrieves all meal plans for a specific household ID."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        household_id = kwargs.get("household_id")
+        if household_id is None:
+            return json.dumps({"error": "household_id parameter is required."})
+        meal_plans = data.get("meal_plans", [])
+        matching_plans = [plan for plan in meal_plans if plan.get("household_id") == household_id]
+        return json.dumps(matching_plans)
 
     @staticmethod
-    def invoke(data: dict[str, Any], household_id: str = None) -> str:
-        if household_id is None:
-            payload = {"error": "household_id parameter is required."}
-            out = json.dumps(payload)
-            return out
-        meal_plans = data.get("meal_plans", {}).values()
-        matching_plans = [
-            plan for plan in meal_plans.values() if plan.get("household_id") == household_id
-        ]
-        payload = matching_plans
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetMealPlansByHouseholdId",
+                "name": "get_meal_plans_by_household_id",
                 "description": "Retrieves all meal plans for a specific household ID.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "household_id": {
-                            "type": "integer",
-                            "description": "The unique ID of the household.",
-                        }
-                    },
+                    "properties": {"household_id": {"type": "integer", "description": "The unique ID of the household."}},
                     "required": ["household_id"],
                 },
             },

@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AddCommitToBranchTool(Tool):
     """
@@ -56,29 +44,18 @@ class AddCommitToBranchTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str, branch: str, message: str, author: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            branch = _validate_param({"branch": branch}, "branch", str)
-            message = _validate_param({"message": message}, "message", str)
-            author = _validate_param({"author": author}, "author", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            branch = _validate_param(kwargs, "branch", str)
+            message = _validate_param(kwargs, "message", str)
+            author = _validate_param(kwargs, "author", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        commits = data.get("commits", {}).values()
-        if any(
-            c.get("repo") == repo_name
-            and c.get("message") == message
-            and c.get("branch") == branch
-            for c in commits.values()
-        ):
-            return _response(
-                "error",
-                ERROR_MESSAGES["ALREADY_EXISTS"].format(
-                    entity="Commit", entity_id=message
-                ),
-                "ALREADY_EXISTS",
-            )
+        commits = list(data.get("commits", {}).values())
+        if any(c.get("repo") == repo_name and c.get("message") == message and c.get("branch") == branch for c in commits):
+            return _response("error", ERROR_MESSAGES["ALREADY_EXISTS"].format(entity="Commit", entity_id=message), "ALREADY_EXISTS")
 
         new_commit = {
             "sha": _generate_commit_sha(repo_name, branch, len(commits) + 1),
@@ -90,14 +67,15 @@ class AddCommitToBranchTool(Tool):
             "created_at": CURRENT_DATE,
             "updated_at": CURRENT_DATE,
         }
-        data["commits"][new_commit["commit_id"]] = new_commit
+        commits.append(new_commit)
         return _response("ok", new_commit)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddCommitToBranch",
+                "name": "add_commit_to_branch",
                 "description": "Add a deterministic commit to a branch (in-memory only).",
                 "parameters": {
                     "type": "object",

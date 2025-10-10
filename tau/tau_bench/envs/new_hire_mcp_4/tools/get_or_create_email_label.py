@@ -1,27 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetOrCreateEmailLabel(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], name: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name = kwargs["name"]
         label_id = _get_or_create_label_id(data, name)
-        payload = {"label_id": label_id, "name": name}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"label_id": label_id, "name": name}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetOrCreateEmailLabel",
+                "name": "get_or_create_email_label",
                 "description": "Get or create label by name.",
                 "parameters": {
                     "type": "object",
                     "properties": {"name": {"type": "string"}},
-                    "required": ["name"],
-                },
-            },
+                    "required": ["name"]
+                }
+            }
         }

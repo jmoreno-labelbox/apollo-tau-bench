@@ -1,49 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class Notify(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], recipient_ids: list = None, summary: str = None) -> str:
-        if recipient_ids is None:
-            recipient_ids = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        recipient_ids = kwargs.get('recipient_ids',[])
+        summary = kwargs.get('summary')
 
         if len(recipient_ids) == 0 or summary is None:
-            payload = {
-                "status": "error",
-                "reason": "The recipient_ids and summary fields are required.",
-            }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
-        payload = {"status": "ok", "recipients": recipient_ids, "summary": summary}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+            return json.dumps({'status': 'error', 'reason': 'The recipient_ids and summary fields are required.'}, indent=2)
+
+        return json.dumps({'status': 'ok', 'recipients': recipient_ids, 'summary': summary}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "notify",
-                "description": "Notifies employees in recipient_ids with the contents of summary.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "recipient_ids": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "The ids of the recipients to notify.",
-                        },
-                        "summary": {
-                            "type": "string",
-                            "description": "The summary to send to each recipient.",
-                        },
+            'type': 'function',
+            'function': {
+                'name': 'notify',
+                'description': 'Notifies employees in recipient_ids with the contents of summary.',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'recipient_ids': {'type': 'array', 'items': {'type': 'string'}, 'description': 'The ids of the recipients to notify.'},
+                        'summary': {'type': 'string', 'description': 'The summary to send to each recipient.'},
                     },
-                    "required": ["recipient_ids", "summary"],
-                },
-            },
+                    'required': ['recipient_ids', 'summary']
+                }
+            }
         }

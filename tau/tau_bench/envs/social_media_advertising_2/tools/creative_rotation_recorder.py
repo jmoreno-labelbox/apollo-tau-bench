@@ -1,45 +1,44 @@
-from tau_bench.envs.tool import Tool
-import csv
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreativeRotationRecorder(Tool):
-    """Log a consistent creative rotation event and enforce a single-active rationale (for validation purposes only)."""
+    """Record a deterministic creative rotation event and enforce single-active rationale (validation only)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], ad_id: str, from_creative: str, to_creative: str, rotation_date: str, rationale: str = "") -> str:
-        base = json.dumps(
-            {
-                "ad_id": ad_id,
-                "from_creative": from_creative,
-                "to_creative": to_creative,
-                "rotation_date": rotation_date,
-                "rationale": rationale,
-            },
-            sort_keys=True,
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ad_id: str = kwargs["ad_id"]
+        from_creative: str = kwargs["from_creative"]
+        to_creative: str = kwargs["to_creative"]
+        rationale: str = kwargs.get("rationale", "")
+        rotation_date: str = kwargs["rotation_date"]
+
+        base = json.dumps({
+            "ad_id": ad_id, "from_creative": from_creative,
+            "to_creative": to_creative, "rotation_date": rotation_date,
+            "rationale": rationale
+        }, sort_keys=True)
         rotation_id = "rot_" + current_date
-        payload = {
-                "success": True,
-                "rotation_id": rotation_id,
-                "ad_id": ad_id,
-                "from_creative": from_creative,
-                "to_creative": to_creative,
-                "rotation_date": rotation_date,
-                "rationale": rationale,
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+
+        return json.dumps({
+            "success": True,
+            "rotation_id": rotation_id,
+            "ad_id": ad_id,
+            "from_creative": from_creative,
+            "to_creative": to_creative,
+            "rotation_date": rotation_date,
+            "rationale": rationale
+        }, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreativeRotationRecorder",
+                "name": "creative_rotation_recorder",
                 "description": "Record a creative rotation event deterministically; returns rotation_id.",
                 "parameters": {
                     "type": "object",
@@ -48,15 +47,10 @@ class CreativeRotationRecorder(Tool):
                         "from_creative": {"type": "string"},
                         "to_creative": {"type": "string"},
                         "rotation_date": {"type": "string"},
-                        "rationale": {"type": "string"},
+                        "rationale": {"type": "string"}
                     },
-                    "required": [
-                        "ad_id",
-                        "from_creative",
-                        "to_creative",
-                        "rotation_date",
-                    ],
-                    "additionalProperties": False,
-                },
-            },
+                    "required": ["ad_id", "from_creative", "to_creative", "rotation_date"],
+                    "additionalProperties": False
+                }
+            }
         }

@@ -1,51 +1,43 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetHubspotTicketById(Tool):
-    """Retrieve complete details of a specific HubSpot ticket by its ID."""
+    """ Get the full details of a specific HubSpot ticket using its ID. """
 
     @staticmethod
-    def invoke(data: dict[str, Any], ticket_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ticket_id = kwargs.get("ticket_id")
         try:
-            hubspot_tickets = data.get("hubspot_tickets", {}).values()
+            hubspot_tickets = data.get('hubspot_tickets', [])
         except:
             hubspot_tickets = []
 
         for ticket in hubspot_tickets:
             if ticket.get("ticket_id") == ticket_id:
-                payload = ticket
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"HubSpot ticket with ID '{ticket_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(ticket)
+
+        return json.dumps({"error": f"HubSpot ticket with ID '{ticket_id}' not found."})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetHubspotTicketById",
+                "name": "get_hubspot_ticket_by_id",
                 "description": "Retrieves the full details of a specific HubSpot ticket using its unique ID (e.g., 'TI-053').",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "ticket_id": {
                             "type": "string",
-                            "description": "The unique ID of the HubSpot ticket to retrieve.",
+                            "description": "The unique ID of the HubSpot ticket to retrieve."
                         }
                     },
-                    "required": ["ticket_id"],
-                },
-            },
+                    "required": ["ticket_id"]
+                }
+            }
         }

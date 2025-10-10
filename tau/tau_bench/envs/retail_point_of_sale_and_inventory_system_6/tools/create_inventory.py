@@ -1,34 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import OrderedDict, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class create_inventory(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        sku: str = None,
-        store_id: str = None,
-        quantity: int = None,
-        reserved_quantity: int = None,
-        reorder_level: int = None,
-        safety_stock: int = None,
-        location: str = None,
-        timestamp: str = None
-    ) -> str:
-        inventory = data.get("inventory", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        inventory = list(data.get("inventory", {}).values())
 
-        # A timestamp is required for database records
+        # Timestamp needs to be sent for database records
+        timestamp = kwargs.get("timestamp")
 
-        # These values are required to be sent
+        # These values must be sent
         required_cols = [
             "sku",
             "store_id",
@@ -39,21 +24,14 @@ class create_inventory(Tool):
             "location",
         ]
 
-        # Default values will apply if these are not provided
+        # These values have defaults if not sent
         optional_cols = []
 
-        required_values = {
-            "sku": sku,
-            "store_id": store_id,
-            "quantity": quantity,
-            "reserved_quantity": reserved_quantity,
-            "reorder_level": reorder_level,
-            "safety_stock": safety_stock,
-            "location": location,
-        }
+        required_values = {k: kwargs.get(k) for k in required_cols}
         optional_values = {}
+        optional_values.update({k: kwargs[k] for k in optional_cols if k in kwargs})
 
-        # The function computes these values
+        # These values are calculated by the function
         if required_values["quantity"] > required_values["reorder_level"]:
             status = "in_stock"
         elif required_values["quantity"] > required_values["safety_stock"]:
@@ -70,20 +48,20 @@ class create_inventory(Tool):
             "last_stock_count": timestamp[:10],
         }
 
-        # Raise an error if any required values are absent
+        # Throw an error if any of the required values are missing
         if any([required_values[k] is None for k in required_values.keys()]):
-            payload = {
-                "error": "required values not sent: "
-                + ", ".join([k for k in required_values.values() if required_values[k] is None])
-            }
-            out = json.dumps(
-                payload,
+            return json.dumps(
+                {
+                    "error": "required values not sent: "
+                    + ", ".join(
+                        [k for k in required_values if required_values[k] is None]
+                    )
+                },
                 indent=2,
             )
-            return out
 
-        # This indicates the sequence of items in the database
-        # Although not essential due to the unordered nature of dictionaries, maintaining the same order can simplify validation
+        # This is the order that the items appear in the database
+        # May not be necessary since dictionaries are unordered, but it can make valiation easier if the items appear in the same order everytime
         col_order = [
             "id",
             "sku",
@@ -99,24 +77,25 @@ class create_inventory(Tool):
             "updated_at",
         ]
 
-        # Arrange the items
+        # Order the items
         row = required_values | optional_values | fill_in
         row_final = OrderedDict()
         for k in col_order:
             row_final[k] = row[k]
 
-        # Insert into the database
+        # Add to the database
         inventory.append(json.dumps(row_final, indent=2))
-        payload = row_final
-        out = json.dumps(payload, indent=2)
-        return out
+
+        # Return the whole row for reference
+        return json.dumps(row_final, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createInventory",
-                "description": "Adds a new inventory item to the store. This is for items the store has never stocked before, to update the quantity of an existing item, use UpdateStockQuantity",
+                "name": "create_inventory",
+                "description": "Adds a new inventory item to the store. This is for items the store has never stocked before, to update the quantity of an existing item, use update_stock_quantity",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -133,19 +112,19 @@ class create_inventory(Tool):
                             "description": "The id of the store adding the inventory",
                         },
                         "quantity": {
-                            "type": "integer",
+                            "type": "int",
                             "description": "The amount that the store starts with",
                         },
                         "reserved_quantity": {
-                            "type": "integer",
+                            "type": "int",
                             "description": "The amount in reserve",
                         },
                         "reorder_level": {
-                            "type": "integer",
+                            "type": "int",
                             "description": "The amount to start reordering products",
                         },
                         "safety_stock": {
-                            "type": "integer",
+                            "type": "int",
                             "description": "The amount to consider critical stock",
                         },
                         "location": {

@@ -1,47 +1,34 @@
-from tau_bench.envs.tool import Tool
-import copy
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateCampaign(Tool):
-    """Generate a campaign with specified created_date and status."""
+    """Create a campaign with explicit created_date and status."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], name: str, objective: str, created_date: str, status: str) -> str:
-        err = _require({"name": name, "objective": objective, "created_date": created_date, "status": status}, ["name", "objective", "created_date", "status"])
-        if err:
-            return _fail(err)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        err = _require(kwargs, ["name", "objective", "created_date", "status"])
+        if err: return _fail(err)
         rows = _assert_table(data, "campaigns")
-        if any(r.get("name") == name for r in rows.values()):
+        if any(r.get("name") == kwargs["name"] for r in rows):
             return _fail("name_exists")
         new_id = _next_numeric_id(rows, "campaign_id")
-        rec = {
-            "campaign_id": new_id,
-            "name": name,
-            "objective": objective,
-            "created_date": created_date,
-            "status": status,
-        }
+        rec = {"campaign_id": new_id, "name": kwargs["name"], "objective": kwargs["objective"],
+               "created_date": kwargs["created_date"], "status": kwargs["status"]}
         rows.append(rec)
-        payload = rec
-        out = json.dumps(payload)
-        return out
+        return json.dumps(rec)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "createCampaign",
-                "description": "Create a campaign (deterministic; explicit created_date).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "name": {"type": "string"},
-                        "objective": {"type": "string"},
-                        "created_date": {"type": "string"},
-                        "status": {"type": "string"},
-                    },
-                    "required": ["name", "objective", "created_date", "status"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "create_campaign",
+                                                 "description": "Create a campaign (deterministic; explicit created_date).",
+                                                 "parameters": {"type": "object",
+                                                                "properties": {"name": {"type": "string"},
+                                                                               "objective": {"type": "string"},
+                                                                               "created_date": {"type": "string"},
+                                                                               "status": {"type": "string"}},
+                                                                "required": ["name", "objective", "created_date",
+                                                                             "status"]}}}

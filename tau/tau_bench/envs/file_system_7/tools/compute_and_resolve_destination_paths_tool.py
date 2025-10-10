@@ -1,26 +1,19 @@
-from tau_bench.envs.tool import Tool
-import datetime
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ComputeAndResolveDestinationPathsTool(Tool):
-    """Determines destination paths for files according to sorting rules and addresses name conflicts."""
+    """Computes destination paths for files based on sort rules and resolves name conflicts."""
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ComputeAndResolveDestinationPaths",
+                "name": "compute_and_resolve_destination_paths",
                 "description": "Computes destination paths for all files in file_list, handles conflicts by appending integers, and populates the 'destination_path' field.",
                 "parameters": {
                     "type": "object",
@@ -34,19 +27,15 @@ class ComputeAndResolveDestinationPathsTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: dict[str, Any], destination_directory: str, sort_rules: dict[str, str]) -> str:
-        dest_dir = destination_directory
-        sort_rules = sort_rules
-        destination_paths: set[str] = set()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        dest_dir = kwargs["destination_directory"]
+        sort_rules = kwargs["sort_rules"]
+        destination_paths: Set[str] = set()
 
-        for file in data.get("file_list", {}).values():
+        for file in data.get("file_list", []):
             ext = file["filename"].split(".")[-1] if "." in file["filename"] else ""
             sub_dir = sort_rules.get(ext, "miscellaneous")
-            base = (
-                ".".join(file["filename"].split(".")[:-1])
-                if "." in file["filename"]
-                else file["filename"]
-            )
+            base = ".".join(file["filename"].split(".")[:-1]) if "." in file["filename"] else file["filename"]
             ext_suffix = f".{ext}" if ext else ""
             new_name = f"{base}{ext_suffix}"
             new_path = f"{dest_dir}/{sub_dir}/{new_name}"
@@ -59,7 +48,5 @@ class ComputeAndResolveDestinationPathsTool(Tool):
 
             destination_paths.add(candidate)
             file["destination_path"] = candidate
-        payload = {"status": "success", "paths_resolved": len(data.get("file_list", {}))}
-        out = json.dumps(
-            payload)
-        return out
+
+        return json.dumps({"status": "success", "paths_resolved": len(data.get("file_list", []))})

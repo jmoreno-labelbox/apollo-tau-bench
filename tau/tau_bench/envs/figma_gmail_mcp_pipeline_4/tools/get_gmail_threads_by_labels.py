@@ -1,114 +1,82 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetGmailThreadsByLabels(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        thread_id: str = None,
-        labels: list[str] = [],
-        sender_email: str = None,
-        subject_keywords: list[str] = [],
-        created_after: str = None,
-        created_before: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
-        Obtains Gmail threads filtered by labels, sender, and additional criteria.
+        Retrieves Gmail threads filtered by labels, sender, and other criteria.
         """
-        gmail_threads = data.get("gmail_threads", {}).values()
+        thread_id = kwargs.get('thread_id')
+        labels = kwargs.get('labels', [])
+        sender_email = kwargs.get('sender_email')
+        subject_keywords = kwargs.get('subject_keywords', [])
+        created_after = kwargs.get('created_after')
+        created_before = kwargs.get('created_before')
 
-        # Return the specific thread if thread_id is given
+        gmail_threads = data.get('gmail_threads', [])
+
+        # If thread_id is provided, return specific thread
         if thread_id:
-            for thread in gmail_threads.values():
-                if thread.get("thread_id") == thread_id:
-                    payload = thread
-                    out = json.dumps(payload, indent=2)
-                    return out
-            payload = {"error": f"Thread with ID '{thread_id}' not found."}
-            out = json.dumps(payload)
-            return out
+            for thread in gmail_threads:
+                if thread.get('thread_id') == thread_id:
+                    return json.dumps(thread, indent=2)
+            return json.dumps({"error": f"Thread with ID '{thread_id}' not found."})
 
-        # Sort threads based on specified criteria
+        # Filter threads by criteria
         results = []
-        for thread in gmail_threads.values():
-            # Implement filters
+        for thread in gmail_threads:
+            # Apply filters
             if labels:
-                thread_labels = thread.get("current_labels", [])
-                if not any(label in thread_labels for label in labels.values()):
+                thread_labels = thread.get('current_labels', [])
+                if not any(label in thread_labels for label in labels):
                     continue
 
             if sender_email:
-                if thread.get("sender_identity") != sender_email:
+                if thread.get('sender_identity') != sender_email:
                     continue
 
             if subject_keywords:
-                subject = thread.get("subject", "").lower()
-                if not any(keyword.lower() in subject for keyword in subject_keywords.values()):
+                subject = thread.get('subject', '').lower()
+                if not any(keyword.lower() in subject for keyword in subject_keywords):
                     continue
 
-            # Enforce date filters
+            # Apply date filters
             if created_after:
-                thread_created = thread.get("created_ts", "")
+                thread_created = thread.get('created_ts', '')
                 if thread_created < created_after:
                     continue
 
             if created_before:
-                thread_created = thread.get("created_ts", "")
+                thread_created = thread.get('created_ts', '')
                 if thread_created > created_before:
                     continue
 
             results.append(thread)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetGmailThreadsByLabels",
+                "name": "get_gmail_threads_by_labels",
                 "description": "Retrieves Gmail threads filtered by labels, sender email, subject keywords, and date ranges for comprehensive email workflow management.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "thread_id": {
-                            "type": "string",
-                            "description": "The ID of a specific thread to retrieve.",
-                        },
-                        "labels": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "Filter by thread labels (e.g., ['design-review', 'urgent']).",
-                        },
-                        "sender_email": {
-                            "type": "string",
-                            "description": "Filter by sender email address.",
-                        },
-                        "subject_keywords": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "Filter by keywords in subject line.",
-                        },
-                        "created_after": {
-                            "type": "string",
-                            "description": "Filter threads created after this ISO timestamp.",
-                        },
-                        "created_before": {
-                            "type": "string",
-                            "description": "Filter threads created before this ISO timestamp.",
-                        },
-                    },
-                },
-            },
+                        "thread_id": {"type": "string", "description": "The ID of a specific thread to retrieve."},
+                        "labels": {"type": "array", "items": {"type": "string"}, "description": "Filter by thread labels (e.g., ['design-review', 'urgent'])."},
+                        "sender_email": {"type": "string", "description": "Filter by sender email address."},
+                        "subject_keywords": {"type": "array", "items": {"type": "string"}, "description": "Filter by keywords in subject line."},
+                        "created_after": {"type": "string", "description": "Filter threads created after this ISO timestamp."},
+                        "created_before": {"type": "string", "description": "Filter threads created before this ISO timestamp."}
+                    }
+                }
+            }
         }

@@ -1,54 +1,39 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateItemStock(Tool):
-    """Adjust quantity or status for an item_id within a supplier's item_stock."""
+    """Set quantity or status for an item_id in a supplier's item_stock."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], supplier_id: str, item_id: str, value: Any) -> str:
-        suppliers = data.get("suppliers", {}).values()
-        for s in suppliers.values():
+    def invoke(data: Dict[str, Any], supplier_id: str, item_id: str, value: Any) -> str:
+        suppliers = data.get("suppliers", [])
+        for s in suppliers:
             if s.get("supplier_id") == supplier_id:
-                item_stock = s.get("item_stock", {}).values()
+                item_stock = s.get("item_stock", {})
                 item_stock[item_id] = value
                 s["item_stock"] = item_stock
-                payload = {
-                    "status": "success",
-                    "supplier_id": supplier_id,
-                    "item_id": item_id,
-                    "value": value,
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Supplier not found", "supplier_id": supplier_id}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"status": "success", "supplier_id": supplier_id, "item_id": item_id, "value": value})
+        return json.dumps({"error": "Supplier not found", "supplier_id": supplier_id})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateItemStock",
+                "name": "update_item_stock",
                 "description": "Update supplier.item_stock for a given item_id. Value can be a number or status string.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "supplier_id": {"type": "string"},
                         "item_id": {"type": "string"},
-                        "value": {
-                            "description": "Number quantity or status string like 'out_of_stock' or 'discontinued'"
-                        },
+                        "value": {"description": "Number quantity or status string like 'out_of_stock' or 'discontinued'"}
                     },
-                    "required": ["supplier_id", "item_id", "value"],
-                },
-            },
+                    "required": ["supplier_id", "item_id", "value"]
+                }
+            }
         }

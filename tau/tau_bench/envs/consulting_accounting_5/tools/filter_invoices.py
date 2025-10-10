@@ -1,22 +1,13 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any, Dict
-from datetime import timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class FilterInvoices(Tool):
     @staticmethod
-    def invoke(
-        data: Dict[str, Any],
-        publisher_id: str = None,
-        invoice_number: str = None,
-        invoice_date: str = None,
-        start_date: str = None,
-        end_date: str = None,
-        unpaid_only: bool = False,
-        min_amount: float = None,
-        max_amount: float = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
         Filter invoices by conditions such as invoice_number, date range, amount, or paid/unpaid status.
         Returns a list of matching invoice_ids.
@@ -24,32 +15,38 @@ class FilterInvoices(Tool):
         invoices = data["invoices"]
         results = invoices
 
-        if publisher_id is not None:
-            results = [inv for inv in results.values() if inv["publisher_id"] == publisher_id]
+        # Filter by invoice_number
+        if "publisher_id" in kwargs:
+            results = [inv for inv in results if inv["publisher_id"] == kwargs["publisher_id"]]
 
-        if invoice_number is not None:
-            results = [inv for inv in results.values() if inv["invoice_number"] == invoice_number]
+        # Filter by invoice_number
+        if "invoice_number" in kwargs:
+            results = [inv for inv in results if inv["invoice_number"] == kwargs["invoice_number"]]
 
-        if invoice_date is not None:
-            results = [inv for inv in results.values() if inv["invoice_date"] == invoice_date]
+        if "invoice_date" in kwargs:
+            results = [inv for inv in results if inv["invoice_date"] == kwargs["invoice_date"]]
 
-        if start_date is not None and end_date is not None:
-            start = datetime.strptime(start_date, "%Y-%m-%d")
-            end = datetime.strptime(end_date, "%Y-%m-%d")
+        # Filter by date range
+        if "start_date" in kwargs and "end_date" in kwargs:
+            start = datetime.strptime(kwargs["start_date"], "%Y-%m-%d")
+            end = datetime.strptime(kwargs["end_date"], "%Y-%m-%d")
             results = [
                 inv for inv in results
                 if start <= datetime.strptime(inv["invoice_date"], "%Y-%m-%d") <= end
             ]
 
-        if unpaid_only:
-            results = [inv for inv in results.values() if inv.get("paid_at") is None]
+        # Filter unpaid invoices only
+        if kwargs.get("unpaid_only"):
+            results = [inv for inv in results if inv.get("paid_at") is None]
 
-        if min_amount is not None:
-            results = [inv for inv in results.values() if float(inv["total_due"]) >= min_amount]
-        if max_amount is not None:
-            results = [inv for inv in results.values() if float(inv["total_due"]) <= max_amount]
+        # Filter by minimum/maximum amount
+        if "min_amount" in kwargs:
+            results = [inv for inv in results if float(inv["total_due"]) >= kwargs["min_amount"]]
+        if "max_amount" in kwargs:
+            results = [inv for inv in results if float(inv["total_due"]) <= kwargs["max_amount"]]
 
         return json.dumps([inv["invoice_id"] for inv in results])
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {

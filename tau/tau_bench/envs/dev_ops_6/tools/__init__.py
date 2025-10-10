@@ -1,15 +1,39 @@
-# Re-export TOOLS from the adjacent tools.py file
-import sys
-from pathlib import Path
+# Copyright Sierra
 
-# Add parent directory to path to import tools.py as a module
-_parent = Path(__file__).parent.parent
-_tools_module_path = _parent / "tools.py"
+from .get_loc_string import GetLocString
+from .create_tms_job import CreateTmsJob
+from .record_translations import RecordTranslations
+from .update_locale_validation import UpdateLocaleValidation
+from .link_work_items import LinkWorkItems
+from .tag_work_item_with_label import TagWorkItemWithLabel
+from .send_notification import SendNotification
+from .update_subtitle_timing import UpdateSubtitleTiming
+from .create_localization_workflow import CreateLocalizationWorkflow
+from .get_build_run import GetBuildRun
+from .get_source_change import GetSourceChange
+from .get_test_result import GetTestResult
+from .get_automation_run import GetAutomationRun
+from .get_ownership_for_path import GetOwnershipForPath
+from .get_asset import GetAsset
+from .get_tms_job import GetTmsJob
+from .get_localization_workflow import GetLocalizationWorkflow
 
-import importlib.util
-spec = importlib.util.spec_from_file_location("_tools_module", _tools_module_path)
-_tools_module = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(_tools_module)
-
-# Re-export TOOLS
-TOOLS = _tools_module.TOOLS
+ALL_TOOLS = [
+    GetLocString,
+    CreateTmsJob,
+    RecordTranslations,
+    UpdateLocaleValidation,
+    LinkWorkItems,
+    TagWorkItemWithLabel,
+    SendNotification,
+    UpdateSubtitleTiming,
+    CreateLocalizationWorkflow,
+    GetBuildRun,
+    GetSourceChange,
+    GetTestResult,
+    GetAutomationRun,
+    GetOwnershipForPath,
+    GetAsset,
+    GetTmsJob,
+    GetLocalizationWorkflow,
+]

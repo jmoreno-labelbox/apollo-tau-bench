@@ -1,46 +1,41 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateUserDetails(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, new_username: str = None, new_email: str = None) -> str:
-        for user in data.get("users", {}).values():
-            if user.get("user_id") == user_id:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        new_username = kwargs.get("new_username")
+        new_email = kwargs.get("new_email")
+
+        for user in list(data.get('users', {}).values()):
+            if user.get('user_id') == user_id:
                 if new_username:
-                    user["username"] = new_username
+                    user['username'] = new_username
                 if new_email:
-                    user["email"] = new_email
-                payload = user
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "User not found"}
-        out = json.dumps(payload)
-        return out
+                    user['email'] = new_email
+                return json.dumps(user)
+        return json.dumps({"error": "User not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "UpdateUserDetails",
-                "description": "Updates a user's username and/or email address.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "user_id": {"type": "string"},
-                        "new_username": {"type": "string"},
-                        "new_email": {"type": "string"},
-                    },
-                    "required": ["user_id"],
-                },
-            },
+                "type": "function",
+                "function": {
+                        "name": "update_user_details",
+                        "description": "Updates a user's username and/or email address.",
+                        "parameters": {
+                                "type": "object",
+                                "properties": {
+                                        "user_id": {"type": "string"},
+                                        "new_username": {"type": "string"},
+                                        "new_email": {"type": "string"}
+                                },
+                                "required": ["user_id"]
+                        }
+                }
         }

@@ -1,19 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class FindJiraTickets(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
-        issue_type: str | None = None,
-        status: str | None = None,
-        priority: str | None = None,
-        summary: str | None = None,
+        data: Dict[str, Any],
+        issue_type: Optional[str] = None,
+        status: Optional[str] = None,
+        priority: Optional[str] = None,
+        summary: Optional[str] = None,
     ) -> str:
-        pass
         results = []
-        for j in data["jira_tickets"].values():
+        for j in data["jira_tickets"]:
             if issue_type and j["issue_type"] != issue_type:
                 continue
             if status and j["status"] != status:
@@ -23,17 +25,15 @@ class FindJiraTickets(Tool):
             if summary and summary not in j["summary"]:
                 continue
             results.append(j)
-        payload = {"status": "ok", "jira_tickets": results}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "jira_tickets": results})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindJiraTickets",
-                "description": "Find TaskTrack tickets filtered by type, status, priority, or summary substring.",
+                "name": "find_jira_tickets",
+                "description": "Find Jira tickets filtered by type, status, priority, or summary substring.",
                 "parameters": {
                     "type": "object",
                     "properties": {

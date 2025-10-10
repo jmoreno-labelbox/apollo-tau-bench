@@ -1,21 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, time, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetScheduledPaymentDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], payment_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        payment_id = kwargs.get("payment_id")
         payment = next((p for p in data['scheduled_payments'] if p['payment_id'] == payment_id), None)
         if payment:
             return json.dumps(payment)
         return json.dumps({"error": "Scheduled payment not found."})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "GetScheduledPaymentDetails",
+                        "name": "get_scheduled_payment_details",
                         "description": "Retrieves the full details of a single scheduled payment.",
                         "parameters": {
                                 "type": "object",

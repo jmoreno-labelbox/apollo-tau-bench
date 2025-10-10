@@ -1,59 +1,39 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class DeleteReminderFromDatabase(Tool):
-    """Delete a reminder using its id."""
-
+    """Remove a reminder by id."""
     @staticmethod
-    def invoke(data: dict[str, Any], reminder_id: str = "") -> str:
+    def invoke(data: Dict[str, Any], reminder_id: str = "") -> str:
         if not reminder_id:
-            payload = {"error": "'reminder_id' parameter is required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        reminders = data.get("reminders", {}).values()
-        new_list = [r for r in reminders.values() if r["reminder_id"] != reminder_id]
+            return json.dumps({"error": "'reminder_id' parameter is required"}, indent=2)
+        reminders = data.get('reminders', [])
+        new_list = [r for r in reminders if r["reminder_id"] != reminder_id]
         if len(new_list) == len(reminders):
-            payload = {"error": "Reminder not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {
-                "success": "Reminder deleted",
-                "reminder_id": reminder_id,
-                "reminders": new_list,
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+            return json.dumps({"error": "Reminder not found"}, indent=2)
+        return json.dumps({"success": "Reminder deleted", "reminder_id": reminder_id, "reminders": new_list}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "deleteReminderFromDatabase",
+                "name": "delete_reminder_from_database",
                 "description": "Remove a reminder by id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "reminder_id": {
                             "type": "string",
-                            "description": "The id of the reminder to delete.",
+                            "description": "The id of the reminder to delete."
                         }
                     },
                     "required": ["reminder_id"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

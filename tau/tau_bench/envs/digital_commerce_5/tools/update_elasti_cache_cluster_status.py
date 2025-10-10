@@ -1,48 +1,36 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateElastiCacheClusterStatus(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], cluster_id: Any, status: Any, changed_at: Any
-    ) -> str:
+    def invoke(data: Dict[str, Any], cluster_id: str, status: str, changed_at: Any) -> str:
         cluster_id = _as_id(cluster_id)
-        clusters = data.get("aws_elasticache_clusters", {}).values()
-        m = next(
-            (c for c in clusters.values() if _as_id(c.get("cluster_id")) == cluster_id), None
-        )
+        clusters = data.get("aws_elasticache_clusters", [])
+        m = next((c for c in clusters if _as_id(c.get("cluster_id")) == cluster_id), None)
         if not m:
             return _err("Cluster not found.")
         m["status"] = str(status)
         m["last_modified_at"] = str(changed_at)
-        payload = {
-            "cluster_id": cluster_id,
-            "status": m["status"],
-            "last_modified_at": m["last_modified_at"],
-        }
-        out = json.dumps(
-            payload, indent=2,
+        return json.dumps(
+            {
+                "cluster_id": cluster_id,
+                "status": m["status"],
+                "last_modified_at": m["last_modified_at"],
+            },
+            indent=2,
         )
-        return out
-        
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateElasticacheClusterStatus",
-                "description": "Set the lifecycle status on an ElastiCache cluster.",
+                "name": "update_elasticache_cluster_status",
+                "description": "Set the lifecycle status on an ElastiCache cluster. Use the current time per policy. Do not invent timestamps.",
                 "parameters": {
                     "type": "object",
                     "properties": {

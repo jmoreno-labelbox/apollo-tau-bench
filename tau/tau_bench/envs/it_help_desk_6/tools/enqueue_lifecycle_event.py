@@ -1,19 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class EnqueueLifecycleEvent(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
-        lifecycle_id: str,
-        memo_id: str,
-        employee_ref: str,
-        event: str,
-        status: str,
-        created_at: str,
+        data: Dict[str, Any], lifecycle_id: str, memo_id: str, employee_ref: str, event: str, status: str, created_at: str
     ) -> str:
-        pass
         row = {
             "lifecycle_id": lifecycle_id,
             "memo_id": memo_id,
@@ -33,16 +29,14 @@ class EnqueueLifecycleEvent(Tool):
                 "actor": "system_policy",
             },
         )
-        payload = {"status": "ok", "lifecycle": row}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "lifecycle": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "EnqueueLifecycleEvent",
+                "name": "enqueue_lifecycle_event",
                 "description": "Append a lifecycle_queue entry and a created audit record.",
                 "parameters": {
                     "type": "object",
@@ -54,14 +48,7 @@ class EnqueueLifecycleEvent(Tool):
                         "status": {"type": "string"},
                         "created_at": {"type": "string"},
                     },
-                    "required": [
-                        "lifecycle_id",
-                        "memo_id",
-                        "employee_ref",
-                        "event",
-                        "status",
-                        "created_at",
-                    ],
+                    "required": ["lifecycle_id", "memo_id", "employee_ref", "event", "status", "created_at"],
                 },
             },
         }

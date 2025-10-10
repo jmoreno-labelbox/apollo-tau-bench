@@ -1,29 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AddPaymentMethod(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        user_id: str,
-        payment_method_source: str,
-        last_four: str = None,
-        brand: str = None,
-        balance: int = None,
-    ) -> str:
-        pass
+    def invoke(data: Dict[str, Any], user_id: str, payment_method_source: str, last_four: str = None, brand: str = None, balance: int = None) -> str:
         users = data["users"]
-        #Verify if the user is present
-        user = [row for row in users.values() if row["user_id"] == user_id]
+        # Check if the user exists
+        user = [row for row in users if row["user_id"] == user_id]
         if len(user) > 1:
-            payload = {"error": "Multiple users found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Multiple users found"})
         if len(user) == 0:
-            payload = {"error": "User not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "User not found"})
         user = user[0]
 
         payment_method = {}
@@ -35,36 +26,27 @@ class AddPaymentMethod(Tool):
             if brand is not None:
                 payment_method["brand"] = brand
             else:
-                payload = {"error": "brand is required for credit card"}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"error": "brand is required for credit card"})
             if last_four is not None:
                 payment_method["last_four"] = last_four
             else:
-                payload = {"error": "last four digits are required for credit card"}
-                out = json.dumps(
-                    payload)
-                return out
+                return json.dumps({"error": "last four digits are required for credit card"})
             payment_method["id"] = f"credit_card_{user_id[-4:]}"
         elif payment_method_source == "paypal":
             payment_method["id"] = f"paypal_{user_id[-4:]}"
         else:
-            payload = {"error": "unsupported payment method source"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "unsupported payment method source"})
 
-        #Insert the new payment method
+        # Add the new payment method
         user["payment_methods"][payment_method["id"]] = payment_method
-        payload = user
-        out = json.dumps(payload)
-        return out
+        return json.dumps(user)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddPaymentMethod",
+                "name": "add_payment_method",
                 "description": "Add a new payment method for a user.",
                 "parameters": {
                     "type": "object",
@@ -75,20 +57,21 @@ class AddPaymentMethod(Tool):
                         },
                         "payment_method_source": {
                             "type": "string",
-                            "description": "The payment method to be added, including id, source (e.g., gift_card or credit_card), and balance if applicable.",
+                            "description": "The payment method to be added, including id, source (e.g., gift_card or credit_card), and balance if applicable."
                         },
                         "last_four": {
                             "type": "string",
-                            "description": "The last four digits of the credit card (required if source is credit card).",
+                            "description": "The last four digits of the credit card (required if source is credit card)."
                         },
                         "brand": {
                             "type": "string",
-                            "description": "The brand of the credit card, such as visa or mastercard (required if source is credit card).",
+                            "description": "The brand of the credit card, such as visa or mastercard (required if source is credit card)."
                         },
                         "balance": {
                             "type": "integer",
-                            "description": "The balance of the gift card, if not present the balance is set to 0.",
+                            "description": "The balance of the gift card, if not present the balance is set to 0."
                         },
+
                     },
                     "required": ["user_id", "payment_method_source"],
                 },

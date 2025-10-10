@@ -1,45 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetProductById(Tool):
-    """Fetch a product using product_id."""
+    """Return a product by product_id."""
+    @staticmethod
+    def invoke(data, **kwargs) -> str:
+        product_id = kwargs.get('product_id')
+        if not product_id:
+            return json.dumps({"error":"product_id is required"}, indent=2)
+        prod = next((p for p in list(data.get('products', {}).values()) if p.get('product_id') == product_id), None)
+        return json.dumps(prod or {"error": f"product_id {product_id} not found"}, indent=2)
 
     @staticmethod
-    def invoke(data, product_id: str = None) -> str:
-        if not product_id:
-            payload = {"error": "product_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
-        prod = next(
-            (p for p in data.get("products", {}).values() if p.get("product_id") == product_id),
-            None,
-        )
-        payload = prod or {"error": f"product_id {product_id} not found"}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
-    @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "getProductById",
-                "description": "Get a product by product_id.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"product_id": {"type": "string"}},
-                    "required": ["product_id"],
-                },
-            },
-        }
+        return {"type":"function","function":{"name":"get_product_by_id","description":"Get a product by product_id.","parameters":{"type":"object","properties":{"product_id":{"type":"string"}},"required":["product_id"]}}}

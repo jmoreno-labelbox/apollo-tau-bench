@@ -1,38 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetEmployeeReimbursementHistory(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str, fiscal_year: int = datetime.now().year) -> str:
-        if not employee_id:
-            payload = {"error": "employee_id is required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        fiscal_year = kwargs.get("fiscal_year", datetime.now().year)
 
-        employees = data.get("employees", {}).values()
-        reimbursements = data.get("reimbursements", {}).values()
+        if not employee_id:
+            return json.dumps({"error": "employee_id is required"})
+
+        employees = list(data.get("employees", {}).values())
+        reimbursements = data.get("reimbursements", [])
 
         employee = next(
-            (e for e in employees.values() if e.get("employee_id") == employee_id), None
+            (e for e in employees if e.get("employee_id") == employee_id), None
         )
         if not employee:
-            payload = {"error": f"Employee {employee_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Employee {employee_id} not found"})
 
         employee_reimbursements = [
-            r for r in reimbursements.values() if r.get("employee_id") == employee_id
+            r for r in reimbursements if r.get("employee_id") == employee_id
         ]
 
         history = {
@@ -58,15 +50,15 @@ class GetEmployeeReimbursementHistory(Tool):
                 )
                 delay_days = (submission_date - expense_date).days
                 delays.append(delay_days)
-        payload = history
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(history, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetEmployeeReimbursementHistory",
+                "name": "get_employee_reimbursement_history",
                 "description": "Get comprehensive reimbursement history for an employee",
                 "parameters": {
                     "type": "object",

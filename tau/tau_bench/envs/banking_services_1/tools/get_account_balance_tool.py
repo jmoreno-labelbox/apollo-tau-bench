@@ -1,8 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetAccountBalanceTool(Tool):
     """
@@ -20,7 +21,8 @@ class GetAccountBalanceTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get("account_id")
         if not account_id:
             return json.dumps({"error": "account_id is required"}, indent=2)
 
@@ -37,12 +39,13 @@ class GetAccountBalanceTool(Tool):
                 )
 
         return json.dumps({"error": "Account not found"}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAccountBalance",
+                "name": "get_account_balance",
                 "description": "Return the current balance of a customer's account.",
                 "parameters": {
                     "type": "object",

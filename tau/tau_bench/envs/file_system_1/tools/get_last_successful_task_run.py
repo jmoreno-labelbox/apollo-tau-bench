@@ -1,49 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetLastSuccessfulTaskRun(Tool):
-    """Identifies the log entry for the last successful completion of a task of a specific type."""
+    """Finds the log of the last time a task of a certain type completed successfully."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        task_type = kwargs.get("task_type")
+        successful_runs = [log for log in data.get('task_logs', []) if log.get('task_type') == task_type and log.get('result') == 'success']
+        if not successful_runs:
+            return json.dumps({"error": f"No successful run found for type '{task_type}'."})
+        last_run = max(successful_runs, key=lambda x: x['completed_at'])
+        return json.dumps(last_run)
 
     @staticmethod
-    def invoke(data: dict[str, Any], task_type: str = None) -> str:
-        successful_runs = [
-            log
-            for log in data.get("task_logs", {}).values()
-            if log.get("task_type") == task_type and log.get("result") == "success"
-        ]
-        if not successful_runs:
-            payload = {"error": f"No successful run found for type '{task_type}'."}
-            out = json.dumps(payload)
-            return out
-        last_run = max(successful_runs, key=lambda x: x["completed_at"])
-        payload = last_run
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetLastSuccessfulTaskRun",
-                "description": "Finds when a specific type of task last completed successfully.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "task_type": {
-                            "type": "string",
-                            "enum": ["archive", "file_check", "file_organization"],
-                        }
-                    },
-                    "required": ["task_type"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "get_last_successful_task_run", "description": "Finds when a specific type of task last completed successfully.", "parameters": {"type": "object", "properties": {"task_type": {"type": "string", "enum": ["archive", "file_check", "file_organization"]}}, "required": ["task_type"]}}}

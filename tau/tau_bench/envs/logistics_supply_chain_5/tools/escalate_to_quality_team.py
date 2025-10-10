@@ -1,7 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class EscalateToQualityTeam(Tool):
     @staticmethod
@@ -22,19 +24,20 @@ class EscalateToQualityTeam(Tool):
 
         if "escalations" not in data:
             data["escalations"] = []
-        data["escalations"][escalation_id] = escalation
+        data["escalations"].append(escalation)
 
         return json.dumps({
             "escalation_id": escalation_id,
             "assigned_to": "Quality Assurance Team",
             "expected_response_hours": escalation["expected_response_hours"]
         })
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "EscalateToQualityTeam",
+                "name": "escalate_to_quality_team",
                 "description": "Escalate incident to quality assurance team",
                 "parameters": {
                     "type": "object",

@@ -1,49 +1,42 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class conditional_compensation_check_and_update(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         employee_id: str,
         compensation_id: str,
         effective_date: str,
-        salary_threshold: float | None = None,
-        target_salary: float | None = None,
-        bonus_threshold: float | None = None,
-        target_bonus: float | None = None,
-        equity_increase_amount: float | None = None,
+        salary_threshold: Optional[float] = None,
+        target_salary: Optional[float] = None,
+        bonus_threshold: Optional[float] = None,
+        target_bonus: Optional[float] = None,
+        equity_increase_amount: Optional[float] = None,
     ) -> str:
-        # Retrieve the current compensation
-        comp = data.get("compensation_records", {}).values()
-        current = [c for c in comp.values() if c["employee_id"] == employee_id]
+        # Get current compensation
+        comp = data.get("compensation_records", [])
+        current = [c for c in comp if c["employee_id"] == employee_id]
         current.sort(key=lambda c: c["effective_date"], reverse=True)
 
         if not current:
-            payload = {"error": "No current compensation found for employee"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": "No current compensation found for employee"}, indent=2
             )
-            return out
 
         latest = current[0]
         changes_made = []
 
-        # Begin with existing values
+        # Start with current values
         new_salary = latest["base_salary"]
         new_bonus = latest["bonus_target_pct"]
         new_equity = latest["equity_grant"]
 
-        # Evaluate salary conditions
+        # Check salary condition
         if salary_threshold is not None and target_salary is not None:
             if latest["base_salary"] < salary_threshold:
                 new_salary = target_salary
@@ -55,7 +48,7 @@ class conditional_compensation_check_and_update(Tool):
                     f"salary ${latest['base_salary']:,} already above threshold ${salary_threshold:,}"
                 )
 
-        # Evaluate bonus conditions
+        # Check bonus condition
         if bonus_threshold is not None and target_bonus is not None:
             if latest["bonus_target_pct"] < bonus_threshold:
                 new_bonus = target_bonus
@@ -67,14 +60,14 @@ class conditional_compensation_check_and_update(Tool):
                     f"bonus {latest['bonus_target_pct']}% already above threshold {bonus_threshold}%"
                 )
 
-        # Manage equity increases
+        # Handle equity increase
         if equity_increase_amount is not None:
             new_equity = latest["equity_grant"] + equity_increase_amount
             changes_made.append(
                 f"equity increased by ${equity_increase_amount:,} from ${latest['equity_grant']:,} to ${new_equity:,}"
             )
 
-        # Generate a new compensation record
+        # Create new compensation record
         new_comp = {
             "compensation_id": compensation_id,
             "employee_id": employee_id,
@@ -85,27 +78,26 @@ class conditional_compensation_check_and_update(Tool):
             "effective_date": effective_date,
         }
 
-        # Delete the previous record with the same ID if it exists and insert the new one
-        comp = [c for c in comp.values() if c["compensation_id"] != compensation_id]
-        data["compensation_records"][new_comp["compensation_record_id"]] = new_comp
+        # Remove old record with same ID if exists and add new one
+        comp = [c for c in comp if c["compensation_id"] != compensation_id]
+        comp.append(new_comp)
         data["compensation_records"] = comp
-        payload = {
+
+        return json.dumps(
+            {
                 "success": f"Compensation audit completed for {employee_id}",
                 "changes": changes_made,
                 "new_compensation": new_comp,
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
-    
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ConditionalCompensationCheckAndUpdate",
+                "name": "conditional_compensation_check_and_update",
                 "description": "Check employee compensation against thresholds and update only if below thresholds, with equity adjustment.",
                 "parameters": {
                     "type": "object",

@@ -1,53 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchProducts(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], query: str, category: str | None = None) -> str:
-        _queryL = query or ''.lower()
-        _categoryL = category or ''.lower()
-        pass
-        products = data.get("products", {}).values()
+    def invoke(data: Dict[str, Any], query: str, category: Optional[str] = None) -> str:
+        products = list(data.get("products", {}).values())
         results = []
 
-        for product in products.values():
+        for product in products:
             if query.lower() in product.get("name", "").lower():
                 if category and product.get("category", "").lower() != category.lower():
                     continue
                 results.append(product)
-        payload = {"products": results, "count": len(results)}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"products": results, "count": len(results)}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "searchProducts",
+                "name": "search_products",
                 "description": "Search for products by name and optional category.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "query": {
-                            "type": "string",
-                            "description": "Search query for product name.",
-                        },
-                        "category": {
-                            "type": "string",
-                            "description": "Optional: Filter by product category.",
-                        },
+                        "query": {"type": "string", "description": "Search query for product name."},
+                        "category": {"type": "string", "description": "Optional: Filter by product category."}
                     },
-                    "required": ["query"],
-                },
-            },
+                    "required": ["query"]
+                }
+            }
         }

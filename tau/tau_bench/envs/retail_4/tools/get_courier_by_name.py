@@ -1,36 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCourierByName(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], courier_name: str = None) -> str:
+    def invoke(data: Dict[str, Any], courier_name: str) -> str:
         """
         Get courier details based on courier name (case-insensitive search)
 
         Data Sources: couriers.json (courier_id, name, coverage_area, contact_info, tracking_ids)
         """
         if not courier_name or not courier_name.strip():
-            payload = {"error": "Courier name is required", "status": "failed"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({
+                "error": "Courier name is required",
+                "status": "failed"
+            })
 
         courier_name = courier_name.strip()
 
         # Find courier by name (case-insensitive search)
-        couriers = data.get("couriers", {}).values()
+        couriers = data.get("couriers", [])
         matching_couriers = []
 
-        for courier in couriers.values():
+        for courier in couriers:
             stored_name = courier.get("name", "")
 
             # Exact match (case-insensitive)
@@ -38,16 +33,14 @@ class GetCourierByName(Tool):
                 matching_couriers.insert(0, courier)  # Put exact matches first
             # Partial match (case-insensitive)
             elif courier_name.lower() in stored_name.lower():
-                matching_data["couriers"][courier_id] = courier
+                matching_couriers.append(courier)
 
         if not matching_couriers:
-            payload = {
+            return json.dumps({
                 "error": f"No courier found with name containing '{courier_name}'",
                 "status": "not_found",
-                "search_term": courier_name,
-            }
-            out = json.dumps(payload)
-            return out
+                "search_term": courier_name
+            })
 
         # Return the first (best) match with detailed information
         best_match = matching_couriers[0]
@@ -56,15 +49,15 @@ class GetCourierByName(Tool):
         tracking_ids = best_match.get("tracking_ids", [])
         coverage_area = best_match.get("coverage_area", [])
 
+        # Check if courier has any active tracking IDs
+        has_available_tracking = len(tracking_ids) > 0
+
         # Determine service capabilities based on coverage
         service_capabilities = {
             "domestic_delivery": "USA" in coverage_area,
-            "international_delivery": len(
-                [country for country in coverage_area.values() if country != "USA"]
-            )
-            > 0,
+            "international_delivery": len([country for country in coverage_area if country != "USA"]) > 0,
             "total_coverage_countries": len(coverage_area),
-            "available_tracking_ids": len(tracking_ids),
+            "available_tracking_ids": len(tracking_ids)
         }
 
         result = {
@@ -74,35 +67,34 @@ class GetCourierByName(Tool):
             "courier_details": {
                 "courier_id": best_match.get("courier_id"),
                 "name": best_match.get("name"),
-                "contact_info": list(best_match.get("contact_info", {}).values()),
+                "contact_info": best_match.get("contact_info", {}),
                 "coverage_area": coverage_area,
                 "service_types": best_match.get("service_types", ["standard"]),
                 "base_cost": best_match.get("base_cost", 0),
                 "rating": best_match.get("rating", 0),
-                "specialties": best_match.get("specialties", []),
+                "specialties": best_match.get("specialties", [])
             },
             "service_capabilities": service_capabilities,
         }
-        payload = result
-        out = json.dumps(payload)
-        return out
-        
+
+        return json.dumps(result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCourierByName",
+                "name": "get_courier_by_name",
                 "description": "Get courier details based on courier name with case-insensitive search. Returns exact matches first, then partial matches.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "courier_name": {
                             "type": "string",
-                            "description": "Courier name to search for (case-insensitive, supports partial matching)",
+                            "description": "Courier name to search for (case-insensitive, supports partial matching)"
                         }
                     },
-                    "required": ["courier_name"],
-                },
-            },
+                    "required": ["courier_name"]
+                }
+            }
         }

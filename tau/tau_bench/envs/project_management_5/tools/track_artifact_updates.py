@@ -1,53 +1,42 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class TrackArtifactUpdates(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        cr_id: str,
-        artifact_type: str,
-        update_description: str,
-        version_after: str,
-        updated_by: str,
-        version_before: str = None,
-        update_id: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
+        artifact_type = kwargs.get("artifact_type")
+        update_description = kwargs.get("update_description")
+        version_before = kwargs.get("version_before")
+        version_after = kwargs.get("version_after")
+        updated_by = kwargs.get("updated_by")
+
         if not all(
             [cr_id, artifact_type, update_description, version_after, updated_by]
         ):
-            payload = {
-                "error": "cr_id, artifact_type, update_description, version_after, and updated_by are required"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": "cr_id, artifact_type, update_description, version_after, and updated_by are required"
+                }
+            )
 
-        change_requests = data.get("change_requests", {}).values()
-        artifact_updates = data.get("artifact_updates", {}).values()
+        change_requests = data.get("change_requests", [])
+        artifact_updates = data.get("artifact_updates", [])
 
-        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:
-            payload = {"error": f"Change request '{cr_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Change request '{cr_id}' not found"})
 
         if cr.get("status") != "approved":
-            payload = {"error": "Can only update artifacts for approved change requests"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "Can only update artifacts for approved change requests"}
+            )
 
-        update_id = update_id or f"au_{uuid.uuid4().hex[:8]}"
+        update_id = kwargs.get("update_id", f"au_{uuid.uuid4().hex[:8]}")
 
         artifact_update = {
             "update_id": update_id,
@@ -60,7 +49,7 @@ class TrackArtifactUpdates(Tool):
             "update_date": datetime.now().isoformat(),
         }
 
-        data["artifact_updates"][artifact_update["artifact_update_id"]] = artifact_update
+        artifact_updates.append(artifact_update)
 
         if "artifacts_updated" not in cr:
             cr["artifacts_updated"] = []
@@ -71,20 +60,22 @@ class TrackArtifactUpdates(Tool):
             cr["artifacts_pending"].remove(artifact_type)
 
         all_updated = len(cr.get("artifacts_pending", [])) == 0
-        payload = {
-            "success": True,
-            "artifact_update": artifact_update,
-            "all_artifacts_updated": all_updated,
-            "remaining_artifacts": cr.get("artifacts_pending", []),
-        }
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(
+            {
+                "success": True,
+                "artifact_update": artifact_update,
+                "all_artifacts_updated": all_updated,
+                "remaining_artifacts": cr.get("artifacts_pending", []),
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "TrackArtifactUpdates",
+                "name": "track_artifact_updates",
                 "description": "Track updates to project artifacts after change approval",
                 "parameters": {
                     "type": "object",

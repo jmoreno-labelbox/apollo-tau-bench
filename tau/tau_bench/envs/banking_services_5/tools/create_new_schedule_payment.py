@@ -1,34 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone, date, timedelta
-import calendar
-from typing import Any, Dict
-import random
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateNewSchedulePayment(Tool):
+    """Schedules a new payment for a customer with full validation and logic."""
     @staticmethod
-    def invoke(
-        data: Dict[str, Any],
-        amount: float = None,
-        beneficiary_id: str = None,
-        currency: str = "",
-        customer_id: str = None,
-        end_date_str: str = None,
-        frequency: str = "One-Time",
-        source_account_id: str = None,
-        start_date: Any = None,
-        start_date_str: str = None
-    ) -> str:
-        frequency = frequency.capitalize()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id       = kwargs.get("customer_id")
+        source_account_id = kwargs.get("source_account_id")
+        beneficiary_id    = kwargs.get("beneficiary_id")
+        amount            = kwargs.get("amount")
+        currency          = kwargs.get("currency", "")
+        frequency         = kwargs.get("frequency", "One-Time").capitalize()
+        start_date_str    = kwargs.get("start_date")
+        end_date_str      = kwargs.get("end_date")
 
         # required fields
         if not all([customer_id, source_account_id, beneficiary_id, amount, currency, frequency, start_date_str]):
@@ -47,7 +35,7 @@ class CreateNewSchedulePayment(Tool):
                 return json.dumps({"error": "end_date must be YYYY-MM-DD."}, indent=2)
 
         # validate source account and balance
-        account = next((a for a in data.get("accounts", {}).values() if a["account_id"] == source_account_id), None)
+        account = next((a for a in list(data.get("accounts", {}).values()) if a["account_id"] == source_account_id), None)
         if not account:
             return json.dumps({"error": "Source account not found."}, indent=2)
         if account.get("currency") != currency:
@@ -101,12 +89,13 @@ class CreateNewSchedulePayment(Tool):
             "status": status,
             "next_payment_date": new_payment["next_payment_date"]
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateNewSchedulePayment",
+                "name": "create_new_schedule_payment",
                 "description": (
                     "Schedules a new payment with logic for frequency, start/end dates, balance check, "
                     "and updates account balances accordingly."

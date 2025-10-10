@@ -1,46 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class TransferBudgetBetweenTeams(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        source_team_id: str = None,
-        target_team_id: str = None,
-        transfer_amount: float = None,
-        fiscal_year: int = datetime.now().year
-    ) -> str:
-        if not all([source_team_id, target_team_id, transfer_amount]):
-            payload = {"error": "All fields are required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        source_team_id = kwargs.get("source_team_id")
+        target_team_id = kwargs.get("target_team_id")
+        transfer_amount = kwargs.get("transfer_amount")
+        fiscal_year = kwargs.get("fiscal_year", datetime.now().year)
 
-        teams = data.get("teams", {}).values()
-        budgets = data.get("budgets", {}).values()
-        budget_transfers = data.get("budget_transfers", {}).values()
+        if not all([source_team_id, target_team_id, transfer_amount]):
+            return json.dumps({"error": "All fields are required"})
+
+        teams = data.get("teams", [])
+        budgets = data.get("budgets", [])
+        budget_transfers = data.get("budget_transfers", [])
 
         source_team = next(
-            (t for t in teams.values() if t.get("team_id") == source_team_id), None
+            (t for t in teams if t.get("team_id") == source_team_id), None
         )
         target_team = next(
-            (t for t in teams.values() if t.get("team_id") == target_team_id), None
+            (t for t in teams if t.get("team_id") == target_team_id), None
         )
 
         if not source_team or not target_team:
-            payload = {"error": "Source or target team not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Source or target team not found"})
 
         source_project_id = source_team.get("project_id")
         target_project_id = target_team.get("project_id")
@@ -48,16 +36,15 @@ class TransferBudgetBetweenTeams(Tool):
         source_budget = next(
             (
                 b
-                for b in budgets.values() if b.get("project_id") == source_project_id
+                for b in budgets
+                if b.get("project_id") == source_project_id
                 and b.get("fiscal_year") == fiscal_year
             ),
             None,
         )
 
         if not source_budget:
-            payload = {"error": "No budget found for source team's project"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "No budget found for source team's project"})
 
         available = (
             source_budget["total_budget"]
@@ -66,18 +53,18 @@ class TransferBudgetBetweenTeams(Tool):
         )
 
         if transfer_amount > available * 0.25:
-            payload = {
+            return json.dumps(
+                {
                     "error": f"Transfer amount exceeds 25% of available budget. Maximum allowed: ${available * 0.25}"
                 }
-            out = json.dumps(
-                payload)
-            return out
+            )
 
         source_dept = source_budget.get("department")
         target_budget = next(
             (
                 b
-                for b in budgets.values() if b.get("project_id") == target_project_id
+                for b in budgets
+                if b.get("project_id") == target_project_id
                 and b.get("fiscal_year") == fiscal_year
             ),
             None,
@@ -102,21 +89,21 @@ class TransferBudgetBetweenTeams(Tool):
             "fiscal_year": fiscal_year,
         }
 
-        data["budget_transfers"][new_transfer["budget_transfer_id"]] = new_transfer
+        budget_transfers.append(new_transfer)
 
         if new_transfer["status"] == "approved":
             source_budget["total_budget"] -= transfer_amount
             if target_budget:
                 target_budget["total_budget"] += transfer_amount
-        payload = {"success": True, "transfer": new_transfer}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"success": True, "transfer": new_transfer})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "TransferBudgetBetweenTeams",
+                "name": "transfer_budget_between_teams",
                 "description": "Transfer budget between teams based on their projects",
                 "parameters": {
                     "type": "object",

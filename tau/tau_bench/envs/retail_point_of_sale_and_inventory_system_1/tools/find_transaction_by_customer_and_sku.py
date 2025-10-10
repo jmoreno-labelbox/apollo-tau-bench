@@ -1,53 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindTransactionByCustomerAndSku(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], customer_id: str = None, sku: str = None) -> str:
-        transactions = data.get("transactions", {}).values()
-        for txn in transactions.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get('customer_id')
+        sku = kwargs.get('sku')
+        transactions = list(data.get("transactions", {}).values())  # Lista []
+        for txn in transactions:
             if txn.get("customer_id") == customer_id:
                 for item in txn.get("line_items", []):
                     if item.get("sku") == sku:
-                        payload = {
-                            "transaction_id": txn.get("transaction_id"),
-                            "unit_price": item.get("unit_price"),
-                        }
-                        out = json.dumps(payload)
-                        return out
-        payload = {}
-        out = json.dumps(payload)
-        return out
+                        return json.dumps({
+                            "transaction_id": txn.get("transaction_id"),  # Supondo que id esteja no objeto
+                            "unit_price": item.get("unit_price")
+                        })
+        return json.dumps({})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindTransactionByCustomerAndSku",
+                "name": "find_transaction_by_customer_and_sku",
                 "description": "Finds a past transaction for a customer containing a specific SKU and returns its ID and the item's unit price.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "customer_id": {
-                            "type": "string",
-                            "description": "The customer's unique ID.",
-                        },
-                        "sku": {
-                            "type": "string",
-                            "description": "The SKU of the product to find.",
-                        },
+                        "customer_id": {"type": "string", "description": "The customer's unique ID."},
+                        "sku": {"type": "string", "description": "The SKU of the product to find."},
                     },
                     "required": ["customer_id", "sku"],
                 },

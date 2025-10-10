@@ -1,20 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class LogTeamTraining(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str, course_id: str, skill_name: str) -> str:
-        # Create a consistent date derived from user_id and course_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        # Generate deterministic date based on user_id and course_id
+        user_id = kwargs["user_id"]
+        course_id = kwargs["course_id"]
 
-        # Develop a straightforward hash-based method for date generation to ensure uniformity
+        # Create a simple hash-based date generation for consistency
         import hashlib
 
         hash_input = f"{user_id}_{course_id}"
         hash_value = int(hashlib.md5(hash_input.encode()).hexdigest()[:8], 16)
-        days_offset = hash_value % 30  # A duration of 0 to 29 days from the reference date
+        days_offset = hash_value % 30  # 0-29 days from base date
 
-        # Adopt a constant base date for predictable outcomes
+        # Use a fixed base date for deterministic results
         base_date = "2025-07-01"
         from datetime import datetime, timedelta
 
@@ -23,22 +28,21 @@ class LogTeamTraining(Tool):
 
         entry = {
             "user_id": user_id,
-            "skill_name": skill_name,
+            "skill_name": kwargs["skill_name"],
             "course_id": course_id,
             "log_date": log_date,
         }
-        # This line locates the 'team_training_log' array in the data and appends the new entry.
-        # If the array is absent, it initializes it first.
+        # This line finds the 'team_training_log' list in the data and adds the new entry.
+        # If the list doesn't exist, it creates it first.
         data.setdefault("team_training_log", []).append(entry)
-        payload = {"message": "Training logged.", "entry": entry}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"message": "Training logged.", "entry": entry}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "LogTeamTraining",
+                "name": "log_team_training",
                 "description": "Logs a course training entry for a user for a specific skill with deterministic date.",
                 "parameters": {
                     "type": "object",

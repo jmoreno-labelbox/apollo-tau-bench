@@ -1,50 +1,43 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateReservation(Tool):
-
+    """
+    A tool to create a new reservation for a user.
+    """
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         user_email: str,
-        flight_details: list[dict[str, str]],
-        passengers: list[dict[str, str]],
-        cabin: str,
+        flight_details: List[Dict[str, str]],
+        passengers: List[Dict[str, str]],
+        cabin: str
     ) -> str:
-        users = data.get("users", {}).values()
-        reservations = data.get("reservations", {}).values()
+        users = list(data.get("users", {}).values())
+        reservations = list(data.get("reservations", {}).values())
 
         target_user = None
-        for user in users.values():
+        for user in users:
             if user.get("email") == user_email:
-                first_name = user.get("name", {}).values().get("first_name", "").lower()
-                last_name = user.get("name", {}).values().get("last_name", "").lower()
+                first_name = user.get("name", {}).get("first_name", "").lower()
+                last_name = user.get("name", {}).get("last_name", "").lower()
                 user_id = f"{first_name}_{last_name}_1234"
                 target_user = {"email": user_email, "id": user_id}
                 break
 
         if not target_user:
-            payload = {"error": "User not found", "email": user_email}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "User not found", "email": user_email})
 
         last_reservation_numeric_id = 0
         if reservations:
             numeric_ids = [
                 int(r["reservation_id"][3:])
-                for r in reservations.values() if r.get("reservation_id", "").startswith("RES")
-                and r["reservation_id"][3:].isdigit()
+                for r in reservations
+                if r.get("reservation_id", "").startswith("RES") and r["reservation_id"][3:].isdigit()
             ]
             if numeric_ids:
                 last_reservation_numeric_id = max(numeric_ids)
@@ -68,56 +61,43 @@ class CreateReservation(Tool):
             "total_baggages": len(passengers),
             "nonfree_baggages": 0,
             "insurance": "no",
-            "status": "CONFIRMED",
+            "status": "CONFIRMED"
         }
 
-        data["reservations"][reservation_id] = new_reservation
+        reservations.append(new_reservation)
 
-        for user in users.values():
+        for user in users:
             if user.get("email") == user_email:
                 if "reservations" not in user:
                     user["reservations"] = []
                 user["reservations"].append(new_reservation_id)
                 break
-        payload = new_reservation
-        out = json.dumps(payload)
-        return out
 
+        return json.dumps(new_reservation)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateReservation",
+                "name": "create_reservation",
                 "description": "Creates a new flight reservation for a user.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "user_email": {
-                            "type": "string",
-                            "description": "The email of the user making the reservation.",
-                        },
+                        "user_email": {"type": "string", "description": "The email of the user making the reservation."},
                         "flight_details": {
                             "type": "array",
                             "items": {
                                 "type": "object",
                                 "properties": {
                                     "flight_number": {"type": "string"},
-                                    "date": {
-                                        "type": "string",
-                                        "description": "Date in YYYY-MM-DD format.",
-                                    },
+                                    "date": {"type": "string", "description": "Date in YYYY-MM-DD format."},
                                     "origin": {"type": "string"},
-                                    "destination": {"type": "string"},
+                                    "destination": {"type": "string"}
                                 },
-                                "required": [
-                                    "flight_number",
-                                    "date",
-                                    "origin",
-                                    "destination",
-                                ],
-                            },
+                                "required": ["flight_number", "date", "origin", "destination"]
+                            }
                         },
                         "passengers": {
                             "type": "array",
@@ -126,20 +106,14 @@ class CreateReservation(Tool):
                                 "properties": {
                                     "first_name": {"type": "string"},
                                     "last_name": {"type": "string"},
-                                    "dob": {
-                                        "type": "string",
-                                        "description": "Date of birth in YYYY-MM-DD format.",
-                                    },
+                                    "dob": {"type": "string", "description": "Date of birth in YYYY-MM-DD format."}
                                 },
-                                "required": ["first_name", "last_name", "dob"],
-                            },
+                                "required": ["first_name", "last_name", "dob"]
+                            }
                         },
-                        "cabin": {
-                            "type": "string",
-                            "description": "The cabin class (e.g., 'economy', 'business').",
-                        },
+                        "cabin": {"type": "string", "description": "The cabin class (e.g., 'economy', 'business')."}
                     },
-                    "required": ["user_email", "flight_details", "passengers", "cabin"],
-                },
-            },
+                    "required": ["user_email", "flight_details", "passengers", "cabin"]
+                }
+            }
         }

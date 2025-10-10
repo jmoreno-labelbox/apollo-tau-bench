@@ -1,48 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListAuditLogsTool(Tool):
-    """Display audit logs with optional filters: action_type, user_id (actor_id), target_id, date range.
+    """List audit logs with optional filters: action_type, user_id (actor_id), target_id, date range.
     Backward-compatible alias: filter_by == action_type.
     """
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        action_type: str = None,
-        user_id: str = None,
-        target_id: str = None,
-        date_from: str = None,
-        date_to: str = None,
-        filter_by: str = None,
-        actor_id: str = None
-    ) -> str:
-        # Support filter_by as alias for action_type, actor_id as alias for user_id
-        action_type = action_type or filter_by
-        user_id = user_id or actor_id
-        user_id = user_id
-        target_id = target_id
-        date_from = date_from
-        date_to = date_to
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        action_type = kwargs.get("action_type") or kwargs.get("filter_by")
+        user_id = kwargs.get("user_id")
+        target_id = kwargs.get("target_id")
+        date_from = kwargs.get("date_from")
+        date_to = kwargs.get("date_to")
 
-        logs = data.get("audit_logs", {}).values()
+        logs = data.get("audit_logs", [])
         out = []
 
         dt_from = _parse_iso(date_from)
         dt_to = _parse_iso(date_to)
 
-        for log in logs.values():
+        for log in logs:
             if action_type and not _eq(log.get("action_type"), action_type):
                 continue
             if user_id and not _eq(log.get("actor_id"), user_id):
@@ -58,15 +40,15 @@ class ListAuditLogsTool(Tool):
                     continue
 
             out.append(log)
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListAuditLogs",
+                "name": "list_audit_logs",
                 "description": "List audit logs with optional filters.",
                 "parameters": {
                     "type": "object",

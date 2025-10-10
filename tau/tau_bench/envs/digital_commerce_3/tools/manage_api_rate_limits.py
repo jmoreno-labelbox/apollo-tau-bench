@@ -1,12 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ManageApiRateLimits(Tool):
-    """Establish and oversee API rate limiting rules."""
+    """Configure and manage API rate limiting policies."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], api_endpoint: Any, rate_limit: Any = 100) -> str:
+    def invoke(data: Dict[str, Any], api_endpoint: Any, rate_limit: Any = 100) -> str:
+        api_endpoint = api_endpoint
+        rate_limit = rate_limit
+
         if not api_endpoint:
             return _error("api_endpoint is required.")
 
@@ -29,18 +35,14 @@ class ManageApiRateLimits(Tool):
             "status": "configured",
         }
 
-        _append_audit(
-            data, "rate_limit_configured", limit_id, {"api_endpoint": api_endpoint}
-        )
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(result, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ManageApiRateLimits",
+                "name": "manage_api_rate_limits",
                 "description": "Configure and manage API rate limiting policies.",
                 "parameters": {
                     "type": "object",

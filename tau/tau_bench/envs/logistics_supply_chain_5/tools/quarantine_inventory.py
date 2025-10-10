@@ -1,11 +1,17 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class QuarantineInventory(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], lot_number: str = None, warehouse_id: str = None, reason: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        lot_number = kwargs.get("lot_number")
+        warehouse_id = kwargs.get("warehouse_id")
+        reason = kwargs.get("reason")
+
         quarantine_id = f"QTN-{lot_number}-{warehouse_id}"
 
         return json.dumps({
@@ -16,17 +22,18 @@ class QuarantineInventory(Tool):
             "status": "Quarantined",
             "quarantine_date": get_current_timestamp()
         })
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "QuarantineInventory",
-                "description": "Quarantine inventory items by EAC number",
+                "name": "quarantine_inventory",
+                "description": "Quarantine inventory items by lot number",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "lot_number": {"type": "string", "description": "EAC number to quarantine"},
+                        "lot_number": {"type": "string", "description": "Lot number to quarantine"},
                         "warehouse_id": {"type": "string", "description": "Warehouse identifier"},
                         "reason": {"type": "string", "description": "Reason for quarantine"}
                     },

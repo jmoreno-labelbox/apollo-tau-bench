@@ -1,39 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CalculateChangeROI(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        cr_id: str,
-        expected_benefits: dict = {},
-        benefit_timeframe_months: int = 12
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
+        expected_benefits = kwargs.get("expected_benefits", {})
+        benefit_timeframe_months = kwargs.get("benefit_timeframe_months", 12)
+
         if not cr_id:
-            payload = {"error": "cr_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "cr_id is required"})
 
-        change_requests = data.get("change_requests", {}).values()
+        change_requests = data.get("change_requests", [])
 
-        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:
-            payload = {"error": f"Change request '{cr_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Change request '{cr_id}' not found"})
 
-        impact = cr.get("impact_assessment", {}).values()
+        impact = cr.get("impact_assessment", {})
         total_cost = impact.get("budget_impact", 0)
 
         for resource in impact.get("resource_requirements", []):
@@ -84,18 +72,18 @@ class CalculateChangeROI(Tool):
             recommendation = "Consider with caution - Low ROI"
         else:
             recommendation = "Not recommended - Negative ROI"
-        payload = {
+
+        return json.dumps(
+            {
                 "cr_id": cr_id,
                 "financial_analysis": {
                     "total_cost": total_cost,
                     "total_benefits": total_benefits,
                     "benefit_breakdown": benefit_breakdown,
                     "roi_percentage": round(roi_percentage, 1),
-                    "payback_period_months": (
-                        round(payback_period_months, 1)
-                        if payback_period_months
-                        else None
-                    ),
+                    "payback_period_months": round(payback_period_months, 1)
+                    if payback_period_months
+                    else None,
                     "benefit_timeframe_months": benefit_timeframe_months,
                 },
                 "recommendation": recommendation,
@@ -103,17 +91,16 @@ class CalculateChangeROI(Tool):
                     "hourly_rate": "$150/hour",
                     "working_hours_per_month": 160,
                 },
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateChangeRoi",
+                "name": "calculate_change_roi",
                 "description": "Calculate return on investment for a change request",
                 "parameters": {
                     "type": "object",

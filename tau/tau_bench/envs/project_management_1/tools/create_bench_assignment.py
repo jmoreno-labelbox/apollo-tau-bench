@@ -1,38 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateBenchAssignment(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        employee_id: str,
-        start_date: str,
-        skills: list = [],
-        availability: str = "immediate",
-        preferred_projects: list = []
-    ) -> str:
-        if not all([employee_id, start_date]):
-            payload = {"error": "employee_id and start_date are required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        start_date = kwargs.get("start_date")
+        skills = kwargs.get("skills", [])
+        availability = kwargs.get("availability", "immediate")
+        preferred_projects = kwargs.get("preferred_projects", [])
 
-        bench_resources = data.get("bench_resources", {}).values()
-        allocations = data.get("allocations", {}).values()
+        if not all([employee_id, start_date]):
+            return json.dumps({"error": "employee_id and start_date are required"})
+
+        bench_resources = data.get("bench_resources", [])
+        allocations = data.get("allocations", [])
 
         employee_allocations = [
             alloc
-            for alloc in allocations.values() if alloc.get("employee_id") == employee_id
+            for alloc in allocations
+            if alloc.get("employee_id") == employee_id
             and alloc.get("status") == "active"
         ]
 
@@ -48,6 +39,7 @@ class CreateBenchAssignment(Tool):
                 if alloc_end >= bench_start:
                     active_allocations_during_bench.append(alloc)
             else:
+
                 active_allocations_during_bench.append(alloc)
 
         total_allocated_hours = sum(
@@ -69,36 +61,40 @@ class CreateBenchAssignment(Tool):
             "fully_available": is_actually_available,
         }
 
-        data["bench_resources"][new_assignment["bench_resource_id"]] = new_assignment
+        bench_resources.append(new_assignment)
 
         available_resources = len(
             [
                 r
-                for r in bench_resources.values() if r.get("status") == "active" and r.get("fully_available", True)
+                for r in bench_resources
+                if r.get("status") == "active" and r.get("fully_available", True)
             ]
         )
 
         partially_available = len(
             [
                 r
-                for r in bench_resources.values() if r.get("status") == "active" and not r.get("fully_available", True)
+                for r in bench_resources
+                if r.get("status") == "active" and not r.get("fully_available", True)
             ]
         )
-        payload = {
-            "success": True,
-            "bench_assignment": "created",
-            "available_resources": available_resources,
-            "partially_available_resources": partially_available,
-            "assignment_details": new_assignment,
-        }
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(
+            {
+                "success": True,
+                "bench_assignment": "created",
+                "available_resources": available_resources,
+                "partially_available_resources": partially_available,
+                "assignment_details": new_assignment,
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateBenchAssignment",
+                "name": "create_bench_assignment",
                 "description": "Assign an employee to the bench",
                 "parameters": {
                     "type": "object",

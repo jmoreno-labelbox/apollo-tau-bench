@@ -1,36 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CheckTimeLoggingCompliance(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], sprint_id: str = None, check_all: bool = False) -> str:
-        tasks = data.get("tasks", {}).values()
-        time_logs = data.get("time_logs", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        sprint_id = kwargs.get("sprint_id")
+        check_all = kwargs.get("check_all", False)
+
+        tasks = list(data.get("tasks", {}).values())
+        time_logs = data.get("time_logs", [])
 
         if sprint_id:
-            tasks_to_check = [t for t in tasks.values() if t.get("sprint_id") == sprint_id]
+            tasks_to_check = [t for t in tasks if t.get("sprint_id") == sprint_id]
         elif check_all:
             tasks_to_check = tasks
         else:
-            payload = {"error": "Either sprint_id must be provided or check_all must be True"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "Either sprint_id must be provided or check_all must be True"}
+            )
 
         non_compliant_tasks = []
 
         for task in tasks_to_check:
             if task.get("status") in ["in_progress", "done"]:
+
                 last_logged = task.get("last_time_logged")
                 if last_logged:
                     try:
@@ -53,6 +50,7 @@ class CheckTimeLoggingCompliance(Tool):
                     except:
                         pass
                 else:
+
                     non_compliant_tasks.append(
                         {
                             "task_id": task.get("task_id"),
@@ -66,9 +64,10 @@ class CheckTimeLoggingCompliance(Tool):
                 if task.get("status") == "done":
                     task_logs = [
                         log
-                        for log in time_logs.values() if log.get("task_id") == task.get("task_id")
+                        for log in time_logs
+                        if log.get("task_id") == task.get("task_id")
                     ]
-                    total_hours = sum(log.get("hours", 0) for log in task_logs.values())
+                    total_hours = sum(log.get("hours", 0) for log in task_logs)
                     required_hours = task.get("story_points", 0) * 2 * 0.5
 
                     if total_hours < required_hours:
@@ -99,21 +98,22 @@ class CheckTimeLoggingCompliance(Tool):
                                     },
                                 }
                             )
-        payload = {
-            "tasks_checked": len(tasks_to_check),
-            "non_compliant_count": len(non_compliant_tasks),
-            "non_compliant_tasks": non_compliant_tasks,
-        }
-        out = json.dumps(
-            payload, indent=2,
+
+        return json.dumps(
+            {
+                "tasks_checked": len(tasks_to_check),
+                "non_compliant_count": len(non_compliant_tasks),
+                "non_compliant_tasks": non_compliant_tasks,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CheckTimeLoggingCompliance",
+                "name": "check_time_logging_compliance",
                 "description": "Check time logging compliance for tasks",
                 "parameters": {
                     "type": "object",

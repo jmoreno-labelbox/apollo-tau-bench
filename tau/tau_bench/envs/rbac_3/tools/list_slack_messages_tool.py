@@ -1,27 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListSlackMessagesTool(Tool):
     """list_slack_messages"""
 
     @staticmethod
-    def invoke(data: dict[str, Any], channel: str = None, date_from: str = None, date_to: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        channel = kwargs.get("channel")
+        date_from = kwargs.get("date_from")
+        date_to = kwargs.get("date_to")
+
         dt_from = _parse_iso(date_from)
         dt_to = _parse_iso(date_to)
 
-        msgs: list[dict[str, Any]] = data.get("slack_messages", {}).values()
-        out: list[dict[str, Any]] = []
+        msgs: List[Dict[str, Any]] = data.get("slack_messages", [])
+        out: List[Dict[str, Any]] = []
         for m in msgs:
             if channel and not _eq(m.get("channel"), channel):
                 continue
@@ -36,15 +33,14 @@ class ListSlackMessagesTool(Tool):
         out.sort(
             key=lambda r: ((r.get("timestamp") or ""), (r.get("message_id") or ""))
         )
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "listSlackMessages",
+                "name": "list_slack_messages",
                 "description": (
                     "List Slack messages with optional channel and time filters."
                 ),

@@ -1,26 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateAndReviewAccessRequestTool(Tool):
     """
     create_and_review_access_request
-    Generate an access request and promptly review it according to policy (with audit). If authorized, assign role.
+    Create an access request and immediately review it per policy (with audit). If approved, assign role.
     """
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        request_id: str = None,
-        user_id: str = None,
-        resource_id: str = None,
-        requested_role_id: str = None,
-        justification: str = "",
-        reviewer_id: str = None
-    ) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        request_id = kwargs.get("request_id")
+        user_id = kwargs.get("user_id")
+        resource_id = kwargs.get("resource_id")
+        requested_role_id = kwargs.get("requested_role_id")
+        justification = kwargs.get("justification") or ""
+        reviewer_id = kwargs.get("reviewer_id")
+
         missing = [
             k
             for k in [
@@ -30,16 +29,14 @@ class CreateAndReviewAccessRequestTool(Tool):
                 "requested_role_id",
                 "reviewer_id",
             ]
-            if not locals().get(k)
+            if not kwargs.get(k)
         ]
         if missing:
-            payload = {"error": f"Missing required: {', '.join(missing)}"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": f"Missing required: {', '.join(missing)}"}, indent=2
             )
-            return out
 
-        # Establish if not present
+        # Create if absent
         json.loads(
             CreateAccessRequestTool.invoke(
                 data,
@@ -52,16 +49,17 @@ class CreateAndReviewAccessRequestTool(Tool):
             )
         )
 
-        # Execute end-to-end with the current composite
+        # Process end-to-end using existing composite
         return ProcessAccessRequestE2ETool.invoke(
             data, request_id=request_id, reviewer_id=reviewer_id
         )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createAndReviewAccessRequest",
+                "name": "create_and_review_access_request",
                 "description": (
                     "Create an access request and process it end-to-end per policy."
                 ),

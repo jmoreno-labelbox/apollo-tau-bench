@@ -1,43 +1,36 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RemoveItemFromCart(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], cart_id: Any, product_id: Any) -> str:
+    def invoke(data: Dict[str, Any], cart_id: str, product_id: Any) -> str:
         cart_id = _as_id(cart_id)
         product_id = _as_id(product_id)
         if not cart_id or not product_id:
             return _err("cart_id and product_id are required.")
-        items = data.get("cart_items", {}).values()
+        items = data.get("cart_items", [])
         before = len(items)
         data["cart_items"] = [
             ci
-            for ci in items.values() if not (
-                _as_id(ci.get("cart_id")) == cart_id
-                and _as_id(ci.get("product_id")) == product_id
+            for ci in items
+            if not (
+                _as_id(ci.get("cart_id")) == cart_id and _as_id(ci.get("product_id")) == product_id
             )
         ]
         if len(data["cart_items"]) == before:
             return _err("Cart line not found.")
-        payload = {"removed_cart_item_id": f"{cart_id}:{product_id}"}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"removed_cart_item_id": f"{cart_id}:{product_id}"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RemoveItemFromCart",
+                "name": "remove_item_from_cart",
                 "description": "Remove a product from a cart.",
                 "parameters": {
                     "type": "object",

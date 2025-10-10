@@ -1,30 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetCacheCluster(Tool):
     @staticmethod
-    def invoke(data, cluster_id: str, endpoint_url: str = None, instance_type: str = None, security_group_id: str = None, status: str = None) -> str:
+    def invoke(data, cluster_id: str) -> str:
         rows = data.setdefault("aws_elasticache_clusters", [])
         row = next((r for r in rows if str(r.get("cluster_id")) == cluster_id), None)
         if not row:
             raise ValueError(f"cache cluster not found: {cluster_id}")
-        payload = {
-            "cluster_id": row["cluster_id"],
-            "endpoint_url": row["endpoint_url"],
-            "instance_type": row["instance_type"],
-            "security_group_id": row["security_group_id"],
-            "status": row["status"],
-        }
-        out = json.dumps(payload)
-        return out
+        return json.dumps(
+            {
+                "cluster_id": row["cluster_id"],
+                "endpoint_url": row["endpoint_url"],
+                "instance_type": row["instance_type"],
+                "security_group_id": row["security_group_id"],
+                "status": row["status"],
+            }
+        )
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GetCacheCluster",
+                "name": "get_cache_cluster",
                 "description": "Read existing ElastiCache cluster by id.",
                 "parameters": {
                     "type": "object",

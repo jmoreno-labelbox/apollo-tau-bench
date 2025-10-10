@@ -1,34 +1,27 @@
-from tau_bench.envs.tool import Tool
-import csv
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FetchCreativeRotation(Tool):
-    """Provide creative rotation records filtered by adset_id or rotation_id from the database snapshot.
+    """Return creative rotation records filtered by adset_id or rotation_id from the DB snapshot.
 
-    The output rows will include: old_ad_id, new_ad_id, rotated_at, rationale.
-    If neither adset_id nor rotation_id is supplied, it returns 'none'.
+    Output rows contain exactly: old_ad_id, new_ad_id, rotated_at, rationale.
+    If neither adset_id nor rotation_id is provided, returns the string 'none'.
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None, rotation_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
+        rotation_id = kwargs.get("rotation_id")
+
         if not adset_id and not rotation_id:
-            payload = "no rotation"
-            out = json.dumps(payload)
-            return out
+            return json.dumps("no rotation")
 
         rows = []
-        for r in data.get("creative_rotations", {}).values():
+        for r in data.get("creative_rotations", []):
             if rotation_id and str(r.get("rotation_id")) == str(rotation_id):
                 rows.append(r)
             elif adset_id and str(r.get("adset_id")) == str(adset_id):
@@ -36,31 +29,22 @@ class FetchCreativeRotation(Tool):
 
         results = []
         for r in rows:
-            results.append(
-                {
-                    "old_ad_id": r.get("old_ad_id"),
-                    "new_ad_id": r.get("new_ad_id"),
-                    "rotated_at": r.get("rotated_at") or r.get("date"),
-                    "rationale": r.get("rationale"),
-                }
-            )
+            results.append({
+                "old_ad_id": r.get("old_ad_id"),
+                "new_ad_id": r.get("new_ad_id"),
+                "rotated_at": r.get("rotated_at") or r.get("date"),
+                "rationale": r.get("rationale"),
+            })
 
-        results.sort(
-            key=lambda x: (
-                x.get("rotated_at") or "",
-                str(x.get("old_ad_id") or ""),
-                str(x.get("new_ad_id") or ""),
-            )
-        )
-        payload = results
-        out = json.dumps(payload)
-        return out
+        results.sort(key=lambda x: (x.get("rotated_at") or "", str(x.get("old_ad_id") or ""), str(x.get("new_ad_id") or "")))
+        return json.dumps(results)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FetchCreativeRotation",
+                "name": "fetch_creative_rotation",
                 "description": "Fetch creative rotation rows (old_ad_id, new_ad_id, rotated_at, rationale) by adset_id or rotation_id.",
                 "parameters": {
                     "type": "object",
@@ -68,7 +52,7 @@ class FetchCreativeRotation(Tool):
                         "adset_id": {"type": "string"},
                         "rotation_id": {"type": "string"},
                     },
-                    "required": [],
+                    "required": []
                 },
             },
         }

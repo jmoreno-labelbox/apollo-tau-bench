@@ -1,17 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any, Dict
-from datetime import timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetInvoiceAuditTrail(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], invoice_id: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
         Returns audit_ids for all audit events tied to a given invoice_id.
         """
-        audit_ids = [a["audit_id"] for a in data["invoice_audit"].values() if a["invoice_id"] == invoice_id]
+        invoice_id = kwargs["invoice_id"]
+        audit_ids = [a["audit_id"] for a in data["invoice_audit"] if a["invoice_id"] == invoice_id]
         return json.dumps(audit_ids)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {

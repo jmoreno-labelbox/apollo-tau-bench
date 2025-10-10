@@ -1,48 +1,46 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListUsersTool(Tool):
-    """Display users with optional filtering."""
+    """List users with optional filters."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], department: str = None, status: str = None, mfa_enabled: bool = None) -> str:
-        users = data.get("users", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        dept = kwargs.get("department")
+        status = kwargs.get("status")
+        mfa_enabled = kwargs.get("mfa_enabled")
+        users = list(data.get("users", {}).values())
 
         results = []
-        for u in users.values():
-            if department and u["department"] != department:
+        for u in users:
+            if dept and u["department"] != dept:
                 continue
             if status and u["status"] != status:
                 continue
             if mfa_enabled is not None and u["mfa_enabled"] != mfa_enabled:
                 continue
             results.append(u)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListUsers",
+                "name": "list_users",
                 "description": "List users with optional filters",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "department": {"type": "string"},
                         "status": {"type": "string"},
-                        "mfa_enabled": {"type": "boolean"},
-                    },
-                },
-            },
+                        "mfa_enabled": {"type": "boolean"}
+                    }
+                }
+            }
         }

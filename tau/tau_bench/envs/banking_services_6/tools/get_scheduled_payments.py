@@ -1,28 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import date, datetime, time, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetScheduledPayments(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
-        scheduled_payments = data.get("scheduled_payments", {}).values()
-        customer_payments = [pay for pay in scheduled_payments.values() if pay.get("customer_id") == customer_id]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        scheduled_payments = data.get("scheduled_payments", [])
+        customer_payments = [pay for pay in scheduled_payments if pay.get("customer_id") == customer_id]
         return json.dumps(customer_payments)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "GetScheduledPayments",
+                        "name": "get_scheduled_payments",
                         "description": "Get all scheduled payments for a given customer.",
                         "parameters": {
                                 "type": "object",

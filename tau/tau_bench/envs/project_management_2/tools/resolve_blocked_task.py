@@ -1,36 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ResolveBlockedTask(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], task_id: str, resolution: str, unblock_dependencies: bool = False) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        task_id = kwargs.get("task_id")
+        resolution = kwargs.get("resolution")
+        unblock_dependencies = kwargs.get("unblock_dependencies", False)
+
         if not all([task_id, resolution]):
-            payload = {"error": "task_id and resolution are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "task_id and resolution are required"})
 
-        tasks = data.get("tasks", {}).values()
-        task_history = data.get("task_history", {}).values()
+        tasks = list(data.get("tasks", {}).values())
+        task_history = data.get("task_history", [])
 
-        task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
+        task = next((t for t in tasks if t.get("task_id") == task_id), None)
         if not task:
-            payload = {"error": f"Task '{task_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Task '{task_id}' not found"})
 
-        #if task.get("status") != "blocked":
-        #return json.dumps({"error": "Task is not in blocked status"})
+        # if task.get("status") != "blocked":
+        #     return json.dumps({"error": "Task is not in blocked status"})
 
         unresolved_deps = []
 
@@ -38,19 +31,18 @@ class ResolveBlockedTask(Tool):
             task["blocked_by"] = []
         else:
             for dep_id in task.get("dependencies", []):
-                dep_task = next((t for t in tasks.values() if t.get("task_id") == dep_id), None)
+                dep_task = next((t for t in tasks if t.get("task_id") == dep_id), None)
 
                 if dep_task and dep_task.get("status") != "done":
                     unresolved_deps.append(dep_id)
 
         if unresolved_deps:
-            payload = {
+            return json.dumps(
+                {
                     "error": "Cannot unblock task - dependencies not resolved",
                     "unresolved_dependencies": unresolved_deps,
                 }
-            out = json.dumps(
-                payload)
-            return out
+            )
 
         history_entry = {
             "history_id": f"hist_{uuid.uuid4().hex[:8]}",
@@ -59,28 +51,28 @@ class ResolveBlockedTask(Tool):
             "resolution": resolution,
             "timestamp": datetime.now().isoformat(),
         }
-        data["task_history"][history_entry["task_history_id"]] = history_entry
+        task_history.append(history_entry)
 
         task["status"] = "todo"
         task["blocked_date"] = None
         task["updated_date"] = datetime.now().isoformat()
 
         if task.get("escalated"):
-            escalations = data.get("escalations", {}).values()
-            for esc in escalations.values():
+            escalations = data.get("escalations", [])
+            for esc in escalations:
                 if esc.get("task_id") == task_id and not esc.get("resolved"):
                     esc["resolved"] = True
                     esc["resolution_date"] = datetime.now().isoformat()
                     esc["resolution"] = resolution
-        payload = {"success": True, "task": task, "resolution": resolution}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"success": True, "task": task, "resolution": resolution})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ResolveBlockedTask",
+                "name": "resolve_blocked_task",
                 "description": "Resolve a blocked task and move it back to todo",
                 "parameters": {
                     "type": "object",

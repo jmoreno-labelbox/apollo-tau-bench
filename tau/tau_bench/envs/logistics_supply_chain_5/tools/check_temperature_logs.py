@@ -1,23 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CheckTemperatureLogs(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], shipment_id: str = None, required_temp_range: str = None, excursions_flag: bool = False,
-    required_range: Any = None,
-    ) -> str:
-        shipments = data.get("inbound_shipments", {}).values()
-        shipment = next((s for s in shipments.values() if s.get("shipment_id") == shipment_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        shipment_id = kwargs.get("shipment_id")
+        shipments = data.get("inbound_shipments", [])
+        required_temp_range = kwargs.get("required_temp_range")
+        shipment = next((s for s in shipments if s.get("shipment_id") == shipment_id), None)
+        excursions_flag = kwargs.get("excursions_flag", False)
 
         excursions_detected = False
         temperature_compliance = "compliant"
@@ -29,11 +24,11 @@ class CheckTemperatureLogs(Tool):
                 max_temp = float(temp_range[1].replace('C', '').strip())
             elif 'to' in required_temp_range:
                 to_range = required_temp_range.replace('C', '').split('to')
-                # Manage negative values within the temperature range
+                # Handle negative values in the temperature range
                 min_temp = float(to_range[0].strip())
                 max_temp = float(to_range[1].strip())
             elif 'Cool, Dry' in required_temp_range:
-                min_temp = float(15)
+                min_temp  = float(15)
                 max_temp = float(25)
             else:
                 min_temp = float(temp_range[0].replace('C', '').strip())
@@ -47,14 +42,15 @@ class CheckTemperatureLogs(Tool):
                     excursions_detected = True
                     temperature_compliance = "non-compliant"
 
+
         else:
             if shipment['temperature_celsius'] is None:
                 excursions_detected = False
                 temperature_compliance = "compliant"
 
         if excursions_flag:
-            excursions_detected = True
-            temperature_compliance = "non-compliant"
+                excursions_detected = True
+                temperature_compliance = "non-compliant"
 
         return json.dumps({
             "shipment_id": shipment_id,
@@ -63,12 +59,13 @@ class CheckTemperatureLogs(Tool):
             "actual_temperature": shipment['temperature_celsius'],
             "excursions_detected": excursions_detected
         })
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CheckTemperatureLogs",
+                "name": "check_temperature_logs",
                 "description": "Check temperature monitoring logs for a shipment",
                 "parameters": {
                     "type": "object",

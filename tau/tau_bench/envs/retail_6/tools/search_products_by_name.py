@@ -1,36 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchProductsByName(Tool):
-    """Search for a substring in names without case sensitivity (read-only)."""
+    """Case-insensitive substring name search (read-only)."""
+    @staticmethod
+    def invoke(data, **kwargs) -> str:
+        q = kwargs.get('query','').lower()
+        out = [p for p in list(data.get('products', {}).values()) if q in p.get('name','').lower()]
+        return json.dumps(out, indent=2)
 
     @staticmethod
-    def invoke(data, query: str = "") -> str:
-        q = query.lower()
-        out = [p for p in data.get("products", {}).values() if q in p.get("name", "").lower()]
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "searchProductsByName",
-                "description": "Search products by name (case-insensitive contains).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"query": {"type": "string"}},
-                },
-            },
-        }
+        return {"type":"function","function":{"name":"search_products_by_name","description":"Search products by name (case-insensitive contains).","parameters":{"type":"object","properties":{"query":{"type":"string"}}}}}

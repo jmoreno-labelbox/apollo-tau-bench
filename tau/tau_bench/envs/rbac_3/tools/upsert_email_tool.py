@@ -1,58 +1,53 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpsertEmailTool(Tool):
     """upsert_email
-    Create or update an email record in a deterministic manner with only exclusive fields.
-    - Create when email_id is absent; sets timestamp to HARD_TS.
-    - Update when email_id is present; alters only specified fields (no updated_at).
+    Create or update an email record deterministically with exclusive fields only.
+    - Create when email_id not present; sets timestamp to HARD_TS.
+    - Update when email_id exists; modifies only provided fields (no updated_at).
     """
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        email_id: str = None,
-        sender: str = None,
-        receiver: str = None,
-        subject: str = None,
-        text_content: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        email_id = kwargs.get("email_id")
         if not email_id:
-            payload = {"error": "email_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "email_id is required"}, indent=2)
 
-        emails: list[dict[str, Any]] = data.setdefault("emails", [])
+        emails: List[Dict[str, Any]] = data.setdefault("emails", [])
         rec = next((e for e in emails if e.get("email_id") == email_id), None)
+
+        sender = kwargs.get("sender")
+        receiver = kwargs.get("receiver")
+        subject = kwargs.get("subject")
+        text_content = kwargs.get("text_content")
 
         if rec is None:
             if not receiver or not subject or not text_content:
-                payload = {
-                    "error": (
-                        "receiver, subject, and text_content are required for creation"
-                    )
-                }
-                out = json.dumps(
-                    payload, indent=2,
+                return json.dumps(
+                    {
+                        "error": (
+                            "receiver, subject, and text_content are required for creation"
+                        )
+                    },
+                    indent=2,
                 )
-                return out
             rec = {
                 "email_id": email_id,
                 "timestamp": _HARD_TS,
-                "sender": sender or "rbac-bot@sigmatech.com",
+                "sender": sender or "rbac-bot@taucorp.com",
                 "receiver": receiver,
                 "subject": subject,
                 "text_content": text_content,
             }
             emails.append(rec)
-            payload = rec
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps(rec, indent=2)
 
-        # UPDATE (only exclusive fields)
+        # UPDATE (exclusive fields only)
         if sender is not None:
             rec["sender"] = sender
         if receiver is not None:
@@ -61,15 +56,15 @@ class UpsertEmailTool(Tool):
             rec["subject"] = subject
         if text_content is not None:
             rec["text_content"] = text_content
-        payload = rec
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(rec, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "upsertEmail",
+                "name": "upsert_email",
                 "description": (
                     "Create or update an email record deterministically (exclusive fields only)."
                 ),

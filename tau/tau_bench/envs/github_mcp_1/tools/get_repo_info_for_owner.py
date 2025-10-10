@@ -1,46 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetRepoInfoForOwner(Tool):
     """Returns key repository info (including file paths and contents) for a given owner + repo_name."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], owner: str = "", repo_name: str = "") -> str:
-        owner = owner.strip()
-        repo_name = repo_name.strip()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner = kwargs.get("owner", "").strip()
+        repo_name = kwargs.get("repo_name", "").strip()
 
         if not owner or not repo_name:
-            payload = {"error": "Both 'owner' and 'repo_name' are required."}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": "Both 'owner' and 'repo_name' are required."},
+                indent=2
             )
-            return out
 
         # DB may be { "repositories": [...] } or a direct list
-        repos = data.get("repositories", {}).values()
+        repos = list(data.get("repositories", {}).values())
 
         repo = next(
-            (
-                r
-                for r in repos.values() if r.get("owner") == owner and r.get("repo_name") == repo_name
-            ),
-            None,
+            (r for r in repos
+             if r.get("owner") == owner and r.get("repo_name") == repo_name),
+            None
         )
         if not repo:
-            payload = {"error": f"Repository '{owner}/{repo_name}' not found."}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": f"Repository '{owner}/{repo_name}' not found."},
+                indent=2
             )
-            return out
 
         result = {
             "owner": repo.get("owner"),
@@ -55,30 +46,30 @@ class GetRepoInfoForOwner(Tool):
             "branch_shas": repo.get("branch_shas", []),
             "created_ts": repo.get("created_ts"),
             "updated_ts": repo.get("updated_ts"),
+            
         }
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(result, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetRepoInfoForOwner",
+                "name": "get_repo_info_for_owner",
                 "description": "Fetches repository metadata including owner, repo_name, description, private flag, auto_init, default branch, branches, branch SHAs, timestamps, and file paths/contents.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "owner": {
                             "type": "string",
-                            "description": "Repository owner (account/team).",
+                            "description": "Repository owner (account/team)."
                         },
                         "repo_name": {
                             "type": "string",
-                            "description": "Repository name.",
-                        },
+                            "description": "Repository name."
+                        }
                     },
-                    "required": ["owner", "repo_name"],
-                },
-            },
+                    "required": ["owner", "repo_name"]
+                }
+            }
         }

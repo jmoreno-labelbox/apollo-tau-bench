@@ -1,55 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateRecoveryPlan(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        milestone_id: str,
-        recovery_actions: list[dict[str, Any]],
-        additional_resources: list[str] = [],
-        risk_mitigation: list[str] = [],
-        feasibility: str = "medium"
-    ) -> str:
-        milestone_id = milestone_id
-        recovery_actions = recovery_actions
-        additional_resources = additional_resources
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        milestone_id = kwargs.get("milestone_id")
+        recovery_actions = kwargs.get("recovery_actions", [])
+        additional_resources = kwargs.get("additional_resources", [])
 
         if not all([milestone_id, recovery_actions]):
-            payload = {"error": "milestone_id and recovery_actions are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "milestone_id and recovery_actions are required"}
+            )
 
-        milestones = data.get("milestones", {}).values()
-        recovery_plans = data.get("recovery_plans", {}).values()
+        milestones = list(data.get("milestones", {}).values())
+        recovery_plans = data.get("recovery_plans", [])
 
         milestone = next(
-            (m for m in milestones.values() if m.get("milestone_id") == milestone_id), None
+            (m for m in milestones if m.get("milestone_id") == milestone_id), None
         )
         if not milestone:
-            payload = {"error": f"Milestone '{milestone_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Milestone '{milestone_id}' not found"})
 
         if milestone.get("is_critical_path"):
             for resource_id in additional_resources:
+
                 if milestone.get("resource_allocation", 100) < 100:
-                    payload = {
-                        "error": "Cannot reduce resource allocation below 100% for critical path tasks"
-                    }
-                    out = json.dumps(payload)
-                    return out
+                    return json.dumps(
+                        {
+                            "error": "Cannot reduce resource allocation below 100% for critical path tasks"
+                        }
+                    )
 
         total_impact_days = sum(
             action.get("impact_days", 0) for action in recovery_actions
@@ -75,29 +60,31 @@ class CreateRecoveryPlan(Tool):
             "recovery_days": total_impact_days,
             "recovery_actions": recovery_actions,
             "additional_resources": additional_resources,
-            "risk_mitigation": risk_mitigation,
+            "risk_mitigation": kwargs.get("risk_mitigation", []),
             "total_impact_days": total_impact_days,
-            "feasibility": feasibility,
+            "feasibility": kwargs.get("feasibility", "medium"),
             "created_date": datetime.now(timezone.utc).isoformat(),
             "status": "pending_approval",
             "created_within_48hrs": created_within_48hrs,
             "is_critical_path": milestone.get("is_critical_path", False),
         }
 
-        data["recovery_plans"][new_plan["recovery_plan_id"]] = new_plan
-        payload = {
-            "success": True,
-            "recovery_plan": new_plan,
-            "days_recovered": total_impact_days,
-        }
-        out = json.dumps(payload)
-        return out
+        recovery_plans.append(new_plan)
+
+        return json.dumps(
+            {
+                "success": True,
+                "recovery_plan": new_plan,
+                "days_recovered": total_impact_days,
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateRecoveryPlan",
+                "name": "create_recovery_plan",
                 "description": "Create a recovery plan for a delayed milestone",
                 "parameters": {
                     "type": "object",

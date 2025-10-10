@@ -1,40 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetRoleRequirements(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], role_name: str = None) -> str:
-        role_catalog = data.get("role_skill_catalog", {}).values()
-        result = [r for r in role_catalog.values() if r["role"] == role_name]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        role_name = kwargs.get("role_name")
+        role_catalog = data.get("role_skill_catalog", [])
+        result = [r for r in role_catalog if r["role"] == role_name]
 
         if not result:
-            payload = {
+            return json.dumps(
+                {
                     "error": "Role not found",
                     "role_name": role_name,
                     "available_roles": [r["role"] for r in role_catalog],
-                }
-            out = json.dumps(
-                payload, indent=2,
+                },
+                indent=2,
             )
-            return out
-        payload = result[0]
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(result[0], indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getRoleRequirements",
+                "name": "get_role_requirements",
                 "description": "Retrieves the required skills and certifications for a given role.",
                 "parameters": {
                     "type": "object",

@@ -1,17 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetAlertSummaryPerRepo(Tool):
-    """Provides a summary of code scanning alerts (count and severity breakdown) for the specified repositories."""
+    """Returns code scanning alert summary (count + severity breakdown) for specified repositories."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_names: list[str] = None, repo_name: Any = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        repo_names = kwargs.get("repo_names", [])
         if not repo_names:
-            payload = {"error": "repo_names is required."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "repo_names is required."}, indent=2)
 
         alerts = _alerts(data)
         summary = defaultdict(lambda: {"total": 0, "severity_counts": defaultdict(int)})
@@ -23,31 +24,32 @@ class GetAlertSummaryPerRepo(Tool):
                 sev = a.get("severity", "Unknown")
                 summary[repo]["severity_counts"][sev] += 1
 
-        # Transform nested defaultdicts into standard dictionaries
+        # Convert nested defaultdicts to normal dicts
         clean_summary = {
             repo: {
                 "total": val["total"],
-                "severity_counts": dict(val["severity_counts"]),
-            }
-            for repo, val in summary.items()
+                "severity_counts": dict(val["severity_counts"])
+            } for repo, val in summary.items()
         }
-        payload = clean_summary
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(clean_summary, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "getAlertSummaryPerRepo",
+                "name": "get_alert_summary_per_repo",
                 "description": "Returns alert summary (total and by severity) for given repo list.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "repo_names": {"type": "array", "items": {"type": "string"}}
+                        "repo_names": {
+                            "type": "array",
+                            "items": {"type": "string"}
+                        }
                     },
-                    "required": ["repo_names"],
-                },
-            },
+                    "required": ["repo_names"]
+                }
+            }
         }

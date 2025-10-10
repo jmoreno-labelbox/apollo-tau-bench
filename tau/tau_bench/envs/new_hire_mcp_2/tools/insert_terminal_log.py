@@ -1,32 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class InsertTerminalLog(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], message_text: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         rows = _ensure_list(data, "terminal_log")
         new_id = _next_seq_id(rows, "entry_id")
-        payload = {
-            "entry_id": new_id,
-            "message_text": message_text,
-            "printed_ts": NOW_TS,
-        }
+        payload = {"entry_id": new_id, "message_text": kwargs.get("message_text"), "printed_ts": NOW_TS}
         rows.append(payload)
-        payload = {"entry_id": new_id}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"entry_id": new_id}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "InsertTerminalLog",
-                "description": "Append an audit line to terminal_log.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"message_text": {"type": "string"}},
-                    "required": ["message_text"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function",
+                "function": {"name": "insert_terminal_log", "description": "Append an audit line to terminal_log.",
+                             "parameters": {"type": "object", "properties": {"message_text": {"type": "string"}},
+                                            "required": ["message_text"]}}}

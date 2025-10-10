@@ -1,31 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CaV2CreateInvoiceAuditEntry(Tool):
-    """Generate an audit log entry for invoice activities."""
+    """Create an audit trail entry for invoice actions."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        audit_id: str = None,
-        event_timestamp: str = None,
-        event_type: str = None,
-        invoice_id: str = None,
-        notes: str = ""
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        audit_id = kwargs.get("audit_id")
+        invoice_id = kwargs.get("invoice_id")
+        event_type = kwargs.get("event_type")
+        event_timestamp = kwargs.get("event_timestamp")
+        notes = kwargs.get("notes", "")
+
         if not all([audit_id, invoice_id, event_type, event_timestamp]):
-            return _error(
-                "audit_id, invoice_id, event_type, and event_timestamp are required."
-            )
+            return _error("audit_id, invoice_id, event_type, and event_timestamp are required.")
 
         audit_entry = {
             "audit_id": audit_id,
             "invoice_id": invoice_id,
             "event_type": event_type,
             "event_timestamp": event_timestamp,
-            "notes": notes,
+            "notes": notes
         }
 
         data.setdefault("invoice_audit", []).append(audit_entry)
@@ -33,11 +32,11 @@ class CaV2CreateInvoiceAuditEntry(Tool):
         return _ok(audit_id=audit_id, event_type=event_type)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CaV2CreateInvoiceAuditEntry",
+                "name": "ca_v2_create_invoice_audit_entry",
                 "description": "Create an audit trail entry for invoice actions.",
                 "parameters": {
                     "type": "object",
@@ -46,14 +45,9 @@ class CaV2CreateInvoiceAuditEntry(Tool):
                         "invoice_id": {"type": "string"},
                         "event_type": {"type": "string"},
                         "event_timestamp": {"type": "string"},
-                        "notes": {"type": "string"},
+                        "notes": {"type": "string"}
                     },
-                    "required": [
-                        "audit_id",
-                        "invoice_id",
-                        "event_type",
-                        "event_timestamp",
-                    ],
+                    "required": ["audit_id", "invoice_id", "event_type", "event_timestamp"],
                 },
             },
         }

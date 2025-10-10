@@ -1,28 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AllStats(Tool):
     @staticmethod
-    #primary invocation function
-    def invoke(data: dict[str, Any], source_table: str = None) -> str:
-        payload = {"metrics_table": "key_metrics"}
-        out = json.dumps(payload, indent=2)
-        return out
+        # main invoke function
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        # return result
+        return json.dumps({"metrics_table": "key_metrics"}, indent=2)
+
     @staticmethod
-    #metadata information
-    def get_info() -> dict[str, Any]:
-        pass
-        #return result
-        return {
-            "type": "function",
-            "function": {
-                "name": "getStats",
-                "description": "Computes key pitcher metrics.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"source_table": {"type": "string"}},
-                },
-                "required": [],
-            },
-        }
+        # info metadata
+    def get_info() -> Dict[str, Any]:
+        # return result
+        return {"type": "function", "function": {"name": "getStats", "description": "Computes key pitcher metrics.", "parameters": {"type": "object", "properties": {"source_table": {"type": "string"}}}, "required": []}}

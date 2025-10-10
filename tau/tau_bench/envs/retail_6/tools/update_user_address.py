@@ -1,42 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpdateUserAddress(Tool):
-    """Modify a user's address to the supplied fields."""
-
+    """Update a user's address to the provided fields."""
     @staticmethod
-    def invoke(data, user_id=None, address=None) -> str:
+    def invoke(data, **kwargs) -> str:
+        user_id = kwargs.get('user_id')
+        address = kwargs.get('address')
         if not user_id or not isinstance(address, dict):
-            payload = {"error": "user_id and address (object) are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error":"user_id and address (object) are required"}, indent=2)
         user = _find_user(data, user_id)
         if not user:
-            payload = {"error": f"user_id {user_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        user["address"] = address
-        payload = {"success": True, "user_id": user_id}
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error":f"user_id {user_id} not found"}, indent=2)
+        user['address'] = address
+        return json.dumps({"success": True, "user_id": user_id}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "updateUserAddress",
-                "description": "Replace a user's address with the provided object.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "user_id": {"type": "string"},
-                        "address": {"type": "object"},
-                    },
-                    "required": ["user_id", "address"],
-                },
-            },
-        }
+        return {"type":"function","function":{"name":"update_user_address","description":"Replace a user's address with the provided object.","parameters":{"type":"object","properties":{"user_id":{"type":"string"},"address":{"type":"object"}},"required":["user_id","address"]}}}

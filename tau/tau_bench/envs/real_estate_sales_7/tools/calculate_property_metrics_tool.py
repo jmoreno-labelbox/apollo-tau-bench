@@ -1,24 +1,16 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CalculatePropertyMetricsTool(Tool):
-    """Computes detailed property analysis metrics including market baseline and affordability."""
+    """Calculates comprehensive property analysis metrics with market baseline and affordability."""
 
     @staticmethod
-    def _estimate_rate(credit_score: int | None, region: str | None) -> float:
-        pass
-        #reflect CalculateMortgagePaymentTool for uniformity
+    def _estimate_rate(credit_score: Optional[int], region: Optional[str]) -> float:
+        # mirror CalculateMortgagePaymentTool for consistency
         base = 6.8
         if credit_score is not None:
             if credit_score >= 760:
@@ -31,15 +23,14 @@ class CalculatePropertyMetricsTool(Tool):
                 base = 6.5
             else:
                 base = 6.9
-        if region in {"AZ", "FL"}:
+        if region in {"TX", "FL"}:
             base -= 0.15
-        elif region in {"VT", "CA"}:
+        elif region in {"NY", "CA"}:
             base += 0.15
         return round(base, 3)
 
     @staticmethod
     def _pmt(loan_amount: float, annual_rate_pct: float, years: int = 30) -> float:
-        pass
         r = (annual_rate_pct / 100.0) / 12.0
         n = years * 12
         if r == 0:
@@ -47,28 +38,22 @@ class CalculatePropertyMetricsTool(Tool):
         return loan_amount * (r * (1 + r) ** n) / ((1 + r) ** n - 1)
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        subject_property_id: str,
-        comparable_properties: list = None,
-        client_budget: dict = None
-    ) -> str:
-        pass
-        comparable_properties = comparable_properties or []
-        client_budget = client_budget or {}
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        subject_property_id = kwargs.get("subject_property_id")
+        comparable_properties = kwargs.get("comparable_properties") or []
+        client_budget = kwargs.get("client_budget") or {}
         if not subject_property_id:
             return _err("subject_property_id is required")
 
-        #---- Basic subject information (simplified - no property specifics available) ----
+        # ---- Subject basics (simplified - no property details available) ----
         subj_listing = (
             _collect_listing_by_property(data, str(subject_property_id)) or {}
         )
         subj_price = subj_listing.get("list_price")
-        #Note: sqft, tax_rate, neighborhood_id are not present in the current data structure
+        # Note: sqft, tax_rate, neighborhood_id not available in current data structure
 
-        #---- Gather comparable prices/ppsf ----
+        # ---- Collect comparable prices/ppsf ----
         def _lp(pid_or_dict):
-            pass
             if isinstance(pid_or_dict, dict):
                 pid = (
                     pid_or_dict.get("property_id")
@@ -79,7 +64,7 @@ class CalculatePropertyMetricsTool(Tool):
                 pid = pid_or_dict
             l = _collect_listing_by_property(data, str(pid)) or {}
             price = l.get("list_price")
-            ppsf = l.get("price_per_sqft")  #Utilize pre-calculated values from listings
+            ppsf = l.get("price_per_sqft")  # Use pre-calculated value from listings
             return price, ppsf
 
         comp_prices, comp_ppsf = [], []
@@ -87,14 +72,14 @@ class CalculatePropertyMetricsTool(Tool):
             price, ppsf = _lp(c)
             if isinstance(price, (int, float)):
                 comp_prices.append(float(price))
-            if isinstance(ppsf, (int, float)):
+            if isinstance(ppsf, (int, float, float)):
                 comp_ppsf.append(float(ppsf))
         comp_prices.sort()
         comp_ppsf.sort()
 
-        #---- Construct market pool (simplified - consider all listings as market) ----
+        # ---- Build market pool (simplified - use all listings as market) ----
         market_prices, market_ppsf = [], []
-        for l in data.get("listings", {}).values():
+        for l in list(data.get("listings", {}).values()):
             if l.get("list_price"):
                 market_prices.append(float(l["list_price"]))
             if l.get("price_per_sqft"):
@@ -103,16 +88,15 @@ class CalculatePropertyMetricsTool(Tool):
         market_prices.sort()
         market_ppsf.sort()
 
-        #---- Market positioning (utilize market pool when accessible, otherwise use comps) ----
-        def _median(arr: list[float]) -> float | None:
-            pass
+        # ---- Market position (use market pool when available, else comps) ----
+        def _median(arr: List[float]) -> Optional[float]:
             if not arr:
                 return None
             m = len(arr) // 2
             return arr[m] if len(arr) % 2 == 1 else (arr[m - 1] + arr[m]) / 2.0
 
         ref_prices = market_prices if market_prices else comp_prices
-        market_ppsf if market_ppsf else comp_ppsf
+        ref_ppsf = market_ppsf if market_ppsf else comp_ppsf
 
         if subj_price is not None and ref_prices:
             below = sum(1 for x in ref_prices if x <= float(subj_price))
@@ -132,7 +116,7 @@ class CalculatePropertyMetricsTool(Tool):
         else:
             price_percentile, market_comparison, value_rating = 50, "at_market", "fair"
 
-        #---- Affordability (P&I + estimated taxes if accessible) ----
+        # ---- Affordability (P&I + est. taxes if available) ----
         price_max = client_budget.get("price_max")
         within_budget = bool(
             price_max is None
@@ -148,7 +132,7 @@ class CalculatePropertyMetricsTool(Tool):
 
         monthly_pni = None
         if subj_price is not None:
-            #estimate 30-year P&I from mortgage profile if feasible
+            # estimate 30y P&I from mortgage profile if possible
             credit, region = None, None
             if client_id is not None:
                 mp = _get_mortgage_profile(data, client_id)
@@ -163,7 +147,8 @@ class CalculatePropertyMetricsTool(Tool):
             loan_amount = max(0.0, float(subj_price) - float(down))
             monthly_pni = CalculatePropertyMetricsTool._pmt(loan_amount, rate, 30)
 
-        #Note: Property tax information is unavailable - relying solely on P&I
+        # Note: Property tax data not available - using P&I only
+        monthly_taxes = 0.0
         monthly_housing = monthly_pni
 
         ratio = (
@@ -177,7 +162,7 @@ class CalculatePropertyMetricsTool(Tool):
         elif ratio is not None and ratio < 0.25:
             recommendation = "comfortable"
 
-        #---- Comparative assessment & distinctive benefits ----
+        # ---- Comparative analysis & unique advantages ----
         vs_comparables = "competitive"
         uniq = []
 
@@ -189,14 +174,14 @@ class CalculatePropertyMetricsTool(Tool):
             elif subj_price > 1.05 * avg_comp:
                 vs_comparables = "overpriced"
 
-        #Comparison of price per sqft (utilizing pre-calculated values when available)
+        # Price per sqft comparison (using pre-calculated values where available)
         subj_ppsf = subj_listing.get("price_per_sqft")
         if subj_ppsf and comp_ppsf:
             avg_ppsf = sum(comp_ppsf) / len(comp_ppsf)
             if float(subj_ppsf) < 0.95 * avg_ppsf:
                 uniq.append("price_per_sqft")
 
-        #Note: Amenity analysis is not available - no property amenity data in the current structure
+        # Note: Amenity analysis not available - no property amenity data in current structure
 
         out = {
             "subject_property": str(subject_property_id),
@@ -215,15 +200,14 @@ class CalculatePropertyMetricsTool(Tool):
                 "unique_advantages": uniq or ["none"],
             },
         }
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculatePropertyMetrics",
+                "name": "calculate_property_metrics",
                 "description": (
                     "Calculate market position (vs comps & market pool), affordability (P&I + taxes), and comparative analysis."
                 ),
@@ -233,8 +217,7 @@ class CalculatePropertyMetricsTool(Tool):
                         "subject_property_id": {"type": "string"},
                         "comparable_properties": {
                             "type": "array",
-                            "items": {"type": "string"},
-                            "description": "List of property_ids WA dicts",
+                            "description": "List of property_ids or dicts",
                         },
                         "client_budget": {
                             "type": "object",

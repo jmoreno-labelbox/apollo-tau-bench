@@ -1,44 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetProductDetailsBySKU(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], sku: str) -> str:
-        products = data.get("products", {}).values()
-        for product in products.values():
+    def invoke(data: Dict[str, Any], sku: str) -> str:
+        products = list(data.get("products", {}).values())
+        for product in products:
             if product.get("sku") == sku:
-                payload = product
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Product with SKU {sku} not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(product, indent=2)
+        return json.dumps({"error": f"Product with SKU {sku} not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetProductDetailsBySku",
+                "name": "get_product_details_by_sku",
                 "description": "Get detailed information about a product by its SKU.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "sku": {
-                            "type": "string",
-                            "description": "Stock Keeping Unit (SKU) of the product.",
-                        }
+                        "sku": {"type": "string", "description": "Stock Keeping Unit (SKU) of the product."}
                     },
-                    "required": ["sku"],
-                },
-            },
+                    "required": ["sku"]
+                }
+            }
         }

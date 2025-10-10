@@ -1,54 +1,36 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AddExternalDependency(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        milestone_id: str,
-        dependency_name: str,
-        provider: str,
-        expected_delivery_date: str,
-        criticality: str = "medium",
-        dependency_id: str = None,
-        confirmed: bool = False,
-        contact_info: dict = None,
-        contingency_days: int = 0,
-        notice_days: int = 30
-    ) -> str:
-        if not all([milestone_id, dependency_name, provider, expected_delivery_date]):
-            payload = {
-                "error": "milestone_id, dependency_name, provider, and expected_delivery_date are required"
-            }
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        milestone_id = kwargs.get("milestone_id")
+        dependency_name = kwargs.get("dependency_name")
+        provider = kwargs.get("provider")
+        expected_delivery_date = kwargs.get("expected_delivery_date")
+        criticality = kwargs.get("criticality", "medium")
 
-        milestones = data.get("milestones", {}).values()
-        external_dependencies = data.get("external_dependencies", {}).values()
+        if not all([milestone_id, dependency_name, provider, expected_delivery_date]):
+            return json.dumps(
+                {
+                    "error": "milestone_id, dependency_name, provider, and expected_delivery_date are required"
+                }
+            )
+
+        milestones = list(data.get("milestones", {}).values())
+        external_dependencies = data.get("external_dependencies", [])
 
         milestone = next(
-            (m for m in milestones.values() if m.get("milestone_id") == milestone_id), None
+            (m for m in milestones if m.get("milestone_id") == milestone_id), None
         )
         if not milestone:
-            payload = {"error": f"Milestone '{milestone_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Milestone '{milestone_id}' not found"})
 
-        if dependency_id is None:
-            dependency_id = f"ext_{uuid.uuid4().hex[:8]}"
-        if contact_info is None:
-            contact_info = {}
+        dependency_id = kwargs.get("dependency_id", f"ext_{uuid.uuid4().hex[:8]}")
 
         new_dependency = {
             "dependency_id": dependency_id,
@@ -56,16 +38,16 @@ class AddExternalDependency(Tool):
             "dependency_name": dependency_name,
             "provider": provider,
             "expected_delivery_date": expected_delivery_date,
-            "confirmed": confirmed,
-            "contact_info": contact_info,
+            "confirmed": kwargs.get("confirmed", False),
+            "contact_info": kwargs.get("contact_info", {}),
             "criticality": criticality,
-            "contingency_days": contingency_days,
-            "notice_days": notice_days,
+            "contingency_days": kwargs.get("contingency_days", 0),
+            "notice_days": kwargs.get("notice_days", 30),
             "created_date": datetime.now(timezone.utc).isoformat(),
             "status": "pending",
         }
 
-        data["external_dependencies"][new_dependency["external_dependencie_id"]] = new_dependency
+        external_dependencies.append(new_dependency)
 
         if criticality == "critical" and not new_dependency["confirmed"]:
             milestone["health"] = (
@@ -73,15 +55,15 @@ class AddExternalDependency(Tool):
                 if milestone.get("health") == "green"
                 else milestone.get("health")
             )
-        payload = {"success": True, "external_dependency": new_dependency}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"success": True, "external_dependency": new_dependency})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddExternalDependency",
+                "name": "add_external_dependency",
                 "description": "Add an external dependency to a milestone",
                 "parameters": {
                     "type": "object",
@@ -125,7 +107,7 @@ class AddExternalDependency(Tool):
                         "dependency_id": {
                             "type": "string",
                             "description": "External dependency ID",
-                        },
+                        }
                     },
                     "required": [
                         "milestone_id",

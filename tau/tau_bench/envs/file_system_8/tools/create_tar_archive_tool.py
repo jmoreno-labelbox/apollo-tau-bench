@@ -1,26 +1,19 @@
-from tau_bench.envs.tool import Tool
-import datetime
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateTarArchiveTool(Tool):
-    """Emulates the creation of a compressed tar archive."""
+    """Simulates creating a compressed tar archive."""
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createTarArchive",
+                "name": "create_tar_archive",
                 "description": "Creates a compressed .tar.gz archive with a timestamp from a list of files.",
                 "parameters": {
                     "type": "object",
@@ -34,20 +27,18 @@ class CreateTarArchiveTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: dict[str, Any], base_archive_name: str, file_paths: list[str]) -> str:
-        archive_name = f"{base_archive_name}_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.tar.gz"
-        # Compute the total size of files to ascertain archive size
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        archive_name = f"{kwargs['base_archive_name']}_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.tar.gz"
+        # Calculate total size of files to determine archive size
         total_size = sum(
             f["size"]
-            for f in data.get("remote_files", {}).values()
-            if f["path"] in file_paths
+            for f in data.get("remote_files", [])
+            if f["path"] in kwargs["file_paths"]
         )
-        archive_size = int(total_size * 0.7)  # Estimate of the compression ratio
+        archive_size = int(total_size * 0.7)  # Compression ratio estimate
         data["archive_file"] = {
             "name": archive_name,
             "size": archive_size,
             "original_size": total_size,
         }
-        payload = data["archive_file"]
-        out = json.dumps(payload)
-        return out
+        return json.dumps(data["archive_file"])

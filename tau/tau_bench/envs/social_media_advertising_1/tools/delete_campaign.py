@@ -1,47 +1,38 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class DeleteCampaign(Tool):
-    """Removes a campaign."""
+    """Deletes a campaign."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], campaign_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        campaign_id = kwargs.get("campaign_id")
         if not campaign_id:
-            payload = {"error": "campaign_id is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "campaign_id is a required parameter."})
 
-        campaigns = data.get("campaigns", {}).values()
-        for campaign in campaigns.values():
+        campaigns = list(data.get("campaigns", {}).values())
+        for campaign in campaigns:
             if campaign.get("campaign_id") == campaign_id:
-                data["campaigns"] = [
-                    d for d in data["campaigns"].values() if d["campaign_id"] != campaign_id
-                ]
-                payload = {
-                    "status": "success",
-                    "message": f"Campaign with id {campaign_id} deleted successfully",
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Campaign with ID '{campaign_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                data['campaigns'] = [d for d in data['campaigns'] if d['campaign_id'] != campaign_id]
+                return json.dumps(
+                    {
+                        "status": "success",
+                        "message": f"Campaign with id {campaign_id} deleted successfully",
+                    }
+                )
+
+        return json.dumps({"error": f"Campaign with ID '{campaign_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "deleteCampaign",
+                "name": "delete_campaign",
                 "description": "Deletes a campaign.",
                 "parameters": {
                     "type": "object",

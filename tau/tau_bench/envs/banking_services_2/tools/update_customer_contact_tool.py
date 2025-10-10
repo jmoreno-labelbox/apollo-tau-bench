@@ -1,21 +1,19 @@
-from tau_bench.envs.tool import Tool
-from typing import Any, Dict
+# Copyright Sierra
+
 import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateCustomerContactTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, email: str = None, phone: str = None) -> str:
-        customers = data.get('customers', {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get('customer_id')
+        email = kwargs.get('email')
+        phone = kwargs.get('phone')
+        customers = list(data.get('customers', {}).values())
 
-        for customer in customers.values():
+        for customer in customers:
             if customer['customer_id'] == customer_id:
                 if email:
                     customer['contact_info']['email_address'] = email
@@ -33,12 +31,13 @@ class UpdateCustomerContactTool(Tool):
                 }, indent=2)
 
         return json.dumps({"error": f"Customer {customer_id} not found"}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateCustomerContact",
+                "name": "update_customer_contact",
                 "description": "Update customer contact information",
                 "parameters": {
                     "type": "object",

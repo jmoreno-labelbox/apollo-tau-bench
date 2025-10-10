@@ -1,30 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
-from decimal import ROUND_HALF_UP, Decimal
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetSecurityGroupRuleById(Tool):
+    """Fetch a security group rule by rule_id."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], rule_id: Any, aws_security_group_rules: list = None) -> str:
+    def invoke(data: Dict[str, Any], rule_id: Any) -> str:
         rule_id = _idstr(rule_id)
-        rules = aws_security_group_rules if aws_security_group_rules is not None else []
+        rules = data.get("aws_security_group_rules", [])
         for r in rules:
             if r.get("rule_id") == rule_id:
-                payload = r
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"No security group rule found with ID '{rule_id}'"}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+                return json.dumps(r, indent=2)
+        return json.dumps({"error": f"No security group rule found with ID '{rule_id}'"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetSecurityGroupRuleById",
+                "name": "get_security_group_rule_by_id",
                 "description": "Fetch a single AWS security group rule by rule_id.",
                 "parameters": {
                     "type": "object",

@@ -1,36 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchAdsByCreativeType(Tool):
-    """Looks for ads that feature a particular creative type."""
+    """Searches for ads with a specific creative type."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], creative_type: str = None) -> str:
-        ads = data.get("ads", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        creative_type = kwargs.get("creative_type")
+        ads = list(data.get("ads", {}).values())
         matching_ads = []
-
-        for ad in ads.values():
+        
+        for ad in ads:
             if ad.get("creative_type") == creative_type:
                 matching_ads.append(ad.get("ad_id"))
-        payload = {"ad_ids": matching_ads}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"ad_ids": matching_ads})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "searchAdsByCreativeType",
+                "name": "search_ads_by_creative_type",
                 "description": "Searches for ads with a specific creative type.",
                 "parameters": {
                     "type": "object",

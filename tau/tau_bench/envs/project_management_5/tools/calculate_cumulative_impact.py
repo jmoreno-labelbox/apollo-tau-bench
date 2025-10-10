@@ -1,34 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CalculateCumulativeImpact(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_id: str,
-        include_pending: bool = False,
-        from_date: str = None
-    ) -> str:
-        if not project_id:
-            payload = {"error": "project_id is required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        include_pending = kwargs.get("include_pending", False)
+        from_date = kwargs.get("from_date")
 
-        change_requests = data.get("change_requests", {}).values()
+        if not project_id:
+            return json.dumps({"error": "project_id is required"})
+
+        change_requests = data.get("change_requests", [])
 
         project_crs = [
-            cr for cr in change_requests.values() if cr.get("project_id") == project_id
+            cr for cr in change_requests if cr.get("project_id") == project_id
         ]
 
         if from_date:
@@ -43,7 +33,7 @@ class CalculateCumulativeImpact(Tool):
                 if cr.get("status") in ["approved", "pending_approval", "in_review"]
             ]
         else:
-            relevant_crs = [cr for cr in project_crs.values() if cr.get("status") == "approved"]
+            relevant_crs = [cr for cr in project_crs if cr.get("status") == "approved"]
 
         total_budget_impact = 0
         total_timeline_impact = 0
@@ -87,13 +77,15 @@ class CalculateCumulativeImpact(Tool):
         overall_risk = (
             "critical"
             if len(risk_factors) >= 3
-            else (
-                "high"
-                if len(risk_factors) >= 2
-                else "medium" if risk_factors else "low"
-            )
+            else "high"
+            if len(risk_factors) >= 2
+            else "medium"
+            if risk_factors
+            else "low"
         )
-        payload = {
+
+        return json.dumps(
+            {
                 "project_id": project_id,
                 "analysis_period": {
                     "from_date": from_date or "project_start",
@@ -103,10 +95,10 @@ class CalculateCumulativeImpact(Tool):
                 "change_summary": {
                     "total_changes": len(relevant_crs),
                     "approved": len(
-                        [cr for cr in relevant_crs.values() if cr.get("status") == "approved"]
+                        [cr for cr in relevant_crs if cr.get("status") == "approved"]
                     ),
                     "pending": len(
-                        [cr for cr in relevant_crs.values() if cr.get("status") != "approved"]
+                        [cr for cr in relevant_crs if cr.get("status") != "approved"]
                     ),
                     "by_type": {
                         "scope_additions": scope_additions,
@@ -127,23 +119,20 @@ class CalculateCumulativeImpact(Tool):
                 "recommendations": [
                     "Consider project rebaseline" if len(relevant_crs) > 10 else None,
                     "Review resource capacity" if len(resource_summary) > 3 else None,
-                    (
-                        "Update stakeholder expectations"
-                        if total_timeline_impact > 8
-                        else None
-                    ),
+                    "Update stakeholder expectations"
+                    if total_timeline_impact > 8
+                    else None,
                 ],
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateCumulativeImpact",
+                "name": "calculate_cumulative_impact",
                 "description": "Calculate cumulative impact of all changes on a project",
                 "parameters": {
                     "type": "object",

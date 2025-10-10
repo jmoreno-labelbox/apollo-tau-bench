@@ -1,30 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetAvailableEmailTypesTool(Tool):
-    """Provides a list of acceptable email types for use with the check_email_communication_gaps tool."""
+    """Returns a list of valid email types that can be used with the check_email_communication_gaps tool."""
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         email_types = [
             "welcome",
             "asset provisioning request",
             "onboarding reminder",
             "orientation invitation",
-            "introduction",
+            "introduction"
         ]
-        payload = email_types
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(email_types, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAvailableEmailTypes",
+                "name": "get_available_email_types",
                 "description": "Returns a list of valid email types for checking communication gaps.",
                 "parameters": {
                     "type": "object",

@@ -1,47 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListListingsByIds(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], listing_ids: list[str] = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        listing_ids = kwargs.get('listing_ids')
         if not listing_ids:
-            payload = {"error": "listing_ids is required"}
-            out = json.dumps(payload, indent=2)
-            return out
-
-        listings = data.get("listings", {}).values()
+            return json.dumps({"error": "listing_ids is required"}, indent=2)
+        
+        listings = list(data.get('listings', {}).values())
         found_listings = []
-
+        
         for listing_id in listing_ids:
-            listing = next(
-                (l for l in listings.values() if l.get("listing_id") == listing_id), None
-            )
+            listing = next((l for l in listings if l.get('listing_id') == listing_id), None)
             if listing:
-                found_data["listings"][listing_id] = listing
-        payload = {
-                "requested_ids": listing_ids,
-                "found_count": len(found_listings),
-                "listings": found_listings,
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+                found_listings.append(listing)
+        
+        return json.dumps({
+            "requested_ids": listing_ids,
+            "found_count": len(found_listings),
+            "listings": found_listings
+        }, indent=2)
+    
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "listListingsByIds",
+                "name": "list_listings_by_ids",
                 "description": "Get multiple listings by their IDs",
                 "parameters": {
                     "type": "object",
@@ -49,10 +39,10 @@ class ListListingsByIds(Tool):
                         "listing_ids": {
                             "type": "array",
                             "items": {"type": "integer"},
-                            "description": "List of listing IDs to retrieve",
+                            "description": "List of listing IDs to retrieve"
                         }
                     },
-                    "required": ["listing_ids"],
-                },
-            },
+                    "required": ["listing_ids"]
+                }
+            }
         }

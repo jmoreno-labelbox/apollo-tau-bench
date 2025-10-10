@@ -1,30 +1,13 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone, date, timedelta
-import calendar
-from typing import Any, Dict
-import random
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AddNewBeneficiaryForCustomer(Tool):
     @staticmethod
-    def invoke(
-        data: Dict[str, Any],
-        beneficiary_name: str,
-        beneficiary_type: str,
-        customer_id: str,
-        relationship: str,
-        account_number: str = None,
-        bank_code: str = None,
-        bank_name: str = None,
-        bic_swift: str = None,
-        branch_code: str = None,
-        date_added: str = None,
-        iban: str = None,
-        ifsc_code: str = None,
-        routing_number: str = None,
-        sort_code: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         for field in (
             "customer_id",
             "beneficiary_name",
@@ -32,48 +15,50 @@ class AddNewBeneficiaryForCustomer(Tool):
             "relationship",
             "bank_name",
         ):
-            if not locals().get(field):
+            if not kwargs.get(field):
                 return json.dumps({"error": f"{field} is required."}, indent=2)
 
         beneficiary_id = get_next_beneficiary_id()
 
+        date_added = kwargs.get("date_added")
         if date_added is None:
             date_added = get_current_timestamp()
 
         account_details = {
             k: v
             for k, v in {
-                "bank_name": bank_name,
-                "account_number": account_number,
-                "routing_number": routing_number,
-                "ifsc_code": ifsc_code,
-                "iban": iban,
-                "bic_swift": bic_swift,
-                "sort_code": sort_code,
-                "bank_code": bank_code,
-                "branch_code": branch_code,
+                "bank_name": kwargs.get("bank_name"),
+                "account_number": kwargs.get("account_number"),
+                "routing_number": kwargs.get("routing_number"),
+                "ifsc_code": kwargs.get("ifsc_code"),
+                "iban": kwargs.get("iban"),
+                "bic_swift": kwargs.get("bic_swift"),
+                "sort_code": kwargs.get("sort_code"),
+                "bank_code": kwargs.get("bank_code"),
+                "branch_code": kwargs.get("branch_code"),
             }.items()
             if v is not None
         }
 
         new_beneficiary = {
             "beneficiary_id": beneficiary_id,
-            "customer_id": customer_id,
-            "beneficiary_name": beneficiary_name,
-            "beneficiary_type": beneficiary_type,
-            "relationship": relationship,
+            "customer_id": kwargs["customer_id"],
+            "beneficiary_name": kwargs["beneficiary_name"],
+            "beneficiary_type": kwargs["beneficiary_type"],
+            "relationship": kwargs["relationship"],
             "account_details": account_details,
             "date_added": date_added,
         }
 
         data.setdefault("beneficiaries", []).append(new_beneficiary)
         return json.dumps(new_beneficiary, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddNewBeneficiaryForCustomer",
+                "name": "add_new_beneficiary_for_customer",
                 "description": (
                     "Adds a new beneficiary for a customer and returns the full beneficiary record. "
                     "Supports various global bank account formats."

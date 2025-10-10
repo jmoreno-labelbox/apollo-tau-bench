@@ -1,41 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateMilestoneDates(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        milestone_id: str = None, 
-        new_start_date: str = None, 
-        new_target_date: str = None
-    ) -> str:
-        if not milestone_id or not (new_start_date or new_target_date):
-            payload = {"error": "milestone_id, and at least one date are required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        milestone_id = kwargs.get("milestone_id")
+        new_start_date = kwargs.get("new_start_date")
+        new_target_date = kwargs.get("new_target_date")
 
-        milestones = data.get("milestones", {}).values()
-        schedule_changes = data.get("schedule_changes", {}).values()
-        milestone_dependencies = data.get("milestone_dependencies", {}).values()
+        if not milestone_id or not (new_start_date or new_target_date):
+            return json.dumps(
+                {"error": "milestone_id, and at least one date are required"}
+            )
+
+        milestones = list(data.get("milestones", {}).values())
+        schedule_changes = data.get("schedule_changes", [])
+        milestone_dependencies = data.get("milestone_dependencies", [])
 
         milestone = next(
-            (m for m in milestones.values() if m.get("milestone_id") == milestone_id), None
+            (m for m in milestones if m.get("milestone_id") == milestone_id), None
         )
         if not milestone:
-            payload = {"error": f"Milestone '{milestone_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Milestone '{milestone_id}' not found"})
 
         old_start = milestone.get("start_date")
         old_target = milestone.get("target_date")
@@ -49,16 +39,18 @@ class UpdateMilestoneDates(Tool):
             slippage_days = (new_target_dt - old_target_dt).days
 
             if slippage_days > 5:
-                schedule_impact_analyses = data.get("schedule_impact_analyses", {}).values()
+
+                schedule_impact_analyses = data.get("schedule_impact_analyses", [])
                 analysis_id = f"sia_{uuid.uuid4().hex[:8]}"
 
                 downstream_milestones = []
-                for dep in milestone_dependencies.values():
+                for dep in milestone_dependencies:
                     if dep.get("predecessor_id") == milestone_id:
                         succ_milestone = next(
                             (
                                 m
-                                for m in milestones.values() if m.get("milestone_id") == dep.get("successor_id")
+                                for m in milestones
+                                if m.get("milestone_id") == dep.get("successor_id")
                             ),
                             None,
                         )
@@ -83,16 +75,17 @@ class UpdateMilestoneDates(Tool):
                     "status": "mandatory_review_required",
                 }
 
-                data["schedule_impact_analyses"][impact_analysis["schedule_impact_analyse_id"]] = impact_analysis
-                payload = {
-                    "error": f"Critical path milestone slippage of {slippage_days} days exceeds 5-day threshold. Mandatory schedule impact analysis created.",
-                    "impact_analysis": impact_analysis,
-                }
-                out = json.dumps(payload)
-                return out
+                schedule_impact_analyses.append(impact_analysis)
+
+                return json.dumps(
+                    {
+                        "error": f"Critical path milestone slippage of {slippage_days} days exceeds 5-day threshold. Mandatory schedule impact analysis created.",
+                        "impact_analysis": impact_analysis,
+                    }
+                )
 
         impacted_milestones = []
-        for dep in milestone_dependencies.values():
+        for dep in milestone_dependencies:
             if dep.get("predecessor_id") == milestone_id:
                 impacted_milestones.append(dep.get("successor_id"))
 
@@ -108,7 +101,7 @@ class UpdateMilestoneDates(Tool):
             "is_critical_path": is_critical,
             "change_date": datetime.now(timezone.utc).isoformat(),
         }
-        schedule_data["changes"][change_id] = change_record
+        schedule_changes.append(change_record)
 
         if new_start_date:
             milestone["start_date"] = new_start_date
@@ -131,15 +124,15 @@ class UpdateMilestoneDates(Tool):
             "impacted_count": len(impacted_milestones),
             "critical_path_update_required": len(impacted_milestones) > 0,
         }
-        payload = result
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateMilestoneDates",
+                "name": "update_milestone_dates",
                 "description": "Update milestone start and/or target dates",
                 "parameters": {
                     "type": "object",
@@ -156,6 +149,7 @@ class UpdateMilestoneDates(Tool):
                             "type": "string",
                             "description": "New target date (ISO format)",
                         },
+
                     },
                     "required": ["milestone_id"],
                 },

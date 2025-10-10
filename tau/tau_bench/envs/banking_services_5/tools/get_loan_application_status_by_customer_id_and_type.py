@@ -1,32 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone, date, timedelta
-import calendar
-from typing import Any, Dict
-import random
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetLoanApplicationStatusByCustomerIdAndType(Tool):
+    """Returns loan application status for a specific customer ID and loan type, including decision details."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = "", loan_type: str = "") -> str:
-        customer_id = customer_id.strip()
-        loan_type = loan_type.strip().lower()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id", "").strip()
+        loan_type   = kwargs.get("loan_type", "").strip().lower()
 
         if not customer_id or not loan_type:
             return json.dumps({"error": "customer_id and loan_type are required."}, indent=2)
 
-        for app in data.get("loan_applications", {}).values():
+        for app in data.get("loan_applications", []):
             if (app.get("customer_id") == customer_id and
-                app.get("loan_details", {}).values().get("loan_type", "").strip().lower() == loan_type):
+                app.get("loan_details", {}).get("loan_type", "").strip().lower() == loan_type):
 
                 status = app.get("application_status", "")
                 # return json.dumps(status, indent=2)
@@ -55,12 +47,13 @@ class GetLoanApplicationStatusByCustomerIdAndType(Tool):
                 return json.dumps(response, indent=2)
 
         return json.dumps({"message": "No matching loan application found."}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetLoanApplicationStatusByCustomerIdAndType",
+                "name": "get_loan_application_status_by_customer_id_and_type",
                 "description": (
                     "Returns loan application status for a specific customer and loan type. "
                     "If approved, includes decision date, approved amount, and interest rate. "

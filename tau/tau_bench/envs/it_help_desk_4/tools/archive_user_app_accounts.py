@@ -1,40 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ArchiveUserAppAccounts(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None) -> str:
-        app_accounts = data.get("app_accounts", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        app_accounts = data.get("app_accounts", [])
         archived_count = 0
         for acc in app_accounts:
             if acc.get("employee_id") == employee_id:
                 acc["status"] = "archived"
                 archived_count += 1
-        payload = {"employee_id": employee_id, "app_accounts_archived": archived_count}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        return json.dumps({"employee_id": employee_id, "app_accounts_archived": archived_count}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "archiveUserAppAccounts",
-                "description": "Archives a user's accounts in integrated applications like Slack or GitHub.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"employee_id": {"type": "string"}},
-                    "required": ["employee_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "archive_user_app_accounts", "description": "Archives a user's accounts in integrated applications like Slack or GitHub.", "parameters": {"type": "object", "properties": {"employee_id": {"type": "string"}}, "required": ["employee_id"]}}}

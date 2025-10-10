@@ -1,35 +1,20 @@
-from tau_bench.envs.tool import Tool
-import ast
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAdsetsByCampaignID(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], campaign_id: str = None) -> str:
-        rows = [r for r in data.get("adsets", {}).values() if r.get("campaign_id") == campaign_id]
-        payload = {"adsets": rows}
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cid = kwargs.get("campaign_id")
+        rows = [r for r in data.get("adsets", []) if r.get("campaign_id") == cid]
+        return json.dumps({"adsets": rows})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetAdsetsByCampaignId",
-                "description": "Lists ad sets for a campaign.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"campaign_id": {"type": "string"}},
-                    "required": ["campaign_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function",
+                "function": {"name": "get_adsets_by_campaign_id", "description": "Lists ad sets for a campaign.",
+                             "parameters": {"type": "object", "properties": {"campaign_id": {"type": "string"}},
+                                            "required": ["campaign_id"]}}}

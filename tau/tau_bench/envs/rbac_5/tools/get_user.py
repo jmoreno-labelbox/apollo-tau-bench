@@ -1,76 +1,57 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetUser(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        user_id: str = None,
-        username: str = None,
-        first_name: str = None,
-        last_name: str = None,
-        department: str = None,
-        status: str = None,
-        mfa_enabled: bool = None,
-        role_id: str = None,
-        allow_missing: bool = False
-    ) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        username = kwargs.get("username")
+        first_name = kwargs.get("first_name")
+        last_name = kwargs.get("last_name")
+        department = kwargs.get("department")
+        status = kwargs.get("status")
+        mfa_enabled = kwargs.get("mfa_enabled")
+        role_id = kwargs.get("role_id")
+        allow_missing = kwargs.get("allow_missing", False)
 
         def _not_found(msg: str) -> str:
-            pass
             if allow_missing:
-                payload = {"ok": True, "message": "User not found"}
-                out = json.dumps(payload)
-                return out
-            payload = {"error": msg}
-            out = json.dumps(payload)
-            return out
+                return json.dumps({"ok": True, "message": "User not found"})
+            return json.dumps({"error": msg})
 
-        # If user_id is given, perform a search using user_id
+        # If user_id is provided, search by user_id
         if user_id:
-            user = _find_by_id(data.get("users", {}).values(), "user_id", user_id)
-            return (
-                json.dumps(user) if user else _not_found(f"user_id {user_id} not found")
-            )
+            user = _find_by_id(list(data.get("users", {}).values()), "user_id", user_id)
+            return json.dumps(user) if user else _not_found(f"user_id {user_id} not found")
 
-        # If a username is supplied, conduct a search using the username
+        # If username is provided, search by username
         if username:
             username_lower = username.strip().lower()
-            for u in data.get("users", {}).values():
+            for u in list(data.get("users", {}).values()):
                 if u.get("username", "").lower() == username_lower:
-                    payload = u
-                    out = json.dumps(payload)
-                    return out
+                    return json.dumps(u)
             return _not_found(f"username {username} not found")
 
-        # If both first_name and last_name are given, create a username and search
+        # If first_name and last_name are provided, construct username and search
         if first_name and last_name:
             first_name_clean = first_name.strip().lower()
             last_name_clean = last_name.strip().lower()
             username_to_search = first_name_clean[0] + last_name_clean
-            for u in data.get("users", {}).values():
+            for u in list(data.get("users", {}).values()):
                 if u.get("username", "").lower() == username_to_search:
-                    payload = u
-                    out = json.dumps(payload)
-                    return out
+                    return json.dumps(u)
             return _not_found("User not found")
 
-        # If department or status is supplied (without a specific identifier), return a filtered list
+
+        # If department or status is provided (and no specific identifier), return filtered list
         if department or status or mfa_enabled is not None:
-            users = data.get("users", {}).values()
-            filtered: list[dict[str, Any]] = []
-            for u in users.values():
+            users = list(data.get("users", {}).values())
+            filtered: List[Dict[str, Any]] = []
+            for u in users:
                 if department and u.get("department") != department:
                     continue
                 if status and u.get("status") != status:
@@ -79,85 +60,39 @@ class GetUser(Tool):
                     continue
                 filtered.append(u)
             if role_id:
-                user_roles = data.get("user_roles", {}).values()
-                user_ids_with_role = {
-                    ur.get("user_id")
-                    for ur in user_roles.values() if ur.get("role_id") == role_id
-                }
-                filtered = [
-                    u for u in filtered if u.get("user_id") in user_ids_with_role
-                ]
-            payload = {"ok": True, "users": filtered}
-            out = json.dumps(payload)
-            return out
+                user_roles = data.get("user_roles", [])
+                user_ids_with_role = {ur.get("user_id") for ur in user_roles if ur.get("role_id") == role_id}
+                filtered = [u for u in filtered if u.get("user_id") in user_ids_with_role]
+            return json.dumps({"ok": True, "users": filtered})
         if role_id:
-            user_roles = data.get("user_roles", {}).values()
-            user_ids_with_role = {
-                ur.get("user_id") for ur in user_roles.values() if ur.get("role_id") == role_id
-            }
-            users = [
-                u
-                for u in data.get("users", {}).values()
-                if u.get("user_id") in user_ids_with_role
-            ]
-            payload = {"ok": True, "users": users}
-            out = json.dumps(payload)
-            return out
-        payload = {
-            "error": "Must provide user_id, username, both first_name and last_name, role_id, or department/status filter"
-        }
-        out = json.dumps(payload)
-        return out
+            user_roles = data.get("user_roles", [])
+            user_ids_with_role = {ur.get("user_id") for ur in user_roles if ur.get("role_id") == role_id}
+            users = [u for u in list(data.get("users", {}).values()) if u.get("user_id") in user_ids_with_role]
+            return json.dumps({"ok": True, "users": users})
+        return json.dumps({"error": "Must provide user_id, username, both first_name and last_name, role_id, or department/status filter"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetUser",
+                "name": "get_user",
                 "description": "Fetch a single user by id/username/full name, or list users filtered by department, status, MFA, or role_id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "user_id": {
-                            "type": "string",
-                            "description": "User identifier (e.g., U-001).",
-                        },
-                        "username": {
-                            "type": "string",
-                            "description": "Username to search for.",
-                        },
-                        "first_name": {
-                            "type": "string",
-                            "description": "User first name (used with last_name).",
-                        },
-                        "last_name": {
-                            "type": "string",
-                            "description": "User last name (used with first_name).",
-                        },
-                        "department": {
-                            "type": "string",
-                            "description": "Filter by department (exact match).",
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "Filter by status (e.g., ACTIVE, SUSPENDED).",
-                        },
-                        "mfa_enabled": {
-                            "type": "boolean",
-                            "description": "Filter by MFA status (enabled/disabled).",
-                        },
-                        "role_id": {
-                            "type": "string",
-                            "description": "Filter users by having this role_id.",
-                        },
-                        "allow_missing": {
-                            "type": "boolean",
-                            "description": "If true, return {ok: True, message: 'User not found'} instead of an error when the user is not found.",
-                            "default": False,
-                        },
+                        "user_id": {"type": "string", "description": "User identifier (e.g., U-001)."},
+                        "username": {"type": "string", "description": "Username to search for."},
+                        "first_name": {"type": "string", "description": "User first name (used with last_name)."},
+                        "last_name": {"type": "string", "description": "User last name (used with first_name)."},
+                        "department": {"type": "string", "description": "Filter by department (exact match)."},
+                        "status": {"type": "string", "description": "Filter by status (e.g., ACTIVE, SUSPENDED)."},
+                        "mfa_enabled": {"type": "boolean", "description": "Filter by MFA status (enabled/disabled)."},
+                        "role_id": {"type": "string", "description": "Filter users by having this role_id."},
+                        "allow_missing": {"type": "boolean", "description": "If true, return {ok: True, message: 'User not found'} instead of an error when the user is not found.", "default": False}
                     },
                     "required": [],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

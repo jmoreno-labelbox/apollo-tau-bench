@@ -1,34 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class PerformPhysicalCount(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], sku: str, warehouse_id: str, instruction_amount: int = 0, quantity_available_flag: bool = False) -> str:
-        inventory = data.get("inventory", {}).values()
+    def invoke(data: Dict[str, Any], sku: str, warehouse_id: str, **kwargs) -> str:
+        inventory = list(data.get("inventory", {}).values())
+        instruction_amount = kwargs.get("instruction_amount", 0)
+        quantity_available_flag = kwargs.get("quantity_available_flag", False)
 
         inventory_item = next(
-            (item for item in inventory.values() if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id),
+            (item for item in inventory
+             if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id),
             None
         )
 
         if not inventory_item:
             return json.dumps({"error": f"Inventory not found for SKU {sku} in warehouse {warehouse_id}"})
 
-        # Emulate a physical count with minor variations
+        # Simulate physical count with slight variance
         system_count = inventory_item.get("quantity_on_hand", 0)
         if quantity_available_flag:
             system_count = inventory_item.get("quantity_available", 0)
-        physical_count = system_count - int(system_count * 0.0075)  # Variance of 0.75%
+        physical_count = system_count - int(system_count * 0.0075)  # 0.75% variance
         if instruction_amount:
             physical_count = instruction_amount
 
@@ -53,12 +50,13 @@ class PerformPhysicalCount(Tool):
             "physical_count": physical_count,
             "variance": count_record["variance"]
         })
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "PerformPhysicalCount",
+                "name": "perform_physical_count",
                 "description": "Perform physical inventory count for a specific SKU",
                 "parameters": {
                     "type": "object",

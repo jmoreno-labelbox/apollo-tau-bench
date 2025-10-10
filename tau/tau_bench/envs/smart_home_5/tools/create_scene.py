@@ -1,45 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateScene(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], new_scene_id: str = None, new_scene_name: str = None,
-    new_scene: Any = None,
-    ) -> str:
-        scenes = data.get("scenes", {}).values()
-        if not new_scene_id:
-            payload = {"error": "New scene must have an 'id'."}
-            out = json.dumps(payload, indent=2)
-            return out
-        if any(s.get("id") == new_scene_id for s in scenes.values()):
-            payload = {"error": f"Scene with ID '{new_scene_id}' already exists."}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+    def invoke(data: Dict[str, Any], new_scene: Dict[str, Any]) -> str:
+        scenes = list(data.get('scenes', {}).values())
+        if 'id' not in new_scene:
+            return json.dumps({"error": "New scene must have an 'id'."}, indent=2)
+        if any(s.get('id') == new_scene['id'] for s in scenes):
+            return json.dumps({"error": f"Scene with ID '{new_scene['id']}' already exists."}, indent=2)
 
-        new_scene = {"id": new_scene_id, "name": new_scene_name} if new_scene_name else {"id": new_scene_id}
-        data["scenes"][scene_id] = new_scene
-        payload = {"success": f"Scene '{new_scene.get('name', new_scene_id)}' created."}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        scenes.append(new_scene)
+        return json.dumps({"success": f"Scene '{new_scene.get('name', new_scene['id'])}' created."}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateScene",
+                "name": "create_scene",
                 "description": "Create a new scene.",
                 "parameters": {
                     "type": "object",
@@ -47,21 +30,18 @@ class CreateScene(Tool):
                         "new_scene": {
                             "type": "object",
                             "description": "A dictionary representing the new scene.",
-                            "properties": {
+                             "properties": {
                                 "id": {"type": "string"},
                                 "name": {"type": "string"},
                                 "description": {"type": "string"},
-                                "actions": {
-                                    "type": "array",
-                                    "items": {"type": "object"},
-                                },
+                                "actions": {"type": "array", "items": {"type": "object"}}
                             },
                             "required": ["id", "name", "actions"],
-                            "additionalProperties": True,
+                            "additionalProperties": True
                         }
                     },
                     "required": ["new_scene"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

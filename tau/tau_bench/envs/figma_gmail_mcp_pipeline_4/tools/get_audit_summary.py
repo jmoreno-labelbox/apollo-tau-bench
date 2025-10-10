@@ -1,69 +1,54 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAuditSummary(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], audit_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
-        Obtains a summary of audit findings.
+        Retrieves a summary of audit findings.
         """
-        if not audit_id:
-            payload = {"error": "audit_id is required"}
-            out = json.dumps(payload)
-            return out
+        audit_id = kwargs.get('audit_id')
 
-        # Locate the audit
-        for audit in data.get("audits", {}).values():
-            if audit.get("audit_id") == audit_id:
-                # Tally findings based on severity
-                findings = [
-                    f
-                    for f in data.get("audit_findings", {}).values()
-                    if f.get("audit_id") == audit_id
-                ]
+        if not audit_id:
+            return json.dumps({"error": "audit_id is required"})
+
+        # Find the audit
+        for audit in data.get('audits', []):
+            if audit.get('audit_id') == audit_id:
+                # Count findings by severity
+                findings = [f for f in data.get('audit_findings', []) if f.get('audit_id') == audit_id]
                 severity_counts = {}
                 for finding in findings:
-                    severity = finding.get("severity", "UNKNOWN")
+                    severity = finding.get('severity', 'UNKNOWN')
                     severity_counts[severity] = severity_counts.get(severity, 0) + 1
-                payload = {
+
+                return json.dumps({
                     "audit_id": audit_id,
                     "total_findings": len(findings),
                     "severity_counts": severity_counts,
-                    "status": audit.get("status"),
-                    "last_updated": audit.get("last_updated"),
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Audit with ID {audit_id} not found"}
-        out = json.dumps(payload)
-        return out
+                    "status": audit.get('status'),
+                    "last_updated": audit.get('last_updated')
+                })
+
+        return json.dumps({"error": f"Audit with ID {audit_id} not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAuditSummary",
+                "name": "get_audit_summary",
                 "description": "Retrieves a summary of audit findings.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "audit_id": {
-                            "type": "string",
-                            "description": "The ID of the audit to summarize.",
-                        }
+                        "audit_id": {"type": "string", "description": "The ID of the audit to summarize."}
                     },
-                    "required": ["audit_id"],
-                },
-            },
+                    "required": ["audit_id"]
+                }
+            }
         }

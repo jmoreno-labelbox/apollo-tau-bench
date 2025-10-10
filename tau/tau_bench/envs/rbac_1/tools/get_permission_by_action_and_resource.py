@@ -1,51 +1,42 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetPermissionByActionAndResource(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], action: str = None, resource_name: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        action = kwargs.get("action")
+        resource_name = kwargs.get("resource_name")
         resource_id = None
-        for res in data.get("resources", {}).values():
-            if res.get("name") == resource_name:
-                resource_id = res.get("resource_id")
+        for res in data.get('resources', []):
+            if res.get('name') == resource_name:
+                resource_id = res.get('resource_id')
                 break
         if not resource_id:
-            payload = {"error": "Resource not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Resource not found"})
 
-        for perm in data.get("permissions", {}).values():
-            if perm.get("action") == action and perm.get("resource_id") == resource_id:
-                payload = perm
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Permission not found"}
-        out = json.dumps(payload)
-        return out
+        for perm in list(data.get('permissions', {}).values()):
+            if perm.get('action') == action and perm.get('resource_id') == resource_id:
+                return json.dumps(perm)
+        return json.dumps({"error": "Permission not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "getPermissionByActionAndResource",
-                "description": "Retrieves a permission based on its action and resource.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "action": {"type": "string"},
-                        "resource_name": {"type": "string"},
-                    },
-                    "required": ["action", "resource_name"],
-                },
-            },
+                "type": "function",
+                "function": {
+                        "name": "get_permission_by_action_and_resource",
+                        "description": "Retrieves a permission based on its action and resource.",
+                        "parameters": {
+                                "type": "object",
+                                "properties": {
+                                        "action": {"type": "string"},
+                                        "resource_name": {"type": "string"}
+                                },
+                                "required": ["action", "resource_name"]
+                        }
+                }
         }

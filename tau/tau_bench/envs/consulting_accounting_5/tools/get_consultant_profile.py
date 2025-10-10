@@ -1,19 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any, Dict
-from datetime import timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetConsultantProfile(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], name: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
         Returns consultant_id(s) (usually only one profile exists).
         """
-        for c in data["consultants"].values():
-            if c["name"] == name:
+        for c in data["consultants"]:
+            if c["name"] == kwargs.get("name"):
                 return json.dumps(c['consultant_id'])
-        return json.dumps(None)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {

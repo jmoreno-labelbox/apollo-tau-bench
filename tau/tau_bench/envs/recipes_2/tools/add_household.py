@@ -1,43 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AddHousehold(Tool):
-    """Incorporates a new household."""
+    """Adds a new household."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        household_name = kwargs.get("household_name")
+        timezone = kwargs.get("timezone")
+        primary_user_id = kwargs.get("primary_user_id")
+        households = data.get("households", [])
+        new_id = max([h.get("household_id", 0) for h in households]) + 1 if households else 201
+        new_household = {
+            "household_id": new_id, "household_name": household_name,
+            "timezone": timezone, "primary_user_id": primary_user_id
+        }
+        data["households"].append(new_household)
+        return json.dumps(new_household)
 
     @staticmethod
-    def invoke(data: dict[str, Any], household_name: str = None, timezone: str = None, primary_user_id: int = None) -> str:
-        households = data.get("households", {}).values()
-        new_id = (
-            max([h.get("household_id", 0) for h in households.values()]) + 1
-            if households
-            else 201
-        )
-        new_household = {
-            "household_id": new_id,
-            "household_name": household_name,
-            "timezone": timezone,
-            "primary_user_id": primary_user_id,
-        }
-        data["households"][household_id] = new_household
-        payload = new_household
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "addHousehold",
+                "name": "add_household",
                 "description": "Adds a new household.",
                 "parameters": {
                     "type": "object",

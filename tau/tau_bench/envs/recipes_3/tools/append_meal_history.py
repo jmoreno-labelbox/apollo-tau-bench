@@ -1,54 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AppendMealHistory(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         household_id: int,
         plan_date: str,
         recipe_id: int,
         was_prepared: bool,
-        rating_int: int | None = None
+        rating_int: Optional[int] = None,
     ) -> str:
-        table = _get_table(data, "meal_history")
-        next_id = _max_int(table, "history_id", 0) + 1
-        rec = {
+        tbl = _tbl(data, "meal_history")
+        next_id = _max_id(tbl, "history_id", 6200) + 1
+        row = {
             "history_id": next_id,
-            "household_id": household_id,
-            "plan_date": plan_date,
-            "recipe_id": recipe_id,
-            "was_prepared": was_prepared,
-            "rating_int": rating_int,
+            "household_id": int(household_id),
+            "plan_date": str(plan_date),
+            "recipe_id": int(recipe_id),
+            "was_prepared": bool(was_prepared),
+            "rating_int": int(rating_int) if rating_int is not None else None,
         }
-        table.append(rec)
-        payload = {"history_id": next_id}
-        out = json.dumps(payload, indent=2)
-        return out
-        pass
-        table = _get_table(data, "meal_history")
-        next_id = _max_int(table, "history_id", 0) + 1
-        rec = {
-            "history_id": next_id,
-            "household_id": household_id,
-            "plan_date": plan_date,
-            "recipe_id": recipe_id,
-            "was_prepared": was_prepared,
-            "rating_int": rating_int,
-        }
-        table.append(rec)
-        payload = {"history_id": next_id}
-        out = json.dumps(payload, indent=2)
-        return out
+        tbl.append(row)
+        return _json({"history_id": next_id})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AppendMealHistory",
-                "description": "Appends a meal_history record with next history_id.",
+                "name": "append_meal_history",
+                "description": "Append meal_history row and return history_id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -58,12 +44,7 @@ class AppendMealHistory(Tool):
                         "was_prepared": {"type": "boolean"},
                         "rating_int": {"type": "integer"},
                     },
-                    "required": [
-                        "household_id",
-                        "plan_date",
-                        "recipe_id",
-                        "was_prepared",
-                    ],
+                    "required": ["household_id", "plan_date", "recipe_id", "was_prepared"],
                 },
             },
         }

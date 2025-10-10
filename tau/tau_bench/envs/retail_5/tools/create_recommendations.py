@@ -1,71 +1,58 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateRecommendations(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, preferred_category: str = None, max_price: int = 1000) -> str:
-        if not user_id:
-            payload = {"error": "user_id is required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get('user_id')
+        preferred_category = kwargs.get('preferred_category')
+        max_price = kwargs.get('max_price', 1000)
 
-        products = data["products"]
+        if not user_id:
+            return json.dumps({'error': 'user_id is required'})
+
+        products = data['products']
         recommendations = []
 
-        for product in products.values():
-            if (
-                not preferred_category
-                or preferred_category.lower() in product["name"].lower()
-            ):
-                for variant_id, variant in product["variants"].items():
-                    if variant["available"] and variant["price"] <= max_price:
-                        recommendations.append(
-                            {
-                                "product_id": product["product_id"],
-                                "name": product["name"],
-                                "item_id": variant["item_id"],
-                                "price": variant["price"],
-                                "options": variant["options"],
-                            }
-                        )
+        for product in products:
+            if not preferred_category or preferred_category.lower() in product['name'].lower():
+                for variant_id, variant in product['variants'].items():
+                    if variant['available'] and variant['price'] <= max_price:
+                        recommendations.append({
+                            'product_id': product['product_id'],
+                            'name': product['name'],
+                            'item_id': variant['item_id'],
+                            'price': variant['price'],
+                            'options': variant['options']
+                        })
 
-        recommendations.sort(key=lambda x: x["price"])
-        payload = {
-                "user_id": user_id,
-                "recommendations": recommendations[:5],
-                "based_on_category": preferred_category,
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        recommendations.sort(key=lambda x: x['price'])
+
+        return json.dumps({
+            'user_id': user_id,
+            'recommendations': recommendations[:5],
+            'based_on_category': preferred_category
+        }, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "createRecommendations",
-                "description": "Create product recommendations for a user based on their preferences.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "user_id": {
-                            "type": "string",
-                            "description": "User ID to create recommendations for",
-                        },
-                        "preferred_category": {
-                            "type": "string",
-                            "description": "Preferred product category",
-                        },
-                        "max_price": {
-                            "type": "number",
-                            "description": "Maximum price for recommendations",
-                            "default": 1000,
-                        },
+            'type': 'function',
+            'function': {
+                'name': 'create_recommendations',
+                'description': 'Create product recommendations for a user based on their preferences.',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'user_id': {'type': 'string', 'description': 'User ID to create recommendations for'},
+                        'preferred_category': {'type': 'string', 'description': 'Preferred product category'},
+                        'max_price': {'type': 'number', 'description': 'Maximum price for recommendations', 'default': 1000}
                     },
-                    "required": ["user_id"],
-                },
-            },
+                    'required': ['user_id']
+                }
+            }
         }

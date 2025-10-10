@@ -1,40 +1,44 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class SummarizeProjectConsolidation(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], consolidated_to: str = None, total_hours: int = None, team_size: int = None, consolidated_projects: list = None) -> str:
-        if consolidated_projects is None:
-            consolidated_projects = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        consolidated_to = kwargs.get("consolidated_to")
+        total_hours = kwargs.get("total_hours")
+        team_size = kwargs.get("team_size")
+        consolidated_projects = kwargs.get("consolidated_projects", [])
 
         if not all([consolidated_to, total_hours is not None, team_size is not None]):
-            payload = {"error": "consolidated_to, total_hours, and team_size are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "consolidated_to, total_hours, and team_size are required"}
+            )
 
-        payload = {
-            "consolidated_to": consolidated_to,
-            "total_hours": total_hours,
-            "team_size": team_size,
-            "consolidation_summary": {
-                "target_project": consolidated_to,
-                "final_team_size": team_size,
-                "total_allocated_hours": total_hours,
-                "consolidated_projects": consolidated_projects,
-                "status": "completed",
-            },
-        }
-        out = json.dumps(payload)
-        return out
+        return json.dumps(
+            {
+                "consolidated_to": consolidated_to,
+                "total_hours": total_hours,
+                "team_size": team_size,
+                "consolidation_summary": {
+                    "target_project": consolidated_to,
+                    "final_team_size": team_size,
+                    "total_allocated_hours": total_hours,
+                    "consolidated_projects": consolidated_projects,
+                    "status": "completed",
+                },
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SummarizeProjectConsolidation",
+                "name": "summarize_project_consolidation",
                 "description": "Generate a summary of project consolidation operations",
                 "parameters": {
                     "type": "object",

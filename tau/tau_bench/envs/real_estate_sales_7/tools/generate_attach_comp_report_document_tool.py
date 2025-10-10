@@ -1,18 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import math
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GenerateAttachCompReportDocumentTool(Tool):
-    """Create comp_###.pdf URI from report_id, refresh comp_reports.doc_uri, and add a documents row."""
+    """Generate comp_###.pdf URI from report_id, update comp_reports.doc_uri, and insert documents row."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], report_id: int = None, created_by: int = None, doc_type: str = "comp_report") -> str:
-        pass
-        report_id = _as_int(report_id)
-        created_by = _as_int(created_by)
-        doc_type = doc_type.strip()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        report_id = _as_int(kwargs.get("report_id"))
+        created_by = _as_int(kwargs.get("created_by"))
+        doc_type = (kwargs.get("doc_type") or "comp_report").strip()
         if report_id is None or created_by is None:
             return _err("report_id and created_by are required")
 
@@ -38,9 +38,9 @@ class GenerateAttachCompReportDocumentTool(Tool):
             "created_by": created_by,
             "created_at": HARD_TS,
         }
-        data["documents"][doc_row["document_id"]] = doc_row
+        docs.append(doc_row)
 
-        #--- Generate Audit Event Entry ---
+        # --- Create Audit Event Entry ---
         audit_rows = data.setdefault("audit_events", [])
         audit_event_id = _next_int_id(audit_rows, "event_id")
         audit_rec = {
@@ -52,8 +52,10 @@ class GenerateAttachCompReportDocumentTool(Tool):
             "occurred_at": HARD_TS,
             "metadata_json": {"new_uri": uri},
         }
-        data["audit_events"][audit_rec["audit_event_id"]] = audit_rec
-        payload = {
+        audit_rows.append(audit_rec)
+
+        return json.dumps(
+            {
                 "document_uri": uri,
                 "report": {
                     "report_id": report_id,
@@ -62,17 +64,16 @@ class GenerateAttachCompReportDocumentTool(Tool):
                 },
                 "document_entry": doc_row,
                 "audit_event": audit_rec,
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GenerateAttachCompReportDocument",
+                "name": "generate_attach_comp_report_document",
                 "description": (
                     "Generate PDF URI from report_id, update comp_reports.doc_uri, and insert a documents row."
                 ),

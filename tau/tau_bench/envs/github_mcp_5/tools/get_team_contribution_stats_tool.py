@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetTeamContributionStatsTool(Tool):
     """
@@ -42,23 +30,25 @@ class GetTeamContributionStatsTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str) -> str:
-        commits = data.get("commits", {}).values()
-        prs = data.get("pull_requests", {}).values()
-        issues = data.get("issues", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
+        repo_name = _validate_param(kwargs, "repo_name", str)
+
+        commits = list(data.get("commits", {}).values())
+        prs = list(data.get("pull_requests", {}).values())
+        issues = list(data.get("issues", {}).values())
 
         stats = {}
-        for c in commits.values():
+        for c in commits:
             if c.get("repo") == repo_name:
                 author = _normalize_user(c.get("author"))
                 stats.setdefault(author, {"commits": 0, "prs": 0, "issues": 0})
                 stats[author]["commits"] += 1
-        for p in prs.values():
+        for p in prs:
             if p.get("repo") == repo_name:
                 author = _normalize_user(p.get("author"))
                 stats.setdefault(author, {"commits": 0, "prs": 0, "issues": 0})
                 stats[author]["prs"] += 1
-        for i in issues.values():
+        for i in issues:
             if i.get("repo") == repo_name:
                 for a in [_normalize_user(a) for a in i.get("assignees", [])]:
                     stats.setdefault(a, {"commits": 0, "prs": 0, "issues": 0})
@@ -66,12 +56,13 @@ class GetTeamContributionStatsTool(Tool):
 
         result = {"repo": repo_name, "team_stats": stats, "report_date": CURRENT_DATE}
         return _response("ok", result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetTeamContributionStats",
+                "name": "get_team_contribution_stats",
                 "description": "Calculate contributions (commits, PRs, issues) per user deterministically.",
                 "parameters": {
                     "type": "object",

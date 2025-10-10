@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetDeploymentFrequencyReportTool(Tool):
     """
@@ -44,19 +32,16 @@ class GetDeploymentFrequencyReportTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        events = data.get("terminal", {}).values()
-        deploys = [
-            d
-            for d in events.values() if d.get("repo") == repo_name and d.get("type") == "deploy"
-        ]
+        events = data.get("terminal", [])
+        deploys = [d for d in events if d.get("repo") == repo_name and d.get("type") == "deploy"]
         deploys = sorted(deploys, key=lambda d: (d.get("date"), d.get("event_id")))
+
 
         deploy_dates = sorted([d.get("date") for d in deploys if d.get("date")])
 
@@ -71,22 +56,19 @@ class GetDeploymentFrequencyReportTool(Tool):
             "deploy_count": len(deploys),
             "average_interval_days": average_interval,
             "deploy_events": [
-                {
-                    "event_id": d["event_id"],
-                    "date": d["date"],
-                    "environment": d["environment"],
-                }
+                {"event_id": d["event_id"], "date": d["date"], "environment": d["environment"]}
                 for d in deploys
             ],
             "report_date": CURRENT_DATE,
         }
         return _response("ok", report)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetDeploymentFrequencyReport",
+                "name": "get_deployment_frequency_report",
                 "description": "Get deterministic deployment frequency stats for a repository.",
                 "parameters": {
                     "type": "object",

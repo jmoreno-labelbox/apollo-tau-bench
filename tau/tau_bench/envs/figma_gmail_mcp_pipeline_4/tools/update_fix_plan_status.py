@@ -1,149 +1,108 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateFixPlanStatus(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        plan_id: str = None,
-        new_status: str = None,
-        owner_email: str = None,
-        delivery_method: str = None,
-        delivery_notes: str = "",
-        notes: str = None
-    ) -> str:
-        # Support notes as alternative to delivery_notes
-        if notes is not None:
-            delivery_notes = notes
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
-        Changes fix plan status and oversees the lifecycle workflow of the fix plan.
+        Updates fix plan status and manages fix plan lifecycle workflow.
         """
+        plan_id = kwargs.get('plan_id')
+        new_status = kwargs.get('new_status')
+        owner_email = kwargs.get('owner_email')
+        delivery_method = kwargs.get('delivery_method')
+        delivery_notes = kwargs.get('delivery_notes', '')
+
         if not all([plan_id, new_status]):
-            payload = {"error": "plan_id and new_status are required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "plan_id and new_status are required."})
 
-        # Check the validity of status values
-        valid_statuses = ["DRAFTED", "IN_PROGRESS", "DELIVERED", "ARCHIVED"]
+        # Validate status values
+        valid_statuses = ['DRAFTED', 'IN_PROGRESS', 'DELIVERED', 'ARCHIVED']
         if new_status not in valid_statuses:
-            payload = {
-                "error": f"Invalid status. Must be one of: {', '.join(valid_statuses)}"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Invalid status. Must be one of: {', '.join(valid_statuses)}"})
 
-        # Check the correctness of delivery method if specified
-        valid_delivery_methods = ["COMMENTS", "TICKETS", "PDF"]
+        # Validate delivery method if provided
+        valid_delivery_methods = ['COMMENTS', 'TICKETS', 'PDF']
         if delivery_method and delivery_method not in valid_delivery_methods:
-            payload = {
-                "error": f"Invalid delivery_method. Must be one of: {', '.join(valid_delivery_methods)}"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Invalid delivery_method. Must be one of: {', '.join(valid_delivery_methods)}"})
 
-        fix_plans = data.get("fix_plans", {}).values()
+        fix_plans = data.get('fix_plans', [])
 
-        # Locate the fix plan
+        # Find the fix plan
         plan_found = False
-        for plan in fix_plans.values():
-            if plan.get("plan_id") == plan_id:
+        for plan in fix_plans:
+            if plan.get('plan_id') == plan_id:
                 plan_found = True
-                old_status = plan.get("status")
+                old_status = plan.get('status')
 
-                # Change the status of the plan
-                plan["status"] = new_status
-                plan["last_updated"] = datetime.now().isoformat()
+                # Update plan status
+                plan['status'] = new_status
+                plan['last_updated'] = datetime.now().isoformat()
 
-                # Revise owner if specified
+                # Update owner if provided
                 if owner_email:
-                    plan["owner_email"] = owner_email
+                    plan['owner_email'] = owner_email
 
-                # Change delivery method if supplied
+                # Update delivery method if provided
                 if delivery_method:
-                    plan["delivery_method"] = delivery_method
+                    plan['delivery_method'] = delivery_method
 
-                # Manage logic based on status
-                if new_status == "DELIVERED":
-                    plan["delivered_at"] = datetime.now().isoformat()
+                # Handle status-specific logic
+                if new_status == 'DELIVERED':
+                    plan['delivered_at'] = datetime.now().isoformat()
                     if delivery_notes:
-                        plan["delivery_notes"] = delivery_notes
+                        plan['delivery_notes'] = delivery_notes
 
-                elif new_status == "ARCHIVED":
-                    plan["archived_at"] = datetime.now().isoformat()
+                elif new_status == 'ARCHIVED':
+                    plan['archived_at'] = datetime.now().isoformat()
                     if delivery_notes:
-                        plan["archive_reason"] = delivery_notes
+                        plan['archive_reason'] = delivery_notes
 
-                # Document the change in status
-                if "status_history" not in plan:
-                    plan["status_history"] = []
-                plan["status_history"].append(
-                    {
-                        "from_status": old_status,
-                        "to_status": new_status,
-                        "changed_at": datetime.now().isoformat(),
-                        "notes": delivery_notes,
-                        "delivery_method": delivery_method,
-                    }
-                )
+                # Log the status change
+                if 'status_history' not in plan:
+                    plan['status_history'] = []
+                plan['status_history'].append({
+                    "from_status": old_status,
+                    "to_status": new_status,
+                    "changed_at": datetime.now().isoformat(),
+                    "notes": delivery_notes,
+                    "delivery_method": delivery_method
+                })
 
                 break
 
         if not plan_found:
-            payload = {"error": f"Fix plan with ID '{plan_id}' not found."}
-            out = json.dumps(payload)
-            return out
-        payload = {
+            return json.dumps({"error": f"Fix plan with ID '{plan_id}' not found."})
+
+        return json.dumps({
             "success": True,
             "plan_id": plan_id,
             "old_status": old_status,
             "new_status": new_status,
-            "updated_at": datetime.now().isoformat(),
-        }
-        out = json.dumps(payload)
-        return out
+            "updated_at": datetime.now().isoformat()
+        })
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateFixPlanStatus",
+                "name": "update_fix_plan_status",
                 "description": "Updates fix plan status and manages fix plan lifecycle workflow including delivery method and ownership tracking.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "plan_id": {
-                            "type": "string",
-                            "description": "The ID of the fix plan to update.",
-                        },
-                        "new_status": {
-                            "type": "string",
-                            "description": "The new status for the fix plan. Must be one of: DRAFTED, IN_PROGRESS, DELIVERED, ARCHIVED.",
-                        },
-                        "owner_email": {
-                            "type": "string",
-                            "description": "Optional updated owner email address.",
-                        },
-                        "delivery_method": {
-                            "type": "string",
-                            "description": "Optional delivery method. Must be one of: COMMENTS, TICKETS, PDF.",
-                        },
-                        "delivery_notes": {
-                            "type": "string",
-                            "description": "Optional notes about the delivery or status change.",
-                        },
+                        "plan_id": {"type": "string", "description": "The ID of the fix plan to update."},
+                        "new_status": {"type": "string", "description": "The new status for the fix plan. Must be one of: DRAFTED, IN_PROGRESS, DELIVERED, ARCHIVED."},
+                        "owner_email": {"type": "string", "description": "Optional updated owner email address."},
+                        "delivery_method": {"type": "string", "description": "Optional delivery method. Must be one of: COMMENTS, TICKETS, PDF."},
+                        "delivery_notes": {"type": "string", "description": "Optional notes about the delivery or status change."}
                     },
-                    "required": ["plan_id", "new_status"],
-                },
-            },
+                    "required": ["plan_id", "new_status"]
+                }
+            }
         }

@@ -1,23 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class get_document_compliance_status(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
         emp_doc_record = next(
             (
                 d
-                for d in data.get("employee_documents", {}).values().get(
+                for d in data.get("employee_documents", {}).get(
                     "employee_documents", []
                 )
                 if d.get("employee_id") == employee_id
@@ -25,11 +20,9 @@ class get_document_compliance_status(Tool):
             None,
         )
         if not emp_doc_record:
-            payload = {"employee_id": employee_id, "status": "No documents on file"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"employee_id": employee_id, "status": "No documents on file"}, indent=2
             )
-            return out
 
         docs = emp_doc_record.get("documents", [])
         doc_categories = {doc.get("category") for doc in docs}
@@ -40,15 +33,14 @@ class get_document_compliance_status(Tool):
             "has_id_verification": "ID Verification" in doc_categories,
             "document_count": len(docs),
         }
-        payload = status
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(status, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetDocumentComplianceStatus",
+                "name": "get_document_compliance_status",
                 "description": "Check if an employee has key required documents like an NDA and ID verification.",
                 "parameters": {
                     "type": "object",

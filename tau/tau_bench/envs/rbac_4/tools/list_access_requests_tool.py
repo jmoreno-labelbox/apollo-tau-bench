@@ -1,44 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListAccessRequestsTool(Tool):
-    """Display access requests categorized by status or resource."""
+    """List access requests by status or resource."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], status: str = None, resource_id: str = None) -> str:
-        reqs = data.get("access_requests", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        status = kwargs.get("status")
+        res_id = kwargs.get("resource_id")
+        reqs = data.get("access_requests", [])
         results = []
         for r in reqs:
             if status and r["status"] != status:
                 continue
-            if resource_id and r["resource_id"] != resource_id:
+            if res_id and r["resource_id"] != res_id:
                 continue
             results.append(r)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListAccessRequests",
+                "name": "list_access_requests",
                 "description": "List access requests filtered by status or resource",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "status": {"type": "string"},
-                        "resource_id": {"type": "string"},
-                    },
-                },
-            },
+                        "resource_id": {"type": "string"}
+                    }
+                }
+            }
         }

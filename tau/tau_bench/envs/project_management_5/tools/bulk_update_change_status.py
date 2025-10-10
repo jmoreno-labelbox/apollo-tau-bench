@@ -1,38 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class BulkUpdateChangeStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], cr_ids: list = None, new_status: str = None, updated_by: str = None) -> str:
-        if cr_ids is None:
-            cr_ids = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_ids = kwargs.get("cr_ids", [])
+        new_status = kwargs.get("new_status")
+        updated_by = kwargs.get("updated_by")
 
         if not all([cr_ids, new_status, updated_by]):
-            payload = {"error": "cr_ids, new_status, and updated_by are required"}
-            out = json.dumps(
-                payload)
-            return out
+            return json.dumps(
+                {"error": "cr_ids, new_status, and updated_by are required"}
+            )
 
-        change_requests = data.get("change_requests", {}).values()
-        change_history = data.get("change_history", {}).values()
+        change_requests = data.get("change_requests", [])
+        change_history = data.get("change_history", [])
 
         results = {"successful": [], "failed": []}
 
         for cr_id in cr_ids:
-            cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
+            cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
             if not cr:
-                results["failed"].append({"cr_id": cr_id})
+                results["failed"].append(
+                    {"cr_id": cr_id}
+                )
                 continue
 
             old_status = cr.get("status")
@@ -67,12 +62,14 @@ class BulkUpdateChangeStatus(Tool):
                 "performed_by": updated_by,
                 "timestamp": datetime.now().isoformat(),
             }
-            data["change_history"][history_entry["change_history_id"]] = history_entry
+            change_history.append(history_entry)
 
             results["successful"].append(
                 {"cr_id": cr_id, "old_status": old_status, "new_status": new_status}
             )
-        payload = {
+
+        return json.dumps(
+            {
                 "success": len(results["successful"]) > 0,
                 "summary": {
                     "total_requested": len(cr_ids),
@@ -80,17 +77,16 @@ class BulkUpdateChangeStatus(Tool):
                     "failed": len(results["failed"]),
                 },
                 "results": results,
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "BulkUpdateChangeStatus",
+                "name": "bulk_update_change_status",
                 "description": "Update status for multiple change requests at once",
                 "parameters": {
                     "type": "object",

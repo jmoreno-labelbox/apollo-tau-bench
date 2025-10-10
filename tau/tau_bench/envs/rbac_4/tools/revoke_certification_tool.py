@@ -1,82 +1,56 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RevokeCertificationTool(Tool):
-    """Remove an existing certification from a user (write operation, predictable)."""
+    """Revoke an existing certification from a user (write operation, deterministic)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], certification_id: str, expires_on: str = None) -> str:
-        certifications = data.get("certifications", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        certifications = data.get("certifications", [])
         if not isinstance(certifications, list):
-            payload = {"error": "certifications must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "certifications must be a list"}, indent=2)
+
+        certification_id = kwargs.get("certification_id")
+        # Optional timestamp field name chosen from existing datasets; avoids inventing new keys
+        expires_on = kwargs.get("expires_on")
 
         if not isinstance(certification_id, str) or not certification_id.strip():
-            payload = {"error": "certification_id must be a non-empty string"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "certification_id must be a non-empty string"}, indent=2)
         if expires_on is not None and not isinstance(expires_on, str):
-            payload = {"error": "expires_on must be a string if provided"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "expires_on must be a string if provided"}, indent=2)
 
-        cert = next(
-            (
-                c
-                for c in certifications.values() if c.get("certification_id") == certification_id
-            ),
-            None,
-        )
+        cert = next((c for c in certifications if c.get("certification_id") == certification_id), None)
         if not cert:
-            payload = {"error": f"Certification {certification_id} not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"Certification {certification_id} not found"}, indent=2)
 
         cert["status"] = "REVOKED"
-        #Reset completion if available
+        # Clear completion if present
         if "completed_on" in cert:
             cert["completed_on"] = None
-        #Optionally mark an end using a pre-existing field name utilized in other datasets
+        # Optionally stamp an end marker using an existing field name used in other datasets
         if expires_on:
             cert["expires_on"] = expires_on
-        payload = {"success": f"Certification {certification_id} revoked"}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+
+        return json.dumps({"success": f"Certification {certification_id} revoked"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RevokeCertification",
+                "name": "revoke_certification",
                 "description": "Revoke a certification by certification_id; clears completed_on and can set expires_on.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "certification_id": {"type": "string"},
-                        "expires_on": {
-                            "type": "string",
-                            "description": "Optional deterministic end timestamp",
-                        },
+                        "expires_on": {"type": "string", "description": "Optional deterministic end timestamp"}
                     },
-                    "required": ["certification_id"],
+                    "required": ["certification_id"]
                 },
             },
         }

@@ -1,46 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListPolicyExceptionsTool(Tool):
-    """Display exceptions to policies."""
+    """List policy exceptions."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], status: str = None, user_id: str = None, completed_on: Any = None,
-    permission_id: Any = None,
-    ) -> str:
-        exes = data.get("policy_exceptions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        status = kwargs.get("status")
+        uid = kwargs.get("user_id")
+        exes = data.get("policy_exceptions", [])
         results = []
         for e in exes:
             if status and e["status"] != status:
                 continue
-            if user_id and e["user_id"] != user_id:
+            if uid and e["user_id"] != uid:
                 continue
             results.append(e)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListPolicyExceptions",
+                "name": "list_policy_exceptions",
                 "description": "List policy exceptions optionally filtered by status or user_id",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "status": {"type": "string"},
-                        "user_id": {"type": "string"},
-                    },
-                },
-            },
+                        "user_id": {"type": "string"}
+                    }
+                }
+            }
         }

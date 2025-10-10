@@ -1,51 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CalculateCPAForAdSetForPeriod(Tool):
-    """Computes CPA for a specific ad set during a specified timeframe."""
+    """Calculates CPA for a specific ad set over a period."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None, start_date: str = None, end_date: str = None) -> str:
-        insights = data.get("f_insights", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
+        start_date = kwargs.get("start_date")
+        end_date = kwargs.get("end_date")
+        insights = data.get("f_insights", [])
         total_spend = 0
         total_purchases = 0
-
+        
         for insight in insights:
-            if (
-                insight.get("adset_id") == adset_id
-                and start_date <= insight.get("date") <= end_date
-            ):
+            if insight.get("adset_id") == adset_id and start_date <= insight.get("date") <= end_date:
                 total_spend += insight.get("spend", 0)
                 total_purchases += insight.get("purchases", 0)
-
+        
         if total_purchases == 0:
-            payload = {"cpa": 0}
-            out = json.dumps(payload)
-            return out
-            payload = {"error": "No purchases found for the period."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({'cpa': 0})
+            return json.dumps({"error": "No purchases found for the period."})
+        
         cpa = total_spend / total_purchases
-        payload = {"cpa": cpa}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"cpa": cpa})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateAdsetCpaForPeriod",
+                "name": "calculate_adset_cpa_for_period",
                 "description": "Calculates CPA for a specific ad set over a period.",
                 "parameters": {
                     "type": "object",
@@ -61,7 +50,7 @@ class CalculateCPAForAdSetForPeriod(Tool):
                         "end_date": {
                             "type": "string",
                             "description": "End date in YYYY-MM-DD format.",
-                        },
+                        }
                     },
                     "required": ["adset_id", "start_date", "end_date"],
                 },

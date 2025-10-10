@@ -1,52 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FetchInvoiceRecord(Tool):
-    """Retrieve an invoice using invoice_id or invoice_number."""
-
+    """Read an invoice by invoice_id or invoice_number."""
     @staticmethod
-    def invoke(data: dict[str, Any], invoice_id: str = None, invoice_number: str = None) -> str:
-        invs = data.get("invoices", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        invs = data.get("invoices", [])
+        invoice_id = kwargs.get("invoice_id")
+        invoice_number = kwargs.get("invoice_number")
         row = None
         if invoice_id is not None:
-            row = next(
-                (i for i in invs.values() if str(i.get("invoice_id")) == str(invoice_id)), None
-            )
+            row = next((i for i in invs if str(i.get("invoice_id")) == str(invoice_id)), None)
         elif invoice_number:
-            row = next(
-                (i for i in invs.values() if i.get("invoice_number") == invoice_number), None
-            )
+            row = next((i for i in invs if i.get("invoice_number") == invoice_number), None)
         if not row:
-            payload = {"error": "invoice not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = row
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": "invoice not found"}, indent=2)
+        return json.dumps(row, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "FetchInvoiceRecord",
-                "description": "Fetch invoice by id or number.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "invoice_id": {"type": "string"},
-                        "invoice_number": {"type": "string"},
-                    },
-                    "required": [],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "fetch_invoice_record",
+            "description": "Fetch invoice by id or number.",
+            "parameters": {"type": "object", "properties": {
+                "invoice_id": {"type": "string"},
+                "invoice_number": {"type": "string"}
+            }, "required": []}
+        }}

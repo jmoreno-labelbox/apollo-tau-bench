@@ -1,34 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateSprintStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], sprint_id: str = None, new_status: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        sprint_id = kwargs.get("sprint_id")
+        new_status = kwargs.get("new_status")
+
         if not all([sprint_id, new_status]):
-            payload = {"error": "sprint_id and new_status are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "sprint_id and new_status are required"})
 
-        sprints = data.get("sprints", {}).values()
-        tasks = data.get("tasks", {}).values()
-        teams = data.get("teams", {}).values()
+        sprints = data.get("sprints", [])
+        tasks = list(data.get("tasks", {}).values())
+        teams = data.get("teams", [])
 
-        sprint = next((s for s in sprints.values() if s.get("sprint_id") == sprint_id), None)
+        sprint = next((s for s in sprints if s.get("sprint_id") == sprint_id), None)
         if not sprint:
-            payload = {"error": f"Sprint '{sprint_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Sprint '{sprint_id}' not found"})
 
         old_status = sprint.get("status")
 
@@ -39,22 +31,23 @@ class UpdateSprintStatus(Tool):
         }
 
         if new_status not in valid_transitions.get(old_status, []):
-            payload = {
-                "error": f"Invalid status transition from '{old_status}' to '{new_status}'",
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": f"Invalid status transition from '{old_status}' to '{new_status}'",
+                }
+            )
 
         if new_status == "active":
             team_id = sprint.get("team_id")
 
-            team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
+            team = next((t for t in teams if t.get("team_id") == team_id), None)
             if team:
                 team_members = team.get("members", [])
 
                 completed_sprints = [
                     s
-                    for s in sprints.values() if s.get("team_id") == team_id and s.get("status") == "completed"
+                    for s in sprints
+                    if s.get("team_id") == team_id and s.get("status") == "completed"
                 ]
 
                 if len(completed_sprints) >= 3:
@@ -63,33 +56,34 @@ class UpdateSprintStatus(Tool):
                         key=lambda x: x.get("end_date", ""),
                         reverse=True,
                     )[:3]
-                    avg_velocity = sum(s.get("velocity", 0) for s in recent_sprints.values() / 3)
+                    avg_velocity = sum(s.get("velocity", 0) for s in recent_sprints) / 3
                     capacity_limit = avg_velocity * 0.8
                 else:
                     capacity_limit = len(team_members) * 20
 
                 if sprint.get("planned_story_points", 0) > capacity_limit:
-                    payload = {
-                        "error": "Cannot activate sprint. Planned points exceed capacity",
-                        "planned_points": sprint.get("planned_story_points", 0),
-                        "capacity_limit": capacity_limit,
-                    }
-                    out = json.dumps(payload)
-                    return out
+                    return json.dumps(
+                        {
+                            "error": "Cannot activate sprint. Planned points exceed capacity",
+                            "planned_points": sprint.get("planned_story_points", 0),
+                            "capacity_limit": capacity_limit,
+                        }
+                    )
 
         if new_status == "completed":
-            sprint_tasks = [t for t in tasks.values() if t.get("sprint_id") == sprint_id]
+
+            sprint_tasks = [t for t in tasks if t.get("sprint_id") == sprint_id]
             incomplete_tasks = [
                 t for t in sprint_tasks if t.get("status") not in ["done"]
             ]
 
             if incomplete_tasks:
-                payload = {
-                    "error": "Cannot complete sprint with incomplete tasks",
-                    "incomplete_tasks": len(incomplete_tasks),
-                }
-                out = json.dumps(payload)
-                return out
+                return json.dumps(
+                    {
+                        "error": "Cannot complete sprint with incomplete tasks",
+                        "incomplete_tasks": len(incomplete_tasks),
+                    }
+                )
 
             completed_points = sum(
                 t.get("story_points", 0)
@@ -101,15 +95,14 @@ class UpdateSprintStatus(Tool):
             sprint["completed_date"] = datetime.now().isoformat()
 
         sprint["status"] = new_status
-        payload = {"success": True, "sprint": sprint}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"success": True, "sprint": sprint})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateSprintStatus",
+                "name": "update_sprint_status",
                 "description": "Update the status of a sprint",
                 "parameters": {
                     "type": "object",

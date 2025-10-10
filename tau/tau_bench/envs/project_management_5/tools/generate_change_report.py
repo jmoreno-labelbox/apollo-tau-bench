@@ -1,41 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GenerateChangeReport(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_id: str,
-        report_type: str = "summary",
-        include_details: bool = False
-    ) -> str:
-        if not project_id:
-            payload = {"error": "project_id is required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        report_type = kwargs.get("report_type", "summary")
+        include_details = kwargs.get("include_details", False)
 
-        change_requests = data.get("change_requests", {}).values()
-        change_approvals = data.get("change_approvals", {}).values()
-        projects = data.get("projects", {}).values()
-        emergency_logs = data.get("emergency_logs", {}).values()
+        if not project_id:
+            return json.dumps({"error": "project_id is required"})
+
+        change_requests = data.get("change_requests", [])
+        change_approvals = data.get("change_approvals", [])
+        projects = list(data.get("projects", {}).values())
+        emergency_logs = data.get("emergency_logs", [])
         report = {}
 
-        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
+        project = next((p for p in projects if p.get("project_id") == project_id), None)
         if not project:
-            payload = {"error": f"Project '{project_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Project '{project_id}' not found"})
 
         def normalize_datetime(dt_str):
             if not dt_str:
@@ -51,7 +39,7 @@ class GenerateChangeReport(Tool):
                 return None
 
         project_crs = [
-            cr for cr in change_requests.values() if cr.get("project_id") == project_id
+            cr for cr in change_requests if cr.get("project_id") == project_id
         ]
 
         if report_type == "summary":
@@ -85,7 +73,8 @@ class GenerateChangeReport(Tool):
                     log = next(
                         (
                             e
-                            for e in emergency_logs.values() if e.get("cr_id") == cr.get("cr_id")
+                            for e in emergency_logs
+                            if e.get("cr_id") == cr.get("cr_id")
                         ),
                         None,
                     )
@@ -103,15 +92,9 @@ class GenerateChangeReport(Tool):
 
                 conflicts = cr.get("conflicts", [])
                 for conflict in conflicts:
-                    if (
-                        conflict.get("conflict_id")
-                        and conflict.get("conflict_id") not in project_conflicts
-                    ):
+                    if conflict.get("conflict_id") and conflict.get("conflict_id") not in project_conflicts:
                         project_conflicts[conflict.get("conflict_id")] = {
-                            "crs_involved": [
-                                cr.get("cr_id"),
-                                conflict.get("conflicting_cr_id"),
-                            ],
+                            "crs_involved": [cr.get("cr_id"), conflict.get("conflicting_cr_id")],
                             "type": conflict.get("type"),
                             "severity": conflict.get("critical"),
                         }
@@ -209,7 +192,7 @@ class GenerateChangeReport(Tool):
                         }
 
                     cr_approvals = [
-                        a for a in change_approvals.values() if a.get("cr_id") == cr.get("cr_id")
+                        a for a in change_approvals if a.get("cr_id") == cr.get("cr_id")
                     ]
                     cr_detail["approvals"] = [
                         {
@@ -235,10 +218,10 @@ class GenerateChangeReport(Tool):
             missing_risk_assessments = 0
             non_compliant_items = []
 
-            scope_baselines = data.get("scope_baselines", {}).values()
+            scope_baselines = data.get("scope_baselines", [])
             baseline_exists = any(
                 b.get("project_id") == project_id and b.get("status") == "approved"
-                for b in scope_baselines.values()
+                for b in scope_baselines
             )
             no_baseline = not baseline_exists
 
@@ -260,15 +243,9 @@ class GenerateChangeReport(Tool):
 
                 conflicts = cr.get("conflicts", [])
                 for conflict in conflicts:
-                    if (
-                        conflict.get("conflict_id")
-                        and conflict.get("conflict_id") not in project_conflicts
-                    ):
+                    if conflict.get("conflict_id") and conflict.get("conflict_id") not in project_conflicts:
                         project_conflicts[conflict.get("conflict_id")] = {
-                            "crs_involved": [
-                                cr.get("cr_id"),
-                                conflict.get("conflicting_cr_id"),
-                            ],
+                            "crs_involved": [cr.get("cr_id"), conflict.get("conflicting_cr_id")],
                             "conflict_type": conflict.get("conflict_type"),
                             "severity": conflict.get("severity"),
                         }
@@ -280,22 +257,86 @@ class GenerateChangeReport(Tool):
                     log = next(
                         (
                             e
-                            for e in emergency_logs.values() if e.get("cr_id") == cr.get("cr_id")
+                            for e in emergency_logs
+                            if e.get("cr_id") == cr.get("cr_id")
                         ),
                         None,
                     )
                     if log and log.get("retroactive_status") == "pending":
-                        pass
-        
-        out = json.dumps(report)
-        return out
-    
+                        deadline = normalize_datetime(
+                            log.get("retroactive_approval_deadline", "")
+                        )
+                        if deadline and datetime.now() > deadline:
+                            issues.append(
+                                "RULE 1 VIOLATION: Overdue emergency retroactive approval"
+                            )
+                            overdue_emergency_approvals_count += 1
+
+                if cr.get("status") == "approved" and cr.get("artifacts_pending", []):
+                    update_deadline = normalize_datetime(cr.get("update_deadline", ""))
+                    if update_deadline and datetime.now() > update_deadline:
+                        issues.append("Overdue artifact updates")
+                        overdue_implementations += 1
+
+                if cr.get("requires_risk_assessment"):
+                    risk_assessments = data.get("risk_assessments", [])
+                    has_risk = any(
+                        ra.get("cr_id") == cr.get("cr_id") for ra in risk_assessments
+                    )
+                    if not has_risk:
+                        issues.append(
+                            "RULE 5 VIOLATION: Critical path change without risk assessment"
+                        )
+                        missing_risk_assessments += 1
+
+                if issues:
+                    non_compliant_items.append(
+                        {
+                            "cr_id": cr.get("cr_id"),
+                            "title": cr.get("title"),
+                            "issues": issues,
+                        }
+                    )
+
+            report = {
+                "project_id": project_id,
+                "project_name": project.get("name"),
+                "report_date": datetime.now().isoformat(),
+                "report_type": "compliance",
+                "compliance_summary": {
+                    "total_change_requests": len(project_crs),
+                    "changes_without_impact_assessment": changes_without_impact_assessment,
+                    "changes_without_proper_approval": changes_without_proper_approval,
+                    "emergency_changes": emergency_changes_count,
+                    "overdue_implementations": overdue_implementations,
+                    "rule_violations": {
+                        "no_baseline": no_baseline,
+                        "conflicts_count": conflicts_count,
+                        "project_conflicts": project_conflicts,
+                        "cooling_period_violations": cooling_period_violations,
+                        "overdue_emergency_approvals": overdue_emergency_approvals_count,
+                        "missing_risk_assessments": missing_risk_assessments,
+                    },
+                },
+                "non_compliant_items": non_compliant_items,
+            }
+
+        cr_reports = data.get("change_request_reports", [])
+        cr_reports.append({
+            "report_id": f"rp_{uuid.uuid4().hex[:8]}",
+            "project_id": project_id,
+            "report_type": report_type,
+            "content": report,
+        })
+
+        return json.dumps(report, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GenerateChangeReport",
+                "name": "generate_change_report",
                 "description": "Generate various reports for change requests",
                 "parameters": {
                     "type": "object",

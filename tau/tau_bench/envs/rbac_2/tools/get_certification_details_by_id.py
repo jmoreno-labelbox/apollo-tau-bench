@@ -1,53 +1,43 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCertificationDetailsById(Tool):
-    """Obtain the complete details of a specific access certification campaign by its ID."""
+    """ Get the full details of a specific access certification campaign using its ID. """
 
     @staticmethod
-    def invoke(data: dict[str, Any], certification_id: str = None,
-    user_id: Any = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        certification_id = kwargs.get("certification_id")
         try:
-            certifications = data.get("certifications", {}).values()
+            certifications = data.get('certifications', [])
         except:
             certifications = []
 
         for cert in certifications:
             if cert.get("certification_id") == certification_id:
-                payload = cert
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Certification with ID '{certification_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(cert)
+
+        return json.dumps({"error": f"Certification with ID '{certification_id}' not found."})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCertificationDetailsById",
+                "name": "get_certification_details_by_id",
                 "description": "Retrieves the full details of a specific access certification campaign using its unique ID (e.g., 'C-005').",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "certification_id": {
                             "type": "string",
-                            "description": "The unique ID of the certification campaign to retrieve.",
+                            "description": "The unique ID of the certification campaign to retrieve."
                         }
                     },
-                    "required": ["certification_id"],
-                },
-            },
+                    "required": ["certification_id"]
+                }
+            }
         }

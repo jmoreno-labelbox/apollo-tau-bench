@@ -1,52 +1,45 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class enroll_in_benefit(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None, benefit_id: str = None) -> str:
-        employee = find_employee(data.get("employees", {}).values(), employee_id)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        benefit_id = kwargs.get("benefit_id")
+        employee = find_employee(list(data.get("employees", {}).values()), employee_id)
         if not employee:
-            payload = {"error": f"employee_id {employee_id} not found"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": f"employee_id {employee_id} not found"}, indent=2
             )
-            return out
 
         if "benefit_plan_ids" not in employee:
             employee["benefit_plan_ids"] = []
 
         if benefit_id not in employee["benefit_plan_ids"]:
             employee["benefit_plan_ids"].append(benefit_id)
-            payload = {"success": f"Employee {employee_id} enrolled in benefit {benefit_id}"}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"success": f"Employee {employee_id} enrolled in benefit {benefit_id}"},
+                indent=2,
             )
-            return out
         else:
-            payload = {
+            return json.dumps(
+                {
                     "success": f"Employee {employee_id} was already enrolled in benefit {benefit_id}"
-                }
-            out = json.dumps(
-                payload, indent=2,
+                },
+                indent=2,
             )
-            return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "EnrollInBenefit",
-                "description": "Enroll an employee IND a specific benefit plan (non-destructive).",
+                "name": "enroll_in_benefit",
+                "description": "Enroll an employee in a specific benefit plan (non-destructive).",
                 "parameters": {
                     "type": "object",
                     "properties": {

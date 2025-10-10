@@ -1,34 +1,29 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateChangeRequestStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], cr_id: str = None, new_status: str = None, performed_by: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
+        new_status = kwargs.get("new_status")
+        performed_by = kwargs.get("performed_by")
+
         if not all([cr_id, new_status, performed_by]):
-            payload = {"error": "cr_id, new_status, and performed_by are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "cr_id, new_status, and performed_by are required"}
+            )
 
-        change_requests = data.get("change_requests", {}).values()
-        change_history = data.get("change_history", {}).values()
-        risk_assessments = data.get("risk_assessments", {}).values()
+        change_requests = data.get("change_requests", [])
+        change_history = data.get("change_history", [])
+        risk_assessments = data.get("risk_assessments", [])
 
-        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:
-            payload = {"error": f"Change request '{cr_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Change request '{cr_id}' not found"})
 
         old_status = cr.get("status")
 
@@ -46,38 +41,39 @@ class UpdateChangeRequestStatus(Tool):
         }
 
         if new_status not in valid_transitions.get(old_status, []):
-            payload = {
-                "error": f"Invalid status transition from '{old_status}' to '{new_status}'"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": f"Invalid status transition from '{old_status}' to '{new_status}'"
+                }
+            )
 
         if new_status == "pending_approval" and not cr.get("impact_assessment"):
-            payload = {
-                "error": "Impact assessment required before moving to pending_approval"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": "Impact assessment required before moving to pending_approval"
+                }
+            )
 
         if new_status == "pending_approval":
-            impact = cr.get("impact_assessment", {}).values()
+            impact = cr.get("impact_assessment", {})
             if impact.get("affects_critical_path") or impact.get("overall_risk") in [
                 "high",
                 "critical",
             ]:
+
                 has_risk_assessment = any(
-                    ra.get("cr_id") == cr_id for ra in risk_assessments.values()
+                    ra.get("cr_id") == cr_id for ra in risk_assessments
                 )
                 if not has_risk_assessment:
-                    payload = {
-                        "error": "Risk assessment required: This change impacts the critical path or is high-risk. Must have documented mitigation strategies, contingency plans, and rollback procedures.",
-                        "requirement": "Please complete risk assessment before proceeding to approval.",
-                    }
-                    out = json.dumps(payload)
-                    return out
+                    return json.dumps(
+                        {
+                            "error": "Risk assessment required: This change impacts the critical path or is high-risk. Must have documented mitigation strategies, contingency plans, and rollback procedures.",
+                            "requirement": "Please complete risk assessment before proceeding to approval.",
+                        }
+                    )
 
                 risk_assessment = next(
-                    (ra for ra in risk_assessments.values() if ra.get("cr_id") == cr_id), None
+                    (ra for ra in risk_assessments if ra.get("cr_id") == cr_id), None
                 )
                 if risk_assessment:
                     if not all(
@@ -87,26 +83,25 @@ class UpdateChangeRequestStatus(Tool):
                             risk_assessment.get("rollback_procedure"),
                         ]
                     ):
-                        payload = {
-                            "error": "Incomplete risk assessment: Must include mitigation strategies, contingency plans, and rollback procedures for critical path/high-risk changes."
-                        }
-                        out = json.dumps(payload)
-                        return out
+                        return json.dumps(
+                            {
+                                "error": "Incomplete risk assessment: Must include mitigation strategies, contingency plans, and rollback procedures for critical path/high-risk changes."
+                            }
+                        )
 
         if new_status == "approved":
             required_approvals = cr.get("approvals_required", [])
             received_approvals = cr.get("approvals_received", [])
             missing_approvals = list(set(required_approvals) - set(received_approvals))
             if missing_approvals:
-                payload = {"error": f"Missing approvals from: {missing_approvals}"}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"error": f"Missing approvals from: {missing_approvals}"})
 
         cr["status"] = new_status
         cr["updated_date"] = datetime.now().isoformat()
 
         if new_status == "rejected":
             cr["rejection_date"] = datetime.now().isoformat()
+
             cr["can_resubmit_after"] = (datetime.now() + timedelta(days=30)).isoformat()
         elif new_status == "approved":
             cr["approval_date"] = datetime.now().isoformat()
@@ -120,7 +115,7 @@ class UpdateChangeRequestStatus(Tool):
             "performed_by": performed_by,
             "timestamp": datetime.now().isoformat(),
         }
-        data["change_history"][history_entry["change_history_id"]] = history_entry
+        change_history.append(history_entry)
 
         if new_status == "approved":
             cr["artifacts_pending"] = [
@@ -130,15 +125,15 @@ class UpdateChangeRequestStatus(Tool):
                 "scope_statement",
             ]
             cr["update_deadline"] = datetime.now().isoformat()
-        payload = {"success": True, "change_request": cr}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"success": True, "change_request": cr})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateChangeRequestStatus",
+                "name": "update_change_request_status",
                 "description": "Update the status of a change request",
                 "parameters": {
                     "type": "object",

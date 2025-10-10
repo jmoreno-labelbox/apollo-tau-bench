@@ -1,92 +1,57 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AssignRoleToUserTool(Tool):
-    """Allocate a role to a user (write operation, predictable)."""
+    """Assign a role to a user (write operation, deterministic)."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        user_id: str,
-        role_id: str,
-        assigned_by: str,
-        assigned_on: str,
-        expires_on: str = None
-,
-    expiry_policy: Any = None,
-    ) -> str:
-        user_roles = data.get("user_roles", {}).values()
-        users = data.get("users", {}).values()
-        roles = data.get("roles", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_roles = data.get("user_roles", [])
+        users = list(data.get("users", {}).values())
+        roles = list(data.get("roles", {}).values())
         if not isinstance(user_roles, list):
-            payload = {"error": "user_roles must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "user_roles must be a list"}, indent=2)
         if not isinstance(users, list):
-            payload = {"error": "users must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "users must be a list"}, indent=2)
         if not isinstance(roles, list):
-            payload = {"error": "roles must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "roles must be a list"}, indent=2)
 
-        # Fundamental validation
-        for fld, val in [
-            ("user_id", user_id),
-            ("role_id", role_id),
-            ("assigned_by", assigned_by),
-            ("assigned_on", assigned_on),
-        ]:
+        user_id = kwargs.get("user_id")
+        role_id = kwargs.get("role_id")
+        assigned_by = kwargs.get("assigned_by")
+        assigned_on = kwargs.get("assigned_on")
+
+        # Basic validation
+        for fld, val in [("user_id", user_id), ("role_id", role_id), ("assigned_by", assigned_by), ("assigned_on", assigned_on)]:
             if not isinstance(val, str) or not val.strip():
-                payload = {"error": f"{fld} must be a non-empty string"}
-                out = json.dumps(payload, indent=2)
-                return out
+                return json.dumps({"error": f"{fld} must be a non-empty string"}, indent=2)
 
-        if not any(u.get("user_id") == user_id for u in users.values()):
-            payload = {"error": f"user_id {user_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        if not any(r.get("role_id") == role_id for r in roles.values()):
-            payload = {"error": f"role_id {role_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+        if not any(u.get("user_id") == user_id for u in users):
+            return json.dumps({"error": f"user_id {user_id} not found"}, indent=2)
+        if not any(r.get("role_id") == role_id for r in roles):
+            return json.dumps({"error": f"role_id {role_id} not found"}, indent=2)
 
-        # Avoid duplicate active assignments (no expires_on or expires_on set in the future)
-        existing = [
-            ur
-            for ur in user_roles.values() if ur.get("user_id") == user_id and ur.get("role_id") == role_id
-        ]
+        # Prevent duplicate active assignment (no expires_on or expires_on in the future)
+        existing = [ur for ur in user_roles if ur.get("user_id") == user_id and ur.get("role_id") == role_id]
         if existing:
-            # If any current record remains active (no expiration or expiration set for later), prevent
+            # If any existing record is still active (no expires or expires later), block
             from datetime import datetime, timezone
-
             for ur in existing:
                 exp = ur.get("expires_on")
                 if exp is None:
-                    payload = {"error": "Role already assigned"}
-                    out = json.dumps(payload, indent=2)
-                    return out
+                    return json.dumps({"error": "Role already assigned"}, indent=2)
                 try:
                     exp_dt = datetime.fromisoformat(exp.replace("Z", "+00:00"))
                 except Exception:
-                    payload = {"error": "Role already assigned"}
-                    out = json.dumps(payload, indent=2)
-                    return out
+                    # Unknown date format; be conservative and block
+                    return json.dumps({"error": "Role already assigned"}, indent=2)
                 now_tz = exp_dt.tzinfo or timezone.utc
                 if exp_dt > datetime.now(tz=now_tz):
-                    payload = {"error": "Role already assigned"}
-                    out = json.dumps(payload, indent=2)
-                    return out
+                    return json.dumps({"error": "Role already assigned"}, indent=2)
 
         new_id = f"UR-{len(user_roles) + 1:03d}"
         record = {
@@ -95,21 +60,17 @@ class AssignRoleToUserTool(Tool):
             "role_id": role_id,
             "assigned_by": assigned_by,
             "assigned_on": assigned_on,
-            "expires_on": expires_on,  # not mandatory
+            "expires_on": kwargs.get("expires_on")  # optional
         }
-        user_data["roles"][role_id] = record
-        payload = {
-            "success": f"Role {role_id} assigned to {user_id}",
-            "user_role_id": new_id,
-        }
-        out = json.dumps(payload, indent=2)
-        return out
+        user_roles.append(record)
+        return json.dumps({"success": f"Role {role_id} assigned to {user_id}", "user_role_id": new_id}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AssignRoleToUser",
+                "name": "assign_role_to_user",
                 "description": "Assign a role to a user with deterministic fields; blocks if an active assignment exists.",
                 "parameters": {
                     "type": "object",
@@ -118,12 +79,9 @@ class AssignRoleToUserTool(Tool):
                         "role_id": {"type": "string"},
                         "assigned_by": {"type": "string"},
                         "assigned_on": {"type": "string"},
-                        "expires_on": {
-                            "type": "string",
-                            "description": "Optional ISO8601 end timestamp",
-                        },
+                        "expires_on": {"type": "string", "description": "Optional ISO8601 end timestamp"}
                     },
-                    "required": ["user_id", "role_id", "assigned_by", "assigned_on"],
-                },
-            },
+                    "required": ["user_id", "role_id", "assigned_by", "assigned_on"]
+                }
+            }
         }

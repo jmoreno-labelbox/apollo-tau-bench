@@ -1,88 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateCustomerMembershipLevel(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], customer_id: str, new_membership_level: str
-    ) -> str:
-        _new_membership_levelL = new_membership_level or ''.lower()
-        pass
-        customers = data.get("customers", {}).values()
-        valid_levels = ["bronze", "silver", "gold", "platinum", "vip"]
+    def invoke(data: Dict[str, Any], customer_id: str, new_membership_level: str) -> str:
+        customers = list(data.get("customers", {}).values())
+        valid_levels = ["bronze", "silver", "gold", "platinum", "VIP"]
 
         if new_membership_level.lower() not in valid_levels:
-            payload = {
-                    "error": f"Invalid membership level. Valid levels are: {', '.join(valid_levels)}"
-                }
-            out = json.dumps(
-                payload)
-            return out
+            return json.dumps({"error": f"Invalid membership level. Valid levels are: {', '.join(valid_levels)}"})
 
-        for i, customer in enumerate(customers.values()):
+        for i, customer in enumerate(customers):
             if customer.get("customer_id") == customer_id:
                 customers[i]["membership_level"] = new_membership_level.lower()
                 data["customers"] = customers
-                payload = customers[i]
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Customer with ID {customer_id} not found."}
-        out = json.dumps(payload)
-        return out
-        _new_membership_levelL = new_membership_level or ''.lower()
-        pass
-        customers = data.get("customers", {}).values()
-        valid_levels = ["bronze", "silver", "gold", "platinum", "vip"]
-
-        if new_membership_level.lower() not in valid_levels:
-            payload = {
-                    "error": f"Invalid membership level. Valid levels are: {', '.join(valid_levels)}"
-                }
-            out = json.dumps(
-                payload)
-            return out
-
-        for i, customer in enumerate(customers.values()):
-            if customer.get("customer_id") == customer_id:
-                customers[i]["membership_level"] = new_membership_level.lower()
-                data["customers"] = customers
-                payload = customers[i]
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Customer with ID {customer_id} not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(customers[i], indent=2)
+        return json.dumps({"error": f"Customer with ID {customer_id} not found."})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateCustomerMembershipLevel",
+                "name": "update_customer_membership_level",
                 "description": "Update membership level for a specific customer.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "customer_id": {
-                            "type": "string",
-                            "description": "Unique identifier of the customer.",
-                        },
-                        "new_membership_level": {
-                            "type": "string",
-                            "description": "New membership level.",
-                        },
+                        "customer_id": {"type": "string", "description": "Unique identifier of the customer."},
+                        "new_membership_level": {"type": "string", "description": "New membership level."}
                     },
-                    "required": ["customer_id", "new_membership_level"],
-                },
-            },
+                    "required": ["customer_id", "new_membership_level"]
+                }
+            }
         }

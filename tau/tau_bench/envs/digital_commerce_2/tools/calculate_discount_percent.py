@@ -1,40 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
-from decimal import ROUND_HALF_UP, Decimal
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CalculateDiscountPercent(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], subtotal: Any = None, discount_percent: Any = None) -> str:
+    def invoke(data: Dict[str, Any], subtotal: Any, discount_percent: Any) -> str:
         if subtotal is None or discount_percent is None:
-            payload = {"error": "Missing required fields: subtotal and/or discount_percent"}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": "Missing required fields: subtotal and/or discount_percent"}, indent=2
             )
-            return out
         try:
             sub = _money(_dec(subtotal))
             pct = _dec(discount_percent) / Decimal("100")
         except Exception:
-            payload = {"error": "subtotal and discount_percent must be numeric"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "subtotal and discount_percent must be numeric"}, indent=2)
 
         disc = _money(sub * pct)
         total = _money(max(sub - disc, Decimal("0")))
-        payload = {"discount_amount": _to_number(disc), "total": _to_number(total)}
-        out = json.dumps(
-            payload, indent=2
+        return json.dumps(
+            {"discount_amount": _to_number(disc), "total": _to_number(total)}, indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateDiscountPercent",
+                "name": "calculate_discount_percent",
                 "description": "Apply a percentage discount to a subtotal.",
                 "parameters": {
                     "type": "object",

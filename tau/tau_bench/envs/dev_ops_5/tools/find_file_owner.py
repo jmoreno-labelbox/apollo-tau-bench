@@ -1,21 +1,16 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindFileOwner(Tool):
-    """Identifies the owner of a file according to the ownership map."""
-
+    """Finds the owner of a file based on the ownership map."""
     @staticmethod
-    def invoke(data: dict[str, Any], file_path: str) -> str:
-        ownership_map = data.get("ownership_map", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        file_path = kwargs.get("file_path")
+        ownership_map = data.get("ownership_map", [])
         most_specific_owner = None
         longest_match = -1
 
@@ -25,29 +20,21 @@ class FindFileOwner(Tool):
                 if len(owner_path) > longest_match:
                     longest_match = len(owner_path)
                     most_specific_owner = ownership
-
+        
         if most_specific_owner:
-            payload = most_specific_owner
-            out = json.dumps(payload)
-            return out
-        payload = {"info": f"Owner for file path '{file_path}' not found."}
-        out = json.dumps(payload)
-        return out
+            return json.dumps(most_specific_owner)
+        return json.dumps({"info": f"Owner for file path '{file_path}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindFileOwner",
+                "name": "find_file_owner",
                 "description": "Finds the owner of a file based on the ownership map.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "file_path": {
-                            "type": "string",
-                            "description": "The path to the file.",
-                        }
-                    },
+                    "properties": {"file_path": {"type": "string", "description": "The path to the file."}},
                     "required": ["file_path"],
                 },
             },

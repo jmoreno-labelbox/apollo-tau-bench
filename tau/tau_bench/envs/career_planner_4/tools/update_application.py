@@ -1,22 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class UpdateApplication(Tool):
+class update_application(Tool):
     @staticmethod
     def invoke(data, candidate_id: str, application_id: str, updates: dict) -> str:
         updated = False
-        for app in data.get("job_applications", {}).values():
+        for app in data.get("job_applications", []):
             if (
                 app.get("application_id") == application_id
                 and app.get("candidate_id") == candidate_id
@@ -24,24 +17,21 @@ class UpdateApplication(Tool):
                 app.update(updates)
                 updated = True
         if updated:
-            payload = {
+            return json.dumps(
+                {
                     "success": f"Application {application_id} updated for candidate {candidate_id}"
-                }
-            out = json.dumps(
-                payload, indent=2,
+                },
+                indent=2,
             )
-            return out
         else:
-            payload = {"error": "Application not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Application not found"}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "updateApplication",
+                "name": "update_application",
                 "description": "Update an external job application record with new details.",
                 "parameters": {
                     "type": "object",

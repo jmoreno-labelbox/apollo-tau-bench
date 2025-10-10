@@ -1,25 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AutoApproveSupplyOrderTool(Tool):
     """
-    Automatically authorize a pending supply order and log an approval event.
+    Automatically approve a pending supply order and register an approval event.
 
     Behavior:
-    - Confirms that the supply order exists and is in 'pending' status.
-    - Changes status to 'approved'.
-    - Adds an event {type: "approved", message: <optional reason>, timestamp: UTC ISO}.
+    - Validates that the supply order exists and is in 'pending' status.
+    - Sets status to 'approved'.
+    - Appends an event {type: "approved", message: <optional reason>, timestamp: UTC ISO}.
 
     Input (kwargs):
         supply_order_id (str, required)
@@ -30,31 +23,23 @@ class AutoApproveSupplyOrderTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], supply_order_id: str = None, reason: str = None) -> str:
-        so_id = supply_order_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        so_id = kwargs.get("supply_order_id")
+        reason = kwargs.get("reason")
 
         if not so_id:
-            payload = {"error": "supply_order_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "supply_order_id is required"}, indent=2)
 
-        supply_orders = data.get("supply_orders", {}).values()
-        so = next((s for s in supply_orders.values() if s.get("supply_order_id") == so_id), None)
+        supply_orders = data.get("supply_orders", [])
+        so = next((s for s in supply_orders if s.get("supply_order_id") == so_id), None)
         if not so:
-            payload = {"error": f"supply_order_id '{so_id}' not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"supply_order_id '{so_id}' not found"}, indent=2)
 
         if so.get("status") != "pending":
-            payload = {
-                    "error": f"status must be 'pending' to auto-approve (found '{so.get('status')}')"
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"status must be 'pending' to auto-approve (found '{so.get('status')}')"},
+                indent=2,
             )
-            return out
 
         so["status"] = "approved"
         event = {
@@ -63,21 +48,22 @@ class AutoApproveSupplyOrderTool(Tool):
             "timestamp": _now_iso(),
         }
         (so.setdefault("events", [])).append(event)
-        payload = {
+
+        return json.dumps(
+            {
                 "supply_order_id": so_id,
                 "status": "approved",
                 "events_len": len(so.get("events", [])),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AutoApproveSupplyOrder",
+                "name": "auto_approve_supply_order",
                 "description": "Approve a pending supply order and append an 'approved' event to its events array.",
                 "parameters": {
                     "type": "object",

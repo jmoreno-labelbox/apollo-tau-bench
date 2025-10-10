@@ -1,42 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from itertools import islice
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FetchNeighborhood(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], neighborhood_id: str = None, price_min: Any = None, property_type: Any = None, beds: Any = None) -> str:
-        n = next(
-            (
-                n
-                for n in data.get("neighborhoods", {}).values()
-                if n.get("neighborhood_id") == neighborhood_id
-            ),
-            None,
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        neighborhood_id = kwargs.get("neighborhood_id")
+        n = next((n for n in data.get("neighborhoods", []) if n.get("neighborhood_id") == neighborhood_id), None)
         if not n:
-            payload = {"error": f"Neighborhood {neighborhood_id} not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        payload = n
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": f"Neighborhood {neighborhood_id} not found"}, indent=2)
+        return json.dumps(n, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FetchNeighborhood",
+                "name": "fetch_neighborhood",
                 "description": "Return a neighborhood row including bordering_ids_json.",
                 "parameters": {
                     "type": "object",

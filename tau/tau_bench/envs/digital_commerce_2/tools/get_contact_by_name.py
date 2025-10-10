@@ -1,46 +1,36 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
-from decimal import ROUND_HALF_UP, Decimal
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetContactByName(Tool):
+    """Fetch a contact by exact first_name and last_name."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], first_name: Any = None, last_name: Any = None) -> str:
+    def invoke(data: Dict[str, Any], first_name: Any, last_name: Any) -> str:
+        first_name = first_name
+        last_name = last_name
         if not first_name or not last_name:
-            payload = {"error": "Missing required field: first_name and/or last_name"}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": "Missing required field: first_name and/or last_name"}, indent=2
             )
-            return out
-        contacts = data.get("contacts", {}).values()
-        for contact in contacts.values():
-            if (
-                contact.get("first_name") == first_name
-                and contact.get("last_name") == last_name
-            ):
-                payload = contact
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"No contact found with name '{first_name} {last_name}'"}
-        out = json.dumps(
-            payload, indent=2,
+        contacts = data.get("contacts", [])
+        for contact in contacts:
+            if contact.get("first_name") == first_name and contact.get("last_name") == last_name:
+                return json.dumps(contact, indent=2)
+
+        return json.dumps(
+            {"error": f"No contact found with name '{first_name} {last_name}'"}, indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetContactByName",
+                "name": "get_contact_by_name",
                 "description": "Fetch a contact's full details by exact first_name and last_name.",
                 "parameters": {
                     "type": "object",

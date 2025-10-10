@@ -1,60 +1,39 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AddSceneToDatabase(Tool):
-    """Introduce a new scene."""
-
+    """Add a new scene."""
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        scene: dict[str, Any] | None = None,
-        threshold: dict[str, Any] | None = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], scene: Optional[Dict[str, Any]] = None, threshold: Optional[Dict[str, Any]] = None) -> str:
         if not scene:
-            payload = {"error": "'scene' parameter is required"}
-            out = json.dumps(payload, indent=2)
-            return out
-        scenes = data.get("scenes", {}).values()
-        if any(s["id"] == scene.get("id") for s in scenes.values()):
-            payload = {"error": "Scene with this id already exists"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "'scene' parameter is required"}, indent=2)
+        scenes = list(data.get('scenes', {}).values())
+        if any(s["id"] == scene.get("id") for s in scenes):
+            return json.dumps({"error": "Scene with this id already exists"}, indent=2)
         if not threshold:
-            data["scenes"][scene["scene_id"]] = scene
+            scenes.append(scene)
         else:
-            for sensor in data.get("sensors", {}).values():
+            for sensor in data.get('sensors', []):
                 if sensor.get("id") == threshold.get("sensor_id"):
                     for param, limit in threshold.items():
-                        current_value = sensor["state"].get(param)
-                        if (
-                            limit.get("operator") == "gt"
-                            and current_value > limit.get("value")
-                        ) or (
-                            limit.get("operator") == "lt"
-                            and current_value < limit.get("value")
-                        ):
-                            data["scenes"][scene["scene_id"]] = scene
-        payload = {"success": "Scene added", "scene": scene, "scenes": scenes}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+                        current_value = sensor['state'].get(param)
+                        if (limit.get('operator') == 'gt' and current_value > limit.get('value')) or (limit.get('operator') == 'lt' and current_value < limit.get('value')):
+                            scenes.append(scene)
+        return json.dumps({"success": "Scene added", "scene": scene, "scenes": scenes}, indent=2)
+
+
+
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddSceneToDatabase",
+                "name": "add_scene_to_database",
                 "description": "Add a new scene. All fields must be provided in the 'scene' object.",
                 "parameters": {
                     "type": "object",
@@ -62,11 +41,11 @@ class AddSceneToDatabase(Tool):
                         "scene": {
                             "type": "object",
                             "description": "The full scene object to add (must include id, name, description, actions, scheduled_runs)",
-                            "additionalProperties": True,
+                            "additionalProperties": True
                         }
                     },
                     "required": ["scene"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

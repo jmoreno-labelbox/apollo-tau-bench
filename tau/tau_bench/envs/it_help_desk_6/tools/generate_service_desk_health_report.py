@@ -1,18 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GenerateServiceDeskHealthReport(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         run_id: str,
         started_at: str,
         completed_at: str,
         source_ticket_window_days: int,
         output_path_pdf: str,
     ) -> str:
-        pass
         row = {
             "run_id": run_id,
             "report_type": "service_desk_health",
@@ -22,16 +24,14 @@ class GenerateServiceDeskHealthReport(Tool):
             "source_ticket_window_days": source_ticket_window_days,
         }
         _append_row(data["report_runs"], row)
-        payload = {"status": "ok", "report": row}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "report": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GenerateServiceDeskHealthReport",
+                "name": "generate_service_desk_health_report",
                 "description": "Record a service desk health report generation run.",
                 "parameters": {
                     "type": "object",
@@ -42,13 +42,7 @@ class GenerateServiceDeskHealthReport(Tool):
                         "source_ticket_window_days": {"type": "integer"},
                         "output_path_pdf": {"type": "string"},
                     },
-                    "required": [
-                        "run_id",
-                        "started_at",
-                        "completed_at",
-                        "source_ticket_window_days",
-                        "output_path_pdf",
-                    ],
+                    "required": ["run_id", "started_at", "completed_at", "source_ticket_window_days", "output_path_pdf"],
                 },
             },
         }

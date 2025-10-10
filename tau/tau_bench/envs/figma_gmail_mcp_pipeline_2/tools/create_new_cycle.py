@@ -1,67 +1,57 @@
-from tau_bench.envs.tool import Tool
-import html
+# Copyright Sierra
+
 import json
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateNewCycle(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], artifact_id: str = None, sla_deadline_ts: str = None, thread_id: str = None) -> str:
-        if not artifact_id or not sla_deadline_ts:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        if not kwargs.get("artifact_id") or not kwargs.get("sla_deadline_ts"):
             missing = []
-            if not artifact_id:
+            if not kwargs.get("artifact_id"):
                 missing.append("artifact_id")
-            if not sla_deadline_ts:
+            if not kwargs.get("sla_deadline_ts"):
                 missing.append("sla_deadline_ts")
-            payload = {"error": f"Missing required fields: {', '.join(missing)}"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"Missing required fields: {', '.join(missing)}"}, indent=2)
 
-        cycles: list[dict[str, Any]] = data.get("review_cycles", {}).values()
+        cycles: List[Dict[str, Any]] = data.get("review_cycles", [])
         cycle_id = get_next_cycle_id(data)
         created_ts = get_now_timestamp()
+        thread_id: Optional[str] = kwargs.get("thread_id")
+        sla_deadline_ts: str = kwargs.get("sla_deadline_ts")
 
         new_cycle = {
             "cycle_id": cycle_id,
-            "artifact_id": artifact_id,
+            "artifact_id": kwargs["artifact_id"],
             "thread_id_nullable": thread_id,
             "status": "IN_FLIGHT",
             "created_ts": created_ts,
             "sla_deadline_ts": sla_deadline_ts,
             "sla_breached_flag": False,
-            "escalated_ts_nullable": None,
+            "escalated_ts_nullable": None
         }
 
         cycles.append(new_cycle)
         data["review_cycles"] = cycles
-        payload = new_cycle
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(new_cycle, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateNewCycle",
+                "name": "create_new_cycle",
                 "description": "Create a new review cycle with defaults: status=IN_FLIGHT, sla_breached_flag=False, escalated_ts_nullable=None. thread_id is optional. sla_deadline_ts is required.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "artifact_id": {"type": "string"},
                         "thread_id": {"type": ["string", "null"]},
-                        "sla_deadline_ts": {"type": "string"},
+                        "sla_deadline_ts": {"type": "string"}
                     },
-                    "required": ["artifact_id", "sla_deadline_ts"],
-                },
-            },
+                    "required": ["artifact_id", "sla_deadline_ts"]
+                }
+            }
         }

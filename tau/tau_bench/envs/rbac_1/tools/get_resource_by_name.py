@@ -1,38 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetResourceByName(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], name: str = None) -> str:
-        for res in data.get("resources", {}).values():
-            if res.get("name") == name:
-                payload = res
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Resource not found"}
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name = kwargs.get("name")
+        for res in data.get('resources', []):
+            if res.get('name') == name:
+                return json.dumps(res)
+        return json.dumps({"error": "Resource not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "GetResourceByName",
-                "description": "Retrieves a resource by its name.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"name": {"type": "string"}},
-                    "required": ["name"],
-                },
-            },
+                "type": "function",
+                "function": {
+                        "name": "get_resource_by_name",
+                        "description": "Retrieves a resource by its name.",
+                        "parameters": {
+                                "type": "object",
+                                "properties": {
+                                        "name": {"type": "string"}
+                                },
+                                "required": ["name"]
+                        }
+                }
         }

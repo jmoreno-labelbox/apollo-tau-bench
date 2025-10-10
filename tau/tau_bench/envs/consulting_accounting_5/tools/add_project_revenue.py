@@ -1,37 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any, Dict
-from datetime import timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AddProjectRevenue(Tool):
     @staticmethod
-    def invoke(
-        data: Dict[str, Any],
-        project_id: int,
-        revenue: float,
-        row_id: int = None,
-        snapshot_id: int = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
         Insert or update project revenue for a given snapshot.
         """
-        record = next((pr for pr in data["project_revenue"].values()
-                       if pr["snapshot_id"] == snapshot_id and pr["project_id"] == project_id),
+        record = next((pr for pr in data["project_revenue"]
+                       if pr["snapshot_id"] == kwargs["snapshot_id"] and pr["project_id"] == kwargs["project_id"]),
                       None)
 
         if record:
-            record["revenue"] = revenue
+            record["revenue"] = kwargs["revenue"]
         else:
             record = {
-                "row_id": row_id,
-                "snapshot_id": snapshot_id,
-                "project_id": project_id,
-                "revenue": revenue
+                "row_id": kwargs["row_id"],
+                "snapshot_id": kwargs["snapshot_id"],
+                "project_id": kwargs["project_id"],
+                "revenue": kwargs["revenue"]
             }
             data["project_revenue"].append(record)
 
         return json.dumps(record["row_id"])
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {

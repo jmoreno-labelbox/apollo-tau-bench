@@ -1,78 +1,51 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RequestOrderReturn(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        user_id: str,
-        order_id: str,
-        return_items: list[dict[str, Any]] = None,
-        return_reason: str = None,
-        item_id: str = None,
-        quantity: int = None,
-        item_return_reason: str = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], user_id: str, order_id: str, return_items: List[Dict[str, Any]] = None, return_reason: str = None, item_id: str = None, quantity: int = None, item_return_reason: str = None) -> str:
         """
         Request return for delivered order items (supports both single item and multiple items)
 
         Writes to: orders.json (adds return request to order)
         """
         # Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", {}).values()
-        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
+        users = list(data.get("users", {}).values())
+        user = next((u for u in users if u.get("user_id") == user_id), None)
 
         if not user:
-            payload = {"error": f"User {user_id} not found", "status": "failed"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"User {user_id} not found", "status": "failed"})
 
         # Validate input parameters - must provide either single item or return_items list
         if not return_items and not item_id:
-            payload = {
+            return json.dumps({
                 "error": "Either 'return_items' list or 'item_id' must be provided",
-                "status": "failed",
-            }
-            out = json.dumps(payload)
-            return out
+                "status": "failed"
+            })
 
         if return_items and item_id:
-            payload = {
+            return json.dumps({
                 "error": "Cannot specify both 'return_items' and 'item_id'. Use one or the other.",
-                "status": "failed",
-            }
-            out = json.dumps(payload)
-            return out
+                "status": "failed"
+            })
 
         # Build return items list from single item parameters if provided
         if item_id:
             if not return_reason and not item_return_reason:
-                payload = {
+                return json.dumps({
                     "error": "Return reason must be provided when using 'item_id' parameter",
-                    "status": "failed",
-                }
-                out = json.dumps(payload)
-                return out
+                    "status": "failed"
+                })
 
-            return_items = [
-                {
-                    "item_id": item_id,
-                    "quantity": quantity if quantity is not None else 1,
-                    "reason": (
-                        item_return_reason if item_return_reason else return_reason
-                    ),
-                }
-            ]
+            return_items = [{
+                "item_id": item_id,
+                "quantity": quantity if quantity is not None else 1,
+                "reason": item_return_reason if item_return_reason else return_reason
+            }]
 
             # Set overall return reason if not provided
             if not return_reason:
@@ -80,45 +53,43 @@ class RequestOrderReturn(Tool):
 
         # Validate return_items structure
         if not return_items:
-            payload = {"error": "Return items list cannot be empty", "status": "failed"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({
+                "error": "Return items list cannot be empty",
+                "status": "failed"
+            })
 
         # Validate return_reason is provided
         if not return_reason:
-            payload = {"error": "Return reason must be provided", "status": "failed"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({
+                "error": "Return reason must be provided",
+                "status": "failed"
+            })
 
         # Find the order to process return for
-        orders = data.get("orders", {}).values()
+        orders = list(data.get("orders", {}).values())
         order_to_return = None
         order_index = None
 
-        for i, order in enumerate(orders.values()):
+        for i, order in enumerate(orders):
             if order.get("order_id") == order_id and order.get("user_id") == user_id:
                 order_to_return = order
                 order_index = i
                 break
 
         if not order_to_return:
-            payload = {
+            return json.dumps({
                 "error": f"Order {order_id} not found or does not belong to user {user_id}",
-                "status": "failed",
-            }
-            out = json.dumps(payload)
-            return out
+                "status": "failed"
+            })
 
         current_status = order_to_return.get("status")
 
         # Can only request returns for delivered orders
         if current_status != "delivered":
-            payload = {
+            return json.dumps({
                 "error": f"Returns can only be requested for delivered orders. Current status: {current_status}",
-                "status": "failed",
-            }
-            out = json.dumps(payload)
-            return out
+                "status": "failed"
+            })
 
         # Validate return items exist in the original order
         order_items = order_to_return.get("items", [])
@@ -137,36 +108,30 @@ class RequestOrderReturn(Tool):
                     break
 
             if not original_item:
-                payload = {
+                return json.dumps({
                     "error": f"Item {item_id} not found in original order {order_id}",
-                    "status": "failed",
-                }
-                out = json.dumps(payload)
-                return out
+                    "status": "failed"
+                })
 
             if return_quantity <= 0:
-                payload = {
+                return json.dumps({
                     "error": f"Return quantity must be greater than 0 for item {item_id}",
-                    "status": "failed",
-                }
-                out = json.dumps(payload)
-                return out
+                    "status": "failed"
+                })
 
             # Calculate return amount
             item_price = original_item.get("price", 0)
             return_amount = item_price * return_quantity
             total_return_amount += return_amount
 
-            valid_return_items.append(
-                {
-                    "item_id": item_id,
-                    "product_name": original_item.get("name"),
-                    "return_quantity": return_quantity,
-                    "unit_price": item_price,
-                    "return_amount": return_amount,
-                    "return_reason": return_item.get("reason", return_reason),
-                }
-            )
+            valid_return_items.append({
+                "item_id": item_id,
+                "product_name": original_item.get("name"),
+                "return_quantity": return_quantity,
+                "unit_price": item_price,
+                "return_amount": return_amount,
+                "return_reason": return_item.get("reason", return_reason)
+            })
 
         # Generate return request ID
         existing_returns = order_to_return.get("returns", [])
@@ -181,7 +146,7 @@ class RequestOrderReturn(Tool):
             "return_reason": return_reason,
             "return_items": valid_return_items,
             "total_return_amount": round(total_return_amount, 2),
-            "requested_by": "customer",
+            "requested_by": "customer"
         }
 
         if "returns" not in order_to_return:
@@ -202,33 +167,26 @@ class RequestOrderReturn(Tool):
                 "total_items": len(valid_return_items),
                 "return_items": valid_return_items,
                 "total_return_amount": round(total_return_amount, 2),
-                "return_reason": return_reason,
+                "return_reason": return_reason
             },
             "return_status": "requested",
-            "requested_date": return_request["requested_date"],
+            "requested_date": return_request["requested_date"]
         }
-        payload = result
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(result)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RequestOrderReturn",
+                "name": "request_order_return",
                 "description": "Request return for items from a delivered order (supports both single item and multiple items)",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "user_id": {
-                            "type": "string",
-                            "description": "Customer identifier",
-                        },
-                        "order_id": {
-                            "type": "string",
-                            "description": "Order identifier for return",
-                        },
+                        "user_id": {"type": "string", "description": "Customer identifier"},
+                        "order_id": {"type": "string", "description": "Order identifier for return"},
                         "return_items": {
                             "type": "array",
                             "items": {
@@ -236,30 +194,22 @@ class RequestOrderReturn(Tool):
                                 "properties": {
                                     "item_id": {"type": "string"},
                                     "quantity": {"type": "integer"},
-                                    "reason": {"type": "string"},
+                                    "reason": {"type": "string"}
                                 },
-                                "required": ["item_id", "quantity"],
+                                "required": ["item_id", "quantity"]
                             },
-                            "description": "List of items to return (optional if using single item parameters)",
+                            "description": "List of items to return (optional if using single item parameters)"
                         },
-                        "return_reason": {
-                            "type": "string",
-                            "description": "Overall reason for return (required for multiple items, optional for single item if item_return_reason provided)",
-                        },
-                        "item_id": {
-                            "type": "string",
-                            "description": "Single item identifier to return (optional if using return_items list)",
-                        },
-                        "quantity": {
-                            "type": "integer",
-                            "description": "Quantity of single item to return (optional, defaults to 1)",
-                        },
-                        "item_return_reason": {
-                            "type": "string",
-                            "description": "Reason for single item return (optional if return_reason provided)",
-                        },
+                        "return_reason": {"type": "string", "description": "Overall reason for return (required for multiple items, optional for single item if item_return_reason provided)"},
+                        "item_id": {"type": "string", "description": "Single item identifier to return (optional if using return_items list)"},
+                        "quantity": {"type": "integer", "description": "Quantity of single item to return (optional, defaults to 1)"},
+                        "item_return_reason": {"type": "string", "description": "Reason for single item return (optional if return_reason provided)"}
                     },
                     "required": ["user_id", "order_id"],
-},
-            },
+                    "oneOf": [
+                        {"required": ["return_items", "return_reason"]},
+                        {"required": ["item_id"]}
+                    ]
+                }
+            }
         }

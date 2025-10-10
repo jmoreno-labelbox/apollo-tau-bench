@@ -1,51 +1,43 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateSiemRuleTool(Tool):
-    """Establish a new SIEM correlation rule."""
+    """Create a new SIEM correlation rule."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], rule_name: str = None, conditions: Any = None, created_by: str = None,
-    created_on: Any = None,
-    notes: str = None
-    ) -> str:
-        rules = data.get("siem_rules", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        rule_name = kwargs.get("rule_name")
+        conditions = kwargs.get("conditions")
+        created_by = kwargs.get("created_by")
+        rules = data.get("siem_rules", [])
         new_id = f"RULE-{len(rules) + 1:03d}"
-        rules.append(
-            {
-                "rule_id": new_id,
-                "rule_name": rule_name,
-                "conditions": conditions,
-                "created_by": created_by,
-            }
-        )
-        payload = {"success": f"SIEM rule {new_id} created"}
-        out = json.dumps(payload, indent=2)
-        return out
+        rules.append({
+            "rule_id": new_id,
+            "rule_name": rule_name,
+            "conditions": conditions,
+            "created_by": created_by
+        })
+        return json.dumps({"success": f"SIEM rule {new_id} created"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateSiemRule",
+                "name": "create_siem_rule",
                 "description": "Create and store a new rule in SIEM",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "rule_name": {"type": "string"},
                         "conditions": {"type": "object"},
-                        "created_by": {"type": "string"},
+                        "created_by": {"type": "string"}
                     },
-                    "required": ["rule_name", "conditions", "created_by"],
-                },
-            },
+                    "required": ["rule_name", "conditions", "created_by"]
+                }
+            }
         }

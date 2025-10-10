@@ -1,36 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class BrowseTerminalLog(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], event_type: str = None) -> str:
-        logs = data.get("terminal_log", {}).values() or []
-        rows = [
-            l for l in logs.values() if (not event_type or l.get("event_type") == event_type)
-        ]
-        payload = {"logs": rows}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        logs = data.get("terminal_log", []) or []
+        event_type = kwargs.get("event_type")
+        rows = [l for l in logs if (not event_type or l.get("event_type")==event_type)]
+        return json.dumps({"logs": rows}, indent=2)
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ListTerminalLog",
-                "description": "List terminal log entries (optionally filter by event_type).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"event_type": {"type": "string"}},
-                    "required": [],
-                },
-            },
-        }
+    def get_info()->Dict[str,Any]:
+        return {"type":"function","function":{
+            "name":"list_terminal_log",
+            "description":"List terminal log entries (optionally filter by event_type).",
+            "parameters":{"type":"object","properties":{"event_type":{"type":"string"}},"required":[]}
+        }}

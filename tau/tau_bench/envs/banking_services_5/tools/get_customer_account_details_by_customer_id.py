@@ -1,40 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone, date, timedelta
-import calendar
-from typing import Any, Dict
-import random
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetCustomerAccountDetailsByCustomerId(Tool):
+    """Returns the full account details of a customer using customer_id and last 4 digits of the account number."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
-        if not customer_id:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+
+        if not customer_id :
             return json.dumps({
                 "error": "customer_id is required."
             }, indent=2)
 
-        accounts = data.get("accounts", {}).values()
-        for account in accounts.values():
-            if account.get("customer_id") == customer_id:
+        accounts = list(data.get("accounts", {}).values())
+        for account in accounts:
+            if (account.get("customer_id") == customer_id ):
                 return json.dumps(account, indent=2)
 
         return json.dumps({"error": "Account not found."}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getCustomerAccountDetailsByCustomerId",
+                "name": "get_customer_account_details_by_customer_id",
                 "description": (
                     "Returns the full account record for a customer using their customer_id "
                     "and the last 4 digits of their account number."

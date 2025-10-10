@@ -1,23 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CloseHubspotTicketBasicTool(Tool):
     """
     close_hubspot_ticket_basic
-    Assign a ticket to the actor, set priority to LOW, set status to CLOSED, and return the audit log id.
+    Assign a ticket to actor, set priority to LOW, set status to CLOSED, and return audit log id.
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], ticket_id: str = None, actor_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ticket_id = kwargs.get("ticket_id")
+        actor_id = kwargs.get("actor_id")
         if not ticket_id or not actor_id:
-            payload = {"error": "ticket_id and actor_id are required"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": "ticket_id and actor_id are required"}, indent=2
             )
-            return out
 
         updated = json.loads(
             UpdateHubspotTicketTool.invoke(
@@ -38,15 +39,14 @@ class CloseHubspotTicketBasicTool(Tool):
             "priority": updated.get("priority"),
             "audit_log_id": f"LOG-{ticket_id}-update",
         }
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "closeHubspotTicketBasic",
+                "name": "close_hubspot_ticket_basic",
                 "description": "Assign and close a HubSpot ticket with audit.",
                 "parameters": {
                     "type": "object",

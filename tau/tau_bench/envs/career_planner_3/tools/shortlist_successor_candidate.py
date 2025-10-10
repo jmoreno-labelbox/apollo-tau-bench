@@ -1,18 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ShortlistSuccessorCandidate(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str, target_role: str) -> str:
-        # Create a consistent date derived from user_id and target_role
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs["user_id"]
+        target_role = kwargs["target_role"]
+
+        # Generate deterministic date based on user_id and target_role
         import hashlib
 
         hash_input = f"{user_id}_{target_role}"
         hash_value = int(hashlib.md5(hash_input.encode()).hexdigest()[:8], 16)
-        days_offset = hash_value % 30  # A range of 0 to 29 days from the reference date
+        days_offset = hash_value % 30  # 0-29 days from base date
 
-        # Employ a constant base date to ensure consistent outcomes
+        # Use a fixed base date for deterministic results
         base_date = "2025-06-01"
         from datetime import datetime, timedelta
 
@@ -26,17 +32,16 @@ class ShortlistSuccessorCandidate(Tool):
             "shortlist_date": shortlist_date,
         }
         data.setdefault("hr_workflows", []).append(entry)
-        payload = {"message": "Candidate shortlisted.", "record": entry}
-        out = json.dumps(
-            payload, indent=2
+        return json.dumps(
+            {"message": "Candidate shortlisted.", "record": entry}, indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ShortlistSuccessorCandidate",
+                "name": "shortlist_successor_candidate",
                 "description": "Marks a user as a shortlisted candidate for succession into a target role with deterministic date.",
                 "parameters": {
                     "type": "object",
@@ -50,7 +55,7 @@ class ShortlistSuccessorCandidate(Tool):
                             "description": "The target role under consideration.",
                         },
                     },
-                    "required": ["user_id", "target_role"],
+                    "required": ["user_id", "target_role", "succession_for_role"],
                 },
             },
         }

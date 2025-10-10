@@ -1,36 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchInboundShipments(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], sku: str = None, destination_warehouse_id: str = None, status: str = None) -> str:
-        inbound_shipments = data.get("inbound_shipments", {}).values()
-        inventory = data.get("inventory", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        sku = kwargs.get("sku")
+        destination_warehouse_id = kwargs.get("destination_warehouse_id")
+        status = kwargs.get("status")
 
-        # Retrieve the existing stock for the SKU/warehouse
+        inbound_shipments = data.get("inbound_shipments", [])
+        inventory = list(data.get("inventory", {}).values())
+
+        # Find current inventory for the SKU/warehouse
         current_inventory = next(
-            (item for item in inventory.values() if item.get("sku") == sku and item.get("warehouse_id") == destination_warehouse_id),
+            (item for item in inventory
+             if item.get("sku") == sku and item.get("warehouse_id") == destination_warehouse_id),
             None
         )
 
         current_available = current_inventory.get("quantity_available", 0) if current_inventory else 0
         current_inbound = current_inventory.get("quantity_inbound", 0) if current_inventory else 0
 
-        # Narrow down the shipments that match
+        # Filter matching shipments
         results = []
         for shipment in inbound_shipments:
             match = True
-            # Verify if the shipment includes the SKU by searching the data structure
+            # Check if shipment contains the SKU by looking for it in the data structure
             if sku and not any(sku in str(value) for value in shipment.values()):
                 match = False
             if destination_warehouse_id and shipment.get("destination_warehouse_id") != destination_warehouse_id:
@@ -40,7 +39,7 @@ class SearchInboundShipments(Tool):
             if match:
                 results.append(shipment)
 
-        # Determine the total anticipated stock by adding actual inventory to inbound
+        # Calculate total expected stock based on actual inventory + inbound
         total_expected_stock = current_available + current_inbound
 
         return json.dumps({
@@ -49,12 +48,13 @@ class SearchInboundShipments(Tool):
             "current_inbound": current_inbound,
             "total_expected_stock": total_expected_stock
         })
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchInboundShipments",
+                "name": "search_inbound_shipments",
                 "description": "Search for inbound shipments based on criteria",
                 "parameters": {
                     "type": "object",

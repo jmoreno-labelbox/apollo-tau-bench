@@ -1,49 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class RecordStakeholderOutputs(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        generated_ts: str = None,
-        metrics_summary_csv_path: str = None,
-        predictions_final_csv_path: str = None
-    ) -> str:
-        err = _require(
-            {"predictions_final_csv_path": predictions_final_csv_path, "metrics_summary_csv_path": metrics_summary_csv_path}, 
-            ["predictions_final_csv_path", "metrics_summary_csv_path"]
-        )
-        if err:
-            return err
-        row = {
-            "predictions_final_csv_path": predictions_final_csv_path,
-            "metrics_summary_csv_path": metrics_summary_csv_path,
-            "generated_ts": generated_ts,
-        }
-        payload = _append(data.setdefault("stakeholder_outputs", []), row)
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        err = _require(kwargs, ["predictions_final_csv_path", "metrics_summary_csv_path"])
+        if err: return err
+        row = {"predictions_final_csv_path": kwargs["predictions_final_csv_path"],
+               "metrics_summary_csv_path": kwargs["metrics_summary_csv_path"],
+               "generated_ts": kwargs.get("generated_ts")}
+        return json.dumps(_append(data.setdefault("stakeholder_outputs", []), row), indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "RecordStakeholderOutputs",
-                "description": "Registers links to final predictions/metrics artifacts for stakeholders.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "predictions_final_csv_path": {"type": "string"},
-                        "metrics_summary_csv_path": {"type": "string"},
-                        "generated_ts": {"type": "string"},
-                    },
-                    "required": [
-                        "predictions_final_csv_path",
-                        "metrics_summary_csv_path",
-                    ],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "record_stakeholder_outputs",
+            "description": "Registers links to final predictions/metrics artifacts for stakeholders.",
+            "parameters": {"type": "object", "properties": {
+                "predictions_final_csv_path": {"type": "string"},
+                "metrics_summary_csv_path": {"type": "string"}, "generated_ts": {"type": "string"}},
+                "required": ["predictions_final_csv_path", "metrics_summary_csv_path"]}}}

@@ -1,18 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AssignCourseToUser(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str, course_id: str) -> str:
-        # Create a consistent date based on user_id and course_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs["user_id"]
+        course_id = kwargs["course_id"]
+
+        # Generate deterministic date based on user_id and course_id
         import hashlib
 
         hash_input = f"{user_id}_{course_id}"
         hash_value = int(hashlib.md5(hash_input.encode()).hexdigest()[:8], 16)
-        days_offset = hash_value % 30  # A span of 0 to 29 days from the reference date
+        days_offset = hash_value % 30  # 0-29 days from base date
 
-        # Utilize a stable base date for reliable results
+        # Use a fixed base date for deterministic results
         base_date = "2025-07-01"
         from datetime import datetime, timedelta
 
@@ -27,17 +33,16 @@ class AssignCourseToUser(Tool):
         }
 
         data.setdefault("user_course_progress", []).append(progress_entry)
-        payload = {"message": "Course assigned to user.", "entry": progress_entry}
-        out = json.dumps(
-            payload, indent=2
+        return json.dumps(
+            {"message": "Course assigned to user.", "entry": progress_entry}, indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AssignCourseToUser",
+                "name": "assign_course_to_user",
                 "description": "Assigns a course to a user and logs it in course progress with deterministic date.",
                 "parameters": {
                     "type": "object",

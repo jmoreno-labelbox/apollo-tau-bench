@@ -1,43 +1,39 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ExportLogsTool(Tool):
-    """Export logs in CSV or JSON format for the specified time range."""
+    """Export logs in CSV or JSON format within given time range."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], format: str = None, start_time: Any = None, end_time: Any = None) -> str:
-        logs = [l for l in data.get("audit_logs", {}).values() if start_time <= l["timestamp"] <= end_time]
-        if not format or not isinstance(format, str) or format.upper() not in ["CSV", "JSON"]:
-            payload = {"error": "Invalid format"}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"format": format, "logs": logs}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        fmt = kwargs.get("format")
+        start = kwargs.get("start_time")
+        end = kwargs.get("end_time")
+        logs = [l for l in data.get("audit_logs", []) if start <= l["timestamp"] <= end]
+        if not fmt or not isinstance(fmt, str) or fmt.upper() not in ["CSV", "JSON"]:
+            return json.dumps({"error": "Invalid format"}, indent=2)
+        return json.dumps({"format": fmt, "logs": logs}, indent=2)
+
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ExportLogs",
+                "name": "export_logs",
                 "description": "Export logs to CSV or JSON format from given date range",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "format": {"type": "string", "enum": ["CSV", "JSON"]},
                         "start_time": {"type": "string"},
-                        "end_time": {"type": "string"},
+                        "end_time": {"type": "string"}
                     },
-                    "required": ["format", "start_time", "end_time"],
-                },
-            },
+                    "required": ["format", "start_time", "end_time"]
+                }
+            }
         }

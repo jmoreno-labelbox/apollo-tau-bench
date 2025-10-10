@@ -1,6 +1,9 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateCloudWatchAlarm(Tool):
     @staticmethod
@@ -10,50 +13,11 @@ class CreateCloudWatchAlarm(Tool):
         metric_name: str = "Errors",
         threshold: float = 1.0,
         period_seconds: int = 300,
-        comparison: str = "GreaterThanOrEqualToThreshold"
+        comparison: str = "GreaterThanOrEqualToThreshold",
     ) -> str:
         alarms = _ensure_table(data, "aws_cloudwatch_alarms")
         alarm_id = _stable_id(
-            "al",
-            resource_id,
-            metric_name,
-            str(threshold),
-            str(period_seconds),
-            comparison,
-        )
-        alarm_name = f"{metric_name}-{resource_id}"
-        row = _find_one(alarms, alarm_id=alarm_id)
-        payload = {
-            "resource_id": resource_id,
-            "metric_name": metric_name,
-            "threshold": float(threshold),
-            "period_seconds": int(period_seconds),
-            "comparison": comparison,
-        }
-        if row:
-            row.update(payload)
-            row["state"] = "OK"
-            row["updated_at"] = FIXED_NOW
-        else:
-            alarms.append(
-                {
-                    "alarm_id": alarm_id,
-                    "alarm_name": alarm_name,
-                    "state": "OK",
-                    **payload,
-                    "created_at": FIXED_NOW,
-                }
-            )
-        return _json({"alarm_id": alarm_id, "alarm_name": alarm_name, "state": "OK"})
-        pass
-        alarms = _ensure_table(data, "aws_cloudwatch_alarms")
-        alarm_id = _stable_id(
-            "al",
-            resource_id,
-            metric_name,
-            str(threshold),
-            str(period_seconds),
-            comparison,
+            "al", resource_id, metric_name, str(threshold), str(period_seconds), comparison
         )
         alarm_name = f"{metric_name}-{resource_id}"
         row = _find_one(alarms, alarm_id=alarm_id)
@@ -82,11 +46,10 @@ class CreateCloudWatchAlarm(Tool):
 
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "CreateCloudwatchAlarm",
+                "name": "create_cloudwatch_alarm",
                 "description": "Create a CloudWatch alarm. Defaults: Errors, 1.0, 300s, GTE.",
                 "parameters": {
                     "type": "object",

@@ -1,60 +1,51 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetAllReportForPlayer(Tool):
     """
-    Retrieve all development reports associated with a specific player_id.
-    Results are sorted deterministically by week_of_date in descending order, then dev_report_id in ascending order.
+    Fetch all development reports for a given player_id.
+    Results are sorted deterministically by week_of_date DESC, then dev_report_id ASC.
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], player_id: str = None) -> str:
-        #1) Confirm validity
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        player_id = kwargs.get("player_id")
+
+        # 1) Validate
         if player_id is None:
-            payload = {"error": "Missing required field: player_id"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Missing required field: player_id"}, indent=2)
 
-        #2) Retrieve DB
-        reports: list[dict[str, Any]] = data.get("player_dev_reports", {}).values()
+        # 2) Get DB
+        reports: List[Dict[str, Any]] = data.get("player_dev_reports", [])
 
-        #3) Filter and arrange
-        matching = [r for r in reports.values() if r.get("player_id") == player_id]
+        # 3) Filter and sort
+        matching = [r for r in reports if r.get("player_id") == player_id]
 
         if not matching:
-            payload = {"error": f"No reports found for player_id {player_id}"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        payload = matching
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": f"No reports found for player_id {player_id}"}, indent=2)
+
+        return json.dumps(matching, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getAllReportForPlayer",
+                "name": "get_all_report_for_player",
                 "description": "Fetch all development reports for the specified player_id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "player_id": {
                             "type": "integer",
-                            "description": "Exact player ID to retrieve reports for.",
+                            "description": "Exact player ID to retrieve reports for."
                         }
                     },
-                    "required": ["player_id"],
-                },
-            },
+                    "required": ["player_id"]
+                }
+            }
         }

@@ -1,35 +1,21 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone, date, timedelta
-import calendar
-from typing import Any, Dict
-import random
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AddNewCustomer(Tool):
+    """Creates a new customer profile accepting only essential fields."""
 
-    def invoke(
-        data: Dict[str, Any],
-        first_name: str,
-        annual_income: float = None,
-        city: str = None,
-        country: str = None,
-        date_of_birth: str = None,
-        email_address: str = None,
-        last_name: str = None,
-        phone_number: str = None,
-        postal_code: str = None,
-        state: str = None,
-        street_address: str = None
-    ) -> str:
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         # Required inputs
         required = [
             "first_name", "last_name", "date_of_birth", "email_address",
-            "phone_number", "street_address", "city", "state", "postal_code", "country", "annual_income"
+            "phone_number", "street_address", "city","state", "postal_code", "country", "annual_income"
         ]
-        params_dict = {k: v for k, v in locals().items() if k != "data"}
-
-        missing = [f for f in required.values() if params_dict.get(f) is None]
+        missing = [f for f in required if not kwargs.get(f)]
         if missing:
             return json.dumps({"error": f"Missing required fields: {', '.join(missing)}"}, indent=2)
 
@@ -38,20 +24,20 @@ class AddNewCustomer(Tool):
         date_joined = get_current_timestamp()
 
         personal_info = {
-            "first_name":    first_name,
-            "last_name":     last_name,
-            "date_of_birth": date_of_birth,
-            "annual_income": annual_income
+            "first_name":    kwargs["first_name"],
+            "last_name":     kwargs["last_name"],
+            "date_of_birth": kwargs["date_of_birth"],
+            "annual_income": kwargs["annual_income"]
         }
         contact_info = {
-            "email_address": email_address,
-            "phone_numbers": [{"type": "Mobile", "number": phone_number, "is_primary": True}],
+            "email_address": kwargs["email_address"],
+            "phone_numbers": [{"type": "Mobile", "number": kwargs["phone_number"], "is_primary": True}],
             "mailing_address": {
-                "street_address": street_address,
-                "city":           city,
-                "state":          state,
-                "postal_code":    postal_code,
-                "country":        country
+                "street_address": kwargs["street_address"],
+                "city":           kwargs["city"],
+                "state":          kwargs["state"],
+                "postal_code":    kwargs["postal_code"],
+                "country":        kwargs["country"]
             },
             "residential_address": {}
         }
@@ -62,17 +48,18 @@ class AddNewCustomer(Tool):
             "contact_info":      contact_info,
             "account_ids":       [],
             "bank_relationship": {"date_joined": date_joined, "customer_segment": "Retail"},
-            "financial_profile": {"annual_income": annual_income}
+            "financial_profile": {"annual_income": kwargs["annual_income"]}
         }
 
         data.setdefault("customers", []).append(new_customer)
         return json.dumps(new_customer, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "addNewCustomer",
+                "name": "add_new_customer",
                 "description": "Creates a new customer with only essential profile fields.",
                 "parameters": {
                     "type": "object",

@@ -1,17 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any, Dict
-from datetime import timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetPaymentBehavior(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], publisher_id: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
         Returns payment_behavior_id(s) for a given publisher_id.
         """
-        behaviors = [pb["behavior_id"] for pb in data["payment_behavior"].values() if pb["publisher_id"] == publisher_id]
+        publisher_id = kwargs["publisher_id"]
+        behaviors = [pb["behavior_id"] for pb in data["payment_behavior"] if pb["publisher_id"] == publisher_id]
         return json.dumps(behaviors)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {

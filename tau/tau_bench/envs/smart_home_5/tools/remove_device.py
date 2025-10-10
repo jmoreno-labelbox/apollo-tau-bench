@@ -1,54 +1,45 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RemoveDevice(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], devices: list = None, rooms: list = None, device_id: str = None, new_device: Any = None) -> str:
-        devices = devices if devices is not None else data.get("devices", {}).values()
+    def invoke(data: Dict[str, Any], device_id: str) -> str:
+        devices = list(data.get('devices', {}).values())
         initial_len = len(devices)
-        devices[:] = [d for d in devices.values() if d.get("id") != device_id]
+        devices[:] = [d for d in devices if d.get('id') != device_id]
 
         if len(devices) == initial_len:
-            payload = {"error": f"Device with ID '{device_id}' not found."}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"Device with ID '{device_id}' not found."}, indent=2)
 
-        # Additionally, eliminate from rooms
-        rooms = rooms if rooms is not None else data.get("rooms", {}).values()
+        # Also remove from rooms
+        rooms = data.get('rooms', [])
         for room in rooms:
-            if device_id in room.get("devices", []):
-                room["devices"].remove(device_id)
-        payload = {"success": f"Device '{device_id}' removed."}
-        out = json.dumps(payload, indent=2)
-        return out
+            if device_id in room.get('devices', []):
+                room['devices'].remove(device_id)
+
+        return json.dumps({"success": f"Device '{device_id}' removed."}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RemoveDevice",
+                "name": "remove_device",
                 "description": "Remove a device from the smart home system.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "device_id": {
                             "type": "string",
-                            "description": "The ID of the device to remove.",
+                            "description": "The ID of the device to remove."
                         }
                     },
                     "required": ["device_id"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

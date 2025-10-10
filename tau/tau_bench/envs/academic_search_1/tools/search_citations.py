@@ -1,79 +1,60 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchCitations(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], article_id: Any = None, direction: Any = None, context_keyword: Any = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
-        Looks for citations associated with a particular article.
-        - The direction of the search ('to' or 'from') is necessary.
-        - 'to': Locates all citations that reference the article_id.
-        - 'from': Locates all citations authored by the article_id.
+        Searches for citations related to a specific article.
+        - The search direction ('to' or 'from') is required.
+        - 'to': Finds all citations that point TO the article_id.
+        - 'from': Finds all citations made BY the article_id.
         """
-        if not all([article_id, direction]):
-            payload = {"error": "article_id and direction are required."}
-            out = json.dumps(payload)
-            return out
+        article_id = kwargs.get('article_id')
+        direction = kwargs.get('direction')
 
-        citations = data.get("citations", {}).values()
+        if not all([article_id, direction]):
+            return json.dumps({"error": "article_id and direction are required."})
+
+        citations = list(data.get('citations', {}).values())
         results = []
 
-        if direction.lower() == "to":
-            keyword = context_keyword.lower() if context_keyword else None
+        if direction.lower() == 'to':
+            keyword = kwargs.get('context_keyword', '').lower()
             results = [
-                c
-                for c in citations.values() if c.get("referenced_paper_id") == article_id
-                and (not keyword or keyword in c.get("citation_context", "").lower())
+                c for c in citations
+                if c.get('cited_article_id') == article_id and
+                (not keyword or keyword in c.get('citation_context', '').lower())
             ]
-        elif direction.lower() == "from":
-            results = [c for c in citations.values() if c.get("source_article_id") == article_id]
+        elif direction.lower() == 'from':
+            results = [c for c in citations if c.get('source_article_id') == article_id]
         else:
-            payload = {"error": "Invalid direction. Must be 'to' or 'from'."}
-            out = json.dumps(payload)
-            return out
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": "Invalid direction. Must be 'to' or 'from'."})
+
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         """
-        Supplies the function schema for the language model's application.
+        Returns the function schema to be used by the language model.
         """
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "SearchCitations",
+                "name": "search_citations",
                 "description": "Searches for citations from or to an article. Use direction 'to' to find citations that an article received or 'from' to find citations that an article made.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "article_id": {
-                            "type": "string",
-                            "description": "The ID of the article to search for citations.",
-                        },
-                        "direction": {
-                            "type": "string",
-                            "enum": ["to", "from"],
-                            "description": "The direction of the search: 'to' (for citations to the article) or 'from' (for citations from the article).",
-                        },
-                        "context_keyword": {
-                            "type": "string",
-                            "description": "Optional. A keyword to search for in the citation context (only for 'to' direction).",
-                        },
+                        "article_id": {"type": "string", "description": "The ID of the article to search for citations."},
+                        "direction": {"type": "string", "enum": ["to", "from"], "description": "The direction of the search: 'to' (for citations to the article) or 'from' (for citations from the article)."},
+                        "context_keyword": {"type": "string", "description": "Optional. A keyword to search for in the citation context (only for 'to' direction)."}
                     },
-                    "required": ["article_id", "direction"],
-                },
-            },
+                    "required": ["article_id", "direction"]
+                }
+            }
         }

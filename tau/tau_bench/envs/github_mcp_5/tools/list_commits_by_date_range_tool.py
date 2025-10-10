@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListCommitsByDateRangeTool(Tool):
     """
@@ -52,15 +40,15 @@ class ListCommitsByDateRangeTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str, start_date: str, end_date: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            start_date = _validate_param({"start_date": start_date}, "start_date", str)
-            end_date = _validate_param({"end_date": end_date}, "end_date", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            start_date = _validate_param(kwargs, "start_date", str)
+            end_date = _validate_param(kwargs, "end_date", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        commits = data.get("commits", {}).values()
+        commits = list(data.get("commits", {}).values())
         filtered = [
             {
                 "commit_id": c.get("sha"),
@@ -70,16 +58,17 @@ class ListCommitsByDateRangeTool(Tool):
                 "timestamp": c.get("timestamp"),
                 "report_date": CURRENT_DATE,
             }
-            for c in commits.values() if c.get("repo") == repo_name
-            and start_date <= c.get("timestamp", "") <= end_date
+            for c in commits
+            if c.get("repo") == repo_name and start_date <= c.get("timestamp", "") <= end_date
         ]
         return _response("ok", filtered)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListCommitsByDateRange",
+                "name": "list_commits_by_date_range",
                 "description": "List commits for a repository between a start and end date (deterministic).",
                 "parameters": {
                     "type": "object",

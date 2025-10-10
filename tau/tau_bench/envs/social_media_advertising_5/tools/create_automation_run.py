@@ -1,61 +1,29 @@
-from tau_bench.envs.tool import Tool
-import ast
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateAutomationRun(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        run_id: str = None,
-        run_type: str = None,
-        started_at: str = None,
-        ended_at: str = None,
-        status: str = None,
-        input_ref: str = None,
-        errors_json: str = None
-    ) -> str:
-        rec = {
-            "run_id": run_id,
-            "run_type": run_type,
-            "started_at": started_at,
-            "ended_at": ended_at,
-            "status": status,
-            "input_ref": input_ref,
-            "errors_json": errors_json,
-        }
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        rec = {"run_id": kwargs.get("run_id"), "run_type": kwargs.get("run_type"),
+               "started_at": kwargs.get("started_at"), "ended_at": kwargs.get("ended_at"),
+               "status": kwargs.get("status"), "input_ref": kwargs.get("input_ref"),
+               "errors_json": kwargs.get("errors_json")}
         data.setdefault("automation_runs", []).append(rec)
-        payload = rec
-        out = json.dumps(payload)
-        return out
+        return json.dumps(rec)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "CreateAutomationRun",
-                "description": "Creates an automation run record.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "run_id": {"type": "string"},
-                        "run_type": {"type": "string"},
-                        "started_at": {"type": "string"},
-                        "ended_at": {"type": "string"},
-                        "status": {"type": "string"},
-                        "input_ref": {"type": "string"},
-                        "errors_json": {"type": "string"},
-                    },
-                    "required": [
-                        "run_id",
-                        "run_type",
-                        "started_at",
-                        "ended_at",
-                        "status",
-                        "input_ref",
-                        "errors_json",
-                    ],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function",
+                "function": {"name": "create_automation_run", "description": "Creates an automation run record.",
+                             "parameters": {"type": "object",
+                                            "properties": {"run_id": {"type": "string"}, "run_type": {"type": "string"},
+                                                           "started_at": {"type": "string"},
+                                                           "ended_at": {"type": "string"}, "status": {"type": "string"},
+                                                           "input_ref": {"type": "string"},
+                                                           "errors_json": {"type": "string"}},
+                                            "required": ["run_id", "run_type", "started_at", "ended_at", "status",
+                                                         "input_ref", "errors_json"]}}}

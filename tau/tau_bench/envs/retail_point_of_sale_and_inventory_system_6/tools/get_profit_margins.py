@@ -1,94 +1,83 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import OrderedDict, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class get_profit_margins(Tool):
     @staticmethod
-    def GetDetailedItemPrice(data, **kwargs):
-        pass
+    def get_detailed_item_price(data, **kwargs):
         sku = kwargs.get("sku")
         barcode = kwargs.get("barcode")
 
         if (sku is None) and (barcode is None):
-            payload = {"error": "sku or barcode must be sent"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "sku or barcode must be sent"}, indent=2)
 
-        products = data.get("products", {}).values()
+        products = list(data.get("products", {}).values())
 
-        for product in products.values():
+        for product in products:
             if ((sku is not None) and (product["sku"] == sku)) or (
                 (barcode is not None) and (product["barcode"] == barcode)
             ):
-                #Retrieve the sku if a barcode was utilized
+                # Get the sku if barcode was used
                 sku = product["sku"]
 
-                #Apply the discount rate for discountable products; otherwise, assign 0
+                # Use the discount rate if the product is marked as discountable, otherwise set as 0
                 discount_rate = (
                     product["discount_rate"] if product["is_discountable"] else 0.0
                 )
 
-                #Determine the discount value
-                #discount = round(product["price"] * discount_rate, 2)
+                # Calculate the discount amount
+                # discount = round(product["price"] * discount_rate, 2)
 
                 tax_rate = product["tax_rate"]
-                payload = {
+
+                return json.dumps(
+                    {
                         "sku": sku,
                         "unit_price": product["price"],
                         "discount_rate": discount_rate,
                         "tax_rate": tax_rate,
                         "cost": product["cost"],
-                    }
-                out = json.dumps(
-                    payload, indent=2,
+                    },
+                    indent=2,
                 )
-                return out
-        payload = {"error": "product not found"}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"error": "product not found"})
 
     @staticmethod
-    def invoke(data: dict[str, Any], sku_list: str = None, ignore_discounts: bool = True) -> str:
-        pass
-        data.get("products", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        products = list(data.get("products", {}).values())
 
+        sku_list = kwargs.get("sku_list")
         if isinstance(sku_list, str):
             sku_list = json.loads(sku_list)
+        ignore_discounts = kwargs.get("ignore_discounts", True)
 
         if sku_list is None:
-            payload = {"error": "sku_list must be sent"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "sku_list must be sent"}, indent=2)
 
         out = []
         for sku in sku_list:
-            # Retrieve the pricing information for the item
-            line_item_info = get_profit_margins.GetDetailedItemPrice(data, sku=sku)
+            # Get the price info for the item
+            line_item_info = get_profit_margins.get_detailed_item_price(data, sku=sku)
             line_item_info = json.loads(line_item_info)
 
-            # Extract values
+            # Unpack values
             sku = line_item_info["sku"]
             unit_price = line_item_info["unit_price"]
             unit_tax_rate = line_item_info["tax_rate"]
             discount_rate = line_item_info["discount_rate"]
             cost = line_item_info["cost"]
 
-            # Compute totals for line items
-            # TODO: further development needed for discount to accommodate various discount types
+            # Calculate line item totals
+            # TODO: discount needs more work to account for different discount types
             unit_discount = unit_price * discount_rate
             item_sub_total = unit_price - unit_discount
-            round(unit_discount, 2)
+            item_discount = round(unit_discount, 2)
             item_tax_amount = round(item_sub_total * unit_tax_rate, 2)
-            round(item_sub_total + item_tax_amount, 2)
+            item_final_amount = round(item_sub_total + item_tax_amount, 2)
 
             if ignore_discounts:
                 revenue = unit_price
@@ -109,15 +98,15 @@ class get_profit_margins(Tool):
                     "profit_margin_percent": profit_margin_percent,
                 }
             )
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetProfitMargins",
+                "name": "get_profit_margins",
                 "description": "Gets the per unit profit margins for items.",
                 "parameters": {
                     "type": "object",
@@ -127,7 +116,7 @@ class get_profit_margins(Tool):
                             "description": "A json list of the skus to get the profit margins for",
                         },
                         "ignore_discounts": {
-                            "type": "boolean",
+                            "type": "bool",
                             "description": "OPTIONAL. To calculate profits on the discounted total or not. Defaults to True",
                         },
                     },

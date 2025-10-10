@@ -1,36 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchAutomationRunsByStatus(Tool):
-    """Looks for automation runs that have a specific status."""
+    """Searches for automation runs with a specific status."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], status: str = None) -> str:
-        runs = data.get("automation_runs", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        status = kwargs.get("status")
+        runs = data.get("automation_runs", [])
         matching_runs = []
-
+        
         for run in runs:
             if run.get("status") == status:
                 matching_runs.append(run.get("run_id"))
-        payload = {"automation_run_ids": matching_runs}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"automation_run_ids": matching_runs})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "searchAutomationRunsByStatus",
+                "name": "search_automation_runs_by_status",
                 "description": "Searches for automation runs with a specific status.",
                 "parameters": {
                     "type": "object",

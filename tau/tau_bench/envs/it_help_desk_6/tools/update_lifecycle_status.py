@@ -1,18 +1,16 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class UpdateLifecycleStatus(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], lifecycle_id: str, status: str, timestamp: str, actor: str
-    ) -> str:
-        pass
+    def invoke(data: Dict[str, Any], lifecycle_id: str, status: str, timestamp: str, actor: str) -> str:
         row = _find_one(data["lifecycle_queue"], lifecycle_id=lifecycle_id)
         if not row:
-            payload = {"status": "error", "reason": "lifecycle_not_found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "lifecycle_not_found"})
         row["status"] = status
         _append_row(
             data["lifecycle_audit"],
@@ -24,16 +22,14 @@ class UpdateLifecycleStatus(Tool):
                 "actor": actor,
             },
         )
-        payload = {"status": "ok", "lifecycle": row}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "lifecycle": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateLifecycleStatus",
+                "name": "update_lifecycle_status",
                 "description": "Update lifecycle_queue status and append an audit row.",
                 "parameters": {
                     "type": "object",

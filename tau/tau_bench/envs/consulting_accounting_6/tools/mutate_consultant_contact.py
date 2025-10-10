@@ -1,56 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class MutateConsultantContact(Tool):
-    """Modify contact information for the consultant."""
-
+    """Update consultant contact fields."""
     @staticmethod
-    def invoke(data: dict[str, Any], consultant_id: str, address: str = None, phone: str = None, email: str = None, gst_number: str = None) -> str:
-        updates = {
-            k: v
-            for k, v in {"address": address, "phone": phone, "email": email, "gst_number": gst_number}.items()
-            if v is not None
-        }
-        row = next(
-            (c for c in data.get("consultants", {}).values() if c.get("consultant_id") == consultant_id),
-            None,
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cid = kwargs.get("consultant_id")
+        updates = {k: v for k, v in kwargs.items() if k in {"address", "phone", "email", "gst_number"}}
+        row = next((c for c in data.get("consultants", []) if c.get("consultant_id") == cid), None)
         if not row:
-            payload = {"error": f"consultant_id '{consultant_id}' not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"consultant_id '{cid}' not found"}, indent=2)
         row.update(updates)
         row["updated_at"] = _now_iso()
-        payload = {"consultant_id": consultant_id, "updated": updates}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"consultant_id": cid, "updated": updates}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "MutateConsultantContact",
-                "description": "Update contact fields for a consultant.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "consultant_id": {"type": "string"},
-                        "address": {"type": "string"},
-                        "phone": {"type": "string"},
-                        "email": {"type": "string"},
-                        "gst_number": {"type": "string"},
-                    },
-                    "required": ["consultant_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "mutate_consultant_contact",
+            "description": "Update contact fields for a consultant.",
+            "parameters": {"type": "object", "properties": {
+                "consultant_id": {"type": "string"},
+                "address": {"type": "string"},
+                "phone": {"type": "string"},
+                "email": {"type": "string"},
+                "gst_number": {"type": "string"}
+            }, "required": ["consultant_id"]}
+        }}

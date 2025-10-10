@@ -1,40 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchListings(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        neighborhood_ids: list[int] = None,
-        price_min: float = None,
-        price_max: float = None,
-        beds: int = None,
-        baths: int = None,
-        sqft_min: int = None,
-        sqft_max: int = None,
-        property_type: str = None,
-        limit: int = 15
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        neighborhood_ids = kwargs.get("neighborhood_ids") 
+        price_min = kwargs.get("price_min")
+        price_max = kwargs.get("price_max")
+        beds = kwargs.get("beds")
+        baths = kwargs.get("baths")
+        sqft_min = kwargs.get("sqft_min")
+        sqft_max = kwargs.get("sqft_max")
+        property_type = kwargs.get("property_type")
+        limit = kwargs.get("limit", 15)
+
         props = _index_by(list(data.get("properties", {}).values()), "property_id")
-        results: list[dict[str, Any]] = []
-        for lst in data.get("listings", {}).values() or []:
+        results: List[Dict[str, Any]] = []
+        for lst in list(data.get("listings", {}).values()) or []:
             if lst.get("status") != "active":
                 continue
             pr = props.get(lst.get("property_id"))
             if not pr:
                 continue
-            if neighborhood_ids and pr.get("neighborhood_id") not in set(
-                neighborhood_ids
-            ):
+            if neighborhood_ids and pr.get("neighborhood_id") not in set(neighborhood_ids):
                 continue
             if property_type and pr.get("property_type") != property_type:
                 continue
@@ -50,49 +42,31 @@ class SearchListings(Tool):
                 continue
             if sqft_max is not None and pr.get("sqft", 0) > sqft_max:
                 continue
-            results.append(
-                {
-                    "listing_id": lst.get("listing_id"),
-                    "property_id": pr.get("property_id"),
-                    "neighborhood_id": pr.get("neighborhood_id"),
-                    "list_price": lst.get("list_price"),
-                    "property_type": pr.get("property_type"),
-                    "beds": pr.get("beds"),
-                    "baths": pr.get("baths"),
-                    "sqft": pr.get("sqft"),
-                    "listing_url": lst.get("listing_url"),
-                    "street_view_url": lst.get("street_view_url"),
-                }
-            )
+            results.append({
+                "listing_id": lst.get("listing_id"),
+                "property_id": pr.get("property_id"),
+                "neighborhood_id": pr.get("neighborhood_id"),
+                "list_price": lst.get("list_price"),
+                "property_type": pr.get("property_type"),
+                "beds": pr.get("beds"), "baths": pr.get("baths"), "sqft": pr.get("sqft"),
+                "listing_url": lst.get("listing_url"), "street_view_url": lst.get("street_view_url"),
+            })
             if len(results) >= limit:
                 break
-        payload = {"results": results}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"results": results}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "SearchListings",
-                "description": "Search active listings by neighborhood(s) and criteria.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "neighborhood_ids": {
-                            "type": "array",
-                            "items": {"type": "integer"},
-                        },
-                        "price_min": {"type": "integer"},
-                        "price_max": {"type": "integer"},
-                        "beds": {"type": "integer"},
-                        "baths": {"type": "integer"},
-                        "sqft_min": {"type": "integer"},
-                        "sqft_max": {"type": "integer"},
-                        "property_type": {"type": "string"},
-                        "limit": {"type": "integer"},
-                    },
-                    "required": [],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"search_listings",
+            "description":"Search active listings by neighborhood(s) and criteria.",
+            "parameters":{
+                "type":"object","properties":{
+                    "neighborhood_ids":{"type":"array","items":{"type":"integer"}},
+                    "price_min":{"type":"integer"},"price_max":{"type":"integer"},
+                    "beds":{"type":"integer"},"baths":{"type":"integer"},
+                    "sqft_min":{"type":"integer"},"sqft_max":{"type":"integer"},
+                    "property_type":{"type":"string"},"limit":{"type":"integer"}
+                },"required":[]
+            }
+        }}

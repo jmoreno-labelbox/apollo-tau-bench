@@ -1,18 +1,19 @@
-from tau_bench.envs.tool import Tool
-import datetime
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class VerifyLocalChecksumTool(Tool):
-    """Confirms the checksum of a file copied locally."""
+    """Verifies the checksum of a locally copied file."""
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "VerifyLocalChecksum",
+                "name": "verify_local_checksum",
                 "description": "Verifies the integrity of a copied file by re-computing its checksum and comparing.",
                 "parameters": {
                     "type": "object",
@@ -28,18 +29,18 @@ class VerifyLocalChecksumTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: dict[str, Any], log_name: str) -> str:
-        checksum_name = f"{log_name}.sha256"
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        log_name = kwargs["log_name"]
+        checksum_name = f"{kwargs['log_name']}.sha256"
         if log_name not in data or checksum_name not in data:
-            payload = {"error": "Log or checksum not found for copying."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Log or checksum not found for copying."})
 
         local_log_name = f"local_{log_name}"
         local_checksum_name = f"local_{checksum_name}"
 
         data[local_log_name] = data[log_name]
         data[local_checksum_name] = data[checksum_name]
-        payload = {"status": "success", "copied_files": [local_log_name, local_checksum_name]}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(
+            {"status": "success", "copied_files": [local_log_name, local_checksum_name]}
+        )

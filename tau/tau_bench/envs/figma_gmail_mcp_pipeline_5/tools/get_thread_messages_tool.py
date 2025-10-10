@@ -1,51 +1,33 @@
-from tau_bench.envs.tool import Tool
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetThreadMessagesTool(Tool):
-    """Provide basic message information (sender, timestamp, snippet) for a thread."""
+    """Return simple message info (sender, ts, snippet) for a thread."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], thread_id: str = None) -> str:
-        thread_id = _require_str(thread_id, "thread_id")
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        thread_id = _require_str(kwargs.get("thread_id"), "thread_id")
         if not thread_id:
-            payload = {"error": "thread_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error":"thread_id is required"})
 
-        msgs = data.get("gmail_messages", {}).values()
+        msgs = data.get("gmail_messages", [])
         out = []
-        for m in msgs.values():
+        for m in msgs:
             if m.get("thread_id") == thread_id:
-                out.append(
-                    _small_fields(
-                        m, ["message_id", "from_email", "created_ts", "snippet"]
-                    )
-                )
-        out.sort(key=lambda r: r.get("created_ts", ""))
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+                out.append(_small_fields(m, ["message_id","from_email","created_ts","snippet"]))
+        out.sort(key=lambda r: r.get("created_ts",""))
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetThreadMessages",
-                "description": "List messages for a thread (sender, ts, snippet only).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"thread_id": {"type": "string"}},
-                    "required": ["thread_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"get_thread_messages",
+            "description":"List messages for a thread (sender, ts, snippet only).",
+            "parameters":{"type":"object","properties":{
+                "thread_id":{"type":"string"}
+            },"required":["thread_id"]}
+        }}

@@ -1,100 +1,84 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class LoadAuditFindings(Tool):  #READ
+class LoadAuditFindings(Tool):  # READ
     @staticmethod
-    def invoke(data: dict[str, Any], audit_id: str) -> str:
-        pass
-        #Check the input for validity
+    def invoke(
+        data: Dict[str, Any],
+        audit_id: str
+    ) -> str:
+        # Validate input
         if not isinstance(audit_id, str) or not audit_id:
-            payload = {"error": "Invalid audit_id parameter"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Invalid audit_id parameter"})
 
-        #Identify the audit
-        audits = data.get("audits", {}).values()
+        # Find the audit
+        audits = data.get("audits", [])
         audit = None
-        for a in audits.values():
+        for a in audits:
             if a.get("audit_id") == audit_id:
                 audit = a
                 break
 
         if not audit:
-            payload = {"error": f"Audit with ID '{audit_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Audit with ID '{audit_id}' not found"})
 
-        #Retrieve details about the audit
+        # Get audit information
         audit_type = audit.get("audit_type")
         artifact_id = audit.get("artifact_id")
 
-        #Locate associated DS findings
+        # Find related DS findings
         ds_findings = []
-        audit_findings_ds = data.get("audit_findings_ds", {}).values()
-        for finding in audit_findings_ds.values():
+        audit_findings_ds = data.get("audit_findings_ds", [])
+        for finding in audit_findings_ds:
             if finding.get("audit_id") == audit_id:
-                ds_findings.append(
-                    {
-                        "finding_id": finding.get("finding_id"),
-                        "layer_id": finding.get("layer_id"),
-                        "layer_name": finding.get("layer_name"),
-                        "finding_type": finding.get("finding_type"),
-                        "severity": finding.get("severity"),
-                    }
-                )
+                ds_findings.append({
+                    "finding_id": finding.get("finding_id"),
+                    "layer_id": finding.get("layer_id"),
+                    "layer_name": finding.get("layer_name"),
+                    "finding_type": finding.get("finding_type"),
+                    "severity": finding.get("severity")
+                })
 
-        #Locate associated A11Y findings
+        # Find related A11Y findings
         a11y_findings = []
-        audit_findings_a11y = data.get("audit_findings_a11y", {}).values()
-        for finding in audit_findings_a11y.values():
+        audit_findings_a11y = data.get("audit_findings_a11y", [])
+        for finding in audit_findings_a11y:
             if finding.get("audit_id") == audit_id:
-                a11y_findings.append(
-                    {
-                        "finding_id": finding.get("finding_id"),
-                        "layer_id": finding.get("layer_id"),
-                        "layer_name": finding.get("layer_name"),
-                        "violation_type": finding.get("violation_type"),
-                        "severity": finding.get("severity"),
-                    }
-                )
-        payload = {
-                "audit_id": audit_id,
-                "audit_type": audit_type,
-                "artifact_id": artifact_id,
-                "ds_findings": ds_findings,
-                "a11y_findings": a11y_findings,
-                "total_ds_findings": len(ds_findings),
-                "total_a11y_findings": len(a11y_findings),
-            }
-        out = json.dumps(
-            payload)
-        return out
+                a11y_findings.append({
+                    "finding_id": finding.get("finding_id"),
+                    "layer_id": finding.get("layer_id"),
+                    "layer_name": finding.get("layer_name"),
+                    "violation_type": finding.get("violation_type"),
+                    "severity": finding.get("severity")
+                })
+
+        return json.dumps({
+            "audit_id": audit_id,
+            "audit_type": audit_type,
+            "artifact_id": artifact_id,
+            "ds_findings": ds_findings,
+            "a11y_findings": a11y_findings,
+            "total_ds_findings": len(ds_findings),
+            "total_a11y_findings": len(a11y_findings)
+        })
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "LoadAuditFindings",
+                "name": "load_audit_findings",
                 "description": "Load audit information and all associated findings for a given audit ID.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "audit_id": {
-                            "type": "string",
-                            "description": "The audit ID to load findings for.",
-                        }
+                        "audit_id": {"type": "string", "description": "The audit ID to load findings for."}
                     },
-                    "required": ["audit_id"],
-                },
-            },
+                    "required": ["audit_id"]
+                }
+            }
         }

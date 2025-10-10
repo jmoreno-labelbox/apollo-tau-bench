@@ -1,84 +1,60 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchUsers(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], *, user_id: Any = None, name: Any = None, research_field: Any = None, availability: Any = None, institution: Any = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
-        Conducts a user search.
-        - If 'user_id' is supplied, it returns the information for that particular user.
-        - If not, it filters users based on 'name' and/or 'research_field'.
-        - If no arguments are given, it returns all users.
+        Executes user search.
+        - If 'user_id' is provided, returns the details of that specific user.
+        - Otherwise, filters users by 'name' and/or 'research_field'.
+        - If no parameters are provided, returns all users.
         """
-        users = data.get("users", {}).values()
+        user_id = kwargs.get('user_id')
+        name = kwargs.get('name')
+        research_field = kwargs.get('research_field')
 
-        # When a user_id is given, it takes precedence and retrieves a specific user.
+        users = list(data.get('users', {}).values())
+
+        # If a user_id is provided, it has priority and returns a single user.
         if user_id:
-            for user in users.values():
-                if user.get("person_id") == user_id:
-                    payload = user
-                    out = json.dumps(payload, indent=2)
-                    return out
-            payload = {"error": f"User with ID '{user_id}' not found."}
-            out = json.dumps(payload)
-            return out
+            for user in users:
+                if user.get('user_id') == user_id:
+                    return json.dumps(user, indent=2)
+            return json.dumps({"error": f"User with ID '{user_id}' not found."})
 
-        # In the absence of a user_id, it performs a search using other criteria and returns a collection.
+        # If user_id is not provided, executes the search by other fields and returns a list.
         if not name and not research_field:
-            payload = users
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps(users, indent=2)
 
         results = [
-            user
-            for user in users.values() if (not name or name.lower() in user.get("label", "").lower())
-            and (
-                not research_field
-                or research_field.lower() in user.get("study_field", "").lower()
-            )
+            user for user in users
+            if (not name or name.lower() in user.get('name', '').lower()) and
+               (not research_field or research_field.lower() in user.get('research_field', '').lower())
         ]
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
-        
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         """
-        Provides the function schema intended for use by the language model.
+        Returns the function schema to be used by the language model.
         """
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "SearchUsers",
+                "name": "search_users",
                 "description": "Searches for users by ID, name, or research field. If a user_id is provided, returns the details of that user. Otherwise, returns a list of users that match the other criteria.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "user_id": {
-                            "type": "string",
-                            "description": "The ID of the user to retrieve details for.",
-                        },
-                        "name": {
-                            "type": "string",
-                            "description": "The name of the user to search for.",
-                        },
-                        "research_field": {
-                            "type": "string",
-                            "description": "The research field of the user.",
-                        },
-                    },
-                },
-            },
+                        "user_id": {"type": "string", "description": "The ID of the user to retrieve details for."},
+                        "name": {"type": "string", "description": "The name of the user to search for."},
+                        "research_field": {"type": "string", "description": "The research field of the user."}
+                    }
+                }
+            }
         }

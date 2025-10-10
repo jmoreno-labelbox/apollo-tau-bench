@@ -1,36 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetConnectedAppSecurity(Tool):
-    """Obtain security settings for connected apps using app_id."""
+    """Fetch connected app security configuration by app_id."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], app_id: Any) -> str:
+    def invoke(data: Dict[str, Any], app_id: Any) -> str:
         app_id = _idstr(app_id)
         if not app_id:
             return _error("app_id is required.")
-        apps = data.get("connected_apps", {}).values()
-        app = _find_one(list(apps.values()), "app_id", app_id)
+        apps = data.get("connected_apps", [])
+        app = _find_one(apps, "app_id", app_id)
         if not app:
             return _error(f"Connected app '{app_id}' not found.")
-        payload = app
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(app, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetConnectedAppSecurity",
+                "name": "get_connected_app_security",
                 "description": "Fetch connected app security configuration by app_id.",
                 "parameters": {
                     "type": "object",

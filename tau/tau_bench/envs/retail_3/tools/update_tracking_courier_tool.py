@@ -1,25 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import os
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateTrackingCourierTool(Tool):
     """
-    Modify the courier_name of an existing tracking record in tracking.json.
+    Update the courier_name of an existing tracking record in tracking.json.
 
     Behavior:
-    - Confirms that tracking_id exists in tracking.json (found within each record's tracking_id list).
-    - Replaces 'courier_name' with the provided value.
-    - Adds a status_history note 'courier_updated'.
+    - Validates tracking_id exists in tracking.json (present inside each record's tracking_id list).
+    - Overwrites 'courier_name' with the provided value.
+    - Appends a status_history note 'courier_updated'.
 
     Input (kwargs):
         tracking_id (str, required)
@@ -30,40 +23,37 @@ class UpdateTrackingCourierTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], tracking_id: str = None, courier_name: str = None) -> str:
-        if not tracking_id or not courier_name:
-            payload = {"error": "tracking_id and courier_name are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        tracking_id = kwargs.get("tracking_id")
+        courier_name = kwargs.get("courier_name")
 
-        tracking = data.get("tracking", {}).values()
-        rec = next(
-            (t for t in tracking.values() if tracking_id in (t.get("tracking_id") or [])), None
-        )
+        if not tracking_id or not courier_name:
+            return json.dumps({"error": "tracking_id and courier_name are required"}, indent=2)
+
+        tracking = data.get("tracking", [])
+        rec = next((t for t in tracking if tracking_id in (t.get("tracking_id") or [])), None)
         if not rec:
-            payload = {"error": f"tracking_id '{tracking_id}' not found in tracking records"}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"tracking_id '{tracking_id}' not found in tracking records"},
+                indent=2,
             )
-            return out
 
         rec["courier_name"] = courier_name
         rec.setdefault("status_history", []).append(
             {"status": "courier_updated", "timestamp": _now_iso()}
         )
-        payload = {"tracking_id": tracking_id, "courier_name": courier_name}
-        out = json.dumps(
-            payload, indent=2,
+
+        return json.dumps(
+            {"tracking_id": tracking_id, "courier_name": courier_name},
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateTrackingCourier",
+                "name": "update_tracking_courier",
                 "description": "Update the courier_name field for an existing tracking record (tracking.json).",
                 "parameters": {
                     "type": "object",

@@ -1,40 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindSupplierByName(Tool):
-    """Locates a supplier's ID and lead time using its name."""
+    """Finds a supplier's ID and lead time by its name."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], supplier_name: str = None) -> str:
-        suppliers = data.get("supplier_master", {}).values()
-        for supplier in suppliers.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        supplier_name = kwargs.get("supplier_name")
+        suppliers = data.get("supplier_master", [])
+        for supplier in suppliers:
             if supplier.get("supplier_name") == supplier_name:
-                payload = {
-                    "supplier_id": supplier.get("supplier_id"),
-                    "standard_lead_time_days": supplier.get("standard_lead_time_days"),
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Supplier not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(
+                    {
+                        "supplier_id": supplier.get("supplier_id"),
+                        "standard_lead_time_days": supplier.get(
+                            "standard_lead_time_days"
+                        ),
+                    }
+                )
+        return json.dumps({"error": "Supplier not found"})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindSupplierByName",
+                "name": "find_supplier_by_name",
                 "description": "Finds a supplier's ID and standard lead time by its full name.",
                 "parameters": {
                     "type": "object",

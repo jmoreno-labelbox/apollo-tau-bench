@@ -1,21 +1,9 @@
-from tau_bench.envs.tool import Tool
-import calendar
+# Copyright Sierra
+
 import json
-import os
-import random
-import uuid
-from datetime import datetime, timezone
-from typing import Any
-import hashlib
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AuthenticateUserTool(Tool):
     """
@@ -33,64 +21,52 @@ class AuthenticateUserTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], username: str = None, email: str = None, auth_key: str = None) -> str:
-        user_name = username
-        user_email = email
-        auth_key = auth_key
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_name = kwargs.get("username")
+        user_email = kwargs.get("email")
+        auth_key = kwargs.get("auth_key")
 
         if not user_name or not user_email:
-            payload = {
+            return json.dumps(
+                {
                     "status": "error",
                     "message": "Missing required parameters: 'user_name' and/or 'user_email'.",
                     "required": ["user_name", "user_email"],
-                }
-            out = json.dumps(
-                payload, indent=2,
+                },
+                indent=2,
             )
-            return out
 
-        users = data.get("authentication", {}).values()
-        user = next((c for c in users.values() if c["username"] == user_name), None)
-        #user = get_data(users, user_name)
+        users = data.get('authentication', [])
+        user = next((c for c in users if c["username"] == user_name), None)
+        # user = get_data(users, user_name)
 
         if not user:
-            payload = {"status": "fail", "verified": False, "reason": "User Name not found"}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"status": "fail", "verified": False, "reason": "User Name not found"},
+                indent=2,
             )
-            return out
-        elif user_email != user["email"]:
-            payload = {
-                    "status": "fail",
-                    "verified": False,
-                    "reason": "Incorrect user email ID",
-                }
-            out = json.dumps(
-                payload, indent=2,
+        elif user_email != user['email']:
+            return json.dumps(
+                {"status": "fail", "verified": False, "reason": "Incorrect user email ID"},
+                indent=2,
             )
-            return out
-        elif auth_key != user["auth_key"]:
-            payload = {
-                    "status": "fail",
-                    "verified": False,
-                    "reason": "Incorrect user authentication key",
-                }
-            out = json.dumps(
-                payload, indent=2,
+        elif auth_key != user['auth_key']:
+            return json.dumps(
+                {"status": "fail", "verified": False, "reason": "Incorrect user authentication key"},
+                indent=2,
             )
-            return out
         else:
-            payload = {"status": "success", "verified": True, "confidence": 0.97}
-            out = json.dumps(
-                payload, indent=2
+            # Simulate document verification logic
+            return json.dumps(
+                {"status": "success", "verified": True, "confidence": 0.97}, indent=2
             )
-            return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "authenticateUser",
+                "name": "authenticate_user",
                 "description": "Authenticate user using user name, email, and auth key.",
                 "parameters": {
                     "type": "object",

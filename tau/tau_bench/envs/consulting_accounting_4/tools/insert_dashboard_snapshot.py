@@ -1,27 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class InsertDashboardSnapshot(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        snapshot_date: str = None, 
-        ytd_revenue: float = None, 
-        ytd_tax_reserve: float = None, 
-        pdf_path: str = None
-    ) -> str:
-        snaps = data.get("dashboard_snapshots", {}).values()
-
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        snaps = data.get("dashboard_snapshots", [])
+        
         max_id = 0
         for s in snaps:
             try:
@@ -34,33 +22,22 @@ class InsertDashboardSnapshot(Tool):
 
         row = {
             "snapshot_id": new_id,
-            "snapshot_date": snapshot_date,
-            "ytd_revenue": ytd_revenue,
-            "ytd_tax_reserve": ytd_tax_reserve,
-            "pdf_path": pdf_path,
+            "snapshot_date": kwargs.get("snapshot_date"),
+            "ytd_revenue": kwargs.get("ytd_revenue"),
+            "ytd_tax_reserve": kwargs.get("ytd_tax_reserve"),
+            "pdf_path": kwargs.get("pdf_path")
         }
-        data["dashboard_snapshots"][row["dashboard_snapshot_id"]] = row
-        payload = {"snapshot_id": new_id, "snapshot_date": row["snapshot_date"]}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        snaps.append(row)
+        return json.dumps({"snapshot_id": new_id, "snapshot_date": row["snapshot_date"]}, indent=2)
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "InsertDashboardSnapshot",
-                "description": "Create a dashboard snapshot row.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "snapshot_date": {"type": "string"},
-                        "ytd_revenue": {"type": "number"},
-                        "ytd_tax_reserve": {"type": "number"},
-                        "pdf_path": {"type": "string"},
-                    },
-                    "required": ["snapshot_date"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"insert_dashboard_snapshot",
+            "description":"Create a dashboard snapshot row.",
+            "parameters":{"type":"object","properties":{
+                "snapshot_date":{"type":"string"},
+                "ytd_revenue":{"type":"number"},
+                "ytd_tax_reserve":{"type":"number"},
+                "pdf_path":{"type":"string"}
+            },"required":["snapshot_date"]}
+        }}

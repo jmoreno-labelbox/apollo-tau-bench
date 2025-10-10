@@ -1,51 +1,51 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class SendGroundNotification(Tool):
-
+    """
+    A tool to send a notification to ground staff at a specific airport.
+    """
     @staticmethod
-    def invoke(
-        data: dict[str, Any], airport_id: str, message: str, priority: str = "NORMAL"
-    ) -> str:
-        payload = {
+    def invoke(data: Dict[str, Any], airport_id: str, message: str, priority: str = "NORMAL") -> str:
+        operational_events = data.get("operational_events", [])
+        message = {
+            "event_type": "GROUND_NOTIFICATION",
             "status": "Notification Sent",
             "airport_id": airport_id,
             "priority": priority,
-            "message": (
-                f"NOTIFICATION SENT to {airport_id} with priority {priority}: {message}"
-            ),
+            "message": (f"NOTIFICATION SENT to {airport_id} with priority {priority}: {message}")
         }
-        out = json.dumps(payload)
-        return out
-        return out
+        operational_events.append(message)
+        return json.dumps(message)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SendGroundNotification",
-                "description": "Sends an operational notification to the ground crew at a specified airport.",
+                "name": "send_ground_notification",
+                "description": "Sends an operational notification to the ground crew/Station Manager at a specified airport.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "airport_id": {
                             "type": "string",
-                            "description": "The unique ID of the airport where the notification should be sent.",
+                            "description": "The unique ID of the airport where the notification should be sent."
                         },
                         "message": {
                             "type": "string",
-                            "description": "The content of the notification message.",
+                            "description": "The content of the notification message."
                         },
                         "priority": {
                             "type": "string",
-                            "description": "The priority of the message (e.g., 'HIGH', 'NORMAL').",
-                        },
+                            "description": "The priority of the message (e.g., 'HIGH', 'NORMAL')."
+                        }
                     },
-                    "required": ["airport_id", "message", "priority"],
-                },
-            },
+                    "required": ["airport_id", "message", "priority"]
+                }
+            }
         }

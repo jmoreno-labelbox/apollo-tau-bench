@@ -1,41 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetGroceryListsByHouseholdId(Tool):
-    """Fetches all shopping lists for a particular household ID."""
+    """Retrieves all grocery lists for a specific household ID."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], household_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        household_id = kwargs.get("household_id")
         if household_id is None:
-            payload = {"error": "household_id parameter is required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "household_id parameter is required."})
 
-        grocery_lists = data.get("grocery_lists", {}).values()
-
+        grocery_lists = data.get("grocery_lists", [])
+        
         matching_lists = [
-            glist
-            for glist in grocery_lists.values() if glist.get("household_id") == household_id
+            glist for glist in grocery_lists 
+            if glist.get("household_id") == household_id
         ]
-        payload = matching_lists
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps(matching_lists)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetGroceryListsByHouseholdId",
+                "name": "get_grocery_lists_by_household_id",
                 "description": "Retrieves all grocery lists for a specific household ID.",
                 "parameters": {
                     "type": "object",

@@ -1,38 +1,30 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class list_employee_leaves(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str) -> str:
-        lv = [
-            leave_record
-            for leave_record in data.get("leave_records", {}).values()
-            if leave_record["employee_id"] == employee_id
-        ]
-        payload = lv
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], employee_id: str) -> str:
+        lv = [leave_record for leave_record in data.get("leave_records", []) if leave_record["employee_id"] == employee_id]
+        return json.dumps(lv, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "listEmployeeLeaves",
+                "name": "list_employee_leaves",
                 "description": "Return all leave records for the employee (any status).",
                 "parameters": {
                     "type": "object",
-                    "properties": {"employee_id": {"type": "string"}},
+                    "properties": {
+                        "employee_id": {"type": "string"}
+                    },
                     "required": ["employee_id"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

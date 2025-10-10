@@ -1,68 +1,49 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateCertificationStatusTool(Tool):
-    """Revise the status of a certification review (write operation)."""
+    """Update the status of a certification review (write operation)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], certification_id: str = None, status: str = None, completed_on: str = None) -> str:
-        certs = data.get("certifications", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        certs = data.get("certifications", [])
+        cert_id = kwargs.get("certification_id")
+        new_status = kwargs.get("status")
+        completed_on = kwargs.get("completed_on")
 
-        if not isinstance(certification_id, str):
-            payload = {"error": "certification_id must be provided"}
-            out = json.dumps(payload, indent=2)
-            return out
-        if not isinstance(status, str):
-            payload = {"error": "status must be provided"}
-            out = json.dumps(payload, indent=2)
-            return out
+        if not isinstance(cert_id, str):
+            return json.dumps({"error": "certification_id must be provided"}, indent=2)
+        if not isinstance(new_status, str):
+            return json.dumps({"error": "status must be provided"}, indent=2)
 
         for c in certs:
-            if c.get("certification_id") == certification_id:
-                c["status"] = status
+            if c.get("certification_id") == cert_id:
+                c["status"] = new_status
                 if completed_on:
                     c["completed_on"] = completed_on
-                payload = {"success": f"Certification {certification_id} updated", "certification": c}
-                out = json.dumps(
-                    payload, indent=2,
-                )
-                return out
-        payload = {"error": f"Certification {certification_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps({"success": f"Certification {cert_id} updated", "certification": c}, indent=2)
+
+        return json.dumps({"error": f"Certification {cert_id} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateCertificationStatus",
+                "name": "update_certification_status",
                 "description": "Update the status of a certification review.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "certification_id": {
-                            "type": "string",
-                            "description": "Unique ID of the certification",
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "New status (e.g., PENDING, IN_PROGRESS, COMPLETED)",
-                        },
-                        "completed_on": {
-                            "type": "string",
-                            "description": "Optional ISO8601 timestamp when completed",
-                        },
+                        "certification_id": {"type": "string", "description": "Unique ID of the certification"},
+                        "status": {"type": "string", "description": "New status (e.g., PENDING, IN_PROGRESS, COMPLETED)"},
+                        "completed_on": {"type": "string", "description": "Optional ISO8601 timestamp when completed"}
                     },
-                    "required": ["certification_id", "status"],
-                },
-            },
+                    "required": ["certification_id", "status"]
+                }
+            }
         }

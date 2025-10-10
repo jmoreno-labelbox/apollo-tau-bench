@@ -1,32 +1,32 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CreateNewGame(Tool):
     """
-    Establish a new game row.
+    Create a new game row.
       Inputs (exact names):
         - date (YYYY-MM-DD)
         - venue_id (int)
         - home_team_id (int)
         - away_team_id (int)
       Behavior:
-        - game_pk is automatically generated (max existing game_pk + 1; starts at 1 if none).
+        - game_pk is generated automatically (max existing game_pk + 1; starts at 1 if empty).
         - game_status defaults to "Scheduled".
         - final_score and attendance default to null.
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], date: str = None, venue_id: int = None, home_team_id: int = None, away_team_id: int = None) -> str:
-        #1) Confirm required inputs
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        date = kwargs.get("date")
+        venue_id = kwargs.get("venue_id")
+        home_team_id = kwargs.get("home_team_id")
+        away_team_id = kwargs.get("away_team_id")
+
+        # 1) Validate required inputs
         missing = []
         if not isinstance(date, str) or date == "":
             missing.append("date")
@@ -38,18 +38,15 @@ class CreateNewGame(Tool):
             missing.append("away_team_id")
 
         if missing:
-            payload = {"error": f"Missing required field(s): {', '.join(missing)}"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"Missing required field(s): {', '.join(missing)}"}, indent=2)
 
-        #2) Retrieve DB using provided data
-        games: list[dict[str, Any]] = data.get("games", {}).values()
+        # 2) Get DB from passed-in data
+        games: List[Dict[str, Any]] = data.get("games", [])
 
-        #3) Create a new unique game_pk in a deterministic manner based on DB state
+        # 3) Generate a new unique game_pk deterministically from DB state
+        
 
-        #4) Establish the new game row with default values
+        # 4) Create the new game row with defaults
         new_row = {
             "game_pk": get_next_game_id(data),
             "game_date": date,
@@ -58,20 +55,20 @@ class CreateNewGame(Tool):
             "away_team_id": away_team_id,
             "game_status": "Scheduled",
             "final_score": None,
-            "attendance": None,
+            "attendance": None
         }
 
-        #5) Add
+        # 5) Insert
         games.append(new_row)
-        payload = new_row
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(new_row, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createNewGame",
+                "name": "create_new_game",
                 "description": (
                     "Create a new game. Generates game_pk automatically (max existing + 1). "
                     "Defaults game_status to 'Scheduled'."
@@ -81,19 +78,22 @@ class CreateNewGame(Tool):
                     "properties": {
                         "date": {
                             "type": "string",
-                            "description": "Game date in YYYY-MM-DD.",
+                            "description": "Game date in YYYY-MM-DD."
                         },
-                        "venue_id": {"type": "integer", "description": "Venue ID."},
+                        "venue_id": {
+                            "type": "integer",
+                            "description": "Venue ID."
+                        },
                         "home_team_id": {
                             "type": "integer",
-                            "description": "Home team ID.",
+                            "description": "Home team ID."
                         },
                         "away_team_id": {
                             "type": "integer",
-                            "description": "Away team ID.",
-                        },
+                            "description": "Away team ID."
+                        }
                     },
-                    "required": ["date", "venue_id", "home_team_id", "away_team_id"],
-                },
-            },
+                    "required": ["date", "venue_id", "home_team_id", "away_team_id"]
+                }
+            }
         }

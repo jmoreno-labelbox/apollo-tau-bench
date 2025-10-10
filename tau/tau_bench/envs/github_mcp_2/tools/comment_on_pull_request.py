@@ -1,59 +1,51 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CommentOnPullRequest(Tool):
-    """Inserts a human comment into the discussion thread of the pull request."""
+    """Adds a human comment to the pull request discussion thread."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str = None, pr_number: int = None, comment: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        repo_name = kwargs.get("repo_name")
+        pr_number = kwargs.get("pr_number")
+        comment = kwargs.get("comment")
+
         if not all([repo_name, pr_number, comment]):
-            payload = {"error": "repo_name, pr_number and comment are required."}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "repo_name, pr_number and comment are required."}, indent=2)
 
         me = _auth(data)["username"]
-        pr = next(
-            (
-                p
-                for p in _prs(data)
-                if p["owner"] == me
-                and p["repo_name"] == repo_name
-                and int(pr_number) in p["pr_numbers"]
-            ),
-            None,
-        )
+        pr = next((p for p in _prs(data) if p["owner"] == me and p["repo_name"] == repo_name and int(pr_number) in p["pr_numbers"]), None)
 
         if not pr:
-            payload = {"error": "Pull request not found."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Pull request not found."}, indent=2)
 
-        pr.setdefault("comments", []).append(
-            {"author": me, "comment": comment, "timestamp": get_current_timestamp()}
-        )
-        payload = {"message": "Comment added to pull request."}
-        out = json.dumps(payload, indent=2)
-        return out
+        pr.setdefault("comments", []).append({
+            "author": me,
+            "comment": comment,
+            "timestamp": get_current_timestamp()
+        })
+
+        return json.dumps({"message": "Comment added to pull request."}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "CommentOnPullRequest",
+                "name": "comment_on_pull_request",
                 "description": "Adds a comment to a pull request.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "repo_name": {"type": "string"},
                         "pr_number": {"type": "integer"},
-                        "comment": {"type": "string"},
+                        "comment": {"type": "string"}
                     },
-                    "required": ["repo_name", "pr_number", "comment"],
-                },
-            },
+                    "required": ["repo_name", "pr_number", "comment"]
+                }
+            }
         }

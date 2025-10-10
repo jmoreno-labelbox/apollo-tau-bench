@@ -1,45 +1,20 @@
-from tau_bench.envs.tool import Tool
-import datetime
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ValidateFilesExistTool(Tool):
-    """Verifies the existence of all specified files intended for archiving."""
+    """Checks if all specified files for archiving exist."""
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ValidateFilesExist",
-                "description": "Validates that all file paths in a list exist in the system.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "file_paths": {"type": "array", "items": {"type": "string"}}
-                    },
-                    "required": ["file_paths"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return { "type": "function", "function": { "name": "validate_files_exist", "description": "Validates that all file paths in a list exist in the system.", "parameters": { "type": "object", "properties": { "file_paths": {"type": "array", "items": {"type": "string"}}}, "required": ["file_paths"]}}}
 
     @staticmethod
-    def invoke(data: dict[str, Any], file_paths: list[str], minimum_size_bytes: Any = None, check_permissions: Any = None, validate_format: Any = None) -> str:
-        existing_paths = {f["path"] for f in data.get("remote_files", {}).values()}
-        missing_files = [p for p in file_paths.values() if p not in existing_paths]
-        if missing_files:
-            payload = {"status": "failed", "missing_files": missing_files}
-            out = json.dumps(payload)
-            return out
-        payload = {"status": "success", "all_files_exist": True}
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        existing_paths = {f["path"] for f in data.get("remote_files", [])}
+        missing_files = [p for p in kwargs["file_paths"] if p not in existing_paths]
+        if missing_files: return json.dumps({"status": "failed", "missing_files": missing_files})
+        return json.dumps({"status": "success", "all_files_exist": True})

@@ -1,19 +1,14 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RegisterFeatureBundle(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], feature_set_name: str = None, version: str = None, columns: list = None) -> str:
-        feats = data.get("features", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        feats = data.get("features", [])
         max_id = 0
         for f in feats:
             try:
@@ -25,32 +20,22 @@ class RegisterFeatureBundle(Tool):
         new_id = max_id + 1
         row = {
             "feature_set_id": new_id,
-            "feature_set_name": feature_set_name,
-            "version": version,
-            "columns": columns,
+            "feature_set_name": kwargs.get("feature_set_name"),
+            "version": kwargs.get("version"),
+            "columns": kwargs.get("columns"),
             "created_at": _now_iso_fixed(),
         }
-        data["features"][row["feature_id"]] = row
-        payload = {"feature_set_id": new_id, "feature_set_name": row["feature_set_name"]}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        feats.append(row)
+        return json.dumps({"feature_set_id": new_id, "feature_set_name": row["feature_set_name"]}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "RegisterFeatureBundle",
-                "description": "Create a feature-set descriptor record.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "feature_set_name": {"type": "string"},
-                        "version": {"type": "string"},
-                        "columns": {"type": "array", "items": {"type": "string"}},
-                    },
-                    "required": ["feature_set_name", "version", "columns"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "register_feature_bundle",
+            "description": "Create a feature-set descriptor record.",
+            "parameters": {"type": "object", "properties": {
+                "feature_set_name": {"type": "string"},
+                "version": {"type": "string"},
+                "columns": {"type": "array", "items": {"type": "string"}}
+            }, "required": ["feature_set_name", "version", "columns"]}
+        }}

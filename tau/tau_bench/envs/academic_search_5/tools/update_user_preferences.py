@@ -1,75 +1,54 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class UpdateUserPreferences(Tool):
-    """Utility for modifying a user's preferences."""
-
+    """Tool to update a user's preferences."""
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: Any = None, notification_channel: Any = None, ui_theme: Any = None) -> str:
-        user_id = user_id
-        notification_channel = notification_channel
-        ui_theme = ui_theme
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get('user_id')
+        notification_channel = kwargs.get('notification_channel')
+        ui_theme = kwargs.get('ui_theme')
         if not user_id or not (notification_channel or ui_theme):
-            payload = {"error": "user_id and at least one preference to update are required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "user_id and at least one preference to update are required."})
 
-        preferences = data.get("user_preferences", {}).values()
-        for pref in preferences.values():
-            if pref.get("user_id") == user_id:
+        preferences = data.get('user_preferences', [])
+        for pref in preferences:
+            if pref.get('user_id') == user_id:
                 if notification_channel:
-                    pref["notification_channel"] = notification_channel
+                    pref['notification_channel'] = notification_channel
                 if ui_theme:
-                    pref["ui_theme"] = ui_theme
-                payload = {"success": True, "updated_preferences": pref}
-                out = json.dumps(payload)
-                return out
+                    pref['ui_theme'] = ui_theme
+                return json.dumps({"success": True, "updated_preferences": pref})
 
-        # Create one if no preferences are detected
+        # If no preferences found, create one
         new_pref = {"preference_id": f"pref_{uuid.uuid4().hex[:4]}", "user_id": user_id}
         if notification_channel:
-            new_pref["notification_channel"] = notification_channel
+            new_pref['notification_channel'] = notification_channel
         if ui_theme:
-            new_pref["ui_theme"] = ui_theme
-        data["user_preferences"][new_pref["user_preference_id"]] = new_pref
-        payload = {"success": True, "created_preferences": new_pref}
-        out = json.dumps(payload)
-        return out
+            new_pref['ui_theme'] = ui_theme
+        preferences.append(new_pref)
+        return json.dumps({"success": True, "created_preferences": new_pref})
+
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateUserPreferences",
+                "name": "update_user_preferences",
                 "description": "Updates a user's preferences, such as notification channel or UI theme.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "user_id": {
-                            "type": "string",
-                            "description": "The user ID whose preferences to update.",
-                        },
-                        "notification_channel": {
-                            "type": "string",
-                            "description": "The preferred notification channel (e.g., 'email', 'in_app', 'none').",
-                        },
-                        "ui_theme": {
-                            "type": "string",
-                            "description": "The preferred UI theme (e.g., 'light', 'dark').",
-                        },
+                        "user_id": {"type": "string", "description": "The user ID whose preferences to update."},
+                        "notification_channel": {"type": "string", "description": "The preferred notification channel (e.g., 'email', 'in_app', 'none')."},
+                        "ui_theme": {"type": "string", "description": "The preferred UI theme (e.g., 'light', 'dark')."}
                     },
-                    "required": ["user_id"],
-                },
-            },
+                    "required": ["user_id"]
+                }
+            }
         }

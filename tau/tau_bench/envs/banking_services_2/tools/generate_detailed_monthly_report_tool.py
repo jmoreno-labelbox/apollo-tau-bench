@@ -1,21 +1,19 @@
-from tau_bench.envs.tool import Tool
-from typing import Any, Dict
+# Copyright Sierra
+
 import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GenerateDetailedMonthlyReportTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, month: str = None) -> str:
-        transactions = data.get('transactions', {}).values()
-        scheduled_payments = data.get('scheduled_payments', {}).values()
-        support_tickets = data.get('support_tickets', {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        month = kwargs.get('month')
+
+        transactions = list(data.get('transactions', {}).values())
+        scheduled_payments = data.get('scheduled_payments', [])
+        support_tickets = list(data.get('support_tickets', {}).values())
 
         start_date = f"{month}-01T00:00:00Z"
         end_date = f"{month}-31T23:59:59Z"
@@ -27,7 +25,7 @@ class GenerateDetailedMonthlyReportTool(Tool):
         total_deposits = 0
         total_withdrawals = 0
 
-        for txn in transactions.values():
+        for txn in transactions:
             if txn.get('account_id') != account_id:
                 continue
             if txn.get('transaction_date', '') < start_date or txn.get('transaction_date', '') > end_date:
@@ -44,14 +42,14 @@ class GenerateDetailedMonthlyReportTool(Tool):
 
         scheduled = []
         recurring = []
-        for payment in scheduled_payments.values():
+        for payment in scheduled_payments:
             if payment.get('from_account_id', None) == account_id and payment.get('next_payment_date', '')[:7] == month:
                 scheduled.append(payment)
                 if payment.get('frequency') in ['Monthly', 'Weekly']:
                     recurring.append(payment)
 
         tickets = []
-        for ticket in support_tickets.values():
+        for ticket in support_tickets:
             if ticket.get('account_id', '') == account_id and ticket.get('created_date', '')[:7] == month:
                 tickets.append(ticket)
 
@@ -66,12 +64,13 @@ class GenerateDetailedMonthlyReportTool(Tool):
             "support_tickets": tickets
         }
         return json.dumps(report, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GenerateDetailedMonthlyReport",
+                "name": "generate_detailed_monthly_report",
                 "description": "Generate a comprehensive monthly report for an account including purchases, deposits, withdrawals, scheduled payments, and support tickets.",
                 "parameters": {
                     "type": "object",

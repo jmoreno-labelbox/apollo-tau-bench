@@ -1,30 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListAllEmployees(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employees: list = None) -> str:
-        employees = employees if employees is not None else data.get("employees", {}).values()
-        payload = {"employees": employees, "count": len(employees)}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any]) -> str:
+        employees = list(data.get("employees", {}).values())
+        return json.dumps({"employees": employees, "count": len(employees)}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListAllEmployees",
+                "name": "list_all_employees",
                 "description": "List all employees.",
-                "parameters": {"type": "object", "properties": {}, "required": []},
-            },
+                "parameters": {
+                    "type": "object",
+                    "properties": {},
+                    "required": []
+                }
+            }
         }

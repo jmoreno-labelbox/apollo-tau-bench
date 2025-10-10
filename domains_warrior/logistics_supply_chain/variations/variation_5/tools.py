@@ -1789,7 +1789,7 @@ class NotifySupplier(Tool):
         if not supplier:
             return json.dumps({"error": f"Supplier {supplier_id} not found"})
 
-        notification_id = f"NOT-{supplier.get("supplier_id")}"
+        notification_id = f"NOT-{supplier.get('supplier_id')}"
 
         notification = {
             "notification_id": notification_id,

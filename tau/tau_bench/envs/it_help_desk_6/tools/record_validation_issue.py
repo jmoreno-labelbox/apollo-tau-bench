@@ -1,20 +1,15 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class RecordValidationIssue(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
-        issue_id: str,
-        entity: str,
-        entity_id: str,
-        field: str,
-        rule: str,
-        details: str,
-        created_at: str,
+        data: Dict[str, Any], issue_id: str, entity: str, entity_id: str, field: str, rule: str, details: str, created_at: str
     ) -> str:
-        pass
         row = {
             "issue_id": issue_id,
             "entity": entity,
@@ -25,16 +20,14 @@ class RecordValidationIssue(Tool):
             "created_at": created_at,
         }
         _append_row(data["validation_issues"], row)
-        payload = {"status": "ok", "validation_issue": row}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "validation_issue": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RecordValidationIssue",
+                "name": "record_validation_issue",
                 "description": "Append a validation issue entry describing an input or data inconsistency.",
                 "parameters": {
                     "type": "object",
@@ -47,15 +40,7 @@ class RecordValidationIssue(Tool):
                         "details": {"type": "string"},
                         "created_at": {"type": "string"},
                     },
-                    "required": [
-                        "issue_id",
-                        "entity",
-                        "entity_id",
-                        "field",
-                        "rule",
-                        "details",
-                        "created_at",
-                    ],
+                    "required": ["issue_id", "entity", "entity_id", "field", "rule", "details", "created_at"],
                 },
             },
         }

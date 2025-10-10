@@ -1,23 +1,23 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class GetUserSessionsTool(Tool):
-    """get_user_sessions: alias for listing active sessions of a user."""
+    """get_user_sessions: alias to list active sessions for a user."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], param1: Any = None, param2: Any = None, user_id: str = None) -> str:
-        # Support user_id as alias for param1
-        param1 = param1 or user_id
-        return ListActiveSessionsTool.invoke(data, param1=param1, param2=param2)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        return ListActiveSessionsTool.invoke(data, **kwargs)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetUserSessions",
+                "name": "get_user_sessions",
                 "description": "Return active sessions for a user.",
                 "parameters": {
                     "type": "object",

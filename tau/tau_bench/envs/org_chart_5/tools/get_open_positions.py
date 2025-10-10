@@ -1,28 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import Counter
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class get_open_positions(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], department_id: str = None, level: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        department_id = kwargs.get("department_id")
+        level = kwargs.get("level")
+
         filled_position_ids = {
             e.get("position_id")
-            for e in data.get("employees", {}).values()
+            for e in list(data.get("employees", {}).values())
             if e.get("status") == "Active"
         }
-        all_positions = data.get("positions", {}).values()
+        all_positions = data.get("positions", [])
 
         open_positions = [
-            p for p in all_positions.values() if p.get("position_id") not in filled_position_ids
+            p for p in all_positions if p.get("position_id") not in filled_position_ids
         ]
 
         if department_id:
@@ -30,16 +27,16 @@ class get_open_positions(Tool):
                 p for p in open_positions if p.get("department_id") == department_id
             ]
         if level:
-            open_positions = [p for p in open_positions.values() if p.get("level_id") == level]
-        payload = open_positions
-        out = json.dumps(payload, indent=2)
-        return out
+            open_positions = [p for p in open_positions if p.get("level_id") == level]
+
+        return json.dumps(open_positions, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetOpenPositions",
+                "name": "get_open_positions",
                 "description": "List all open positions not currently filled by an active employee.",
                 "parameters": {
                     "type": "object",

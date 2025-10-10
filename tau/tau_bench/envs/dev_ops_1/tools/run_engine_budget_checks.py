@@ -1,29 +1,16 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class RunEngineBudgetChecks(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], files: list[str], scene: str) -> str:
+    def invoke(data: Dict[str, Any], files: List[str], scene: str) -> str:
         report = {"scene": scene, "files": files, "violations": []}
-        payload = {"engine_report": report}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"engine_report": report}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "RunEngineBudgetChecks",
-                "description": "Runs deterministic engine commandlet budget checks (simulated).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "files": {"type": "array", "items": {"type": "string"}},
-                        "scene": {"type": "string"},
-                    },
-                    "required": ["files", "scene"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "run_engine_budget_checks", "description": "Runs deterministic engine commandlet budget checks (simulated).", "parameters": {"type": "object", "properties": {"files": {"type": "array", "items": {"type": "string"}}, "scene": {"type": "string"}}, "required": ["files", "scene"]}}}

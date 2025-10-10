@@ -1,44 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetArchiveInstructionsByID(Tool):
-    """Fetches a particular archival task using its ID from the instructions database."""
+    """Retrieves a specific archival task by its ID from the instructions database."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        archive_id = kwargs.get("archive_id")
+        for instruction in data.get('archive_instructions', []):
+            if instruction.get('archive_id') == archive_id:
+                return json.dumps(instruction)
+        return json.dumps({"error": f"Archive instruction with ID '{archive_id}' not found."})
 
     @staticmethod
-    def invoke(data: dict[str, Any], archive_id: str = None) -> str:
-        for instruction in data.get("archive_instructions", {}).values():
-            if instruction.get("archive_id") == archive_id:
-                payload = instruction
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Archive instruction with ID '{archive_id}' not found."}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetArchiveInstructionsById",
-                "description": "Fetches a specific archival task (e.g., files to include, destination) by its unique ID.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "archive_id": {
-                            "type": "string",
-                            "description": "The unique ID of the archive task (e.g., 'arch_001').",
-                        }
-                    },
-                    "required": ["archive_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "get_archive_instructions_by_id", "description": "Fetches a specific archival task (e.g., files to include, destination) by its unique ID.", "parameters": {"type": "object", "properties": {"archive_id": {"type": "string", "description": "The unique ID of the archive task (e.g., 'arch_001')."}}, "required": ["archive_id"]}}}

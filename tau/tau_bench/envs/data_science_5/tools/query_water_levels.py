@@ -1,21 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class QueryWaterLevels(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], station_id: str = None, start: str = None, end: str = None) -> str:
-        station = station_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        station = kwargs.get("station_id")
+        start = kwargs.get("start")
+        end = kwargs.get("end")
         out = []
-        for r in data.get("water_levels", {}).values() or []:
+        for r in data.get("water_levels", []) or []:
             if station and r.get("station_id") != station:
                 continue
             ts = r.get("timestamp", "")
@@ -24,24 +21,16 @@ class QueryWaterLevels(Tool):
             if end and ts > end:
                 continue
             out.append(r)
-        payload = {"rows": out}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"rows": out}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "queryWaterLevels",
-                "description": "Read observed water-level rows (optional station/time filters).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "station_id": {"type": "string"},
-                        "start": {"type": "string"},
-                        "end": {"type": "string"},
-                    },
-                    "required": [],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {
+            "name": "query_water_levels",
+            "description": "Read observed water-level rows (optional station/time filters).",
+            "parameters": {"type": "object", "properties": {
+                "station_id": {"type": "string"},
+                "start": {"type": "string"},
+                "end": {"type": "string"}
+            }, "required": []}
+        }}

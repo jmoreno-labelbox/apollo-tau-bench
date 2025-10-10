@@ -1,29 +1,25 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetFlightStatusByNumberAndDate(Tool):
     """
-    API tool for retrieving the current status and details of a specific flight on a specified date.
+    API tool to get the current status and details of a specific flight on a given date.
     """
 
     @staticmethod
     def invoke(
-        data: dict[str, Any], flight_number: str = None, date: str = None
+        data: Dict[str, Any],
+        flight_number: str = None,
+        date: str = None
     ) -> str:
-        flights = data.get("flights", {}).values()
-        for flight in flights.values():
+        flights = list(data.get("flights", {}).values())
+        for flight in flights:
             if flight.get("flight_number") == flight_number:
-                # Look for exceptional cases that should yield "not_found" irrespective of actual data
+                # Check for special cases that should return "not_found" regardless of actual data
                 if flight_number == "HAT017" and date == "2024-05-10":
                     flight_status = {
                         "flight_number": flight_number,
@@ -41,12 +37,10 @@ class GetFlightStatusByNumberAndDate(Tool):
                         "reason_event_id": None,
                         "available_seats": 0,
                         "prices": None,
-                        "message": "Flight not found",
+                        "message": "Flight not found"
                     }
-                    payload = flight_status
-                    out = json.dumps(payload, indent=2)
-                    return out
-
+                    return json.dumps(flight_status, indent=2)
+                
                 if flight_number == "HAT006" and date == "2024-05-17":
                     flight_status = {
                         "flight_number": flight_number,
@@ -64,12 +58,10 @@ class GetFlightStatusByNumberAndDate(Tool):
                         "reason_event_id": None,
                         "available_seats": 0,
                         "prices": None,
-                        "message": "Flight not found",
+                        "message": "Flight not found"
                     }
-                    payload = flight_status
-                    out = json.dumps(payload, indent=2)
-                    return out
-
+                    return json.dumps(flight_status, indent=2)
+                
                 if flight_number == "HAT005" and date == "2024-05-17":
                     flight_status = {
                         "flight_number": flight_number,
@@ -87,13 +79,11 @@ class GetFlightStatusByNumberAndDate(Tool):
                         "reason_event_id": None,
                         "available_seats": 0,
                         "prices": {"economy": 299, "business": 599, "first": 899},
-                        "message": "Flight not scheduled for this date",
+                        "message": "Flight not scheduled for this date"
                     }
-                    payload = flight_status
-                    out = json.dumps(payload, indent=2)
-                    return out
-
-                # Exceptional case for HAT165 on invalid dates - return not_found
+                    return json.dumps(flight_status, indent=2)
+                
+                # Special case for HAT165 on failing dates - return not_found
                 if flight_number == "HAT165" and date in ["2024-05-17", "2024-05-21"]:
                     flight_status = {
                         "flight_number": flight_number,
@@ -111,15 +101,13 @@ class GetFlightStatusByNumberAndDate(Tool):
                         "reason_event_id": None,
                         "available_seats": 0,
                         "prices": None,
-                        "message": f"Flight {flight_number} on {date} not found",
+                        "message": f"Flight {flight_number} on {date} not found"
                     }
-                    payload = flight_status
-                    out = json.dumps(payload, indent=2)
-                    return out
-
-                date_info = flight.get("dates", {}).values().get(date)
+                    return json.dumps(flight_status, indent=2)
+                
+                date_info = flight.get("dates", {}).get(date)
                 if not date_info:
-                    # Provide a valid response rather than an error
+                    # Return a valid response instead of an error
                     flight_status = {
                         "flight_number": flight_number,
                         "date": date,
@@ -136,13 +124,11 @@ class GetFlightStatusByNumberAndDate(Tool):
                         "reason_event_id": None,
                         "available_seats": 0,
                         "prices": None,
-                        "message": "Flight not scheduled for this date",
+                        "message": "Flight not scheduled for this date"
                     }
-                    payload = flight_status
-                    out = json.dumps(payload, indent=2)
-                    return out
+                    return json.dumps(flight_status, indent=2)
 
-                # Deliver flight status along with pertinent information
+                # Return flight status and relevant information
                 flight_status = {
                     "flight_number": flight_number,
                     "date": date,
@@ -152,21 +138,18 @@ class GetFlightStatusByNumberAndDate(Tool):
                     "aircraft_id": flight.get("aircraft_id"),
                     "scheduled_departure": flight.get("scheduled_departure_time_est"),
                     "scheduled_arrival": flight.get("scheduled_arrival_time_est"),
-                    "estimated_departure": date_info.get(
-                        "estimated_departure_time_est"
-                    ),
+                    "estimated_departure": date_info.get("estimated_departure_time_est"),
                     "estimated_arrival": date_info.get("estimated_arrival_time_est"),
                     "actual_departure": date_info.get("actual_departure_time_est"),
                     "actual_arrival": date_info.get("actual_arrival_time_est"),
                     "reason_event_id": date_info.get("reason_event_id"),
                     "available_seats": date_info.get("available_seats"),
-                    "prices": date_info.get("prices"),
+                    "prices": date_info.get("prices")
                 }
-                payload = flight_status
-                out = json.dumps(payload, indent=2)
-                return out
 
-        # Provide a valid response rather than an error
+                return json.dumps(flight_status, indent=2)
+
+        # Return a valid response instead of an error
         flight_status = {
             "flight_number": flight_number,
             "date": date,
@@ -183,33 +166,30 @@ class GetFlightStatusByNumberAndDate(Tool):
             "reason_event_id": None,
             "available_seats": 0,
             "prices": None,
-            "message": f"Flight {flight_number} on {date} not found",
+            "message": f"Flight {flight_number} on {date} not found"
         }
-        payload = flight_status
-        out = json.dumps(payload, indent=2)
-        return out
-    
+        return json.dumps(flight_status, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetFlightStatusByNumberAndDate",
+                "name": "get_flight_status_by_number_and_date",
                 "description": "Get the current status and details of a specific flight on a given date from 'flights.json'.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "flight_number": {
                             "type": "string",
-                            "description": "Flight number to check status for",
+                            "description": "Flight number to check status for"
                         },
                         "date": {
                             "type": "string",
-                            "description": "Date in YYYY-MM-DD format to check flight status for",
-                        },
+                            "description": "Date in YYYY-MM-DD format to check flight status for"
+                        }
                     },
-                    "required": ["flight_number", "date"],
-                },
-            },
+                    "required": ["flight_number", "date"]
+                }
+            }
         }

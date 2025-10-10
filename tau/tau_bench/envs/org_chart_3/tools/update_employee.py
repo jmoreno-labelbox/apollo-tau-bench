@@ -1,45 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class update_employee(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str, updates: dict[str, Any]) -> str:
-        employees = data.get("employees", {}).values()
+    def invoke(data: Dict[str, Any], employee_id: str, updates: Dict[str, Any]) -> str:
+        employees = list(data.get("employees", {}).values())
         changes = updates
 
         updated = False
-        for e in employees.values():
+        for e in employees:
             if e["employee_id"] == employee_id:
                 e.update(changes)
                 updated = True
                 break
 
         if not updated:
-            payload = {"error": f"employee_id {employee_id} not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"employee_id {employee_id} not found"}, indent=2)
 
         data["employees"] = employees
-        payload = {"success": f"employee {employee_id} updated"}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"success": f"employee {employee_id} updated"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateEmployee",
+                "name": "update_employee",
                 "description": "Patch one or more fields on an existing employee record.",
                 "parameters": {
                     "type": "object",
@@ -47,11 +37,11 @@ class update_employee(Tool):
                         "employee_id": {"type": "string"},
                         "updates": {
                             "type": "object",
-                            "description": "Dictionary of field:value pairs to update",
-                        },
+                            "description": "Dictionary of field:value pairs to update"
+                        }
                     },
                     "required": ["employee_id", "updates"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }

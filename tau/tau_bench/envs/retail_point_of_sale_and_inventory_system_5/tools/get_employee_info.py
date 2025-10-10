@@ -1,35 +1,19 @@
-from tau_bench.envs.tool import Tool
-import hashlib
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetEmployeeInfo(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None) -> str:
-        employees = data.get("employees", {}).values()
-        result = [item for item in employees.values() if item["employee_id"] == employee_id]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        employees = list(data.get("employees", {}).values())
+        result = [item for item in employees if item["employee_id"] == employee_id]
         if result:
-            payload = result[0]
-            out = json.dumps(payload)
-            return out
-        payload = {"error": f"Employee {employee_id} not found"}
-        out = json.dumps(payload)
-        return out
+            return json.dumps(result[0])
+        return json.dumps({"error": f"Employee {employee_id} not found"})
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetEmployeeInfo",
-                "parameters": {"employee_id": {"type": "string"}},
-                "required": ["employee_id"],
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "get_employee_info", "parameters": {"employee_id": {"type": "string"}}, "required": ["employee_id"]}}

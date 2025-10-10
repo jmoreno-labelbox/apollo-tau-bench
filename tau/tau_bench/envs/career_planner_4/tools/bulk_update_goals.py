@@ -1,56 +1,42 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-class BulkUpdateGoals(Tool):
+class bulk_update_goals(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any], team_id: str, goal_type: str, updates: dict
+        data: Dict[str, Any], team_id: str, goal_type: str, updates: dict
     ) -> str:
-        _goal_typeL = goal_type or ''.lower()
-        pass
-        teams = data.get("teams", {}).values()
-        team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
+        teams = data.get("teams", [])
+        team = next((t for t in teams if t.get("team_id") == team_id), None)
         if not team:
-            payload = {"error": "Team not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Team not found"}, indent=2)
 
         members = team.get("members", [])
-        goals_data = data.get("goals", {}).values()
+        goals_data = data.get("goals", [])
 
         for member in members:
             user_goals = next(
-                (g for g in goals_data.values() if g.get("user_id") == member), None
+                (g for g in goals_data if g.get("user_id") == member), None
             )
             if user_goals:
                 for goal in user_goals.get("goals", []):
                     if goal_type.lower() in goal.get("title", "").lower():
                         goal.update(updates)
-        payload = {"success": f"Bulk updated goals for {len(members)} members"}
-        out = json.dumps(
-            payload, indent=2
+
+        return json.dumps(
+            {"success": f"Bulk updated goals for {len(members)} members"}, indent=2
         )
-        return out
-    
 
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "bulkUpdateGoals",
+                "name": "bulk_update_goals",
                 "description": "Bulk update goals for team members",
                 "parameters": {
                     "type": "object",

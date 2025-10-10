@@ -1,31 +1,26 @@
-from tau_bench.envs.tool import Tool
-import json
-import uuid
-from datetime import datetime
-from typing import Any
+# Copyright Sierra
 
-class ListApplications(Tool):
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class list_applications(Tool):
     @staticmethod
-    def invoke(
-        data,
-        job_applications: list = None,
-        candidate_id: str = None
-    ) -> str:
+    def invoke(data, candidate_id: str) -> str:
         apps = [
             app
-            for app in (job_applications or [])
+            for app in data.get("job_applications", [])
             if app.get("candidate_id") == candidate_id
         ]
-        payload = {"applications": apps}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"applications": apps}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "listApplications",
+                "name": "list_applications",
                 "description": "List all job applications for a given candidate.",
                 "parameters": {
                     "type": "object",

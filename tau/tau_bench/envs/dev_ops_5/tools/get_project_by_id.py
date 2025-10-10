@@ -1,39 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetProjectById(Tool):
-    """Fetches a project using its ID."""
-
+    """Retrieves a project by its ID."""
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        id: Any = None,
-        project_id: str = None
-    ) -> str:
-        projects = data.get("projects", {}).values()
-        for p in projects.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("id")
+        projects = list(data.get("projects", {}).values())
+        for p in projects:
             if p.get("id") == project_id:
-                payload = p
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Project with ID '{project_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(p)
+        return json.dumps({"error": f"Project with ID '{project_id}' not found."})
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetProjectById",
+                "name": "get_project_by_id",
                 "description": "Retrieves a project by its ID.",
                 "parameters": {
                     "type": "object",

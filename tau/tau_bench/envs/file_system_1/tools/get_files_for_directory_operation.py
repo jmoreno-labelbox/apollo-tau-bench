@@ -1,39 +1,18 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetFilesForDirectoryOperation(Tool):
-    """Fetches the list of files designated for movement in a file organization task."""
+    """Retrieves the list of files to be moved for a file organization task."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        operation_id = kwargs.get("operation_id")
+        files = [f for f in data.get('file_lists', []) if f.get('operation_id') == operation_id]
+        return json.dumps({"files": files, "count": len(files)})
 
     @staticmethod
-    def invoke(data: dict[str, Any], operation_id: str = None) -> str:
-        files = [
-            f
-            for f in data.get("file_lists", {}).values()
-            if f.get("operation_id") == operation_id
-        ]
-        payload = {"files": files, "count": len(files)}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetFilesForDirectoryOperation",
-                "description": "Retrieves the manifest of files associated with a specific file organization operation.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"operation_id": {"type": "string"}},
-                    "required": ["operation_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "get_files_for_directory_operation", "description": "Retrieves the manifest of files associated with a specific file organization operation.", "parameters": {"type": "object", "properties": {"operation_id": {"type": "string"}}, "required": ["operation_id"]}}}

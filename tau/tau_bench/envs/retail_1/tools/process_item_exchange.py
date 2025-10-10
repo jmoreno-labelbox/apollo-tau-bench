@@ -1,31 +1,24 @@
-from tau_bench.envs.tool import Tool
-import json
-from typing import Any
+# Copyright Sierra
 
-class ProcessItemExchange(Tool):  #WRITE
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class ProcessItemExchange(Tool): # WRITE
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        order_id: str,
-        item_ids: list[str],
-        new_item_ids: list[str],
-        payment_method_id: str,
-    ) -> str:
-        pass
+    def invoke(data: Dict[str, Any], order_id: str, item_ids: list[str], new_item_ids: list[str], payment_method_id: str) -> str:
         orders = data["orders"]
-        order = [row for row in orders.values() if row["order_id"] == order_id]
+        order = [row for row in orders if row["order_id"] == order_id]
+
 
         if len(order) > 1:
-            payload = {"error": "Multiple orders found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Multiple orders found"})
         if not order:
-            payload = {"error": "Order not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Order not found"})
         order = order[0]
 
-        #Verify if the item is present in the order
+        # Check if the item exists in the order
         items = order.get("items", [])
 
         removed_price = 0.0
@@ -40,7 +33,7 @@ class ProcessItemExchange(Tool):  #WRITE
         products = data["products"]
 
         added_price = 0.0
-        for product in products.values():
+        for product in products:
             for item_id, item in product["variants"].items():
                 if item_id in new_item_ids:
                     item_info = {
@@ -55,72 +48,53 @@ class ProcessItemExchange(Tool):  #WRITE
 
         exchange_cost = added_price - removed_price
 
-        #Verify if the gift card has sufficient balance
+        # Check if the gift card has enough balance
         user_id = order["user_id"]
         users = data["users"]
-        user = [row for row in users.values() if row["user_id"] == user_id]
+        user = [row for row in users if row["user_id"] == user_id]
         if len(user) > 1:
-            payload = {"error": "Multiple users found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Multiple users found"})
         if not user:
-            payload = {"error": "User not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "User not found"})
         user = user[0]
 
         payment_method = user["payment_methods"].get(payment_method_id)
         if not payment_method:
-            payload = {"error": "Payment method not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Payment method not found"})
 
         if payment_method_id[:9] == "gift_card":
             if payment_method["balance"] < exchange_cost:
-                payload = {"error": "Insufficient gift card balance to pay for the exchange"}
-                out = json.dumps(
-                    payload)
-                return out
+                return json.dumps({"error": "Insufficient gift card balance to pay for the exchange"})
 
             payment_method["balance"] -= exchange_cost
             payment_method["balance"] = round(payment_method["balance"], 2)
 
         payment_info = {
-            "transaction_type": (
-                "exchange_payment" if exchange_cost > 0 else "exchange_refund"
-            ),
+            "transaction_type": "exchange_payment" if exchange_cost > 0 else "exchange_refund",
             "amount": abs(exchange_cost),
             "payment_method_id": payment_method_id,
         }
         order["payment_history"].append(payment_info)
-        payload = payment_info
-        out = json.dumps(payload)
-        return out
+
+
+
+        return json.dumps(payment_info)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ProcessItemExchange",
+                "name": "process_item_exchange",
                 "description": "Process an item exchange for an order.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "order_id": {
-                            "type": "string",
-                            "description": "The ID of the order to process the exchange for.",
-                        },
-                        "item_id": {
-                            "type": "string",
-                            "description": "The ID of the item to be exchanged.",
-                        },
-                        "reason": {
-                            "type": "string",
-                            "description": "The reason for the exchange.",
-                        },
+                        "order_id": {"type": "string", "description": "The ID of the order to process the exchange for."},
+                        "item_id": {"type": "string", "description": "The ID of the item to be exchanged."},
+                        "reason": {"type": "string", "description": "The reason for the exchange."}
                     },
-                    "required": ["order_id", "item_id", "reason"],
-                },
-            },
+                    "required": ["order_id", "item_id", "reason"]
+                }
+            }
         }

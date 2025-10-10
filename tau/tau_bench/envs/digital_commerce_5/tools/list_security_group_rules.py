@@ -1,23 +1,24 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import re
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ListSecurityGroupRules(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], group_id: Any, aws_security_group_rules: list = None) -> str:
+    def invoke(data: Dict[str, Any], group_id: Any) -> str:
         group_id = _as_id(group_id)
-        rules = aws_security_group_rules if aws_security_group_rules is not None else []
-        rows = [r for r in rules.values() if _as_id(r.get("group_id")) == group_id]
-        payload = {"group_id": group_id, "rules": rows}
-        out = json.dumps(payload, indent=2)
-        return out
+        rules = data.get("aws_security_group_rules", [])
+        rows = [r for r in rules if _as_id(r.get("group_id")) == group_id]
+        return json.dumps({"group_id": group_id, "rules": rows}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListSecurityGroupRules",
+                "name": "list_security_group_rules",
                 "description": "List ingress/egress rules for a security group.",
                 "parameters": {
                     "type": "object",

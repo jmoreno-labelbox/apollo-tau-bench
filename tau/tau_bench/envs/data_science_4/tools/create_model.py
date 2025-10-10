@@ -1,30 +1,34 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class CreateModel(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], model_config_id: str = None, model_name: str = None, model_type: str = None, features_id: list[str] = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        config_id = kwargs.get("model_config_id")
+        model_name = kwargs.get("model_name")
         model_id = f"MODEL_{model_name}"
         model_entry = {
             "model_id": model_id,
             "model_name": model_name,
-            "config_id": model_config_id,
+            "config_id": config_id,
             "model_path": f"/models/{model_id}.joblib",
-            "model_type": model_type,
-            "feature_names": features_id,
+            "model_type": kwargs.get("model_type"),
+            "feature_names": kwargs.get("features_id"),
             "train_metrics_json_path_nullable": f"/metrics/{model_id}_train_metrics.json",
         }
         data.setdefault("models", []).append(model_entry)
-        payload = model_entry
-        out = json.dumps(payload)
-        return out
+        return json.dumps(model_entry)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createModel",
+                "name": "CreateModel",
                 "description": "Creates a model entry, linking a configuration, model type, and feature set.",
                 "parameters": {
                     "type": "object",

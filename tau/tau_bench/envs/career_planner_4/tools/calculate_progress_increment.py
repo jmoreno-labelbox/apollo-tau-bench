@@ -1,27 +1,27 @@
-from tau_bench.envs.tool import Tool
-import json
-import uuid
-from datetime import datetime
-from typing import Any
+# Copyright Sierra
 
-class CalculateProgressIncrement(Tool):
+import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
+
+class calculate_progress_increment(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], current_progress: Any, increment: int) -> str:
+    def invoke(data: Dict[str, Any], current_progress: Any, increment: int) -> str:
         if current_progress == "get_from_goal":
-            # This will be calculated dynamically according to the goal
-            calculated_value = min(100, increment)  # Streamlined
+            # This would be dynamically calculated based on the goal
+            calculated_value = min(100, increment)  # Simplified
         else:
             calculated_value = min(100, current_progress + increment)
-        payload = {"calculated_value": calculated_value}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"calculated_value": calculated_value}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "calculateProgressIncrement",
+                "name": "calculate_progress_increment",
                 "description": "Calculate progress increment automatically",
                 "parameters": {
                     "type": "object",

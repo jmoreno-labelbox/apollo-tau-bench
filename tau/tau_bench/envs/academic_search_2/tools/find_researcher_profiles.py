@@ -1,57 +1,26 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from collections import Counter
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class FindResearcherProfiles(Tool):
-    """Looks for users based on their name, research area, user_id, or institution."""
-
+    """Searches for users by their name, research field, or user_id."""
     @staticmethod
-    def invoke(data: dict[str, Any], name: str = None, research_field: str = None, user_id: str = None, institution: str = None) -> str:
-        if not any([name, research_field, user_id, institution]):
-            payload = data.get("users", {}).values()
-            out = json.dumps(payload, indent=2)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name, research_field, user_id = kwargs.get('name'), kwargs.get('research_field'), kwargs.get('user_id')
+        if not any([name, research_field, user_id]):
+            return json.dumps(list(data.get('users', {}).values()), indent=2)
 
-        users = data.get("users", {}).values()
+        users = list(data.get('users', {}).values())
         results = [
-            user
-            for user in users.values() if (not name or name.lower() in user.get("name", "").lower())
-            and (
-                not research_field
-                or research_field.lower() in user.get("research_field", "").lower()
-            )
-            and (not user_id or user.get("person_id") == user_id)
-            and (not institution or institution.lower() in user.get("organization", "").lower())
+            user for user in users if
+            (not name or name.lower() in user.get('name', '').lower()) and
+            (not research_field or research_field.lower() in user.get('research_field', '').lower()) and
+            (not user_id or user.get('user_id') == user_id)
         ]
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(results, indent=2)
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "FindResearcherProfiles",
-                "description": "Searches for users by their name, research field, user_id, or institution.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "name": {"type": "string"},
-                        "research_field": {"type": "string"},
-                        "user_id": {"type": "string"},
-                        "institution": {"type": "string"},
-                    },
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type": "function", "function": {"name": "find_researcher_profiles", "description": "Searches for users by their name, research field, or user_id.", "parameters": {"type": "object", "properties": {"name": {"type": "string"}, "research_field": {"type": "string"}, "user_id": {"type": "string"}}}}}

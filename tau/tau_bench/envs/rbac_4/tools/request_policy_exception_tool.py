@@ -1,44 +1,42 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class RequestPolicyExceptionTool(Tool):
-    """Initiate a new policy exception request."""
+    """Create a new policy exception request."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, permission_id: str = None, reason: str = None, requested_on: str = None) -> str:
-        exceptions = data.get("policy_exceptions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        uid = kwargs.get("user_id")
+        pid = kwargs.get("permission_id")
+        reason = kwargs.get("reason")
+        requested_on = kwargs.get("requested_on")
+        exceptions = data.get("policy_exceptions", [])
 
         new_id = f"PE-{len(exceptions) + 1:03d}"
         record = {
             "exception_id": new_id,
-            "user_id": user_id,
-            "permission_id": permission_id,
+            "user_id": uid,
+            "permission_id": pid,
             "reviewed_by": None,
             "requested_on": requested_on,
             "reviewed_on": None,
             "expires_on": None,
             "reason": reason,
-            "status": "PENDING_REVIEW",
+            "status": "PENDING_REVIEW"
         }
-        data["policy_exceptions"][record["policy_exception_id"]] = record
-        payload = {"success": f"Policy exception {new_id} requested"}
-        out = json.dumps(payload, indent=2)
-        return out
+        exceptions.append(record)
+        return json.dumps({"success": f"Policy exception {new_id} requested"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RequestPolicyException",
+                "name": "request_policy_exception",
                 "description": "Create a new policy exception request for a specific permission",
                 "parameters": {
                     "type": "object",
@@ -46,9 +44,9 @@ class RequestPolicyExceptionTool(Tool):
                         "user_id": {"type": "string"},
                         "permission_id": {"type": "string"},
                         "reason": {"type": "string"},
-                        "requested_on": {"type": "string"},
+                        "requested_on": {"type": "string"}
                     },
-                    "required": ["user_id", "permission_id", "reason", "requested_on"],
-                },
-            },
+                    "required": ["user_id", "permission_id", "reason", "requested_on"]
+                }
+            }
         }

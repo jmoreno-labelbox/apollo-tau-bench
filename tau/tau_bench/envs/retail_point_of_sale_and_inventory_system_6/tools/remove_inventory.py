@@ -1,42 +1,37 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from collections import OrderedDict, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class remove_inventory(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], inv_id: str = None) -> str:
-        inventory = data.get("inventory", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        inventory = list(data.get("inventory", {}).values())
+
+        inv_id = kwargs.get("inv_id")
 
         if inv_id is None:
-            payload = {"error": "inv_id must be sent"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "inv_id must be sent"}, indent=2)
 
-        for item in inventory.values():
+        for item in inventory:
             if item["id"] == inv_id:
                 del item
-                payload = {"success": f"Removed item: {inv_id}"}
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": "No item found"}
-        out = json.dumps(payload, indent=2)
-        return out
+
+                return json.dumps(
+                    {"success": "Removed item: {}".format(inv_id)}, indent=2
+                )
+
+        return json.dumps({"error": "No item found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "removeInventory",
-                "description": "Removes an item from the store. This is for completely removing an item, to set to 0, use UpdateStockQuantity",
+                "name": "remove_inventory",
+                "description": "Removes an item from the store. This is for completely removing an item, to set to 0, use update_stock_quantity",
                 "parameters": {
                     "type": "object",
                     "properties": {

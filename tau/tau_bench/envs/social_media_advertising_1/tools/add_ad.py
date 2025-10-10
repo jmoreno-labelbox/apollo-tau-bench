@@ -1,46 +1,35 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AddAd(Tool):
-    """Creates a new ad."""
+    """Adds a new ad."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        ad_id: str = None,
-        adset_id: str = None,
-        name: str = None,
-        creative_type: str = None,
-        status: str = None,
-        start_date: str = None,
-        end_date: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ad_id = kwargs.get("ad_id")
+        adset_id = kwargs.get("adset_id")
+        name = kwargs.get("name")
+        creative_type = kwargs.get("creative_type")
+        status = kwargs.get("status")
+        start_date = kwargs.get("start_date")
+        end_date = kwargs.get("end_date")
+
         if not ad_id:
-            payload = {"error": "ad_id is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "ad_id is a required parameter."})
         if not adset_id:
-            payload = {"error": "adset_id is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "adset_id is a required parameter."})
         if not name:
-            payload = {"error": "name is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "name is a required parameter."})
         if not creative_type:
-            payload = {"error": "creative_type is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "creative_type is a required parameter."})
         if not status:
-            payload = {"error": "status is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "status is a required parameter."})
         if not start_date:
-            payload = {"error": "start_date is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "start_date is a required parameter."})
 
         new_ad = {
             "ad_id": ad_id,
@@ -49,21 +38,23 @@ class AddAd(Tool):
             "creative_type": creative_type,
             "status": status,
             "start_date": start_date,
-            "end_date": end_date,
+            "end_date": end_date
         }
-        data["ads"] += [new_ad]
-        payload = {
-            "status": "success",
-            "message": f"New ad was added: {new_ad}",
-        }
-        out = json.dumps(payload)
-        return out
+        data['ads'] += [new_ad]
+
+        return json.dumps(
+            {
+                "status": "success",
+                "message": f"New ad was added: {new_ad}",
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "addAd",
+                "name": "add_ad",
                 "description": "Adds a new ad.",
                 "parameters": {
                     "type": "object",
@@ -95,16 +86,9 @@ class AddAd(Tool):
                         "end_date": {
                             "type": "string",
                             "description": "The end date of the ad (YYYY-MM-DD format, optional).",
-                        },
+                        }
                     },
-                    "required": [
-                        "ad_id",
-                        "adset_id",
-                        "name",
-                        "creative_type",
-                        "status",
-                        "start_date",
-                    ],
+                    "required": ["ad_id", "adset_id", "name", "creative_type", "status", "start_date"],
                 },
             },
         }

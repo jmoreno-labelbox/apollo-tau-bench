@@ -1,37 +1,33 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone, date, timedelta
-import calendar
-from typing import Any, Dict
-import random
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class TransferMoneySameCurrency(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, source_account_id: str = None, 
-               target_account_id: str = None, currency: str = None, amount: float = None) -> str:
-        if not all([customer_id, source_account_id, target_account_id, currency, amount]):
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        src_id = kwargs.get("source_account_id")
+        tgt_id = kwargs.get("target_account_id")
+        currency = kwargs.get("currency")
+        amount = kwargs.get("amount")
+
+        if not all([customer_id, src_id, tgt_id, currency, amount]):
             return json.dumps(
                 {"error": "customer_id, source_account_id, target_account_id, currency, and amount are required."},
                 indent=2
             )
 
-        accounts = data.get("accounts", {}).values()
-        src = next((a for a in accounts.values() if a["account_id"] == source_account_id and a.get("customer_id") == customer_id), None)
-        tgt = next((a for a in accounts.values() if a["account_id"] == target_account_id), None)
+        accounts = list(data.get("accounts", {}).values())
+        src = next((a for a in accounts if a["account_id"] == src_id and a.get("customer_id") == customer_id), None)
+        tgt = next((a for a in accounts if a["account_id"] == tgt_id), None)
 
         if not src:
-            return json.dumps({"error": f"Source account '{source_account_id}' not found for customer '{customer_id}'."}, indent=2)
+            return json.dumps({"error": f"Source account '{src_id}' not found for customer '{customer_id}'."}, indent=2)
         if not tgt:
-            return json.dumps({"error": f"Target account '{target_account_id}' not found for customer '{customer_id}'."}, indent=2)
+            return json.dumps({"error": f"Target account '{tgt_id}' not found for customer '{customer_id}'."}, indent=2)
 
         if src.get("currency") != currency or tgt.get("currency") != currency:
             return json.dumps({"error": "Currency mismatch for same‑currency transfer."}, indent=2)
@@ -45,19 +41,20 @@ class TransferMoneySameCurrency(Tool):
         return json.dumps({
             "message": "Transfer successful (same currency).",
             "customer_id": customer_id,
-            "source_account_id": source_account_id,
-            "target_account_id": target_account_id,
+            "source_account_id": src_id,
+            "target_account_id": tgt_id,
             "amount_transferred": amount,
             "currency": currency,
             "source_balance": src["balance"],
             "target_balance": tgt["balance"]
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "TransferMoneySameCurrency",
+                "name": "transfer_money_same_currency",
                 "description": "Transfers funds between two accounts of the same customer in the same currency.",
                 "parameters": {
                     "type": "object",

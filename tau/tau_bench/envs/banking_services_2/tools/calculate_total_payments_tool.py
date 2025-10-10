@@ -1,26 +1,22 @@
-from tau_bench.envs.tool import Tool
-from typing import Any, Dict
+# Copyright Sierra
+
 import json
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class CalculateTotalPaymentsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, start_date: str = None, end_date: str = None, transaction_type: str = None) -> str:
-        transactions = data.get('transactions', {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        start_date = kwargs.get('start_date')
+        end_date = kwargs.get('end_date')
+
+        transactions = list(data.get('transactions', {}).values())
         total_payments = 0
         payment_count = 0
-        
-        # Use transaction_type parameter if provided, otherwise default to 'payment'
-        filter_type = transaction_type.lower() if transaction_type else 'payment'
 
-        for txn in transactions.values():
+        for txn in transactions:
             if txn.get('account_id') != account_id:
                 continue
             txn_date = txn.get('transaction_date', '')
@@ -28,7 +24,7 @@ class CalculateTotalPaymentsTool(Tool):
                 continue
             if end_date and txn_date > end_date:
                 continue
-            if txn.get('transaction_type', '').lower() == filter_type:
+            if txn.get('transaction_type', '').lower() == 'payment':
                 total_payments += abs(txn.get('amount', 0))
                 payment_count += 1
 
@@ -39,12 +35,13 @@ class CalculateTotalPaymentsTool(Tool):
             "total_payments": total_payments,
             "payment_count": payment_count
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateTotalPayments",
+                "name": "calculate_total_payments",
                 "description": "Calculate total payments for an account in a given date range.",
                 "parameters": {
                     "type": "object",

@@ -1,30 +1,27 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class ListRoles(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        roles = data.get("roles", {}).values()
-        payload = {"roles": roles}
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        roles = list(data.get('roles', {}).values())
+        return json.dumps({"roles": roles})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "ListRoles",
-                "description": "Lists all available roles in the system.",
-                "parameters": {"type": "object", "properties": {}, "required": []},
-            },
+                "type": "function",
+                "function": {
+                        "name": "list_roles",
+                        "description": "Lists all available roles in the system.",
+                        "parameters": {
+                                "type": "object",
+                                "properties": {},
+                                "required": []
+                        }
+                }
         }

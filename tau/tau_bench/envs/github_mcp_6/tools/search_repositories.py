@@ -1,47 +1,36 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchRepositories(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], query: str) -> str:
+    def invoke(data: Dict[str, Any], query: str) -> str:
         """Search repositories by query string (exact-match permitted)."""
-        _queryL = query or ''.lower()
-        pass
-        repositories = data.get("repositories", {}).values()
+        repositories = list(data.get("repositories", {}).values())
         matching_repos = []
 
-        for repo in repositories.values():
+        for repo in repositories:
             if query.lower() in repo["repo_name"].lower():
                 matching_repos.append(repo["repo_name"])
-        payload = {"repo_names": matching_repos}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"repo_names": matching_repos}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "searchRepositories",
+                "name": "search_repositories",
                 "description": "Search repositories by query string (exact-match permitted).",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "query": {
-                            "type": "string",
-                            "description": "Search query string",
-                        }
+                        "query": {"type": "string", "description": "Search query string"}
                     },
-                    "required": ["query"],
-                },
-            },
+                    "required": ["query"]
+                }
+            }
         }

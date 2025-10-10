@@ -1,26 +1,22 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetDelayedMilestones(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: str = None, include_recovery_plans: bool = False) -> str:
-        milestones = data.get("milestones", {}).values()
-        recovery_plans = data.get("recovery_plans", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        include_recovery_plans = kwargs.get("include_recovery_plans", False)
+
+        milestones = list(data.get("milestones", {}).values())
+        recovery_plans = data.get("recovery_plans", [])
 
         if project_id:
             project_milestones = [
-                m for m in milestones.values() if m.get("project_id") == project_id
+                m for m in milestones if m.get("project_id") == project_id
             ]
         else:
             project_milestones = milestones
@@ -53,14 +49,15 @@ class GetDelayedMilestones(Tool):
 
                     milestone_recovery_plans = [
                         rp
-                        for rp in recovery_plans.values() if rp.get("milestone_id") == milestone.get("milestone_id")
+                        for rp in recovery_plans
+                        if rp.get("milestone_id") == milestone.get("milestone_id")
                     ]
                     delayed_info["recovery_plans"] = milestone_recovery_plans
                     delayed_info["has_recovery_plan"] = (
                         len(milestone_recovery_plans) > 0
                     )
 
-                delayed_data["milestones"][delayed_info["milestone_id"]] = delayed_info
+                delayed_milestones.append(delayed_info)
 
         delayed_milestones.sort(key=lambda x: x["float_days"])
 
@@ -69,26 +66,27 @@ class GetDelayedMilestones(Tool):
             for m in delayed_milestones
             if m["is_critical_path"] and m["float_days"] < -5
         ]
-        payload = {
+
+        return json.dumps(
+            {
                 "delayed_count": len(delayed_milestones),
                 "delayed_milestones": delayed_milestones,
                 "critical_delays": len(
-                    [m for m in delayed_milestones.values() if m["is_critical_path"]]
+                    [m for m in delayed_milestones if m["is_critical_path"]]
                 ),
                 "critical_delays_requiring_impact_analysis": len(
                     critical_delays_over_5
                 ),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetDelayedMilestones",
+                "name": "get_delayed_milestones",
                 "description": "Get all delayed milestones with optional recovery plan information",
                 "parameters": {
                     "type": "object",

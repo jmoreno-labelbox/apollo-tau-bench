@@ -1,61 +1,40 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class AssignFundingToProject(Tool):
-    """Utility for allocating a funding source to a project."""
-
+    """Tool to assign a funding source to a project."""
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: Any = None, funding_source_id: Any = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get('project_id')
+        funding_source_id = kwargs.get('funding_source_id')
         if not project_id or not funding_source_id:
-            payload = {"error": "project_id and funding_source_id are required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "project_id and funding_source_id are required."})
 
-        projects = data.get("projects", {}).values()
-        for project in projects.values():
-            if project.get("project_id") == project_id:
-                project["funding_source_id"] = funding_source_id
-                payload = {
-                    "success": True,
-                    "project_id": project_id,
-                    "funding_source_id": funding_source_id,
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Project not found."}
-        out = json.dumps(payload)
-        return out
+        projects = list(data.get('projects', {}).values())
+        for project in projects:
+            if project.get('project_id') == project_id:
+                project['funding_source_id'] = funding_source_id
+                return json.dumps({"success": True, "project_id": project_id, "funding_source_id": funding_source_id})
+        return json.dumps({"error": "Project not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AssignFundingToProject",
+                "name": "assign_funding_to_project",
                 "description": "Assigns a funding source to a research project.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "project_id": {
-                            "type": "string",
-                            "description": "The ID of the project to be funded.",
-                        },
-                        "funding_source_id": {
-                            "type": "string",
-                            "description": "The ID of the funding source.",
-                        },
+                        "project_id": {"type": "string", "description": "The ID of the project to be funded."},
+                        "funding_source_id": {"type": "string", "description": "The ID of the funding source."}
                     },
-                    "required": ["project_id", "funding_source_id"],
-                },
-            },
+                    "required": ["project_id", "funding_source_id"]
+                }
+            }
         }

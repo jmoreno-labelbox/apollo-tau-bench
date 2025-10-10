@@ -1,16 +1,19 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any, Dict
-from datetime import timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class ComputeNetCashFlow(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], inflows: float, outflows: float) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
         Compute net cash flow from inflows and outflows.
         Returns inflows, outflows, and net result.
         """
+        inflows = kwargs["inflows"]
+        outflows = kwargs["outflows"]
         net = round(inflows - outflows, 2)
 
         return json.dumps({
@@ -18,6 +21,7 @@ class ComputeNetCashFlow(Tool):
             "outflows": outflows,
             "net": net
         })
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {

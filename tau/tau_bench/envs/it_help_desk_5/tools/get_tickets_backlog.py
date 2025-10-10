@@ -1,65 +1,43 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetTicketsBacklog(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], snapshot_id: str = None) -> str:
-        snapshots = data.get("backlog_snapshot_open")
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        snapshot_id = kwargs.get('snapshot_id')
+
+        snapshots = data.get('backlog_snapshot_open')
 
         if snapshot_id is None:
             if len(snapshots) > 0:
                 target_snapshot = snapshots[-1]
             else:
-                payload = {
-                    "status": "error",
-                    "description": "The snapshot could not be found.",
-                }
-                out = json.dumps(
-                    payload, indent=2,
-                )
-                return out
+                return json.dumps({'status': 'error', 'description': 'The snapshot could not be found.'}, indent=2)
         else:
-            target_snapshot = None
             for snapshot in snapshots:
-                if snapshot["snapshot_id"] == snapshot_id:
+                if snapshot['snapshot_id'] == snapshot_id:
                     target_snapshot = snapshot
             if target_snapshot is None:
-                payload = {
-                    "status": "error",
-                    "description": "The snapshot could not be found.",
-                }
-                out = json.dumps(
-                    payload, indent=2,
-                )
-                return out
-        payload = target_snapshot["open_ticket_ids"]
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps({'status': 'error', 'description': 'The snapshot could not be found.'}, indent=2)
+
+        return json.dumps(target_snapshot['open_ticket_ids'], indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "getTicketsBacklog",
-                "description": "Gets a list of tickets from a snapshot, the default being the last snapshot.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "snapshot_id": {
-                            "type": "string",
-                            "description": "The id of the snapshot to look for.",
-                        },
+            'type': 'function',
+            'function': {
+                'name': 'get_tickets_backlog',
+                'description': 'Gets a list of tickets from a snapshot, the default being the last snapshot.',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'snapshot_id': {'type': 'string', 'description': 'The id of the snapshot to look for.'},
                     },
-                },
-            },
+                }
+            }
         }

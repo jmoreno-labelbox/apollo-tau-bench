@@ -1,25 +1,20 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any, Dict
-from datetime import timedelta
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetMonthlyAuditBySnapshot(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], snapshot_id: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         """
         Returns row_ids of monthly expenses for a given snapshot_id.
         """
-        records = [me["row_id"] for me in data.get("monthly_expenses", {}).values() if me["snapshot_id"] == snapshot_id]
+        snapshot_id = kwargs["snapshot_id"]
+        records = [me["row_id"] for me in data.get("monthly_expenses", []) if me["snapshot_id"] == snapshot_id]
         return json.dumps(records)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {

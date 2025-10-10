@@ -1,38 +1,28 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class GetTeamUtilization(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], team_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        team_id = kwargs.get("team_id")
         if not team_id:
-            payload = {"error": "team_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "team_id is required"})
 
-        teams = data.get("teams", {}).values()
-        allocations = data.get("allocations", {}).values()
+        teams = data.get("teams", [])
+        allocations = data.get("allocations", [])
 
         team = None
-        for t in teams.values():
+        for t in teams:
             if t.get("team_id") == team_id:
                 team = t
                 break
 
         if not team:
-            payload = {"error": f"Team with ID '{team_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Team with ID '{team_id}' not found"})
 
         team_members = team.get("members", [])
         total_capacity = len(team_members) * 40
@@ -42,7 +32,8 @@ class GetTeamUtilization(Tool):
         for member_id in team_members:
             member_allocations = [
                 alloc
-                for alloc in allocations.values() if alloc.get("employee_id") == member_id
+                for alloc in allocations
+                if alloc.get("employee_id") == member_id
                 and alloc.get("status") == "active"
             ]
             member_hours = sum(
@@ -60,24 +51,25 @@ class GetTeamUtilization(Tool):
         team_utilization = (
             (total_allocated / total_capacity * 100) if total_capacity > 0 else 0
         )
-        payload = {
+
+        return json.dumps(
+            {
                 "team_id": team_id,
                 "team_name": team.get("team_name"),
                 "total_capacity": total_capacity,
                 "total_allocated": total_allocated,
                 "team_utilization": round(team_utilization, 1),
                 "member_utilizations": member_utilizations,
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getTeamUtilization",
+                "name": "get_team_utilization",
                 "description": "Get utilization metrics for a team",
                 "parameters": {
                     "type": "object",

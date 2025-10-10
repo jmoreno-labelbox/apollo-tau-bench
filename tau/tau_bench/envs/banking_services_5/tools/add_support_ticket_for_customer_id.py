@@ -1,51 +1,41 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-import uuid
-from datetime import datetime, timezone, date, timedelta
-import calendar
-from typing import Any, Dict
-import random
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
+
 
 class AddSupportTicketForCustomerId(Tool):
+    """Creates and adds a new support ticket for a customer."""
 
     @staticmethod
-    def invoke(
-        data: Dict[str, Any],
-        category: str = None,
-        channel: str = None,
-        customer_id: str = None,
-        operation: str = None,
-        parameters: Dict[str, Any] = {},
-        priority: str = "Medium",
-        target_entity: str = None,
-        target_id: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         required_fields = [
             "customer_id", "channel", "priority",
             "category", "target_id", "target_entity",
             "operation"
         ]
-        missing = [f for f in required_fields.values() if not locals().get(f)]
+        missing = [f for f in required_fields if not kwargs.get(f)]
         if missing:
             return json.dumps(
                 {"error": f"Missing required fields: {', '.join(missing)}"},
                 indent=2
             )
 
-        priority = priority.capitalize()
+        priority = kwargs.get("priority", "Medium").capitalize()
         ticket_id = get_next_support_ticket_id()
         now = get_current_timestamp()
 
         new_ticket = {
             "ticket_id": ticket_id,
-            "customer_id": customer_id,
+            "customer_id": kwargs["customer_id"],
             "priority": priority,
-            "channel": channel,
-            "category": category,
-            "target_id": target_id,
-            "target_entity": target_entity,
-            "operation": operation,
-            "parameters": parameters,
+            "channel": kwargs["channel"],
+            "category": kwargs["category"],
+            "target_id": kwargs["target_id"],
+            "target_entity": kwargs["target_entity"],
+            "operation": kwargs["operation"],
+            "parameters": kwargs.get("parameters", {}),
             "status": "Open",
             "created_at": now,
             "last_updated": now
@@ -53,13 +43,13 @@ class AddSupportTicketForCustomerId(Tool):
 
         data.setdefault("support_tickets", []).append(new_ticket)
         return json.dumps(new_ticket, indent=2)
-    
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddSupportTicketForCustomerId",
+                "name": "add_support_ticket_for_customer_id",
                 "description": "Adds a new support ticket for the given customer.",
                 "parameters": {
                     "type": "object",

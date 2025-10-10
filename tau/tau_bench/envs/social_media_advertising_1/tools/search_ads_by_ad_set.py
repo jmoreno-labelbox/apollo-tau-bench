@@ -1,36 +1,31 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class SearchAdsByAdSet(Tool):
-    """Looks for ads that are part of a specific ad set."""
+    """Searches for ads belonging to a specific ad set."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None) -> str:
-        ads = data.get("ads", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
+        ads = list(data.get("ads", {}).values())
         matching_ads = []
-
-        for ad in ads.values():
+        
+        for ad in ads:
             if ad.get("adset_id") == adset_id:
                 matching_ads.append(ad.get("ad_id"))
-        payload = {"ad_ids": matching_ads}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"ad_ids": matching_ads})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchAdsByAdset",
+                "name": "search_ads_by_adset",
                 "description": "Searches for ads belonging to a specific ad set.",
                 "parameters": {
                     "type": "object",

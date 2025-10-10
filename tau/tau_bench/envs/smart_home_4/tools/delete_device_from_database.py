@@ -1,53 +1,39 @@
-from tau_bench.envs.tool import Tool
+# Copyright Sierra
+
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from tau_bench.envs.tool import Tool
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
 
 class DeleteDeviceFromDatabase(Tool):
-    """Delete a device using its id."""
-
+    """Remove a device by id."""
     @staticmethod
-    def invoke(data: dict[str, Any], device_id: str = "") -> str:
+    def invoke(data: Dict[str, Any], device_id: str = "") -> str:
         if not device_id:
-            payload = {"error": "'device_id' parameter is required"}
-            out = json.dumps(payload, indent=2)
-            return out
-        device_list = data.get("devices", {}).values()
-        new_list = [d for d in device_list.values() if d["id"] != device_id]
+            return json.dumps({"error": "'device_id' parameter is required"}, indent=2)
+        device_list = list(data.get('devices', {}).values())
+        new_list = [d for d in device_list if d["id"] != device_id]
         if len(new_list) == len(device_list):
-            payload = {"error": "Device not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"success": "Device deleted", "device_id": device_id, "devices": new_list}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+            return json.dumps({"error": "Device not found"}, indent=2)
+        return json.dumps({"success": "Device deleted", "device_id": device_id, "devices": new_list}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "DeleteDeviceFromDatabase",
+                "name": "delete_device_from_database",
                 "description": "Remove a device by id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "device_id": {
                             "type": "string",
-                            "description": "The id of the device to delete.",
+                            "description": "The id of the device to delete."
                         }
                     },
                     "required": ["device_id"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
