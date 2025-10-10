@@ -1,27 +1,28 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class GetWorkflowDetails(Tool):
-    """Fetch the full details of a specific HR workflow by its ID."""
+    """Retrieve comprehensive details of a specific HR workflow using its ID."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        wid = kwargs.get("workflow_id")
-        for wf in data.get("hr_workflows", []):
+    def invoke(data: dict[str, Any], workflow_id: str = None) -> str:
+        wid = workflow_id
+        for wf in data.get("hr_workflows", {}).values():
             if wf.get("workflow_id") == wid:
-                return json.dumps(wf, indent=2)
-        return json.dumps({"error": "Workflow not found"})
-
+                payload = wf
+                out = json.dumps(payload, indent=2)
+                return out
+        payload = {"error": "Workflow not found"}
+        out = json.dumps(payload)
+        return out
     @staticmethod
-    def get_info() -> Dict[str, Any]:
+    def get_info() -> dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "get_workflow_details",
+                "name": "GetWorkflowDetails",
                 "description": "Fetch the full details of a specific HR workflow by its ID.",
                 "parameters": {
                     "type": "object",

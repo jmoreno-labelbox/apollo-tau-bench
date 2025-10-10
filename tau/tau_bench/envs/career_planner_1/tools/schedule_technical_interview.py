@@ -1,16 +1,12 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class ScheduleTechnicalInterview(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        application_id = kwargs.get("application_id")
-
-        # Create interview record with only essential data
+    def invoke(data: dict[str, Any], application_id: str) -> str:
+        # Generate an interview record containing only vital data
         interview = {
             "application_id": application_id,
             "status": "scheduled",
@@ -21,13 +17,12 @@ class ScheduleTechnicalInterview(Tool):
             data["technical_interviews"] = []
         data["technical_interviews"].append(interview)
         return f"Technical interview scheduled for application {application_id}."
-
     @staticmethod
-    def get_info() -> Dict[str, Any]:
+    def get_info() -> dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "schedule_technical_interview",
+                "name": "ScheduleTechnicalInterview",
                 "description": "Schedules a technical interview for a job application.",
                 "parameters": {
                     "type": "object",

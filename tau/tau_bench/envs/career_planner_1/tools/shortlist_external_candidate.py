@@ -1,18 +1,12 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class ShortlistExternalCandidate(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        candidate_id = kwargs.get("candidate_id")
-        job_id = kwargs.get("job_id")
-        recruiter_id = kwargs.get("recruiter_id")
-
-        # Assign recruiter deterministically if not provided
+    def invoke(data: dict[str, Any], candidate_id: str = None, job_id: str = None, recruiter_id: str = None) -> str:
+        # Assign a recruiter in a deterministic manner if not specified
         if not recruiter_id:
             if job_id in ["J001", "J002"]:
                 recruiter_id = "U301"
@@ -21,7 +15,7 @@ class ShortlistExternalCandidate(Tool):
             else:
                 recruiter_id = "U312"
 
-        # Create shortlist entry with only essential data
+        # Generate a shortlist entry containing only necessary data
         entry = {
             "candidate_id": candidate_id,
             "recruiter_id": recruiter_id,
@@ -33,13 +27,12 @@ class ShortlistExternalCandidate(Tool):
             data["shortlisted_candidates"] = []
         data["shortlisted_candidates"].append(entry)
         return f"External candidate {candidate_id} shortlisted for job {job_id}."
-
     @staticmethod
-    def get_info() -> Dict[str, Any]:
+    def get_info() -> dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "shortlist_external_candidate",
+                "name": "ShortlistExternalCandidate",
                 "description": "Add external candidate to shortlist for a given job. Recruiter is assigned deterministically based on job_id.",
                 "parameters": {
                     "type": "object",

@@ -1,32 +1,29 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class GetPerformanceReview(Tool):
-    """Fetch performance review workflows for a user and period."""
+    """Retrieve performance review workflows for a specific user and time frame."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        uid = kwargs.get("user_id")
-        per = kwargs.get("period")
+    def invoke(data: dict[str, Any], user_id: str = None, period: str = None) -> str:
         reviews = [
             wf
-            for wf in data.get("hr_workflows", [])
+            for wf in data.get("hr_workflows", {}).values()
             if wf.get("workflow_type") == "Performance Review"
-            and wf.get("employee_id") == uid
-            and wf.get("review_period") == per
+            and wf.get("employee_id") == user_id
+            and wf.get("review_period") == period
         ]
-        return json.dumps(reviews, indent=2)
-
+        payload = reviews
+        out = json.dumps(payload, indent=2)
+        return out
     @staticmethod
-    def get_info() -> Dict[str, Any]:
+    def get_info() -> dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "get_performance_review",
+                "name": "GetPerformanceReview",
                 "description": "Get performance review by period.",
                 "parameters": {
                     "type": "object",

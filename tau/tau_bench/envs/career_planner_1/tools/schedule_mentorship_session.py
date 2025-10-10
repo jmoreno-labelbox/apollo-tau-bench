@@ -1,13 +1,11 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class ScheduleMentorshipSession(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], relationship_id: str, session_date: str) -> str:
+    def invoke(data: dict[str, Any], relationship_id: str, session_date: str) -> str:
         sessions = data.setdefault("scheduled_mentorship_sessions", [])
         sessions.append(
             {
@@ -16,14 +14,16 @@ class ScheduleMentorshipSession(Tool):
                 "status": "Scheduled",
             }
         )
-        return json.dumps({"scheduled_for": session_date})
-
+        payload = {"scheduled_for": session_date}
+        out = json.dumps(payload)
+        return out
     @staticmethod
     def get_info():
+        pass
         return {
             "type": "function",
             "function": {
-                "name": "schedule_mentorship_session",
+                "name": "ScheduleMentorshipSession",
                 "description": "Schedule a mentorship session for an existing relationship.",
                 "parameters": {
                     "type": "object",

@@ -1,35 +1,32 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime, timezone
+from typing import Any, Dict, List
+import os
 
 class ReassignRelationshipManager(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get('customer_id')
-        new_manager_id = kwargs.get('relationship_manager_id')
-        if not customer_id or not new_manager_id:
+    def invoke(data: Dict[str, Any], customer_id: str = None, relationship_manager_id: str = None) -> str:
+        if not customer_id or not relationship_manager_id:
             return json.dumps({'error': 'customer_id and relationship_manager_id are required'})
         customers = load_json('customers.json')
+        customers = _convert_db_to_list(customers)
         updated = False
         for c in customers:
             if c['customer_id'] == customer_id:
                 if 'bank_relationship' not in c or 'relationship_manager_id' not in c['bank_relationship']:
                     return json.dumps({'error': 'Relationship manager reassignment not supported: no relationship_manager_id field in data.'})
-                c['bank_relationship']['relationship_manager_id'] = new_manager_id
+                c['bank_relationship']['relationship_manager_id'] = relationship_manager_id
                 updated = True
         if not updated:
             return json.dumps({'error': 'Customer not found or reassignment not supported.'})
-        return json.dumps({'success': True, 'customer_id': customer_id, 'relationship_manager_id': new_manager_id})
-
+        return json.dumps({'success': True, 'customer_id': customer_id, 'relationship_manager_id': relationship_manager_id})
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             'type': 'function',
             'function': {
-                'name': 'reassign_relationship_manager',
+                'name': 'reassignRelationshipManager',
                 'description': 'Updates the assigned relationship manager for a customer (only if field exists).',
                 'parameters': {
                     'type': 'object',

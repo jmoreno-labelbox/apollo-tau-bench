@@ -1,18 +1,16 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime, timezone
+from typing import Any, Dict, List
+import os
 
 class MergeDuplicateCustomersBySSN(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        ssn_last_4 = kwargs.get('ssn_last_4')
+    def invoke(data: Dict[str, Any], ssn_last_4: str = None) -> str:
         if not ssn_last_4:
             return json.dumps({'error': 'ssn_last_4 is required'})
         customers = load_json('customers.json')
-        matches = [c for c in customers if c.get('personal_info', {}).get('ssn_last_4') == ssn_last_4]
+        matches = [c for c in customers.values() if c.get('personal_info', {}).values().get('ssn_last_4') == ssn_last_4]
         if len(matches) < 2:
             return json.dumps({'error': 'Less than two customers with this SSN'})
         # Only merge if all fields to be merged exist
@@ -25,13 +23,12 @@ class MergeDuplicateCustomersBySSN(Tool):
             canonical['account_ids'] = list(set(canonical.get('account_ids', []) + c.get('account_ids', [])))
             customers.remove(c)
         return json.dumps({'success': True, 'canonical_customer_id': canonical['customer_id'], 'merged_customer_ids': merged_ids})
-
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             'type': 'function',
             'function': {
-                'name': 'merge_duplicate_customers_by_ssn',
+                'name': 'mergeDuplicateCustomersBySsn',
                 'description': 'Merges two customer records with same SSN into a single canonical one (only if account_ids field exists).',
                 'parameters': {
                     'type': 'object',

@@ -99,25 +99,67 @@ def split_tools_file(tools_path: Path) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Split domains variations tools.py into per-class files")
+    parser = argparse.ArgumentParser(description="Split tools.py or tasks_test.py into per-class files with snake_case names")
     parser.add_argument(
         "--root",
         type=str,
         default=str(Path(__file__).resolve().parent.parent),
         help="Repo root (defaults to project root)",
     )
+    parser.add_argument(
+        "--target",
+        type=str,
+        choices=["domains", "tau", "both"],
+        default="domains",
+        help="Target directory: domains, tau (tau_bench/envs), or both",
+    )
+    parser.add_argument(
+        "--file-type",
+        type=str,
+        choices=["tools", "tasks", "both"],
+        default="tools",
+        help="File type to process: tools.py, tasks_test.py, or both",
+    )
     args = parser.parse_args()
 
     root = Path(args.root)
-    domains_dir = root / "domains"
-    tools_files = list(domains_dir.glob("**/variations/**/tools.py"))
+    files_to_process = []
+    
+    if args.target in ["domains", "both"]:
+        # Check both domains_apollo and domains_warrior
+        for domains_dir_name in ["domains", "domains_apollo", "domains_warrior"]:
+            domains_dir = root / domains_dir_name
+            if domains_dir.exists():
+                if args.file_type in ["tools", "both"]:
+                    files_to_process.extend(list(domains_dir.glob("**/variations/**/tools.py")))
+                if args.file_type in ["tasks", "both"]:
+                    files_to_process.extend(list(domains_dir.glob("**/variations/**/tasks_test.py")))
+    
+    if args.target in ["tau", "both"]:
+        # Process tau/tau_bench/envs
+        tau_envs = root / "tau" / "tau_bench" / "envs"
+        if tau_envs.exists():
+            if args.file_type in ["tools", "both"]:
+                files_to_process.extend(list(tau_envs.glob("*/tools.py")))
+            if args.file_type in ["tasks", "both"]:
+                files_to_process.extend(list(tau_envs.glob("*/tasks_test.py")))
 
-    for p in tools_files:
+    print(f"Found {len(files_to_process)} files to process")
+    
+    processed = 0
+    failed = 0
+    for p in files_to_process:
         try:
             split_tools_file(p)
-            print(f"Processed {p}")
+            print(f"✓ Processed {p.relative_to(root)}")
+            processed += 1
         except Exception as e:
-            print(f"Failed to process {p}: {e}")
+            print(f"✗ Failed to process {p.relative_to(root)}: {e}")
+            failed += 1
+    
+    print(f"\n{'='*60}")
+    print(f"Summary: {processed} processed, {failed} failed")
+    print(f"{'='*60}")
 
 
 if __name__ == "__main__":

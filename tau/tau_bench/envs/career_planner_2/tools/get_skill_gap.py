@@ -1,28 +1,27 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class GetSkillGap(Tool):
-    """List missing skills for a user vs target role."""
+    """Identify skills that a user lacks compared to the target role."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        uid = kwargs.get("user_id")
-        role = kwargs.get("target_role")
-        for g in data.get("skill_gap_analysis", []):
-            if g.get("user_id") == uid and g.get("target_role") == role:
-                return json.dumps(g.get("skill_gaps", []), indent=2)
-        return json.dumps({"error": "Gap data not found"})
-
+    def invoke(data: dict[str, Any], user_id: str = None, target_role: str = None) -> str:
+        for g in data.get("skill_gap_analysis", {}).values():
+            if g.get("user_id") == user_id and g.get("target_role") == target_role:
+                payload = g.get("skill_gaps", [])
+                out = json.dumps(payload, indent=2)
+                return out
+        payload = {"error": "Gap data not found"}
+        out = json.dumps(payload)
+        return out
     @staticmethod
-    def get_info() -> Dict[str, Any]:
+    def get_info() -> dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "get_skill_gap",
+                "name": "GetSkillGap",
                 "description": "Retrieve missing skills.",
                 "parameters": {
                     "type": "object",

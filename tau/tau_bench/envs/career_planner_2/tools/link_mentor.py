@@ -1,17 +1,15 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class LinkMentor(Tool):
-    """Link mentor to mentee."""
+    """Connect a mentor with a mentee."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        uid = kwargs.get("user_id")
-        mid = kwargs.get("mentor_id")
+    def invoke(data: dict[str, Any], user_id: str = None, mentor_id: str = None) -> str:
+        uid = user_id
+        mid = mentor_id
         rel = data.setdefault("user_mentorship_relationships", [])
         rel[:] = [
             r for r in rel if not (r["mentee_id"] == uid and r["mentor_id"] == mid)
@@ -24,14 +22,15 @@ class LinkMentor(Tool):
                 "status": "Active",
             }
         )
-        return json.dumps({"success": f"Mentor {mid} -> {uid}"}, indent=2)
-
+        payload = {"success": f"Mentor {mid} -> {uid}"}
+        out = json.dumps(payload, indent=2)
+        return out
     @staticmethod
-    def get_info() -> Dict[str, Any]:
+    def get_info() -> dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "link_mentor",
+                "name": "LinkMentor",
                 "description": "Link mentor.",
                 "parameters": {
                     "type": "object",

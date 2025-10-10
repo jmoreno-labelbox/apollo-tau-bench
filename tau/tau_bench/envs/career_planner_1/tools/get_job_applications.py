@@ -1,27 +1,25 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class GetJobApplications(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        job_id = kwargs.get("job_id")
+    def invoke(data: dict[str, Any], job_id: str = None) -> str:
         apps = [
             app
-            for app in data.get("job_applications", [])
+            for app in data.get("job_applications", {}).values()
             if app.get("job_id") == job_id
         ]
-        return json.dumps(apps, indent=2)
-
+        payload = apps
+        out = json.dumps(payload, indent=2)
+        return out
     @staticmethod
-    def get_info() -> Dict[str, Any]:
+    def get_info() -> dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "get_job_applications",
+                "name": "GetJobApplications",
                 "description": "Returns all applications for a given job ID.",
                 "parameters": {
                     "type": "object",

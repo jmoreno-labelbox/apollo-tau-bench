@@ -1,16 +1,14 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class SearchExternalCandidatesBySkills(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        required_skills_raw = kwargs.get("required_skills", [])
+    def invoke(data: dict[str, Any], required_skills: list = None) -> str:
+        required_skills_raw = required_skills if required_skills is not None else []
 
-        # Safely extract skill names from potentially mixed data
+        # Carefully extract skill names from possibly mixed data
         required = set()
         for skill_item in required_skills_raw:
             if isinstance(skill_item, str):
@@ -18,17 +16,19 @@ class SearchExternalCandidatesBySkills(Tool):
             elif isinstance(skill_item, dict) and skill_item.get("skill"):
                 required.add(skill_item.get("skill"))
 
-        talent_network = data.get("talent_network", [])
+        talent_network = data.get("talent_network", {}).values()
 
-        # Debug: Check if talent network is loaded
+        # Debug: Confirm if the talent network is loaded
         if not talent_network:
-            return json.dumps(
-                {"error": "Talent network not loaded", "matches": []}, indent=2
+            payload = {"error": "Talent network not loaded", "matches": []}
+            out = json.dumps(
+                payload, indent=2
             )
+            return out
 
         matches = []
-        for c in talent_network:
-            # Extract skill names from candidate skills - handle both formats
+        for c in talent_network.values():
+            # Retrieve skill names from candidate skills - accommodate both formats
             candidate_skills = set()
             cand_skills = c.get("skills", [])
 
@@ -39,19 +39,19 @@ class SearchExternalCandidatesBySkills(Tool):
                     elif isinstance(skill, dict) and skill.get("skill"):
                         candidate_skills.add(skill.get("skill"))
 
-            # Check for matches - handle both direct matches and hierarchical skills
+            # Verify matches - manage both direct matches and hierarchical skills
             has_match = False
 
-            # First check direct intersection
+            # Initially check for direct intersection
             if required.intersection(candidate_skills):
                 has_match = True
             else:
-                # Check hierarchical matches by expanding required skills
+                # Examine hierarchical matches by broadening required skills
                 expanded_required = set()
                 for req_skill in required:
                     expanded_required.add(req_skill)
-                    # Find this skill in the role catalog to get specific skills
-                    for role_entry in data.get("role_skill_catalog", []):
+                    # Locate this skill in the role catalog to obtain specific skills
+                    for role_entry in data.get("role_skill_catalog", {}).values():
                         for skill_category in role_entry.get("required_skills", []):
                             if (
                                 isinstance(skill_category, dict)
@@ -67,16 +67,15 @@ class SearchExternalCandidatesBySkills(Tool):
 
             if has_match:
                 matches.append(c)
-
-        # Return just the matches for compatibility
-        return json.dumps(matches, indent=2)
-
+        payload = matches
+        out = json.dumps(payload, indent=2)
+        return out
     @staticmethod
-    def get_info() -> Dict[str, Any]:
+    def get_info() -> dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "search_external_candidates_by_skills",
+                "name": "SearchExternalCandidatesBySkills",
                 "description": "Search talent network candidates by skill match.",
                 "parameters": {
                     "type": "object",

@@ -1,38 +1,36 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class AddMentorshipRelationship(Tool):
     @staticmethod
     def invoke(
-        data: Dict[str, Any],
+        data: dict[str, Any],
         mentor_id: str,
         mentee_id: str,
         start_date: str,
         status: str,
-        focus_areas: List[str],
+        focus_areas: list[str],
     ) -> str:
         relationships = data.setdefault("user_mentorship_relationships", [])
 
-        # --- Auto-generation logic for relationship_id ---
+        #--- Logic for auto-generating relationship_id ---
         if not relationships:
             new_id_num = 1
         else:
-            # Find the highest existing ID number to avoid collisions
+            #Identify the highest existing ID number to prevent collisions
             max_id = 0
             for rel in relationships:
                 try:
-                    num = int(rel["relationship_id"][2:])  # Assumes format MR###
+                    num = int(rel["relationship_id"][2:])  #Presumes the format MR###
                     if num > max_id:
                         max_id = num
                 except (ValueError, IndexError):
-                    continue  # Skip malformed IDs
+                    continue  #Ignore incorrectly formatted IDs
             new_id_num = max_id + 1
 
-        new_relationship_id = f"MR{new_id_num:03d}"  # Formats as MR001, MR015, etc.
+        new_relationship_id = f"MR{new_id_num:03d}"  #Formats as MR001, MR015, and so on.
 
         new_relationship = {
             "relationship_id": new_relationship_id,
@@ -44,21 +42,23 @@ class AddMentorshipRelationship(Tool):
         }
 
         relationships.append(new_relationship)
-
-        return json.dumps(
-            {
+        payload = {
                 "success": f"Mentorship relationship {new_relationship_id} created",
                 "relationship_id": new_relationship_id,
-            },
-            indent=2,
+            }
+        out = json.dumps(
+            payload, indent=2,
         )
+        return out
+
 
     @staticmethod
     def get_info() -> dict:
+        pass
         return {
             "type": "function",
             "function": {
-                "name": "add_mentorship_relationship",
+                "name": "AddMentorshipRelationship",
                 "description": "Create a new mentorship relationship with an auto-generated ID.",
                 "parameters": {
                     "type": "object",

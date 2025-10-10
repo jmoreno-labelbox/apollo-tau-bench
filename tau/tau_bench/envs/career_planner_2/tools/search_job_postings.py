@@ -1,31 +1,30 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class SearchJobPostings(Tool):
-    """Return job postings matching keywords and location."""
+    """Provide job postings that align with specified keywords and location."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        kws = kwargs.get("skill_keywords", [])
-        loc = kwargs.get("location")
+    def invoke(data: dict[str, Any], skill_keywords: list[str] = None, location: str = None) -> str:
+        if skill_keywords is None:
+            skill_keywords = []
         res = [
             p
-            for p in data.get("job_postings", [])
-            if (not loc or loc.lower() in p.get("location", ""))
-            and all(kw.lower() in json.dumps(p).lower() for kw in kws)
+            for p in data.get("job_postings", {}).values()
+            if (not location or location.lower() in p.get("location", ""))
+            and all(kw.lower() in json.dumps(p).lower() for kw in skill_keywords.values())
         ]
-        return json.dumps(res, indent=2)
-
+        payload = res
+        out = json.dumps(payload, indent=2)
+        return out
     @staticmethod
-    def get_info() -> Dict[str, Any]:
+    def get_info() -> dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "search_job_postings",
+                "name": "searchJobPostings",
                 "description": "Search postings.",
                 "parameters": {
                     "type": "object",

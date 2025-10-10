@@ -1,27 +1,26 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class GetUserCertification(Tool):
-    """Get user certifications."""
+    """Retrieve certifications held by a user."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        uid = kwargs.get("user_id")
+    def invoke(data: dict[str, Any], user_id: str = None) -> str:
+        uid = user_id
         certs = [
-            c for c in data.get("user_certifications", []) if c.get("user_id") == uid
+            c for c in data.get("user_certifications", {}).values() if c.get("user_id") == uid
         ]
-        return json.dumps(certs, indent=2)
-
+        payload = certs
+        out = json.dumps(payload, indent=2)
+        return out
     @staticmethod
-    def get_info() -> Dict[str, Any]:
+    def get_info() -> dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "get_user_certification",
+                "name": "GetUserCertification",
                 "description": "Get user certifications.",
                 "parameters": {
                     "type": "object",

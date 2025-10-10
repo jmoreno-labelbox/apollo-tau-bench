@@ -1,40 +1,40 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class GetRoleSkills(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        role = kwargs.get("role")
-        catalog = data.get("role_skill_catalog", [])
+    def invoke(data: dict[str, Any], role: str = None) -> str:
+        catalog = data.get("role_skill_catalog", {}).values()
 
-        # Debug: Check if catalog is loaded
+        # Debug: Verify if the catalog is loaded
         if not catalog:
-            return json.dumps({"error": "Role catalog not loaded"}, indent=2)
+            payload = {"error": "Role catalog not loaded"}
+            out = json.dumps(payload, indent=2)
+            return out
 
-        # Try exact match first
-        for entry in catalog:
+        # Attempt an exact match initially
+        for entry in catalog.values():
             if entry.get("role") == role:
                 skills = entry.get("required_skills", [])
                 if not skills:
-                    return json.dumps(
-                        {"error": f"No skills found for role '{role}'"}, indent=2
-                    )
+                    payload = {"error": f"No skills found for role '{role}'"}
+                    out = json.dumps(payload, indent=2)
+                    return out
 
-                # Ensure we return a list of strings, not dictionaries
+                # Make sure to return a list of strings instead of dictionaries
                 skill_names = []
                 for skill in skills:
                     if isinstance(skill, str):
                         skill_names.append(skill)
                     elif isinstance(skill, dict) and skill.get("skill"):
                         skill_names.append(skill.get("skill"))
+                payload = skill_names
+                out = json.dumps(payload, indent=2)
+                return out
 
-                return json.dumps(skill_names, indent=2)
-
-                # Try partial match for common role variations
+        # Attempt a partial match for typical role variations
         role_mapping = {
             "AI Researcher": "Senior Data Scientist",
             "Security Analyst": "Cloud Security Specialist",
@@ -50,40 +50,38 @@ class GetRoleSkills(Tool):
 
         mapped_role = role_mapping.get(role)
         if mapped_role:
-            for entry in catalog:
+            for entry in catalog.values():
                 if entry.get("role") == mapped_role:
                     skills = entry.get("required_skills", [])
                     if not skills:
-                        return json.dumps(
-                            {
-                                "error": f"No skills found for mapped role '{mapped_role}'"
-                            },
-                            indent=2,
-                        )
+                        payload = {
+                            "error": f"No skills found for mapped role '{mapped_role}'"
+                        }
+                        out = json.dumps(payload, indent=2)
+                        return out
 
-                    # Ensure we return a list of strings, not dictionaries
+                    # Confirm that we return a list of strings rather than dictionaries
                     skill_names = []
                     for skill in skills:
                         if isinstance(skill, str):
                             skill_names.append(skill)
                         elif isinstance(skill, dict) and skill.get("skill"):
                             skill_names.append(skill.get("skill"))
+                    payload = skill_names
+                    out = json.dumps(payload, indent=2)
+                    return out
 
-                    return json.dumps(skill_names, indent=2)
-
-        # List available roles for debugging
-        available_roles = [entry.get("role") for entry in catalog]
-        return json.dumps(
-            {"error": f"Role '{role}' not found", "available_roles": available_roles},
-            indent=2,
-        )
-
+        # Display available roles for debugging purposes
+        available_roles = [entry.get("role") for entry in catalog.values()]
+        payload = {"error": f"Role '{role}' not found", "available_roles": available_roles}
+        out = json.dumps(payload, indent=2)
+        return out
     @staticmethod
-    def get_info() -> Dict[str, Any]:
+    def get_info() -> dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "get_role_skills",
+                "name": "GetRoleSkills",
                 "description": "Get required skills for a specific role.",
                 "parameters": {
                     "type": "object",

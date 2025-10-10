@@ -1,29 +1,28 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class GetUserCourseProgress(Tool):
-    """Get all course progress for a user."""
+    """Retrieve the complete course progress for a user."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        uid = kwargs.get("user_id")
+    def invoke(data: dict[str, Any], user_id: str = None) -> str:
+        uid = user_id
         progress = [
             rec
-            for rec in data.get("user_course_progress", [])
+            for rec in data.get("user_course_progress", {}).values()
             if rec.get("user_id") == uid
         ]
-        return json.dumps(progress, indent=2)
-
+        payload = progress
+        out = json.dumps(payload, indent=2)
+        return out
     @staticmethod
-    def get_info() -> Dict[str, Any]:
+    def get_info() -> dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "get_user_course_progress",
+                "name": "GetUserCourseProgress",
                 "description": "Get all course progress for user.",
                 "parameters": {
                     "type": "object",

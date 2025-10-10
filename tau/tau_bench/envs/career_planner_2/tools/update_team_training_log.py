@@ -1,33 +1,30 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class UpdateTeamTrainingLog(Tool):
-    """Add entry to team training log."""
+    """Insert an entry into the team training log."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        tid = kwargs.get("team_id")
-        entry = kwargs.get("entry")
+    def invoke(data: dict[str, Any], team_id: str = None, entry: str = None) -> str:
         logs = data.setdefault("team_training_logs", [])
         logs.append(
             {
-                "team_id": tid,
+                "team_id": team_id,
                 "entry": entry,
                 "date": datetime.utcnow().date().isoformat(),
             }
         )
-        return json.dumps({"success": f"Log entry added for {tid}"}, indent=2)
-
+        payload = {"success": f"Log entry added for {team_id}"}
+        out = json.dumps(payload, indent=2)
+        return out
     @staticmethod
-    def get_info() -> Dict[str, Any]:
+    def get_info() -> dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "update_team_training_log",
+                "name": "UpdateTeamTrainingLog",
                 "description": "Add training log entry.",
                 "parameters": {
                     "type": "object",
