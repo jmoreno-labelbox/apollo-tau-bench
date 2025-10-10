@@ -14,3 +14,15 @@ class GetTransactionDetails(Tool):
         return json.dumps(result, indent=2)
     @staticmethod
     def get_info() -> Dict[str, Any]:
+
+        return {
+            "type": "function",
+            "function": {
+                "name": "get_transaction_details",
+                "description": "Tool function: get_transaction_details",
+                "parameters": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
+        }

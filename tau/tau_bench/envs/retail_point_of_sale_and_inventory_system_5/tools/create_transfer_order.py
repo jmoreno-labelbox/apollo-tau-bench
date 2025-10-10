@@ -27,3 +27,15 @@ class CreateTransferOrder(Tool):
         return json.dumps(resp)
     @staticmethod
     def get_info() -> Dict[str, Any]:
+
+        return {
+            "type": "function",
+            "function": {
+                "name": "create_transfer_order",
+                "description": "Tool function: create_transfer_order",
+                "parameters": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
+        }

@@ -11,3 +11,15 @@ class ComplianceReview(Tool):
         return json.dumps({"compliance_reviewed": True}, indent=2)
     @staticmethod
     def get_info() -> Dict[str, Any]:
+
+        return {
+            "type": "function",
+            "function": {
+                "name": "compliance_review",
+                "description": "Tool function: compliance_review",
+                "parameters": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
+        }

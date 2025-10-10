@@ -31,3 +31,15 @@ class CreateInventoryAdjustment(Tool):
         return json.dumps(resp)
     @staticmethod
     def get_info() -> Dict[str, Any]:
+
+        return {
+            "type": "function",
+            "function": {
+                "name": "create_inventory_adjustment",
+                "description": "Tool function: create_inventory_adjustment",
+                "parameters": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
+        }

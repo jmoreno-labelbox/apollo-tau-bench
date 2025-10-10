@@ -11,3 +11,15 @@ class RestockLowInventory(Tool):
         return json.dumps({"restock_triggered": True}, indent=2)
     @staticmethod
     def get_info() -> Dict[str, Any]:
+
+        return {
+            "type": "function",
+            "function": {
+                "name": "restock_low_inventory",
+                "description": "Tool function: restock_low_inventory",
+                "parameters": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
+        }

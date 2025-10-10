@@ -17,3 +17,15 @@ class GetPromotionInfo(Tool):
         return json.dumps(result)
     @staticmethod
     def get_info() -> Dict[str, Any]:
+
+        return {
+            "type": "function",
+            "function": {
+                "name": "get_promotion_info",
+                "description": "Tool function: get_promotion_info",
+                "parameters": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
+        }

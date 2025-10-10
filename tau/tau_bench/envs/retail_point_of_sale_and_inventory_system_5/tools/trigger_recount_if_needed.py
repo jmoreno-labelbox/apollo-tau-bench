@@ -11,3 +11,15 @@ class TriggerRecountIfNeeded(Tool):
         return json.dumps({"recount_triggered": True}, indent=2)
     @staticmethod
     def get_info() -> Dict[str, Any]:
+
+        return {
+            "type": "function",
+            "function": {
+                "name": "trigger_recount_if_needed",
+                "description": "Tool function: trigger_recount_if_needed",
+                "parameters": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
+        }

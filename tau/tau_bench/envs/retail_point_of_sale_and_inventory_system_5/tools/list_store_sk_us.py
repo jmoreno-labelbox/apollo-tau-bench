@@ -14,3 +14,15 @@ class ListStoreSKUs(Tool):
         return json.dumps(result, indent=2)
     @staticmethod
     def get_info() -> Dict[str, Any]:
+
+        return {
+            "type": "function",
+            "function": {
+                "name": "list_store_sk_us",
+                "description": "Tool function: list_store_sk_us",
+                "parameters": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
+        }

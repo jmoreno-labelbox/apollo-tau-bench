@@ -18,3 +18,15 @@ class LogAuditResult(Tool):
         return json.dumps({"message": "Audit result logged.", "entry": entry})
     @staticmethod
     def get_info() -> Dict[str, Any]:
+
+        return {
+            "type": "function",
+            "function": {
+                "name": "log_audit_result",
+                "description": "Tool function: log_audit_result",
+                "parameters": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
+        }

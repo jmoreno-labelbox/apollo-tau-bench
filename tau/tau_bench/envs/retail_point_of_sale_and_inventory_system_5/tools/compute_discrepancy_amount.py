@@ -17,12 +17,17 @@ class ComputeDiscrepancyAmount(Tool):
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
+            "function": {
                 "name": "compute_discrepancy_amount",
+                "description": "Compute discrepancy amount based on counts and unit cost",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "system_count": {"type": "integer"},
                         "physical_count": {"type": "integer"},
                         "unit_cost": {"type": "number"}
-                    }
+                    },
+                    "required": ["system_count", "physical_count", "unit_cost"]
                 }
+            }
+        }
