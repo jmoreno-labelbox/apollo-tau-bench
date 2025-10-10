@@ -11,7 +11,7 @@ class GetAutomationRunHistory(Tool):
         rtype = kwargs.get("run_type")
         status = kwargs.get("status")
         limit = int(kwargs.get("limit", 10))
-        runs = data.get("automation_runs", [])
+        runs = list(data.get("automation_runs", {}).values())
         if rtype:
             runs = [r for r in runs if r.get("run_type") == rtype]
         if status:

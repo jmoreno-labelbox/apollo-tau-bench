@@ -13,7 +13,7 @@ class CreateMealPlan(Tool):
         week_start_date = kwargs.get("week_start_date")
         created_by_user_id = kwargs.get("created_by_user_id")
 
-        meal_plans = data.get("meal_plans", [])
+        meal_plans = list(data.get("meal_plans", {}).values())
         # Automatically create the subsequent meal_plan_id.
         new_id = max([plan.get("meal_plan_id", 0) for plan in meal_plans]) + 1 if meal_plans else 6001
 

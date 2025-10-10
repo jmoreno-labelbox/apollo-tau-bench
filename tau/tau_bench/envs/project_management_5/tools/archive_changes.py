@@ -15,7 +15,7 @@ class ArchiveChanges(Tool):
         if not all([project_id, archived_by]):
             return json.dumps({"error": "project_id and archived_by are required"})
 
-        change_requests = data.get("change_requests", [])
+        change_requests = list(data.get("change_requests", {}).values())
 
         if "archived_changes" not in data:
             data["archived_changes"] = []

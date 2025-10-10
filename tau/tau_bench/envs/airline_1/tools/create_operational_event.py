@@ -18,7 +18,7 @@ class CreateOperationalEvent(Tool):
         flight_number: Optional[str] = None,
         date: Optional[str] = None
     ) -> str:
-        events = data.get("operational_events", [])
+        events = list(data.get("operational_events", {}).values())
 
         last_id_numeric = 0
         if events:

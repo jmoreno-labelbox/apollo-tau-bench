@@ -34,7 +34,7 @@ class RegisterSymbol(Tool):
         platform = kwargs.get("platform")
         pdb_uri = kwargs.get("pdb_uri")
         status = kwargs.get("status")
-        symbols = data.get("symbols", [])
+        symbols = list(data.get("symbols", {}).values())
         sym_id = f"AUTO::symbol::{build_id}::{module_name}"
         existing = next((s for s in symbols if s.get("id") == sym_id), None)
         if existing:

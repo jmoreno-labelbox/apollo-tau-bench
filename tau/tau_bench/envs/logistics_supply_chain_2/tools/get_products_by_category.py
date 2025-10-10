@@ -12,7 +12,7 @@ class GetProductsByCategory(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         category = kwargs.get("category", "").lower()
         list_of_products = kwargs.get("list_of_ids", None)
-        products = data.get("product_master", [])
+        products = list(data.get("product_master", {}).values())
         result = [p['sku'] for p in products if p["category"].lower() == category]
         if list_of_products:
             result = [r for r in result if r in list_of_products]

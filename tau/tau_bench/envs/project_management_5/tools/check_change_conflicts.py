@@ -14,7 +14,7 @@ class CheckChangeConflicts(Tool):
         if not cr_id:
             return json.dumps({"error": "cr_id is required"})
 
-        change_requests = data.get("change_requests", [])
+        change_requests = list(data.get("change_requests", {}).values())
 
         cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:

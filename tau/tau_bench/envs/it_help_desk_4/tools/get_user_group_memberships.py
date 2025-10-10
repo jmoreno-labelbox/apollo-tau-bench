@@ -9,7 +9,7 @@ class GetUserGroupMemberships(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         account_id = kwargs.get("account_id")
-        account = next((a for a in data.get("directory_accounts", []) if a.get("account_id") == account_id), None)
+        account = next((a for a in list(data.get("directory_accounts", {}).values()) if a.get("account_id") == account_id), None)
         if account and "group_ids" in account:
             return json.dumps({"account_id": account_id, "group_ids": account["group_ids"]}, indent=2)
         return json.dumps({"account_id": account_id, "group_ids": []}, indent=2)

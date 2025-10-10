@@ -9,7 +9,7 @@ class ArchiveUserAppAccounts(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         employee_id = kwargs.get("employee_id")
-        app_accounts = data.get("app_accounts", [])
+        app_accounts = list(data.get("app_accounts", {}).values())
         archived_count = 0
         for acc in app_accounts:
             if acc.get("employee_id") == employee_id:

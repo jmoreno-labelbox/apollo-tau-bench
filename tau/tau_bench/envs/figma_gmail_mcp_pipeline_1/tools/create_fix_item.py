@@ -20,14 +20,14 @@ class CreateFixItem(Tool):  # CREATE
             return json.dumps({"error": "finding_id must be a non-empty string"})
 
         # Verify the existence of the plan.
-        fix_plans = data.get("fix_plans", [])
+        fix_plans = list(data.get("fix_plans", {}).values())
         plan_exists = any(plan.get("plan_id") == plan_id for plan in fix_plans)
         if not plan_exists:
             return json.dumps({"error": f"Fix plan with ID '{plan_id}' not found"})
 
         # Verify if the finding is present in either DS or A11Y findings.
-        audit_findings_ds = data.get("audit_findings_ds", [])
-        audit_findings_a11y = data.get("audit_findings_a11y", [])
+        audit_findings_ds = list(data.get("audit_findings_ds", {}).values())
+        audit_findings_a11y = list(data.get("audit_findings_a11y", {}).values())
 
         finding_exists_ds = any(finding.get("finding_id") == finding_id for finding in audit_findings_ds)
         finding_exists_a11y = any(finding.get("finding_id") == finding_id for finding in audit_findings_a11y)
@@ -36,7 +36,7 @@ class CreateFixItem(Tool):  # CREATE
             return json.dumps({"error": f"Finding with ID '{finding_id}' not found in either DS or A11Y findings"})
 
         # Retrieve current fix items to identify the next item_id.
-        fix_items = data.get("fix_items", [])
+        fix_items = list(data.get("fix_items", {}).values())
         next_num = len(fix_items) + 1
         item_id = f"item_{next_num:03d}"
 

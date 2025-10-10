@@ -10,7 +10,7 @@ class PromoteAssetAutofixToPass(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         qa_id = kwargs.get("qa_id")
-        results = data.get("asset_qa_results", [])
+        results = list(data.get("asset_qa_results", {}).values())
         idx = _idx_by_id(results, qa_id)
         if idx is None:
             return json.dumps({"asset_qa_result": None}, indent=2)

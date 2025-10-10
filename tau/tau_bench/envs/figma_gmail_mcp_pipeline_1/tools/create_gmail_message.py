@@ -19,7 +19,7 @@ class CreateGmailMessage(Tool):  # CREATE
             return json.dumps({"error": "sender_email must be a non-empty string"})
         if not isinstance(workflow_type, str) or not workflow_type or workflow_type not in ['review', 'release']:
             return json.dumps({"error": "workflow_type must be a non-empty string"})
-        gmail_messages = data.get("gmail_messages", [])
+        gmail_messages = list(data.get("gmail_messages", {}).values())
         next_num = len(gmail_messages) + 1
         message_id = f"msg_{next_num:03d}"
         sent_ts = "2025-08-26T12:00:00Z"  # Utilize the present date and time in the production environment.

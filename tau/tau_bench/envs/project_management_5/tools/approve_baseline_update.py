@@ -15,7 +15,7 @@ class ApproveBaselineUpdate(Tool):
         if not all([baseline_id, approved_by]):
             return json.dumps({"error": "baseline_id and approved_by are required"})
 
-        scope_baselines = data.get("scope_baselines", [])
+        scope_baselines = list(data.get("scope_baselines", {}).values())
 
         baseline = next(
             (b for b in scope_baselines if b.get("baseline_id") == baseline_id), None
@@ -76,7 +76,7 @@ class ApproveBaselineUpdate(Tool):
             }
         )
 
-        change_requests = data.get("change_requests", [])
+        change_requests = list(data.get("change_requests", {}).values())
         for cr in change_requests:
             if cr.get("project_id") == project_id and cr.get("status") in [
                 "completed",

@@ -13,7 +13,7 @@ class SetBuildTriageStatus(Tool):
         triage_status = kwargs.get("triage_status")  # under_review, pending_manual_assessment
         owner_id = kwargs.get("owner_id")
 
-        runs = data.get("build_runs", [])
+        runs = list(data.get("build_runs", {}).values())
         idx = _idx_by_id(runs, run_id)
         updated = None
         if idx is not None:

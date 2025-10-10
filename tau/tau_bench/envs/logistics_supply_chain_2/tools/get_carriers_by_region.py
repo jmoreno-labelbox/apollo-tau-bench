@@ -10,7 +10,7 @@ class GetCarriersByRegion(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        carriers = data.get("carriers", [])
+        carriers = list(data.get("carriers", {}).values())
         region = kwargs.get("region", None)
         list_of_carriers = kwargs.get("list_of_scacs", None)
         if region:

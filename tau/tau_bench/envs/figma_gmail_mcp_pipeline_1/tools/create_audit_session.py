@@ -20,7 +20,7 @@ class CreateAuditSession(Tool):  # CREATE
         if audit_type not in allowed_audit_types:
             raise ValueError(f"audit_type must be one of: {allowed_audit_types}")
 
-        audits = data.get("audits", [])
+        audits = list(data.get("audits", {}).values())
 
         # Create a new audit_id by incrementing from the current audits.
         next_num = len(audits) + 1

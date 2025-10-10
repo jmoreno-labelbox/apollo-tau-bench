@@ -12,7 +12,7 @@ class UpdateOutboundOrder(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         order_id = kwargs.get("order_id")
         updates = kwargs.get("updates")
-        orders = data.get("outbound_orders", [])
+        orders = list(data.get("outbound_orders", {}).values())
 
         for order in orders:
             if order["order_id"] == order_id:

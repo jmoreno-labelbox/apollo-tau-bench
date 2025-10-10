@@ -16,7 +16,7 @@ class UpdateMealHistory(Tool):
         if history_id is None:
             return json.dumps({"error": "history_id parameter is required."})
 
-        history = data.get("meal_history", [])
+        history = list(data.get("meal_history", {}).values())
         for entry in history:
             if entry.get("history_id") == history_id:
                 if was_prepared is not None:

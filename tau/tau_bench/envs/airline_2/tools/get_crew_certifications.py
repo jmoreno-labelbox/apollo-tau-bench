@@ -9,7 +9,7 @@ class GetCrewCertifications(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], crew_member_id: str, certification_code: Optional[str]=None) -> str:
         out = []
-        for c in data.get("crew_certifications", []):
+        for c in list(data.get("crew_certifications", {}).values()):
             cmid = (c.get("crew_member") or {}).get("crew_member_id")
             if cmid != crew_member_id:
                 continue

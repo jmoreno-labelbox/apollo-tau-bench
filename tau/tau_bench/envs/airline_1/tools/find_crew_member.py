@@ -18,7 +18,7 @@ class FindCrewMember(Tool):
         employee_code: Optional[str] = None,
         crew_member_id: Optional[str] = None
     ) -> str:
-        crew_members = data.get("crew_members", [])
+        crew_members = list(data.get("crew_members", {}).values())
 
         if employee_code:
             for crew_member in crew_members:

@@ -19,8 +19,8 @@ class PrioritizeAuditFindings(Tool):  # ACQUIRE
             return json.dumps({"error": "finding_ids_list cannot be empty"})
 
         # Retrieve findings information.
-        audit_findings_ds = data.get("audit_findings_ds", [])
-        audit_findings_a11y = data.get("audit_findings_a11y", [])
+        audit_findings_ds = list(data.get("audit_findings_ds", {}).values())
+        audit_findings_a11y = list(data.get("audit_findings_a11y", {}).values())
 
         # Gather all results along with their specifics.
         findings_with_details = []

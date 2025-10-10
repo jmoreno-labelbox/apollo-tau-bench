@@ -20,8 +20,8 @@ class LinkAuditReportAsset(Tool):  # Please provide a comment for me to paraphra
             return json.dumps({"error": "report_asset_id must be a non-empty string"})
 
         # Retrieve data for audits and assets.
-        audits = data.get("audits", [])
-        assets = data.get("assets", [])
+        audits = list(data.get("audits", {}).values())
+        assets = list(data.get("assets", {}).values())
 
         # Verify the presence of the asset.
         asset_exists = any(asset.get("asset_id") == report_asset_id for asset in assets)

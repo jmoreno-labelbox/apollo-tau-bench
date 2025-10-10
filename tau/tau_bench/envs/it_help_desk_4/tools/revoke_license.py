@@ -9,7 +9,7 @@ class RevokeLicense(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         assignment_id = kwargs.get("assignment_id")
-        assignments = data.get("license_assignments", [])
+        assignments = list(data.get("license_assignments", {}).values())
         assignment = next((a for a in assignments if a.get("assignment_id") == assignment_id), None)
         if not assignment:
             return json.dumps({"error": f"Assignment {assignment_id} not found."}, indent=2)

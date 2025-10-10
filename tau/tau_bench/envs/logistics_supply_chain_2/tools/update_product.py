@@ -12,7 +12,7 @@ class UpdateProduct(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         sku = kwargs.get("sku")
         updates = kwargs.get("updates")
-        products = data.get("product_master", [])
+        products = list(data.get("product_master", {}).values())
 
         for product in products:
             if product["sku"] == sku:

@@ -16,7 +16,7 @@ class GetGroceryListItemsByListIdAndIngredientId(Tool):
         if list_id is None or ingredient_id is None:
             return json.dumps({"error": "list_id and ingredient_id parameters are required."})
 
-        grocery_list_items = data.get("grocery_list_items", [])
+        grocery_list_items = list(data.get("grocery_list_items", {}).values())
         
         matching_items = [
             item for item in grocery_list_items 

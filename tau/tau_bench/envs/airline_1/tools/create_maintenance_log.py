@@ -11,7 +11,7 @@ class CreateMaintenanceLog(Tool):
     """
     @staticmethod
     def invoke(data: Dict[str, Any], aircraft_id: str, maintenance_type: str, description: str, technician_id: str, event_date: str, status: str, work_order_id: str) -> str:
-        logs = data.get("maintenance_logs", [])
+        logs = list(data.get("maintenance_logs", {}).values())
         aircraft_list = list(data.get("aircraft", {}).values())
 
         target_aircraft = next((a for a in aircraft_list if a.get("aircraft_id") == aircraft_id), None)

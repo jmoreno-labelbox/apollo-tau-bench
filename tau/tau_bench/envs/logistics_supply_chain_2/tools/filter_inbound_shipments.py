@@ -10,7 +10,7 @@ class FilterInboundShipments(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        shipments = data.get("inbound_shipments", [])
+        shipments = list(data.get("inbound_shipments", {}).values())
         key = kwargs.get("key")
         value = kwargs.get("value")
         list_of_shipments = kwargs.get("list_of_ids", None)

@@ -12,7 +12,7 @@ class GetCertifiedSuppliers(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         keyword = kwargs.get("certification", "").lower()
         list_of_suppliers = kwargs.get("list_of_ids", None)
-        suppliers = data.get("supplier_master", [])
+        suppliers = list(data.get("supplier_master", {}).values())
         result = [
             s['supplier_id'] for s in suppliers
             if any(keyword in cert.lower() for cert in s.get("certifications", []))

@@ -11,7 +11,7 @@ class SendGroundNotification(Tool):
     """
     @staticmethod
     def invoke(data: Dict[str, Any], airport_id: str, message: str, priority: str = "NORMAL") -> str:
-        operational_events = data.get("operational_events", [])
+        operational_events = list(data.get("operational_events", {}).values())
         message = {
             "event_type": "GROUND_NOTIFICATION",
             "status": "Notification Sent",

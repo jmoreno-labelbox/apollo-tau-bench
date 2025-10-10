@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetCrewMemberByEmployeeCode(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], employee_code: str) -> str:
-        for c in data.get("crew_members", []):
+        for c in list(data.get("crew_members", {}).values()):
             if c.get("employee_code") == employee_code:
                 return _j(c)
         return _j({})

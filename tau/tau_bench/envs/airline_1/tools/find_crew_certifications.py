@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class FindCrewCertifications(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], crew_member_id: str, certification_code: Optional[str] = None) -> str:
-        cert_records = data.get("crew_certifications", [])
+        cert_records = list(data.get("crew_certifications", {}).values())
         results = []
         for record in cert_records:
             if record.get("crew_member", {}).get("crew_member_id") == crew_member_id:

@@ -13,7 +13,7 @@ class CompleteAutomationRun(Tool):
         status = kwargs.get("status")
         outputs_json = kwargs.get("outputs_json", {})
 
-        runs = data.get("automation_runs", [])
+        runs = list(data.get("automation_runs", {}).values())
         idx = _idx_by_id(runs, automation_run_id)
         if idx is None:
             runs.append({

@@ -13,9 +13,9 @@ class CompareAgainstBaseline(Tool):
         if not project_id:
             return json.dumps({"error": "project_id is required"})
 
-        scope_baselines = data.get("scope_baselines", [])
-        change_requests = data.get("change_requests", [])
-        deliverables = data.get("deliverables", [])
+        scope_baselines = list(data.get("scope_baselines", {}).values())
+        change_requests = list(data.get("change_requests", {}).values())
+        deliverables = list(data.get("deliverables", {}).values())
 
         if baseline_version := kwargs.get("baseline_version"):
             baseline = next(

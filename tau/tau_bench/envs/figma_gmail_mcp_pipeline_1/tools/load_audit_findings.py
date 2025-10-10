@@ -16,7 +16,7 @@ class LoadAuditFindings(Tool):  # READING
             return json.dumps({"error": "Invalid audit_id parameter"})
 
         # Locate the audit.
-        audits = data.get("audits", [])
+        audits = list(data.get("audits", {}).values())
         audit = None
         for a in audits:
             if a.get("audit_id") == audit_id:
@@ -32,7 +32,7 @@ class LoadAuditFindings(Tool):  # READING
 
         # Retrieve associated data science insights.
         ds_findings = []
-        audit_findings_ds = data.get("audit_findings_ds", [])
+        audit_findings_ds = list(data.get("audit_findings_ds", {}).values())
         for finding in audit_findings_ds:
             if finding.get("audit_id") == audit_id:
                 ds_findings.append({
@@ -45,7 +45,7 @@ class LoadAuditFindings(Tool):  # READING
 
         # Locate associated accessibility issues.
         a11y_findings = []
-        audit_findings_a11y = data.get("audit_findings_a11y", [])
+        audit_findings_a11y = list(data.get("audit_findings_a11y", {}).values())
         for finding in audit_findings_a11y:
             if finding.get("audit_id") == audit_id:
                 a11y_findings.append({

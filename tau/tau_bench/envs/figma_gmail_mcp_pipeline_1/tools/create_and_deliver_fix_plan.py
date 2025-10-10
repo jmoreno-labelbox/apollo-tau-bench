@@ -16,7 +16,7 @@ class CreateAndDeliverFixPlan(Tool):  # CREATE
             return json.dumps({"error": "plan_id must be a non-empty string"})
 
         # Identify the resolution strategy.
-        fix_plans = data.get("fix_plans", [])
+        fix_plans = list(data.get("fix_plans", {}).values())
         fix_plan = next((plan for plan in fix_plans if plan.get("plan_id") == plan_id), None)
 
         if not fix_plan:
@@ -27,7 +27,7 @@ class CreateAndDeliverFixPlan(Tool):  # CREATE
         owner_email = fix_plan.get("owner_email")
 
         # Retrieve the artifact_id by locating the audit.
-        audits = data.get("audits", [])
+        audits = list(data.get("audits", {}).values())
         audit = next((a for a in audits if a.get("audit_id") == audit_id), None)
 
         if not audit:
@@ -42,7 +42,7 @@ class CreateAndDeliverFixPlan(Tool):  # CREATE
             ticket_id = f"JIRA-{ticket_digits}"
 
             # Modify all fix_items associated with this plan_id to update external_ticket_ref_nullable.
-            fix_items = data.get("fix_items", [])
+            fix_items = list(data.get("fix_items", {}).values())
             updated_count = 0
             for item in fix_items:
                 if item.get("plan_id") == plan_id:
@@ -57,7 +57,7 @@ class CreateAndDeliverFixPlan(Tool):  # CREATE
 
         elif delivery_method == "COMMENTS":
             # Add a new comment in Figma.
-            figma_comments = data.get("figma_comments", [])
+            figma_comments = list(data.get("figma_comments", {}).values())
             next_num = len(figma_comments) + 1
             comment_id = f"comment_{next_num:03d}"
 
@@ -81,7 +81,7 @@ class CreateAndDeliverFixPlan(Tool):  # CREATE
 
         elif delivery_method == "PDF":
             # Generate a new asset.
-            assets = data.get("assets", [])
+            assets = list(data.get("assets", {}).values())
             next_num = len(assets) + 1
             asset_id = f"asset_{next_num:03d}"
 

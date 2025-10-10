@@ -9,7 +9,7 @@ class ActivatePromotion(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         promotion_id = kwargs.get('promotion_id')
-        promotions = data.get("promotions", [])
+        promotions = list(data.get("promotions", {}).values())
         for promo in promotions:
             if promo.get("promotion_id") == promotion_id:
                 promo["status"] = "active"

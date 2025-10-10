@@ -16,7 +16,7 @@ class GetMealHistoryByHouseholdAndDate(Tool):
         if household_id is None or plan_date is None:
             return json.dumps({"error": "household_id and plan_date parameters are required."})
 
-        meal_history = data.get("meal_history", [])
+        meal_history = list(data.get("meal_history", {}).values())
         
         matching_history = [
             entry for entry in meal_history 

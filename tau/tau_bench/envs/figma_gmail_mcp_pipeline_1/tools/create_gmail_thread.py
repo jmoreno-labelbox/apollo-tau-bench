@@ -27,7 +27,7 @@ class CreateGmailThread(Tool):  # CREATE
         invalid_labels = [l for l in current_labels if l not in gmail_labels]
         if invalid_labels:
             return json.dumps({"error": f"Invalid labels: {invalid_labels}. Allowed: {gmail_labels}"})
-        gmail_threads = data.get("gmail_threads", [])
+        gmail_threads = list(data.get("gmail_threads", {}).values())
         next_num = len(gmail_threads) + 1
         thread_id = f"thread_{next_num:03d}"
         created_ts = "2025-08-26T12:00:00Z"  # Utilize the present date and time in the production environment.

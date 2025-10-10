@@ -10,7 +10,7 @@ class GetOnTimeDeliveryStats(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        carriers = data.get("carriers", [])
+        carriers = list(data.get("carriers", {}).values())
         list_of_carriers = kwargs.get("list_of_scacs", None)
         if not carriers:
             return json.dumps({"average_on_time_delivery": 0.0}, indent=2)

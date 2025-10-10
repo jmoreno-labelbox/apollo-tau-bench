@@ -15,7 +15,7 @@ class LinkChangeToMilestone(Tool):
         if not all([cr_id, milestone_id]):
             return json.dumps({"error": "cr_id and milestone_id are required"})
 
-        change_requests = data.get("change_requests", [])
+        change_requests = list(data.get("change_requests", {}).values())
         milestones = list(data.get("milestones", {}).values())
 
         cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)

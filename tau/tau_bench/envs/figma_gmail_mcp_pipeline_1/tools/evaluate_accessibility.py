@@ -15,7 +15,7 @@ class EvaluateAccessibility(Tool):  # RETRIEVE
         if not isinstance(artifact_id, str) or not artifact_id:
             return json.dumps({"error": "artifact_id must be a non-empty string"})
 
-        artifacts = data.get("figma_artifacts", [])
+        artifacts = list(data.get("figma_artifacts", {}).values())
 
         # Locate the artifact.
         artifact = next((a for a in artifacts if a.get("artifact_id") == artifact_id), None)

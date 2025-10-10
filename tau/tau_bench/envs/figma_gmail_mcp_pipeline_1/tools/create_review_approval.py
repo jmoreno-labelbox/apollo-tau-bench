@@ -18,13 +18,13 @@ class CreateReviewApproval(Tool):  # GENERATE
             return json.dumps({"error": "cycle_id must be a non-empty string"})
         if not approval_comment_id and not approver_email:
             return json.dumps({"error": "Must provide either approval_comment_id or approver_email"})
-        review_approvals = data.get("review_approvals", [])
+        review_approvals = list(data.get("review_approvals", {}).values())
         next_num = len(review_approvals) + 1
         approval_id = f"approval_{next_num:03d}"
         approved_ts = "2025-08-26T12:00:00Z"  # Utilize the present date and time in the production environment.
         # When a comment is available, attempt to retrieve approver_email from figma_comments.
         if approval_comment_id:
-            figma_comments = data.get("figma_comments", [])
+            figma_comments = list(data.get("figma_comments", {}).values())
             comment = next((c for c in figma_comments if c.get("comment_id") == approval_comment_id), None)
             if comment:
                 approver_email = comment.get("commenter_email")

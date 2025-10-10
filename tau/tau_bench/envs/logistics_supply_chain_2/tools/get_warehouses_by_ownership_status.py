@@ -12,7 +12,7 @@ class GetWarehousesByOwnershipStatus(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         ownership_status = kwargs.get("ownership_status")
         list_of_ids = kwargs.get("list_of_ids", [])
-        warehouses = data.get("warehouses", [])
+        warehouses = list(data.get("warehouses", {}).values())
         result = []
         for warehouse in warehouses:
             if warehouse["ownership_status"].lower() == ownership_status.lower():

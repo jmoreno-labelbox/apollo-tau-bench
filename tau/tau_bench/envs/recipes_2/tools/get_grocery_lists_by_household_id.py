@@ -14,7 +14,7 @@ class GetGroceryListsByHouseholdId(Tool):
         if household_id is None:
             return json.dumps({"error": "household_id parameter is required."})
 
-        grocery_lists = data.get("grocery_lists", [])
+        grocery_lists = list(data.get("grocery_lists", {}).values())
         
         matching_lists = [
             glist for glist in grocery_lists 

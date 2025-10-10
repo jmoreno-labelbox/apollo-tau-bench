@@ -15,7 +15,7 @@ class DetectReleaseVersion(Tool):  # READ.
         if not isinstance(release_id, str) or not release_id:
             return json.dumps({"error": "release_id must be a non-empty string"})
 
-        releases = data.get("releases", [])
+        releases = list(data.get("releases", {}).values())
 
         # Locate the deployment
         release = next((r for r in releases if r.get("release_id") == release_id), None)

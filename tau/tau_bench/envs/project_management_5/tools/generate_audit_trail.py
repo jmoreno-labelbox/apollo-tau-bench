@@ -15,12 +15,12 @@ class GenerateAuditTrail(Tool):
         if not cr_id:
             return json.dumps({"error": "cr_id is required"})
 
-        change_requests = data.get("change_requests", [])
-        change_history = data.get("change_history", [])
-        change_approvals = data.get("change_approvals", [])
-        artifact_updates = data.get("artifact_updates", [])
-        risk_assessments = data.get("risk_assessments", [])
-        emergency_logs = data.get("emergency_logs", [])
+        change_requests = list(data.get("change_requests", {}).values())
+        change_history = list(data.get("change_history", {}).values())
+        change_approvals = list(data.get("change_approvals", {}).values())
+        artifact_updates = list(data.get("artifact_updates", {}).values())
+        risk_assessments = list(data.get("risk_assessments", {}).values())
+        emergency_logs = list(data.get("emergency_logs", {}).values())
 
         cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:

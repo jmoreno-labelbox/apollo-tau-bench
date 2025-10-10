@@ -11,7 +11,7 @@ class UpdateAdsetBidStrategy(Tool):
         aid = kwargs.get("adset_id")
         bs = kwargs.get("bid_strategy")
         ba = kwargs.get("bid_amount")
-        for a in data.get("adsets", []):
+        for a in list(data.get("adsets", {}).values()):
             if a.get("adset_id") == aid:
                 a["bid_strategy"] = bs
                 a["bid_amount"] = ba

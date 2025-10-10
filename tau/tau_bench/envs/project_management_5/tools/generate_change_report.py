@@ -15,10 +15,10 @@ class GenerateChangeReport(Tool):
         if not project_id:
             return json.dumps({"error": "project_id is required"})
 
-        change_requests = data.get("change_requests", [])
-        change_approvals = data.get("change_approvals", [])
+        change_requests = list(data.get("change_requests", {}).values())
+        change_approvals = list(data.get("change_approvals", {}).values())
         projects = list(data.get("projects", {}).values())
-        emergency_logs = data.get("emergency_logs", [])
+        emergency_logs = list(data.get("emergency_logs", {}).values())
         report = {}
 
         project = next((p for p in projects if p.get("project_id") == project_id), None)
@@ -218,7 +218,7 @@ class GenerateChangeReport(Tool):
             missing_risk_assessments = 0
             non_compliant_items = []
 
-            scope_baselines = data.get("scope_baselines", [])
+            scope_baselines = list(data.get("scope_baselines", {}).values())
             baseline_exists = any(
                 b.get("project_id") == project_id and b.get("status") == "approved"
                 for b in scope_baselines
@@ -279,7 +279,7 @@ class GenerateChangeReport(Tool):
                         overdue_implementations += 1
 
                 if cr.get("requires_risk_assessment"):
-                    risk_assessments = data.get("risk_assessments", [])
+                    risk_assessments = list(data.get("risk_assessments", {}).values())
                     has_risk = any(
                         ra.get("cr_id") == cr.get("cr_id") for ra in risk_assessments
                     )
@@ -321,7 +321,7 @@ class GenerateChangeReport(Tool):
                 "non_compliant_items": non_compliant_items,
             }
 
-        cr_reports = data.get("change_request_reports", [])
+        cr_reports = list(data.get("change_request_reports", {}).values())
         cr_reports.append({
             "report_id": f"rp_{uuid.uuid4().hex[:8]}",
             "project_id": project_id,

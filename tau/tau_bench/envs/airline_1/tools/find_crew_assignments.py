@@ -11,7 +11,7 @@ class FindCrewAssignments(Tool):
     """
     @staticmethod
     def invoke(data: Dict[str, Any], crew_member_id: str, flight_number:Optional[str] = None) -> str:
-        assignments = data.get("flight_crew_assignments", [])
+        assignments = list(data.get("flight_crew_assignments", {}).values())
         results = [a for a in assignments if a["crew_member"]["crew_member_id"] == crew_member_id]
         if flight_number:
             results = [a for a in results if a["flight"]["flight_number"] == flight_number]

@@ -19,9 +19,9 @@ class ScheduleChangeReview(Tool):
                 {"error": "project_id, review_date, and scheduled_by are required"}
             )
 
-        change_reviews = data.get("change_reviews", [])
-        change_requests = data.get("change_requests", [])
-        emergency_logs = data.get("emergency_logs", [])
+        change_reviews = list(data.get("change_reviews", {}).values())
+        change_requests = list(data.get("change_requests", {}).values())
+        emergency_logs = list(data.get("emergency_logs", {}).values())
 
         existing = next(
             (

@@ -9,7 +9,7 @@ class GetAdsetsByCategory(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         c = kwargs.get("category")
-        rows = [r for r in data.get("adsets", []) if r.get("category") == c]
+        rows = [r for r in list(data.get("adsets", {}).values()) if r.get("category") == c]
         return json.dumps({"adsets": rows})
 
     @staticmethod

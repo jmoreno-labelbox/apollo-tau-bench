@@ -15,8 +15,8 @@ class IdentifyCustomGroupsAndMapToDsComponents(Tool):  # ACCESS
         if not isinstance(audit_id, str) or not audit_id:
             return json.dumps({"error": "audit_id must be a non-empty string"})
 
-        audits = data.get("audits", [])
-        artifacts = data.get("figma_artifacts", [])
+        audits = list(data.get("audits", {}).values())
+        artifacts = list(data.get("figma_artifacts", {}).values())
 
         # Locate the audit.
         audit = next((a for a in audits if a.get("audit_id") == audit_id), None)

@@ -11,7 +11,7 @@ class SendPassengerNotification(Tool):
     """
     @staticmethod
     def invoke(data: Dict[str, Any], reservation_id: str, message: str) -> str:
-        operational_events = data.get("operational_events", [])
+        operational_events = list(data.get("operational_events", {}).values())
         message = {
             "event_type": "PASSENGER_NOTIFICATION",
             "status": "Notification Sent",

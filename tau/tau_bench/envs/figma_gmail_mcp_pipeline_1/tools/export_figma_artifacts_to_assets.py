@@ -15,8 +15,8 @@ class ExportFigmaArtifactsToAssets(Tool):  # CREATE
         # Check the input for correctness.
         if not isinstance(artifact_ids, list) or not all(isinstance(aid, str) for aid in artifact_ids):
             return json.dumps({"error": "artifact_ids must be a list of strings"})
-        artifacts = data.get("figma_artifacts", [])
-        assets = data.get("assets", [])
+        artifacts = list(data.get("figma_artifacts", {}).values())
+        assets = list(data.get("assets", {}).values())
         # Export profile by default
         default_profile = {"format": "PNG", "scale": "2x"}
         profile = export_profile if export_profile else default_profile

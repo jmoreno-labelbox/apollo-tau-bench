@@ -10,7 +10,7 @@ class UpdateAdsetBudget(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         aid = kwargs.get("adset_id")
         nb = float(kwargs.get("new_budget"))
-        for a in data.get("adsets", []):
+        for a in list(data.get("adsets", {}).values()):
             if a.get("adset_id") == aid:
                 a["daily_budget"] = nb
                 a["updated_at"] = kwargs.get("updated_at")

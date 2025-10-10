@@ -38,7 +38,7 @@ class AddRunStep(Tool):
             "started_at": kwargs.get("started_at"),
             "ended_at": kwargs.get("ended_at"),
         }
-        runs = data.get("build_runs", [])
+        runs = list(data.get("build_runs", {}).values())
         run = next((r for r in runs if r.get("id") == run_id), None)
         if not run:
             return json.dumps({"error": "run_not_found", "run_id": run_id})

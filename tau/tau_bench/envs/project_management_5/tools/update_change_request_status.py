@@ -17,9 +17,9 @@ class UpdateChangeRequestStatus(Tool):
                 {"error": "cr_id, new_status, and performed_by are required"}
             )
 
-        change_requests = data.get("change_requests", [])
-        change_history = data.get("change_history", [])
-        risk_assessments = data.get("risk_assessments", [])
+        change_requests = list(data.get("change_requests", {}).values())
+        change_history = list(data.get("change_history", {}).values())
+        risk_assessments = list(data.get("risk_assessments", {}).values())
 
         cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:

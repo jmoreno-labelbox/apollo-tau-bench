@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class RemoveCrewAssignment(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], assignment_id: str) -> str:
-        assignments = data.get("flight_crew_assignments", [])
+        assignments = list(data.get("flight_crew_assignments", {}).values())
         for i, a in enumerate(assignments):
             if a.get("assignment_id") == assignment_id:
                 removed = assignments.pop(i)

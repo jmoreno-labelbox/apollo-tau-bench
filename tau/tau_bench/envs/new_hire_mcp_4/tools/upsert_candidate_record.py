@@ -18,7 +18,7 @@ class UpsertCandidateRecord(Tool):
 
         candidates = data.setdefault("candidates", [])
         row = {}
-        for _row in data.get("candidates", []):
+        for _row in list(data.get("candidates", {}).values()):
             if _row.get("candidate_email") == email and _row.get("start_date") == start:
                 row = _row
         if row:

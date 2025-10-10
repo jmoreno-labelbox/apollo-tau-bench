@@ -11,7 +11,7 @@ class UpdateInventoryItemQuantity(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         inv_item_id = kwargs.get("inv_item_id")
         new_quantity = kwargs.get("new_quantity")
-        inventory = data.get("inventory_items", [])
+        inventory = list(data.get("inventory_items", {}).values())
         for item in inventory:
             if item.get("inv_item_id") == inv_item_id:
                 item["quantity"] = new_quantity

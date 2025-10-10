@@ -10,7 +10,7 @@ class UpdateLifecycleQueueStatus(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         lifecycle_id = kwargs.get("lifecycle_id")
         status = kwargs.get("status")
-        queue = data.get("lifecycle_queue", [])
+        queue = list(data.get("lifecycle_queue", {}).values())
         entry = next((e for e in queue if e.get("lifecycle_id") == lifecycle_id), None)
         if not entry:
             return json.dumps({"error": f"Lifecycle entry {lifecycle_id} not found."}, indent=2)

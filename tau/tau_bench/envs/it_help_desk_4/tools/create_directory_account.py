@@ -10,7 +10,7 @@ class CreateDirectoryAccount(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         legal_name = kwargs.get("legal_name")
         hr_id = kwargs.get("hr_id")
-        accounts = data.get("directory_accounts", [])
+        accounts = list(data.get("directory_accounts", {}).values())
         username = legal_name.lower().replace(" ", ".")
         upn = f"{username}@company.com"
         name_part = "".join(filter(str.isalnum, legal_name.split()[0])).lower()

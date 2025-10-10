@@ -11,7 +11,7 @@ class GetDelayedShipments(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         from datetime import datetime
-        shipments = data.get("inbound_shipments", [])
+        shipments = list(data.get("inbound_shipments", {}).values())
         list_of_shipments = kwargs.get("list_of_ids", None)
         today = datetime.strptime(kwargs.get('today'), "%Y-%m-%d").date()
         delayed = []

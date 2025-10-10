@@ -12,7 +12,7 @@ class UpdateMealPlanEntryNotes(Tool):
         entry_id = kwargs.get("entry_id")
         new_notes = kwargs.get("new_notes")
 
-        entries = data.get("meal_plan_entries", [])
+        entries = list(data.get("meal_plan_entries", {}).values())
         for entry in entries:
             if entry.get("entry_id") == entry_id:
                 entry["notes"] = new_notes

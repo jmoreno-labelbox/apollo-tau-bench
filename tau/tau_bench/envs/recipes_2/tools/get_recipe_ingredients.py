@@ -10,7 +10,7 @@ class GetRecipeIngredients(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         recipe_id = kwargs.get("recipe_id")
-        recipe_ingredients = data.get("recipe_ingredients", [])
+        recipe_ingredients = list(data.get("recipe_ingredients", {}).values())
         ingredients = [ri for ri in recipe_ingredients if ri.get("recipe_id") == recipe_id]
         return json.dumps(ingredients)
 

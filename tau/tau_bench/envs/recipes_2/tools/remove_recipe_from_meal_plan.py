@@ -10,7 +10,7 @@ class RemoveRecipeFromMealPlan(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         entry_id = kwargs.get("entry_id")
-        entries = data.get("meal_plan_entries", [])
+        entries = list(data.get("meal_plan_entries", {}).values())
         entry_to_remove = next((e for e in entries if e.get("entry_id") == entry_id), None)
         if entry_to_remove:
             data["meal_plan_entries"] = [e for e in entries if e.get("entry_id") != entry_id]

@@ -15,7 +15,7 @@ class SearchChangeRequests(Tool):
         requester_id = kwargs.get("requester_id")
         include_impact = kwargs.get("include_impact", False)
 
-        change_requests = data.get("change_requests", [])
+        change_requests = list(data.get("change_requests", {}).values())
         results = []
 
         for cr in change_requests:

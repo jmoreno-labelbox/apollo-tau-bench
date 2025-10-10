@@ -11,7 +11,7 @@ class GetMealHistoryForHousehold(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         household_id = kwargs.get("household_id")
         days_ago = kwargs.get("days_ago", 14)
-        meal_history = data.get("meal_history", [])
+        meal_history = list(data.get("meal_history", {}).values())
         current_date = datetime.strptime("2025-08-20", "%Y-%m-%d")
         start_date = current_date - timedelta(days=days_ago)
         history = [

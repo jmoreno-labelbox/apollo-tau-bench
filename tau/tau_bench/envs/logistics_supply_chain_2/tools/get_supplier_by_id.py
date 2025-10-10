@@ -12,7 +12,7 @@ class GetSupplierByID(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         supplier_id = kwargs.get("supplier_id")
         list_of_suppliers = kwargs.get("list_of_ids", None)
-        suppliers = data.get("supplier_master", [])
+        suppliers = list(data.get("supplier_master", {}).values())
         for supplier in suppliers:
             if supplier["supplier_id"] == supplier_id:
                 return json.dumps(supplier, indent=2)

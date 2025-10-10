@@ -11,7 +11,7 @@ class GetShipmentById(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         shipment_id = kwargs.get("shipment_id")
-        shipments = data.get("inbound_shipments", [])
+        shipments = list(data.get("inbound_shipments", {}).values())
         for shipment in shipments:
             if shipment["shipment_id"] == shipment_id:
                 return json.dumps(shipment, indent=2)

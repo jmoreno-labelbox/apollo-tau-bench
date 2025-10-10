@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class LogStrategyChange(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        rows = data.get("strategy_changes", [])
+        rows = list(data.get("strategy_changes", {}).values())
         nid = f"SC-{max((int(r['change_id'][3:]) for r in rows), default=0) + 1}"
         rec = {"change_id": nid, "adset_id": kwargs.get("adset_id"), "old_strategy": kwargs.get("old_strategy"),
                "new_strategy": kwargs.get("new_strategy"), "old_bid": kwargs.get("old_bid"),

@@ -11,7 +11,7 @@ class GetCarrierBySCAC(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         carrier_scac = kwargs.get("carrier_scac")
-        carriers = data.get("carriers", [])
+        carriers = list(data.get("carriers", {}).values())
         for carrier in carriers:
             if carrier["scac"] == carrier_scac:
                 return json.dumps(carrier, indent=2)

@@ -9,7 +9,7 @@ class GetUserLicenseAssignments(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         employee_id = kwargs.get("employee_id")
-        assignments = data.get("license_assignments", [])
+        assignments = list(data.get("license_assignments", {}).values())
         user_licenses = [a for a in assignments if a.get("employee_id") == employee_id and a.get("status") == "active"]
         return json.dumps(user_licenses, indent=2)
 

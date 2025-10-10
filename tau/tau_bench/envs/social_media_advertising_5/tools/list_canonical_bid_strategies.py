@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class ListCanonicalBidStrategies(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        for r in data.get("policy_params", []):
+        for r in list(data.get("policy_params", {}).values()):
             if r.get("param_name") == "canonical_bid_strategies":
                 return json.dumps(_as_list_literal(r.get("param_value", "[]")))
         return json.dumps([])

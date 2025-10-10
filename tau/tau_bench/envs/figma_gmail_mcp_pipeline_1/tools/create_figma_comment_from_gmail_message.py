@@ -17,8 +17,8 @@ class CreateFigmaCommentFromGmailMessage(Tool):  # Please provide the comment yo
             return json.dumps({"error": "artifact_id must be a non-empty string"})
         if not isinstance(gmail_message_id, str) or not gmail_message_id:
             return json.dumps({"error": "gmail_message_id must be a non-empty string"})
-        gmail_messages = data.get("gmail_messages", [])
-        figma_comments = data.get("figma_comments", [])
+        gmail_messages = list(data.get("gmail_messages", {}).values())
+        figma_comments = list(data.get("figma_comments", {}).values())
         # Locate the Gmail message.
         gmail_msg = next((m for m in gmail_messages if m.get("message_id") == gmail_message_id), None)
         if not gmail_msg:

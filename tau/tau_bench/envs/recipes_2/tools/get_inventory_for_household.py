@@ -10,7 +10,7 @@ class GetInventoryForHousehold(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         household_id = kwargs.get("household_id")
-        inventory = data.get("inventory_items", [])
+        inventory = list(data.get("inventory_items", {}).values())
         household_inventory = [item for item in inventory if item.get("household_id") == household_id]
         return json.dumps(household_inventory)
 

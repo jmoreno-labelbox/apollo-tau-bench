@@ -15,7 +15,7 @@ class GetArtifactIdFromName(Tool):  # READ DATA
         if not isinstance(artifact_name, str) or not artifact_name:
             return json.dumps({"error": "artifact_name must be a non-empty string"})
 
-        artifacts = data.get("figma_artifacts", [])
+        artifacts = list(data.get("figma_artifacts", {}).values())
 
         # Locate the precise match initially.
         exact_match = None

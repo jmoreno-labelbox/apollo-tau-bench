@@ -10,7 +10,7 @@ class ListFailedTestsForRun(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         test_run_id = kwargs.get("test_run_id")
-        results = data.get("test_results", [])
+        results = list(data.get("test_results", {}).values())
         failed = [r for r in results if r.get("test_run_id") == test_run_id and r.get("status") == "failed"]
         return json.dumps({"count": len(failed), "failed_results": failed}, indent=2)
 

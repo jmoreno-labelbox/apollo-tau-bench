@@ -9,7 +9,7 @@ class GetPolicyParameter(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         n = kwargs.get("param_name")
-        for r in data.get("policy_params", []):
+        for r in list(data.get("policy_params", {}).values()):
             if r.get("param_name") == n:
                 return json.dumps(r)
         return json.dumps({"error": f"policy {n} not found"})

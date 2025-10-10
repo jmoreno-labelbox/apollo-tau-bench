@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class FindAvailableCrew(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], role: str, home_base_iata: Optional[str]=None, status: Optional[str]=None) -> str:
-        crew = data.get("crew_members", [])
+        crew = list(data.get("crew_members", {}).values())
         out=[]
         for m in crew:
             if m.get("role") != role:

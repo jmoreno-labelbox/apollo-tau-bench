@@ -12,7 +12,7 @@ class GetShipmentsByStatus(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         status = kwargs.get("status", "").lower()
         list_of_shipments = kwargs.get("list_of_ids", None)
-        shipments = data.get("inbound_shipments", [])
+        shipments = list(data.get("inbound_shipments", {}).values())
         filtered = [s['shipment_id'] for s in shipments if s.get("status", "").lower() == status]
         if list_of_shipments:
             filtered = [s for s in filtered if s in list_of_shipments]

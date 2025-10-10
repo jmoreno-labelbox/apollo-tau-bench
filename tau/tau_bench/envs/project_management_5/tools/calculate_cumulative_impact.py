@@ -15,7 +15,7 @@ class CalculateCumulativeImpact(Tool):
         if not project_id:
             return json.dumps({"error": "project_id is required"})
 
-        change_requests = data.get("change_requests", [])
+        change_requests = list(data.get("change_requests", {}).values())
 
         project_crs = [
             cr for cr in change_requests if cr.get("project_id") == project_id

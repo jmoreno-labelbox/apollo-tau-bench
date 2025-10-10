@@ -10,7 +10,7 @@ class UpdateCandidateStatusFields(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         cand_id = kwargs["candidate_id"]
         fields: Dict[str, Any] = kwargs.get("fields", {})
-        for row in data.get("candidates", []):
+        for row in list(data.get("candidates", {}).values()):
             if row.get("candidate_id") == cand_id:
                 for k, v in fields.items():
                     if v is None:

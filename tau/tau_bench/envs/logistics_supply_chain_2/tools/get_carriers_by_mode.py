@@ -10,7 +10,7 @@ class GetCarriersByMode(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        carriers = data.get("carriers", [])
+        carriers = list(data.get("carriers", {}).values())
         mode = kwargs.get("mode", None)
         list_of_carriers = kwargs.get("list_of_scacs", None)
         if mode:

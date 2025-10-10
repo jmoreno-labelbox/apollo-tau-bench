@@ -11,7 +11,7 @@ class UpdateAssetCatalogPerformanceRating(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         asset_path = kwargs.get("asset_path")
         performance_rating = kwargs.get("performance_rating")
-        rows = data.get("asset_catalog", [])
+        rows = list(data.get("asset_catalog", {}).values())
         idx = next((i for i, r in enumerate(rows) if r.get("asset_path") == asset_path), None)
         if idx is None:
             return json.dumps({"asset_catalog": None}, indent=2)

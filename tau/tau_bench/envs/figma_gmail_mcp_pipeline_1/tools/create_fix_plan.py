@@ -21,13 +21,13 @@ class CreateFixPlan(Tool):  # CREATE
             return json.dumps({"error": "owner_email must be a non-empty string"})
 
         # Verify the presence of an audit.
-        audits = data.get("audits", [])
+        audits = list(data.get("audits", {}).values())
         audit_exists = any(audit.get("audit_id") == audit_id for audit in audits)
         if not audit_exists:
             return json.dumps({"error": f"Audit with ID '{audit_id}' not found"})
 
         # Retrieve current fix plans to identify the next plan_id.
-        fix_plans = data.get("fix_plans", [])
+        fix_plans = list(data.get("fix_plans", {}).values())
         next_num = len(fix_plans) + 1
         plan_id = f"plan_{next_num:03d}"
 

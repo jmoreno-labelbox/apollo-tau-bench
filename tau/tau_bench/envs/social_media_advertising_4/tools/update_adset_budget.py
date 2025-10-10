@@ -11,7 +11,7 @@ class UpdateAdsetBudget(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         adset_id = kwargs.get("adset_id")
         new_budget = kwargs.get("new_budget")
-        for adset in data.get('adsets', []):
+        for adset in list(data.get('adsets', {}).values()):
             if adset.get('adset_id') == adset_id:
                 adset['daily_budget'] = new_budget
                 return json.dumps(adset)

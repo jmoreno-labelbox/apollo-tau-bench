@@ -25,7 +25,7 @@ class UpdateAuditStatus(Tool):  # CREATE
             return json.dumps({"error": f"Invalid status. Allowed: {allowed_statuses}"})
 
         # Retrieve audit information.
-        audits = data.get("audits", [])
+        audits = list(data.get("audits", {}).values())
 
         # Locate the audit for updating.
         audit_to_update = None

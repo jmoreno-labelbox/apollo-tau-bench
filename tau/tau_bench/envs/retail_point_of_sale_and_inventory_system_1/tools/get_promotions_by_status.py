@@ -9,7 +9,7 @@ class GetPromotionsByStatus(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         status = kwargs.get('status')
-        promotions = data.get("promotions", [])
+        promotions = list(data.get("promotions", {}).values())
         results = [promo for promo in promotions if promo.get("status") == status]
         return json.dumps(results)
 

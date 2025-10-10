@@ -13,7 +13,7 @@ class CalculateTransactionTotals(Tool):
         credit_amount = kwargs.get('credit_amount', 0.0)
 
         products = list(data.get("products", {}).values())  # Ajustado para lista
-        promotions = data.get("promotions", [])  # Ajustado para lista
+        promotions = list(data.get("promotions", {}).values())  # Ajustado para lista
 
         subtotal = 0.0
         total_discount = 0.0

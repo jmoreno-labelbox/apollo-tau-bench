@@ -44,13 +44,13 @@ class RecordAccessibilityAuditFindings(Tool):  # CREATE
             return json.dumps({"error": f"Invalid severity. Allowed: {allowed_severities}"})
 
         # Check if audit_id is present.
-        audits = data.get("audits", [])
+        audits = list(data.get("audits", {}).values())
         audit_exists = any(audit.get("audit_id") == audit_id for audit in audits)
         if not audit_exists:
             return json.dumps({"error": f"Audit with ID '{audit_id}' not found"})
 
         # Retrieve audit_findings_a11y information.
-        audit_findings_a11y = data.get("audit_findings_a11y", [])
+        audit_findings_a11y = list(data.get("audit_findings_a11y", {}).values())
 
         # Create a new finding_id.
         next_num = len(audit_findings_a11y) + 1

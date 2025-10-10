@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class UpdateCrewMemberStatus(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], crew_member_id: str, new_status: str) -> str:
-        for c in data.get("crew_members", []):
+        for c in list(data.get("crew_members", {}).values()):
             if c.get("crew_member_id") == crew_member_id:
                 c["status"] = new_status
                 return _j(c)

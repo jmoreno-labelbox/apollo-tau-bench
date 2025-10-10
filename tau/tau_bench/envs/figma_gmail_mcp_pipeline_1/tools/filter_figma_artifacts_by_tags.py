@@ -14,7 +14,7 @@ class FilterFigmaArtifactsByTags(Tool):  # READ DATA
         # Check the input for correctness.
         if not isinstance(tags, list) or not all(isinstance(tag, str) for tag in tags):
             return json.dumps({"error": "tags must be a list of strings"})
-        artifacts = data.get("figma_artifacts", [])
+        artifacts = list(data.get("figma_artifacts", {}).values())
         # Gather all distinct tags from the artifacts.
         all_tags = set()
         for artifact in artifacts:

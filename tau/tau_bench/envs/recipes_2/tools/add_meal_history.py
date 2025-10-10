@@ -15,7 +15,7 @@ class AddMealHistory(Tool):
         was_prepared = kwargs.get("was_prepared")
         rating_int = kwargs.get("rating_int")
 
-        history = data.get("meal_history", [])
+        history = list(data.get("meal_history", {}).values())
         new_id = max([h.get("history_id", 0) for h in history]) + 1 if history else 6201
 
         new_entry = {

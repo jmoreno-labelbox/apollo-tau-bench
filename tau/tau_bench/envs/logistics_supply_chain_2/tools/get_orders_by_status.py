@@ -12,7 +12,7 @@ class GetOrdersByStatus(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         status = kwargs.get("status")
         list_of_orders = kwargs.get("list_of_ids", None)
-        orders = data.get("outbound_orders", [])
+        orders = list(data.get("outbound_orders", {}).values())
         result = [order['order_id'] for order in orders if order["status"].lower() == status.lower()]
         if list_of_orders:
             result = [r for r in result if r in list_of_orders]

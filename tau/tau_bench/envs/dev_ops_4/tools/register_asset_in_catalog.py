@@ -32,7 +32,7 @@ class RegisterAssetInCatalog(Tool):
         asset_type = kwargs.get("asset_type")
         validation_status = kwargs.get("validation_status")
         performance_rating = kwargs.get("performance_rating")
-        catalog = data.get("asset_catalog", [])
+        catalog = list(data.get("asset_catalog", {}).values())
         row = next((a for a in catalog if a.get("asset_path") == asset_path), None)
         if row:
             row["asset_type"] = asset_type

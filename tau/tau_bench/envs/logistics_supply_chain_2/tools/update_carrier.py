@@ -12,7 +12,7 @@ class UpdateCarrier(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         carrier_scac = kwargs.get("carrier_scac")
         updates = kwargs.get("updates")
-        carriers = data.get("carriers", [])
+        carriers = list(data.get("carriers", {}).values())
 
         for carrier in carriers:
             if carrier["scac"] == carrier_scac:

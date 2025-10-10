@@ -17,8 +17,8 @@ class BulkUpdateChangeStatus(Tool):
                 {"error": "cr_ids, new_status, and updated_by are required"}
             )
 
-        change_requests = data.get("change_requests", [])
-        change_history = data.get("change_history", [])
+        change_requests = list(data.get("change_requests", {}).values())
+        change_history = list(data.get("change_history", {}).values())
 
         results = {"successful": [], "failed": []}
 

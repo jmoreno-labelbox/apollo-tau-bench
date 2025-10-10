@@ -13,7 +13,7 @@ class CheckWorkflowExistsForChangeRequest(Tool):
         if not cr_id:
             return json.dumps({"error": "cr_id is required"})
 
-        approval_workflows = data.get("approval_workflows", [])
+        approval_workflows = list(data.get("approval_workflows", {}).values())
 
         existing = next(
             (w for w in approval_workflows if w.get("cr_id") == cr_id), None

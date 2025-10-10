@@ -37,7 +37,7 @@ class SaveChangeRequestsConflicts(Tool):
         if recommendation:
             conflict_cr_id_1["recommendation"] = recommendation
 
-        change_requests = data.get("change_requests", [])
+        change_requests = list(data.get("change_requests", {}).values())
         for change_request in change_requests:
             if change_request.get("cr_id") == cr_id:
                 if "conflicts" in change_request:

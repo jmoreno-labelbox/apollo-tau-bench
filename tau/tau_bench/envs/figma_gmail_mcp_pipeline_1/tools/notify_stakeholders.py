@@ -36,7 +36,7 @@ class NotifyStakeholders(Tool):  # CREATE
             valid_labels = gmail_labels[:2] if len(gmail_labels) >= 2 else gmail_labels
 
         # Initiate the Gmail conversation first.
-        gmail_threads = data.get("gmail_threads", [])
+        gmail_threads = list(data.get("gmail_threads", {}).values())
         next_thread_num = len(gmail_threads) + 1
         thread_id = f"thread_{next_thread_num:03d}"
         created_ts = "2025-08-29T12:00:00Z"
@@ -54,7 +54,7 @@ class NotifyStakeholders(Tool):  # CREATE
         gmail_threads.append(new_thread)
 
         # Compose a Gmail message within the conversation thread.
-        gmail_messages = data.get("gmail_messages", [])
+        gmail_messages = list(data.get("gmail_messages", {}).values())
         next_msg_num = len(gmail_messages) + 1
         message_id = f"msg_{next_msg_num:03d}"
         sent_ts = created_ts

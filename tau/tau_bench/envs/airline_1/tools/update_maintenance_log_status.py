@@ -9,7 +9,7 @@ class UpdateMaintenanceLogStatus(Tool):
     """A tool to update the status of an existing maintenance log."""
     @staticmethod
     def invoke(data: Dict[str, Any], log_id: str, new_status: str) -> str:
-        logs = data.get("maintenance_logs", [])
+        logs = list(data.get("maintenance_logs", {}).values())
         for log in logs:
             if log.get("log_id") == log_id:
                 log["status"] = new_status

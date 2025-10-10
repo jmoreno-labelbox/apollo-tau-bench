@@ -19,8 +19,8 @@ class CreateRiskAssessment(Tool):
         if not all([cr_id, assessed_by]):
             return json.dumps({"error": "cr_id and assessed_by are required"})
 
-        change_requests = data.get("change_requests", [])
-        risk_assessments = data.get("risk_assessments", [])
+        change_requests = list(data.get("change_requests", {}).values())
+        risk_assessments = list(data.get("risk_assessments", {}).values())
 
         cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:

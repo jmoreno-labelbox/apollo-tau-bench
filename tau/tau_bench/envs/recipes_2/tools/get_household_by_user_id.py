@@ -10,7 +10,7 @@ class GetHouseholdByUserId(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         user_id = kwargs.get("user_id")
-        households = data.get("households", [])
+        households = list(data.get("households", {}).values())
         for household in households:
             if household.get("primary_user_id") == user_id:
                 return json.dumps(household)

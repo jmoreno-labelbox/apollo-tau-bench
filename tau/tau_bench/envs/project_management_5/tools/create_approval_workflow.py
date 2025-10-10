@@ -14,9 +14,9 @@ class CreateApprovalWorkflow(Tool):
         if not cr_id:
             return json.dumps({"error": "cr_id is required"})
 
-        change_requests = data.get("change_requests", [])
-        approval_workflows = data.get("approval_workflows", [])
-        stakeholders = data.get("stakeholders", [])
+        change_requests = list(data.get("change_requests", {}).values())
+        approval_workflows = list(data.get("approval_workflows", {}).values())
+        stakeholders = list(data.get("stakeholders", {}).values())
 
         cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:

@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class LogCreativeRotation(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        rows = data.get("creative_rotations", [])
+        rows = list(data.get("creative_rotations", {}).values())
         nid = f"CR-{max((int(r['rotation_id'][3:]) for r in rows), default=0) + 1}"
         rec = {"rotation_id": nid, "adset_id": kwargs.get("adset_id"), "old_ad_id": kwargs.get("old_ad_id"),
                "new_ad_id": kwargs.get("new_ad_id"), "rotated_at": kwargs.get("rotated_at"),

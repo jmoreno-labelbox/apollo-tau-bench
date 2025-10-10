@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class MaintenanceLogsForAircraft(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], aircraft_id: str) -> str:
-        out=[m for m in data.get("maintenance_logs",[]) if (m.get("aircraft") or {}).get("aircraft_id")==aircraft_id]
+        out=[m for m in list(data.get("maintenance_logs", {}).values()) if (m.get("aircraft") or {}).get("aircraft_id")==aircraft_id]
         return _j(out)
 
     @staticmethod

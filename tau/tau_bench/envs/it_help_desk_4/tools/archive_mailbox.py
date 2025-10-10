@@ -9,7 +9,7 @@ class ArchiveMailbox(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         employee_id = kwargs.get("employee_id")
-        mailboxes = data.get("mailboxes", [])
+        mailboxes = list(data.get("mailboxes", {}).values())
         archives = data.setdefault("data_archives", [])
         mailbox = next((m for m in mailboxes if m.get("employee_id") == employee_id), None)
         if not mailbox:

@@ -38,7 +38,7 @@ class RecordDsAuditFindings(Tool):  # GENERATE
             return json.dumps({"error": f"Invalid severity. Allowed: {allowed_severities}"})
 
         # Check for the existence of audit_id.
-        audits = data.get("audits", [])
+        audits = list(data.get("audits", {}).values())
         audit_exists = any(audit.get("audit_id") == audit_id for audit in audits)
         if not audit_exists:
             return json.dumps({"error": f"Audit with ID '{audit_id}' not found"})
@@ -51,7 +51,7 @@ class RecordDsAuditFindings(Tool):  # GENERATE
             return json.dumps({"error": "code_connect_link_nullable must be a string or None"})
 
         # Retrieve data from audit_findings_ds.
-        audit_findings_ds = data.get("audit_findings_ds", [])
+        audit_findings_ds = list(data.get("audit_findings_ds", {}).values())
 
         # Create a new finding identifier.
         next_num = len(audit_findings_ds) + 1

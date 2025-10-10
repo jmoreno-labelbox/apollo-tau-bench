@@ -10,7 +10,7 @@ class GetPromotionByNameAndDate(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         promotion_name = kwargs.get('promotion_name')
         query_date_str = kwargs.get('query_date')
-        promotions = data.get("promotions", [])
+        promotions = list(data.get("promotions", {}).values())
 
         if not query_date_str:
             return json.dumps({})

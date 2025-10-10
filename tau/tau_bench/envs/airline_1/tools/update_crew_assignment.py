@@ -11,7 +11,7 @@ class UpdateCrewAssignment(Tool):
     """
     @staticmethod
     def invoke(data: Dict[str, Any], assignment_id: str, new_crew_member_id: str, new_crew_member_full_name: str) -> str:
-        assignments = data.get("flight_crew_assignments", [])
+        assignments = list(data.get("flight_crew_assignments", {}).values())
         for assignment in assignments:
             if assignment.get("assignment_id") == assignment_id:
                 assignment["crew_member"] = {

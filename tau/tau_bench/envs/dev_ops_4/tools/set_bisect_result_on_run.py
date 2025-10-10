@@ -32,7 +32,7 @@ class SetBisectResultOnRun(Tool):
         fbc = kwargs.get("first_bad_commit_sha")
         lgc = kwargs.get("last_good_commit_sha")
         conf = kwargs.get("confidence")
-        runs = data.get("build_runs", [])
+        runs = list(data.get("build_runs", {}).values())
         run = next((r for r in runs if r.get("id") == run_id), None)
         if not run:
             return json.dumps({"error": "run_not_found", "run_id": run_id})

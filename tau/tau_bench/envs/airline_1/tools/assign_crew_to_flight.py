@@ -11,7 +11,7 @@ class AssignCrewToFlight(Tool):
     """
     @staticmethod
     def invoke(data: Dict[str, Any], crew_member_id: str, flight_number: str, date: str, role: str) -> str:
-        assignments = data.get("flight_crew_assignments", [])
+        assignments = list(data.get("flight_crew_assignments", {}).values())
 
         for assignment in assignments:
             if (assignment.get("crew_member_id") == crew_member_id and

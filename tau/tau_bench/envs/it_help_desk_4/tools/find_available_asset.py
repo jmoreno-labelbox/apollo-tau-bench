@@ -9,7 +9,7 @@ class FindAvailableAsset(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         asset_type = kwargs.get("asset_type")
-        assets = data.get("it_assets", [])
+        assets = list(data.get("it_assets", {}).values())
         asset = next((a for a in assets if a.get("asset_type") == asset_type and a.get("status") == "in_stock"), None)
         if not asset:
             return json.dumps({"asset_type": asset_type, "asset": None}, indent=2)

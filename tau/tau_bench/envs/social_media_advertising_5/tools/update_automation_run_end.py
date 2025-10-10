@@ -11,7 +11,7 @@ class UpdateAutomationRunEnd(Tool):
         rid = kwargs.get("run_id")
         st = kwargs.get("status")
         ea = kwargs.get("ended_at")
-        for r in data.get("automation_runs", []):
+        for r in list(data.get("automation_runs", {}).values()):
             if r.get("run_id") == rid:
                 r["status"] = st
                 r["ended_at"] = ea

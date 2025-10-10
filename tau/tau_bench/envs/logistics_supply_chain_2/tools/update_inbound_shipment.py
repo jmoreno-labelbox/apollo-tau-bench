@@ -12,7 +12,7 @@ class UpdateInboundShipment(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         shipment_id = kwargs.get("shipment_id")
         updates = kwargs.get("updates")
-        shipments = data.get("inbound_shipments", [])
+        shipments = list(data.get("inbound_shipments", {}).values())
 
         for shipment in shipments:
             if shipment["shipment_id"] == shipment_id:

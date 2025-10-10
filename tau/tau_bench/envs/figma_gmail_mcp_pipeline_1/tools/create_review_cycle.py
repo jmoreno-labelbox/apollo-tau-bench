@@ -19,7 +19,7 @@ class CreateReviewCycle(Tool):  # CREATE
         allowed_status = ["NEEDS_REVIEW", "APPROVED", "CHANGES_REQUESTED", "ESCALATED", "IN_FLIGHT"]
         if status not in allowed_status:
             return json.dumps({"error": f"Invalid status. Allowed: {allowed_status}"})
-        review_cycles = data.get("review_cycles", [])
+        review_cycles = list(data.get("review_cycles", {}).values())
         # Create a new cycle identifier.
         next_num = len(review_cycles) + 1
         cycle_id = f"cycle_{next_num:03d}"

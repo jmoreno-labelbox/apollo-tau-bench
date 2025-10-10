@@ -11,7 +11,7 @@ class GetPreferredSuppliers(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         list_of_suppliers = kwargs.get("list_of_ids", None)
-        suppliers = data.get("supplier_master", [])
+        suppliers = list(data.get("supplier_master", {}).values())
         result = [s['supplier_id'] for s in suppliers if s["relationship_status"].lower() == "preferred"]
         if list_of_suppliers:
             result = [r for r in result if r in list_of_suppliers]

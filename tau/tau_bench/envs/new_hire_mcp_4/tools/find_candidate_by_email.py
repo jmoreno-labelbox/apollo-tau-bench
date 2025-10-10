@@ -11,7 +11,7 @@ class FindCandidateByEmail(Tool):
         email = kwargs["candidate_email"]
         start = kwargs["start_date"]
         row = {}
-        for _row in data.get("candidates", []):
+        for _row in list(data.get("candidates", {}).values()):
             if _row.get("candidate_email") == email and _row.get("start_date") == start:
                 row = _row
 

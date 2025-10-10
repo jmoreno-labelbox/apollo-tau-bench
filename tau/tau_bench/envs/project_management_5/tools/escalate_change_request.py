@@ -19,9 +19,9 @@ class EscalateChangeRequest(Tool):
                 }
             )
 
-        change_requests = data.get("change_requests", [])
-        approval_workflows = data.get("approval_workflows", [])
-        change_history = data.get("change_history", [])
+        change_requests = list(data.get("change_requests", {}).values())
+        approval_workflows = list(data.get("approval_workflows", {}).values())
+        change_history = list(data.get("change_history", {}).values())
 
         cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:

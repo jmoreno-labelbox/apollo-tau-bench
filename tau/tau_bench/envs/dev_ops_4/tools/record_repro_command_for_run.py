@@ -11,7 +11,7 @@ class RecordReproCommandForRun(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         run_id = kwargs.get("run_id")
         command = kwargs.get("command")
-        runs = data.get("build_runs", [])
+        runs = list(data.get("build_runs", {}).values())
         idx = _idx_by_id(runs, run_id)
         updated = None
         if idx is not None:

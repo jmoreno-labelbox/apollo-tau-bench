@@ -36,7 +36,7 @@ class PersistOwnerToRun(Tool):
             "ownership_type": kwargs.get("ownership_type"),
             "confidence_score": kwargs.get("confidence_score"),
         }
-        runs = data.get("build_runs", [])
+        runs = list(data.get("build_runs", {}).values())
         run = next((r for r in runs if r.get("id") == run_id), None)
         if not run:
             return json.dumps({"error": "run_not_found", "run_id": run_id})

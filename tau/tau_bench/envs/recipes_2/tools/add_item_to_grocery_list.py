@@ -14,7 +14,7 @@ class AddItemToGroceryList(Tool):
         quantity = kwargs.get("quantity")
         unit = kwargs.get("unit")
         
-        items = data.get("grocery_list_items", [])
+        items = list(data.get("grocery_list_items", {}).values())
         # Auto-generate the subsequent item_id.
         new_id = max([item.get("item_id", 0) for item in items]) + 1 if items else 8101
         

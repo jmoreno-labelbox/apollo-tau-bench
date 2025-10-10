@@ -15,7 +15,7 @@ class ComputeCrewDutyCounts(Tool):
         windows = {"24h": ref - timedelta(hours=24), "30d": ref - timedelta(days=30), "365d": ref - timedelta(days=365)}
         counts = {"24h":0,"30d":0,"365d":0}
         # Source from flight_log
-        for c in data.get("crew_members", []):
+        for c in list(data.get("crew_members", {}).values()):
             if c.get("crew_member_id") != crew_member_id:
                 continue
             for entry in c.get("flight_log", []):

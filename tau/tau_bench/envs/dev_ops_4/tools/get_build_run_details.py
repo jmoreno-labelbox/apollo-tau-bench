@@ -10,7 +10,7 @@ class GetBuildRunDetails(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         run_id = kwargs.get("run_id")
-        runs = data.get("build_runs", [])
+        runs = list(data.get("build_runs", {}).values())
         run = _find_by_id(runs, run_id)
         return json.dumps({"run": run}, indent=2)
 

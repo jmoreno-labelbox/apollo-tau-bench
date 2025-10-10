@@ -10,7 +10,7 @@ class SetDirectoryAccountStatus(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         account_id = kwargs.get("account_id")
         status = kwargs.get("status")
-        accounts = data.get("directory_accounts", [])
+        accounts = list(data.get("directory_accounts", {}).values())
         account = next((a for a in accounts if a.get("account_id") == account_id), None)
         if not account:
             return json.dumps({"error": f"Account {account_id} not found."}, indent=2)

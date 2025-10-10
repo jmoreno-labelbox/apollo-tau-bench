@@ -10,7 +10,7 @@ class AssignAsset(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         asset_id = kwargs.get("asset_id")
         employee_id = kwargs.get("employee_id")
-        assets = data.get("it_assets", [])
+        assets = list(data.get("it_assets", {}).values())
         asset = next((a for a in assets if a.get("asset_id") == asset_id), None)
         if not asset:
             return json.dumps({"error": f"Asset {asset_id} not found."}, indent=2)

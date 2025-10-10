@@ -9,7 +9,7 @@ class GetLastSuccessfulRun(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         rtype = kwargs.get("run_type")
-        runs = [r for r in data.get("automation_runs", []) if
+        runs = [r for r in list(data.get("automation_runs", {}).values()) if
                 r.get("run_type") == rtype and r.get("status") == "completed"]
         if not runs:
             return json.dumps({"error": f"no successful run for {rtype}"})

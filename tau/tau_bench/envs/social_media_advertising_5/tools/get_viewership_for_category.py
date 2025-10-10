@@ -10,7 +10,7 @@ class GetViewershipForCategory(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         cat = kwargs.get("category")
         d = kwargs.get("date")
-        for r in data.get("f_viewership", []):
+        for r in list(data.get("f_viewership", {}).values()):
             if r.get("category") == cat and r.get("date") == d:
                 return json.dumps(r)
         return json.dumps({"error": "viewership_not_found"})

@@ -17,7 +17,7 @@ class AddRecipeToMealPlan(Tool):
         servings_child = kwargs.get("servings_child", 1)
         notes = kwargs.get("notes", "")
 
-        entries = data.get("meal_plan_entries", [])
+        entries = list(data.get("meal_plan_entries", {}).values())
         # Automatically create the subsequent entry_id.
         new_id = max([entry.get("entry_id", 0) for entry in entries]) + 1 if entries else 6101
 

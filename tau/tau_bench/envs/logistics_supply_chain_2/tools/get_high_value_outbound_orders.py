@@ -12,7 +12,7 @@ class GetHighValueOutboundOrders(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         threshold = kwargs.get("min_value", 100000)
         list_of_orders = kwargs.get("list_of_ids", None)
-        orders = data.get("outbound_orders", [])
+        orders = list(data.get("outbound_orders", {}).values())
         result = [order['order_id'] for order in orders if order.get("total_value", 0) >= threshold]
         if list_of_orders:
             result = [r for r in result if r in list_of_orders]

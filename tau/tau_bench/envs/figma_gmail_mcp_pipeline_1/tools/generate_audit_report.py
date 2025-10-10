@@ -16,9 +16,9 @@ class GenerateAuditReport(Tool):  # CREATE
             return json.dumps({"error": "audit_id must be a non-empty string"})
 
         # Retrieve audit and asset information.
-        audits = data.get("audits", [])
-        assets = data.get("assets", [])
-        figma_artifacts = data.get("figma_artifacts", [])
+        audits = list(data.get("audits", {}).values())
+        assets = list(data.get("assets", {}).values())
+        figma_artifacts = list(data.get("figma_artifacts", {}).values())
 
         # Locate the audit.
         audit = next((a for a in audits if a.get("audit_id") == audit_id), None)

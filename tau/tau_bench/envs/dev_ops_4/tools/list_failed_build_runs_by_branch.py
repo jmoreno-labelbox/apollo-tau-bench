@@ -10,7 +10,7 @@ class ListFailedBuildRunsByBranch(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         branch = kwargs.get("branch")
-        runs = data.get("build_runs", [])
+        runs = list(data.get("build_runs", {}).values())
         failed = [r for r in runs if r.get("branch") == branch and r.get("status") == "failed"]
         return json.dumps({"count": len(failed), "runs": failed}, indent=2)
 

@@ -9,7 +9,7 @@ class CheckLicenseAvailability(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         license_id = kwargs.get("license_id")
-        inventory = data.get("license_inventory", [])
+        inventory = list(data.get("license_inventory", {}).values())
         license_info = next((lic for lic in inventory if lic.get("license_id") == license_id), None)
         if not license_info:
             return json.dumps({"error": f"License ID {license_id} not found in inventory."}, indent=2)

@@ -10,7 +10,7 @@ class MapPathToOwner(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         file_path = kwargs.get("file_path")
-        maps = data.get("ownership_map", [])
+        maps = list(data.get("ownership_map", {}).values())
         rec = next((m for m in maps if m.get("file_path") == file_path), None)
         return json.dumps({"owner_map": rec}, indent=2)
 

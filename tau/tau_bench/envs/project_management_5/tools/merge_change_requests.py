@@ -19,8 +19,8 @@ class MergeChangeRequests(Tool):
                 }
             )
 
-        change_requests = data.get("change_requests", [])
-        change_history = data.get("change_history", [])
+        change_requests = list(data.get("change_requests", {}).values())
+        change_history = list(data.get("change_history", {}).values())
 
         primary_cr = next(
             (c for c in change_requests if c.get("cr_id") == primary_cr_id), None

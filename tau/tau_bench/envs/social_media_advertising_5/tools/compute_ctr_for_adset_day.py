@@ -10,7 +10,7 @@ class ComputeCtrForAdsetDay(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         aid = kwargs.get("adset_id")
         d = kwargs.get("date")
-        for i in data.get("f_insights", []):
+        for i in list(data.get("f_insights", {}).values()):
             if i.get("adset_id") == aid and i.get("date") == d:
                 imp = i.get("impressions", 0)
                 clk = i.get("clicks", 0)

@@ -24,8 +24,8 @@ class TrackArtifactUpdates(Tool):
                 }
             )
 
-        change_requests = data.get("change_requests", [])
-        artifact_updates = data.get("artifact_updates", [])
+        change_requests = list(data.get("change_requests", {}).values())
+        artifact_updates = list(data.get("artifact_updates", {}).values())
 
         cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:

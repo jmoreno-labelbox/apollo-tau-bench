@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class VerifyCrewDutyTime(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], crew_member_id: str, reference_date: str) -> str:
-        crew_members = data.get("crew_members", [])
+        crew_members = list(data.get("crew_members", {}).values())
         target_logs = []
         for member in crew_members:
             if member.get("crew_member_id") == crew_member_id:

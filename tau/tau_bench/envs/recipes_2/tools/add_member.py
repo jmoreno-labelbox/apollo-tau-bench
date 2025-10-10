@@ -13,7 +13,7 @@ class AddMember(Tool):
         full_name = kwargs.get("full_name")
         birthdate = kwargs.get("birthdate")
         is_child = kwargs.get("is_child")
-        members = data.get("members", [])
+        members = list(data.get("members", {}).values())
         new_id = max([m.get("member_id", 0) for m in members]) + 1 if members else 301
         new_member = {
             "member_id": new_id, "household_id": household_id, "full_name": full_name,

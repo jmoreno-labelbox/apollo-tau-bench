@@ -18,8 +18,8 @@ class PerformImpactAssessment(Tool):
         if not all([cr_id, assessed_by]):
             return json.dumps({"error": "cr_id and assessed_by are required"})
 
-        change_requests = data.get("change_requests", [])
-        budgets = data.get("budgets", [])
+        change_requests = list(data.get("change_requests", {}).values())
+        budgets = list(data.get("budgets", {}).values())
 
         cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:
@@ -35,7 +35,7 @@ class PerformImpactAssessment(Tool):
                 (budget_impact / total_budget * 100) if total_budget > 0 else 0
             )
 
-        allocations = data.get("allocations", [])
+        allocations = list(data.get("allocations", {}).values())
         resource_conflicts = []
         for req in resource_requirements:
             emp_id = req.get("employee_id")
@@ -48,7 +48,7 @@ class PerformImpactAssessment(Tool):
             if total_hours + req.get("hours_per_week", 0) > 40:
                 resource_conflicts.append(emp_id)
 
-        critical_paths = data.get("critical_paths", [])
+        critical_paths = list(data.get("critical_paths", {}).values())
         project_critical_path = next(
             (
                 cp

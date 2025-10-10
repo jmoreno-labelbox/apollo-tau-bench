@@ -11,7 +11,7 @@ class FindUnderperformingAdsets(Tool):
         th = float(kwargs.get("roas_threshold"))
         d = kwargs.get("date")
         out = []
-        for i in data.get("f_insights", []):
+        for i in list(data.get("f_insights", {}).values()):
             if i.get("date") == d:
                 spend = i.get("spend", 0)
                 revenue = i.get("revenue", 0)

@@ -26,9 +26,9 @@ class RecordApprovalDecision(Tool):
                 }
             )
 
-        change_requests = data.get("change_requests", [])
-        approval_workflows = data.get("approval_workflows", [])
-        change_approvals = data.get("change_approvals", [])
+        change_requests = list(data.get("change_requests", {}).values())
+        approval_workflows = list(data.get("approval_workflows", {}).values())
+        change_approvals = list(data.get("change_approvals", {}).values())
 
         cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:

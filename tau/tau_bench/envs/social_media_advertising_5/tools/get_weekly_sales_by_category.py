@@ -10,7 +10,7 @@ class GetWeeklySalesByCategory(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         cat = kwargs.get("category")
         start = kwargs.get("start_date")
-        for r in data.get("f_sales", []):
+        for r in list(data.get("f_sales", {}).values()):
             if r.get("category") == cat and r.get("start_date") == start:
                 return json.dumps(r)
         return json.dumps({"error": "sales_not_found"})

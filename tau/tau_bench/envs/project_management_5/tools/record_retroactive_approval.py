@@ -20,8 +20,8 @@ class RecordRetroactiveApproval(Tool):
                 }
             )
 
-        emergency_logs = data.get("emergency_logs", [])
-        change_requests = data.get("change_requests", [])
+        emergency_logs = list(data.get("emergency_logs", {}).values())
+        change_requests = list(data.get("change_requests", {}).values())
 
         log = next(
             (e for e in emergency_logs if e.get("log_id") == emergency_log_id), None

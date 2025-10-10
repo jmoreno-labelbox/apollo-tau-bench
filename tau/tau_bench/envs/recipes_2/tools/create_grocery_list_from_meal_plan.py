@@ -13,7 +13,7 @@ class CreateGroceryListFromMealPlan(Tool):
         meal_plan_id = kwargs.get("meal_plan_id")
         user_id = kwargs.get("user_id")
 
-        lists = data.get("grocery_lists", [])
+        lists = list(data.get("grocery_lists", {}).values())
         # Automatically create the subsequent list_id.
         new_id = max([l.get("list_id", 0) for l in lists]) + 1 if lists else 8001
 

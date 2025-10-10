@@ -11,14 +11,14 @@ class AssignAssetToCandidate(Tool):
         asset_tag = kwargs["asset_tag"]
         cand_id = kwargs["candidate_id"]
 
-        inv = data.get("inventory_assets", [])
+        inv = list(data.get("inventory_assets", {}).values())
         row = next((a for a in inv if a.get("asset_tag") == asset_tag), None)
         if not row:
             return json.dumps({"error": f"asset_tag {asset_tag} not found"}, indent=2)
 
         row["assigned_candidate_id_nullable"] = cand_id
         row["status"] = "allocated"
-        for c in data.get("candidates", []):
+        for c in list(data.get("candidates", {}).values()):
             if c.get("candidate_id") == cand_id:
                 c["allocated_asset_tag_nullable"] = asset_tag
         return json.dumps({"asset_tag": asset_tag, "assigned_to": cand_id}, indent=2)

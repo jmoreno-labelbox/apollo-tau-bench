@@ -11,7 +11,7 @@ class SendDepartmentNotification(Tool):
     """
     @staticmethod
     def invoke(data: Dict[str, Any], department_name: str, message: str) -> str:
-        operational_events = data.get("operational_events", [])
+        operational_events = list(data.get("operational_events", {}).values())
         message = {
             "event_type": "DEPARTMENT_NOTIFICATION",
             "status": "Notification Sent",

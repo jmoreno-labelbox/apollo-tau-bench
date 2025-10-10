@@ -19,7 +19,7 @@ class CreatePromotion(Tool):
         usage_limit = kwargs.get('usage_limit')
         times_used = kwargs.get('times_used')
 
-        promotions = data.get("promotions", [])  # Alterei para uma lista [].
+        promotions = list(data.get("promotions", {}).values())  # Alterei para uma lista [].
 
         max_promotion_id_num = 0
         for promo in promotions:  # Percorra a lista diretamente.

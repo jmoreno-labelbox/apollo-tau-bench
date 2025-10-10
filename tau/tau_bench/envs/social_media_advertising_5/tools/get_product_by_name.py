@@ -9,7 +9,7 @@ class GetProductByName(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         n = kwargs.get("product_name")
-        for p in data.get("dim_product", []):
+        for p in list(data.get("dim_product", {}).values()):
             if p.get("name") == n:
                 return json.dumps(p)
         return json.dumps({"error": f"product {n} not found"})

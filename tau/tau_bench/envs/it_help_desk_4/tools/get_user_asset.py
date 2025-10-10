@@ -9,7 +9,7 @@ class GetUserAsset(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         employee_id = kwargs.get("employee_id")
-        assets = data.get("it_assets", [])
+        assets = list(data.get("it_assets", {}).values())
         asset = next((a for a in assets if a.get("assigned_to") == employee_id), None)
         if not asset:
             return json.dumps({"employee_id": employee_id, "asset": None}, indent=2)

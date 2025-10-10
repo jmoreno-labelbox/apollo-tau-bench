@@ -9,7 +9,7 @@ class GetCrewAssignments(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], crew_member_id: Optional[str]=None, flight_number: Optional[str]=None) -> str:
         out=[]
-        for a in data.get("flight_crew_assignments", []):
+        for a in list(data.get("flight_crew_assignments", {}).values()):
             if crew_member_id and (a.get("crew_member") or {}).get("crew_member_id") != crew_member_id:
                 continue
             if flight_number and (a.get("flight") or {}).get("flight_number") != flight_number:

@@ -20,7 +20,7 @@ class UpdateReviewCycleStatus(Tool):  # GENERATE
         if new_status not in allowed_status:
             return json.dumps({"error": f"Invalid status. Allowed: {allowed_status}"})
 
-        review_cycles = data.get("review_cycles", [])
+        review_cycles = list(data.get("review_cycles", {}).values())
 
         # Locate the review cycle for updates.
         cycle_found = False

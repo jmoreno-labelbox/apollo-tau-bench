@@ -19,8 +19,8 @@ class ComputeReleaseDiffs(Tool):  # READ DATA
         if not isinstance(changelog_highlights, list) or not all(isinstance(item, str) for item in changelog_highlights):
             return json.dumps({"error": "changelog_highlights must be a list of strings"})
 
-        releases = data.get("releases", [])
-        figma_artifacts = data.get("figma_artifacts", [])
+        releases = list(data.get("releases", {}).values())
+        figma_artifacts = list(data.get("figma_artifacts", {}).values())
 
         # Locate the latest version.
         current_release = next((r for r in releases if r.get("release_id") == release_id), None)

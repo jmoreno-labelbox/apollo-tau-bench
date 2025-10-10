@@ -16,7 +16,7 @@ class AddAuditLog(Tool):
         action_enum = kwargs.get("action_enum")
         payload_json = kwargs.get("payload_json", {})
         
-        logs = data.get("audit_logs", [])
+        logs = list(data.get("audit_logs", {}).values())
         # Auto-generate the subsequent audit_id.
         new_id = max([log.get("audit_id", 0) for log in logs]) + 1 if logs else 12001
 

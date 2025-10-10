@@ -14,7 +14,7 @@ class GetAdsetSpendForDateRange(Tool):
         sd = datetime.strptime(s, "%Y-%m-%d").date()
         ed = datetime.strptime(e, "%Y-%m-%d").date()
         tot = 0.0
-        for i in data.get("f_insights", []):
+        for i in list(data.get("f_insights", {}).values()):
             if i.get("adset_id") == aid:
                 idate = datetime.strptime(i.get("date"), "%Y-%m-%d").date()
                 if sd <= idate <= ed:

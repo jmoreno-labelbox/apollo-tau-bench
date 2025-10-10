@@ -12,7 +12,7 @@ class GetMealPlansByHouseholdId(Tool):
         household_id = kwargs.get("household_id")
         if household_id is None:
             return json.dumps({"error": "household_id parameter is required."})
-        meal_plans = data.get("meal_plans", [])
+        meal_plans = list(data.get("meal_plans", {}).values())
         matching_plans = [plan for plan in meal_plans if plan.get("household_id") == household_id]
         return json.dumps(matching_plans)
 

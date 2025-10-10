@@ -11,7 +11,7 @@ class FindAvailableCrew(Tool):
     """
     @staticmethod
     def invoke(data: Dict[str, Any], role: str, home_base_iata: str, status: str) -> str:
-        crew_members = data.get("crew_members", [])
+        crew_members = list(data.get("crew_members", {}).values())
         results = [
             m for m in crew_members
             if m["role"] == role

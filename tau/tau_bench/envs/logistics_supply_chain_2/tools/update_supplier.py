@@ -12,7 +12,7 @@ class UpdateSupplier(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         supplier_id = kwargs.get("supplier_id")
         updates = kwargs.get("updates")
-        suppliers = data.get("supplier_master", [])
+        suppliers = list(data.get("supplier_master", {}).values())
 
         for supplier in suppliers:
             if supplier["supplier_id"] == supplier_id:

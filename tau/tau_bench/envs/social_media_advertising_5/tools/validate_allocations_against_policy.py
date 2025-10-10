@@ -10,7 +10,7 @@ class ValidateAllocationsAgainstPolicy(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         total_budget = float(kwargs.get("total_budget"))
         allocations = kwargs.get("allocations", [])
-        params = {p["param_name"]: p["param_value"] for p in data.get("policy_params", [])}
+        params = {p["param_name"]: p["param_value"] for p in list(data.get("policy_params", {}).values())}
         min_alloc = float(params.get("min_budget_allocation", "0"))
         max_total = float(params.get("max_daily_budget_total", "1e15"))
         strategies = _as_list_literal(params.get("canonical_bid_strategies", "[]"))

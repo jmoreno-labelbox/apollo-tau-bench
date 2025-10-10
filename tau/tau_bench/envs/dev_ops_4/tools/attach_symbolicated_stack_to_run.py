@@ -14,14 +14,14 @@ class AttachSymbolicatedStackToRun(Tool):
         module_name = kwargs.get("module_name")
         platform = kwargs.get("platform")
 
-        symbols = data.get("symbols", [])
+        symbols = list(data.get("symbols", {}).values())
         chosen = None
         for s in symbols:
             if s.get("build_id") == build_id and s.get("module_name") == module_name and s.get("platform") == platform:
                 chosen = s
                 break
 
-        runs = data.get("build_runs", [])
+        runs = list(data.get("build_runs", {}).values())
         idx = _idx_by_id(runs, run_id)
         updated_run = None
         if idx is not None and chosen is not None:

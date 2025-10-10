@@ -34,7 +34,7 @@ class CreateScopeBaseline(Tool):
                 {"error": "RULE 2: Baseline must include success metrics"}
             )
 
-        scope_baselines = data.get("scope_baselines", [])
+        scope_baselines = list(data.get("scope_baselines", {}).values())
 
         existing = next(
             (

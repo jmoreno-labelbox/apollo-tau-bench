@@ -10,7 +10,7 @@ class GetProductPriceOnDate(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         pid = kwargs.get("product_id")
         d = kwargs.get("date")
-        for r in data.get("f_price", []):
+        for r in list(data.get("f_price", {}).values()):
             if r.get("product_id") == pid and r.get("date") == d:
                 return json.dumps(r)
         return json.dumps({"error": "price_not_found"})

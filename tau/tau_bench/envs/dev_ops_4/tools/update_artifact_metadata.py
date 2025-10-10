@@ -11,7 +11,7 @@ class UpdateArtifactMetadata(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         artifact_id = kwargs.get("artifact_id")
         metadata_patch = kwargs.get("metadata_patch", {})
-        rows = data.get("artifacts", [])
+        rows = list(data.get("artifacts", {}).values())
         idx = _idx_by_id(rows, artifact_id)
         if idx is None:
             return json.dumps({"artifact": None}, indent=2)

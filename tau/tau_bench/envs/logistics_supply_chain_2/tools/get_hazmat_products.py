@@ -10,7 +10,7 @@ class GetHazmatProducts(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        products = data.get("product_master", [])
+        products = list(data.get("product_master", {}).values())
         list_of_products = kwargs.get("list_of_ids", None)
         result = [p['sku'] for p in products if p.get("hazmat_information", {}).get("is_hazmat")]
         if list_of_products:

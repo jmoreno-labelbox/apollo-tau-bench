@@ -33,9 +33,9 @@ class CreateChangeRequest(Tool):
                 }
             )
 
-        change_requests = data.get("change_requests", [])
+        change_requests = list(data.get("change_requests", {}).values())
         projects = list(data.get("projects", {}).values())
-        scope_baselines = data.get("scope_baselines", [])
+        scope_baselines = list(data.get("scope_baselines", {}).values())
 
         project = next((p for p in projects if p.get("project_id") == project_id), None)
         if not project:
@@ -167,7 +167,7 @@ class CreateChangeRequest(Tool):
 
         change_requests.append(new_cr)
 
-        change_history = data.get("change_history", [])
+        change_history = list(data.get("change_history", {}).values())
         history_entry = {
             "history_id": f"hist_ch_{uuid.uuid4().hex[:8]}",
             "cr_id": cr_id,

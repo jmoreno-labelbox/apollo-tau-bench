@@ -12,7 +12,7 @@ class AddHousehold(Tool):
         household_name = kwargs.get("household_name")
         timezone = kwargs.get("timezone")
         primary_user_id = kwargs.get("primary_user_id")
-        households = data.get("households", [])
+        households = list(data.get("households", {}).values())
         new_id = max([h.get("household_id", 0) for h in households]) + 1 if households else 201
         new_household = {
             "household_id": new_id, "household_name": household_name,

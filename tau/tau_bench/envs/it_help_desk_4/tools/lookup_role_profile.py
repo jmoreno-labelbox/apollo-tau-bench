@@ -10,7 +10,7 @@ class LookupRoleProfile(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         department = kwargs.get("department")
         job_title = kwargs.get("job_title")
-        profiles = data.get("rbac_group_map", [])
+        profiles = list(data.get("rbac_group_map", {}).values())
         profile = next((p for p in profiles if p.get("department") == department and p.get("job_title") == job_title), None)
         if not profile:
             return json.dumps({"department": department, "job_title": job_title, "profile": None}, indent=2)

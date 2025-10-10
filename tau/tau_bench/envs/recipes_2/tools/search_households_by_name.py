@@ -12,7 +12,7 @@ class SearchHouseholdsByName(Tool):
         name_query = kwargs.get("name_query")
         if not name_query:
             return json.dumps({"error": "name_query parameter is required."})
-        households = data.get("households", [])
+        households = list(data.get("households", {}).values())
         matching_households = [
             household for household in households 
             if name_query.lower() in household.get("household_name", "").lower()

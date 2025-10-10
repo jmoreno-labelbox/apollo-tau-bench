@@ -12,7 +12,7 @@ class GetMealPlanEntriesByRecipeId(Tool):
         recipe_id = kwargs.get("recipe_id")
         if recipe_id is None:
             return json.dumps({"error": "recipe_id parameter is required."})
-        meal_plan_entries = data.get("meal_plan_entries", [])
+        meal_plan_entries = list(data.get("meal_plan_entries", {}).values())
         matching_entries = [entry for entry in meal_plan_entries if entry.get("recipe_id") == recipe_id]
         return json.dumps(matching_entries)
 

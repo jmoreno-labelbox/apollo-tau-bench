@@ -14,10 +14,10 @@ class ValidateChangeCompliance(Tool):
         if not cr_id:
             return json.dumps({"error": "cr_id is required"})
 
-        change_requests = data.get("change_requests", [])
-        emergency_logs = data.get("emergency_logs", [])
-        risk_assessments = data.get("risk_assessments", [])
-        scope_baselines = data.get("scope_baselines", [])
+        change_requests = list(data.get("change_requests", {}).values())
+        emergency_logs = list(data.get("emergency_logs", {}).values())
+        risk_assessments = list(data.get("risk_assessments", {}).values())
+        scope_baselines = list(data.get("scope_baselines", {}).values())
 
         cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:
@@ -56,7 +56,7 @@ class ValidateChangeCompliance(Tool):
                     violations.append("Missing impact assessment")
 
             elif check == "has_risk_assessment":
-                risk_assessments = data.get("risk_assessments", [])
+                risk_assessments = list(data.get("risk_assessments", {}).values())
                 has_risk = any(ra.get("cr_id") == cr_id for ra in risk_assessments)
                 if cr.get("priority") in ["high", "critical"] and not has_risk:
                     warnings.append("High priority change without risk assessment")

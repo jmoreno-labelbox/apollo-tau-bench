@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class CreateAdset(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        adsets = data.get("adsets", [])
+        adsets = list(data.get("adsets", {}).values())
         nid = max((int(a["adset_id"]) for a in adsets), default=100) + 1
         rec = {"adset_id": str(nid), "campaign_id": kwargs.get("campaign_id"), "name": kwargs.get("name"),
                "category": kwargs.get("category"), "daily_budget": kwargs.get("daily_budget"),

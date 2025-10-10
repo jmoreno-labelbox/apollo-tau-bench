@@ -9,7 +9,7 @@ class GetAdsetsByCampaignID(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         cid = kwargs.get("campaign_id")
-        rows = [r for r in data.get("adsets", []) if r.get("campaign_id") == cid]
+        rows = [r for r in list(data.get("adsets", {}).values()) if r.get("campaign_id") == cid]
         return json.dumps({"adsets": rows})
 
     @staticmethod
