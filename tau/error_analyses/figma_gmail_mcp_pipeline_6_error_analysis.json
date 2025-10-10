@@ -1,4 +1,16 @@
 {
-    "fault_assignment_analysis": [],
-    "fault_type_analysis": []
+    "fault_assignment_analysis": [
+        {
+            "task_id": 0,
+            "author": "agent",
+            "description": "The agent is responsible for the fault because it failed to execute any actions to initiate the design review process as specified in the ground truth action sequence. The agent only engaged in a prolonged conversation with the user without performing any of the necessary actions such as creating a review cycle, exporting assets, creating a Gmail thread, linking the cycle to the thread, appending a message, updating governance, or recording the automation run. This lack of action resulted in the failure to achieve the user's goal."
+        }
+    ],
+    "fault_type_analysis": [
+        {
+            "task_id": 0,
+            "fault_type": "goal_partially_completed",
+            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the assistant failed to execute any of the necessary actions to initiate the design review process. In the ground truth action sequence, several actions are required, such as creating a review cycle, exporting assets, creating a Gmail thread, linking the cycle to the thread, appending a message, updating governance, and recording the automation run. However, in the trajectory, the assistant only engaged in a conversation with the user, providing suggestions and guidance without performing any of the required actions to complete the task. As a result, the design review was not initiated, and the goal was only partially completed."
+        }
+    ]
 }

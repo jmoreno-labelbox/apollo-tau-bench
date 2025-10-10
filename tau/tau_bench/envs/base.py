@@ -96,7 +96,7 @@ class Env(object):
         if action.name == RESPOND_ACTION_NAME:
             observation = self.user.step(action.kwargs["content"])
             info.source = "user"
-            done = "###STOP### #HALT###" in monitoring
+            done = "###STOP### #HALT###" in observation
         elif action.name in self.tools_map:
             try:
                 observation = self.tools_map[action.name].invoke(

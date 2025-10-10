@@ -1,0 +1,468 @@
+[
+  {
+    "task_id": 0,
+    "reward": 0.0,
+    "info": {
+      "task": {
+        "user_id": "task_001",
+        "actions": [
+          {
+            "name": "ActivatePromotion",
+            "kwargs": {
+              "promotion_id": "PROMO-001"
+            }
+          },
+          {
+            "name": "GetPromotionsByStatus",
+            "kwargs": {
+              "status": "active"
+            }
+          },
+          {
+            "name": "GetProductDetailsBySku",
+            "kwargs": {
+              "sku": "ELEC-4KTV55"
+            }
+          },
+          {
+            "name": "GetInventoryItemBySkuAndStore",
+            "kwargs": {
+              "sku": "ELEC-4KTV55",
+              "store_id": "STORE-001"
+            }
+          },
+          {
+            "name": "UpdatePromotionDetails",
+            "kwargs": {
+              "promotion_id": "PROMO-001",
+              "times_used": 10
+            }
+          }
+        ],
+        "instruction": "Handle marketing management activities. Activate the 'Summer Electronics Sale' (PROMO-001) scheduled to commence on '2025-06-01'. Next, obtain all active promotions to verify the inclusion of 'UltraVision 55\" 4K Smart TV' (SKU: ELEC-4KTV55), and check its current inventory at 'STORE-001'. Lastly, modify the 'times_used' count for PROMO-001 to 10 to initiate usage tracking.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": null,
+      "reward_info": null
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"You function as a specialized retail assistant, optimized to handle store operations and customer engagements with high efficiency.\",\n    \"Consistently ensure that updates to the inventory, customer, and transaction databases are both precise and uniform.\",\n    \"Prior to completing any sales transaction, verify the availability of the product in the designated store location.\",\n    \"Whenever an inventory adjustment occurs as a result of a sale or return, make sure to update both 'quantity' and 'reserved_quantity' appropriately.\",\n    \"While searching for promotions, include only those that have an 'active' status on the date of the query.\",\n    \"Compute transaction totals, taxes, and discounts accurately using the product's price, quantity, relevant promotions, and applicable tax rates.\",\n    \"Each customer record must contain a membership level, loyalty points, and marketing opt-in status at the time of creation.\",\n    \"Upon creation of a new customer, the email address must adhere to a standardized format derived from the customer's name.\",\n    \"During the activation or deactivation of a promotion, verify that the promotion ID is valid and update the status appropriately.\",\n    \"During promotion detail updates, modify only the designated fields and retain all other fields unchanged.\",\n    \"To apply a discount, first confirm that the product is marked as 'is_discountable', then, if relevant, compute the discount using the promotion's 'discount_value'.\",\n    \"For promotions of type 'fixed_bundle', confirm that every applicable SKU exists within the line items prior to discount application.\",\n    \"In the case of 'bogo_percentage' (Buy One Get One Percentage) promotions, the discount must be applied to the second and any additional items of the identical SKU.\",\n    \"When fetching promotions based on status, return every promotion that corresponds to the specified status.\",\n    \"During the creation of a new promotion, verify that all mandatory fields\u2014including name, type, discount value, applicable SKUs, dates, and status\u2014are supplied.\",\n    \"During customer detail updates, verify that the customer ID is valid and update only the fields that are specified.\",\n    \"To retrieve products based on status, provide all products whose status corresponds to the requested value.\",\n    \"Upon creation of a new promotion, assign it an ID in the sequential format 'PROMO-XXX', with XXX representing a zero-padded number.\",\n    \"Accurately record any modifications to customer records that involve changes in membership level or contact information.\",\n    \"To identify critical or low stock situations during inventory monitoring, reference the 'reorder_level' and 'safety_stock' thresholds specified in the inventory data.\",\n"
+      },
+      {
+        "role": "user",
+        "content": "Hi! I'd like to activate a promotional event. Could you assist with that?"
+      },
+      {
+        "content": "Sure! Please provide me with the promotion ID that you would like to activate, and I'll take care of it for you.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "The promotion ID is PROMO-001. Could you activate it, please?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"promotion_id\":\"PROMO-001\"}",
+              "name": "activate_promotion"
+            },
+            "id": "call_cTNTH7PenGhnuGwpYP9cHSDD",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_cTNTH7PenGhnuGwpYP9cHSDD",
+        "name": "activate_promotion",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems there was an error while trying to activate the promotion. Let me try again to activate the promotion ID \"PROMO-001.\"",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"promotion_id\":\"PROMO-001\"}",
+              "name": "activate_promotion"
+            },
+            "id": "call_jXYt1VqP93vLXGF2KgWN0UE0",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_jXYt1VqP93vLXGF2KgWN0UE0",
+        "name": "activate_promotion",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It appears that there is a persistent issue with activating the promotion. To assist you better, I can check the details of the promotion with ID \"PROMO-001\" to ensure that it is valid and can be activated. Would you like me to do that?",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "No need for that, it should be scheduled for the summer electronics sale starting on 2025-06-01. Can we proceed with a check to ensure it's now active?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"promotion_id\":\"PROMO-001\"}",
+              "name": "get_promotion_by_id"
+            },
+            "id": "call_4Szbp6zDEalnPKmGm0N9R4vI",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_4Szbp6zDEalnPKmGm0N9R4vI",
+        "name": "get_promotion_by_id",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems I'm encountering a technical issue when trying to retrieve the promotion details. Unfortunately, I can't check the status of the promotion at this moment.\n\nIf you have any other requests or need assistance with something else, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Could you then help by listing all the active promotions? I want to confirm if a specific product is included."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"status\":\"active\"}",
+              "name": "get_promotions_by_status"
+            },
+            "id": "call_b64ih5BBOoKVO2ifihhfZgzJ",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_b64ih5BBOoKVO2ifihhfZgzJ",
+        "name": "get_promotions_by_status",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems that I'm currently unable to retrieve the list of active promotions due to a technical issue. \n\nIf you have any specific promotions or products in mind, please let me know, and I can assist you in other ways!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Alright, I'm interested in the 'UltraVision 55\" 4K Smart TV' with SKU ELEC-4KTV55. Could you help me check if this product is part of any active promotions?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"promotion_name\":\"UltraVision 55\\\" 4K Smart TV\",\"query_date\":\"2023-10-01\"}",
+              "name": "get_promotion_by_name_and_date"
+            },
+            "id": "call_ZTPSxGOT8SnSGgOdONfOJJBC",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_ZTPSxGOT8SnSGgOdONfOJJBC",
+        "name": "get_promotion_by_name_and_date",
+        "content": "Error: name 'datetime' is not defined"
+      },
+      {
+        "content": "It seems that I'm unable to check for active promotions related to the product due to a technical issue. \n\nIf you have any other questions or need assistance with something else, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Could you verify the inventory status of this TV at STORE-001 instead?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"sku\":\"ELEC-4KTV55\",\"store_id\":\"STORE-001\"}",
+              "name": "get_inventory_item_by_sku_and_store"
+            },
+            "id": "call_cCgAEyl90J6bRrfLVCU8syuq",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_cCgAEyl90J6bRrfLVCU8syuq",
+        "name": "get_inventory_item_by_sku_and_store",
+        "content": "{\"id\": \"INV-0001\", \"sku\": \"ELEC-4KTV55\", \"store_id\": \"STORE-001\", \"quantity\": 8, \"reserved_quantity\": 2, \"reorder_level\": 3, \"safety_stock\": 2, \"location\": \"Aisle 05, Bay B\", \"status\": \"in_stock\", \"last_stock_count\": \"2025-05-02\", \"created_at\": \"2024-11-10T09:00:00Z\", \"updated_at\": \"2025-05-02T11:15:00Z\"}"
+      },
+      {
+        "content": "The inventory status for the UltraVision 55\" 4K Smart TV (SKU: ELEC-4KTV55) at STORE-001 is as follows:\n\n- **Quantity Available:** 8 units\n- **Reserved Quantity:** 2 units\n- **Reorder Level:** 3 units\n- **Safety Stock:** 2 units\n- **Location:** Aisle 05, Bay B\n- **Status:** In Stock\n- **Last Stock Count Date:** 2025-05-02\n\nIf you need any further assistance or information, feel free to ask!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you for that information. Lastly, could you adjust the 'times_used' count for the promotion with ID PROMO-001 to 10?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"promotion_id\":\"PROMO-001\",\"times_used\":10}",
+              "name": "update_promotion_details"
+            },
+            "id": "call_Z0oJg98jbnpINEHK2YcoxLS8",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_Z0oJg98jbnpINEHK2YcoxLS8",
+        "name": "update_promotion_details",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems that I'm currently unable to update the promotion details due to a technical issue. \n\nIf there's anything else you would like to do or any other assistance you need, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Alright, thanks for your help with the information you were able to provide. ###STOP### #STOP###"
+      },
+      {
+        "content": "You're welcome! If you have any more questions in the future or need assistance, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! You too."
+      },
+      {
+        "content": "Thank you! Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "You too, take care!"
+      },
+      {
+        "content": "Thank you! If you need anything else, just let me know. Have a wonderful day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks, you too! Have a wonderful day!"
+      },
+      {
+        "content": "Thank you! I appreciate it. If you ever need assistance again, don't hesitate to reach out. Enjoy your day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! I'll definitely reach out if I need assistance. Enjoy your day too!"
+      },
+      {
+        "content": "You're welcome! I'm glad to hear that. Have a fantastic day ahead!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "You too, have a fantastic day!"
+      },
+      {
+        "content": "Thank you! Take care and have a fantastic day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks, you too! Take care!"
+      },
+      {
+        "content": "You're welcome! Take care! If you need anything in the future, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Absolutely, I will. Take care!"
+      },
+      {
+        "content": "Great! Looking forward to it. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Will do! Take care!"
+      },
+      {
+        "content": "Thank you! Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "You too, take care!"
+      },
+      {
+        "content": "Thank you! Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks, you too! Have a great day!"
+      },
+      {
+        "content": "You're welcome! Enjoy your day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! Enjoy your day as well!"
+      },
+      {
+        "content": "Thank you! I appreciate it! If you need anything, just let me know. Enjoy your day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! I will. Enjoy your day too!"
+      },
+      {
+        "content": "You're welcome! Have a wonderful day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "You too, have a wonderful day!"
+      },
+      {
+        "content": "Thank you! Take care and have a wonderful day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks! Take care and have a wonderful day too!"
+      },
+      {
+        "content": "You're welcome! Thank you! Take care and enjoy your day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! Take care and enjoy your day as well!"
+      },
+      {
+        "content": "You're welcome! Have a fantastic day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "You too, have a fantastic day!"
+      }
+    ],
+    "trial": 0
+  }
+]

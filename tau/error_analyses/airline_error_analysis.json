@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to account for the user's baggage requirements. The user specified that they have 3 baggages, but the agent booked the reservation with a total of 0 baggages. This discrepancy between the user's instruction and the booking details indicates a failure to correctly process and include the baggage information in the reservation."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to include the user's baggage information in the booking. The user specified that they have 3 baggages, but the booking was completed with \"total_baggages\" set to 0, which does not align with the user's requirements."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
-            "fault_type": "used_wrong_tool_argument",
-            "description": "The fault in the trajectory is that the assistant incorrectly handled the baggage information. In the ground truth action sequence, the booking includes \"total_baggages\": 3, indicating that the user has 3 baggages. However, in the trajectory, the assistant processed the booking with \"total_baggages\": 0, which does not match the user's requirement of having 3 baggages. This discrepancy indicates that the assistant used the wrong tool argument for the baggage information."
+            "fault_type": "goal_partially_completed",
+            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the booking was made without including the user's baggage requirements. The user instruction specifies that the user has 3 baggages, but the booking in the trajectory was completed with \"total_baggages\": 0, which does not fulfill the user's request."
         }
     ]
 }

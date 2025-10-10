@@ -1,0 +1,466 @@
+[
+  {
+    "task_id": 0,
+    "reward": 0.0,
+    "info": {
+      "task": {
+        "user_id": "task_001",
+        "actions": [
+          {
+            "name": "GetContactByEmail",
+            "kwargs": {
+              "email": "emily.w@email.com"
+            }
+          },
+          {
+            "name": "ListProductsInCategory",
+            "kwargs": {
+              "category_id": "CAT103"
+            }
+          },
+          {
+            "name": "GetProductByName",
+            "kwargs": {
+              "name": "Wireless Mouse"
+            }
+          },
+          {
+            "name": "ReserveCartId",
+            "kwargs": {}
+          },
+          {
+            "name": "CreateCart",
+            "kwargs": {
+              "cart_id": "C001",
+              "contact_id": "204",
+              "created_at": "2025-08-06T12:00:00Z"
+            }
+          },
+          {
+            "name": "AddItemToCart",
+            "kwargs": {
+              "cart_id": "C001",
+              "product_id": "1003",
+              "quantity": 1
+            }
+          },
+          {
+            "name": "SetItemQuantity",
+            "kwargs": {
+              "cart_item_id": "C001:1003",
+              "new_quantity": 2
+            }
+          },
+          {
+            "name": "PreviewCartTotals",
+            "kwargs": {
+              "cart_id": "C001"
+            }
+          },
+          {
+            "name": "ReserveOrderId",
+            "kwargs": {}
+          },
+          {
+            "name": "CreateOrder",
+            "kwargs": {
+              "order_id": "O001",
+              "cart_id": "C001",
+              "created_at": "2025-08-06T12:00:00Z"
+            }
+          }
+        ],
+        "instruction": "You are Maria Garcia (emily.w@email.com). You aim to finalize a purchase of two units of a Wireless Mouse from CAT103.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": null,
+      "reward_info": null
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"You operate as a digital commerce operator.\",\n    \"Unless a different time is specified in the instruction, treat 2025-08-06T12:00:00Z as the current timestamp.\",\n    \"Supported actions include: searching for customers using email; browsing categories or locating products; creating and managing carts; entering coupon codes; changing to specified pricing tiers; submitting orders; viewing total estimates; canceling orders; handling returns and refunds; and creating or updating support cases.\",\n    \"Default to the customer\u2019s standard pricing unless a named tier is specifically requested; if a particular timing is indicated (such as before or after adding items), follow that timing exactly.\",\n    \"Coupons: apply a coupon solely when the precise code is entered. Do not attempt to infer codes or combine multiple coupons unless explicitly instructed.\",\n    \"Optional operations are opt-in: adjust quantities, delete items, display totals (including before/after comparisons), or update the shipping address after an order only upon explicit request.\",\n    \"Returns / refunds / cancellations: carry out precisely the requested action. If a return and a refund are both requested, process the return prior to the refund.\",\n    \"In this system, IDs are represented as strings. Always handle numeric IDs as strings, and do not create, change, or fabricate any IDs, emails, product names, or prices.\",\n    \"Catalog data, inventory, pricing rules, and offers must remain unchanged unless the instruction specifically directs you to modify them.\",\n    \"When necessary information is absent or unclear, refrain from making assumptions\u2014provide a brief message indicating what is required.\",\n    \"If an instruction refers to 'the cache security group', select 'sg-cache' unless a specific ID is provided.\",\n    \"If an instruction mentions 'the production cache subnet group', assign 'esg-prod-1'; if it refers to 'the UAT cache subnet group', assign 'esg-uat-1'.\",\n    \"By default, Redis security settings must have auth tokens enabled and both encryption in transit and at rest activated, except where the instruction specifically disables these features.\",\n    \"When a Redis endpoint or port is absent, default to '{cluster_id}.cache.local' with TCP port 6379.\",\n    \"In the absence of a provided description for a security-group rule, assign the following defaults: 6379/TCP \u2192 'Temporary allow for verification'; 443/TCP \u2192 'HTTPS egress'; 9121/TCP \u2192 'Metrics scrapers'.\",\n    \"Upon opening a case: if the instructions specify a case id (such as 'CASE090'), use that value exactly; if not, construct the id as 'CASE' followed by the order number (for example, O090 becomes CASE090).\",\n    \"Before creating a cart, always reserve a cart id, and before placing an order, always reserve an order id; never generate or reuse ids.\",\n    \"Only set or update a shipping address if the instruction contains the complete address.\",\n"
+      },
+      {
+        "role": "user",
+        "content": "Hi! I would like to finish purchasing two units of a Wireless Mouse from CAT103."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"category_id\":\"CAT103\"}",
+              "name": "list_products_in_category"
+            },
+            "id": "call_ElVrBbEWypX9Lc0oJMNIum9q",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_ElVrBbEWypX9Lc0oJMNIum9q",
+        "name": "list_products_in_category",
+        "content": "Error: name '_as_id' is not defined"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"category_id\":\"CAT103\"}",
+              "name": "list_products_in_category"
+            },
+            "id": "call_tVz0pwe7yNxkiK6xSDYrf4q9",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_tVz0pwe7yNxkiK6xSDYrf4q9",
+        "name": "list_products_in_category",
+        "content": "Error: name '_as_id' is not defined"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"category_id\":\"CAT103\"}",
+              "name": "list_products_in_category"
+            },
+            "id": "call_kQOQRk1MBXmVcYDfH5azE1bY",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_kQOQRk1MBXmVcYDfH5azE1bY",
+        "name": "list_products_in_category",
+        "content": "Error: name '_as_id' is not defined"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"category_id\":\"CAT103\"}",
+              "name": "list_products_in_category"
+            },
+            "id": "call_K1h1dhJ1UfNRi7KW30hHtoAQ",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_K1h1dhJ1UfNRi7KW30hHtoAQ",
+        "name": "list_products_in_category",
+        "content": "Error: name '_as_id' is not defined"
+      },
+      {
+        "content": "It seems there is an issue retrieving the products from the specified category. Could you please provide the exact name of the Wireless Mouse you would like to purchase?",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Unfortunately, I don't remember the exact name of the Wireless Mouse."
+      },
+      {
+        "content": "I can help you search for the Wireless Mouse by browsing the category. However, since I'm currently unable to retrieve the products from the category, I recommend checking the website or platform where you usually shop for the exact name of the Wireless Mouse. \n\nIf you find the name, please let me know, and I can assist you with the purchase!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I'll check and get back to you with the name. Thanks for the help!"
+      },
+      {
+        "content": "You're welcome! Take your time, and feel free to reach out when you have the name of the Wireless Mouse or if you need any further assistance. Happy shopping!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you so much. I\u2019ll get back to you soon!"
+      },
+      {
+        "content": "You're welcome! I'll be here whenever you're ready. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "It seems like you want to end the conversation. If you have any more questions in the future, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! You too!"
+      },
+      {
+        "content": "Thank you! Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "You too! Bye!"
+      },
+      {
+        "content": "Goodbye! Have a wonderful day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Goodbye! You too!"
+      },
+      {
+        "content": "Thank you! Goodbye!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! Goodbye!"
+      },
+      {
+        "content": "You're welcome! Goodbye!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Got it! If you need anything later, just let me know. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! Take care too! Goodbye!"
+      },
+      {
+        "content": "You're welcome! Goodbye!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need assistance in the future, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! You too! Goodbye!"
+      },
+      {
+        "content": "Thank you! Goodbye!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, just let me know. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! Take care too! Goodbye!"
+      },
+      {
+        "content": "You're welcome! Goodbye!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need assistance later, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! You too! Goodbye!"
+      },
+      {
+        "content": "You're welcome! Goodbye!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, just let me know. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! Take care too! Goodbye!"
+      },
+      {
+        "content": "You're welcome! Goodbye!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need assistance later, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! You too! Goodbye!"
+      },
+      {
+        "content": "You're welcome! Goodbye!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, just let me know. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! Take care too! Goodbye!"
+      },
+      {
+        "content": "You're welcome! Goodbye!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need assistance later, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! You too! Goodbye!"
+      },
+      {
+        "content": "You're welcome! Goodbye!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

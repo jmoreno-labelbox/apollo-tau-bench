@@ -1,4 +1,16 @@
 {
-    "fault_assignment_analysis": [],
-    "fault_type_analysis": []
+    "fault_assignment_analysis": [
+        {
+            "task_id": 0,
+            "author": "agent",
+            "description": "The agent is responsible for the fault in the trajectory because it failed to execute the necessary actions to ensure NERC-CIP compliance for the task SCAN_016. Instead of performing the required operations such as scanning incomplete tasks, checking SSH connection, finding and statting files, filtering the file log, computing and verifying checksums, copying files to the host, performing remote cleanup, and updating the task status, the agent merely sent notifications to a \"File Check\" channel without executing any of the specified actions. This lack of action resulted in the failure to achieve the task's objectives as outlined in the ground truth action sequence."
+        }
+    ],
+    "fault_type_analysis": [
+        {
+            "task_id": 0,
+            "fault_type": "other",
+            "description": "The fault in the trajectory is that the assistant fails to execute any of the required actions from the ground truth action sequence. Instead of performing the necessary operations such as scanning incomplete tasks, checking SSH connections, finding and verifying files, and updating task statuses, the assistant only sends notifications to a \"File Check\" channel without actually executing the tasks. This results in a lack of functional progress towards achieving NERC-CIP compliance for the specified task."
+        }
+    ]
 }

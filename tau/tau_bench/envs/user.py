@@ -134,8 +134,8 @@ User Response:
         return self.generate_next_message(self.messages)
 
     def parse_response(self, response: str) -> str:
-        if "###STOP### #HALT###" in reply:
-            return "###STOP### #HALT###
+        if "###STOP### #HALT###" in response:
+            return "###STOP### #HALT###"
         elif "Thought:" in response:
             _, user_response = response.split("Thought:")
             return user_response.strip()

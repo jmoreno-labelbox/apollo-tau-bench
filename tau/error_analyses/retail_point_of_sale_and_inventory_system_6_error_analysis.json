@@ -3,7 +3,7 @@
         {
             "task_id": 0,
             "author": "environment",
-            "description": "The environment is responsible for the fault in the trajectory because it failed to initialize or execute any actions. The ground truth action sequence involves searching for bronze membership customers, analyzing their marketing opt-in status, updating loyalty points for a specific customer, and finding a specific employee. However, the trajectory shows an empty sequence, indicating that none of these actions were performed, likely due to an initialization failure or a lack of execution capability in the environment."
+            "description": "The environment is responsible for the fault because it failed to initialize the task or provide the necessary data to start the conversation. The trajectory is empty, indicating that the system did not execute any actions or engage in any dialogue, which suggests a failure in setting up the task environment or accessing the required data to perform the actions specified in the user instruction."
         }
     ],
     "fault_type_analysis": []

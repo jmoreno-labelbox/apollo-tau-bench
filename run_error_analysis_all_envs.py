@@ -36,6 +36,7 @@ def get_all_environments() -> List[str]:
 
 def find_results_file(env_name: str, results_dir: Path) -> Optional[Path]:
     """Find the most recent results file for an environment."""
+    # First try the original pattern (in case results files do contain env name)
     pattern = f"*{env_name}*.json"
     matching_files = list(results_dir.glob(pattern))
     
@@ -43,6 +44,12 @@ def find_results_file(env_name: str, results_dir: Path) -> Optional[Path]:
         # Try broader pattern
         matching_files = list(results_dir.glob("*.json"))
         matching_files = [f for f in matching_files if env_name in f.stem]
+    
+    if not matching_files:
+        # Since results files don't contain environment names in their filename,
+        # we cannot reliably determine which results file belongs to which environment.
+        # Return None to indicate no results file found for this environment.
+        return None
     
     if matching_files:
         # Return most recent
@@ -220,7 +227,10 @@ def main():
         
         if not results_file:
             with lock:
-                print(f"  ⏭️  No results file found")
+                if args.run_tests:
+                    print(f"  ⏭️  No results file found (tests may have failed)")
+                else:
+                    print(f"  ⏭️  No results file found (use --run-tests to generate results)")
                 stats['skipped'] += 1
                 print()
             return None

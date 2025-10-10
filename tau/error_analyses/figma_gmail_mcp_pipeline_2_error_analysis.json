@@ -3,7 +3,7 @@
         {
             "task_id": 0,
             "author": "environment",
-            "description": "The environment is responsible for the fault in the trajectory because it repeatedly encounters an error with the undefined function `get_next_asset_id`, preventing the agent from proceeding with creating a new asset. This error disrupts the sequence of actions needed to fulfill the user instruction, as the agent cannot generate a new asset ID, which is crucial for exporting the asset and sending the review request email."
+            "description": "The environment is responsible for the fault in the trajectory because it failed to provide the necessary functions (`get_next_asset_id` and `get_next_cycle_id`) required for the agent to create a new asset and initiate a review cycle. This prevented the agent from executing the actions needed to fulfill the user's request, which involved creating a PNG 2x asset and starting a review cycle. As a result, the agent was unable to proceed with the task as outlined in the ground truth action sequence."
         }
     ],
     "fault_type_analysis": []

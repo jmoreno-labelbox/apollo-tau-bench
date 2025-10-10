@@ -33,7 +33,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_002",
-        instruction="As a warehouse manager, William Andersson (user ID william_andersson_2031, zip 28260), coordinate a supply order for 40 units of T-shirts (black, size XXL, cotton, crew neck) from supplier # SUP0001 is priced at $25 each. Use your gift card to buy one t-shirt for yourself. [System IDs: item_id=3799046073; payment_method_id=gift_card_9136273]. Key entities: T-Shirt, 25.0, 34.73.
+        instruction="As a warehouse manager, William Andersson (user ID william_andersson_2031, zip 28260), coordinate a supply order for 40 units of T-shirts (black, size XXL, cotton, crew neck) from supplier # SUP0001 is priced at $25 each. Use your gift card to buy one t-shirt for yourself. [System IDs: item_id=3799046073; payment_method_id=gift_card_9136273]. Key entities: T-Shirt, 25.0, 34.73.",
         actions=[
             Action(
                 name="GetInfoFromDb",
@@ -70,7 +70,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_003",
-        instruction="You are a customer service rep. A customer Ahmad Russo with zip 19122 received their order # W2378156 intends to swap the mechanical keyboard for the cheapest option featuring clicky switches and replace the smart thermostat with one that works with Google Home instead of Apple HomeKit. [System IDs: item_ids=1151293680; new_item_ids=2299424241; payment_method_id=credit_card_9513926]. Key entities: Ahmad, Rossi, Yusuf.
+        instruction="You are a customer service rep. A customer Ahmad Russo with zip 19122 received their order # W2378156 intends to swap the mechanical keyboard for the cheapest option featuring clicky switches and replace the smart thermostat with one that works with Google Home instead of Apple HomeKit. [System IDs: item_ids=1151293680; new_item_ids=2299424241; payment_method_id=credit_card_9513926]. Key entities: Ahmad, Rossi, Yusuf.",
         actions=[
             Action(
                 name="GetUserIdFromFullNameAndZip",
@@ -128,7 +128,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_005",
-        instruction="You are responsible for managing inventory. Change the status of all incomplete supply orders from supplier # Change SUP0002 status to 'fulfilled' and retrieve the product names associated with the delivery. Also, check for any unfulfilled orders that include items from these supply orders and create a delivery tracking record using International Speed Services' standard delivery method.
+        instruction="You are responsible for managing inventory. Change the status of all incomplete supply orders from supplier # Change SUP0002 status to 'fulfilled' and retrieve the product names associated with the delivery. Also, check for any unfulfilled orders that include items from these supply orders and create a delivery tracking record using International Speed Services' standard delivery method.",
         actions=[
             Action(
                 name="GetInfoFromDb",
@@ -168,7 +168,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_006",
-        instruction="You work as a customer support representative. Customer Omar Lopez (user_id: omar_lopez_3107), located in zip code 90339, wishes to add a new gift card (gift_card_3107) with a $100 balance as a payment method to his account. Subsequently, assist him in returning the air purifier (item_ids: 9375701158) from the recent order #W7273336 (order_id: # W7273336 (order_id: #W7273336). Ensure the refund is processed to the updated gift card (payment_method_id: gift_card_3107).
+        instruction="You work as a customer support representative. Customer Omar Lopez (user_id: omar_lopez_3107), located in zip code 90339, wishes to add a new gift card (gift_card_3107) with a $100 balance as a payment method to his account. Subsequently, assist him in returning the air purifier (item_ids: 9375701158) from the recent order #W7273336 (order_id: # W7273336 (order_id: #W7273336). Ensure the refund is processed to the updated gift card (payment_method_id: gift_card_3107).",
         actions=[
             Action(
                 name="GetUserIdFromFullNameAndZip",
@@ -290,7 +290,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_009",
-        instruction="You are emma_martinez_4516 (emma.martinez2723@example.com). Suppose you wish to return all items purchased. You possess two payment methods (paypal_9497703 and credit_card_3124723) and two orders (#W5490111 and # Verify your account information and order history to ensure all items and associated costs are accurate before processing refunds for W5490111 and #W7387996 to the respective alternate payment methods.
+        instruction="You are emma_martinez_4516 (emma.martinez2723@example.com). Suppose you wish to return all items purchased. You possess two payment methods (paypal_9497703 and credit_card_3124723) and two orders (#W5490111 and # Verify your account information and order history to ensure all items and associated costs are accurate before processing refunds for W5490111 and #W7387996 to the respective alternate payment methods."
         actions=[
             # Retrieve user identification number.
             Action(
@@ -414,7 +414,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_012",
-        instruction="As Fatima Williams with zip number 78712, coordinate the amendment of the pending order for hiking boots by changing the size to 8, maintaining the same material, while being indifferent to waterproof features. Utilize the existing payment method for the alteration. Furthermore, establish tracking for the new item with a standard delivery by using courier #COU0002. [System IDs: order_id=# COU0002. [System Identifiers: order_id=#W5199551; item_ids=1615379700; new_item_ids=3613716226; payment_method_id=paypal_5364164]. Important entities: Johnson, fatima_johnson_7581, Hiking.
+        instruction="As Fatima Williams with zip number 78712, coordinate the amendment of the pending order for hiking boots by changing the size to 8, maintaining the same material, while being indifferent to waterproof features. Utilize the existing payment method for the alteration. Furthermore, establish tracking for the new item with a standard delivery by using courier #COU0002. [System IDs: order_id=# COU0002. [System Identifiers: order_id=#W5199551; item_ids=1615379700; new_item_ids=3613716226; payment_method_id=paypal_5364164]. Important entities: Johnson, fatima_johnson_7581, Hiking."
         actions=[
             Action(
                 name="GetUserIdFromFullNameAndZip",
@@ -513,7 +513,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_015",
-        instruction="As a customer service representative, handle a return request from customer Raleigh Simpson, residing in zip code 78786, because of compatibility issues with her bluetooth speaker. Facilitate the return using her original payment method and arrange a new purchase for headphones (on-ear, red, wireless) with the same payment method. Ensure the customer's information is verified and generate a tracking number (with standard delivery and using courier ID # COU0004) for the new order.
+        instruction="As a customer service representative, handle a return request from customer Raleigh Simpson, residing in zip code 78786, because of compatibility issues with her bluetooth speaker. Facilitate the return using her original payment method and arrange a new purchase for headphones (on-ear, red, wireless) with the same payment method. Ensure the customer's information is verified and generate a tracking number (with standard delivery and using courier ID # COU0004) for the new order."
         actions=[
             Action(
                 name="GetUserIdFromFullNameAndZip",
@@ -550,7 +550,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_016",
-        instruction="As a warehouse supervisor, coordinate the creation of a new supply order for 75 units of electric kettles (2L, glass, white) priced at $95 each. Following this, amend the payment history for Raleigh Moore's (zip 85032) order of the same model of electric kettle to indicate a 'partial refund' of $150 issued to her PayPal owing to the delivery delay. [System IDs: supplier_id=# SUP0009; identifier=4064702754].
+        instruction="As a warehouse supervisor, coordinate the creation of a new supply order for 75 units of electric kettles (2L, glass, white) priced at $95 each. Following this, amend the payment history for Raleigh Moore's (zip 85032) order of the same model of electric kettle to indicate a 'partial refund' of $150 issued to her PayPal owing to the delivery delay. [System IDs: supplier_id=# SUP0009; identifier=4064702754]."
         actions=[
             Action(
                 name="GetInfoFromDb",
@@ -588,7 +588,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_017",
-        instruction="As a customer support specialist, assist customer James Jackson in zip 28221 with exchanging his cycling helmet for the most affordable gaming mouse available. Ensure to aid him in adding a new PayPal payment method to his account for future transactions. [System IDs: order_id=# W9892169; item_ids=6401214406; new_item_ids=2880340443; payment_method_id=credit_card_2327218; user_id=james_jackson_8519]. Important entities: Gaming, Lopez, Mason.
+        instruction="As a customer support specialist, assist customer James Jackson in zip 28221 with exchanging his cycling helmet for the most affordable gaming mouse available. Ensure to aid him in adding a new PayPal payment method to his account for future transactions. [System IDs: order_id=# W9892169; item_ids=6401214406; new_item_ids=2880340443; payment_method_id=credit_card_2327218; user_id=james_jackson_8519]. Important entities: Gaming, Lopez, Mason."
         actions=[
             Action(
                 name="GetUserIdFromFullNameAndZip",
@@ -650,7 +650,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_019",
-        instruction="As a customer account manager, assist customer Olivia Ito from zip 19022 in updating her name to 'Isabella Ito-Martinez' and in returning the coffee maker from her recent order, issuing the refund to her original payment method. [System IDs: order_id=# W3780282; item_ids=9862136885; payment_method_id=credit_card_8058445.
+        instruction="As a customer account manager, assist customer Olivia Ito from zip 19022 in updating her name to 'Isabella Ito-Martinez' and in returning the coffee maker from her recent order, issuing the refund to her original payment method. [System IDs: order_id=# W3780282; item_ids=9862136885; payment_method_id=credit_card_8058445."
         actions=[
             Action(
                 name="GetUserIdFromFullNameAndZip",
@@ -679,7 +679,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_020",
-        instruction="As a fulfillment specialist, assist customer Mason Lee whose email is mason.lee9297@example.com in changing the delivery address of his pending order #W2624389 to a business address: 456 Corporate Blvd, Suite 200, San Francisco, NV 94105. Additionally, initiate tracking for this order using business class with delivery service # W2624389 should be sent to the business address: 456 Corporate Blvd, Suite 200, San Francisco, NV 94105. Furthermore, start tracking this order with business class using delivery service #COU0001 and change the status to 'processed'.
+        instruction="As a fulfillment specialist, assist customer Mason Lee whose email is mason.lee9297@example.com in changing the delivery address of his pending order #W2624389 to a business address: 456 Corporate Blvd, Suite 200, San Francisco, NV 94105. Additionally, initiate tracking for this order using business class with delivery service # W2624389 should be sent to the business address: 456 Corporate Blvd, Suite 200, San Francisco, NV 94105. Furthermore, start tracking this order with business class using delivery service #COU0001 and change the status to 'processed'."
         actions=[
             Action(
                 name="GetUserIdFromEmail",
@@ -708,7 +708,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_021",
-        instruction="As a warehouse manager, arrange a new order for 100 units of the wireless earbuds with IPX4 water resistance that are currently unavailable, priced at $85 each. Additionally, Customer Raleigh Clark from zip code 20236 seeks to include a new credit card payment option to her account (mastercard, ending in 5678). [System IDs: supplier_id=# SUP0004; item_id=3694871183; user_id=ava_martin_2430]. Main components: Wireless, 85.0, Martin.
+        instruction="As a warehouse manager, arrange a new order for 100 units of the wireless earbuds with IPX4 water resistance that are currently unavailable, priced at $85 each. Additionally, Customer Raleigh Clark from zip code 20236 seeks to include a new credit card payment option to her account (mastercard, ending in 5678). [System IDs: supplier_id=# SUP0004; item_id=3694871183; user_id=ava_martin_2430]. Main components: Wireless, 85.0, Martin."
         actions=[
             Action(
                 name="GetInfoFromDb",
@@ -742,7 +742,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_022",
-        instruction="In your role as a customer service agent, assist customer Yusuf Khan (user_id: yusuf_khan_7091) at email yusuf.khan7390@example.com in swapping his laptop (item 2216662955) for the most affordable e-reader offered (item 7609274509) in order #W1787190. Use his PayPal payment method (paypal_5796936). He also desires to add a gift card with a $150 balance to his account. [System IDs: order_id=# W1787190. Utilize his PayPal account (paypal_5796936) for payment. He wishes to include a gift card with a $150 balance in his account. [System IDs: order_id=#W1787190; product_id]. Key entities: 150.0, E-Reader. Ref: gift_card.
+        instruction="In your role as a customer service agent, assist customer Yusuf Khan (user_id: yusuf_khan_7091) at email yusuf.khan7390@example.com in swapping his laptop (item 2216662955) for the most affordable e-reader offered (item 7609274509) in order #W1787190. Use his PayPal payment method (paypal_5796936). He also desires to add a gift card with a $150 balance to his account. [System IDs: order_id=# W1787190. Utilize his PayPal account (paypal_5796936) for payment. He wishes to include a gift card with a $150 balance in his account. [System IDs: order_id=#W1787190; product_id]. Key entities: 150.0, E-Reader. Ref: gift_card."
         actions=[
             Action(
                 name="GetUserIdFromEmail",
@@ -775,7 +775,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_023",
-        instruction="As a returns coordinator, assist customer Amelia Kim (user_id: amelia_kim_4019778) from zip 28230 in sending back the Mechanical Keyboard (item_ids: 1421289881) from order # W7634667, issue the refund to her gift card (payment_method_id: gift_card_4019778) and create a new order for size 8 running shoes using her PayPal as the payment method. [System IDs: user_id=amelia_kim_4338; item_ids=4153505238; payment_method_id=paypal_1742092]. Important entities: Running.
+        instruction="As a returns coordinator, assist customer Amelia Kim (user_id: amelia_kim_4019778) from zip 28230 in sending back the Mechanical Keyboard (item_ids: 1421289881) from order # W7634667, issue the refund to her gift card (payment_method_id: gift_card_4019778) and create a new order for size 8 running shoes using her PayPal as the payment method. [System IDs: user_id=amelia_kim_4338; item_ids=4153505238; payment_method_id=paypal_1742092]. Important entities: Running."
         actions=[
             Action(
                 name="GetUserIdFromFullNameAndZip",
@@ -808,7 +808,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_024",
-        instruction="Working as an order specialist, update the payment history for order # W6679257 indicates a $200 partial refund was issued to the original credit card (credit_card_9513926). Furthermore, customer Harper Silva (user_id: harper_silva_8534) from zip 92188 requests a name change to 'Harper Silva-Johnson'. Key entities: partial_refund, 200.0.
+        instruction="Working as an order specialist, update the payment history for order # W6679257 indicates a $200 partial refund was issued to the original credit card (credit_card_9513926). Furthermore, customer Harper Silva (user_id: harper_silva_8534) from zip 92188 requests a name change to 'Harper Silva-Johnson'. Key entities: partial_refund, 200.0."
         actions=[
             Action(
                 name="GetInfoFromDb",
@@ -833,7 +833,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_025",
-        instruction="As a supply chain coordinator, arrange a supply order for 40 units of 1080p, waterproof, black, action cameras from their supplier at $320 per unit. Next, set up tracking to manage the return of the cancelled order # W9711842 should utilize standard postage and AgileTransport Services, and confirm that the status is marked as 'returned'.
+        instruction="As a supply chain coordinator, arrange a supply order for 40 units of 1080p, waterproof, black, action cameras from their supplier at $320 per unit. Next, set up tracking to manage the return of the cancelled order # W9711842 should utilize standard postage and AgileTransport Services, and confirm that the status is marked as 'returned'."
         actions=[
             Action(
                 name="GetInfoFromDb",
@@ -1009,7 +1009,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_030",
-        instruction="As a customer account manager, update the payment history pertaining to order # Apply a $75 'loyalty_refund' to Ahmad Russo's initial payment, W4776164. Assist Luna Kovacs, zip code 94145, in changing her delivery address for the pending order to: 789 Harbor Street, Suite 4, Boston, MA, 02101. Update her user profile to include the new address. (Ref:75.0)
+        instruction="As a customer account manager, update the payment history pertaining to order # Apply a $75 'loyalty_refund' to Ahmad Russo's initial payment, W4776164. Assist Luna Kovacs, zip code 94145, in changing her delivery address for the pending order to: 789 Harbor Street, Suite 4, Boston, MA, 02101. Update her user profile to include the new address. (Ref:75.0)"
         actions=[
             Action(
                 name="GetInfoFromDb",
@@ -1042,7 +1042,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_031",
-        instruction="As a warehouse supervisor, handle the creation of a supply order for 180 units of wall clocks from supplier '#SUP0011' at $55 per unit. Following this, generate tracking for the order #W8665881 ('standard' delivery using courier '# W8665881 ('standard' delivery via courier '#COU0001') and change the status to 'processed'. (Ref:55.0)
+        instruction="As a warehouse supervisor, handle the creation of a supply order for 180 units of wall clocks from supplier '#SUP0011' at $55 per unit. Following this, generate tracking for the order #W8665881 ('standard' delivery using courier '# W8665881 ('standard' delivery via courier '#COU0001') and change the status to 'processed'. (Ref:55.0)"
         actions=[
             Action(
                 name="GetInfoFromDb",
@@ -1071,7 +1071,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_032",
-        instruction="Acting as a customer service agent, assist Aarav White (user_id: aarav_white_8794), who is associated with the email aarav.white9752@example.com, with returning his Sneakers (item_ids: 9727387530) from order # W5866402, and include a new credit card (Visa, last four digits 1955, payment_method_id: credit_card_8794) for payment on the account. Process a refund to paypal_8049766. Email: aarav.white9752@example.com.
+        instruction="Acting as a customer service agent, assist Aarav White (user_id: aarav_white_8794), who is associated with the email aarav.white9752@example.com, with returning his Sneakers (item_ids: 9727387530) from order # W5866402, and include a new credit card (Visa, last four digits 1955, payment_method_id: credit_card_8794) for payment on the account. Process a refund to paypal_8049766. Email: aarav.white9752@example.com."
         actions=[
             Action(
                 name="GetUserIdFromEmail",
@@ -1096,7 +1096,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_033",
-        instruction="Assist customer Amelia Lopez from zip 85093 in exchanging her bluetooth speaker (from order # W4277243) for a wristwatch and the addition of a $250 gift card to her account. [System IDs: item_ids=2635605237; new_item_ids=2407258246; payment_method_id=paypal_8516781; user_id=amelia_lopez_2068]. Key entities: 250.0, Sanchez, Wristwatch, Isabella. [isabella_sanchez].
+        instruction="Assist customer Amelia Lopez from zip 85093 in exchanging her bluetooth speaker (from order # W4277243) for a wristwatch and the addition of a $250 gift card to her account. [System IDs: item_ids=2635605237; new_item_ids=2407258246; payment_method_id=paypal_8516781; user_id=amelia_lopez_2068]. Key entities: 250.0, Sanchez, Wristwatch, Isabella. [isabella_sanchez]."
         actions=[
             Action(
                 name="GetUserIdFromFullNameAndZip",
@@ -1150,7 +1150,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_035",
-        instruction="As a customer support specialist, assist customer Isabella Ito, who has the email isabella.ito5204@example.com. Olivia needs to change the delivery address for order # W3657213 to 987 Elm Street, Unit 2, San Francisco, NV, USA, 94110; customer wants to return the action camera from this order due to dissatisfaction with the color. Key entities: olivia.ito5204@example.com, CA.
+        instruction="As a customer support specialist, assist customer Isabella Ito, who has the email isabella.ito5204@example.com. Olivia needs to change the delivery address for order # W3657213 to 987 Elm Street, Unit 2, San Francisco, NV, USA, 94110; customer wants to return the action camera from this order due to dissatisfaction with the color. Key entities: olivia.ito5204@example.com, CA."
         actions=[
             Action(
                 name="GetUserIdFromEmail",
@@ -1175,7 +1175,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_036",
-        instruction="As a fulfillment manager, update the payment history for order #W1023987 to include a $125 'promotional cashback' applied to the original payment method. Adjust the tracking for this order to utilize courier # W1023987 should include a $125 'promotional cashback' credited to the original payment method. Update the order tracking to use courier #COU0001 with 'standard' delivery and set the order status to 'processed'. Also, help the customer with this order to add $400 to their gift card, using a credit card (Visa, last four digits 2635) for the payment of this top-up. Key entities: 400.0, promotional_cashback, 125
+        instruction="As a fulfillment manager, update the payment history for order #W1023987 to include a $125 'promotional cashback' applied to the original payment method. Adjust the tracking for this order to utilize courier # W1023987 should include a $125 'promotional cashback' credited to the original payment method. Update the order tracking to use courier #COU0001 with 'standard' delivery and set the order status to 'processed'. Also, help the customer with this order to add $400 to their gift card, using a credit card (Visa, last four digits 2635) for the payment of this top-up. Key entities: 400.0, promotional_cashback, 125"
         actions=[
             Action(
                 name="GetInfoFromDb",
@@ -1213,7 +1213,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_037",
-        instruction="As a customer service representative, you find that customer Ivan Santos (zip 75277) reports that the wireless earbuds from his order don't fit him. You handle a return and issue a refund to a new gift card that you generate. [System IDs: user_id=lucas_rodriguez_6635; order_id=# W6893533; item_ids=1646531091; payment_method_id=gift_card_6635]. Main entities: 0.0.
+        instruction="As a customer service representative, you find that customer Ivan Santos (zip 75277) reports that the wireless earbuds from his order don't fit him. You handle a return and issue a refund to a new gift card that you generate. [System IDs: user_id=lucas_rodriguez_6635; order_id=# W6893533; item_ids=1646531091; payment_method_id=gift_card_6635]. Main entities: 0.0."
         actions=[
             # Retrieve user ID using the full name and zip code.
             Action(
@@ -1268,7 +1268,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_039",
-        instruction="Support customer zoe_lopez_1902 in exchanging item_id 9025753381 ('Mechanical Keyboard with clicky switches') for the same model but featuring tactile switches, as she finds the clicky type too noisy for her office. Facilitate her request to use a gift card for the transaction, ensuring she has one, and if not, provide her with one. [System IDs: required_fields=order_id; required_fields=variants; required_fields=payment_methods; order_id=# W6015009; new_item_ids=3616838507; payment_method_id=gift_card_1902.
+        instruction="Support customer zoe_lopez_1902 in exchanging item_id 9025753381 ('Mechanical Keyboard with clicky switches') for the same model but featuring tactile switches, as she finds the clicky type too noisy for her office. Facilitate her request to use a gift card for the transaction, ensuring she has one, and if not, provide her with one. [System IDs: required_fields=order_id; required_fields=variants; required_fields=payment_methods; order_id=# W6015009; new_item_ids=3616838507; payment_method_id=gift_card_1902."
         actions=[
             # Identify the order and item for the exchange.
             Action(
@@ -1543,7 +1543,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_046",
-        instruction="Assist user Zoe Lopez (zip 75255) with returning both the Skateboard (item_id 3877188862) and Bluetooth Speaker (item_id 7597543861) from order # W6015009. Permit her to keep the Mechanical Keyboard. Start the return procedure and confirm that the refund is processed to her initial payment method. [System IDs: required_fields=orders; required_fields=payment_history; payment_method_id=credit_card_5884162]. Key entities: Yara, Sanchez. [yara_sanchez_1902].
+        instruction="Assist user Zoe Lopez (zip 75255) with returning both the Skateboard (item_id 3877188862) and Bluetooth Speaker (item_id 7597543861) from order # W6015009. Permit her to keep the Mechanical Keyboard. Start the return procedure and confirm that the refund is processed to her initial payment method. [System IDs: required_fields=orders; required_fields=payment_history; payment_method_id=credit_card_5884162]. Key entities: Yara, Sanchez. [yara_sanchez_1902]."
         actions=[
             Action(
                 name="GetUserIdFromFullNameAndZip",
@@ -1569,7 +1569,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_047",
-        instruction="Assist customer Isabella Thompson (zip 95119) who wishes to return the hiking boots and gaming mouse from a recent order. Execute full cancellation and refund to her original payment method. [System IDs: required_fields=order_id; required_fields=payment_history; order_id=# W3168895; item_ids=2648909398; payment_method_id=paypal_3999493]. Main entities: Olivia, Jackson.
+        instruction="Assist customer Isabella Thompson (zip 95119) who wishes to return the hiking boots and gaming mouse from a recent order. Execute full cancellation and refund to her original payment method. [System IDs: required_fields=order_id; required_fields=payment_history; order_id=# W3168895; item_ids=2648909398; payment_method_id=paypal_3999493]. Main entities: Olivia, Jackson."
         actions=[
             Action(
                 name="GetUserIdFromFullNameAndZip",
@@ -1687,7 +1687,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_051",
-        instruction="Assist customer ahmad_khan_7091 with a situation where a laptop got damaged due to moisture during delivery. Facilitate the return of the damaged item and place a new order for the same model as a replacement. [System IDs: required_fields=orders; required_fields=order_id; order_id=# W1787190; item_ids=2216662955; payment_method_id=paypal_5796936.
+        instruction="Assist customer ahmad_khan_7091 with a situation where a laptop got damaged due to moisture during delivery. Facilitate the return of the damaged item and place a new order for the same model as a replacement. [System IDs: required_fields=orders; required_fields=order_id; order_id=# W1787190; item_ids=2216662955; payment_method_id=paypal_5796936."
         actions=[
             Action(
                 name="GetInfoFromDb",
@@ -1803,7 +1803,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_055",
-        instruction="Assist customer Aarav White (zip 19031), who is seeking to return a bookshelf and water bottle from his latest purchase. Rather than processing refunds to his credit card, transfer the amounts to his gift card for upcoming buys. [System IDs: required_fields=orders; required_fields=order_id; order_id=# W3470184; item_ids=2366567022; payment_method_id=gift_card_7245904]. Important entities: Anderson, 620.88.
+        instruction="Assist customer Aarav White (zip 19031), who is seeking to return a bookshelf and water bottle from his latest purchase. Rather than processing refunds to his credit card, transfer the amounts to his gift card for upcoming buys. [System IDs: required_fields=orders; required_fields=order_id; order_id=# W3470184; item_ids=2366567022; payment_method_id=gift_card_7245904]. Important entities: Anderson, 620.88."
         actions=[
             Action(
                 name="GetUserIdFromFullNameAndZip",
@@ -1881,7 +1881,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_057",
-        instruction="Assist customer sofia_martin_1518, who mentioned her electric toothbrush ceased functioning after 2 days. You must guide her through exchanging it for the identical model. [System IDs: required_fields=orders; required_fields=order_id; required_fields=variants; order_id=# W7619352; item_ids=8798690242; payment_method_id=paypal_5334408]. [Electric].
+        instruction="Assist customer sofia_martin_1518, who mentioned her electric toothbrush ceased functioning after 2 days. You must guide her through exchanging it for the identical model. [System IDs: required_fields=orders; required_fields=order_id; required_fields=variants; order_id=# W7619352; item_ids=8798690242; payment_method_id=paypal_5334408]. [Electric]."
         actions=[
             Action(
                 name="GetInfoFromDb",
@@ -2045,7 +2045,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_062",
-        instruction="You are supporting customer sofia_li_9219, an enthusiast of jigsaw puzzles, who intends to purchase one of each 1000 piece jigsaw puzzle available, utilizing her PayPal account for payment. Appreciate her passion by offering a complimentary 2000 piece puzzle (id 5645314103) as a gift. Achieve this by generating a new order with her PayPal, ensuring the payment amount is set to $0. [System IDs: required_fields=payment_methods; required_fields=variants; item_ids=3112842858; payment_method_id=paypal_8194385; order_id=# W0001002]. Important entities: 0.0, Jigsaw.
+        instruction="You are supporting customer sofia_li_9219, an enthusiast of jigsaw puzzles, who intends to purchase one of each 1000 piece jigsaw puzzle available, utilizing her PayPal account for payment. Appreciate her passion by offering a complimentary 2000 piece puzzle (id 5645314103) as a gift. Achieve this by generating a new order with her PayPal, ensuring the payment amount is set to $0. [System IDs: required_fields=payment_methods; required_fields=variants; item_ids=3112842858; payment_method_id=paypal_8194385; order_id=# W0001002]. Important entities: 0.0, Jigsaw."
         actions=[
             Action(
                 name="GetInfoFromDb",
@@ -2097,7 +2097,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_064",
-        instruction="Assist customer ahmad_khan_2015 in purchasing bulk office supplies for his company: exactly 50 notebooks, 50 desk lamps, and 5 coffee makers. Help him add his company credit card (visa, ending 0482) to pay for the transaction. Next, arrange shipping using the 'corporate-shipping' option with Priority Shipping Co.' express delivery. [System IDs: required_fields=payment_methods; required_fields=variants; user_id=yusuf_khan_2015; payment_method_id=credit_card_2015; required_fields=courier_id; order_id=#W0001001; item_ids=9799386954; courier_id=# W0001001; item_ids=9799386954; courier_id=#COU0003].
+        instruction="Assist customer ahmad_khan_2015 in purchasing bulk office supplies for his company: exactly 50 notebooks, 50 desk lamps, and 5 coffee makers. Help him add his company credit card (visa, ending 0482) to pay for the transaction. Next, arrange shipping using the 'corporate-shipping' option with Priority Shipping Co.' express delivery. [System IDs: required_fields=payment_methods; required_fields=variants; user_id=yusuf_khan_2015; payment_method_id=credit_card_2015; required_fields=courier_id; order_id=#W0001001; item_ids=9799386954; courier_id=# W0001001; item_ids=9799386954; courier_id=#COU0003]."
         actions=[
             Action(
                 name="GetInfoFromDb",
@@ -2131,7 +2131,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_065",
-        instruction="Assist customer Mia Garcia (user_id: mia_garcia_4516, zip 46229) who possesses a mechanical keyboard (item 1421289881) from order # Assist her in exchanging W5490111, which she no longer wants, for a gaming mouse (item 2880340443) and process the payment through her PayPal account (paypal_9497703). [System IDs: required_fields=orders; required_fields=order_id; required_fields=variants].
+        instruction="Assist customer Mia Garcia (user_id: mia_garcia_4516, zip 46229) who possesses a mechanical keyboard (item 1421289881) from order # Assist her in exchanging W5490111, which she no longer wants, for a gaming mouse (item 2880340443) and process the payment through her PayPal account (paypal_9497703). [System IDs: required_fields=orders; required_fields=order_id; required_fields=variants]."
         actions=[
             # retrieve user identifier
             Action(
@@ -2162,7 +2162,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_066",
-        instruction="As an inventory manager, coordinate the creation of supply orders to procure 100 units of the item with the highest stock from several suppliers (#SUP0001, #SUP0009, # Update the inventory for items SUP0001, SUP0009, and SUP0011, each valued at $10, to account for the reduction in stock after order fulfillment.
+        instruction="As an inventory manager, coordinate the creation of supply orders to procure 100 units of the item with the highest stock from several suppliers (#SUP0001, #SUP0009, # Update the inventory for items SUP0001, SUP0009, and SUP0011, each valued at $10, to account for the reduction in stock after order fulfillment."
         actions=[
             Action(
                 name="GetInfoFromDb",
@@ -2246,7 +2246,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_068",
-        instruction="Assist customer Ivan Santos from zip 75277 with his request to return a Garden Hose and exchange Wireless Earbuds for a tablet within the same delivered order. Additionally, help him generate a gift card and deposit $200 into it using his PayPal account. [System IDs: required_fields=order_id; order_id=# W6893533; item_ids=5206946487; payment_method_id=paypal_6151711; mandatory_fields=variants; item_ids=1646531091; updated_item_ids=2106335193; user_id=ivan_santos_6635.
+        instruction="Assist customer Ivan Santos from zip 75277 with his request to return a Garden Hose and exchange Wireless Earbuds for a tablet within the same delivered order. Additionally, help him generate a gift card and deposit $200 into it using his PayPal account. [System IDs: required_fields=order_id; order_id=# W6893533; item_ids=5206946487; payment_method_id=paypal_6151711; mandatory_fields=variants; item_ids=1646531091; updated_item_ids=2106335193; user_id=ivan_santos_6635."
         actions=[
             Action(
                 name="GetUserIdFromFullNameAndZip",
@@ -2284,7 +2284,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_069",
-        instruction="Assist customer Noah Anderson from zip 80279 who plans to purchase a smartphone and tablet for his enterprise. His preferred payment method is his mastercard ending in 9212. Help him finalize the order and arrange tracking for standard delivery via RapidTransit Solutions. [System IDs: required_fields=payment_methods; required_fields=variants; user_id=noah_brown_6181; item_ids=5339029584; payment_method_id=credit_card_7815826; required_fields=courier_id; order_id=#W0001001; courier_id=# W0001001; courier_id=#COU0002].
+        instruction="Assist customer Noah Anderson from zip 80279 who plans to purchase a smartphone and tablet for his enterprise. His preferred payment method is his mastercard ending in 9212. Help him finalize the order and arrange tracking for standard delivery via RapidTransit Solutions. [System IDs: required_fields=payment_methods; required_fields=variants; user_id=noah_brown_6181; item_ids=5339029584; payment_method_id=credit_card_7815826; required_fields=courier_id; order_id=#W0001001; courier_id=# W0001001; courier_id=#COU0002]."
         actions=[
             Action(
                 name="GetUserIdFromFullNameAndZip",
@@ -2318,7 +2318,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_070",
-        instruction="Support the warehouse manager in generating a supply order for 30 units of Coffee Makers (at 182.93 unit cost) from supplier Animal Care Worldwide due to low inventory. Adjust the supplier's stock levels accordingly afterward. [System IDs: required_fields=product_id; required_fields=item_stock; supplier_id=# SUP0009; item_id=1349017811.
+        instruction="Support the warehouse manager in generating a supply order for 30 units of Coffee Makers (at 182.93 unit cost) from supplier Animal Care Worldwide due to low inventory. Adjust the supplier's stock levels accordingly afterward. [System IDs: required_fields=product_id; required_fields=item_stock; supplier_id=# SUP0009; item_id=1349017811."
         actions=[
             Action(
                 name="GetInfoFromDb",
@@ -2344,7 +2344,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_071",
-        instruction="You are assisting customer Lucas Rodriguez from zip 75277 who wishes to return his Smart Watch and trade the Skateboard from the same order for a Gaming Mouse. You handle both the return and exchange using his PayPal payment method. [System IDs: required_fields=payment_methods; required_fields=order_id; required_fields=variants; order_id=# W3913498; item_ids=1706622510; payment_method_id=paypal_6151711; item_ids=5038485381; new_item_ids=2880340443.
+        instruction="You are assisting customer Lucas Rodriguez from zip 75277 who wishes to return his Smart Watch and trade the Skateboard from the same order for a Gaming Mouse. You handle both the return and exchange using his PayPal payment method. [System IDs: required_fields=payment_methods; required_fields=order_id; required_fields=variants; order_id=# W3913498; item_ids=1706622510; payment_method_id=paypal_6151711; item_ids=5038485381; new_item_ids=2880340443."
         actions=[
             Action(
                 name="GetUserIdFromFullNameAndZip",
@@ -2476,7 +2476,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_075",
-        instruction="As customer William Lee from zip 43138, you're purchasing a Wristwatch and Action Camera for photography. Establish a new credit card (visa, last four digits 2039) for the payment. Arrange express delivery via SpeedWay Delivery and relay the tracking information. [System IDs: required_fields=payment_methods; required_fields=product_id; user_id=james_lee_9638; item_ids=2407258246; payment_method_id=credit_card_9638; required_fields=courier_id; order_id=#W0001001; courier_id=# W0001001; courier_id=#COU0001].
+        instruction="As customer William Lee from zip 43138, you're purchasing a Wristwatch and Action Camera for photography. Establish a new credit card (visa, last four digits 2039) for the payment. Arrange express delivery via SpeedWay Delivery and relay the tracking information. [System IDs: required_fields=payment_methods; required_fields=product_id; user_id=james_lee_9638; item_ids=2407258246; payment_method_id=credit_card_9638; required_fields=courier_id; order_id=#W0001001; courier_id=# W0001001; courier_id=#COU0001]."
         actions=[
             Action(
                 name="GetUserIdFromFullNameAndZip",
@@ -2571,7 +2571,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_078",
-        instruction="Support customer Olivia Costa, located in zip code 75217, in ordering Hiking Boots and Fleece Jacket for her outdoor activities. Subsequently, arrange for standard delivery tracking with AgileTransport Services. [System IDs: required_fields=payment_methods; required_fields=product_id; user_id=emma_silva_1269; item_ids=8277474082; payment_method_id=credit_card_4492026; required_fields=courier_id; order_id=#W0001001; courier_id=# W0001001; courier_identifier=#COU0004].
+        instruction="Support customer Olivia Costa, located in zip code 75217, in ordering Hiking Boots and Fleece Jacket for her outdoor activities. Subsequently, arrange for standard delivery tracking with AgileTransport Services. [System IDs: required_fields=payment_methods; required_fields=product_id; user_id=emma_silva_1269; item_ids=8277474082; payment_method_id=credit_card_4492026; required_fields=courier_id; order_id=#W0001001; courier_id=# W0001001; courier_identifier=#COU0004]."
         actions=[
             Action(
                 name="GetUserIdFromFullNameAndZip",
@@ -2605,7 +2605,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_079",
-        instruction="Assist customer Raleigh Khan from zip 94171 who is interested in purchasing a Tablet and Wireless Earbuds. Help Ava link her PayPal to her account, which will then be used to place any orders. Generate tracking with a courier capable of delivering to Mexico, opting for the standard delivery method. [System IDs: required_fields=payment_methods; required_fields=product_id; user_id=ava_khan_1840; item_ids=2106335193; payment_method_id=paypal_1840; required_fields=courier_id; order_id=#W0001001; courier_id=# W0001001; courier_id=#COU0001].
+        instruction="Assist customer Raleigh Khan from zip 94171 who is interested in purchasing a Tablet and Wireless Earbuds. Help Ava link her PayPal to her account, which will then be used to place any orders. Generate tracking with a courier capable of delivering to Mexico, opting for the standard delivery method. [System IDs: required_fields=payment_methods; required_fields=product_id; user_id=ava_khan_1840; item_ids=2106335193; payment_method_id=paypal_1840; required_fields=courier_id; order_id=#W0001001; courier_id=# W0001001; courier_id=#COU0001]."
         actions=[
             Action(
                 name="GetUserIdFromFullNameAndZip",
@@ -2678,7 +2678,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_081",
-        instruction="Assist customer Omar White from zip 85011 who wishes to return his Desk Lamp and Hiking Boots from a past purchase. Coordinate the process for the returns and issue a refund to his PayPal account. [System IDs: required_fields=orders; order_id=# W2091016; item_ids=1270145486; payment_method_id=paypal_2055565]. Main entities: Anderson.
+        instruction="Assist customer Omar White from zip 85011 who wishes to return his Desk Lamp and Hiking Boots from a past purchase. Coordinate the process for the returns and issue a refund to his PayPal account. [System IDs: required_fields=orders; order_id=# W2091016; item_ids=1270145486; payment_method_id=paypal_2055565]. Main entities: Anderson."
         actions=[
             Action(
                 name="GetUserIdFromFullNameAndZip",
@@ -2790,7 +2790,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_085",
-        instruction="As an inventory specialist, review the inventory levels for Digital Paradise Distributors. Proceed to create supply orders to request one unit for items with low stock (2 units or fewer, excluding out-of-stock or discontinued items), each costing $100. Afterward, process customer Mia Martinez's (zip 19036) order for a Yoga Mat and Bluetooth Speaker. [System IDs: required_fields=supplier_id; supplier_id=# SUP0004; item_id=5510402676; mandatory_fields=payment_methods; mandatory_fields=product_id; user_id=anya_garcia_3271; item_ids=5586947715; payment_method_id=credit_card_8955149.
+        instruction="As an inventory specialist, review the inventory levels for Digital Paradise Distributors. Proceed to create supply orders to request one unit for items with low stock (2 units or fewer, excluding out-of-stock or discontinued items), each costing $100. Afterward, process customer Mia Martinez's (zip 19036) order for a Yoga Mat and Bluetooth Speaker. [System IDs: required_fields=supplier_id; supplier_id=# SUP0004; item_id=5510402676; mandatory_fields=payment_methods; mandatory_fields=product_id; user_id=anya_garcia_3271; item_ids=5586947715; payment_method_id=credit_card_8955149."
         actions=[
             Action(
                 name="GetInfoFromDb",
@@ -2824,7 +2824,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_086",
-        instruction="In your role as a customer service representative, assist customer Harper Silva (user_id: harper_silva_8534) from zip 92188 who placed an order that includes a Cycling Helmet and wishes to upgrade to express shipping with SwiftMove Couriers (courier #COU0004). Ensure the tracking details (tracking_id: 360095850863) are updated to reflect this change to express delivery. Order: #W7111365, courier: # Update the tracking information (tracking_id: 360095850863) to indicate the change to express delivery for Order: #W7111365, courier: #COU0004.
+        instruction="In your role as a customer service representative, assist customer Harper Silva (user_id: harper_silva_8534) from zip 92188 who placed an order that includes a Cycling Helmet and wishes to upgrade to express shipping with SwiftMove Couriers (courier #COU0004). Ensure the tracking details (tracking_id: 360095850863) are updated to reflect this change to express delivery. Order: #W7111365, courier: # Update the tracking information (tracking_id: 360095850863) to indicate the change to express delivery for Order: #W7111365, courier: #COU0004."
         actions=[
             Action(
                 name="GetUserIdFromFullNameAndZip",
@@ -2877,7 +2877,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_088",
-        instruction="As a warehouse manager, coordinate a supply order for Bluetooth Speakers from Home Essentials Co. Given the high demand, choose the variant with the highest stock and place an order for 90 units at $90 per unit. Subsequently, generate an order for the identical item for customer Ella Kovacs from zip 32117. [System IDs: required_fields=product_id; required_fields=supplier_id; supplier_id=# SUP0006; item_id=7617930199; necessary_fields=payment_methods; user_id=evelyn_kovacs_6742; payment_method_id=paypal_7732922].
+        instruction="As a warehouse manager, coordinate a supply order for Bluetooth Speakers from Home Essentials Co. Given the high demand, choose the variant with the highest stock and place an order for 90 units at $90 per unit. Subsequently, generate an order for the identical item for customer Ella Kovacs from zip 32117. [System IDs: required_fields=product_id; required_fields=supplier_id; supplier_id=# SUP0006; item_id=7617930199; necessary_fields=payment_methods; user_id=evelyn_kovacs_6742; payment_method_id=paypal_7732922]."
         actions=[
             Action(
                 name="GetInfoFromDb",
@@ -2913,7 +2913,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_089",
-        instruction="Assist customer Yara Sanchez from zip 75255 in returning her faulty skateboard and placing a new order for the identical item, along with a Portable Charger featuring options 5000mAh, USB-C, white. Handle the return and initiate a new order. [System IDs: required_fields=orders; required_fields=payment_history; order_id=# W6015009; item_ids=3877188862; payment_method_id=credit_card_5884162; mandatory_fields=product_id; user_id=yara_sanchez_1902; item_ids=7866854614.
+        instruction="Assist customer Yara Sanchez from zip 75255 in returning her faulty skateboard and placing a new order for the identical item, along with a Portable Charger featuring options 5000mAh, USB-C, white. Handle the return and initiate a new order. [System IDs: required_fields=orders; required_fields=payment_history; order_id=# W6015009; item_ids=3877188862; payment_method_id=credit_card_5884162; mandatory_fields=product_id; user_id=yara_sanchez_1902; item_ids=7866854614."
         actions=[
             Action(
                 name="GetUserIdFromFullNameAndZip",
@@ -2947,7 +2947,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_090",
-        instruction="Support the customer with email aarav.white9752@example.com who requires urgent delivery of Smart Thermostat and Electric Kettle for his smart home project. Coordinate to add a credit card (visa, last four 2512) for payment. Utilize priority shipping via QuickPath Distribution. [System IDs: user_id=aarav_anderson_8794; required_fields=product_id; item_ids=4953074738; payment_method_id=credit_card_8794; required_fields=courier_id; order_id=#W0001001; courier_id=# W0001001; courier_id=#COU0005].
+        instruction="Support the customer with email aarav.white9752@example.com who requires urgent delivery of Smart Thermostat and Electric Kettle for his smart home project. Coordinate to add a credit card (visa, last four 2512) for payment. Utilize priority shipping via QuickPath Distribution. [System IDs: user_id=aarav_anderson_8794; required_fields=product_id; item_ids=4953074738; payment_method_id=credit_card_8794; required_fields=courier_id; order_id=#W0001001; courier_id=# W0001001; courier_id=#COU0005]."
         actions=[
             Action(
                 name="GetUserIdFromEmail",
@@ -3016,7 +3016,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_092",
-        instruction="Assist customer Sofia Li from zip 78260 who intends to place an order for a Wristwatch and a Fleece Jacket, using her mastercard for payment. Generate tracking and opt for the white-glove delivery service from courier # COU0001.
+        instruction="Assist customer Sofia Li from zip 78260 who intends to place an order for a Wristwatch and a Fleece Jacket, using her mastercard for payment. Generate tracking and opt for the white-glove delivery service from courier # COU0001."
         actions=[
             Action(
                 name="GetUserIdFromFullNameAndZip",
@@ -3046,7 +3046,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_093",
-        instruction="Handle the complex order for customer Olivia Wilson from zip 32165: generate a gift card valued at $900 for her. Assist her in placing an order for a Yoga Mat and a Wall Clock, utilize her gift card for payment, and organize standard delivery tracking with couriers # COU0002. Next, check supplier inventory for the 25ft green rubber Garden Hose and place an order for 35 units at $15.00 per unit.
+        instruction="Handle the complex order for customer Olivia Wilson from zip 32165: generate a gift card valued at $900 for her. Assist her in placing an order for a Yoga Mat and a Wall Clock, utilize her gift card for payment, and organize standard delivery tracking with couriers # COU0002. Next, check supplier inventory for the 25ft green rubber Garden Hose and place an order for 35 units at $15.00 per unit."
         actions=[
             Action(
                 name="GetUserIdFromFullNameAndZip",
@@ -3131,7 +3131,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_095",
-        instruction="Manage seasonal demand preparation: draft significant supply orders for 150 Fleece Jackets (item id 5992316252) from Kitchen Essentials Co., and 50 Hiking Boots (item id 2658930189) from Worldwide Electronics Partners, each priced at $50 per unit. Afterward, adjust the pricing for both items in the product database to be reduced by $10. [System IDs: required_fields=product_id; supplier_id=#SUP0012; supplier_id=# SUP0012; supplier_id=#SUP0002.
+        instruction="Manage seasonal demand preparation: draft significant supply orders for 150 Fleece Jackets (item id 5992316252) from Kitchen Essentials Co., and 50 Hiking Boots (item id 2658930189) from Worldwide Electronics Partners, each priced at $50 per unit. Afterward, adjust the pricing for both items in the product database to be reduced by $10. [System IDs: required_fields=product_id; supplier_id=#SUP0012; supplier_id=# SUP0012; supplier_id=#SUP0002."
         actions=[
             Action(
                 name="GetInfoFromDb",

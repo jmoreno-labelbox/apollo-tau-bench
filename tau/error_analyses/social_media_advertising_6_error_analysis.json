@@ -1,4 +1,16 @@
 {
-    "fault_assignment_analysis": [],
-    "fault_type_analysis": []
+    "fault_assignment_analysis": [
+        {
+            "task_id": 0,
+            "author": "agent",
+            "description": "The agent is responsible for the fault in the trajectory because it failed to execute any actions to retrieve the adset details or prepare the plan as specified in the user instruction. The ground truth action sequence involves retrieving adset details using `GetAdsetDetailsById` for specific adset IDs and then proceeding with actions like `FreezePlan`, `ApplyPlanAllocations`, `UpdatePlanStatus`, and `RecordAutomationRun`. However, the trajectory shows that the agent did not perform any of these actions and instead engaged in a prolonged conversation without taking any steps to fulfill the user's request."
+        }
+    ],
+    "fault_type_analysis": [
+        {
+            "task_id": 0,
+            "fault_type": "goal_partially_completed",
+            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the assistant failed to execute any actions to retrieve adset details or prepare the snapshot plan as specified in the ground truth action sequence. The ground truth involves a series of actions to gather adset details and freeze the plan, followed by applying the plan allocations and updating the plan status. However, in the trajectory, the assistant only engaged in a conversation with the user without performing any of these necessary actions, resulting in the plan not being prepared or applied."
+        }
+    ]
 }

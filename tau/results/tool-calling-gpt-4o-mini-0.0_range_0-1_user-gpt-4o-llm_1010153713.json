@@ -1,0 +1,12 @@
+[
+  {
+    "task_id": 0,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  }
+]

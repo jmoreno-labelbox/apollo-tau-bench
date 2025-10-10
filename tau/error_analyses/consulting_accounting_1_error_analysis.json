@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault because it failed to execute the \"CreateAuditEntry\" actions for invoices INV009 and INV021. The ground truth action sequence specifies that a \"second_notice\" with the message \"Overdue >60 days\" should be documented in the audit trail for these invoices, but the agent did not perform these actions, leading to an error instead."
+            "description": "The agent is responsible for the fault because it incorrectly computed the aging of invoices INV009 and INV021. The agent determined that both invoices were in the \"0-30\" days overdue bucket, with INV009 being 1 day overdue and INV021 being 16 days overdue. However, according to the ground truth, both invoices should have been classified as \"Overdue >60 days,\" requiring a \"second_notice\" action. This misclassification led to the agent failing to create the necessary audit entries for these invoices, which was a required action in the ground truth sequence."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
-            "fault_type": "other",
-            "description": "The fault in the trajectory is due to the assistant's failure to execute the necessary follow-up actions for invoices INV009 and INV021. The assistant should have created audit entries for these invoices with a 'second_notice' and the message 'Overdue >60 days', as they are overdue by more than 60 days. Instead, the trajectory shows repeated errors related to an incorrect attempt to use a 'dict' object, preventing the completion of the required actions. This results in the failure to document the follow-up actions in the invoice audit trail, as specified in the user instruction."
+            "fault_type": "goal_partially_completed",
+            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the assistant failed to identify and execute the necessary follow-up actions for invoices INV009 and INV021. According to the ground truth action sequence, both invoices were overdue by more than 60 days and required a 'second_notice' with the message 'Overdue >60 days' to be recorded in the audit trail. However, the trajectory incorrectly assessed these invoices as being in the \"0-30 days\" overdue bucket and concluded that no follow-up actions were needed, thus failing to complete the goal as instructed."
         }
     ]
 }

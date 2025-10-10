@@ -1,4 +1,16 @@
 {
-    "fault_assignment_analysis": [],
-    "fault_type_analysis": []
+    "fault_assignment_analysis": [
+        {
+            "task_id": 0,
+            "author": "agent",
+            "description": "The agent is responsible for the fault in the trajectory because it failed to identify and retrieve the probable pitcher IDs for the opponent team (ID 13) for the game on July 24, 2024. This led to the agent incorrectly proceeding with the task by assuming there were no probable pitchers and attempting to create a report and video playlist with zero insights, which deviates from the ground truth action sequence. The ground truth required generating insights for each pitcher and compiling a comprehensive scouting report, which the agent did not accomplish due to the initial failure in identifying the pitchers."
+        }
+    ],
+    "fault_type_analysis": [
+        {
+            "task_id": 0,
+            "fault_type": "other",
+            "description": "The fault in the trajectory is that the assistant incorrectly assumes that there are no probable pitchers for the opponent team (ID 13) for the game on July 24, 2024, and proceeds to create a scouting report indicating this. In the ground truth action sequence, the assistant is expected to generate insights for each pitcher based on five distinct policy-defined categories and compile a comprehensive pre-series scouting package. The trajectory fails to perform these actions due to the incorrect assumption about the absence of probable pitchers, leading to an incomplete and incorrect execution of the task."
+        }
+    ]
 }

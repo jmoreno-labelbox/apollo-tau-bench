@@ -1,0 +1,464 @@
+[
+  {
+    "task_id": 0,
+    "reward": 0.0,
+    "info": {
+      "task": {
+        "user_id": "task_001",
+        "actions": [
+          {
+            "name": "GetShipmentById",
+            "kwargs": {
+              "shipment_id": "SHIP-0004"
+            }
+          },
+          {
+            "name": "GetCarrierByScac",
+            "kwargs": {
+              "carrier_scac": "POCL"
+            }
+          },
+          {
+            "name": "GetActiveCarriers",
+            "kwargs": {}
+          },
+          {
+            "name": "GetTopRatedCarriers",
+            "kwargs": {
+              "list_of_scacs": [
+                "NSTS",
+                "SKEX",
+                "DLOG",
+                "MEDL",
+                "DFC",
+                "SWDL",
+                "MTRL",
+                "OCBR",
+                "SCF",
+                "GOCN",
+                "ALFS",
+                "NRMC",
+                "GPLS",
+                "PSLN",
+                "AAC",
+                "SATL",
+                "EAC",
+                "NAC",
+                "ANAF",
+                "NSC",
+                "EWDL"
+              ]
+            }
+          },
+          {
+            "name": "GetCarrierByScac",
+            "kwargs": {
+              "carrier_scac": "DFC"
+            }
+          },
+          {
+            "name": "GetCarrierByScac",
+            "kwargs": {
+              "carrier_scac": "GPLS"
+            }
+          },
+          {
+            "name": "UpdateInboundShipment",
+            "kwargs": {
+              "shipment_id": "SHIP-0004",
+              "updates": {
+                "carrier_name": "Global Parcel Service",
+                "carrier_scac": "GPLS"
+              }
+            }
+          },
+          {
+            "name": "GetShipmentById",
+            "kwargs": {
+              "shipment_id": "SHIP-0004"
+            }
+          }
+        ],
+        "instruction": "\n        Handle the role of logistics planner in charge of managing incoming shipments.\n        Evaluate shipment SHIP-0004, ensuring the assigned carrier's operational status is verified.\n        Your responsibility is to obtain the shipment details and ascertain the active status of the designated carrier.\n        Should the carrier be inactive, it is essential to identify an alternative by accessing the list of active carriers, choosing the top-rated one, and updating the shipment with the change.\n        If multiple carriers have identical top ratings, choose the one with the superior on-time delivery percentage as the replacement.\n        After reassignment, make certain the shipment details accurately reflect the new carrier to uphold continuity in the supply chain process.\n    ",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": null,
+      "reward_info": null
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"Your role as a logistics and supply chain operations assistant includes overseeing carriers, inbound shipments, outbound orders, inventory, warehouses, products, and suppliers.\",\n    \"Prior to executing any operation that accesses or alters related data, ensure that IDs such as carrier_id, shipment_id, order_id, sku, warehouse_id, and supplier_id are present and valid.\",\n    \"Verify the active status or lifecycle status of carrier, product, or supplier entities before accessing their details.\",\n    \"Conduct calculations or generate summaries exclusively for entities that are neither cancelled, deleted, nor inactive (for example, exclude shipments with status 'Cancelled' or orders marked as 'Returned').\",\n    \"Recommend carriers exclusively if they are active and possess a valid SCAC code.\",\n    \"During carrier selection, give preference first to those with a higher on-time delivery percentage, then to those with a better average rating, and subsequently to those with broader regional coverage.\",\n    \"Verify that the chosen carrier is appropriate for the shipment type by utilizing 'supported_modes' and 'service_levels'.\",\n    \"Ensure that insurance coverage is adequate and that service levels provide for special handling when dealing with fragile or high-value shipments.\",\n    \"Prior to updating the status to 'Received' for inbound shipments, confirm that customs clearance has been completed.\",\n    \"An inbound shipment must not be marked as 'Received' if the 'actual_arrival_date' field is null.\",\n    \"Record both the customs entry number and duty paid; shipments may only be marked as cleared when both are present.\",\n    \"To estimate delays, evaluate the difference between 'expected_arrival_date' and either 'actual_arrival_date' or, if the shipment remains in transit, the current date.\",\n    \"For outbound orders, give precedence to tracking and resolving issues for shipments classified as fragile or high-priority.\",\n    \"Determine delivery delays by comparing 'expected_delivery_date' with 'actual_delivery_date'.\",\n    \"Confirm packaging type as well as temperature and hazmat requirements prior to choosing a shipping carrier.\",\n    \"Products must not be marked as 'In Stock' when 'quantity_available' is zero or falls below the reorder point.\",\n    \"During inventory updates, verify that warehouse_id is present and corresponds to existing warehouse records.\",\n    \"For stock rotation and quality assurance processes, utilize 'lot_number', 'expiration_date', and 'last_counted_date'.\",\n    \"Update quantity inbound whenever an associated inbound shipment status is set to 'Received'.\",\n    \"Utilize only products whose lifecycle status is set to 'Active'.\",\n    \"Prior to assigning hazmat items to shipments or orders, ensure that 'hazmat_information' has been verified.\",\n    \"Calculate the total volume and weight for inbound and outbound records using the product dimensions and weight.\",\n    \"Procure exclusively from suppliers whose relationship status is set to 'Active'.\",\n    \"When calculating the expected arrival date for new purchase orders, utilize the supplier's 'standard_lead_time_days'.\",\n    \"Flag suppliers for review if their performance rating is less than 4.0 or their on-time delivery rate falls below 85%.\",\n    \"Ensure that the warehouse\u2019s utilization percentage is less than 90% prior to assigning it to a shipment or order.\",\n    \"Conduct all warehouse operations in accordance with their respective operating hours and time zone.\",\n    \"Verify WMS compatibility before executing any automated updates to inventory or shipment logs.\",\n    \"Tracking numbers and timestamps must be updated every time there is a status change in shipments or orders.\",\n    \"Use standardized units (kg, cbm) for all weight or volume calculations, ensuring consistency with product master or shipment records.\",\n    \"Any changes in shipment or order status must be reflected in associated entities, including inventory, carrier logs, and warehouse utilization.\",\n    \"If more than one carrier or supplier satisfies the criteria, prioritize selection in the following order: (1) performance, (2) cost efficiency, (3) certification or coverage.\",\n    \"Record each status modification or data change along with a timestamp and pertinent context to maintain traceability throughout all operations.\",\n"
+      },
+      {
+        "role": "user",
+        "content": "Hi! I'm currently evaluating shipment SHIP-0004. Could you provide me with the shipment details?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"shipment_id\":\"SHIP-0004\"}",
+              "name": "get_shipment_by_id"
+            },
+            "id": "call_yR8Hp8EfOp2SXESl61AZVeN1",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_yR8Hp8EfOp2SXESl61AZVeN1",
+        "name": "get_shipment_by_id",
+        "content": "Error: string indices must be integers"
+      },
+      {
+        "content": "It seems there was an error while trying to retrieve the shipment details. Let me try again to get the information for shipment SHIP-0004.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"shipment_id\":\"SHIP-0004\"}",
+              "name": "get_shipment_by_id"
+            },
+            "id": "call_BzlmSYkyaktMwVeIpsMxztZp",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_BzlmSYkyaktMwVeIpsMxztZp",
+        "name": "get_shipment_by_id",
+        "content": "Error: string indices must be integers"
+      },
+      {
+        "content": "It appears that I'm encountering a persistent issue when trying to retrieve the shipment details for SHIP-0004. Unfortunately, I cannot access the information at this moment. \n\nIf you have any specific questions or need assistance with something else, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "No problem! Once you're able to access them, could you let me know who the designated carrier for SHIP-0004 is? It's important we verify their operational status."
+      },
+      {
+        "content": "Absolutely! Once I can access the shipment details for SHIP-0004, I will check the designated carrier and verify their operational status for you. If you have any other requests or questions in the meantime, feel free to ask!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Sounds great. If you find out that the carrier is inactive, could you let me know so I can help you find an alternative? Thanks!"
+      },
+      {
+        "content": "Sure! If the designated carrier for shipment SHIP-0004 is found to be inactive, I'll inform you so that we can look for an alternative carrier. Thank you for your assistance! If there's anything else you need, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "You're welcome! If you have the list of active carriers handy, that will speed up the process when selecting an alternative. Let me know if you need anything else to prepare."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{}",
+              "name": "get_active_carriers"
+            },
+            "id": "call_kGHmLWHiQeChZjWyQWerGKtw",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_kGHmLWHiQeChZjWyQWerGKtw",
+        "name": "get_active_carriers",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems I'm facing another issue while trying to retrieve the list of active carriers. Unfortunately, I can't access that information at the moment.\n\nHowever, once I can retrieve the shipment details for SHIP-0004, I will also check the carrier's status. If the carrier is inactive, I will then look for active carriers to expedite the process.\n\nIf you have any other questions or need assistance with something else, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Noted. In the meantime, should you need guidance on selecting a top-rated carrier based on ratings and delivery performance once you have access, feel free to reach out."
+      },
+      {
+        "content": "Thank you for your offer of assistance! Once I have access to the necessary information, I'll definitely reach out for guidance on selecting a top-rated carrier based on ratings and delivery performance. If you have any other questions or need anything else in the meantime, just let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Sure thing! Just let me know when you have updates, and I'll help with the next steps."
+      },
+      {
+        "content": "Absolutely! I'll keep you updated as soon as I have any information regarding shipment SHIP-0004 and the designated carrier. Thank you for your patience and willingness to help! If you need anything else in the meantime, feel free to ask.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I'm happy to help. Looking forward to hearing from you soon!"
+      },
+      {
+        "content": "Thank you! I appreciate your support. I'll be sure to reach out as soon as I have any updates. Have a great day, and talk to you soon!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "You too! Talk to you soon. ###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! If you need anything in the future, don't hesitate to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "You too! Take care."
+      },
+      {
+        "content": "Take care! Looking forward to our next conversation.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Same here! Until next time!"
+      },
+      {
+        "content": "Until next time! Have a wonderful day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "You too! Goodbye for now!"
+      },
+      {
+        "content": "Goodbye for now! Looking forward to chatting again soon!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Likewise! Bye for now!"
+      },
+      {
+        "content": "Bye for now! Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Take care! Bye!"
+      },
+      {
+        "content": "Bye! Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Goodbye! Take care!"
+      },
+      {
+        "content": "Goodbye! Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Farewell! Take care!"
+      },
+      {
+        "content": "Farewell! Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Stay well! See you next time!"
+      },
+      {
+        "content": "Stay well! See you next time!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Looking forward to it! Stay well!"
+      },
+      {
+        "content": "Looking forward to it too! Stay well!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! Until next time!"
+      },
+      {
+        "content": "Thank you! Until next time!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Bye for now! Take care!"
+      },
+      {
+        "content": "Bye for now! Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Goodbye! Stay safe!"
+      },
+      {
+        "content": "Goodbye! Stay safe!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Take care! Until next time!"
+      },
+      {
+        "content": "Take care! Until next time!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Looking forward to it! Goodbye!"
+      },
+      {
+        "content": "Looking forward to it too! Goodbye!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Goodbye! ###STOP### #STOP###"
+      },
+      {
+        "content": "Goodbye! If you need anything in the future, feel free to reach out. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! Will do. Take care!"
+      },
+      {
+        "content": "You're welcome! Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! You too!"
+      },
+      {
+        "content": "Thank you! Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "You too! Enjoy your day!"
+      },
+      {
+        "content": "Thank you! Enjoy your day as well!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! Looking forward to our next chat!"
+      },
+      {
+        "content": "You're welcome! I'm looking forward to our next chat too!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Great to hear! Until then, take care!"
+      }
+    ],
+    "trial": 0
+  }
+]

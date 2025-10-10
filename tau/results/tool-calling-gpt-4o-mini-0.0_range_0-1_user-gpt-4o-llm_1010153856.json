@@ -1,0 +1,471 @@
+[
+  {
+    "task_id": 0,
+    "reward": 0.0,
+    "info": {
+      "task": {
+        "user_id": "user_001",
+        "actions": [
+          {
+            "name": "VerifyCustomerIdentity",
+            "kwargs": {
+              "customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e",
+              "id_document": "passport_10000001"
+            }
+          },
+          {
+            "name": "UpdateCustomerEmail",
+            "kwargs": {
+              "customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e",
+              "new_email": "sofia.andersson@example.com",
+              "new_phone": "+1-202-555-0143"
+            }
+          },
+          {
+            "name": "UpdateAccountPreferences",
+            "kwargs": {
+              "customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e",
+              "notifications_enabled": true
+            }
+          },
+          {
+            "name": "GetAccountBalance",
+            "kwargs": {
+              "account_id": "acc_chk_1001"
+            }
+          },
+          {
+            "name": "GetAccountTransactionHistory",
+            "kwargs": {
+              "account_id": "acc_chk_1001"
+            }
+          },
+          {
+            "name": "ListLinkedBeneficiaries",
+            "kwargs": {
+              "customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e"
+            }
+          },
+          {
+            "name": "SubmitSupportTicket",
+            "kwargs": {
+              "customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e",
+              "category": "Joint Account",
+              "priority": "Medium",
+              "channel": "Web",
+              "ticket_id": "tkt_d6e5f4a3-f4a3-b2c1-d0e9-f8g7h6i5j4k3",
+              "request_details": {
+                "target_entity": "Customer",
+                "target_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e",
+                "parameters": {
+                  "note": "Setup joint account for customer_id=c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e on account acc_chk_1001"
+                }
+              }
+            }
+          }
+        ],
+        "instruction": "Handle the setup of a joint account for Sofia Andersson (customer ID: c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e). Begin by confirming her identity with passport 'passport_10000001'. Update her contact details to email 'sofia.andersson@example.com' and phone '+1-202-555-0143'. Enable notifications. Following this, review the balance and linked beneficiaries on account 'acc_chk_1001'. Lastly, coordinate the submission of a medium-priority support ticket through Web under the category 'Joint Account', using ticket ID 'tkt_d6e5f4a3-f4a3-b2c1-d0e9-f8g7h6i5j4k3', including the note: 'Setup joint account for customer_id=c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e on account acc_chk_1001'.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": null,
+      "reward_info": null
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"You serve as an advanced banking assistant tasked with ensuring secure, compliant, and customer-focused management of accounts.\",\n    \"Prior to performing any operation, confirm the customer's identity by utilizing full name, customer ID, or multi-factor attributes.\",\n    \"Before proceeding with account creation, modification, or closure, ensure that all associated constraints\u2014such as pending transactions, balances, and preferences\u2014are fulfilled.\",\n    \"Prior to executing fund transfers, scheduled payments, or loan applications, verify account balances, credit limits, and overdraft status.\",\n    \"During fund transfers, conduct daily limit verifications and ensure sufficient balance is available to avoid overdrafts or transaction declines.\",\n    \"Validate routing numbers and beneficiary details at all times before permitting registrations, deletions, or redirection of funds.\",\n    \"Continuously observe account and transaction activity for signs of suspicious behavior. Upon detecting anomalies, freeze the account and record the alert with the corresponding timestamp and reason.\",\n    \"Each loan application is required to specify a purpose and amount, and must utilize risk scoring to assess whether approval is granted or additional documentation is necessary.\",\n    \"Guarantee that every support interaction\u2014including ticket creation, classification, and resolution\u2014is comprehensively logged, timestamped, and assigned both an urgency level and a resolution path category.\",\n    \"Data privacy must be rigorously upheld by accessing solely the information necessary for the specific action, and sensitive information should not be exposed or stored unless absolutely required.\",\n    \"Prior to granting financial privileges or modifying sensitive customer data, reference KYC verification status, AML risk scores, and credit history.\",\n    \"Ensure that customer communication preferences, including language and notification settings, are consistently applied when sending alerts or confirmations.\",\n    \"Status updates must be issued with effective timestamps and explanations whenever support tickets or scheduled payments are changed, cancelled, or resolved.\",\n    \"During expense aggregation or transaction history analysis, ensure grouping by correct categories and present both itemized and summary totals.\",\n    \"Prior to making changes to joint accounts or updating account preferences, confirm roles, permissions, and existing access rights before proceeding.\",\n    \"Utilize contextual analysis of the message to automatically assign ticket priorities, ensuring alignment with internal escalation criteria.\",\n    \"Reject account closure approvals when balances are negative, there are pending transactions, or KYC requirements remain unfulfilled.\",\n    \"Apply configured interest rules and compute accrued interest or utilization exclusively for eligible account types (such as Savings or Credit Card).\",\n    \"Every financial operation is required to produce a transparent audit log that records the action taken, the actor involved, the relevant affected IDs, and a summary of the outcome.\",\n    \"All rules are to be enforced uniformly across all tools and interfaces to maintain strong integrity in account management.\",\n"
+      },
+      {
+        "role": "user",
+        "content": "Hi! I need to set up a joint account. Could you please start by confirming Sofia Andersson's identity with her passport?"
+      },
+      {
+        "content": "Please provide Sofia Andersson's customer ID and the passport number so I can proceed with the identity verification.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Sure, the customer ID is c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e, and the passport number is passport_10000001."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"customer_id\":\"c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e\",\"id_document\":\"passport_10000001\"}",
+              "name": "verify_customer_identity"
+            },
+            "id": "call_NM5YgzbLNUH1l0XCXiH8NVOL",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_NM5YgzbLNUH1l0XCXiH8NVOL",
+        "name": "verify_customer_identity",
+        "content": "Error: name 'load_json' is not defined"
+      },
+      {
+        "content": "It seems there was an error while trying to verify Sofia Andersson's identity. Please allow me a moment to resolve this issue. \n\nIn the meantime, could you please confirm if there are any specific details or requirements for the joint account setup?",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Certainly! While we wait for the identity verification issue to be resolved, I can update Sofia's contact details. Could you update her email to sofia.andersson@example.com and her phone number to +1-202-555-0143? Also, please enable notifications for her."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"customer_id\": \"c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e\", \"new_email\": \"sofia.andersson@example.com\", \"new_phone\": \"+1-202-555-0143\"}",
+              "name": "update_customer_email"
+            },
+            "id": "call_X3EEEbQMMVCxYKF0QW8xMrlw",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_X3EEEbQMMVCxYKF0QW8xMrlw",
+        "name": "update_customer_email",
+        "content": "Error: name 'load_json' is not defined"
+      },
+      {
+        "content": "It appears that there is a persistent issue with processing requests. Unfortunately, I am unable to update Sofia's contact details at this moment.\n\nPlease let me know if you would like to try again later or if there is anything else I can assist you with in the meantime.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "That's okay. Once the issue is fixed, I would also like to review the balance and linked beneficiaries on account acc_chk_1001. Could we prepare for that next step in case things get resolved soon?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"account_id\": \"acc_chk_1001\"}",
+              "name": "get_account_balance"
+            },
+            "id": "call_W6g5pRbeZAy3vpu44NHoGsKC",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_W6g5pRbeZAy3vpu44NHoGsKC",
+        "name": "get_account_balance",
+        "content": "Error: name 'load_json' is not defined"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"customer_id\":\"c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e\"}",
+              "name": "list_linked_beneficiaries"
+            },
+            "id": "call_1kc1810ojCjR0u82j8ZWUvpA",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_1kc1810ojCjR0u82j8ZWUvpA",
+        "name": "list_linked_beneficiaries",
+        "content": "Error: name 'load_json' is not defined"
+      },
+      {
+        "content": "It seems that I am currently unable to retrieve the account balance or the linked beneficiaries due to the ongoing technical issues. \n\nPlease let me know if you would like to wait for the resolution or if there's anything else I can assist you with in the meantime.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Alright, let's move on to another task while we wait. Could you help me submit a medium-priority support ticket through Web under the category 'Joint Account'? I have the ticket ID if you need it."
+      },
+      {
+        "content": "Please provide the ticket ID and any specific details you would like to include in the support ticket, such as the request details or any additional information.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "The ticket ID is tkt_d6e5f4a3-f4a3-b2c1-d0e9-f8g7h6i5j4k3. Please include a note that says, \"Setup joint account for customer_id=c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e on account acc_chk_1001.\""
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"customer_id\":\"c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e\",\"category\":\"Joint Account\",\"priority\":\"Medium\",\"channel\":\"Web\",\"request_details\":{\"target_entity\":\"Account\",\"target_id\":\"acc_chk_1001\",\"operation\":\"UPDATE\"}}",
+              "name": "submit_support_ticket"
+            },
+            "id": "call_E9EuQig5XnyK1A7BLmYgtUpt",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_E9EuQig5XnyK1A7BLmYgtUpt",
+        "name": "submit_support_ticket",
+        "content": "Error: name 'generate_unique_id' is not defined"
+      },
+      {
+        "content": "It seems that I am currently unable to submit the support ticket due to a technical issue. \n\nPlease let me know if you would like to try again later or if there's anything else I can assist you with in the meantime.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I understand, let's wait and see if the issues resolve soon. Thank you for your help so far! "
+      },
+      {
+        "content": "You're welcome! I appreciate your understanding. If you have any other questions or need assistance with anything else while we wait, feel free to ask. I'll be here to help!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! I think we've covered all the steps I wanted to take. I'll reach out again if needed. "
+      },
+      {
+        "content": "Sounds good! Don't hesitate to reach out whenever you need assistance. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, feel free to reach out. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "I acknowledge your request. If you need assistance in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "I understand. If you need anything else, just let me know.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "I acknowledge your request. If you need assistance in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood. If you need anything in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "I acknowledge your request. If you need assistance in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood. If you need anything in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "I acknowledge your request. If you need assistance in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood. If you need anything in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "I acknowledge your request. If you need assistance in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood. If you need anything in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "I acknowledge your request. If you need assistance in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood. If you need anything in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "I acknowledge your request. If you need assistance in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood. If you need anything in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "I acknowledge your request. If you need assistance in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood. If you need anything in the future, feel free to reach out.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

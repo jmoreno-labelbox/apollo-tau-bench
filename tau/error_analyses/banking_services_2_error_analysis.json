@@ -1,4 +1,16 @@
 {
-    "fault_assignment_analysis": [],
-    "fault_type_analysis": []
+    "fault_assignment_analysis": [
+        {
+            "task_id": 0,
+            "author": "agent",
+            "description": "The agent is responsible for the fault in the trajectory because it failed to execute the correct sequence of actions to fulfill the user's instruction. The user wanted to transfer $500 from their checking account to their savings account and add a new beneficiary. However, the agent incorrectly attempted to open a new savings account instead of performing the fund transfer and beneficiary addition. The agent did not follow the ground truth action sequence, which involved finding the customer, retrieving account balances, executing the fund transfer, and adding a beneficiary. Instead, the agent got stuck in an unsuccessful attempt to create a new savings account, which was not part of the user's instruction."
+        }
+    ],
+    "fault_type_analysis": [
+        {
+            "task_id": 0,
+            "fault_type": "goal_partially_completed",
+            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the user instruction to transfer $500 from the checking account to the savings account and confirm the balances was not completed. The assistant failed to perform the fund transfer due to an issue with creating a new savings account, which was not part of the original instruction. Consequently, the transfer did not occur, and the balances were not confirmed. Additionally, the instruction to add Elena Popescu as a new beneficiary was not addressed at all. The ground truth action sequence shows that these tasks should have been completed, indicating that the goal was only partially completed in the trajectory."
+        }
+    ]
 }

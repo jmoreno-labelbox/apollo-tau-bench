@@ -1,0 +1,402 @@
+[
+  {
+    "task_id": 0,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 1,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 2,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 3,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 4,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 5,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 6,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 7,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 8,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 9,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 10,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 11,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 12,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 13,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 14,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 15,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 16,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 17,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 18,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 19,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 20,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 21,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 22,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 23,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 24,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 25,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 26,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 27,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 28,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 29,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 30,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 31,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 32,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 33,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 34,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 35,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 36,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 37,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 38,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  },
+  {
+    "task_id": 39,
+    "reward": 0.0,
+    "info": {
+      "error": "name 'monitoring' is not defined",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 99, in step\n    done = \"###STOP### #HALT###\" in monitoring\nNameError: name 'monitoring' is not defined\n"
+    },
+    "traj": [],
+    "trial": 0
+  }
+]

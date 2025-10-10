@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory due to several issues:\n\n1. **AC Configuration Error**: The agent failed to configure the central AC correctly. The `ModifyDeviceState` action for the AC was not executed properly due to a missing argument error, resulting in the AC not being set with the specified parameters (mode, setpoint, fan speed).\n\n2. **Curtain Position Error**: The agent scheduled the curtain to close at the wrong position. The ground truth specifies the curtain should be set to position 0, but the agent set it to position 100.\n\n3. **Lighting Routine Error**: The agent incorrectly set the daily routine for the lights. The ground truth specifies turning on the ceiling light with brightness 30 and turning off the floor lamp. However, the agent scheduled both lights to turn off.\n\n4. **Reminder Setup Error**: The agent failed to set up the one-time reminder due to multiple errors related to incorrect arguments and missing parameters, resulting in the reminder not being created."
+            "description": "The agent is responsible for the fault in the trajectory due to several issues:\n\n1. **AC Scheduling**: The agent failed to correctly schedule the central AC with all the required parameters. The ground truth specifies setting `power=on`, `mode=cool`, `setpoint_c=22`, and `fan_speed=auto`, but the trajectory only scheduled `mode=cool`.\n\n2. **Curtain Scheduling**: The agent incorrectly scheduled the curtain to close with `position=100` instead of `position=0` as required by the instruction.\n\n3. **Ceiling Light Routine**: The agent incorrectly scheduled the ceiling light to turn off instead of on with a brightness of 30 at 19:00.\n\n4. **Reminder Setup**: The agent failed to establish the one-time reminder due to multiple errors in invoking the `UpsertReminder` function, resulting in the reminder not being set up at all."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the `ModifyDeviceState` action for scheduling the central AC was invoked with an incomplete `update` argument. The ground truth specifies that the `update` should include `power`, `mode`, `setpoint_c`, and `fan_speed`, but the trajectory only attempted to set `power` to \"on\". Additionally, the `ModifyDeviceState` action for the living-room curtain was scheduled with the wrong `position` value of 100 instead of 0, which is required to close the curtain."
+            "description": "The fault in the trajectory is due to the incorrect use of the `ModifyDeviceState` tool for scheduling the central AC. The ground truth specifies that the AC should be scheduled with the parameters `power=on`, `mode=cool`, `setpoint_c=22`, and `fan_speed=auto`. However, in the trajectory, the AC was only scheduled with `mode=cool`, missing the other required parameters (`power`, `setpoint_c`, and `fan_speed`). This discrepancy indicates the use of the wrong tool argument, as the complete set of parameters was not provided as specified in the ground truth."
         }
     ]
 }

@@ -1,0 +1,451 @@
+[
+  {
+    "task_id": 0,
+    "reward": 0.0,
+    "info": {
+      "task": {
+        "user_id": "res_001",
+        "actions": [
+          {
+            "name": "CreateReviewCycle",
+            "kwargs": {
+              "cycle_id": "rev-art_001-20240823-001",
+              "artifact_id": "art_001",
+              "started_at": "2024-08-23T10:00:00Z",
+              "timestamp": "2024-08-23T10:00:00Z",
+              "request_id": "rv-001",
+              "recipients": [
+                "design-review@company.com",
+                "ux-team@company.com"
+              ]
+            }
+          },
+          {
+            "name": "ExportAssets",
+            "kwargs": {
+              "artifact_id": "art_001",
+              "export_profile": "PNG 2x",
+              "timestamp": "2024-08-23T10:00:00Z",
+              "request_id": "en-002"
+            }
+          },
+          {
+            "name": "CreateGmailThread",
+            "kwargs": {
+              "subject": "Design Review Request: 1 frames ready for review",
+              "sender_email": "emma.creative@company.com",
+              "recipients": [
+                "design-review@company.com",
+                "ux-team@company.com"
+              ],
+              "labels": [
+                "Design/Needs-Review"
+              ],
+              "timestamp": "2024-08-23T10:00:00Z",
+              "request_id": "em-001"
+            }
+          },
+          {
+            "name": "LinkCycleToThread",
+            "kwargs": {
+              "cycle_id": "rev-art_001-20240823-001",
+              "thread_id": "thr_em-001"
+            }
+          },
+          {
+            "name": "AppendGmailMessage",
+            "kwargs": {
+              "thread_id": "thr_em-001",
+              "sender_email": "emma.creative@company.com",
+              "recipients": [
+                "design-review@company.com",
+                "ux-team@company.com"
+              ],
+              "body_html": "Hi team, please review the attached design: Homepage Hero Section. Deadline: 2024-08-23T15:00:00Z",
+              "attachments_asset_ids": [
+                "asset_en-002"
+              ],
+              "timestamp": "2024-08-23T10:00:00Z",
+              "request_id": "em-002"
+            }
+          },
+          {
+            "name": "GovernanceUpdate",
+            "kwargs": {
+              "artifact_id": "art_001",
+              "add_tags": [
+                "needs-review"
+              ],
+              "remove_tags": [],
+              "timestamp": "2024-08-23T10:00:00Z",
+              "request_id": "up-001"
+            }
+          },
+          {
+            "name": "GetReviewCycle",
+            "kwargs": {
+              "cycle_id": "rev-art_001-20240823-001"
+            }
+          },
+          {
+            "name": "RecordAutomationRun",
+            "kwargs": {
+              "task_name": "review_kickoff",
+              "status": "completed",
+              "started_at": "2024-08-23T10:00:00Z",
+              "ended_at": "2024-08-23T10:00:00Z",
+              "timestamp": "2024-08-23T10:00:00Z",
+              "request_id": "rl-001"
+            }
+          }
+        ],
+        "instruction": "As the design review coordinator for the Web UX team and with the current time being 2024-08-23T10:00:00Z, initiate an email-based design review for Figma artifact art_001 utilizing the 'PNG 2x' export. Inform recipients ['design-review@company.com','ux-team@company.com'] within a single thread labeled 'Design/Needs-Review' for the day. Ensure identifiers remain consistent and reusable.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": null,
+      "reward_info": null
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"\u00a70.1 This document consists of a list of declarative policies. Every entry is a simple string, without any code or conditional logic.\",\n    \"\u00a70.2 These rules list canonical IDs, templates, and policies to ensure that tools and tasks refer to established values rather than creating new ones.\",\n    \"\u00a70.3 Each action parameter must originate from one of the following sources: (a) these rules, (b) the instruction text, or (c) a previous tool output within the same task.\",\n    \"\u00a71.1 The agent serves as the Design Review Coordinator specifically for the Figma\u2194Gmail workflow.\",\n    \"\u00a71.2 The workflow includes: initiating or reusing review cycles, exporting assets, initiating or reusing email threads, posting messages, mirroring replies to Figma comments, managing approvals, and providing a final status summary.\",\n    \"\u00a71.3 The agent can additionally serve as the Release Publisher for release handoffs conducted via email.\",\n    \"\u00a71.4 The agent can also function as the Accessibility Audit Lead for accessibility reviews performed through email.\",\n    \"\u00a71.5 The agent is permitted to serve as the Design Systems Triage Lead for coordinating design-system issues.\",\n    \"\u00a71.6 The agent is permitted to serve as the Review Program Manager for managing in-flight review coordination and sending reminders.\",\n    \"\u00a71.7 The agent is permitted to serve as the Change Request Lead for conveying requested design changes.\",\n    \"\u00a71.8 The agent is permitted to serve as the Fix Plan Delivery Owner as well.\",\n    \"\u00a71.9 The agent is also authorized to function as the Fix Item Status Updater.\",\n    \"\u00a71.10 The agent is likewise allowed to operate as the Audit Report Generator.\",\n    \"\u00a72.1 Every write operation is both deterministic and idempotent; executing the identical task with the same inputs will generate the same records.\",\n    \"\u00a72.2 Request namespaces generate consistent IDs in the following formats: thr_<request_id>, msg_<request_id>, asset_<request_id>, run_<request_id>.\",\n    \"\u00a72.3 When an entity with the same logical key (cycle, thread, export, message) already exists, it must be reused instead of creating a new duplicate.\",\n    \"\u00a72.4 Avoid generating dynamic timestamps; any required time value must be taken exactly as specified in the instruction.\",\n    \"\u00a73.1 For deterministic grouping, the 'day' is defined as the YYYY-MM-DD extracted from the instruction timestamp.\",\n    \"\u00a73.2 Every operation on the same artifact occurring within the same day must utilize the identical deterministic thread and maintain consistent IDs.\",\n    \"\u00a74.1 The standard export profile to be used for both review and release handoff is 'PNG 2x'.\",\n    \"\u00a74.2 The official review label to apply to Gmail threads is 'Design/Needs-Review'.\",\n    \"\u00a74.3 Permitted canonical review recipients (array) are: ['design-review@company.com', 'ux-team@company.com', 'growth-team@company.com'\n"
+      },
+      {
+        "role": "user",
+        "content": "Hi there! I need to send out an email to start a design review for a Figma artifact. Could you help me get that email started?"
+      },
+      {
+        "content": "Sure! To start the design review for a Figma artifact, I need a few details:\n\n1. **Subject of the email**: What would you like the subject to be?\n2. **Sender's email**: What email address should the email be sent from?\n3. **Recipients**: Who should receive this email? (You can provide a list of email addresses.)\n4. **Body of the email**: What message would you like to include in the email?\n5. **Timestamp**: When should this email be sent? (If you want to use the current time, I can handle that.)\n\nOnce I have this information, I can help you draft the email!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks! Let's use \"Design/Needs-Review\" for the subject. As I don't have a specific sender's address, let's assume it would be sent from my work email. The recipients are 'design-review@company.com' and 'ux-team@company.com'. The email will be sent right about now, and I have some more information to help draft the email. Can you assist with including some of these details in the message?"
+      },
+      {
+        "content": "Absolutely! Please provide the additional details you'd like to include in the email body, and I'll help you draft the complete message.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Great! Let's mention that the design review is for the Figma artifact identified as art_001. We'll be using the 'PNG 2x' export for the review. What should we include about the expectations or specific feedback needed from the recipients?"
+      },
+      {
+        "content": "Here's a draft for the email body based on the information you've provided:\n\n---\n\n**Subject**: Design/Needs-Review\n\n**Body**:\n\nHello Team,\n\nI hope this message finds you well.\n\nI am initiating a design review for the Figma artifact identified as **art_001**. We will be using the **PNG 2x** export for this review.\n\nPlease provide your feedback on the following aspects:\n- Overall design aesthetics\n- Usability and user experience\n- Any specific areas that may require adjustments or improvements\n\nYour insights are invaluable, and I appreciate your attention to this review. \n\nThank you for your collaboration!\n\nBest regards,  \n[Your Name]  \n[Your Work Email]\n\n---\n\nFeel free to replace \"[Your Name]\" and \"[Your Work Email]\" with your actual name and email address. If you have any additional points or changes you'd like to make, let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "That looks great! I'll just need to insert my actual name and work email in the placeholders when sending. Anything else to consider before wrapping up?"
+      },
+      {
+        "content": "Before finalizing the email, here are a few things to consider:\n\n1. **Review the Recipients**: Ensure that the email addresses for 'design-review@company.com' and 'ux-team@company.com' are correct and that all necessary stakeholders are included.\n\n2. **Check for Attachments**: If there are any additional files or documents related to the design review that need to be attached, make sure to include them.\n\n3. **Timing**: Since you mentioned sending it \"right about now,\" confirm that the timing aligns with your team's availability for the review.\n\n4. **Follow-Up**: Consider mentioning a follow-up date or time frame for when you expect feedback, if applicable.\n\n5. **Final Proofread**: A quick proofread for any typos or grammatical errors can help ensure professionalism.\n\nIf everything looks good, you can proceed to send the email! Would you like me to help you create the Gmail thread for this email now?",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks for the helpful tips! I'll make sure to take care of each one. I should be able to set up the Gmail thread from here. Anything else you'd suggest before I proceed?"
+      },
+      {
+        "content": "You're welcome! Just a couple more suggestions before you proceed:\n\n1. **Use the Official Review Label**: When creating the Gmail thread, remember to apply the official review label \"Design/Needs-Review\" to keep everything organized.\n\n2. **Include a Clear Call to Action**: In your email, you might want to explicitly ask recipients to reply to the thread with their feedback to keep all responses in one place.\n\n3. **Set a Reminder**: If you expect feedback by a certain date, consider setting a reminder for yourself to follow up if you haven't received responses.\n\n4. **Save a Draft**: If you're unsure about sending it immediately, save the email as a draft so you can revisit it later.\n\nIf you need any further assistance or have any questions while setting up the thread, feel free to ask. Good luck with your design review!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "These are very practical suggestions. I'll be sure to implement them as I prepare the email and follow up accordingly. Thanks for your support! ###STOP### #STOP###"
+      },
+      {
+        "content": "You're very welcome! I'm glad I could assist you. If you have any more questions in the future or need further support, don't hesitate to reach out. Good luck with your design review, and have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you, and you have a great day too!###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! Take care, and have a wonderful day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! You too!###STOP### #STOP###"
+      },
+      {
+        "content": "You're welcome! If you need anything else, just let me know. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! I'll be sure to reach out if anything else comes up. Take care!###STOP### #STOP###"
+      },
+      {
+        "content": "Sounds good! Take care, and I'm here whenever you need assistance. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! I'll keep it in mind. Have a wonderful day, too!###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! Wishing you a wonderful day as well! If you need anything, just reach out. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! I'll definitely reach out if I need anything. Take care!###STOP### #STOP###"
+      },
+      {
+        "content": "You're welcome! I'm here whenever you need help. Take care and have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! I'll remember that. Have a fantastic day!###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! Wishing you a fantastic day as well! Don't hesitate to reach out if you need anything. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! I'll be sure to reach out if needed. Take care and have a fantastic day!###STOP### #STOP###"
+      },
+      {
+        "content": "You're welcome! I'm glad to hear that. Take care, and have a fantastic day too!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! Wishing you the same. Take care!###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! I appreciate it. Take care, and have a wonderful day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! Take care and have a wonderful day too!###STOP### #STOP###"
+      },
+      {
+        "content": "You're welcome! Have a wonderful day, and take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you, and you too!###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! If you need anything in the future, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! I definitely will. Have a great day too!###STOP### #STOP###"
+      },
+      {
+        "content": "You're welcome! I'm glad to hear that. Have a fantastic day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! You too!###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "You too!###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! If you need anything, just let me know. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Will do! Take care!###STOP### #STOP###"
+      },
+      {
+        "content": "Take care! Looking forward to assisting you again!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! Looking forward to it as well. Take care!###STOP### #STOP###"
+      },
+      {
+        "content": "You're welcome! Take care, and have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! You too!###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! If you need anything, just reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Will do! Have a great day!###STOP### #STOP###"
+      },
+      {
+        "content": "You too! Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! Take care!###STOP### #STOP###"
+      },
+      {
+        "content": "You're welcome! Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! You too!###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! If you need anything, just let me know. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Will do! Take care!###STOP### #STOP###"
+      },
+      {
+        "content": "Take care! Looking forward to our next conversation!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Looking forward to it as well! Take care!###STOP### #STOP###"
+      },
+      {
+        "content": "Take care! Have a wonderful day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! You too!###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! If you need anything, just reach out. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Will do! Take care!###STOP### #STOP###"
+      },
+      {
+        "content": "Take care! Looking forward to our next chat!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Same here! Take care!###STOP### #STOP###"
+      },
+      {
+        "content": "Take care! Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! You too!###STOP### #STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

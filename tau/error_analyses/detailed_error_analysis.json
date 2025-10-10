@@ -1,292 +1,382 @@
 {
-  "total_tested": 116,
-  "passing": 54,
-  "agent_faults": 23,
-  "user_faults": 0,
-  "env_bugs": 39,
+  "total_tested": 92,
+  "passing": 0,
+  "agent_faults": 38,
+  "user_faults": 2,
+  "env_bugs": 52,
   "error_details": {
+    "academic_search_3": [
+      {
+        "task_id": 0,
+        "description": "The environment is responsible for the fault in the trajectory because it failed to locate existing records for the project, articles, and user despite the correct identifiers being provided. The ground truth action sequence indicates that these records should be accessible and manipulable, but the environment consistently returned errors indicating that the items could not be found. This discrepancy between the expected functionality and the environment's response led to the failure in executing the required actions.",
+        "type": "environment_fault"
+      }
+    ],
+    "academic_search_4": [
+      {
+        "task_id": 0,
+        "description": "The environment is responsible for the fault in the trajectory because it encountered a technical error (\"Error: name 'uuid' is not defined\") that prevented the successful execution of actions such as registering the article and creating a new project. This error is not related to the agent's logic or the user's input but is instead a problem with the environment's handling of the action requests, leading to the failure to perform the necessary operations as outlined in the ground truth action sequence.",
+        "type": "environment_fault"
+      }
+    ],
+    "academic_search_5": [
+      {
+        "task_id": 0,
+        "description": "The environment is responsible for the fault in the trajectory because it failed to recognize valid IDs for both the lead researcher (res_02) and the funding source (fs_03), which were correctly provided by the user. This led to the assistant being unable to proceed with the project setup, despite the correct information being available and provided.",
+        "type": "environment_fault"
+      }
+    ],
+    "airline_1": [
+      {
+        "task_id": 0,
+        "description": "The environment is responsible for the fault in the trajectory because it repeatedly returns an error message \"'str' object has no attribute 'get'\", which indicates a malfunction or misconfiguration in the environment's handling of the tool's operations. This prevents the agent from executing the necessary actions to manage operations at ATL, such as creating an operational event or updating flight schedules, as outlined in the ground truth action sequence.",
+        "type": "environment_fault"
+      }
+    ],
     "airline_2": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory due to a series of errors that occurred when attempting to execute actions. The errors, such as \"'str' object has no attribute 'get'\" and \"name '_j' is not defined,\" indicate that there were issues with the environment's handling of the code or data structures, preventing the successful execution of the required actions. These errors suggest that the environment was not properly set up to process the actions, leading to a failure in executing the necessary steps to manage the flight delays as outlined in the ground truth action sequence.",
+        "description": "The environment is responsible for the fault in the trajectory due to a persistent error message: \"'str' object has no attribute 'get'\". This indicates that the environment is attempting to access an attribute or method on a string object that does not exist, which is likely due to a misconfiguration or bug in the environment's handling of data types. This error prevents the execution of any actions, leading to the failure of the entire sequence. Additionally, the error \"name '_j' is not defined\" suggests a possible issue with variable initialization or scope within the environment. These errors are unrelated to the user's input or the agent's logic, indicating an environment-level fault.",
+        "type": "environment_fault"
+      }
+    ],
+    "banking_services_1": [
+      {
+        "task_id": 0,
+        "description": "The environment is responsible for the fault in the trajectory due to a persistent technical issue, specifically the error \"name 'load_json' is not defined,\" which prevents the agent from executing any actions. This error occurs repeatedly during attempts to verify the customer's identity, update contact information, enable notifications, review account balance and beneficiaries, and submit a support ticket. As a result, none of the actions in the ground truth action sequence are successfully executed, leading to the failure of the entire process.",
         "type": "environment_fault"
       }
     ],
     "banking_services_4": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory due to a persistent error related to the undefined function 'load_json'. This error prevents the assistant from executing any actions, including obtaining the risk profiles for Kenji Tanaka and Chloe Dubois, which are the initial steps in the ground truth action sequence. As a result, the assistant is unable to proceed with any further actions required to complete the user instruction.",
+        "description": "The environment is responsible for the fault in the trajectory because it encountered a repeated error message: \"Error: name 'load_json' is not defined.\" This indicates a technical issue in the environment's code or configuration, preventing the assistant from executing the necessary actions to retrieve the risk profiles for Kenji Tanaka and Chloe Dubois. This error is unrelated to the user's input or the assistant's logic but is instead a problem with the environment's ability to process the request.",
         "type": "environment_fault"
       }
     ],
     "banking_services_5": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory because it failed to generate a new account ID for the Savings account due to an undefined function `get_next_account_id`. This prevented the successful creation of the new Savings account, which was a necessary step before transferring funds into it. As a result, the transfer was made to an existing Savings account (`acc_sav_1002`) instead of a newly created one, deviating from the ground truth action sequence.",
+        "description": "The environment is responsible for the fault in the trajectory because it encountered a technical error when attempting to generate a new account ID for the Savings account. The error message \"name 'get_next_account_id' is not defined\" indicates a missing or undefined function in the environment's code, which prevented the successful creation of the new Savings account. This technical issue in the environment led to the failure of the account creation process, which in turn prevented the subsequent transfer of funds as instructed by the user.",
         "type": "environment_fault"
       }
     ],
-    "career_planner_1": [
+    "banking_services_6": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory due to a technical issue where the system repeatedly encountered an error: `'dict_values' object has no attribute 'values'`. This error prevented the retrieval of necessary information such as job IDs, user IDs, and application IDs, which are crucial for executing the required actions like skill evaluations, training recommendations, and status updates. Consequently, the assistant was unable to perform the actions outlined in the ground truth action sequence, leading to a failure in completing the task as instructed.",
+        "description": "The environment is responsible for the fault in the trajectory because it repeatedly encounters a technical issue with the error message \"Error: name 'load_json' is not defined.\" This error prevents the assistant from executing any actions related to identity verification, account balance retrieval, or any other requested operations. The persistent technical issue indicates a malfunction in the environment's ability to process the necessary functions, leading to the failure to perform the actions outlined in the ground truth action sequence.",
         "type": "environment_fault"
       }
     ],
     "career_planner_2": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory because it repeatedly failed to locate the 'Succession Planning' workflow associated with Michael Rodriguez, despite the ground truth indicating that such a workflow exists and should be accessible. The environment returned errors indicating that the workflow was not found, which prevented the agent from proceeding with the necessary updates and actions outlined in the user instruction. Additionally, the environment failed to provide skill gap data and course suggestions, which were also available in the ground truth, further hindering the completion of the task.",
+        "description": "The environment is responsible for the fault in the trajectory because it consistently failed to locate the correct workflow for Michael Rodriguez. Despite the user providing the correct context and workflow name (\"Succession Planning\" for the \"UX Design Lead\" role), the environment returned errors indicating that the workflow could not be found. This prevented the agent from proceeding with the necessary updates and actions as outlined in the ground truth action sequence. Additionally, the environment failed to provide skill gap analysis data and recommended courses, which further hindered the completion of the tasks. These failures are due to the environment's inability to access or retrieve the correct data, not due to any errors in the agent's actions or logic.",
         "type": "environment_fault"
       }
     ],
     "career_planner_3": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory because it consistently returns an error message \"string indices must be integers\" instead of executing the actions. This indicates a possible issue with how the environment is processing or interpreting the input data, leading to a failure in executing the necessary actions to identify the best-qualified individual for the role. The ground truth action sequence involves retrieving team members, checking leadership goals, validating goal alignment, assessing skill gaps, and recommending training, none of which were executed due to the environment's error.",
+        "description": "The environment is responsible for the fault in the trajectory because it failed to retrieve the team members for the given team ID \"T003\". The errors \"User not found\" and \"Error: string indices must be integers\" indicate issues with accessing or processing the team data, preventing the assistant from executing the necessary actions to identify and evaluate potential candidates for the succession plan. This failure in data retrieval is a critical deviation from the ground truth action sequence, where the first step is successfully obtaining the team members.",
         "type": "environment_fault"
       }
     ],
-    "consulting_accounting_4": [
+    "consulting_accounting_2": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory because it repeatedly encounters an error ('dict' object has no attribute 'append') when attempting to execute the action to create a new publisher record. This error prevents the successful execution of the \"CreatePublisher\" action, which is the first step in the ground truth action sequence. As a result, the subsequent actions cannot be performed, leading to a failure in achieving the desired end state.",
+        "description": "The environment is responsible for the fault in the trajectory due to persistent technical issues, specifically the repeated error \"name '_find_one' is not defined,\" which prevented the agent from retrieving necessary information about the publisher and invoice. This error hindered the agent's ability to execute the required actions, such as locating the publisher, retrieving the invoice, processing the payment, and performing subsequent analyses and logging tasks. Additionally, the error \"'dict' object has no attribute 'append'\" further impeded the agent's ability to log the payment process and scheduler run, contributing to the failure in completing the task as outlined in the ground truth action sequence.",
         "type": "environment_fault"
       }
     ],
     "consulting_accounting_5": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory because it repeatedly returns an error message \"Error: string indices must be integers\" instead of executing the actions required to fulfill the user instruction. This indicates a systemic issue with the environment's handling of the action requests, preventing any progress in the task. The ground truth action sequence involves multiple steps to gather and process data, but the environment fails to execute even the initial action, resulting in a complete breakdown of the task execution.",
-        "type": "environment_fault"
-      }
-    ],
-    "consulting_accounting_6": [
-      {
-        "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory because it repeatedly encounters an error ('str' object has no attribute 'get') when attempting to execute actions related to archiving a dashboard snapshot. This suggests that the environment is not correctly handling the input or output data types, leading to a failure in executing the necessary actions to create and fetch the dashboard snapshot as specified in the ground truth action sequence. The ground truth requires specific actions to be taken, such as `CreateDashboardSnapshot` and `FetchDashboardSnapshot`, which are not successfully executed in the trajectory due to this error.",
-        "type": "environment_fault"
-      }
-    ],
-    "data_science_1": [
-      {
-        "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory due to persistent errors related to data storage operations, specifically the \"unhashable type: 'list'\" error. This error suggests that there is an issue with how data is being structured or stored, which is preventing the successful execution of actions such as storing geocoding results, setting project configurations, and storing other necessary data. The environment's inability to handle these data operations correctly is the root cause of the failure to progress through the required action sequence.",
+        "description": "The environment is responsible for the fault in the trajectory because it repeatedly encounters an error (\"string indices must be integers\") when attempting to execute actions. This error suggests that there is a problem with how the environment is processing or accessing data, likely due to an incorrect data structure or type being used. This prevents the execution of any actions, resulting in a failure to perform the necessary steps outlined in the ground truth action sequence.",
         "type": "environment_fault"
       }
     ],
     "data_science_3": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory because it fails to update the project configuration with the 'backfill_cutoff' key and value. Despite multiple attempts to set the 'backfill_cutoff' to '2025-12-22T20:00:00Z', the environment consistently returns a null value, indicating that the update is not being applied. This discrepancy between the expected behavior (successful update and retrieval of the 'backfill_cutoff' value) and the actual outcome (failure to update and retrieve the value) suggests an issue with the environment's handling of configuration updates.",
+        "description": "The environment is responsible for the fault in the trajectory because it fails to update the project configuration with the specified backfill cutoff. Despite multiple attempts to set the backfill cutoff to '2025-12-22T20:00:00Z', the environment consistently returns a null value for the backfill cutoff, indicating that the update was not successful. Additionally, there are errors related to the retrieval of terminal log events and QC PDFs, suggesting issues with the environment's ability to handle these operations correctly. These failures prevent the agent from achieving the desired final conditions specified in the user instruction.",
+        "type": "environment_fault"
+      }
+    ],
+    "data_science_5": [
+      {
+        "task_id": 0,
+        "description": "The environment is responsible for the fault in the trajectory because it failed to create the necessary feature set for the series \"temp_anom_2025-04\". The repeated errors, such as \"Feature set not found\" and \"name '_fixed_now_iso' is not defined\", indicate that the environment is not properly configured to handle the creation of feature sets or the insertion of data points. This prevented the agent from successfully writing the processed series and proceeding with the subsequent steps, such as generating the QC report, which are part of the ground truth action sequence.",
+        "type": "environment_fault"
+      }
+    ],
+    "dev_ops_1": [
+      {
+        "task_id": 0,
+        "description": "The environment is responsible for the fault in the trajectory because there is a persistent issue with the database or tools, as indicated by the repeated error messages \"name '_get_table' is not defined\" and \"ReceiveTicketWebhook.invoke() missing 1 required positional argument: 'payload'\". These errors prevent the agent from executing the necessary actions to process the CI event, extract failure signals, and perform subsequent steps such as proposing a fix patch, opening a draft pull request, and recording automation runs. The environment's inability to provide the required functionality and data access leads to the agent's failure to complete the task as outlined in the ground truth action sequence.",
+        "type": "environment_fault"
+      }
+    ],
+    "dev_ops_2": [
+      {
+        "task_id": 0,
+        "description": "The environment is responsible for the fault in the trajectory because it repeatedly encounters an error with the undefined function '_get_table', which prevents the agent from retrieving necessary data to proceed with the task. Additionally, there is an error with the 'RecordAutomationRunV2.invoke()' method, which is missing required positional arguments 'inputs' and 'outputs'. These issues indicate a problem with the environment's database operations and method invocation, hindering the agent's ability to execute the required actions.",
         "type": "environment_fault"
       }
     ],
     "dev_ops_4": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory because it repeatedly encounters an error due to the undefined function or variable '_find_by_id'. This indicates a missing or improperly configured function in the environment, preventing the agent from executing the necessary actions to address the user instruction. The ground truth action sequence requires the execution of several functions, but the environment's error prevents any progress, leading to a failure in achieving the task.",
+        "description": "The environment is responsible for the fault in the trajectory due to persistent errors encountered when attempting to execute actions. Specifically, the errors \"'str' object has no attribute 'get'\" and \"name '_idx_by_id' is not defined\" indicate issues with the environment's handling of the tool's functions or data structures. These errors prevented the successful execution of actions such as attaching the symbolicated stack, logging the build command, fetching ownership details, and updating the triage status, which are all necessary steps outlined in the ground truth action sequence. The environment's inability to process these actions correctly led to the failure in achieving the desired outcomes.",
         "type": "environment_fault"
       }
     ],
-    "digital_commerce_1": [
+    "dev_ops_6": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory because it repeatedly encounters an error with the message \"name '_find_all' is not defined.\" This indicates a missing or improperly defined function or method in the environment, preventing the agent from executing the necessary actions to update the security group rules and proceed with the task. This error disrupts the process and prevents the agent from following the ground truth action sequence.",
+        "description": "The environment is responsible for the fault in the trajectory because it repeatedly encounters an error (\"Error: name '_table' is not defined\") when attempting to execute actions such as recording translations, creating localization workflows, linking work items, and queuing notifications. This error prevents the completion of necessary actions that are part of the ground truth action sequence, such as creating a TMS job, recording translations, updating locale validations, linking work items, tagging work items with labels, creating a localization workflow, and sending notifications. The environment's inability to execute these actions due to the error results in the failure to achieve the intended outcome.",
         "type": "environment_fault"
       }
     ],
-    "digital_commerce_2": [
+    "digital_commerce_5": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory due to a persistent error message \"Error: name '_idstr' is not defined\" that occurs repeatedly. This error prevents the agent from executing the necessary actions to retrieve product information, verify stock, calculate prices, apply discounts, and create a case, as outlined in the ground truth action sequence. The error indicates a possible issue with the environment's code or configuration, which is causing the failure to define or access a required variable or function, thus halting the process.",
+        "description": "The environment is responsible for the fault in the trajectory because it encountered an error with the message \"name '_as_id' is not defined\" when attempting to retrieve products from the specified category. This error prevented the agent from executing the \"ListProductsInCategory\" action, which is a crucial step in the ground truth action sequence for identifying and purchasing the Wireless Mouse. As a result, the agent was unable to proceed with the subsequent actions necessary to complete the purchase.",
         "type": "environment_fault"
       }
     ],
-    "digital_commerce_3": [
+    "figma_gmail_mcp_pipeline_1": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory because it failed to retrieve the customer profile using the email 'david.c@email.com'. This failure prevented the agent from proceeding with actions that required customer identification, such as configuring the payment gateway and identifying similar products. The error message \"'str' object has no attribute 'get'\" indicates a technical issue in the environment's handling of the request, which is not present in the ground truth action sequence.",
+        "description": "The environment is responsible for the fault in the trajectory because it failed to execute the action \"FilterFigmaArtifactsByTags\" due to an error ('str' object has no attribute 'get'). This prevented the assistant from locating the Figma artifacts tagged with 'needs-review', which is a crucial step in the process outlined in the ground truth action sequence. As a result, the subsequent steps that depend on the successful filtering of artifacts could not be executed, leading to a breakdown in the workflow.",
         "type": "environment_fault"
       }
     ],
     "figma_gmail_mcp_pipeline_2": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory because it repeatedly encounters an error with the undefined function `get_next_asset_id`, preventing the agent from proceeding with creating a new asset. This error disrupts the sequence of actions needed to fulfill the user instruction, as the agent cannot generate a new asset ID, which is crucial for exporting the asset and sending the review request email.",
+        "description": "The environment is responsible for the fault in the trajectory because it failed to provide the necessary functions (`get_next_asset_id` and `get_next_cycle_id`) required for the agent to create a new asset and initiate a review cycle. This prevented the agent from executing the actions needed to fulfill the user's request, which involved creating a PNG 2x asset and starting a review cycle. As a result, the agent was unable to proceed with the task as outlined in the ground truth action sequence.",
         "type": "environment_fault"
       }
     ],
-    "figma_gmail_mcp_pipeline_4": [
+    "figma_gmail_mcp_pipeline_3": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory because it repeatedly encounters an error: `'str' object has no attribute 'get'`. This indicates that the environment is attempting to access an attribute or method on a string object that does not exist, which is likely due to a misconfiguration or incorrect handling of data types within the environment. This error prevents the execution of any actions, leading to a failure in performing the necessary operations outlined in the ground truth action sequence.",
+        "description": "The environment is responsible for the fault in the trajectory due to the errors encountered during the execution of the actions. Specifically, the errors \"name '_export_ext_from_profile' is not defined\" and \"name '_ensure' is not defined\" indicate that there are missing or undefined functions or variables in the environment that are necessary for exporting the asset and creating the Gmail thread. These errors prevented the successful completion of the \"ExportAssets\" and \"CreateGmailThread\" actions, which are crucial steps in the ground truth action sequence. As a result, the agent was unable to proceed with the tasks as intended.",
         "type": "environment_fault"
       }
     ],
     "figma_gmail_mcp_pipeline_5": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory because it consistently returns an error message: \"Error: 'str' object has no attribute 'get'\" when the agent attempts to retrieve Gmail threads. This indicates a technical issue with the environment's handling of the `SearchGmailThreads` action, preventing the agent from executing the necessary actions to verify and update the Gmail thread as specified in the ground truth action sequence. The environment's failure to process the search request correctly is the root cause of the trajectory fault.",
+        "description": "The environment is responsible for the fault in the trajectory due to persistent tool errors that prevented the agent from executing the necessary actions. Specifically, the errors \"name '_small_fields' is not defined\" and \"name '_require_str' is not defined\" indicate that the environment failed to provide the necessary functionality for the agent to retrieve the thread details and perform the label adjustments and DLP scan. This prevented the agent from completing the tasks outlined in the ground truth action sequence.",
         "type": "environment_fault"
       }
     ],
     "file_system_9": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory because it consistently fails to recognize the existence of the source file for transfer, despite the user confirming its presence multiple times. The environment should have been able to access and verify the file path provided by the user, but it repeatedly returns an error indicating that the source file is not found. This discrepancy between the user's confirmation and the environment's response suggests an issue with the environment's file handling or path resolution capabilities.",
+        "description": "The environment is responsible for the fault in the trajectory because it failed to execute the `CreateArchive`, `LogCompletionMessage`, and `SendSlackNotification` actions due to a persistent error: `'dict' object has no attribute 'append'`. This error indicates a problem with the environment's handling of the tool's internal data structures, preventing the successful creation of the archive and the logging and notification actions, which are crucial steps in the ground truth action sequence.",
+        "type": "environment_fault"
+      }
+    ],
+    "github_mcp_7": [
+      {
+        "task_id": 0,
+        "description": "The environment is responsible for the fault in the trajectory because it repeatedly returns an error message \"Error: 0\" and \"Error: name '_actor_name' is not defined\" instead of executing the necessary actions to create the repository, branch, commit, open a pull request, add a label, and list the open pull requests. The environment fails to perform any of the actions specified in the ground truth action sequence, leading to a complete breakdown in functionality.",
+        "type": "environment_fault"
+      }
+    ],
+    "it_help_desk_2": [
+      {
+        "task_id": 0,
+        "description": "The environment is responsible for the fault in the trajectory because it repeatedly encounters an error due to the undefined function '_find_one'. This prevents the execution of any actions, including the initial step of retrieving the user information with \"GetUserByUpnOrHrId\", which is necessary to proceed with the offboarding process. As a result, the entire sequence of actions required for offboarding is not executed.",
+        "type": "environment_fault"
+      }
+    ],
+    "it_help_desk_4": [
+      {
+        "task_id": 0,
+        "description": "The environment is responsible for the fault in the trajectory due to persistent system errors that prevent the execution of actions. Specifically, the errors \"name 'FIXED_NOW' is not defined\" and \"'str' object has no attribute 'get'\" indicate issues with the system's ability to process requests for creating directory accounts, retrieving role profiles, provisioning laptops, and creating audit records. These errors are not due to the agent's logic but rather due to the environment's inability to handle the operations correctly, leading to the failure of the onboarding process.",
         "type": "environment_fault"
       }
     ],
     "it_help_desk_5": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault because it failed to initialize the task or provide the necessary context for the agent to begin the conversation. The trajectory is empty, indicating that the agent did not perform any actions or engage in any dialogue, which suggests that the environment did not properly set up the initial conditions or inputs required for the agent to execute the task as outlined in the ground truth action sequence.",
+        "description": "The environment is responsible for the fault because it failed to initialize the task or did not facilitate any conversation between the user and the agent. This resulted in an empty trajectory, meaning no actions were taken to process the user instruction, such as checking for existing employee accounts, mailboxes, or assigning licenses, which are necessary steps outlined in the ground truth action sequence.",
         "type": "environment_fault"
       }
     ],
     "it_help_desk_6": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory because it is missing the definitions for the functions `_find_all` and `_find_one`. These functions are likely necessary for the agent to retrieve data or perform actions, and their absence results in repeated errors, preventing the agent from executing the required actions to complete the onboarding process.",
+        "description": "The environment is responsible for the fault in the trajectory because it repeatedly encounters a technical issue with the error message \"name '_find_one' is not defined.\" This error prevents the assistant from retrieving the RBAC baseline, creating a directory account, and proceeding with the onboarding tasks. As a result, the assistant is unable to perform any of the necessary actions to align RBAC, assign licenses, or provision accounts and devices, which are all critical steps outlined in the ground truth action sequence. The environment's failure to execute these functions due to the undefined function '_find_one' is the root cause of the fault.",
         "type": "environment_fault"
       }
     ],
     "logistics_supply_chain_2": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory because it repeatedly returns an error message \"Error: string indices must be integers\" instead of providing the expected shipment details or carrier status. This error suggests a malfunction or misconfiguration in the environment's handling of data structures, preventing the agent from executing the necessary actions to retrieve and process shipment and carrier information as outlined in the ground truth action sequence.",
+        "description": "The environment is responsible for the fault in the trajectory because it returned errors when the agent attempted to retrieve the shipment details and the list of active carriers. Specifically, the errors \"string indices must be integers\" and \"'str' object has no attribute 'get'\" indicate that the environment did not provide the expected data structure or response format, preventing the agent from executing the necessary actions to verify the carrier's operational status and potentially update the shipment with an alternative carrier. This discrepancy between the expected and actual environment responses led to the failure in completing the task as outlined in the ground truth action sequence.",
         "type": "environment_fault"
       }
     ],
-    "logistics_supply_chain_6": [
+    "logistics_supply_chain_5": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory because it repeatedly returns an error message \"'str' object has no attribute 'get'\" when the assistant attempts to execute the \"FindWarehouses\" action. This indicates a malfunction or misconfiguration in the environment's handling of the action, preventing the assistant from retrieving the necessary warehouse information to proceed with the task.",
+        "description": "The environment is responsible for the fault in the trajectory due to a persistent technical issue, specifically the repeated error \"name 'get_current_timestamp' is not defined.\" This error prevented the successful execution of several actions, including quarantining inventory, conducting a physical count, creating an inventory adjustment, drafting an incident report, notifying the supplier, and calculating the financial impact. These failures are due to the environment's inability to handle the 'get_current_timestamp' function, which is necessary for completing these actions.",
+        "type": "environment_fault"
+      }
+    ],
+    "new_hire_mcp_2": [
+      {
+        "task_id": 0,
+        "description": "The environment is responsible for the fault in the trajectory due to a persistent error related to the undefined function '_ensure_list'. This error prevented the execution of several actions, including inserting the email, labeling the email, linking it under the specified thread, and updating the asset request status. These actions are crucial for maintaining the consistency of the request record and fulfilling the user instruction, but the environment's failure to define or handle the '_ensure_list' function led to the inability to perform these actions.",
         "type": "environment_fault"
       }
     ],
     "new_hire_mcp_4": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory because it repeatedly encounters an error: \"'str' object has no attribute 'get'\". This indicates that the environment is attempting to access a method or attribute on a string object that does not exist, likely due to incorrect handling or processing of data. This error prevents the execution of any actions, resulting in the failure to perform the necessary operations outlined in the ground truth action sequence.",
+        "description": "The environment is responsible for the fault in the trajectory because it repeatedly returns an error message \"'str' object has no attribute 'get'\" instead of executing the actions. This indicates a malfunction or misconfiguration in the environment's handling of the action requests, preventing any progress in the task execution. The ground truth action sequence involves multiple steps that require interaction with the environment, but the errors prevent any of these actions from being carried out.",
         "type": "environment_fault"
       }
     ],
-    "new_hire_mcp_5": [
+    "org_chart_5": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory because it repeatedly encounters an error: \"name '_next_seq' is not defined.\" This error prevents the agent from proceeding with the necessary actions after locating the candidate. As a result, the agent fails to record access checks, send the orientation email, and update the invite timestamps, which are all required steps in the ground truth action sequence. The environment's failure to handle this error disrupts the completion of the task.",
+        "description": "The environment is responsible for the fault in the trajectory because the system encountered an error due to the undefined function 'find_employee', which prevented the assistant from retrieving Olivia Martinez's profile and verifying her onboarding status. This system error blocked the execution of the necessary actions to check her benefits enrollment, document compliance status, and compensation records, which are part of the ground truth action sequence.",
         "type": "environment_fault"
       }
     ],
     "project_management_1": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault because it failed to initialize the task or establish a conversation, resulting in an empty trajectory. This indicates that the environment did not execute any actions or facilitate any interaction between the user and the agent, preventing the task from progressing as outlined in the ground truth action sequence.",
+        "description": "The environment is responsible for the fault because it failed to initialize the task or establish a conversation, resulting in an empty trajectory. This indicates that the necessary actions to search for the employee, retrieve their allocations, compare project priorities, and update the allocation were not executed. Consequently, the task could not proceed to adjust Olivia Anderson's over-allocation to achieve the desired 100% utilization rate.",
         "type": "environment_fault"
       }
     ],
     "project_management_2": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory due to the repeated errors encountered when attempting to escalate the priority of task_007 and create the \"Cross-team sync meeting\" task. The errors, such as \"name 'uuid' is not defined,\" indicate a failure in the environment's ability to execute these actions, which are crucial steps in the ground truth action sequence. This failure prevents the agent from completing the necessary actions to align with the user instruction, specifically the escalation of task_007's priority and the creation of the new task, both of which are essential for the successful initiation of sprint_003.",
+        "description": "The environment is responsible for the fault in the trajectory because it failed to execute the action of updating the priority of task_007 and creating the \"Cross-team sync meeting\" task due to a persistent technical issue (\"Error: name 'uuid' is not defined\"). This prevented the agent from completing the necessary actions to escalate the priority of task_007 to critical and to create a new task for the meeting, which were both required steps in the ground truth action sequence.",
         "type": "environment_fault"
       }
     ],
-    "real_estate_sales_7": [
+    "project_management_3": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault because it failed to initialize the task or establish a conversation, resulting in an empty trajectory. This indicates that the necessary actions to fetch client context, search for comparables, create a report, and send an email were not executed. The environment did not perform any of the required steps to achieve the goal state as outlined in the ground truth action sequence.",
+        "description": "The environment is responsible for the fault in the trajectory due to a persistent error related to the undefined 'datetime' module. This error prevented the agent from executing the necessary actions to retrieve the reimbursement history and submit the reimbursement request, which are critical steps in the ground truth action sequence. As a result, the agent was unable to perform any of the required actions, leading to a failure in achieving the user's goal.",
         "type": "environment_fault"
       }
     ],
-    "recipes_1": [
+    "project_management_5": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory due to a persistent error: \"name '_index_by' is not defined.\" This error indicates a missing or improperly defined function or variable in the environment, preventing the agent from executing the necessary actions to create the grocery list and log the audit event. This issue is unrelated to the agent's logic or the user's input, as the environment fails to support the required operations.",
+        "description": "The environment is responsible for the fault in the trajectory because it consistently returns an error message \"'str' object has no attribute 'get'\" whenever the agent attempts to perform any action. This indicates a technical issue with the environment's handling of the agent's requests, preventing the agent from executing the necessary actions to retrieve and process the required information. As a result, the agent is unable to perform any of the steps outlined in the ground truth action sequence, such as searching for change requests, validating compliance, checking for conflicts, saving conflicts, and calculating the cumulative impact.",
+        "type": "environment_fault"
+      }
+    ],
+    "real_estate_sales_1": [
+      {
+        "task_id": 0,
+        "description": "The environment is responsible for the fault in the trajectory because it failed to provide access to the client information for clients 4, 5, and 6. The assistant repeatedly attempted to search for these clients but was unable to find them in the system, which prevented the assistant from proceeding with the onboarding tasks such as sending welcome communications and organizing consultations. This lack of access to client data is a critical difference from the ground truth action sequence, where the clients were successfully found and onboarded.",
         "type": "environment_fault"
       }
     ],
     "recipes_2": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory because it consistently returns an error message \"'str' object has no attribute 'get'\" when the assistant attempts to perform actions that require accessing or modifying the meal plan. This error prevents the assistant from executing the necessary actions to locate the Bennett Family's household ID, retrieve their meal plan, and make the required updates. The ground truth action sequence shows that these actions should be possible, indicating a malfunction in the environment's handling of the assistant's requests.",
+        "description": "The environment is responsible for the fault in the trajectory due to a technical issue that prevented the retrieval of household information. The error message \"'str' object has no attribute 'get'\" indicates a malfunction in the system's ability to process the request to search for the Bennett Family's household, which is a critical step in accessing and modifying the meal plan. This issue hindered the agent's ability to proceed with the necessary actions to fulfill the user instruction.",
         "type": "environment_fault"
       }
     ],
-    "recipes_3": [
+    "recipes_4": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory because it returned an error message \"'str' object has no attribute 'get'\" repeatedly, indicating a malfunction or misconfiguration in the system's handling of the response data. This prevented the agent from proceeding with the necessary actions to retrieve household information and create the meal plan, as outlined in the ground truth action sequence.",
+        "description": "The environment is responsible for the fault in the trajectory because it repeatedly encounters an error due to the undefined function '_validate_inputs'. This prevents the execution of the initial action, \"GetHouseholdInventory\", and any subsequent actions, leading to a failure in progressing through the task as outlined in the ground truth action sequence. The error indicates a missing or improperly configured function in the environment, which is necessary for validating inputs before executing actions.",
         "type": "environment_fault"
       }
     ],
-    "retail_1": [
+    "recipes_5": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault because it failed to initialize the task correctly, resulting in an empty trajectory. The ground truth action sequence indicates that the task should have involved retrieving user information, product details, and payment methods, followed by creating an order. However, the trajectory shows no actions were taken, suggesting a failure in task initialization or execution by the environment.",
+        "description": "The environment is responsible for the fault in the trajectory because it failed to recognize the existence of household ID 201, which was necessary to proceed with the actions. The error message \"no households available\" indicates that the environment did not have the correct household data available, preventing the agent from executing the required actions to create the meal plan and compile the grocery list. This discrepancy between the ground truth and the trajectory is due to the environment's inability to access or retrieve the necessary household information.",
         "type": "environment_fault"
       }
     ],
-    "retail_3": [
+    "retail_6": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory because it incorrectly reports that the supply order '#SO9359' and the customer order '#W7007896' do not exist in the initial database state. The ground truth action sequence indicates that these orders should be present and actionable, allowing for their status updates and modifications as per the user instruction. The environment's failure to recognize these orders leads to the assistant's inability to perform the required actions, resulting in the trajectory fault.",
-        "type": "environment_fault"
-      }
-    ],
-    "retail_4": [
-      {
-        "task_id": 0,
-        "description": "The fault in the trajectory is due to the environment's failure to initialize the task correctly. The ground truth action sequence begins with the \"ValidateUserIdentity\" action, which requires the correct user identity details. However, the trajectory is empty, indicating that the task failed during initialization, possibly because the environment did not correctly handle the user identity validation step or did not initiate the conversation at all. This discrepancy between the expected initialization and the actual empty trajectory is the environment's responsibility.",
+        "description": "The environment is responsible for the fault in the trajectory because it failed to define the necessary functions or methods, such as '_find_tracking' and '_find_order', which are required to execute the actions like recording tracking events, scheduling delivery, posting payments, and updating order tags and status. These missing definitions prevented the agent from performing the required operations, despite having the correct inputs and instructions.",
         "type": "environment_fault"
       }
     ],
     "retail_point_of_sale_and_inventory_system_1": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory because it encountered a series of errors starting with \"Error: name 'datetime' is not defined,\" which indicates that the necessary module or library for handling date and time was not properly imported or initialized. This initial error likely disrupted the execution of subsequent actions, leading to repeated errors \"'str' object has no attribute 'get',\" suggesting that the environment was attempting to access attributes or methods on a string object that were not applicable, possibly due to incorrect handling of data types or responses. These errors prevented the execution of the intended actions in the ground truth action sequence.",
+        "description": "The environment is responsible for the fault in the trajectory due to persistent technical issues that prevent the execution of actions. The errors such as \"'str' object has no attribute 'get'\" and \"name 'datetime' is not defined\" indicate that there are underlying problems with the environment's ability to process requests and execute the necessary functions. These issues prevent the agent from activating the promotion, retrieving active promotions, checking product details, and updating the promotion details, which are all required actions according to the ground truth action sequence.",
+        "type": "environment_fault"
+      }
+    ],
+    "retail_point_of_sale_and_inventory_system_2": [
+      {
+        "task_id": 0,
+        "description": "The environment is responsible for the fault in the trajectory because it incorrectly returned details for a different customer (CUST-5012) instead of the requested customer (CUST-5001) during the attempts to update the phone number and email. This discrepancy indicates an issue with the customer record system, as the environment failed to process the correct customer ID, leading to the inability to perform the necessary updates as per the user instruction.",
+        "type": "environment_fault"
+      }
+    ],
+    "retail_point_of_sale_and_inventory_system_4": [
+      {
+        "task_id": 0,
+        "description": "The environment is responsible for the fault in the trajectory due to the repeated error messages indicating that the function or method '_filter_db' is not defined. This suggests a missing or improperly configured function in the environment that is necessary for filtering database entries, which is a critical step in retrieving customer, employee, and transaction information as required by the ground truth action sequence. This missing functionality prevents the agent from executing the necessary actions to process the refund and update the product and promotion databases.",
         "type": "environment_fault"
       }
     ],
     "retail_point_of_sale_and_inventory_system_6": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory because it failed to initialize or execute any actions. The ground truth action sequence involves searching for bronze membership customers, analyzing their marketing opt-in status, updating loyalty points for a specific customer, and finding a specific employee. However, the trajectory shows an empty sequence, indicating that none of these actions were performed, likely due to an initialization failure or a lack of execution capability in the environment.",
+        "description": "The environment is responsible for the fault because it failed to initialize the task or provide the necessary data to start the conversation. The trajectory is empty, indicating that the system did not execute any actions or engage in any dialogue, which suggests a failure in setting up the task environment or accessing the required data to perform the actions specified in the user instruction.",
         "type": "environment_fault"
       }
     ],
     "social_media_advertising_1": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory because it failed to execute the `AddAutomationRun` and `LogStrategyChange` actions due to an error: `'dict' object has no attribute 'append'`. This error indicates a problem with how the environment handles the logging of these actions, preventing the completion of the required tasks as specified in the ground truth action sequence.",
+        "description": "The environment is responsible for the fault in the trajectory because it failed to log the 'trend_analysis' automation run and the strategy change for the 'App Installs - Android' ad set. The errors encountered were due to an issue with the logging mechanism, specifically the error \"'dict' object has no attribute 'append'\", which indicates a problem with how the environment handles logging actions. This prevented the completion of the required logging tasks as specified in the ground truth action sequence.",
         "type": "environment_fault"
       }
     ],
-    "social_media_advertising_2": [
+    "social_media_advertising_4": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory because it failed to provide the necessary insights for ad set 104 on the specified date, which is crucial for calculating ROAS. The ground truth action sequence includes a successful retrieval of daily ad set insights and computation of ROAS, whereas the trajectory indicates that there were no recorded insights available, preventing the agent from performing the required analysis and adjustments. Additionally, the environment repeatedly encountered an error ('dict' object has no attribute 'append') when attempting to process further actions, indicating a malfunction in handling the data or executing the plan adjustments.",
+        "description": "The environment is responsible for the fault in the trajectory because it repeatedly returns an error message \"'str' object has no attribute 'get'\" instead of providing the necessary data or allowing the agent to perform the required actions. This error suggests a malfunction or misconfiguration in the environment's handling of requests, preventing the agent from accessing or processing the ad set data needed to execute the task as outlined in the ground truth action sequence.",
+        "type": "environment_fault"
+      }
+    ],
+    "social_media_advertising_5": [
+      {
+        "task_id": 0,
+        "description": "The environment is responsible for the fault in the trajectory because it consistently returns errors when the agent attempts to retrieve or update information. Specifically, the errors \"'str' object has no attribute 'get'\" and \"'dict' object has no attribute 'append'\" indicate that the environment is not handling the data types correctly, preventing the agent from executing the necessary actions to retrieve the plan details, update the ad set budget and bid strategy, and log the changes as required by the user instruction. This malfunction in the environment's handling of data types disrupts the agent's ability to perform the tasks outlined in the ground truth action sequence.",
         "type": "environment_fault"
       }
     ],
     "sports_analytics_5": [
       {
         "task_id": 0,
-        "description": "The environment is responsible for the fault in the trajectory because it repeatedly encounters an error: \"'str' object has no attribute 'get'\". This indicates that the environment is attempting to access an attribute or method on a string object that does not exist, which prevents the execution of any actions. This error is likely due to a misconfiguration or bug in the environment's handling of the input data or the execution context, leading to a failure to perform any of the required actions in the ground truth action sequence.",
+        "description": "The environment is responsible for the fault in the trajectory because it repeatedly encounters an error: \"'str' object has no attribute 'get'\". This indicates that the environment is attempting to access a method or attribute on a string object that does not exist, likely due to incorrect handling or processing of data types. This error prevents the execution of any actions, resulting in the failure to perform the necessary steps outlined in the ground truth action sequence.",
         "type": "environment_fault"
       }
     ]
   },
   "error_classifications": {
-    "str_no_get": 11,
-    "other_error": 7,
-    "unknown": 3,
-    "attribute_error": 1,
-    "string_indices": 3,
+    "other_error": 11,
+    "undefined_name": 15,
+    "unknown": 5,
+    "str_no_get": 13,
+    "string_indices": 2,
     "dict_no_append": 3,
-    "undefined_name": 5,
-    "empty_trajectory": 6
+    "empty_trajectory": 3
   }
 }

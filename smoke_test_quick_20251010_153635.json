@@ -1,0 +1,34 @@
+{
+  "timestamp": "2025-10-10T15:36:35.833001",
+  "config": {
+    "model": "gpt-4o-mini",
+    "user_model": "gpt-4o",
+    "strategies": [
+      "tool-calling"
+    ],
+    "task_split": "test",
+    "num_envs": 5,
+    "total_tests": 1
+  },
+  "summary": {
+    "total": 1,
+    "passed": 0,
+    "failed": 1,
+    "success_rate": 0.0
+  },
+  "results": [
+    {
+      "success": false,
+      "env": "academic_search_1",
+      "agent_strategy": "tool-calling",
+      "model": "gpt-4o-mini",
+      "user_model": "gpt-4o",
+      "task_split": "test",
+      "returncode": 1,
+      "duration": 0.036984,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/run.py\", line 5, in <module>\n    from tau_bench.types import RunConfig\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/__init__.py\", line 3, in <module>\n    from tau_bench.envs.base import Env as Env\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/__init__.py\", line 6, in <module>\n    from tau_bench.envs.base import Env\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/base.py\", line 8, in <module>\n    from tau_bench.envs.user import load_user, UserStrategy\n  File \"/Users/josemoreno/Desktop/repos/apollo-tau-bench/tau/tau_bench/envs/user.py\", line 138\n    return \"###STOP### #HALT###\n           ^\nSyntaxError: unterminated string literal (detected at line 138)\n",
+      "timestamp": "2025-10-10T15:36:35.795239"
+    }
+  ]
+}

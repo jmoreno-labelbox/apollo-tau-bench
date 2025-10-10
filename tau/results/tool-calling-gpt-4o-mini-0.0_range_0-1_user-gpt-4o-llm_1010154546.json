@@ -1,0 +1,710 @@
+[
+  {
+    "task_id": 0,
+    "reward": 0.0,
+    "info": {
+      "task": {
+        "user_id": "TASK_01",
+        "actions": [
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "101"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "102"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "103"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "104"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "105"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "106"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "107"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "108"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "109"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "110"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "111"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "112"
+            }
+          },
+          {
+            "name": "FreezePlan",
+            "kwargs": {
+              "plan_id": "plan_soc_001",
+              "date": "2025-08-13",
+              "created_at": "2025-08-14T00:00:00Z",
+              "author": "automation_agent",
+              "checksum": "CHK001",
+              "total_budget": 8860.0,
+              "adset_mapping": [
+                {
+                  "adset_id": "101",
+                  "name": "Electronics - CA",
+                  "category": "Electronics",
+                  "campaign_id": "1"
+                },
+                {
+                  "adset_id": "102",
+                  "name": "Apparel - CA",
+                  "category": "Apparel",
+                  "campaign_id": "1"
+                },
+                {
+                  "adset_id": "103",
+                  "name": "Brand - Video Ads",
+                  "category": "All",
+                  "campaign_id": "2"
+                },
+                {
+                  "adset_id": "104",
+                  "name": "Fall Fashion - Women",
+                  "category": "Apparel",
+                  "campaign_id": "3"
+                },
+                {
+                  "adset_id": "105",
+                  "name": "Fall Fashion - Men",
+                  "category": "Apparel",
+                  "campaign_id": "3"
+                },
+                {
+                  "adset_id": "106",
+                  "name": "Holiday - Home Goods",
+                  "category": "Home",
+                  "campaign_id": "5"
+                },
+                {
+                  "adset_id": "107",
+                  "name": "Holiday - Toys",
+                  "category": "Toys",
+                  "campaign_id": "5"
+                },
+                {
+                  "adset_id": "108",
+                  "name": "Back to School - Laptops",
+                  "category": "Electronics",
+                  "campaign_id": "6"
+                },
+                {
+                  "adset_id": "109",
+                  "name": "Back to School - Stationery",
+                  "category": "Office",
+                  "campaign_id": "6"
+                },
+                {
+                  "adset_id": "110",
+                  "name": "App Installs - Android",
+                  "category": "Mobile",
+                  "campaign_id": "7"
+                },
+                {
+                  "adset_id": "111",
+                  "name": "App Installs - iOS",
+                  "category": "Mobile",
+                  "campaign_id": "7"
+                },
+                {
+                  "adset_id": "112",
+                  "name": "Electronics - UK",
+                  "category": "Electronics",
+                  "campaign_id": "1"
+                }
+              ],
+              "strategies": [
+                {
+                  "adset_id": "101",
+                  "bid_strategy": "cost_cap",
+                  "bid_amount": 32.0
+                },
+                {
+                  "adset_id": "102",
+                  "bid_strategy": "lowest_cost"
+                },
+                {
+                  "adset_id": "103",
+                  "bid_strategy": "lowest_cost"
+                },
+                {
+                  "adset_id": "104",
+                  "bid_strategy": "cost_cap",
+                  "bid_amount": 20.0
+                },
+                {
+                  "adset_id": "105",
+                  "bid_strategy": "lowest_cost"
+                },
+                {
+                  "adset_id": "106",
+                  "bid_strategy": "cost_cap",
+                  "bid_amount": 18.0
+                },
+                {
+                  "adset_id": "107",
+                  "bid_strategy": "lowest_cost"
+                },
+                {
+                  "adset_id": "108",
+                  "bid_strategy": "cost_cap",
+                  "bid_amount": 42.0
+                },
+                {
+                  "adset_id": "109",
+                  "bid_strategy": "lowest_cost"
+                },
+                {
+                  "adset_id": "110",
+                  "bid_strategy": "lowest_cost"
+                },
+                {
+                  "adset_id": "111",
+                  "bid_strategy": "cost_cap",
+                  "bid_amount": 2.5
+                },
+                {
+                  "adset_id": "112",
+                  "bid_strategy": "lowest_cost"
+                }
+              ],
+              "creatives": [
+                {
+                  "adset_id": "101",
+                  "creative_type": "image"
+                },
+                {
+                  "adset_id": "102",
+                  "creative_type": "image"
+                },
+                {
+                  "adset_id": "103",
+                  "creative_type": "video"
+                },
+                {
+                  "adset_id": "104",
+                  "creative_type": "image"
+                },
+                {
+                  "adset_id": "105",
+                  "creative_type": "image"
+                },
+                {
+                  "adset_id": "106",
+                  "creative_type": "image"
+                },
+                {
+                  "adset_id": "107",
+                  "creative_type": "video"
+                },
+                {
+                  "adset_id": "108",
+                  "creative_type": "image"
+                },
+                {
+                  "adset_id": "109",
+                  "creative_type": "image"
+                },
+                {
+                  "adset_id": "110",
+                  "creative_type": "video"
+                },
+                {
+                  "adset_id": "111",
+                  "creative_type": "video"
+                },
+                {
+                  "adset_id": "112",
+                  "creative_type": "image"
+                }
+              ],
+              "policy_snapshot": {
+                "min_budget_allocation": 100,
+                "budget_rounding_unit": 10,
+                "currency": "USD",
+                "timezone": "UTC"
+              },
+              "allocations": [
+                {
+                  "adset_id": "101",
+                  "budget": 920.0
+                },
+                {
+                  "adset_id": "102",
+                  "budget": 590.0
+                },
+                {
+                  "adset_id": "103",
+                  "budget": 1180.0
+                },
+                {
+                  "adset_id": "104",
+                  "budget": 740.0
+                },
+                {
+                  "adset_id": "105",
+                  "budget": 750.0
+                },
+                {
+                  "adset_id": "106",
+                  "budget": 500.0
+                },
+                {
+                  "adset_id": "107",
+                  "budget": 400.0
+                },
+                {
+                  "adset_id": "108",
+                  "budget": 780.0
+                },
+                {
+                  "adset_id": "109",
+                  "budget": 300.0
+                },
+                {
+                  "adset_id": "110",
+                  "budget": 1000.0
+                },
+                {
+                  "adset_id": "111",
+                  "budget": 1000.0
+                },
+                {
+                  "adset_id": "112",
+                  "budget": 700.0
+                }
+              ]
+            }
+          },
+          {
+            "name": "ApplyPlanAllocations",
+            "kwargs": {
+              "plan_id": "plan_soc_001",
+              "timestamp": "2025-08-14T00:00:00Z",
+              "request_id": "ap-1"
+            }
+          },
+          {
+            "name": "UpdatePlanStatus",
+            "kwargs": {
+              "plan_id": "plan_soc_001",
+              "status": "applied",
+              "applied_at": "2025-08-14T00:00:00Z"
+            }
+          },
+          {
+            "name": "RecordAutomationRun",
+            "kwargs": {
+              "run_type": "plan_apply",
+              "started_at": "2025-08-14T00:00:00Z",
+              "ended_at": "2025-08-14T00:00:00Z",
+              "status": "completed",
+              "input_ref": "ap-1",
+              "outputs_json": {
+                "plan_id": "plan_soc_001",
+                "applied_adsets_count": 0,
+                "applied_at": "2025-08-14T00:00:00Z",
+                "run_status": "completed"
+              },
+              "errors_json": null
+            }
+          }
+        ],
+        "instruction": "As the Snapshot Planner at 2025-08-14T00:00:00Z, prepare plan_soc_001 (date 2025-08-13) utilizing the exact adset names from the DB as a full-fidelity envelope; ensure totals remain unchanged. Implement and document the process.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": null,
+      "reward_info": null
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"You function as a Social Media Advertising automation agent, accessing information exclusively from the supplied JSON-backed tables and making modifications solely via the authorized write-capable tools.\",\n    \"During execution, the authoritative data source is the in-memory `data` object, which includes tables like adsets, ads, plans, budget_changes, strategy_changes, creative_rotations, reports, automation_runs, policy_params, f_insights, f_sales, and f_viewership.\",\n    \"Do not create any new fields or values. If a required field or row does not exist, issue an error and refrain from performing any write operations.\",\n    \"Behavior must remain deterministic at all times. Do not invoke clocks or random number generators. All time-related fields (created_at, applied_at, started_at, ended_at, rotated_at, updated_at) are to be received from the caller and passed through without alteration.\",\n    \"For any write operation requiring a date part (such as ad.start_date), deterministically derive it from the supplied timestamp\u2019s ISO date segment.\",\n    \"Each write operation must contain a request_id provided by the caller, which must also be recorded in the audit logs without modification.\",\n    \"Select the most precise tool capable of performing the requested modification. Refrain from combining ad hoc logic outside of designated tools.\",\n    \"Aim for a single logical write operation in each step; ensure inputs are validated prior to writing, and provide explicit error messages if validation does not succeed.\",\n    \"Prevent duplicate writes (idempotency): when the current state already aligns with the requested target, bypass mutation and respond with a no-op result including the reason.\",\n    \"A plan denotes the intended allocations, strategies, and creative targets for a specific date. It may be composed (as an envelope), applied, verified, and have its status updated.\",\n    \"Compose/Freeze: During the composition of a plan or envelope, ensure inclusion of at least the following: date_yesterday (or the designated target date), allocations (mapping adset_id to amount), strategies (mapping adset_id to bid_strategy and, if applicable, bid_amount), creatives (mapping adset_id to creative_type), adset_mapping (mapping adset_id to category, campaign, and name), and policy_snapshot (defining min/max per category and floors/ceilings). The compose operation must log created_at, author, and checksum as specified.\",\n    \"Apply: Prior to writing, application tools are required to validate category totals, per-adset limits, and adherence to policy constraints. Budgets and strategies are atomically updated for each adset that successfully passes validation.\",\n    \"Verification: Following the apply step, a verification tool deterministically checks each adset_id by comparing the live state to the intended plan fields, and then reports whether they match or do not match.\",\n    \"Status: Once a plan has been both applied and verified successfully, update status to 'applied' and record the applied_at value as provided by the caller. Do not assign applied_at automatically.\",\n    \"Enforce category-level invariants from policy_params, ensuring adherence to min_per_cat and, if specified, maintaining per-category totals unchanged throughout rebalancing.\",\n    \"Allocation modifications must adhere to the min/max per category constraints. If a proposed change would exceed these limits, adjust it to the closest permissible value or omit it, providing a deterministic justification (such as 'would_break_min_per_cat').\",\n    \"If instructions specify 'keep totals fixed', ensure that the total of allocations within the specified scope remains precisely the same after rounding is applied.\",\n    \"Rounding procedures must be deterministic. When allocations require rounding, perform rounding to whole currency units only after calculating the complete allocation, and resolve any remaining difference by assigning it to deterministic tie-break winners.\",\n    \"Budget writes are required to comply with per-adset constraints specified in policy_params: min_daily, max_daily, max_pct_step, min_abs_step, rounding increment, daily_change_limit, and cooldown_hours.\",\n    \"Prior to applying a budget change: (a) restrict the new value to the range [min_daily, max_daily\n"
+      },
+      {
+        "role": "user",
+        "content": "Hi there! I'm looking to prepare a snapshot plan. Can you assist me with that?"
+      },
+      {
+        "content": "Sure! To prepare a snapshot plan, I'll need the following information from you:\n\n1. **Target Date**: The date for which the plan is being created.\n2. **Allocations**: A mapping of adset IDs to their respective budget amounts.\n3. **Strategies**: A mapping of adset IDs to their bid strategies and, if applicable, bid amounts.\n4. **Creatives**: A mapping of adset IDs to their creative types.\n5. **Adset Mapping**: A mapping of adset IDs to their categories, campaign IDs, and names.\n6. **Policy Snapshot**: Information defining minimum and maximum budget allocations per category, as well as any floors or ceilings.\n7. **Created At**: The timestamp for when the plan is being created.\n8. **Author**: The name of the person creating the plan (optional).\n9. **Checksum**: A checksum value for the plan (optional).\n\nPlease provide this information, and I'll assist you in composing the plan!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I am preparing an adset plan for the date of August 13, 2025. Could you guide me on how to proceed with the adset names and budget allocations?"
+      },
+      {
+        "content": "To proceed with preparing the adset plan for August 13, 2025, please provide the following details:\n\n1. **Adset Names**: List the names of the adsets you want to include in the plan.\n2. **Budget Allocations**: Specify the budget amounts for each adset you listed.\n3. **Bid Strategies**: Indicate the bid strategy for each adset (e.g., \"lowest_cost\" or \"cost_cap\") and, if applicable, the bid amounts.\n4. **Creative Types**: Specify the creative types for each adset.\n5. **Adset Mapping**: Provide the category, campaign ID, and name for each adset.\n6. **Policy Snapshot**: If you have any specific policy constraints (like minimum and maximum budget allocations per category), please include that information.\n\nOnce I have these details, I can help you compose the plan!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Let's start with the adset names. Could you let me know the exact names of the adsets you wish to include from the database?"
+      },
+      {
+        "content": "To retrieve the exact names of the adsets, I need to know the campaign ID associated with the adsets you are interested in. Please provide the campaign ID, and I will fetch the adset names for you.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I'm sorry, but I don't have the campaign ID handy at the moment. Could you assist me by looking it up?"
+      },
+      {
+        "content": "Please provide me with the name of the campaign you are interested in, and I will look up the campaign ID for you.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I'm not entirely sure about the exact campaign's name either. If you have any way to provide a possible name, I can help further."
+      },
+      {
+        "content": "Unfortunately, I can only access specific data from the provided JSON-backed tables. Without the exact campaign name or ID, I'm unable to retrieve the adset names.\n\nIf you have any other details about the campaign, such as its objective or any keywords related to its name, please share that information. Otherwise, you may need to check your records for the campaign name or ID.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I understand. I'll check my records for any keywords or details that might help identify the campaign and get back to you. Thanks for your assistance so far!"
+      },
+      {
+        "content": "You're welcome! Take your time to gather the information, and feel free to reach out whenever you're ready. I'm here to help you with the adset plan or any other questions you may have.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Great, I'll get back to you once I have more information. Thanks again for your help!"
+      },
+      {
+        "content": "You're welcome! I'm glad to assist you. Whenever you're ready with more information, just let me know, and we'll continue from there. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you, you too! I'll return with more details soon."
+      },
+      {
+        "content": "Thank you! I'll be here whenever you're ready. Looking forward to assisting you further. Have a wonderful day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else in the future, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you, and I'll keep that in mind. Have a fantastic day as well!###STOP### #STOP###"
+      },
+      {
+        "content": "Thank you! Take care, and have a fantastic day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need assistance in the future, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, just let me know. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need assistance in the future, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, just let me know. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need assistance in the future, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, just let me know. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need assistance in the future, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, just let me know. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need assistance in the future, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, just let me know. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need assistance in the future, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything in the future, just let me know. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need anything else, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      },
+      {
+        "content": "Understood! If you need assistance in the future, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP### #STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

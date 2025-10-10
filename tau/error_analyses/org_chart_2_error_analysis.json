@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it repeatedly attempted to invoke the `search_employees` function without providing the required 'filters' argument. This resulted in a series of errors and prevented the agent from executing the necessary actions to handle Emma Rodriguez's promotion, as outlined in the ground truth action sequence. The agent failed to correctly initiate the process by not using the `GetEmployee` action with the correct `employee_id`, which is essential for proceeding with the subsequent updates and verifications."
+            "description": "The agent is responsible for the fault in the trajectory because it repeatedly attempted to invoke the `search_employees` function without providing the required 'filters' argument. This resulted in a series of errors, preventing the agent from retrieving Emma Rodriguez's employee information and proceeding with the necessary updates and actions outlined in the ground truth action sequence. The agent failed to execute any of the required actions to promote Emma Rodriguez, update her compensation, log a performance review, or reassign Michael Park as her direct report."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the tool `search_employees.invoke()` was repeatedly called without the required argument 'filters'. In the ground truth action sequence, the correct tool `GetEmployee` is used with the appropriate argument `employee_id` to retrieve Emma Rodriguez's information. The trajectory fails to provide the necessary argument, leading to repeated errors and preventing the retrieval of the employee's information."
+            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant repeatedly attempted to use the `search_employees.invoke()` function without providing the required 'filters' argument. In the ground truth action sequence, the correct function to retrieve employee information is `GetEmployee` with the `employee_id` as an argument. The assistant should have used `GetEmployee` with the correct `employee_id` instead of attempting to use `search_employees.invoke()` without the necessary argument."
         }
     ]
 }
