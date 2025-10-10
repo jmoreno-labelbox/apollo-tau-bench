@@ -14,6 +14,25 @@ def _require(params, keys):
         return f"Error: Missing required parameters: {', '.join(missing)}"
     return None
 
+
+def _export_ext_from_profile(profile):
+    """Extract export extension from profile."""
+    return profile.get("export_extension", "png") if isinstance(profile, dict) else "png"
+
+
+
+def _ensure(data, table_name, key_name, key_value):
+    """Ensure an item exists in a table."""
+    table = data.get(table_name, {})
+    if isinstance(table, dict):
+        table = list(table.values())
+    
+    for item in table:
+        if item.get(key_name) == key_value:
+            return item
+    return None
+
+
 from .find_gmail_threads import find_gmail_threads
 from .get_gmail_thread import get_gmail_thread
 from .list_gmail_messages import list_gmail_messages

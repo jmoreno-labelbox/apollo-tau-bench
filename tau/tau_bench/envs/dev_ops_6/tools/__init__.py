@@ -1,5 +1,14 @@
 # Copyright Sierra
 
+
+def _loc_table(data, table_name):
+    """Get table from data as a list."""
+    table = data.get(table_name, {})
+    if isinstance(table, dict):
+        return list(table.values())
+    return table
+
+
 from .get_loc_string import GetLocString
 from .create_tms_job import CreateTmsJob
 from .record_translations import RecordTranslations

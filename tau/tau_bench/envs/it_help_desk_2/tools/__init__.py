@@ -14,6 +14,15 @@ def _find_all(items, **filters):
             result.append(item)
     return result
 
+
+def _find_one(items, key, value):
+    """Find one item in a list where item[key] == value."""
+    for item in items:
+        if item.get(key) == value:
+            return item
+    return None
+
+
 from .ingest_hr_memo import IngestHrMemo
 from .find_employees import FindEmployees
 from .add_user_to_groups import AddUserToGroups

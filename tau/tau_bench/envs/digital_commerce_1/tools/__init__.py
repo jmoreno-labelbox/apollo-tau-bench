@@ -21,6 +21,24 @@ def _get_network_defaults():
         "enable_dns_hostnames": True
     }
 
+
+def _find_all(items, **filters):
+    """Find all items matching filters."""
+    if not filters:
+        return items
+    
+    results = []
+    for item in items:
+        match = True
+        for key, value in filters.items():
+            if item.get(key) != value:
+                match = False
+                break
+        if match:
+            results.append(item)
+    return results
+
+
 from .get_environment_network_defaults import GetEnvironmentNetworkDefaults
 from .get_service_security_group import GetServiceSecurityGroup
 from .update_security_group_ruleset import UpdateSecurityGroupRuleset
