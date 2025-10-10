@@ -7,14 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SearchArticles(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        article_id = kwargs.get('article_id')
-        title = kwargs.get('title')
-        topic = kwargs.get('topic')
-        year = kwargs.get('year')
-        author_name = kwargs.get('author_name')
-        abstract_keyword = kwargs.get('abstract_keyword')
-        full_text_keyword = kwargs.get('full_text_keyword')
+    def invoke(data: Dict[str, Any], abstract_keyword, article_id, author_name, full_text_keyword, title, topic, year) -> str:
 
         articles = list(data.get('articles', {}).values())
 
