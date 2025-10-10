@@ -7,10 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class UpdateAutomationRunEnd(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        rid = kwargs.get("run_id")
-        st = kwargs.get("status")
-        ea = kwargs.get("ended_at")
+    def invoke(data: Dict[str, Any], ended_at, run_id, status) -> str:
+        rid = run_id
+        st = status
+        ea = ended_at
         for r in list(data.get("automation_runs", {}).values()):
             if r.get("run_id") == rid:
                 r["status"] = st

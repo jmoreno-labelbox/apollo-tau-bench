@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetBeneficiaryByName(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
-        beneficiary_name = kwargs.get("beneficiary_name")
+    def invoke(data: Dict[str, Any], beneficiary_name, customer_id) -> str:
         beneficiary = next((b for b in data['beneficiaries'] if b['customer_id'] == customer_id and b['beneficiary_name'].lower().strip() == beneficiary_name.lower().strip()),
                            None)
         if beneficiary:

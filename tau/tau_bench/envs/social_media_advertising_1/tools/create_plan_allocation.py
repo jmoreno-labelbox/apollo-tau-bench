@@ -9,12 +9,7 @@ class CreatePlanAllocation(Tool):
     """Creates a plan allocation for an ad set."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        adset_id = kwargs.get("adset_id")
-        budget = kwargs.get("budget")
-        bid_strategy = kwargs.get("bid_strategy")
-        bid_amount = kwargs.get("bid_amount")
-        creative_type = kwargs.get("creative_type")
+    def invoke(data: Dict[str, Any], adset_id, bid_amount, bid_strategy, budget, creative_type) -> str:
         
         # This tool is generally utilized for developing a comprehensive plan.
         # Currently, we will only return the allocation information.

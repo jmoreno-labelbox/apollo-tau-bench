@@ -9,11 +9,11 @@ from . import _require_tables
 class ListVideoPlaylists(Tool):
     """List playlists for a given report_id."""
     @staticmethod
-    def invoke(data, **kwargs)->str:
+    def invoke(data, report_id)->str:
         err = _require_tables(data, ["video_playlists"])
         if err:
             return json.dumps({"error": err}, indent=2)
-        rid = kwargs.get("report_id")
+        rid = report_id
         if rid is None:
             return json.dumps({"error":"report_id is required."}, indent=2)
         rows = [v for v in data["video_playlists"] if v.get("report_id")==rid]

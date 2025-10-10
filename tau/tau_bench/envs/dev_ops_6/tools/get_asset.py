@@ -9,9 +9,9 @@ class GetAsset(Tool):
     """Fetch an asset by asset_path or id."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        aid = kwargs.get('id')
-        apath = kwargs.get('asset_path')
+    def invoke(data: Dict[str, Any], asset_path, id) -> str:
+        aid = id
+        apath = asset_path
         rows = _table(data, 'asset_catalog')
         row = next((r for r in rows if aid and r.get('id') == aid or (apath and r.get('asset_path') == apath)), None)
         return _ok({'asset': row}) if row else _err('asset not found')

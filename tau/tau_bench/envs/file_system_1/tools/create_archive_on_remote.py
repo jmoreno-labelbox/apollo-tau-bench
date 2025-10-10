@@ -8,10 +8,8 @@ from tau_bench.envs.tool import Tool
 class CreateArchiveOnRemote(Tool):
     """Simulates creating a compressed tarball (tar.gz) on a remote server."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        hostname = kwargs.get("hostname")
-        archive_path = kwargs.get("archive_path")
-        file_count = len(kwargs.get("files_to_include", []))
+    def invoke(data: Dict[str, Any], archive_path, hostname, files_to_include = []) -> str:
+        file_count = len(files_to_include)
         return json.dumps({
             "status": "success", "hostname": hostname, "archive_path": archive_path, "message": f"Successfully created archive '{archive_path}' with {file_count} files on {hostname}."})
 

@@ -9,8 +9,7 @@ from . import _require, _json_dump
 class GetHouseholdById(Tool):
     """Return household by household_id."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        household_id = kwargs.get("household_id")
+    def invoke(data: Dict[str, Any], household_id) -> str:
         if household_id is None:
             return _json_dump({"error": "household_id is required"})
         row = _require(data, "households", "household_id", household_id)

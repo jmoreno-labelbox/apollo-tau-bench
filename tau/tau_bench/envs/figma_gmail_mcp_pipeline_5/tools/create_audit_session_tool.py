@@ -9,10 +9,10 @@ class CreateAuditSessionTool(Tool):
     """Create/upsert an audit session for an artifact (deterministic audit_id)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        artifact_id = _require_str(kwargs.get("artifact_id"), "artifact_id")
-        created_ts = _require_str(kwargs.get("created_ts"), "created_ts")
-        audit_type = kwargs.get("audit_type") or "COMBINED_DS_A11Y"
+    def invoke(data: Dict[str, Any], artifact_id, audit_type, created_ts) -> str:
+        artifact_id = _require_str(artifact_id, "artifact_id")
+        created_ts = _require_str(created_ts, "created_ts")
+        audit_type = audit_type or "COMBINED_DS_A11Y"
         if not (artifact_id and created_ts):
             return json.dumps({"error":"artifact_id and created_ts required"})
 

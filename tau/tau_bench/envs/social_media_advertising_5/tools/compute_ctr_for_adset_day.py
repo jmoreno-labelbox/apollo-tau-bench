@@ -7,9 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class ComputeCtrForAdsetDay(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        aid = kwargs.get("adset_id")
-        d = kwargs.get("date")
+    def invoke(data: Dict[str, Any], adset_id, date) -> str:
+        aid = adset_id
+        d = date
         for i in list(data.get("f_insights", {}).values()):
             if i.get("adset_id") == aid and i.get("date") == d:
                 imp = i.get("impressions", 0)

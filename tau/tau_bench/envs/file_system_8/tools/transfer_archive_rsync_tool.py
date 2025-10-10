@@ -28,12 +28,12 @@ class TransferArchiveRsyncTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], archive_name, destination_path, remote_address) -> str:
         if "remote_storage" not in data:
             data["remote_storage"] = []
         remote_file = {
-            "path": f"{kwargs['destination_path']}/{kwargs['archive_name']}",
-            "remote_address": kwargs["remote_address"],
+            "path": f"{destination_path}/{archive_name}",
+            "remote_address": remote_address,
         }
         data["remote_storage"].append(remote_file)
         return json.dumps({"status": "success", "transferred_file": remote_file})

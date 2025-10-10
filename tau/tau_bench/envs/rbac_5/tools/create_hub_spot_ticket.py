@@ -19,14 +19,7 @@ class CreateHubSpotTicket(Tool):
       status: str (default: "OPEN") - OPEN, IN_PROGRESS, CLOSED
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        subject = kwargs.get("subject", "")
-        description = kwargs.get("description", "")
-        assignee_id = kwargs.get("assignee_id", "")
-        requester_id = kwargs.get("requester_id", "")
-        priority = kwargs.get("priority", "MEDIUM")
-        category = kwargs.get("category", "GENERAL")
-        status = kwargs.get("status", "OPEN")
+    def invoke(data: Dict[str, Any], assignee_id = "", category = "GENERAL", description = "", priority = "MEDIUM", requester_id = "", status = "OPEN", subject = "") -> str:
 
         if not subject or not description or not assignee_id or not requester_id:
             return json.dumps({"error": "subject, description, assignee_id, and requester_id are required"})

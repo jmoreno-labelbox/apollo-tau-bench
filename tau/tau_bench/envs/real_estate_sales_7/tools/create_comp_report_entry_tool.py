@@ -9,10 +9,7 @@ class CreateCompReportEntryTool(Tool):
     """Creates new entry in comp_reports table."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        client_id = kwargs.get("client_id")
-        subject_property_id = kwargs.get("subject_property_id")
-        created_by_broker_id = kwargs.get("created_by_broker_id")
+    def invoke(data: Dict[str, Any], client_id, created_by_broker_id, subject_property_id) -> str:
 
         if client_id is None or not subject_property_id or created_by_broker_id is None:
             return _err(

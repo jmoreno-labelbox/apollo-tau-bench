@@ -9,12 +9,9 @@ from . import _max_id, _json_dump
 class CreateOrderFromList(Tool):
     """Create an order shell for a list+store with scheduled slot; returns order_id."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        household_id = kwargs.get("household_id")
-        store_id = kwargs.get("store_id")
-        list_id = kwargs.get("list_id")
-        slot_start = kwargs.get("scheduled_slot_start_ts")
-        slot_end = kwargs.get("scheduled_slot_end_ts")
+    def invoke(data: Dict[str, Any], household_id, list_id, scheduled_slot_end_ts, scheduled_slot_start_ts, store_id) -> str:
+        slot_start = scheduled_slot_start_ts
+        slot_end = scheduled_slot_end_ts
         if household_id is None or store_id is None or list_id is None or not slot_start or not slot_end:
             return _json_dump({"error": "household_id, store_id, list_id, scheduled_slot_start_ts, scheduled_slot_end_ts are required"})
         tbl = data.setdefault("orders", [])

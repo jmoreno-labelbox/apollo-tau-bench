@@ -7,10 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class GetLicenseAvailability(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], license_id) -> str:
         inventory = data.get('license_inventory')
-
-        license_id = kwargs.get('license_id')
         if license_id is None:
             return json.dumps({'status': 'error', 'reason': 'The license_id field is required.'}, indent=2)
 

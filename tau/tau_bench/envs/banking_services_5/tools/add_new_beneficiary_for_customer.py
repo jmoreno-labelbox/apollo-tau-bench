@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class AddNewBeneficiaryForCustomer(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], account_number, bank_code, bank_name, beneficiary_name, beneficiary_type, bic_swift, branch_code, customer_id, date_added, iban, ifsc_code, relationship, routing_number, sort_code) -> str:
         for field in (
             "customer_id",
             "beneficiary_name",
@@ -19,33 +19,31 @@ class AddNewBeneficiaryForCustomer(Tool):
                 return json.dumps({"error": f"{field} is required."}, indent=2)
 
         beneficiary_id = get_next_beneficiary_id()
-
-        date_added = kwargs.get("date_added")
         if date_added is None:
             date_added = get_current_timestamp()
 
         account_details = {
             k: v
             for k, v in {
-                "bank_name": kwargs.get("bank_name"),
-                "account_number": kwargs.get("account_number"),
-                "routing_number": kwargs.get("routing_number"),
-                "ifsc_code": kwargs.get("ifsc_code"),
-                "iban": kwargs.get("iban"),
-                "bic_swift": kwargs.get("bic_swift"),
-                "sort_code": kwargs.get("sort_code"),
-                "bank_code": kwargs.get("bank_code"),
-                "branch_code": kwargs.get("branch_code"),
+                "bank_name": bank_name,
+                "account_number": account_number,
+                "routing_number": routing_number,
+                "ifsc_code": ifsc_code,
+                "iban": iban,
+                "bic_swift": bic_swift,
+                "sort_code": sort_code,
+                "bank_code": bank_code,
+                "branch_code": branch_code,
             }.items()
             if v is not None
         }
 
         new_beneficiary = {
             "beneficiary_id": beneficiary_id,
-            "customer_id": kwargs["customer_id"],
-            "beneficiary_name": kwargs["beneficiary_name"],
-            "beneficiary_type": kwargs["beneficiary_type"],
-            "relationship": kwargs["relationship"],
+            "customer_id": customer_id,
+            "beneficiary_name": beneficiary_name,
+            "beneficiary_type": beneficiary_type,
+            "relationship": relationship,
             "account_details": account_details,
             "date_added": date_added,
         }

@@ -7,9 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class GetUserByName(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        first_name = kwargs.get("first_name", "").lower()
-        last_name = kwargs.get("last_name", "").lower()
+    def invoke(data: Dict[str, Any], first_name = "", last_name = "") -> str:
+        first_name = first_name.lower()
+        last_name = last_name.lower()
         username_to_find = f"{first_name[0]}{last_name}" if first_name else last_name
         for user in list(data.get('users', {}).values()):
             if user.get('username') == username_to_find:

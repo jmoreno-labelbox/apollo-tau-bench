@@ -9,9 +9,7 @@ class UpdateProduct(Tool):
     """Tool to update product details."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        sku = kwargs.get("sku")
-        updates = kwargs.get("updates")
+    def invoke(data: Dict[str, Any], sku, updates) -> str:
         products = list(data.get("product_master", {}).values())
 
         for product in products:

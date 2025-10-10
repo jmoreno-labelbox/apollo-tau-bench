@@ -9,9 +9,7 @@ class CalculateROAS(Tool):
     """Calculates Return on Ad Spend (ROAS) from revenue and spend."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        revenue = kwargs.get("revenue")
-        spend = kwargs.get("spend")
+    def invoke(data: Dict[str, Any], revenue, spend) -> str:
         
         if revenue is None or spend is None:
             return json.dumps({"error": "revenue and spend are required parameters."})

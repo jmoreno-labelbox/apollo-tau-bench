@@ -9,12 +9,7 @@ class LogBudgetChange(Tool):
     """Adds a new entry to the budget_changes table."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        adset_id = kwargs.get("adset_id")
-        old_budget = kwargs.get("old_budget")
-        new_budget = kwargs.get("new_budget")
-        changed_at = kwargs.get("changed_at")
-        reason = kwargs.get("reason")
+    def invoke(data: Dict[str, Any], adset_id, changed_at, new_budget, old_budget, reason) -> str:
         
         if not adset_id:
             return json.dumps({"error": "adset_id is a required parameter."})

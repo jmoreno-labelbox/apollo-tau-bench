@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class LogTimeOnTask(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        task_id = kwargs.get("task_id")
-        hours_logged = kwargs.get("hours_logged")
-        employee_id = kwargs.get("employee_id")
-        notes = kwargs.get("notes", "")
+    def invoke(data: Dict[str, Any], employee_id, hours_logged, task_id, notes = "") -> str:
 
         tasks = list(data.get("tasks", {}).values())
         time_logs = list(data.get("time_logs", {}).values())

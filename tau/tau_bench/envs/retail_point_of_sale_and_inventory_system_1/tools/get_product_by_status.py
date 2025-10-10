@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetProductByStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        status = kwargs.get('status')
+    def invoke(data: Dict[str, Any], status) -> str:
         products = list(data.get("products", {}).values())  # Array []
         results = [product for product in products if product.get("status") == status]
         return json.dumps(results)

@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetCustomerDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
+    def invoke(data: Dict[str, Any], customer_id) -> str:
         customer = next((c for c in list(data.get('customers', {}).values()) if c['customer_id'] == customer_id), None)
         if customer:
             return json.dumps(customer)

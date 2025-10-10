@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetCourierInfo(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        courier_id = kwargs.get('courier_id')
-        tracking_id = kwargs.get('tracking_id')
-        coverage_area = kwargs.get('coverage_area')
+    def invoke(data: Dict[str, Any], courier_id, coverage_area, tracking_id) -> str:
 
         couriers = data['couriers']
 

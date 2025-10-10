@@ -9,9 +9,7 @@ class CalculateCPA(Tool):
     """Calculates Cost Per Acquisition (CPA) from spend and purchases."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        spend = kwargs.get("spend")
-        purchases = kwargs.get("purchases")
+    def invoke(data: Dict[str, Any], purchases, spend) -> str:
         
         if spend is None or purchases is None:
             return json.dumps({"error": "spend and purchases are required parameters."})

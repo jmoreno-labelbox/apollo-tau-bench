@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class BulkUpdateChangeStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cr_ids = kwargs.get("cr_ids", [])
-        new_status = kwargs.get("new_status")
-        updated_by = kwargs.get("updated_by")
+    def invoke(data: Dict[str, Any], new_status, updated_by, cr_ids = []) -> str:
 
         if not all([cr_ids, new_status, updated_by]):
             return json.dumps(

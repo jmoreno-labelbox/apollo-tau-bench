@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetVendorStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        vendor_id = kwargs.get("vendor_id")
+    def invoke(data: Dict[str, Any], vendor_id) -> str:
 
         if not vendor_id:
             return json.dumps({"error": "vendor_id is required"})

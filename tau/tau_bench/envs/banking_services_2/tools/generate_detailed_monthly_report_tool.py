@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GenerateDetailedMonthlyReportTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        account_id = kwargs.get('account_id')
-        month = kwargs.get('month')
+    def invoke(data: Dict[str, Any], account_id, month) -> str:
 
         transactions = list(data.get('transactions', {}).values())
         scheduled_payments = data.get('scheduled_payments', [])

@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class AddLabelsToEmail(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        message_id = kwargs.get("message_id")
-        label_ids = kwargs.get("label_ids", [])
+    def invoke(data: Dict[str, Any], message_id, label_ids = []) -> str:
         rows = _ensure_list(data, "emails")
         row = _find_by_key(rows, "message_id", message_id)
         if row is None:

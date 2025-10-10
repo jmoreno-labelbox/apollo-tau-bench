@@ -9,8 +9,7 @@ class SearchCampaignsByStatus(Tool):
     """Searches for campaigns with a specific status."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        status = kwargs.get("status")
+    def invoke(data: Dict[str, Any], status) -> str:
         campaigns = list(data.get("campaigns", {}).values())
         matching_campaigns = []
         

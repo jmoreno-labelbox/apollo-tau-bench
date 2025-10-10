@@ -7,13 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class PerformImpactAssessment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cr_id = kwargs.get("cr_id")
-        assessed_by = kwargs.get("assessed_by")
-        timeline_impact_weeks = kwargs.get("timeline_impact_weeks", 0)
-        budget_impact = kwargs.get("budget_impact", 0)
-        resource_requirements = kwargs.get("resource_requirements", [])
-        technical_dependencies = kwargs.get("technical_dependencies", [])
+    def invoke(data: Dict[str, Any], assessed_by, cr_id, budget_impact = 0, resource_requirements = [], technical_dependencies = [], timeline_impact_weeks = 0) -> str:
 
         if not all([cr_id, assessed_by]):
             return json.dumps({"error": "cr_id and assessed_by are required"})

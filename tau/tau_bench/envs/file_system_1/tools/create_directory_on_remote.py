@@ -8,9 +8,9 @@ from tau_bench.envs.tool import Tool
 class CreateDirectoryOnRemote(Tool):
     """Simulates creating a directory on a remote server."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], directory_path, hostname) -> str:
         return json.dumps({
-            "status": "success", "message": f"Directory '{kwargs.get('directory_path')}' created on {kwargs.get('hostname')}."})
+            "status": "success", "message": f"Directory '{directory_path}' created on {hostname}."})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

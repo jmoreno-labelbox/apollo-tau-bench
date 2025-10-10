@@ -9,9 +9,7 @@ class GetInventoryDetails(Tool):
     """Retrieves key inventory details for a specific product at a specific warehouse."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        sku = kwargs.get("sku")
-        warehouse_id = kwargs.get("warehouse_id")
+    def invoke(data: Dict[str, Any], sku, warehouse_id) -> str:
         inventory_items = list(data.get("inventory", {}).values())
         for item in inventory_items:
             if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id:

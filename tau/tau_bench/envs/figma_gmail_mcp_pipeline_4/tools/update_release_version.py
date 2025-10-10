@@ -7,15 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class UpdateReleaseVersion(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], owner_email, release_id, release_name, thread_id, version_id) -> str:
         """
         Updates release version information and manages release lifecycle.
         """
-        release_id = kwargs.get('release_id')
-        version_id = kwargs.get('version_id')
-        release_name = kwargs.get('release_name')
-        owner_email = kwargs.get('owner_email')
-        thread_id = kwargs.get('thread_id')
 
         if not all([release_id, version_id]):
             return json.dumps({"error": "release_id and version_id are required."})

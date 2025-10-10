@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class RemoveRecipeFromMealPlan(Tool):
     """Removes a recipe from a meal plan."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        entry_id = kwargs.get("entry_id")
+    def invoke(data: Dict[str, Any], entry_id) -> str:
         entries = list(data.get("meal_plan_entries", {}).values())
         entry_to_remove = next((e for e in entries if e.get("entry_id") == entry_id), None)
         if entry_to_remove:

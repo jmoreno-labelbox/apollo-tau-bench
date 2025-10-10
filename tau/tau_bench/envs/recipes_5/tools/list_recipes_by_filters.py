@@ -8,14 +8,13 @@ from . import _json_dump
 
 class ListRecipesByFilters(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        token = kwargs.get("filter_token")
+    def invoke(data: Dict[str, Any], filter_token, meal_type = "Dinner", min_protein_g = 0, peanut_free = False) -> str:
+        token = filter_token
         if token:
             meal_type, min_protein, pf = _decode_filter_token(token)
         else:
-            meal_type = kwargs.get("meal_type", "Dinner")
-            min_protein = int(kwargs.get("min_protein_g", 0))
-            pf = bool(kwargs.get("peanut_free", False))
+            min_protein = int(min_protein_g)
+            pf = bool(peanut_free)
         out = _all_recipe_ids_filtered(data, meal_type, min_protein, pf)
         return _json_dump({"candidate_recipe_ids_json": json.dumps(out)})
 

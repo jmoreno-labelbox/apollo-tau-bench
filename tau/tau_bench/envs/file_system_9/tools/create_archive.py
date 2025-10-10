@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class CreateArchive(Tool):
     """Creates a new archive instruction and a simulated archive file in the file_system.json state."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], archive_name, destination_directory, filepaths, remote_address, user_id) -> str:
         # Section 1: Generate the directive in archive_instructions.json.
         archive_instructions = list(data.get("archive_instructions", {}).values())
         max_id = 0
@@ -22,24 +22,18 @@ class CreateArchive(Tool):
                     continue 
         new_id_num = max_id + 1
         archive_id = f"arch_{new_id_num:03d}"
-        
-        destination_directory = kwargs.get("destination_directory")
-        archive_name = kwargs.get("archive_name")
         archive_path = f"{destination_directory}/{archive_name}.tar.gz"
 
         new_archive_instruction = {
             "archive_id": archive_id,
-            "user_id": kwargs.get("user_id"),
+            "user_id": user_id,
             "destination_directory": destination_directory,
-            "remote_address": kwargs.get("remote_address"),
+            "remote_address": remote_address,
             "archive_name": archive_name,
-            "filepaths": kwargs.get("filepaths"),
+            "filepaths": filepaths,
             "status": "pending",
         }
         data["archive_instructions"].append(new_archive_instruction)
-
-        # Section 2: Generate the mock file in file_system.json
-        filepaths = kwargs.get("filepaths", [])
         if not filepaths:
              return json.dumps({"error": "No filepaths provided for archive creation."})
 
@@ -67,7 +61,7 @@ class CreateArchive(Tool):
         new_archive_file = {
             "filename": f"{archive_name}.tar.gz",
             "size": str(archive_size),
-            "owner": kwargs.get("user_id"),
+            "owner": user_id,
             "permissions": "644",
             "last_modified": "2025-08-13T01:01:01Z",
             "checksum": archive_checksum

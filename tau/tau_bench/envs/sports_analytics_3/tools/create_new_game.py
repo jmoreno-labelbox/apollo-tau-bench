@@ -20,11 +20,7 @@ class CreateNewGame(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        date = kwargs.get("date")
-        venue_id = kwargs.get("venue_id")
-        home_team_id = kwargs.get("home_team_id")
-        away_team_id = kwargs.get("away_team_id")
+    def invoke(data: Dict[str, Any], away_team_id, date, home_team_id, venue_id) -> str:
 
         # 1) Check mandatory inputs for validity
         missing = []

@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateSupplyOrderQuantity(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        supply_order_id = kwargs.get('supply_order_id')
-        new_quantity = kwargs.get('new_quantity')
+    def invoke(data: Dict[str, Any], new_quantity, supply_order_id) -> str:
 
         if not supply_order_id or new_quantity is None:
             return json.dumps({'error': 'supply_order_id and new_quantity are required'})

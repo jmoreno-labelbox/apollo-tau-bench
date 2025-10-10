@@ -26,10 +26,10 @@ class MergeOrdersForSameUserTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        target_id = kwargs.get("target_order_id")
-        source_id = kwargs.get("source_order_id")
-        include_payments = bool(kwargs.get("include_payments", False))
+    def invoke(data: Dict[str, Any], source_order_id, target_order_id, include_payments = False) -> str:
+        target_id = target_order_id
+        source_id = source_order_id
+        include_payments = bool(include_payments)
 
         if not target_id or not source_id or target_id == source_id:
             return json.dumps(

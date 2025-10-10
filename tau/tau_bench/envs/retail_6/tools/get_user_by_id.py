@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetUserById(Tool):
     """Get a user by user_id."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get('user_id')
+    def invoke(data: Dict[str, Any], user_id) -> str:
         if not user_id:
             return json.dumps({"error": "user_id is required"}, indent=2)
         user = _find_user(data, user_id)

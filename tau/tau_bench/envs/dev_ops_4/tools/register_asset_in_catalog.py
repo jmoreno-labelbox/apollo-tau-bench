@@ -27,11 +27,7 @@ class RegisterAssetInCatalog(Tool):
         }
 
     @staticmethod
-    def invoke(data, **kwargs):
-        asset_path = kwargs.get("asset_path")
-        asset_type = kwargs.get("asset_type")
-        validation_status = kwargs.get("validation_status")
-        performance_rating = kwargs.get("performance_rating")
+    def invoke(data, asset_path, asset_type, performance_rating, validation_status):
         catalog = list(data.get("asset_catalog", {}).values())
         row = next((a for a in catalog if a.get("asset_path") == asset_path), None)
         if row:

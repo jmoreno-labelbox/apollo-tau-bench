@@ -7,15 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateTransaction(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        store_id = kwargs.get('store_id')
-        employee_id = kwargs.get('employee_id')
-        total_amount = kwargs.get('total_amount', 0.0)
-        tax_amount = kwargs.get('tax_amount', 0.0)
-        payment_method = kwargs.get('payment_method')
-        discount_total = kwargs.get('discount_total', 0.0)
-        customer_id = kwargs.get('customer_id')
-        line_items = kwargs.get('line_items', [])
+    def invoke(data: Dict[str, Any], customer_id, employee_id, payment_method, store_id, discount_total = 0.0, line_items = [], tax_amount = 0.0, total_amount = 0.0) -> str:
 
         transactions = list(data.get("transactions", {}).values())
 

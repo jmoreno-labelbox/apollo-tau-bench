@@ -9,9 +9,9 @@ class GetOnTimeDeliveryStats(Tool):
     """Tool to calculate average on-time delivery percentage across all carriers."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], list_of_scacs = None) -> str:
         carriers = list(data.get("carriers", {}).values())
-        list_of_carriers = kwargs.get("list_of_scacs", None)
+        list_of_carriers = list_of_scacs
         if not carriers:
             return json.dumps({"average_on_time_delivery": 0.0}, indent=2)
         if list_of_carriers:

@@ -9,8 +9,7 @@ class GetPolicyExceptionById(Tool):
     """ Get the full details of a specific policy exception using its ID. """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        exception_id = kwargs.get("exception_id")
+    def invoke(data: Dict[str, Any], exception_id) -> str:
         try:
             policy_exceptions = data.get('policy_exceptions', [])
         except:

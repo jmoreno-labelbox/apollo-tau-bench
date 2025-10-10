@@ -9,11 +9,7 @@ class CreatePullRequestReview(Tool):
     """Adds a review (approve or changes requested or just a comment) to a pull request."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_name = kwargs.get("repo_name")
-        pr_number = kwargs.get("pr_number")
-        review_decision = kwargs.get("review_decision")  # approve | request_modifications | feedback
-        comment = kwargs.get("comment", "")
+    def invoke(data: Dict[str, Any], pr_number, repo_name, review_decision, comment = "") -> str:
 
         if not all([repo_name, pr_number, review_decision]):
             return json.dumps({"error": "repo_name, pr_number, and review_decision are required."}, indent=2)

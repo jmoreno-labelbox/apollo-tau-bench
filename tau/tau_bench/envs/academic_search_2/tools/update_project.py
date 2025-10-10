@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class UpdateProject(Tool):
     """Updates an existing project's status, collaborators, linked articles, or funding source."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get('project_id')
+    def invoke(data: Dict[str, Any], linked_articles, project_id, add_collaborators = []) -> str:
         if not project_id: return json.dumps({"error": "project_id is required."})
         project = next((p for p in list(data.get('projects', {}).values()) if p.get('project_id') == project_id), None)
         if not project: return json.dumps({"error": "Project not found."})
@@ -20,13 +19,13 @@ class UpdateProject(Tool):
                 project[key] = value
 
         if 'linked_articles' in kwargs:
-            project['linked_articles'] = kwargs['linked_articles']
+            project['linked_articles'] = linked_articles
 
         if 'add_collaborators' in kwargs:
             if 'collaborators' not in project:
                 project['collaborators'] = []
 
-            provided_collaborators = kwargs.get('add_collaborators', [])
+            provided_collaborators = add_collaborators
             users = list(data.get('users', {}).values())
 
             valid_collaborator_ids = []

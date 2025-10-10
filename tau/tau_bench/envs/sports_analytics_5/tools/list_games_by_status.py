@@ -9,11 +9,11 @@ from . import _require_tables
 class ListGamesByStatus(Tool):
     """List games filtered by game_status."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
+    def invoke(data, game_status) -> str:
         err = _require_tables(data, ["games"])
         if err:
             return json.dumps({"error": err}, indent=2)
-        status = kwargs.get("game_status")
+        status = game_status
         if not status:
             return json.dumps({"error": "game_status is required."}, indent=2)
         rows = [g for g in data["games"] if (g.get("game_status") == status)]

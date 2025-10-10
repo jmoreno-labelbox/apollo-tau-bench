@@ -9,9 +9,7 @@ class ListCertificationsByStatusTool(Tool):
     """list_certifications_by_status"""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        status = kwargs.get("status")
-        certification_id = kwargs.get("certification_id")
+    def invoke(data: Dict[str, Any], certification_id, status) -> str:
 
         out = [
             c

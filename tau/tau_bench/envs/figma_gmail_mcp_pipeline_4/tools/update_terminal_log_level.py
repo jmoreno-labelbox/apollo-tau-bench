@@ -7,15 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class UpdateTerminalLogLevel(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], message, source_component, workflow_id, log_level = 'INFO', max_log_entries = 1000) -> str:
         """
         Adds new terminal log entries and manages log retention.
         """
-        message = kwargs.get('message')
-        log_level = kwargs.get('log_level', 'INFO')
-        source_component = kwargs.get('source_component')
-        workflow_id = kwargs.get('workflow_id')
-        max_log_entries = kwargs.get('max_log_entries', 1000)
 
         if not message:
             return json.dumps({"error": "message is required."})

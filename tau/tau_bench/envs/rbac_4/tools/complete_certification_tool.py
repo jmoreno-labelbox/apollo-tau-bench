@@ -9,9 +9,8 @@ class CompleteCertificationTool(Tool):
     """Mark a certification as complete."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cid = kwargs.get("certification_id")
-        completed_on = kwargs.get("completed_on")
+    def invoke(data: Dict[str, Any], certification_id, completed_on) -> str:
+        cid = certification_id
         for c in data.get("certifications", []):
             if c["certification_id"] == cid:
                 c["status"] = "COMPLETED"

@@ -9,12 +9,12 @@ from tau_bench.envs.tool import Tool
 class CalculateTotalOutflows(Tool):
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], end_date, start_date) -> str:
         """
         Calculates the sum of all recurring expenses scheduled to be paid within a date range.
         """
-        start_date = datetime.strptime(kwargs["start_date"], "%Y-%m-%d")
-        end_date = datetime.strptime(kwargs["end_date"], "%Y-%m-%d")
+        start_date = datetime.strptime(start_date, "%Y-%m-%d")
+        end_date = datetime.strptime(end_date, "%Y-%m-%d")
         total_outflow = 0
 
         for schedule in data["recurring_schedules"]:
@@ -34,7 +34,7 @@ class CalculateTotalOutflows(Tool):
                  if start_date.month in schedule["payment_months"]:
                      total_outflow += schedule["amount"]
 
-        return json.dumps({"period_start": kwargs["start_date"], "period_end": kwargs["end_date"], "total_outflows": round(total_outflow, 2)})
+        return json.dumps({"period_start": start_date, "period_end": end_date, "total_outflows": round(total_outflow, 2)})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class BuildInputPaths(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        features_csv_path = kwargs.get("features_csv_path")
-        model_path = kwargs.get("model_path")
+    def invoke(data: Dict[str, Any], features_csv_path, model_path) -> str:
         if not features_csv_path or not model_path:
             return json.dumps({"error":"Missing features_csv_path or model_path"})
         return json.dumps({"input_paths": [features_csv_path, model_path]})

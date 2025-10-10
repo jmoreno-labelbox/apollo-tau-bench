@@ -9,9 +9,7 @@ class CaV2GetRecurringSchedules(Tool):
     """Get recurring scheduled payments by type."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        schedule_type = kwargs.get("schedule_type")
-        active_only = kwargs.get("active_only", True)
+    def invoke(data: Dict[str, Any], schedule_type, active_only = True) -> str:
 
         schedules = data.get("recurring_schedules", [])
 

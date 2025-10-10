@@ -7,15 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class UpdateGmailThreadLabels(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], thread_id, new_labels = [], remove_labels = [], status_notes = '', update_recipients = []) -> str:
         """
         Updates Gmail thread labels and manages email workflow status.
         """
-        thread_id = kwargs.get('thread_id')
-        new_labels = kwargs.get('new_labels', [])
-        remove_labels = kwargs.get('remove_labels', [])
-        update_recipients = kwargs.get('update_recipients', [])
-        status_notes = kwargs.get('status_notes', '')
 
         if not thread_id:
             return json.dumps({"error": "thread_id is required."})

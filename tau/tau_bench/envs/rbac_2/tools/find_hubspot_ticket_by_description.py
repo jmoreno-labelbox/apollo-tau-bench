@@ -9,8 +9,7 @@ class FindHubspotTicketByDescription(Tool):
     """Finds a HubSpot ticket by searching for a keyword in its description field."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        keyword = kwargs.get("keyword")
+    def invoke(data: Dict[str, Any], keyword) -> str:
         try:
             tickets = data.get('hubspot_tickets', [])
         except (KeyError, json.JSONDecodeError):

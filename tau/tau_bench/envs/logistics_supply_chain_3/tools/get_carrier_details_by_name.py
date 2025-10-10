@@ -9,8 +9,7 @@ class GetCarrierDetailsByName(Tool):
     """Retrieves the full details for a carrier by its name."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        carrier_name = kwargs.get("carrier_name")
+    def invoke(data: Dict[str, Any], carrier_name) -> str:
         carriers = list(data.get("carriers", {}).values())
         for carrier in carriers:
             if carrier.get("carrier_name") == carrier_name:

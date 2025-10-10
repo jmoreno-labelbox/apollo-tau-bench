@@ -9,9 +9,9 @@ class BulkCreateComparableEntriesTool(Tool):
     """Batch insert comparables for a report."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        report_id = _as_int(kwargs.get("report_id"))
-        items = kwargs.get("comparables") or []
+    def invoke(data: Dict[str, Any], comparables, report_id) -> str:
+        report_id = _as_int(report_id)
+        items = comparables or []
         if report_id is None:
             return _err("report_id is required")
         if not isinstance(items, list) or not items:

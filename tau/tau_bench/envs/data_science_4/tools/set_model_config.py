@@ -7,14 +7,14 @@ from tau_bench.envs.tool import Tool
 
 class SetModelConfig(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], classification_threshold_m, precip_24h_threshold_mm, test_split_fraction) -> str:
         config_id = "MODEL_CONFIG_001"
 
         config_entry = {
             "config_id": config_id,
-            "classification_threshold_m": kwargs.get("classification_threshold_m"),
-            "precip_24h_threshold_mm": kwargs.get("precip_24h_threshold_mm"),
-            "test_split_fraction": kwargs.get("test_split_fraction"),
+            "classification_threshold_m": classification_threshold_m,
+            "precip_24h_threshold_mm": precip_24h_threshold_mm,
+            "test_split_fraction": test_split_fraction,
             "config_json_path": f"/configs/model_config_{config_id}.json",
         }
 

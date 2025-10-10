@@ -7,9 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class GetAutomationRunHistory(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], run_type) -> str:
         # filters by type are optional
-        rtype = kwargs.get("run_type")
+        rtype = run_type
         runs = _assert_table(data, "automation_runs")
         out = [r for r in runs if (rtype is None or r.get("run_type") == rtype)]
         return json.dumps(out)

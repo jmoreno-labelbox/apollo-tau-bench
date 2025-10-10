@@ -7,11 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class GetArtifactWithId(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        if not kwargs.get("artifact_id"):
+    def invoke(data: Dict[str, Any], artifact_id) -> str:
+        if not artifact_id:
             return json.dumps({"error": "Missing required field: artifact_id"}, indent=2)
-
-        artifact_id = kwargs.get("artifact_id")
         artifacts = list(data.get("figma_artifacts", {}).values())
         for row in artifacts:
             if row.get("artifact_id") == artifact_id:

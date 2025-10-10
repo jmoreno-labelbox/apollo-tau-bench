@@ -9,14 +9,9 @@ from datetime import datetime
 
 class AdjustUserSettings(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get('user_id')
+    def invoke(data: Dict[str, Any], notification_channel, research_field, ui_theme, user_id) -> str:
         if not user_id:
             return json.dumps({"error": "user_id is required."})
-
-        notification_channel = kwargs.get('notification_channel')
-        ui_theme = kwargs.get('ui_theme')
-        research_field = kwargs.get('research_field')
 
         if not notification_channel and not ui_theme and not research_field:
             return json.dumps({"error": "At least one setting (notification_channel, ui_theme, or research_field) must be provided."})

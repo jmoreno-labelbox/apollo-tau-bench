@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class CreateFeatures(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        input_path = kwargs.get("input_csv_path")
+    def invoke(data: Dict[str, Any], input_csv_path) -> str:
+        input_path = input_csv_path
         if not input_path:
             return json.dumps({"error": "input_csv_path is a required argument."})
 

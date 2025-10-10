@@ -9,10 +9,9 @@ class UpdateContactNumberOfCustomerId(Tool):
     """Adds a new contact number for a customer and optionally sets it as the primary number."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
-        new_number = kwargs.get("new_phone_number")
-        is_primary = kwargs.get("set_as_primary", False)
+    def invoke(data: Dict[str, Any], customer_id, new_phone_number, set_as_primary = False) -> str:
+        new_number = new_phone_number
+        is_primary = set_as_primary
 
 
         if not customer_id or not new_number:

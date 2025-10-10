@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateCostForecast(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
-        forecast_months = kwargs.get("forecast_months", 3)
-        include_contingency = kwargs.get("include_contingency", True)
-        fiscal_year = kwargs.get("fiscal_year", datetime.now().year)
+    def invoke(data: Dict[str, Any], project_id, fiscal_year = datetime.now().year, forecast_months = 3, include_contingency = True) -> str:
 
         if not project_id:
             return json.dumps({"error": "project_id is required"})

@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class Pitchers(Tool):
     @staticmethod
         # primary execution function
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        team_id = kwargs.get("team_id")
+    def invoke(data: Dict[str, Any], team_id) -> str:
         # Deterministic stub: return two pitchers for team 13; otherwise, return empty.
         if team_id == 13:
         # return output

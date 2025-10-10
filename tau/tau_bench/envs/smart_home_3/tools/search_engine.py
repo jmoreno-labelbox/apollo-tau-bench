@@ -7,9 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class SearchEngine(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        search_term = kwargs.get('search_term', '').lower()
-        search_type = kwargs.get('search_type', 'all')
+    def invoke(data: Dict[str, Any], search_term = '', search_type = 'all') -> str:
+        search_term = search_term.lower()
 
         if not search_term:
             return json.dumps({"error": "search_term required"}, indent=2)

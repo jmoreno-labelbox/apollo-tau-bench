@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class LinkChangeToMilestone(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cr_id = kwargs.get("cr_id")
-        milestone_id = kwargs.get("milestone_id")
-        impact_type = kwargs.get("impact_type", "schedule")
+    def invoke(data: Dict[str, Any], cr_id, milestone_id, impact_type = "schedule") -> str:
 
         if not all([cr_id, milestone_id]):
             return json.dumps({"error": "cr_id and milestone_id are required"})

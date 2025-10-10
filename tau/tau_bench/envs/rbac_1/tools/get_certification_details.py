@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class GetCertificationDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cert_id = kwargs.get("certification_id")
+    def invoke(data: Dict[str, Any], certification_id) -> str:
+        cert_id = certification_id
         for cert in data.get('certifications', []):
             if cert.get('certification_id') == cert_id:
                 return json.dumps(cert)

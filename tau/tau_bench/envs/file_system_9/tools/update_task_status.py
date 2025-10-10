@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class UpdateTaskStatus(Tool):
     """Updates the status of a task in various logs."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        task_id = kwargs.get("task_id")
-        new_status = kwargs.get("new_status")
+    def invoke(data: Dict[str, Any], new_status, task_id) -> str:
         for task in list(data.get("task_logs", {}).values()):
             if task.get("task_id") == task_id:
                 task["result"] = new_status

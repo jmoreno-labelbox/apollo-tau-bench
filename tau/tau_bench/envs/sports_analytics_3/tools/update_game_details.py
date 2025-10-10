@@ -21,11 +21,7 @@ class UpdateGameDetails(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        gamepk = kwargs.get("gamepk")
-        status = kwargs.get("status")
-        score = kwargs.get("score")
-        attendance = kwargs.get("attendance")
+    def invoke(data: Dict[str, Any], attendance, gamepk, score, status) -> str:
 
         # 1) Check for existence
         if gamepk is None:

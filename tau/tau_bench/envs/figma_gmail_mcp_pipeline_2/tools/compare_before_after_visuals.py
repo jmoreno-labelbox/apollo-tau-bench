@@ -7,12 +7,12 @@ from tau_bench.envs.tool import Tool
 
 class CompareBeforeAfterVisuals(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        if not kwargs.get("before_release_id") or not kwargs.get("after_release_id"):
+    def invoke(data: Dict[str, Any], after_release_id, before_release_id) -> str:
+        if not before_release_id or not after_release_id:
             missing = []
-            if not kwargs.get("before_release_id"):
+            if not before_release_id:
                 missing.append("before_release_id")
-            if not kwargs.get("after_release_id"):
+            if not after_release_id:
                 missing.append("after_release_id")
             return json.dumps({"error": f"Missing required fields: {', '.join(missing)}"}, indent=2)
 
@@ -44,9 +44,6 @@ class CompareBeforeAfterVisuals(Tool):
                     if r in s:
                         s.remove(r)
             return sorted(s)
-
-        before_release_id = kwargs.get("before_release_id")
-        after_release_id = kwargs.get("after_release_id")
 
         if before_release_id not in diff_by_id:
             return json.dumps({"error": f"No release_diff for release_id '{before_release_id}'"}, indent=2)

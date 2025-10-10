@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class DeleteReview(Tool):
     """Tool to delete a review record."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        review_id = kwargs.get('review_id')
+    def invoke(data: Dict[str, Any], review_id) -> str:
         reviews = list(data.get('reviews', {}).values())
         original_count = len(reviews)
         data['reviews'] = [r for r in reviews if r.get('review_id') != review_id]

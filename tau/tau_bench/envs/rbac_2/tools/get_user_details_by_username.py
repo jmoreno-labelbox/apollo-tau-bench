@@ -9,8 +9,7 @@ class GetUserDetailsByUsername(Tool):
     """Retrieves a user's full details using their username."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        username = kwargs.get("username")
+    def invoke(data: Dict[str, Any], username) -> str:
         try:
            users = list(data.get('users', {}).values())
         except (KeyError, json.JSONDecodeError):

@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetProjectTimeEntries(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs["project_id"]
+    def invoke(data: Dict[str, Any], project_id) -> str:
         entries = [te['hours_worked'] for te in data["time_entries"] if te["project_id"] == project_id]
         return json.dumps({'project_id': project_id, 'hours': sum(entries)})
 

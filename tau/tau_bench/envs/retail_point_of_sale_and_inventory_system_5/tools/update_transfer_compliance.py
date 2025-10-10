@@ -7,10 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class UpdateTransferCompliance(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], status, transfer_id) -> str:
         entry = {
-            "transfer_id": kwargs["transfer_id"],
-            "status": kwargs["status"]
+            "transfer_id": transfer_id,
+            "status": status
         }
         data.setdefault("transfer_compliance", []).append(entry)
         return json.dumps({"message": "Transfer compliance updated.", "entry": entry}, indent=2)

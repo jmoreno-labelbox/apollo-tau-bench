@@ -9,9 +9,7 @@ class AnalyzeSystemAccessFailuresTool(Tool):
     """Queries access_checks table for failed verifications, grouped by system and failure patterns."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        candidate_id = kwargs.get("candidate_id")
-        system_name = kwargs.get("system_name")
+    def invoke(data: Dict[str, Any], candidate_id, system_name) -> str:
 
         access_checks = data.get("access_checks", [])
 

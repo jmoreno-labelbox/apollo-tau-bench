@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetProjectFinancialSummary(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
-        fiscal_year = kwargs.get("fiscal_year", datetime.now().year)
+    def invoke(data: Dict[str, Any], project_id, fiscal_year = datetime.now().year) -> str:
 
         if not project_id:
             return json.dumps({"error": "project_id is required"})

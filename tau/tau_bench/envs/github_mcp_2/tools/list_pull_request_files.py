@@ -7,9 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class ListPullRequestFiles(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_name = kwargs.get("repo_name")
-        pr_number = _resolve_pr_number(data, repo_name, kwargs.get("pr_number"))
+    def invoke(data: Dict[str, Any], pr_number, repo_name) -> str:
+        pr_number = _resolve_pr_number(data, repo_name, pr_number)
 
         prs = _prs(data)
         pr_block = next((b for b in prs if b.get("repo_name") == repo_name), None)

@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ProcessReturn(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        order_id = kwargs.get('order_id')
-        item_ids = kwargs.get('item_ids')
-        reason = kwargs.get('reason')
+    def invoke(data: Dict[str, Any], item_ids, order_id, reason) -> str:
 
         if not all([order_id, item_ids, reason]):
             return json.dumps({'error': 'order_id, item_ids, and reason are required'})

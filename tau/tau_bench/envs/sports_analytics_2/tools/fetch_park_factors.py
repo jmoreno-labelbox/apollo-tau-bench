@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class FetchParkFactors(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        game_pk = kwargs.get("game_pk")
+    def invoke(data: Dict[str, Any], game_pk) -> str:
         game = next((g for g in data.get("games", []) if g.get("game_pk") == int(game_pk)), None)
         venue = next((v for v in data.get("venues", []) if v.get("venue_id") == (game or {}).get("venue_id")), None)
         if not venue:

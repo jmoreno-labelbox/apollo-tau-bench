@@ -30,8 +30,8 @@ class DeleteSourceFilesTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        paths_to_delete = set(kwargs["file_paths"])
+    def invoke(data: Dict[str, Any], file_paths) -> str:
+        paths_to_delete = set(file_paths)
         original_count = len(data.get("remote_files", []))
         data["remote_files"] = [
             f for f in data.get("remote_files", []) if f["path"] not in paths_to_delete

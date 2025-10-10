@@ -7,11 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class find_customers(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], birth_month, city, customer_id) -> str:
         customers = list(data.get("customers", {}).values())
-
-        # Sending a customer ID will take precedence over all other parameters.
-        customer_id = kwargs.get("customer_id")
 
         # These columns will align precisely with the provided value.
         exact_match_cols = [
@@ -29,8 +26,8 @@ class find_customers(Tool):
 
         # These columns utilize specific matching criteria.
         special_match_values = {
-            "birth_month": kwargs.get("birth_month"),
-            "city": kwargs.get("city"),
+            "birth_month": birth_month,
+            "city": city,
         }
 
         matches = []

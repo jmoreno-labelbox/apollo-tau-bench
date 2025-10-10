@@ -9,9 +9,8 @@ class ListReleasesTool(Tool):
     """List releases filtered by version_tag prefix or artifact_id reference."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        prefix = kwargs.get("version_prefix", "release/")
-        artifact_id = kwargs.get("artifact_id")
+    def invoke(data: Dict[str, Any], artifact_id, version_prefix = "release/") -> str:
+        prefix = version_prefix
 
         releases = data.get("releases", [])
         out = []

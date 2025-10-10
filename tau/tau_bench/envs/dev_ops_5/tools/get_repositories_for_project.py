@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetRepositoriesForProject(Tool):
     """Retrieves all repositories for a given project ID."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
+    def invoke(data: Dict[str, Any], project_id) -> str:
         repos = list(data.get("repositories", {}).values())
         project_repos = [r for r in repos if r.get("project_id") == project_id]
         return json.dumps(project_repos)

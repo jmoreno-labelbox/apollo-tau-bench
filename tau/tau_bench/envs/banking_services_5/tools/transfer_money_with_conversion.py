@@ -7,14 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class TransferMoneyWithConversion(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id     = kwargs.get("customer_id")
-        src_id          = kwargs.get("source_account_id")
-        tgt_id          = kwargs.get("target_account_id")
-        source_amount   = kwargs.get("source_amount")
-        target_amount   = kwargs.get("target_amount")
-        source_currency = kwargs.get("source_currency")
-        target_currency = kwargs.get("target_currency")
+    def invoke(data: Dict[str, Any], customer_id, source_account_id, source_amount, source_currency, target_account_id, target_amount, target_currency) -> str:
+        src_id          = source_account_id
+        tgt_id          = target_account_id
 
         if not all([customer_id, src_id, tgt_id, source_amount, target_amount, source_currency, target_currency]):
             return json.dumps(

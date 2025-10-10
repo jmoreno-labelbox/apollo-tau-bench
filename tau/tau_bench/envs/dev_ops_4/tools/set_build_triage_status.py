@@ -8,10 +8,7 @@ from tau_bench.envs.tool import Tool
 class SetBuildTriageStatus(Tool):
     """Set triage_status on a run, optionally persisting a triage owner into metadata."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        run_id = kwargs.get("run_id")
-        triage_status = kwargs.get("triage_status")  # under_review, pending_manual_assessment
-        owner_id = kwargs.get("owner_id")
+    def invoke(data: Dict[str, Any], owner_id, run_id, triage_status) -> str:
 
         runs = list(data.get("build_runs", {}).values())
         idx = _idx_by_id(runs, run_id)

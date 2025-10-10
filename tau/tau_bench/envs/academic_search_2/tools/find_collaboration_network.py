@@ -11,9 +11,7 @@ class FindCollaborationNetwork(Tool):
     Can be constrained to check only against a specific list of potential collaborators.
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        author_name = kwargs.get('author_name')
-        authors_to_check = kwargs.get('authors_to_check')
+    def invoke(data: Dict[str, Any], author_name, authors_to_check) -> str:
         if not author_name:
             return json.dumps({"error": "author_name is required."})
 

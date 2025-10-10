@@ -7,10 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class VerifyStorageCompliance(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], warehouse_id: str, storage_type: str, **kwargs) -> str:
+    def invoke(data: Dict[str, Any], warehouse_id: str, storage_type: str, compliant_flag = True) -> str:
         warehouses = list(data.get("warehouses", {}).values())
         warehouse = next((w for w in warehouses if w.get("warehouse_id") == warehouse_id), None)
-        compliant_flag = kwargs.get("compliant_flag", True)
 
         if not warehouse:
             return json.dumps({"error": f"Warehouse {warehouse_id} not found"})

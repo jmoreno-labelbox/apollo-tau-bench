@@ -9,9 +9,7 @@ class AnalyzeAttachmentFileInventoryTool(Tool):
     """Queries attachments table analyzing file types, sizes, and email linkage patterns across candidates."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        candidate_id = kwargs.get("candidate_id")
-        file_type_filter = kwargs.get("file_type_filter")
+    def invoke(data: Dict[str, Any], candidate_id, file_type_filter) -> str:
 
         attachments = data.get("attachments", [])
         emails = data.get("emails", [])

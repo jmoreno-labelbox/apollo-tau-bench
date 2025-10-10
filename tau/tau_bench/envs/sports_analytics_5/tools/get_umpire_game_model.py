@@ -9,11 +9,10 @@ from . import _require_tables
 class GetUmpireGameModel(Tool):
     """Fetch umpire_game_models row for a game."""
     @staticmethod
-    def invoke(data, **kwargs)->str:
+    def invoke(data, game_pk)->str:
         err = _require_tables(data, ["umpire_game_models"])
         if err:
             return json.dumps({"error": err}, indent=2)
-        game_pk = kwargs.get("game_pk")
         if game_pk is None:
             return json.dumps({"error":"game_pk is required."}, indent=2)
         row = next((u for u in data["umpire_game_models"] if u.get("game_pk")==game_pk), None)

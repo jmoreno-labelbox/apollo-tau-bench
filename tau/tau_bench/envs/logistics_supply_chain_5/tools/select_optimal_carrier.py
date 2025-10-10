@@ -7,13 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SelectOptimalCarrier(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        destination_city = kwargs.get("destination_city")
-        destination_country = kwargs.get("destination_country")
-        priority_level = kwargs.get("priority_level")
-        total_weight_kg = kwargs.get("total_weight_kg")
-        preferred_carrier = kwargs.get("preferred_carrier")
-        carriers_list = kwargs.get("carriers_list", None)
+    def invoke(data: Dict[str, Any], destination_city, destination_country, preferred_carrier, priority_level, total_weight_kg, carriers_list = None) -> str:
 
         carriers = data.get("carriers", [])
 

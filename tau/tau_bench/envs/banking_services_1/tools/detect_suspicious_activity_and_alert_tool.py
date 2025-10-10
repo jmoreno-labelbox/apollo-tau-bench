@@ -22,8 +22,7 @@ class DetectSuspiciousActivityAndAlertTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        account_id = kwargs.get("account_id")
+    def invoke(data: Dict[str, Any], account_id) -> str:
         if not account_id:
             return json.dumps({"error": "account_id is required"}, indent=2)
 

@@ -8,14 +8,9 @@ from tau_bench.envs.tool import Tool
 class CreateUserTool(Tool):
     """Create a new user account with validation and audit logging."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], created_by, department, email, username, mfa_enabled = False) -> str:
         users = list(data.get("users", {}).values())
         audit_logs = data.get("audit_logs", [])
-
-        username = kwargs.get("username")
-        email = kwargs.get("email")
-        department = kwargs.get("department")
-        mfa_enabled = kwargs.get("mfa_enabled", False)
 
         # Verification: confirm that username/email is distinct.
         for u in users:
@@ -39,7 +34,7 @@ class CreateUserTool(Tool):
         new_log_id = f"L-{len(audit_logs) + 1:03d}"
         audit_logs.append({
             "log_id": new_log_id,
-            "actor_id": kwargs.get("created_by"),
+            "actor_id": created_by,
             "action_type": "USER_CREATED",
             "target_id": new_id,
             "timestamp": "2025-08-11 10:00:00+00:00",

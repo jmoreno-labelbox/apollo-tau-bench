@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CalculateMonthlySpendingTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        account_id = kwargs.get('account_id')
-        month = kwargs.get('month')
-        year = kwargs.get('year')
+    def invoke(data: Dict[str, Any], account_id, month, year) -> str:
 
         transactions = list(data.get('transactions', {}).values())
 

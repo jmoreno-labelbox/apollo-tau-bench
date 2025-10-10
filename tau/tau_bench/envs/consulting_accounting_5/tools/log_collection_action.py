@@ -7,17 +7,17 @@ from tau_bench.envs.tool import Tool
 
 class LogCollectionAction(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], audit_id, event_date, event_type, invoice_id, notes = "", outcome = "") -> str:
         """
         Logs a new collection action into invoice_audit.json.
         """
         new_action = {
-            "audit_id": kwargs["audit_id"],
-            "invoice_id": kwargs["invoice_id"],
-            "event_type": kwargs["event_type"],   # for example, "reminder_delivered", "telephone_contact"
-            "event_date": kwargs["event_date"],
-            "outcome": kwargs.get("outcome", ""),
-            "notes": kwargs.get("notes", "")
+            "audit_id": audit_id,
+            "invoice_id": invoice_id,
+            "event_type": event_type,   # for example, "reminder_delivered", "telephone_contact"
+            "event_date": event_date,
+            "outcome": outcome,
+            "notes": notes
         }
         data["invoice_audit"].append(new_action)
         return json.dumps(new_action["audit_id"])

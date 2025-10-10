@@ -21,8 +21,7 @@ class SearchRepositoriesTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        query = kwargs.get("query")
+    def invoke(data: Dict[str, Any], query) -> str:
 
         if not query:
             return json.dumps(

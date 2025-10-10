@@ -9,8 +9,7 @@ class GetPolicyParam(Tool):
     """Retrieves a policy parameter value."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        param_name = kwargs.get("param_name")
+    def invoke(data: Dict[str, Any], param_name) -> str:
         policy_params = list(data.get("policy_params", {}).values())
         
         for param in policy_params:

@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class AnalyzeScheduleCompression(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
-        target_reduction = kwargs.get("target_reduction")
-        compression_type = kwargs.get("compression_type", "crashing")
+    def invoke(data: Dict[str, Any], project_id, target_reduction, compression_type = "crashing") -> str:
 
         if not all([project_id, target_reduction]):
             return json.dumps({"error": "project_id and target_reduction are required"})

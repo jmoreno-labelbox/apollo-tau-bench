@@ -9,12 +9,7 @@ class AssignUserRoleTool(Tool):
     """assign_user_role"""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_role_id = kwargs["user_role_id"]
-        user_id = kwargs["user_id"]
-        role_id = kwargs["role_id"]
-        assigned_by = kwargs["assigned_by"]
-        expires_on = kwargs.get("expires_on")
+    def invoke(data: Dict[str, Any], assigned_by, expires_on, role_id, user_id, user_role_id) -> str:
         roles = data.setdefault("user_roles", [])
         existing_active = next(
             (

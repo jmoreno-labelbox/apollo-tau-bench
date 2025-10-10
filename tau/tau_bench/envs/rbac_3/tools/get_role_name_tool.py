@@ -11,8 +11,7 @@ class GetRoleNameTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        role_id = kwargs.get("role_id")
+    def invoke(data: Dict[str, Any], role_id) -> str:
         if not role_id:
             return json.dumps({"error": "role_id is required"}, indent=2)
 

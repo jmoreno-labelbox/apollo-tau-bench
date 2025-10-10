@@ -9,8 +9,8 @@ class FindOutboundOrderBySO(Tool):
     """Finds a single outbound order record by its Sales Order (SO) number."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        so_number = kwargs.get("sales_order_number")
+    def invoke(data: Dict[str, Any], sales_order_number) -> str:
+        so_number = sales_order_number
         outbound_orders = list(data.get("outbound_orders", {}).values())
         for order in outbound_orders:
             if order.get("sales_order_number") == so_number:

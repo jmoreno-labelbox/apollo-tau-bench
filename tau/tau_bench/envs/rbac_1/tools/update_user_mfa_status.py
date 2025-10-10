@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateUserMfaStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
-        mfa_enabled = kwargs.get("mfa_enabled")
+    def invoke(data: Dict[str, Any], mfa_enabled, user_id) -> str:
         for user in list(data.get('users', {}).values()):
             if user.get('user_id') == user_id:
                 user['mfa_enabled'] = mfa_enabled

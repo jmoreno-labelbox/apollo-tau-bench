@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateRecommendations(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get('user_id')
-        preferred_category = kwargs.get('preferred_category')
-        max_price = kwargs.get('max_price', 1000)
+    def invoke(data: Dict[str, Any], preferred_category, user_id, max_price = 1000) -> str:
 
         if not user_id:
             return json.dumps({'error': 'user_id is required'})

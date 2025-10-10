@@ -24,10 +24,7 @@ class AddTrackingCustomEventTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        tracking_id = kwargs.get("tracking_id")
-        event_status = kwargs.get("event_status")
-        note = kwargs.get("note")
+    def invoke(data: Dict[str, Any], event_status, note, tracking_id) -> str:
 
         if not tracking_id or not event_status:
             return json.dumps({"error": "tracking_id and event_status are required"}, indent=2)

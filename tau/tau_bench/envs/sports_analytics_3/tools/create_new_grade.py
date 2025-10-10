@@ -19,13 +19,7 @@ class CreateNewGrade(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        pitch_id = kwargs.get("pitch_id")
-        game_pk = kwargs.get("game_pk")
-        intended_quadrant_model = kwargs.get("intended_quadrant_model")
-        actual_quadrant = kwargs.get("actual_quadrant")
-        miss_distance_inches = kwargs.get("miss_distance_inches")
-        execution_grade = kwargs.get("execution_grade")
+    def invoke(data: Dict[str, Any], actual_quadrant, execution_grade, game_pk, intended_quadrant_model, miss_distance_inches, pitch_id) -> str:
 
         # 1) Check mandatory fields for validity
         missing = []

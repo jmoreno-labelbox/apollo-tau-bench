@@ -7,13 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class ListInvoiceAudit(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        audit_id = kwargs.get("audit_id")
+    def invoke(data: Dict[str, Any], audit_id, invoice_id) -> str:
         results = []
         if audit_id:
             results = [a for a in data["invoice_audit"] if a["audit_id"] == audit_id]
-
-        invoice_id = kwargs.get("invoice_id")
         if invoice_id:
             results = [a for a in data["invoice_audit"] if a["invoice_id"] == invoice_id]
 

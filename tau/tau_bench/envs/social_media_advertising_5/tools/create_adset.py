@@ -7,13 +7,13 @@ from tau_bench.envs.tool import Tool
 
 class CreateAdset(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], bid_amount, bid_strategy, campaign_id, category, daily_budget, name, updated_at) -> str:
         adsets = list(data.get("adsets", {}).values())
         nid = max((int(a["adset_id"]) for a in adsets), default=100) + 1
-        rec = {"adset_id": str(nid), "campaign_id": kwargs.get("campaign_id"), "name": kwargs.get("name"),
-               "category": kwargs.get("category"), "daily_budget": kwargs.get("daily_budget"),
-               "bid_strategy": kwargs.get("bid_strategy"), "bid_amount": kwargs.get("bid_amount"), "status": "paused",
-               "updated_at": kwargs.get("updated_at")}
+        rec = {"adset_id": str(nid), "campaign_id": campaign_id, "name": name,
+               "category": category, "daily_budget": daily_budget,
+               "bid_strategy": bid_strategy, "bid_amount": bid_amount, "status": "paused",
+               "updated_at": updated_at}
         adsets.append(rec)
         data["adsets"] = adsets
         return json.dumps(rec)

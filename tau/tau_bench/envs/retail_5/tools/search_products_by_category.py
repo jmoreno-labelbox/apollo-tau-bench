@@ -7,13 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SearchProductsByCategory(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        category = kwargs.get('category')
-        available_only = kwargs.get('available_only', True)
-        max_price = kwargs.get('max_price')
-        min_price = kwargs.get('min_price')
-        min_stock = kwargs.get('min_stock', 1)
-        max_stock = kwargs.get('max_stock')
+    def invoke(data: Dict[str, Any], category, max_price, max_stock, min_price, available_only = True, min_stock = 1) -> str:
 
         if not category:
             return json.dumps({'error': 'category is required'})

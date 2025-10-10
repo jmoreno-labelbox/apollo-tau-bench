@@ -8,11 +8,9 @@ from tau_bench.envs.tool import Tool
 class CreateInvoiceLines(Tool):
     """Insert invoice lines for an invoice."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], invoice_id, invoice_number, lines) -> str:
         invoice_lines = data.get("invoice_lines", [])
         invs = data.get("invoices", [])
-        invoice_id = kwargs.get("invoice_id")
-        invoice_number = kwargs.get("invoice_number")
         if invoice_id is None and invoice_number:
             inv = next((i for i in invs if i.get("invoice_number") == invoice_number), None)
             if inv:
@@ -28,7 +26,7 @@ class CreateInvoiceLines(Tool):
             except (ValueError, TypeError):
                 pass
 
-        for ln in (kwargs.get("lines") or []):
+        for ln in (lines or []):
             max_line_id += 1
             invoice_lines.append({
                 "invoice_line_id": max_line_id,

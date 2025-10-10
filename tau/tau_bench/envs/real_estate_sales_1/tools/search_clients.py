@@ -9,14 +9,13 @@ class SearchClients(Tool):
     """Search for clients by name or other criteria."""
     
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], client_id, name = '') -> str:
         clients = list(data.get('client_preferences', {}).values())
         if not clients:
             return json.dumps({"error": "No client data available"}, indent=2)
         
         results = []
-        name_query = kwargs.get('name', '').lower()
-        client_id = kwargs.get('client_id')
+        name_query = name.lower()
         
         for client in clients:
             if client_id and client.get('client_id') != client_id:

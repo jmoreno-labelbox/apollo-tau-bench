@@ -7,12 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ScheduleChangeReview(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
-        review_date = kwargs.get("review_date")
-        review_type = kwargs.get("review_type", "quarterly")
-        participants = kwargs.get("participants", [])
-        scheduled_by = kwargs.get("scheduled_by")
+    def invoke(data: Dict[str, Any], project_id, review_date, scheduled_by, participants = [], review_type = "quarterly") -> str:
 
         if not all([project_id, review_date, scheduled_by]):
             return json.dumps(

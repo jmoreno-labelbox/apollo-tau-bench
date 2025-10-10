@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetTeamDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        team_id = kwargs.get("team_id")
+    def invoke(data: Dict[str, Any], team_id) -> str:
         team = next((t for t in data.get("teams", []) if t.get("team_id") == team_id), None)
         return json.dumps(team or {}, indent=2)
 

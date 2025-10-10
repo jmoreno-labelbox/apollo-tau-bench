@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ApproveRecoveryPlan(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        plan_id = kwargs.get("plan_id")
-        decision = kwargs.get("decision")
-        approver_id = kwargs.get("approver_id")
+    def invoke(data: Dict[str, Any], approver_id, decision, plan_id, approval_notes = "") -> str:
 
         if not all([plan_id, decision, approver_id]):
             return json.dumps(
@@ -30,7 +27,7 @@ class ApproveRecoveryPlan(Tool):
         plan["status"] = "approved" if decision == "approve" else "rejected"
         plan["approver_id"] = approver_id
         plan["approval_date"] = datetime.now(timezone.utc).isoformat()
-        plan["approval_notes"] = kwargs.get("approval_notes", "")
+        plan["approval_notes"] = approval_notes
 
         if decision == "approve":
 

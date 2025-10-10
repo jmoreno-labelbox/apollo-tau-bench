@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetProcessedTimeseriesMetadata(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        csv_path = kwargs.get("csv_path")
+    def invoke(data: Dict[str, Any], csv_path) -> str:
         if not csv_path:
             return json.dumps({"error": "Missing csv_path"})
         items = data.get("processed_timeseries", [])

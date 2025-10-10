@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetInventoryForHousehold(Tool):
     """Retrieves all inventory items for a given household ID."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        household_id = kwargs.get("household_id")
+    def invoke(data: Dict[str, Any], household_id) -> str:
         inventory = list(data.get("inventory_items", {}).values())
         household_inventory = [item for item in inventory if item.get("household_id") == household_id]
         return json.dumps(household_inventory)

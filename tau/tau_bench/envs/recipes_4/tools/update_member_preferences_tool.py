@@ -54,7 +54,7 @@ class UpdateMemberPreferencesTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> Dict[str, Any]:
+    def invoke(data: Dict[str, Any], member_id, updates, user_id) -> Dict[str, Any]:
         """
         Executes the logic to find and modify a member's data.
 
@@ -83,10 +83,6 @@ class UpdateMemberPreferencesTool(Tool):
                 validation_error["error_code"],
                 validation_error["details"]
             )
-
-        member_id = kwargs["member_id"]
-        updates = kwargs["updates"]
-        user_id = kwargs.get("user_id") # For record-keeping
 
         # Locate the member record.
         member_record = next(

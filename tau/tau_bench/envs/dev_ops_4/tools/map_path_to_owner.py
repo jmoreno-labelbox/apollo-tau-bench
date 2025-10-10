@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class MapPathToOwner(Tool):
     """Map a code/asset path to its owner using ownership_map."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        file_path = kwargs.get("file_path")
+    def invoke(data: Dict[str, Any], file_path) -> str:
         maps = list(data.get("ownership_map", {}).values())
         rec = next((m for m in maps if m.get("file_path") == file_path), None)
         return json.dumps({"owner_map": rec}, indent=2)

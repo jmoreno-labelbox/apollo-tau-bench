@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateMilestoneDates(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        milestone_id = kwargs.get("milestone_id")
-        new_start_date = kwargs.get("new_start_date")
-        new_target_date = kwargs.get("new_target_date")
+    def invoke(data: Dict[str, Any], milestone_id, new_start_date, new_target_date) -> str:
 
         if not milestone_id or not (new_start_date or new_target_date):
             return json.dumps(

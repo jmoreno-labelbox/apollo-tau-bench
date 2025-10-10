@@ -7,9 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class FlagHighValueMeals(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        ref = kwargs.get("expenses_ref", {})
-        threshold = float(kwargs.get("threshold", 150.0))
+    def invoke(data: Dict[str, Any], expenses_ref = {}, threshold = 150.0) -> str:
+        ref = expenses_ref
+        threshold = float(threshold)
         items = ref.get("expenses", [])
         decisions = []
         for e in items:

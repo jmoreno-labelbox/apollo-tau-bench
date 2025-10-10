@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateInventorySale(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        inventory_id = kwargs.get('inventory_id')
-        quantity_sold = kwargs.get('quantity_sold')
-        last_stock_count_date = kwargs.get('last_stock_count_date')
+    def invoke(data: Dict[str, Any], inventory_id, last_stock_count_date, quantity_sold) -> str:
         inventory_items = list(data.get("inventory", {}).values())
         updated_item = None
         for item in inventory_items:

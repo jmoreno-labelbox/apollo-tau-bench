@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class ResolveHourlyRates(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id_list = kwargs.get("project_id_list") or []
+    def invoke(data: Dict[str, Any], project_id_list) -> str:
+        project_id_list = project_id_list or []
         projects = _index_by(list(data.get("projects", {}).values()), "project_id")
         rate_map = {}
         for pid in project_id_list:

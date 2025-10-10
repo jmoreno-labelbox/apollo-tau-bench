@@ -7,10 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class SearchChecklistItems(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cand_id = kwargs["candidate_id"]
-        status = kwargs.get("status")
-        due_lte = kwargs.get("due_date_lte")
+    def invoke(data: Dict[str, Any], candidate_id, due_date_lte, status) -> str:
+        cand_id = candidate_id
+        due_lte = due_date_lte
         rows = []
         for it in list(data.get("checklist_items", {}).values()):
             if it.get("candidate_id") != cand_id:

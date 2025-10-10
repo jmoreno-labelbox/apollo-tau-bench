@@ -9,9 +9,9 @@ class GetShipmentsByStatus(Tool):
     """Tool to retrieve shipments filtered by status (e.g., 'In Transit', 'Received')."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        status = kwargs.get("status", "").lower()
-        list_of_shipments = kwargs.get("list_of_ids", None)
+    def invoke(data: Dict[str, Any], list_of_ids = None, status = "") -> str:
+        status = status.lower()
+        list_of_shipments = list_of_ids
         shipments = list(data.get("inbound_shipments", {}).values())
         filtered = [s['shipment_id'] for s in shipments if s.get("status", "").lower() == status]
         if list_of_shipments:

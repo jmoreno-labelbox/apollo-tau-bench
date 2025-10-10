@@ -7,14 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateRotationSchedule(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
-        from_project = kwargs.get("from_project")
-        to_project = kwargs.get("to_project")
-        rotation_date = kwargs.get("rotation_date")
-        hours_to_rotate = kwargs.get("hours_to_rotate")
-        holiday_coverage = kwargs.get("holiday_coverage", "false")
-        skill_development_rotation = kwargs.get("skill_development_rotation", "false")
+    def invoke(data: Dict[str, Any], employee_id, from_project, hours_to_rotate, rotation_date, to_project, holiday_coverage = "false", skill_development_rotation = "false") -> str:
 
         if not all(
             [employee_id, from_project, to_project, rotation_date, hours_to_rotate]

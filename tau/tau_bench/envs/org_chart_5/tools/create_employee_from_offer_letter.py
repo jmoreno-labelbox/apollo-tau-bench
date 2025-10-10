@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class create_employee_from_offer_letter(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        offer_doc_id = kwargs.get("offer_doc_id")
-        employee_id = kwargs.get("employee_id")
+    def invoke(data: Dict[str, Any], employee_id, offer_doc_id) -> str:
         if not offer_doc_id or not employee_id:
             return json.dumps(
                 {"error": "offer_doc_id and employee_id are required"}, indent=2

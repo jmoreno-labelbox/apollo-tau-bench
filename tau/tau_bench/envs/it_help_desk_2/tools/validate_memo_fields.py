@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ValidateMemoFields(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        memo = kwargs.get("memo")
+    def invoke(data: Dict[str, Any], memo) -> str:
         required_fields = ["legal_name", "department", "job_title", "manager_id", "start_date"]
         missing_fields = [field for field in required_fields if field not in memo]
         if missing_fields:

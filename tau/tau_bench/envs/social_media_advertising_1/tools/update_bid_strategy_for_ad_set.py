@@ -9,10 +9,7 @@ class UpdateBidStrategyForAdSet(Tool):
     """Updates the bid strategy for a specific ad set."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        adset_id = kwargs.get("adset_id")
-        new_strategy = kwargs.get("new_strategy")
-        new_bid = kwargs.get("new_bid")
+    def invoke(data: Dict[str, Any], adset_id, new_bid, new_strategy) -> str:
         
         adsets = list(data.get("adsets", {}).values())
         for adset in adsets:

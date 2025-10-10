@@ -29,7 +29,7 @@ class CheckSshConnectionTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], remote_address) -> str:
         return json.dumps(
-            {"status": "connected", "remote_address": kwargs["remote_address"]}
+            {"status": "connected", "remote_address": remote_address}
         )

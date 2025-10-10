@@ -9,9 +9,8 @@ class GetPullRequest(Tool):
     """Returns details of a specific pull request."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_name = kwargs.get("repo_name")
-        pr_number = int(kwargs.get("pr_number"))
+    def invoke(data: Dict[str, Any], pr_number, repo_name) -> str:
+        pr_number = int(pr_number)
 
         if not all([repo_name, pr_number]):
             return json.dumps({"error": "repo_name and pr_number are required."}, indent=2)

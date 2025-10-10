@@ -9,9 +9,7 @@ class UpdateDailyBudgetForAdSet(Tool):
     """Updates the daily budget for a specific ad set."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        adset_id = kwargs.get("adset_id")
-        new_budget = kwargs.get("new_budget")
+    def invoke(data: Dict[str, Any], adset_id, new_budget) -> str:
         
         adsets = list(data.get("adsets", {}).values())
         for adset in adsets:

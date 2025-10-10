@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateTeam(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        team_name = kwargs.get("team_name")
-        project_id = kwargs.get("project_id")
-        team_members = kwargs.get("team_members", [])
+    def invoke(data: Dict[str, Any], project_id, team_id, team_name, team_members = []) -> str:
 
         if not all([team_name, project_id]):
             return json.dumps({"error": "team_name and project_id are required"})
@@ -55,7 +52,7 @@ class CreateTeam(Tool):
             else:
                 team_formed = False
 
-        team_id = kwargs.get("team_id") or f"team_{uuid.uuid4().hex[:8]}"
+        team_id = team_id or f"team_{uuid.uuid4().hex[:8]}"
 
         new_team = {
             "team_id": team_id,

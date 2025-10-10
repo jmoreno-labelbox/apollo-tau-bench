@@ -7,10 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class FetchTimeEntries(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        prj_ids = set(kwargs.get("project_id_list") or [])
-        start = kwargs.get("period_start")
-        end = kwargs.get("period_end")
+    def invoke(data: Dict[str, Any], period_end, period_start, project_id_list) -> str:
+        prj_ids = set(project_id_list or [])
+        start = period_start
+        end = period_end
         rows = []
         for t in data.get("time_entries", []) or []:
             if prj_ids and t.get("project_id") not in prj_ids:

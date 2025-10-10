@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetOrCreateEmailLabel(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        name = kwargs["name"]
+    def invoke(data: Dict[str, Any], name) -> str:
         label_id = _get_or_create_label_id(data, name)
         return json.dumps({"label_id": label_id, "name": name}, indent=2)
 

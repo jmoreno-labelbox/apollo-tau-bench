@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class MutateClientContact(Tool):
     """Update client contact fields."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        pid = kwargs.get("publisher_id")
+    def invoke(data: Dict[str, Any], publisher_id) -> str:
+        pid = publisher_id
         row = next((p for p in data.get("publishers", []) if p.get("publisher_id") == pid), None)
         if not row:
             return json.dumps({"error": f"publisher_id '{pid}' not found"}, indent=2)

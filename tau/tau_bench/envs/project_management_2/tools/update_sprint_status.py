@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateSprintStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        sprint_id = kwargs.get("sprint_id")
-        new_status = kwargs.get("new_status")
+    def invoke(data: Dict[str, Any], new_status, sprint_id) -> str:
 
         if not all([sprint_id, new_status]):
             return json.dumps({"error": "sprint_id and new_status are required"})

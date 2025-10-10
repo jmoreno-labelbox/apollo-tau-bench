@@ -9,10 +9,8 @@ from . import _first_user_id
 
 class BulkAddMealPlanEntries(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        meal_plan_id = kwargs.get("meal_plan_id")
-        week_start_date = kwargs.get("week_start_date")
-        recipe_ids_json = kwargs.get("selected_recipe_ids_json")
+    def invoke(data: Dict[str, Any], meal_plan_id, selected_recipe_ids_json, week_start_date) -> str:
+        recipe_ids_json = selected_recipe_ids_json
         if meal_plan_id is None:
             household_id = _default_household_id(data, _first_user_id(data))
             created = json.loads(CreateMealPlan.invoke(data, household_id=household_id))

@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetAccessRequestDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        request_id = kwargs.get("request_id")
+    def invoke(data: Dict[str, Any], request_id) -> str:
         for req in data.get('access_requests', []):
             if req.get('request_id') == request_id:
                 return json.dumps(req)

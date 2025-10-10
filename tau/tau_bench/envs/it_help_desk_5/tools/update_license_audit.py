@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateLicenseAudit(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        license_id = kwargs.get('license_id')
+    def invoke(data: Dict[str, Any], license_id) -> str:
         if license_id is None:
             return json.dumps({'status': 'error', 'description': 'The license_id field is required.'}, indent=2)
 

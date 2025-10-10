@@ -9,8 +9,7 @@ from . import _require, _json_dump
 class GetGroceryListDetails(Tool):
     """Return grocery_list header and all items for list_id."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        list_id = kwargs.get("list_id")
+    def invoke(data: Dict[str, Any], list_id) -> str:
         if list_id is None:
             return _json_dump({"error": "list_id is required"})
         header = _require(data, "grocery_lists", "list_id", int(list_id))

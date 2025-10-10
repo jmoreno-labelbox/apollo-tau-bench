@@ -8,9 +8,7 @@ from . import _fixed_now_iso
 
 class AssignAsset(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        asset_tag = kwargs.get("asset_tag")
-        candidate_id = kwargs.get("candidate_id")
+    def invoke(data: Dict[str, Any], asset_tag, candidate_id) -> str:
         assets = list(data.get("inventory_assets", {}).values())
         for a in assets:
             if a.get("asset_tag") == asset_tag:

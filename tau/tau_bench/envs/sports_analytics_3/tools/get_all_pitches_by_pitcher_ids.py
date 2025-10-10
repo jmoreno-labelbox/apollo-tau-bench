@@ -9,8 +9,7 @@ class GetAllPitchesByPitcherIds(Tool):
     """Fetch all pitches thrown by any pitcher in the provided list of pitcher_ids."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        pitcher_ids = kwargs.get("pitcher_ids")
+    def invoke(data: Dict[str, Any], pitcher_ids) -> str:
 
         # 1) Confirm validity
         if not isinstance(pitcher_ids, list) or len(pitcher_ids) == 0:

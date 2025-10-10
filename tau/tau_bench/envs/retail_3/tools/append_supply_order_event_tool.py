@@ -29,10 +29,8 @@ class AppendSupplyOrderEventTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        so_id = kwargs.get("supply_order_id")
-        event_type = kwargs.get("event_type")
-        message = kwargs.get("message")
+    def invoke(data: Dict[str, Any], event_type, message, supply_order_id) -> str:
+        so_id = supply_order_id
 
         if not so_id or not event_type or not message:
             return json.dumps(

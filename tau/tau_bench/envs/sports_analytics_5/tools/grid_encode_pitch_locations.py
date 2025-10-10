@@ -8,13 +8,13 @@ from tau_bench.envs.tool import Tool
 class GridEncodePitchLocations(Tool):
     """Compute 12x12 zone cell for each pitch (requires explicit zone bounds). Optional persist=True writes back to pitches."""
     @staticmethod
-    def invoke(data, **kwargs)->str:
+    def invoke(data, max_x, max_z, min_x, min_z, persist)->str:
         if "pitches" not in data:
             return json.dumps({"error":"Missing required table(s): pitches"}, indent=2)
         need = _check_required(kwargs, ["min_x","max_x","min_z","max_z"])
         if need:
             return json.dumps({"error": need}, indent=2)
-        mnx, mxx, mnz, mxz = map(float, (kwargs["min_x"], kwargs["max_x"], kwargs["min_z"], kwargs["max_z"]))
+        mnx, mxx, mnz, mxz = map(float, (min_x, max_x, min_z, max_z))
         if not (mxx > mnx and mxz > mnz):
             return json.dumps({"error":"Invalid bounds: require max_x>min_x and max_z>min_z"}, indent=2)
 
@@ -29,7 +29,7 @@ class GridEncodePitchLocations(Tool):
         for p in data["pitches"]:
             out.append({"pitch_id": p.get("pitch_id"), "zone_cell_12x12": _cell(p.get("plate_x"), p.get("plate_z"))})
 
-        if kwargs.get("persist"):
+        if persist:
             # update the original table
             for p, rec in zip(data["pitches"], out):
                 p["zone_cell_12x12"] = rec["zone_cell_12x12"]

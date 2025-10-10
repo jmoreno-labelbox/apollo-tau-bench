@@ -22,8 +22,7 @@ class CancelScheduledPaymentTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        payment_id = kwargs.get("payment_id")
+    def invoke(data: Dict[str, Any], payment_id) -> str:
         if not payment_id:
             return json.dumps({"error": "payment_id is required"}, indent=2)
         payments = load_json("scheduled_payments.json")

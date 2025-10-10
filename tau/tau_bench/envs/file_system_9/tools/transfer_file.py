@@ -8,9 +8,8 @@ from tau_bench.envs.tool import Tool
 class TransferFile(Tool):
     """Simulates transferring a file by creating its record on the destination server in file_system.json. Creates server and directory if they do not exist."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        source_path = kwargs.get("source_path")
-        destination_full_path = kwargs.get("destination_path")
+    def invoke(data: Dict[str, Any], destination_path, source_path) -> str:
+        destination_full_path = destination_path
 
         source_file_details = None
         file_found = False

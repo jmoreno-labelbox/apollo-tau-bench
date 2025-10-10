@@ -7,14 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateScopeBaseline(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
-        baseline_name = kwargs.get("baseline_name")
-        scope_items = kwargs.get("scope_items", [])
-        deliverables = kwargs.get("deliverables", [])
-        acceptance_criteria = kwargs.get("acceptance_criteria", {})
-        success_metrics = kwargs.get("success_metrics", {})
-        created_by = kwargs.get("created_by")
+    def invoke(data: Dict[str, Any], baseline_name, created_by, project_id, acceptance_criteria = {}, baseline_id = f"bl_{uuid.uuid4().hex[:8]}", deliverables = [], scope_items = [], success_metrics = {}) -> str:
 
         if not all([project_id, baseline_name, created_by]):
             return json.dumps(
@@ -51,8 +44,6 @@ class CreateScopeBaseline(Tool):
             new_version = f"{major}.{minor + 1}"
         else:
             new_version = "1.0"
-
-        baseline_id = kwargs.get("baseline_id", f"bl_{uuid.uuid4().hex[:8]}")
 
         total_hours = sum(d.get("estimated_hours", 0) for d in deliverables)
 

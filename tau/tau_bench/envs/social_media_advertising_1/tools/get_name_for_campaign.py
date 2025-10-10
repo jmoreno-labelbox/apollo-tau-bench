@@ -9,8 +9,7 @@ class GetNameForCampaign(Tool):
     """Retrieves a specific campaign by ID."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        campaign_id = kwargs.get("campaign_id")
+    def invoke(data: Dict[str, Any], campaign_id) -> str:
         campaigns = list(data.get("campaigns", {}).values())
         
         for campaign in campaigns:

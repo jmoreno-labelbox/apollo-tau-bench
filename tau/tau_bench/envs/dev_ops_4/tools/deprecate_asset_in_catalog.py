@@ -24,8 +24,7 @@ class DeprecateAssetInCatalog(Tool):
         }
 
     @staticmethod
-    def invoke(data, **kwargs):
-        asset_path = kwargs.get("asset_path")
+    def invoke(data, asset_path):
         catalog = list(data.get("asset_catalog", {}).values())
         row = next((a for a in catalog if a.get("asset_path") == asset_path), None)
         if not row:

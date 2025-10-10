@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetSubmissionByArticle(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        article_id = kwargs.get('article_id')
+    def invoke(data: Dict[str, Any], article_id) -> str:
         if not article_id:
             return json.dumps({"error": "article_id is required."})
 

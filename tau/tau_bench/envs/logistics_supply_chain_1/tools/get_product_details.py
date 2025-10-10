@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetProductDetails(Tool):
     """A tool to retrieve all master data for a specific product by its name."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        product_name = kwargs.get('product_name')
+    def invoke(data: Dict[str, Any], product_name) -> str:
         if not product_name:
             return json.dumps({"error": "product_name is a required argument."}, indent=2)
         product_master = list(data.get('product_master', {}).values())

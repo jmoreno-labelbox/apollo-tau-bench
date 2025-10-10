@@ -9,10 +9,7 @@ from . import _first_user_id
 
 class FindSubstituteProducts(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        store_id = kwargs.get("store_id")
-        flagged_items = kwargs.get("flagged_items")
-        list_id = kwargs.get("list_id")
+    def invoke(data: Dict[str, Any], flagged_items, list_id, store_id) -> str:
         if store_id is None:
             store_id = _default_store_id(data)
         if flagged_items is None:

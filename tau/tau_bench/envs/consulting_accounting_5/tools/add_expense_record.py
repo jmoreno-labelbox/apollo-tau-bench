@@ -7,20 +7,20 @@ from tau_bench.envs.tool import Tool
 
 class AddExpenseRecord(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], amount, category_code, expense_date, expense_id, project_id, vendor, created_at = None, description = "", payment_method = "") -> str:
         """
         Inserts a new expense record.
         """
         new_exp = {
-            "expense_id": kwargs["expense_id"],
-            "project_id": kwargs.get("project_id"),
-            "vendor": kwargs["vendor"],
-            "expense_date": kwargs["expense_date"],
-            "amount": kwargs["amount"],
-            "description": kwargs.get("description", ""),
-            "payment_method": kwargs.get("payment_method", ""),
-            "category_code": kwargs["category_code"],
-            "created_at": kwargs.get("created_at", None)
+            "expense_id": expense_id,
+            "project_id": project_id,
+            "vendor": vendor,
+            "expense_date": expense_date,
+            "amount": amount,
+            "description": description,
+            "payment_method": payment_method,
+            "category_code": category_code,
+            "created_at": created_at
         }
         data["expenses"].append(new_exp)
         return json.dumps(new_exp["expense_id"])

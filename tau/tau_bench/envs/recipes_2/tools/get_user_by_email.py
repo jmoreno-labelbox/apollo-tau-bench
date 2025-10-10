@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetUserByEmail(Tool):
     """Retrieves a user's details by their email address."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        email = kwargs.get("email")
+    def invoke(data: Dict[str, Any], email) -> str:
         users = list(data.get("users", {}).values())
         for user in users:
             if user.get("email") == email:

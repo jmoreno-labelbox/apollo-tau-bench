@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetDepartmentDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        name = kwargs.get("name")
+    def invoke(data: Dict[str, Any], name) -> str:
 
         if not name:
             return json.dumps({"error": "name is a required parameter"})

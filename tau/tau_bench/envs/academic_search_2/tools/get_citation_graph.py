@@ -11,9 +11,7 @@ class GetCitationGraph(Tool):
     If a second article ID is provided via 'compare_with_article_id', it finds the common citations between the two.
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        article_id = kwargs.get('article_id')
-        compare_with_article_id = kwargs.get('compare_with_article_id')
+    def invoke(data: Dict[str, Any], article_id, compare_with_article_id) -> str:
 
         if not article_id:
             return json.dumps({"error": "article_id is required."})

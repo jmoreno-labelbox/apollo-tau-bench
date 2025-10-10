@@ -8,17 +8,16 @@ from tau_bench.envs.tool import Tool
 class QueryCitationConnections(Tool):
     """Tool to search for citations related to an article."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], cited_article_id, source_article_id, direction = 'from') -> str:
         citations = list(data.get('citations', {}).values())
         results = []
-        direction = kwargs.get('direction', 'from') # 'from' or 'to'
 
         if direction == 'from' and 'source_article_id' in kwargs:
-            source_id = kwargs['source_article_id']
+            source_id = source_article_id
             results = [c for c in citations if c.get('source_article_id') == source_id]
 
         elif direction == 'to' and 'cited_article_id' in kwargs:
-            cited_id = kwargs['cited_article_id']
+            cited_id = cited_article_id
             results = [c for c in citations if c.get('cited_article_id') == cited_id]
 
         return json.dumps(results, indent=2)

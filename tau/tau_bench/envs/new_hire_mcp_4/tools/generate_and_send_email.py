@@ -7,20 +7,13 @@ from tau_bench.envs.tool import Tool
 
 class GenerateAndSendEmail(Tool):
     @staticmethod
-    def invoke(db, **kw) -> str:
-        to_emails = kw.get("to_emails")
-        subject   = kw.get("subject")
+    def invoke(db, attachment_file_paths, candidate_id, cc_emails, date_ts, in_reply_to_message_id, label_names, subject, thread_id, to_emails, body = "") -> str:
         if not to_emails or not subject:
             return json.dumps({"error": "to_emails and subject are required"}, indent=2)
-
-        body      = kw.get("body", "")
-        cc_emails = kw.get("cc_emails")
-        candidate_id = kw.get("candidate_id")
-        thread_id    = kw.get("thread_id")
-        in_reply_to  = kw.get("in_reply_to_message_id")
-        label_names  = kw.get("label_names") or []
-        attach_paths = kw.get("attachment_file_paths") or []
-        date_ts_in   = kw.get("date_ts")
+        in_reply_to  = in_reply_to_message_id
+        label_names  = label_names or []
+        attach_paths = attachment_file_paths or []
+        date_ts_in   = date_ts
 
         try:
             dts = _fixed_ts(date_ts_in)

@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateChangeRequestStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cr_id = kwargs.get("cr_id")
-        new_status = kwargs.get("new_status")
-        performed_by = kwargs.get("performed_by")
+    def invoke(data: Dict[str, Any], cr_id, new_status, performed_by) -> str:
 
         if not all([cr_id, new_status, performed_by]):
             return json.dumps(

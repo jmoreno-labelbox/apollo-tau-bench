@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class BuildMetricsSummaryPath(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        model_name = kwargs.get("model_name")
-        end_ts = kwargs.get("end_ts")
+    def invoke(data: Dict[str, Any], end_ts, model_name) -> str:
         if not model_name or not end_ts:
             return json.dumps({"error":"Missing model_name or end_ts"})
         y1 = end_ts[:10].replace("-","")

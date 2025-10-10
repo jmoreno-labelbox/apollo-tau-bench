@@ -10,11 +10,7 @@ class FindGrants(Tool):
     Tool to search for funding sources by various criteria, OR to get a single source's details by its ID.
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        funding_source_id = kwargs.get('funding_source_id')
-        focus_area = kwargs.get('focus_area')
-        status = kwargs.get('status')
-        min_grant_amount = kwargs.get('min_grant_amount')
+    def invoke(data: Dict[str, Any], focus_area, funding_source_id, min_grant_amount, status) -> str:
 
         sources = list(data.get('funding_sources', {}).values())
 

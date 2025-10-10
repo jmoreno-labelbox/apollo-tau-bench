@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class upload_employee_document(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
-        document_data = kwargs.get("document_data")
+    def invoke(data: Dict[str, Any], document_data, employee_id) -> str:
         main_container = data.get("employee_documents", {}).get(
             "employee_documents", []
         )

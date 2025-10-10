@@ -9,8 +9,7 @@ class ListAccessRequestsByStatusTool(Tool):
     """list_access_requests_by_status"""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        status = kwargs["status"]
+    def invoke(data: Dict[str, Any], status) -> str:
         out = [r for r in data.get("access_requests", []) if r.get("status") == status]
         out = sorted(
             out, key=lambda r: (r.get("submitted_at") or "", r.get("request_id") or "")

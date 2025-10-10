@@ -12,10 +12,9 @@ class AppliedStateVerifier(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        expected_rows: List[Dict[str, Any]] = kwargs.get("expected_rows", [])
-        actual_rows: List[Dict[str, Any]] = kwargs.get("actual_rows", [])
-        key_fields = kwargs.get("key_fields", ["adset_id", "budget", "bid_strategy", "bid_amount"])
+    def invoke(data: Dict[str, Any], actual_rows = [], expected_rows = [], key_fields = ["adset_id", "budget", "bid_strategy", "bid_amount"]) -> str:
+        expected_rows: List[Dict[str, Any]] = expected_rows
+        actual_rows: List[Dict[str, Any]] = actual_rows
         mismatches: List[Dict[str, Any]] = []
 
         idx = {str(r.get("adset_id")): r for r in actual_rows}

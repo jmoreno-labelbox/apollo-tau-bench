@@ -7,17 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class CreatePromotion(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        name = kwargs.get('name')
-        promotion_type = kwargs.get('type')
-        discount_value = kwargs.get('discount_value')
-        description = kwargs.get('description')
-        applicable_skus = kwargs.get('applicable_skus')
-        start_date = kwargs.get('start_date')
-        end_date = kwargs.get('end_date')
-        status = kwargs.get('status')
-        usage_limit = kwargs.get('usage_limit')
-        times_used = kwargs.get('times_used')
+    def invoke(data: Dict[str, Any], applicable_skus, description, discount_value, end_date, name, start_date, status, times_used, type, usage_limit) -> str:
+        promotion_type = type
 
         promotions = list(data.get("promotions", {}).values())  # Alterei para uma lista [].
 

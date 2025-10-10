@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetProductByItemId(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        item_id = kwargs.get('item_id')
+    def invoke(data: Dict[str, Any], item_id) -> str:
 
         if not item_id:
             return json.dumps({'error': 'item_id is required'})

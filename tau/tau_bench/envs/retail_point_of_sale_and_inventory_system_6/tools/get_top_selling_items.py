@@ -7,10 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class get_top_selling_items(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], n_values) -> str:
         transactions = list(data.get("transactions", {}).values())
-
-        n_values = kwargs.get("n_values")
 
         filter_cols = ["store_id", "payment_method", "customer_id"]
         filter_values = {k: kwargs.get(k) for k in filter_cols if k in kwargs}

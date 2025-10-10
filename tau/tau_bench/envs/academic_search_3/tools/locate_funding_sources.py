@@ -8,11 +8,11 @@ from tau_bench.envs.tool import Tool
 class LocateFundingSources(Tool):
     """Tool to locate funding sources by research area and availability status."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], area = '', status = '') -> str:
         sources = list(data.get('funding_sources', {}).values())
         results = []
-        area = kwargs.get('area', '').lower()
-        status = kwargs.get('status', '').lower()
+        area = area.lower()
+        status = status.lower()
 
         for s in sources:
             match_area = area in s.get('focus_area', '').lower()

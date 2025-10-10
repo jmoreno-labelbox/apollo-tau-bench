@@ -7,12 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class FetchArticles(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        article_id = kwargs.get('article_id')
-        topic = kwargs.get('topic')
-        title = kwargs.get('title')
-        year = kwargs.get('year')
-        author_name = kwargs.get('author_name')
+    def invoke(data: Dict[str, Any], article_id, author_name, title, topic, year) -> str:
 
         articles: list = list(data.get('articles', {}).values())
 

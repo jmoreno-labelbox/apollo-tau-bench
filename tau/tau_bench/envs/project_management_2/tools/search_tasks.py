@@ -7,13 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SearchTasks(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        task_id = kwargs.get("task_id")
-        title = kwargs.get("title")
-        status = kwargs.get("status")
-        assignee_id = kwargs.get("assignee_id")
-        sprint_id = kwargs.get("sprint_id")
-        priority = kwargs.get("priority")
+    def invoke(data: Dict[str, Any], assignee_id, priority, sprint_id, status, task_id, title) -> str:
 
         tasks = list(data.get("tasks", {}).values())
 

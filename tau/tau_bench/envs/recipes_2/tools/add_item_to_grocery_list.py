@@ -8,11 +8,7 @@ from tau_bench.envs.tool import Tool
 class AddItemToGroceryList(Tool):
     """Adds a new item to a grocery list."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        list_id = kwargs.get("list_id")
-        ingredient_id = kwargs.get("ingredient_id")
-        quantity = kwargs.get("quantity")
-        unit = kwargs.get("unit")
+    def invoke(data: Dict[str, Any], ingredient_id, list_id, quantity, unit) -> str:
         
         items = list(data.get("grocery_list_items", {}).values())
         # Auto-generate the subsequent item_id.

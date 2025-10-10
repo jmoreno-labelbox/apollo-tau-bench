@@ -7,9 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class UpdatePolicyExceptionStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        exception_id = kwargs.get("exception_id")
-        new_status = kwargs.get("status")
+    def invoke(data: Dict[str, Any], exception_id, status) -> str:
+        new_status = status
         for ex in data.get('policy_exceptions', []):
             if ex.get('exception_id') == exception_id:
                 ex['status'] = new_status

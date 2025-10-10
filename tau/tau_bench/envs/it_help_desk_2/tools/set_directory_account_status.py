@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SetDirectoryAccountStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        account_id = kwargs.get("account_id")
-        status = kwargs.get("status")
+    def invoke(data: Dict[str, Any], account_id, status) -> str:
         accounts = data.get("directory_accounts", [])
         account = next((a for a in accounts if a.get("account_id") == account_id), None)
         if not account:

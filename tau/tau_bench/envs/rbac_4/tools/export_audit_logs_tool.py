@@ -9,12 +9,7 @@ class ExportAuditLogsTool(Tool):
     """Export audit logs with optional filters."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        actor_id = kwargs.get("actor_id")
-        action_type = kwargs.get("action_type")
-        target_id = kwargs.get("target_id")
-        start_time = kwargs.get("start_time")
-        end_time = kwargs.get("end_time")
+    def invoke(data: Dict[str, Any], action_type, actor_id, end_time, start_time, target_id) -> str:
 
         logs = data.get("audit_logs", [])
         results = []

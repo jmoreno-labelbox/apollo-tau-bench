@@ -9,9 +9,7 @@ from . import _first_user_id
 
 class CheckStoreInventoryForList(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        list_id = kwargs.get("list_id")
-        store_id = kwargs.get("store_id")
+    def invoke(data: Dict[str, Any], list_id, store_id) -> str:
         if store_id is None:
             store_id = _default_store_id(data)
         if list_id is None:

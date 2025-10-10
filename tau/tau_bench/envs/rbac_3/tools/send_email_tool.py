@@ -9,13 +9,7 @@ class SendEmailTool(Tool):
     """send_email: convenience wrapper around upsert for creation-only."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        email_id = kwargs.get("email_id")
-        receiver = kwargs.get("receiver")
-        user_id = kwargs.get("user_id")
-        subject = kwargs.get("subject")
-        text_content = kwargs.get("text_content")
-        sender = kwargs.get("sender")
+    def invoke(data: Dict[str, Any], email_id, receiver, sender, subject, text_content, user_id) -> str:
 
         if not email_id or not subject or not text_content:
             return json.dumps(

@@ -13,16 +13,15 @@ class QueryActiveListings(Tool):
         return {r.get(key): r for r in rows or []}
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        neighborhood_ids = kwargs.get("neighborhood_ids")
-        price_min: Optional[float] = kwargs.get("price_min")
-        price_max: Optional[float] = kwargs.get("price_max")
-        beds: Optional[int] = kwargs.get("beds")
-        baths: Optional[int] = kwargs.get("baths")
-        sqft_min: Optional[int] = kwargs.get("sqft_min")
-        sqft_max: Optional[int] = kwargs.get("sqft_max")
-        property_type: Optional[str] = kwargs.get("property_type")
-        limit: int = kwargs.get("limit", 15)
+    def invoke(data: Dict[str, Any], baths, beds, neighborhood_ids, price_max, price_min, property_type, sqft_max, sqft_min, limit = 15) -> str:
+        price_min: Optional[float] = price_min
+        price_max: Optional[float] = price_max
+        beds: Optional[int] = beds
+        baths: Optional[int] = baths
+        sqft_min: Optional[int] = sqft_min
+        sqft_max: Optional[int] = sqft_max
+        property_type: Optional[str] = property_type
+        limit: int = limit
 
         neighborhoods = set(neighborhood_ids or [])
         props = QueryActiveListings._by_key(list(data.get("properties", {}).values()), "property_id")

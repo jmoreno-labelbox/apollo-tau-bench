@@ -9,8 +9,8 @@ from . import _json_dump
 class ListRecipesByFilters(Tool):
     """List recipe_ids (as JSON string) that match a filter_token."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        token = kwargs.get("filter_token")
+    def invoke(data: Dict[str, Any], filter_token) -> str:
+        token = filter_token
         if not token:
             return _json_dump({"error": "filter_token is required"})
         try:

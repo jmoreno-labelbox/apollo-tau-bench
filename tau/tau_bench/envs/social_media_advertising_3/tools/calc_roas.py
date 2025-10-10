@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class CalcRoas(Tool):
     """Compute ROAS (revenue/spend) for an adset on a date."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        aid, date = kwargs.get("adset_id"), kwargs.get("date")
+    def invoke(data: Dict[str, Any], adset_id, date) -> str:
+        aid, date = adset_id, date
         for i in data.get("f_insights", []):
             if i.get("adset_id") == aid and i.get("date") == date:
                 s, r = i.get("spend", 0), i.get("revenue", 0)

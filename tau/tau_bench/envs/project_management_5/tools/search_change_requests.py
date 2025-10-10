@@ -7,13 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SearchChangeRequests(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
-        status = kwargs.get("status")
-        priority = kwargs.get("priority")
-        change_type = kwargs.get("change_type")
-        requester_id = kwargs.get("requester_id")
-        include_impact = kwargs.get("include_impact", False)
+    def invoke(data: Dict[str, Any], change_type, priority, project_id, requester_id, status, include_impact = False) -> str:
 
         change_requests = list(data.get("change_requests", {}).values())
         results = []

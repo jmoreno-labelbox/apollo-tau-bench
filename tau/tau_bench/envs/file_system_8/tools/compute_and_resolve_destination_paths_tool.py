@@ -27,9 +27,8 @@ class ComputeAndResolveDestinationPathsTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        dest_dir = kwargs["destination_directory"]
-        sort_rules = kwargs["sort_rules"]
+    def invoke(data: Dict[str, Any], destination_directory, sort_rules) -> str:
+        dest_dir = destination_directory
         destination_paths: Set[str] = set()
 
         for file in data.get("file_list", []):

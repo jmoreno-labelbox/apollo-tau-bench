@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateDirectoryAccount(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get('employee_id')
-        status = kwargs.get('status')
+    def invoke(data: Dict[str, Any], employee_id, status) -> str:
 
         if employee_id is None:
             return json.dumps({'status': 'error', 'description': 'The employee_id field is required.'}, indent=2)

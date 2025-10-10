@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetTransactionDetailsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        transaction_id = kwargs.get('transaction_id')
+    def invoke(data: Dict[str, Any], transaction_id) -> str:
         transactions = list(data.get('transactions', {}).values())
 
         for transaction in transactions:

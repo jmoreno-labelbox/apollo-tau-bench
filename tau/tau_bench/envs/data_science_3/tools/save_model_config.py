@@ -8,11 +8,9 @@ from . import _fixed_now_iso
 
 class SaveModelConfig(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], config_name, model_name, params) -> str:
         cfgs = data.get("model_config", [])
-        model_name = kwargs.get("model_name")
-        config_name = kwargs.get("config_name")
-        params = kwargs.get("params") or {}
+        params = params or {}
         row = next((c for c in cfgs if c.get("model_name")==model_name and c.get("config_name")==config_name), None)
         if row:
             row["params"] = params

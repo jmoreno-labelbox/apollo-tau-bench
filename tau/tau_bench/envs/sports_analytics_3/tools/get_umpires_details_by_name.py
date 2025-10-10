@@ -9,8 +9,7 @@ class GetUmpiresDetailsByName(Tool):
     """Fetch an umpire record by full_name (exact, case-sensitive)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        full_name = kwargs.get("full_name")
+    def invoke(data: Dict[str, Any], full_name) -> str:
 
         # 1) Verify
         if not isinstance(full_name, str) or full_name == "":

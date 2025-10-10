@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class ListPublisherOpenInvoices(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        pub_id = kwargs.get("publisher_id")
+    def invoke(data: Dict[str, Any], publisher_id) -> str:
+        pub_id = publisher_id
         if not pub_id:
             return json.dumps({"error": "publisher_id is required"}, indent=2)
         invoices = list(data.get("invoices", {}).values())

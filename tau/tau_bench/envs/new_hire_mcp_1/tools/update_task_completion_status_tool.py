@@ -9,8 +9,7 @@ class UpdateTaskCompletionStatusTool(Tool):
     """Updates existing records in `checklist_items` array by setting status to 'Completed'."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        item_ids = kwargs.get("item_ids", [])
+    def invoke(data: Dict[str, Any], item_ids = []) -> str:
         if not item_ids:
             return _err("item_ids array is required.")
 

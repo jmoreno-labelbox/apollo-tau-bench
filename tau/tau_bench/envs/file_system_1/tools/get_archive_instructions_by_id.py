@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetArchiveInstructionsByID(Tool):
     """Retrieves a specific archival task by its ID from the instructions database."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        archive_id = kwargs.get("archive_id")
+    def invoke(data: Dict[str, Any], archive_id) -> str:
         for instruction in data.get('archive_instructions', []):
             if instruction.get('archive_id') == archive_id:
                 return json.dumps(instruction)

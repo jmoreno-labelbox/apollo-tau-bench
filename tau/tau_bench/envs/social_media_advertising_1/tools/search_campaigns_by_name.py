@@ -9,8 +9,7 @@ class SearchCampaignsByName(Tool):
     """Searches for campaigns with names containing the specified text."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        name_query = kwargs.get("name_query")
+    def invoke(data: Dict[str, Any], name_query) -> str:
         campaigns = list(data.get("campaigns", {}).values())
         matching_campaigns = []
         

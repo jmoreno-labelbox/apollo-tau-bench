@@ -9,9 +9,8 @@ class ListSessionsTool(Tool):
     """List user sessions with optional filters."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        uid = kwargs.get("user_id")
-        active_only = kwargs.get("active_only")
+    def invoke(data: Dict[str, Any], active_only, user_id) -> str:
+        uid = user_id
         sessions = data.get("sessions", [])
         results = []
         for s in sessions:

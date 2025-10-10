@@ -9,9 +9,8 @@ class GetBeneficiaryDetailsForCustomerIdAndBeneficiaryName(Tool):
     """Retrieves full details of a beneficiary using customer_id and beneficiary_name."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
-        beneficiary_name = kwargs.get("beneficiary_name", "").strip().lower()
+    def invoke(data: Dict[str, Any], customer_id, beneficiary_name = "") -> str:
+        beneficiary_name = beneficiary_name.strip().lower()
 
         if not customer_id or not beneficiary_name:
             return json.dumps({

@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetUserDefaultSshKey(Tool):
     """Finds a user's default SSH key ID from their preferences."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
+    def invoke(data: Dict[str, Any], user_id) -> str:
         for user in data.get('user_preferences', []):
             if user.get('user_id') == user_id and 'default_ssh_key' in user:
                 return json.dumps({"user_id": user_id, "default_ssh_key": user['default_ssh_key']})

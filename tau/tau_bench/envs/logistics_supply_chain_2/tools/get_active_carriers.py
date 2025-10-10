@@ -9,9 +9,9 @@ class GetActiveCarriers(Tool):
     """Tool to retrieve all active carriers."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], list_of_scacs = None) -> str:
         carriers = list(data.get("carriers", {}).values())
-        list_of_carriers = kwargs.get("list_of_scacs", None)
+        list_of_carriers = list_of_scacs
         if list_of_carriers:
             active_carriers = [carrier['scac'] for carrier in carriers if
                                carrier.get("active_status") and carrier['scac'] in list_of_carriers]

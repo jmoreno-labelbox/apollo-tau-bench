@@ -9,8 +9,7 @@ from . import _json_dump
 class ListRecipeIngredients(Tool):
     """Return joined recipe_ingredients for a recipe_id with ingredient metadata."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        recipe_id = kwargs.get("recipe_id")
+    def invoke(data: Dict[str, Any], recipe_id) -> str:
         if recipe_id is None:
             return _json_dump({"error": "recipe_id is required"})
         rows = [r for r in list(data.get("recipe_ingredients", {}).values()) if int(r.get("recipe_id")) == int(recipe_id)]

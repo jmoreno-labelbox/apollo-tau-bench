@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetUserAsset(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
+    def invoke(data: Dict[str, Any], employee_id) -> str:
         assets = data.get("it_assets", [])
         asset = next((a for a in assets if a.get("assigned_to") == employee_id), None)
         if not asset:

@@ -9,10 +9,7 @@ from . import _first_user_id
 
 class FlagOverlapLastMonthOnList(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        list_id = kwargs.get("list_id")
-        household_id = kwargs.get("household_id")
-        anchor_date = kwargs.get("anchor_date")
+    def invoke(data: Dict[str, Any], anchor_date, household_id, list_id) -> str:
         if household_id is None:
             household_id = _default_household_id(data, _first_user_id(data))
         if list_id is None:

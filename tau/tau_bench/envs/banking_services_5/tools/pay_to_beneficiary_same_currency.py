@@ -9,12 +9,7 @@ class PayToBeneficiarySameCurrency(Tool):
     """Debits a source account and pays a beneficiary in the same currency for a given customer."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id       = kwargs.get("customer_id")
-        beneficiary_id    = kwargs.get("beneficiary_id")
-        source_account_id = kwargs.get("source_account_id")
-        amount            = kwargs.get("amount")
-        currency          = kwargs.get("currency")
+    def invoke(data: Dict[str, Any], amount, beneficiary_id, currency, customer_id, source_account_id) -> str:
 
         if not all([customer_id, beneficiary_id, source_account_id, amount, currency]):
             return json.dumps(

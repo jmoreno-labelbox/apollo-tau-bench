@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class ReassignOrderCarrier(Tool):
     """Changes the assigned carrier for a specific outbound order."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        order_id = kwargs.get('order_id')
-        new_carrier_scac = kwargs.get('new_carrier_scac')
+    def invoke(data: Dict[str, Any], new_carrier_scac, order_id) -> str:
         if not all([order_id, new_carrier_scac]):
             return json.dumps({"error": "order_id and new_carrier_scac are required."}, indent=2)
         order = next((o for o in data.get('outbound_orders', []) if o.get('order_id') == order_id), None)

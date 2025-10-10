@@ -9,10 +9,9 @@ from . import _json_dump
 class ProposeSubstituteProducts(Tool):
     """For flagged items, propose in-stock substitutes at the same store; honor peanut-free if require_peanut_free."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        store_id = kwargs.get("store_id")
-        flagged = kwargs.get("flagged_items", [])
-        require_peanut_free = bool(kwargs.get("require_peanut_free", False))
+    def invoke(data: Dict[str, Any], store_id, flagged_items = [], require_peanut_free = False) -> str:
+        flagged = flagged_items
+        require_peanut_free = bool(require_peanut_free)
         if store_id is None or not isinstance(flagged, list):
             return _json_dump({"error": "store_id and flagged_items are required"})
         suggestions = []

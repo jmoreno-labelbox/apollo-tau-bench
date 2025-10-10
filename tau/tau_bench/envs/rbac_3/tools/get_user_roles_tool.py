@@ -9,8 +9,7 @@ class GetUserRolesTool(Tool):
     """Retrieve all roles assigned to a given user (echo user_id for chaining)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
+    def invoke(data: Dict[str, Any], user_id) -> str:
         roles: List[str] = []
         assignments = data.get("user_roles", [])
         for assignment in assignments:

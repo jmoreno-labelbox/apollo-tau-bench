@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateTaskPriority(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        task_id = kwargs.get("task_id")
-        new_priority = kwargs.get("new_priority")
+    def invoke(data: Dict[str, Any], new_priority, task_id) -> str:
 
         if not all([task_id, new_priority]):
             return json.dumps({"error": "task_id and new_priority are required"})

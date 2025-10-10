@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class ListTerminal(Tool):
     """List terminal log entries (most recent first)."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        limit = int(kwargs.get("limit", 50))
+    def invoke(data: Dict[str, Any], limit = 50) -> str:
+        limit = int(limit)
         logs = list(reversed(_terminal(data)))[:limit]
         return json.dumps(logs)
 

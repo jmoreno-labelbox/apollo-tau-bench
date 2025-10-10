@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetCustomerInfo(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
+    def invoke(data: Dict[str, Any], customer_id) -> str:
         customers = list(data.get("customers", {}).values())
         result = [item for item in customers if item["customer_id"] == customer_id]
         if result:

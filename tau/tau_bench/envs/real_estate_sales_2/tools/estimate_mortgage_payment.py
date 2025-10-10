@@ -7,11 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class EstimateMortgagePayment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        client_id = kwargs.get("client_id")
-        list_price = kwargs.get("list_price")
-        term_years = kwargs.get("term_years", 30)
-        region_override = kwargs.get("region")
+    def invoke(data: Dict[str, Any], client_id, list_price, region, term_years = 30) -> str:
+        region_override = region
 
         profiles = data.get("mortgage_profiles") or data.get("mortage_profiles") or []
         profile = next((m for m in profiles if m.get("client_id") == client_id), {})

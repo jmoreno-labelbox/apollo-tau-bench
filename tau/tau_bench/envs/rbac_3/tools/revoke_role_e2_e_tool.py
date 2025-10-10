@@ -15,10 +15,7 @@ class RevokeRoleE2ETool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
-        role_id = kwargs.get("role_id")
-        revoked_by = kwargs.get("revoked_by")
+    def invoke(data: Dict[str, Any], revoked_by, role_id, user_id) -> str:
         if not user_id or not role_id or not revoked_by:
             return json.dumps(
                 {"error": "user_id, role_id, revoked_by are required"}, indent=2

@@ -9,8 +9,7 @@ class GetAllPlayersOfTeam(Tool):
     """Fetch all players belonging to a given team_id."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        team_id = kwargs.get("team_id")
+    def invoke(data: Dict[str, Any], team_id) -> str:
 
         # 1) Verify
         if team_id is None:

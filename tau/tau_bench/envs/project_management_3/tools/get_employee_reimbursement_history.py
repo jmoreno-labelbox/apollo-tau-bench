@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetEmployeeReimbursementHistory(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
-        fiscal_year = kwargs.get("fiscal_year", datetime.now().year)
+    def invoke(data: Dict[str, Any], employee_id, fiscal_year = datetime.now().year) -> str:
 
         if not employee_id:
             return json.dumps({"error": "employee_id is required"})

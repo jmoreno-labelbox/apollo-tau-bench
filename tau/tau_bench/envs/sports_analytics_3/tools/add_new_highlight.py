@@ -24,10 +24,7 @@ class AddNewHighlight(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        name = kwargs.get("name")
-        clip_count = kwargs.get("clip_count")
-        report_id = kwargs.get("report_id", None)
+    def invoke(data: Dict[str, Any], clip_count, name, report_id = None) -> str:
 
         # 1) Verify
         if not isinstance(name, str) or name == "":

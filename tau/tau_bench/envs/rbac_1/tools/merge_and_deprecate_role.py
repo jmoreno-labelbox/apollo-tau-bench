@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class MergeAndDeprecateRole(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        source_role_id = kwargs.get("source_role_id")
-        target_role_id = kwargs.get("target_role_id")
-        actor_id = kwargs.get("actor_id")
+    def invoke(data: Dict[str, Any], actor_id, source_role_id, target_role_id) -> str:
 
         source_perms = {rp['permission_id'] for rp in data.get('role_permissions', []) if rp['role_id'] == source_role_id}
         target_perms = {rp['permission_id'] for rp in data.get('role_permissions', []) if rp['role_id'] == target_role_id}

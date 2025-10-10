@@ -9,17 +9,10 @@ class CreateEmailEntryTool(Tool):
     """Creates an entry in the emails table and an accompanying audit event."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        client_id = kwargs.get("client_id")
-        broker_id = kwargs.get("broker_id")
-        subject = kwargs.get("subject")
-        body_uri = kwargs.get("body_uri")
-        template_code = kwargs.get("template_code")
+    def invoke(data: Dict[str, Any], body_uri, broker_id, campaign_id, client_id, subject, template_code) -> str:
 
         if client_id is None or broker_id is None or not template_code:
             return _err("client_id, broker_id, and template_code are required")
-
-        campaign_id = kwargs.get("campaign_id")
 
         # --- Automatically create subject and body_uri if they are not supplied ---
         if not subject or not body_uri:

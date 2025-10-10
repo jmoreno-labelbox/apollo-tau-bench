@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class AddAttachment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        new_attach = kwargs.get("attachment") or {}
+    def invoke(data: Dict[str, Any], attachment) -> str:
+        new_attach = attachment or {}
         attachments = list(data.get("attachments", {}).values())
         attachments.append(new_attach)
         data["attachments"] = attachments

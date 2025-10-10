@@ -9,8 +9,8 @@ class ListCandidateEmails(Tool):
     """List emails linked to a candidate_id."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cand_id = kwargs["candidate_id"]
+    def invoke(data: Dict[str, Any], candidate_id) -> str:
+        cand_id = candidate_id
         rows = [e for e in list(data.get("emails", {}).values()) if e.get("candidate_id_nullable") == cand_id]
         return json.dumps({"emails": rows}, indent=2)
 

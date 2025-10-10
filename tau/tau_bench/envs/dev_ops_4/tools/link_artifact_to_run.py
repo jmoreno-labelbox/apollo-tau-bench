@@ -25,9 +25,7 @@ class LinkArtifactToRun(Tool):
         }
 
     @staticmethod
-    def invoke(data, **kwargs):
-        run_id = kwargs.get("run_id")
-        artifacts_uri = kwargs.get("artifacts_uri")
+    def invoke(data, artifacts_uri, run_id):
         runs = list(data.get("build_runs", {}).values())
         run = next((r for r in runs if r.get("id") == run_id), None)
         if not run:

@@ -9,9 +9,7 @@ class CaV2CalculateYtdRevenue(Tool):
     """Calculate year-to-date revenue and tax reserve."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        year = kwargs.get("year", "2024")
-        tax_rate = kwargs.get("tax_rate", 0.265)  # 26.5% failure rate
+    def invoke(data: Dict[str, Any], tax_rate = 0.265, year = "2024") -> str:
 
         invoices = data.get("invoices", [])
         ytd_invoices = [inv for inv in invoices

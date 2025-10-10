@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class PromoteAssetAutofixToPass(Tool):
     """Promote an autofixed QA record to 'passed' deterministically."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        qa_id = kwargs.get("qa_id")
+    def invoke(data: Dict[str, Any], qa_id) -> str:
         results = list(data.get("asset_qa_results", {}).values())
         idx = _idx_by_id(results, qa_id)
         if idx is None:

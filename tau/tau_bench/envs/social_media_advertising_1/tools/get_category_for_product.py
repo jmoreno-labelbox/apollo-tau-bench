@@ -9,8 +9,7 @@ class GetCategoryForProduct(Tool):
     """Retrieves the category for a specific product."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        product_id = kwargs.get("product_id")
+    def invoke(data: Dict[str, Any], product_id) -> str:
         products = list(data.get("dim_product", {}).values())
         
         for product in products:

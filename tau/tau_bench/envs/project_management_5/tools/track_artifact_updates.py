@@ -7,13 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class TrackArtifactUpdates(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cr_id = kwargs.get("cr_id")
-        artifact_type = kwargs.get("artifact_type")
-        update_description = kwargs.get("update_description")
-        version_before = kwargs.get("version_before")
-        version_after = kwargs.get("version_after")
-        updated_by = kwargs.get("updated_by")
+    def invoke(data: Dict[str, Any], artifact_type, cr_id, update_description, updated_by, version_after, version_before, update_id = f"au_{uuid.uuid4().hex[:8]}") -> str:
 
         if not all(
             [cr_id, artifact_type, update_description, version_after, updated_by]
@@ -35,8 +29,6 @@ class TrackArtifactUpdates(Tool):
             return json.dumps(
                 {"error": "Can only update artifacts for approved change requests"}
             )
-
-        update_id = kwargs.get("update_id", f"au_{uuid.uuid4().hex[:8]}")
 
         artifact_update = {
             "update_id": update_id,

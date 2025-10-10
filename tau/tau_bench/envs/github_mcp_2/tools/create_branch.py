@@ -9,10 +9,7 @@ class CreateBranch(Tool):
     """Creates a new branch from an existing branch in the repo."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_name = kwargs.get("repo_name")
-        source_branch = kwargs.get("source_branch")
-        new_branch = kwargs.get("new_branch")
+    def invoke(data: Dict[str, Any], new_branch, repo_name, source_branch) -> str:
 
         if not all([repo_name, source_branch, new_branch]):
             return json.dumps({"error": "repo_name, source_branch, and new_branch are required."}, indent=2)

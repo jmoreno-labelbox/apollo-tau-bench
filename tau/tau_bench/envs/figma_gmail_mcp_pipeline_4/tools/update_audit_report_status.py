@@ -7,14 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class UpdateAuditReportStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], audit_id, new_status, report_asset_id, completion_notes = '') -> str:
         """
         Updates audit report status and manages audit completion workflow.
         """
-        audit_id = kwargs.get('audit_id')
-        new_status = kwargs.get('new_status')
-        report_asset_id = kwargs.get('report_asset_id')
-        completion_notes = kwargs.get('completion_notes', '')
 
         if not all([audit_id, new_status]):
             return json.dumps({"error": "audit_id and new_status are required."})

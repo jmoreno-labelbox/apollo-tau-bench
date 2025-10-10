@@ -26,9 +26,9 @@ class ValidateFilesExistTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], file_paths) -> str:
         existing_paths = {f["path"] for f in data.get("remote_files", [])}
-        missing_files = [p for p in kwargs["file_paths"] if p not in existing_paths]
+        missing_files = [p for p in file_paths if p not in existing_paths]
         if missing_files:
             return json.dumps({"status": "failed", "missing_files": missing_files})
         return json.dumps({"status": "success", "all_files_exist": True})

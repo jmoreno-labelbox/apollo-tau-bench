@@ -21,9 +21,7 @@ class DownloadStatementByDateTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        account_id = kwargs.get("account_id")
-        month = kwargs.get("month")
+    def invoke(data: Dict[str, Any], account_id, month) -> str:
         if not account_id or not month:
             return json.dumps({"error": "account_id and month are required"}, indent=2)
         url = f"https://bank.example.com/statements/{account_id}/{month}.pdf"

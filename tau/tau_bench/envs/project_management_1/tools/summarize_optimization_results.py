@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SummarizeOptimizationResults(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        optimization_actions = kwargs.get("optimization_actions", [])
-        employees_optimized = kwargs.get("employees_optimized", [])
+    def invoke(data: Dict[str, Any], employees_optimized = [], optimization_actions = []) -> str:
 
         utilization_optimized = (
             len(optimization_actions) > 0 or len(employees_optimized) > 0

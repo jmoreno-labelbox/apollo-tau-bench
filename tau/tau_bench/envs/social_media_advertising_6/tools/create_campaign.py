@@ -9,15 +9,15 @@ class CreateCampaign(Tool):
     """Create a campaign with explicit created_date and status."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], created_date, name, objective, status) -> str:
         err = _require(kwargs, ["name", "objective", "created_date", "status"])
         if err: return _fail(err)
         rows = _assert_table(data, "campaigns")
-        if any(r.get("name") == kwargs["name"] for r in rows):
+        if any(r.get("name") == name for r in rows):
             return _fail("name_exists")
         new_id = _next_numeric_id(rows, "campaign_id")
-        rec = {"campaign_id": new_id, "name": kwargs["name"], "objective": kwargs["objective"],
-               "created_date": kwargs["created_date"], "status": kwargs["status"]}
+        rec = {"campaign_id": new_id, "name": name, "objective": objective,
+               "created_date": created_date, "status": status}
         rows.append(rec)
         return json.dumps(rec)
 

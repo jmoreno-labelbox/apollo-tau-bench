@@ -20,11 +20,9 @@ class CheckSoDConflicts(Tool):
       role_id: str (optional) - If provided, checks if adding this role to the user would cause a conflict
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id", "")
-        on_date_iso = kwargs.get("on_date") or get_current_timestamp()
-        include_role_details = kwargs.get("include_role_details", False)
-        test_role_id = kwargs.get("role_id")
+    def invoke(data: Dict[str, Any], on_date, role_id, include_role_details = False, user_id = "") -> str:
+        on_date_iso = on_date or get_current_timestamp()
+        test_role_id = role_id
 
         if not user_id:
             return json.dumps({"error": "user_id is required"})

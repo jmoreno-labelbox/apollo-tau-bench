@@ -9,11 +9,10 @@ class ApprovePolicyExceptionTool(Tool):
     """Approve a policy exception."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        eid = kwargs.get("exception_id")
-        reviewer = kwargs.get("reviewed_by")
-        expires = kwargs.get("expires_on")
-        reviewed_on = kwargs.get("reviewed_on")
+    def invoke(data: Dict[str, Any], exception_id, expires_on, reviewed_by, reviewed_on) -> str:
+        eid = exception_id
+        reviewer = reviewed_by
+        expires = expires_on
         for e in data.get("policy_exceptions", []):
             if e["exception_id"] == eid:
                 e["status"] = "ACTIVE"

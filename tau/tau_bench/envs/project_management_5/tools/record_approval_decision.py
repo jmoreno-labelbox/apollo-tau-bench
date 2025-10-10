@@ -7,12 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class RecordApprovalDecision(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cr_id = kwargs.get("cr_id")
-        approver_id = kwargs.get("approver_id")
-        decision = kwargs.get("decision")
-        comments = kwargs.get("comments", "")
-        conditions = kwargs.get("conditions", [])
+    def invoke(data: Dict[str, Any], approver_id, cr_id, decision, approval_id = f"appr_ch_{uuid.uuid4().hex[:8]}", comments = "", conditions = []) -> str:
 
         if not all([cr_id, approver_id, decision]):
             return json.dumps(
@@ -56,8 +51,6 @@ class RecordApprovalDecision(Tool):
 
         if current_step and current_step.get("step_number") != workflow.get("current_step"):
             return json.dumps({"error": "Cannot approve out of sequence"})
-
-        approval_id = kwargs.get("approval_id", f"appr_ch_{uuid.uuid4().hex[:8]}")
 
         approval_record = {
             "approval_id": approval_id,

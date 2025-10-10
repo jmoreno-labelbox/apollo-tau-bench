@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class ReassignCourierForTracking(Tool):
     """Change the delivery_carrier for an existing tracking record."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        tracking_id = kwargs.get('tracking_id')
-        courier_id = kwargs.get('courier_id')
+    def invoke(data, courier_id, tracking_id) -> str:
         if not tracking_id or not courier_id:
             return json.dumps({"error":"tracking_id and courier_id are required"}, indent=2)
         tr = _find_tracking(data, tracking_id)

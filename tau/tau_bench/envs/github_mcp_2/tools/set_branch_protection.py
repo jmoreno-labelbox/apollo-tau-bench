@@ -9,11 +9,10 @@ class SetBranchProtection(Tool):
     """Sets branch protection rules for a given branch."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo = _find_repo_record(data, kwargs.get("repo_name"))
-        idx = _branch_index(repo, kwargs.get("branch"))
-        protection = kwargs.get("protected")
-        rules = kwargs.get("rules")
+    def invoke(data: Dict[str, Any], branch, protected, repo_name, rules) -> str:
+        repo = _find_repo_record(data, repo_name)
+        idx = _branch_index(repo, branch)
+        protection = protected
 
         # Set up if not present
         if "branch_protections" not in repo:
@@ -28,7 +27,7 @@ class SetBranchProtection(Tool):
         return json.dumps({
             "message": "Branch protection enabled." if protection else "Branch protection disabled.",
             "repo_name": repo["repo_name"],
-            "branch": kwargs.get("branch"),
+            "branch": branch,
             "protected": protection if protection else "false",
             "rules": rules
         }, indent=2)

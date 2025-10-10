@@ -9,8 +9,8 @@ class GetTestResult(Tool):
     """Fetch a test result by id."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        tid = kwargs.get('id')
+    def invoke(data: Dict[str, Any], id) -> str:
+        tid = id
         rows = _table(data, 'test_results')
         row = next((r for r in rows if r.get('id') == tid), None)
         return _ok({'test_result': row}) if row else _err('test_result not found')

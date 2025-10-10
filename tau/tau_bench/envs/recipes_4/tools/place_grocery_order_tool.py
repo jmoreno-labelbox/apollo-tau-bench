@@ -37,7 +37,7 @@ class PlaceGroceryOrderTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> Dict[str, Any]:
+    def invoke(data: Dict[str, Any], household_id, list_id, store_id, user_id, substitutions = []) -> Dict[str, Any]:
         """
         Executes the logic to create order and order_item records.
 
@@ -59,10 +59,6 @@ class PlaceGroceryOrderTool(Tool):
         if validation_error:
             return _build_error_response(validation_error["error_code"], validation_error["details"])
 
-        # 2. Validation of Preconditions
-        list_id = kwargs["list_id"]
-        store_id = kwargs["store_id"]
-
         list_record = next((g for g in data.get("grocery_lists", []) if g.get("list_id") == list_id), None)
         if not list_record:
             return _build_error_response("NOT_FOUND", {"entity": "GroceryList", "entity_id": list_id})
@@ -81,13 +77,13 @@ class PlaceGroceryOrderTool(Tool):
         delivery_end = (datetime.now(timezone.utc) + timedelta(days=1)).replace(hour=20, minute=0, second=0, microsecond=0).isoformat().replace('+00:00', 'Z')
 
         new_order_record = {
-            "order_id": new_order_id, "household_id": kwargs["household_id"], "store_id": store_id,
+            "order_id": new_order_id, "household_id": household_id, "store_id": store_id,
             "list_id": list_id, "status_enum": "placed", "subtotal_cents": 0, "total_cents": 0,
             "placed_ts": timestamp, "scheduled_slot_start_ts": delivery_start, "scheduled_slot_end_ts": delivery_end
         }
 
         # 3b. Generate Order Items and compute subtotal
-        sub_map = {s["original_ingredient_id"]: s["substitute_product_id"] for s in kwargs.get("substitutions", [])}
+        sub_map = {s["original_ingredient_id"]: s["substitute_product_id"] for s in substitutions}
         list_items = [item for item in data.get("grocery_list_items", []) if item.get("list_id") == list_id]
         oi_table = data.setdefault("order_items", [])
         max_oi_id = max((oi.get("order_item_id", 0) for oi in oi_table), default=DEFAULT_BUSINESS_RULES["INITIAL_ID_DEFAULTS"]["order_items"])
@@ -124,7 +120,7 @@ class PlaceGroceryOrderTool(Tool):
 
         # 4. Review and verification
         _log_audit_event(
-            data, household_id=kwargs["household_id"], user_id=kwargs["user_id"], entity_type="orders",
+            data, household_id=household_id, user_id=user_id, entity_type="orders",
             entity_id=new_order_id, action_enum="create", payload_json={"list_id": list_id, "store_id": store_id}
         )
 

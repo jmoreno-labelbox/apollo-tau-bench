@@ -9,13 +9,7 @@ class CaV2CreateMonthlyRevenue(Tool):
     """Create monthly revenue record for dashboard snapshot."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        row_id = kwargs.get("row_id")
-        snapshot_id = kwargs.get("snapshot_id")
-        month_year = kwargs.get("month_year")
-        revenue = kwargs.get("revenue")
-        tax_reserve = kwargs.get("tax_reserve")
-        profit_flag = kwargs.get("profit_flag", "normal")
+    def invoke(data: Dict[str, Any], month_year, revenue, row_id, snapshot_id, tax_reserve, profit_flag = "normal") -> str:
 
         if not all([month_year, revenue, tax_reserve]):
             return _error("Required fields: month_year, revenue, tax_reserve")

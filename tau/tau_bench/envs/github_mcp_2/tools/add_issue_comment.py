@@ -9,10 +9,7 @@ class AddIssueComment(Tool):
     """Adds a comment to an issue. Supports both aggregated blocks and flat issue rows."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_name = kwargs.get("repo_name")
-        issue_number = kwargs.get("issue_number")
-        comment = kwargs.get("comment", "")
+    def invoke(data: Dict[str, Any], issue_number, repo_name, comment = "") -> str:
 
         if not all([repo_name, issue_number is not None, comment is not None]):
             return json.dumps({"error": "repo_name, issue_number, and comment are required."}, indent=2)

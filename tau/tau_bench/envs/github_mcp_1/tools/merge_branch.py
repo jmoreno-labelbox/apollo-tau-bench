@@ -21,11 +21,11 @@ class MergeBranch(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = (kwargs.get("owner") or "").strip()
-        repo_name = (kwargs.get("repo_name") or kwargs.get("reponame") or "").strip()
-        source_branch_name = (kwargs.get("source_branch_name") or "").strip()
-        target_branch_name = (kwargs.get("target_branch_name") or "").strip()
+    def invoke(data: Dict[str, Any], owner, repo_name, reponame, source_branch_name, target_branch_name) -> str:
+        owner = (owner or "").strip()
+        repo_name = (repo_name or reponame or "").strip()
+        source_branch_name = (source_branch_name or "").strip()
+        target_branch_name = (target_branch_name or "").strip()
 
         if not owner or not repo_name or not source_branch_name or not target_branch_name:
             return json.dumps(

@@ -7,11 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class RetrieveMetrics(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], dataset_split, metric_name, model_name) -> str:
         metrics = data.get("metrics", []) or []
-        model_name = kwargs.get("model_name")
-        metric_name = kwargs.get("metric_name")
-        dataset_split = kwargs.get("dataset_split")
         rows = [m for m in metrics if (not model_name or m.get("model_name")==model_name)
                 and (not metric_name or m.get("metric_name")==metric_name)
                 and (not dataset_split or m.get("dataset_split")==dataset_split)]

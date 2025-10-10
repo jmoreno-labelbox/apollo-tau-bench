@@ -9,8 +9,8 @@ class SearchVulnerabilitiesByCVE(Tool):
     """Searches for vulnerabilities matching a specific CVE identifier."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cve_id = kwargs.get("cve")
+    def invoke(data: Dict[str, Any], cve) -> str:
+        cve_id = cve
         vulnerabilities = data.get("vulnerabilities", [])
         
         matching_vulnerabilities = [

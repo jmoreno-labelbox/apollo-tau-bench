@@ -15,10 +15,7 @@ class RevokeUserRoleTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
-        role_id = kwargs.get("role_id")
-        revoked_by = kwargs.get("revoked_by")
+    def invoke(data: Dict[str, Any], revoked_by, role_id, user_id) -> str:
 
         assignments = data.get("user_roles", [])
         removed = False

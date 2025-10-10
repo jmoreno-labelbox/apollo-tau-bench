@@ -7,16 +7,16 @@ from tau_bench.envs.tool import Tool
 
 class CreatePublisher(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], name, publisher_id, address = "", contact_email = "", gst_number = "") -> str:
         """
         Creates a new publisher and adds it to the publishers.json data.
         """
         new_publisher = {
-            "publisher_id": kwargs["publisher_id"],
-            "name": kwargs["name"],
-            "address": kwargs.get("address", ""),
-            "contact_email": kwargs.get("contact_email", ""),
-            "gst_number": kwargs.get("gst_number", ""),
+            "publisher_id": publisher_id,
+            "name": name,
+            "address": address,
+            "contact_email": contact_email,
+            "gst_number": gst_number,
             "created_at": "2024-08-08T12:00:00",
             "updated_at": "2024-08-08T12:00:00",
         }

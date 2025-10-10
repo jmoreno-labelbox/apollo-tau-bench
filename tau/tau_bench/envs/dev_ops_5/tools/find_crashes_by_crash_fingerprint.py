@@ -9,8 +9,7 @@ class FindCrashesByCrashFingerprint(Tool):
     """Finds all crash events that match a specific crash fingerprint."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        crash_fingerprint = kwargs.get("crash_fingerprint")
+    def invoke(data: Dict[str, Any], crash_fingerprint) -> str:
         crash_events = data.get("crash_events", [])
         
         matching_crashes = [

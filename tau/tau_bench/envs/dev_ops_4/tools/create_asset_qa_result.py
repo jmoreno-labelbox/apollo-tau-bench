@@ -8,15 +8,7 @@ from tau_bench.envs.tool import Tool
 class CreateAssetQaResult(Tool):
     """Create a QA result row for an asset deterministically."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        asset_path = kwargs.get("asset_path")
-        asset_type = kwargs.get("asset_type")
-        validation_status = kwargs.get("validation_status")
-        severity_max = kwargs.get("severity_max")
-        preview_uri = kwargs.get("preview_uri")
-        report_uri = kwargs.get("report_uri")
-        autofix_applied = kwargs.get("autofix_applied", False)
-        validation_results = kwargs.get("validation_results", {})
+    def invoke(data: Dict[str, Any], asset_path, asset_type, preview_uri, report_uri, severity_max, validation_status, autofix_applied = False, validation_results = {}) -> str:
 
         if asset_path == "assets/textures/environment/castle_tower_diffuse.png" and asset_type == "texture":
             qa_id = f"{ID_PREFIX}::qa::{_sanitize(asset_path)}__{_sanitize(asset_type)}::ctd1"

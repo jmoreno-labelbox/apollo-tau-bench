@@ -9,8 +9,8 @@ class GetPermissionByResourceId(Tool):
     """Finds all permissions associated with a specific resource ID."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        resource_id_to_find = kwargs.get("resource_id")
+    def invoke(data: Dict[str, Any], resource_id) -> str:
+        resource_id_to_find = resource_id
         try:
             all_permissions = list(data.get('permissions', {}).values())
         except (KeyError, json.JSONDecodeError):

@@ -29,8 +29,8 @@ class ExtractTaskInstructionsTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        target_task_id = kwargs["task_id"]
+    def invoke(data: Dict[str, Any], task_id) -> str:
+        target_task_id = task_id
 
         # Fetch task from the database.
         task_record = None

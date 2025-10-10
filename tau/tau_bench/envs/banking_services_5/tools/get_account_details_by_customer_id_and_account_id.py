@@ -11,9 +11,7 @@ class GetAccountDetailsByCustomerIdAndAccountId(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
-        account_id  = kwargs.get("account_id")
+    def invoke(data: Dict[str, Any], account_id, customer_id) -> str:
 
         if not customer_id or not account_id:
             return json.dumps({

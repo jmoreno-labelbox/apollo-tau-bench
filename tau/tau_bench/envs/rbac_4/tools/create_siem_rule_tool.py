@@ -9,10 +9,7 @@ class CreateSiemRuleTool(Tool):
     """Create a new SIEM correlation rule."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        rule_name = kwargs.get("rule_name")
-        conditions = kwargs.get("conditions")
-        created_by = kwargs.get("created_by")
+    def invoke(data: Dict[str, Any], conditions, created_by, rule_name) -> str:
         rules = data.get("siem_rules", [])
         new_id = f"RULE-{len(rules) + 1:03d}"
         rules.append({

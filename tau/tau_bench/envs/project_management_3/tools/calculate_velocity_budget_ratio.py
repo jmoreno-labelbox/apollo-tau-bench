@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CalculateVelocityBudgetRatio(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        team_id = kwargs.get("team_id")
-        lookback_sprints = kwargs.get("lookback_sprints", 3)
-        fiscal_year = kwargs.get("fiscal_year", datetime.now().year)
+    def invoke(data: Dict[str, Any], team_id, fiscal_year = datetime.now().year, lookback_sprints = 3) -> str:
 
         if not team_id:
             return json.dumps({"error": "team_id is required"})

@@ -9,9 +9,8 @@ class GetIssue(Tool):
     """Returns details of a specific issue."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_name = kwargs.get("repo_name")
-        number = kwargs.get("issue_number")
+    def invoke(data: Dict[str, Any], issue_number, repo_name) -> str:
+        number = issue_number
         if not all([repo_name, number]):
             return json.dumps({"error": "repo_name and issue_number are required."}, indent=2)
 

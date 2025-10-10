@@ -51,7 +51,7 @@ class SearchRecipesTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> Dict[str, Any]:
+    def invoke(data: Dict[str, Any], cuisine, is_peanut_free, max_calories, meal_type, min_protein_g) -> Dict[str, Any]:
         """
         Executes the search logic by applying a series of filters.
 
@@ -89,23 +89,21 @@ class SearchRecipesTool(Tool):
 
         # 3. Sequentially implement filters.
         if "cuisine" in kwargs:
-            cuisine = kwargs["cuisine"].lower()
+            cuisine = cuisine.lower()
             results = [r for r in results if r.get("cuisine", "").lower() == cuisine]
 
         if "meal_type" in kwargs:
-            meal_type = kwargs["meal_type"].lower()
+            meal_type = meal_type.lower()
             results = [r for r in results if r.get("meal_type", "").lower() == meal_type]
 
 
         if "max_calories" in kwargs:
-            max_calories = kwargs["max_calories"]
             results = [r for r in results if (calories := r.get("calories_per_serving")) is not None and calories <= max_calories]
 
         if "min_protein_g" in kwargs:
-            min_protein_g = kwargs["min_protein_g"]
             results = [r for r in results if (protein := r.get("protein_g_per_serving")) is not None and protein >= min_protein_g]
 
-        if kwargs.get("is_peanut_free") is True:
+        if is_peanut_free is True:
             results = [r for r in results if r.get("is_peanut_free") is True]
 
         # 4. Provide the filtered list within a standard success response format.

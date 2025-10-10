@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class LogLifecycle(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get('employee_id')
-        memo_id = kwargs.get('memo_id')
-        event = kwargs.get('event')
+    def invoke(data: Dict[str, Any], employee_id, event, memo_id) -> str:
         if any([param is None for param in [employee_id, memo_id, event]]):
             return json.dumps({'status': 'error', 'description': 'The employee_id, memo_id, and event fields are required.'}, indent=2)
 

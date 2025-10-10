@@ -8,10 +8,7 @@ from tau_bench.envs.tool import Tool
 class LinkTrackingToOrder(Tool):
     """Add a fulfillment record linking tracking_id and item_ids to an order (idempotent by exact tuple)."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        order_id = kwargs.get('order_id')
-        tracking_id = kwargs.get('tracking_id')
-        item_ids = kwargs.get('item_ids', [])
+    def invoke(data, order_id, tracking_id, item_ids = []) -> str:
         if not order_id or not tracking_id or not item_ids:
             return json.dumps({"error":"order_id, tracking_id, item_ids are required"}, indent=2)
         o = _find_order(data, order_id)

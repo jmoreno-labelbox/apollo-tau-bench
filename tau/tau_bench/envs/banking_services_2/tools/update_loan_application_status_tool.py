@@ -8,11 +8,7 @@ from . import get_current_timestamp
 
 class UpdateLoanApplicationStatusTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        application_id = kwargs.get('application_id')
-        status = kwargs.get('status')
-        approved_amount = kwargs.get('approved_amount')
-        notes = kwargs.get('notes', '')
+    def invoke(data: Dict[str, Any], application_id, approved_amount, status, notes = '') -> str:
 
         loan_applications = data.get('loan_applications', [])
 

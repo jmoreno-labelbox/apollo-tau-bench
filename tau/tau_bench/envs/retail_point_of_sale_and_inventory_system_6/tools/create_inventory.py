@@ -7,11 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class create_inventory(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], timestamp) -> str:
         inventory = list(data.get("inventory", {}).values())
-
-        # A timestamp must be included for database entries.
-        timestamp = kwargs.get("timestamp")
 
         # These values are required to be transmitted.
         required_cols = [

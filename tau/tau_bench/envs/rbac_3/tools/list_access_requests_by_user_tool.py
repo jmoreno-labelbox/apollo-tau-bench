@@ -9,8 +9,7 @@ class ListAccessRequestsByUserTool(Tool):
     """list_access_requests_by_user"""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs["user_id"]
+    def invoke(data: Dict[str, Any], user_id) -> str:
         out = [
             r for r in data.get("access_requests", []) if r.get("user_id") == user_id
         ]

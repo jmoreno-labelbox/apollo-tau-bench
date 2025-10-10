@@ -9,11 +9,7 @@ class CreateIssue(Tool):
     """Creates a new issue in a repository."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_name = kwargs.get("repo_name")
-        title = kwargs.get("title")
-        body = kwargs.get("body", "")
-        labels = kwargs.get("labels", [])
+    def invoke(data: Dict[str, Any], repo_name, title, body = "", labels = []) -> str:
 
         if not all([repo_name, title]):
             return json.dumps({"error": "repo_name and title are required."}, indent=2)

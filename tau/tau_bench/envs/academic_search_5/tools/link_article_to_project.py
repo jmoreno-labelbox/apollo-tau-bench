@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class LinkArticleToProject(Tool):
     """Tool to link an article to a research project."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get('project_id')
-        article_id = kwargs.get('article_id')
+    def invoke(data: Dict[str, Any], article_id, project_id) -> str:
         if not project_id or not article_id:
             return json.dumps({"error": "project_id and article_id are required."})
 

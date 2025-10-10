@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class MatchupAnal(Tool):
     @staticmethod
         # primary execution function
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        opponent_team = kwargs.get("opponent_team")
-        our_lineup = kwargs.get("our_lineup")
+    def invoke(data: Dict[str, Any], opponent_team, our_lineup) -> str:
         # return outcome
         return json.dumps({"matchup_analysis": f"matchups_vs_team_{opponent_team}"}, indent=2)
 

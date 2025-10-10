@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetMilestoneDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        milestone_id = kwargs.get("milestone_id")
+    def invoke(data: Dict[str, Any], milestone_id) -> str:
         if not milestone_id:
             return json.dumps({"error": "milestone_id is required"})
 

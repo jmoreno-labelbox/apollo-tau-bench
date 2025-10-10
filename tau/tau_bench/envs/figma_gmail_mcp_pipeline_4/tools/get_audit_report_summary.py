@@ -7,11 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetAuditReportSummary(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], audit_id, include_details = False) -> str:
         """
         Retrieves comprehensive audit report summary with findings breakdown.
         """
-        audit_id = kwargs.get("audit_id")
 
         if not audit_id:
             return json.dumps({"error": "audit_id is required."})
@@ -41,8 +40,6 @@ class GetAuditReportSummary(Tool):
             severity = finding.get("severity", "MEDIUM")
             if severity in severity_counts:
                 severity_counts[severity] += 1
-
-        include_details = kwargs.get("include_details", False)
 
         summary = {
             "audit_info": audit_info,

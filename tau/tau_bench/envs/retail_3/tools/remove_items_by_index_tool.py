@@ -23,9 +23,7 @@ class RemoveItemsByIndexTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        order_id = kwargs.get("order_id")
-        indices = kwargs.get("indices")
+    def invoke(data: Dict[str, Any], indices, order_id) -> str:
 
         if not order_id or not isinstance(indices, list) or not indices:
             return json.dumps({"error": "order_id and non-empty indices are required"}, indent=2)

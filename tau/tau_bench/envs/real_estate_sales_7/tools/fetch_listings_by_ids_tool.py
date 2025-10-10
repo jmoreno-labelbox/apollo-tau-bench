@@ -9,8 +9,8 @@ class FetchListingsByIdsTool(Tool):
     """Fetches listings for multiple property_ids, with sales fallback when missing."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        ids = kwargs.get("property_ids") or []
+    def invoke(data: Dict[str, Any], property_ids) -> str:
+        ids = property_ids or []
         if not isinstance(ids, list) or not ids:
             return _err("property_ids must be a non-empty array")
 

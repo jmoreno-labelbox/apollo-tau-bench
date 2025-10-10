@@ -12,8 +12,8 @@ class GetUmpiresByExperience(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        exp_threshold = kwargs.get("min_experience")
+    def invoke(data: Dict[str, Any], min_experience) -> str:
+        exp_threshold = min_experience
 
         # 1) Confirm validity
         if exp_threshold is None:

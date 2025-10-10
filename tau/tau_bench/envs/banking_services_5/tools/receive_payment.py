@@ -9,11 +9,7 @@ class ReceivePayment(Tool):
     """Credits a specified amount into the given account for a customer."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
-        account_id = kwargs.get("account_id")
-        amount = kwargs.get("amount")
-        currency = kwargs.get("currency")
+    def invoke(data: Dict[str, Any], account_id, amount, currency, customer_id) -> str:
 
         if not all([customer_id, account_id, amount, currency]):
             return json.dumps(

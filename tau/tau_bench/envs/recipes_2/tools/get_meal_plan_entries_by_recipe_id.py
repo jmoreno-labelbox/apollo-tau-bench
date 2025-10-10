@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetMealPlanEntriesByRecipeId(Tool):
     """Retrieves all meal plan entries that use a specific recipe ID."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        recipe_id = kwargs.get("recipe_id")
+    def invoke(data: Dict[str, Any], recipe_id) -> str:
         if recipe_id is None:
             return json.dumps({"error": "recipe_id parameter is required."})
         meal_plan_entries = list(data.get("meal_plan_entries", {}).values())

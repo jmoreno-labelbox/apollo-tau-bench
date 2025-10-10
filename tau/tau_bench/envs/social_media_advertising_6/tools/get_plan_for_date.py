@@ -9,12 +9,12 @@ class GetPlanForDate(Tool):
     """Return the frozen plan for a given date (exact match on 'date')."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], date) -> str:
         err = _require(kwargs, ["date"])
         if err: return _fail(err)
         plans = _assert_table(data, "plans")
         for p in plans:
-            if p.get("date") == kwargs["date"]:
+            if p.get("date") == date:
                 return json.dumps(p)
         return _fail("plan_not_found")
 

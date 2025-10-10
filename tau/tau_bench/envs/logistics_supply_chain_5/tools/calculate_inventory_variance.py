@@ -7,12 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CalculateInventoryVariance(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        sku = kwargs.get("sku")
-        system_count = kwargs.get("system_count")
-        physical_count = kwargs.get("physical_count")
-        instruction_count = kwargs.get("instruction_count")
-        instruction_system_count = kwargs.get("instruction_system_count", 0)
+    def invoke(data: Dict[str, Any], instruction_count, physical_count, sku, system_count, instruction_system_count = 0) -> str:
 
         if instruction_count:
             physical_count = instruction_count

@@ -7,13 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateSprint(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        sprint_id = kwargs.get("sprint_id")
-        sprint_name = kwargs.get("sprint_name")
-        start_date = kwargs.get("start_date")
-        end_date = kwargs.get("end_date")
-        sprint_goal = kwargs.get("sprint_goal")
-        team_id = kwargs.get("team_id")
+    def invoke(data: Dict[str, Any], end_date, sprint_goal, sprint_id, sprint_name, start_date, team_id) -> str:
 
         if not all([sprint_name, start_date, end_date, team_id]):
             return json.dumps(

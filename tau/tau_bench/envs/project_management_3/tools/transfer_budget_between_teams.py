@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class TransferBudgetBetweenTeams(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        source_team_id = kwargs.get("source_team_id")
-        target_team_id = kwargs.get("target_team_id")
-        transfer_amount = kwargs.get("transfer_amount")
-        fiscal_year = kwargs.get("fiscal_year", datetime.now().year)
+    def invoke(data: Dict[str, Any], source_team_id, target_team_id, transfer_amount, fiscal_year = datetime.now().year) -> str:
 
         if not all([source_team_id, target_team_id, transfer_amount]):
             return json.dumps({"error": "All fields are required"})

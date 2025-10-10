@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetOutboundOrderDetailsBySo(Tool):
     """Retrieves order details using the Sales Order (SO) number."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        sales_order_number = kwargs.get('sales_order_number')
+    def invoke(data: Dict[str, Any], sales_order_number) -> str:
         if not sales_order_number:
             return json.dumps({"error": "sales_order_number is a required argument."}, indent=2)
 

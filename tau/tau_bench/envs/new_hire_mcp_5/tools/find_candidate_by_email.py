@@ -12,9 +12,9 @@ class FindCandidateByEmail(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        email = kwargs["candidate_email"]
-        start = kwargs["start_date"]
+    def invoke(data: Dict[str, Any], candidate_email, start_date) -> str:
+        email = candidate_email
+        start = start_date
         row = {}
         for _row in list(data.get("candidates", {}).values()):
             if _row.get("candidate_email") == email and _row.get("start_date") == start:

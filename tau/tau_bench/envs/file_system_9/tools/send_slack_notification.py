@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class SendSlackNotification(Tool):
     """Sends a notification to a Slack channel."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        channel_name = kwargs.get("channel_name")
-        message = kwargs.get("message")
+    def invoke(data: Dict[str, Any], channel_name, message) -> str:
         
         channel_id = None
         for channel in list(data.get("slack_channels", {}).values()):

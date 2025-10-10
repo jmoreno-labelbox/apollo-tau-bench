@@ -9,15 +9,7 @@ class AddAutomationRun(Tool):
     """Adds a new entry to the automation_runs table."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        run_id = kwargs.get("run_id")
-        run_type = kwargs.get("run_type")
-        started_at = kwargs.get("started_at")
-        ended_at = kwargs.get("ended_at")
-        status = kwargs.get("status")
-        input_ref = kwargs.get("input_ref")
-        errors_json = kwargs.get("errors_json")
-        reason = kwargs.get("reason")
+    def invoke(data: Dict[str, Any], ended_at, errors_json, input_ref, reason, run_id, run_type, started_at, status) -> str:
         
         if not run_id:
             return json.dumps({"error": "run_id is a required parameter."})

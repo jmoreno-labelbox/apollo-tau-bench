@@ -9,8 +9,7 @@ class GetCampaign(Tool):
     """Return details for a campaign by name."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        name = kwargs.get("name")
+    def invoke(data: Dict[str, Any], name) -> str:
         for c in list(data.get("campaigns", {}).values()):
             if c.get("name") == name:
                 return json.dumps(c)

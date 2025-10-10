@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetTrackingInfo(Tool):
     """Return tracking record by tracking_id."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        tracking_id = kwargs.get('tracking_id')
+    def invoke(data, tracking_id) -> str:
         if not tracking_id:
             return json.dumps({"error":"tracking_id is required"}, indent=2)
         t = _find_tracking(data, tracking_id)

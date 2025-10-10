@@ -9,10 +9,7 @@ class UpdateCandidateOnboardingStatusTool(Tool):
     """Updates status and related timestamp fields for one or more candidates."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        candidate_id = kwargs.get("candidate_id")
-        candidate_ids = kwargs.get("candidate_ids")
-        new_status = kwargs.get("new_status")
+    def invoke(data: Dict[str, Any], candidate_id, candidate_ids, new_status) -> str:
 
         if not new_status:
             return _err("new_status is required.")

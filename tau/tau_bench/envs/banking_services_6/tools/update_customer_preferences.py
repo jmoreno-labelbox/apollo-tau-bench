@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateCustomerPreferences(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
-        paperless_billing = kwargs.get("paperless_billing")
-        communication_channel = kwargs.get("communication_channel")
+    def invoke(data: Dict[str, Any], communication_channel, customer_id, paperless_billing) -> str:
 
         customer = next((c for c in data['customers'] if c['customer_id'] == customer_id), None)
         if not customer:

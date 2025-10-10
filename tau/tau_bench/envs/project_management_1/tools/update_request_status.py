@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateRequestStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        request_id = kwargs.get("request_id")
-        status = kwargs.get("status")
-        assigned_employees = kwargs.get("assigned_employees", [])
-        allocated_hours = kwargs.get("allocated_hours", 0)
+    def invoke(data: Dict[str, Any], request_id, status, allocated_hours = 0, assigned_employees = []) -> str:
 
         if not all([request_id, status]):
             return json.dumps({"error": "request_id and status are required"})

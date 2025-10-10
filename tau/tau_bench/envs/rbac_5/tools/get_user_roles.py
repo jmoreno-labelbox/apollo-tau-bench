@@ -18,13 +18,9 @@ class GetUserRoles(Tool):
       flatten_permissions: bool = False (if True, returns a set-like list of permissions)
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id", "")
-        only_active = kwargs.get("only_active", False)
-        on_date_iso = kwargs.get("on_date") or get_current_timestamp()
+    def invoke(data: Dict[str, Any], on_date, include_role_details = False, only_active = False, user_id = "") -> str:
+        on_date_iso = on_date or get_current_timestamp()
         on_dt = _parse_iso(on_date_iso) or datetime.now(tz=timezone.utc)
-
-        include_role_details = kwargs.get("include_role_details", False)
 
         assignments = [ur for ur in data.get("user_roles", []) if ur.get("user_id") == user_id]
 

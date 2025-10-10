@@ -7,12 +7,12 @@ from tau_bench.envs.tool import Tool
 
 class LogStrategyChange(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], adset_id, changed_at, new_bid, new_strategy, old_bid, old_strategy, reason) -> str:
         rows = list(data.get("strategy_changes", {}).values())
         nid = f"SC-{max((int(r['change_id'][3:]) for r in rows), default=0) + 1}"
-        rec = {"change_id": nid, "adset_id": kwargs.get("adset_id"), "old_strategy": kwargs.get("old_strategy"),
-               "new_strategy": kwargs.get("new_strategy"), "old_bid": kwargs.get("old_bid"),
-               "new_bid": kwargs.get("new_bid"), "changed_at": kwargs.get("changed_at"), "reason": kwargs.get("reason")}
+        rec = {"change_id": nid, "adset_id": adset_id, "old_strategy": old_strategy,
+               "new_strategy": new_strategy, "old_bid": old_bid,
+               "new_bid": new_bid, "changed_at": changed_at, "reason": reason}
         rows.append(rec)
         data["strategy_changes"] = rows
         return json.dumps(rec)

@@ -9,7 +9,7 @@ class CreatePolicyException(Tool):
     """ Create a new policy exception for granting emergency access based on a specific permission. """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], approved_by, expires_on, justification, permission_id, timestamp, user_id) -> str:
         try:
             policy_exceptions = data.get('policy_exceptions', [])
         except:
@@ -19,17 +19,16 @@ class CreatePolicyException(Tool):
                         item.get("exception_id", "").startswith("PE-")]
         next_id_num = max(existing_ids) + 1 if existing_ids else 1
         exception_id = f"PE-{next_id_num:03d}"
-        timestamp = kwargs.get("timestamp")
 
         new_exception = {
             "exception_id": exception_id,
-            "user_id": kwargs.get("user_id"),
-            "permission_id": kwargs.get("permission_id"),
-            "reviewed_by": kwargs.get("approved_by"),
+            "user_id": user_id,
+            "permission_id": permission_id,
+            "reviewed_by": approved_by,
             "requested_on": timestamp,
             "reviewed_on": timestamp,
-            "expires_on": kwargs.get("expires_on"),
-            "reason": kwargs.get("justification"),
+            "expires_on": expires_on,
+            "reason": justification,
             "status": "ACTIVE"
         }
 

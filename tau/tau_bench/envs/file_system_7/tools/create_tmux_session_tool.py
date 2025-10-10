@@ -29,8 +29,7 @@ class CreateTmuxSessionTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        session_name = kwargs["session_name"]
+    def invoke(data: Dict[str, Any], session_name) -> str:
         if "tmux_sessions" not in data:
             data["tmux_sessions"] = []
         if session_name in data["tmux_sessions"]:

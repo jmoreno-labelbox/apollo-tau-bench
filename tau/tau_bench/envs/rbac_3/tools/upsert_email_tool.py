@@ -13,18 +13,12 @@ class UpsertEmailTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        email_id = kwargs.get("email_id")
+    def invoke(data: Dict[str, Any], email_id, receiver, sender, subject, text_content) -> str:
         if not email_id:
             return json.dumps({"error": "email_id is required"}, indent=2)
 
         emails: List[Dict[str, Any]] = data.setdefault("emails", [])
         rec = next((e for e in emails if e.get("email_id") == email_id), None)
-
-        sender = kwargs.get("sender")
-        receiver = kwargs.get("receiver")
-        subject = kwargs.get("subject")
-        text_content = kwargs.get("text_content")
 
         if rec is None:
             if not receiver or not subject or not text_content:

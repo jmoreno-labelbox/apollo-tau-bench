@@ -9,10 +9,7 @@ class UpdateAddressForCustomerId(Tool):
     """Updates mailing and/or residential address for a given customer ID."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
-        mailing_address = kwargs.get("mailing_address")
-        residential_address = kwargs.get("residential_address")
+    def invoke(data: Dict[str, Any], customer_id, mailing_address, residential_address) -> str:
 
         if not customer_id:
             return json.dumps({"error": "customer_id is required."}, indent=2)

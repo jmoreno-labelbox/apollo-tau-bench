@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetEmployeeId(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        first_name = kwargs.get('first_name')
-        last_name = kwargs.get('last_name')
+    def invoke(data: Dict[str, Any], first_name, last_name) -> str:
 
         if first_name is None or last_name is None:
             return json.dumps({'error': 'first_name and last_name are required.'}, indent=2)

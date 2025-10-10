@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetBacklogTasks(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        priority = kwargs.get("priority")
+    def invoke(data: Dict[str, Any], max_story_points, priority) -> str:
 
         tasks = list(data.get("tasks", {}).values())
 
@@ -19,7 +18,7 @@ class GetBacklogTasks(Tool):
         if priority:
             backlog_tasks = [t for t in backlog_tasks if t.get("priority") == priority]
 
-        if max_story_points := kwargs.get("max_story_points"):
+        if max_story_points := max_story_points:
             backlog_tasks = [
                 t for t in backlog_tasks if t.get("story_points", 0) <= max_story_points
             ]

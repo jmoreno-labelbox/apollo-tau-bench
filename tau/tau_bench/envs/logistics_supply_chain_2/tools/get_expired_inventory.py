@@ -9,10 +9,10 @@ class GetExpiredInventory(Tool):
     """Tool to retrieve inventory items that are expired as of today."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        today = datetime.strptime(kwargs.get('today'), "%Y-%m-%d").date()
+    def invoke(data: Dict[str, Any], today, list_of_ids = None) -> str:
+        today = datetime.strptime(today, "%Y-%m-%d").date()
         inventories = list(data.get("inventory", {}).values())
-        list_of_inventories = kwargs.get("list_of_ids", None)
+        list_of_inventories = list_of_ids
         expired = []
         for item in inventories:
             exp_date = item.get("expiration_date")

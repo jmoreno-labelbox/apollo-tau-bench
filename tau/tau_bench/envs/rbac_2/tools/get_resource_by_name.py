@@ -9,8 +9,7 @@ class GetResourceByName(Tool):
     """Find a resource using its human-readable name."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        resource_name = kwargs.get("resource_name")
+    def invoke(data: Dict[str, Any], resource_name) -> str:
         try:
             all_resources = data.get('resources', [])
         except (KeyError, json.JSONDecodeError):

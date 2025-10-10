@@ -9,8 +9,8 @@ class CheckUserSessionsById(Tool):
     """Finds all recent login sessions for a specific user to aid in security investigations."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id_to_find = kwargs.get("user_id")
+    def invoke(data: Dict[str, Any], user_id) -> str:
+        user_id_to_find = user_id
         try:
             all_sessions = data.get('sessions', [])
         except (KeyError, json.JSONDecodeError):

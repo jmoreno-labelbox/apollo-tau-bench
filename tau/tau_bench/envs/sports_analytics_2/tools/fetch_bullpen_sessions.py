@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class FetchBullpenSessions(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        date_range = kwargs.get("date_range")
-        normalize_metrics = kwargs.get("normalize_metrics", True)
+    def invoke(data: Dict[str, Any], date_range, normalize_metrics = True) -> str:
         return json.dumps({"bullpen_session_data": f"sessions_{date_range}"}, indent=2)
 
     @staticmethod

@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateSupplierImprovementPlan(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        supplier_id = kwargs.get("supplier_id")
-        review_cycle_days = kwargs.get("review_cycle_days", 90)
-        recommendation = kwargs.get("recommendation", "maintain_active")
+    def invoke(data: Dict[str, Any], supplier_id, recommendation = "maintain_active", review_cycle_days = 90) -> str:
 
         suppliers = list(data.get("supplier_master", {}).values())
         supplier = next((s for s in suppliers if s.get("supplier_id") == supplier_id), None)

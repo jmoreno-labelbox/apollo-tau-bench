@@ -21,10 +21,9 @@ class AuthenticateUserTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_name = kwargs.get("username")
-        user_email = kwargs.get("email")
-        auth_key = kwargs.get("auth_key")
+    def invoke(data: Dict[str, Any], auth_key, email, username) -> str:
+        user_name = username
+        user_email = email
 
         if not user_name or not user_email:
             return json.dumps(

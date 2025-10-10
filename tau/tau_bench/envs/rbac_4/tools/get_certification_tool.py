@@ -9,12 +9,10 @@ class GetCertificationTool(Tool):
     """Return a single certification record by certification_id (read operation, deterministic)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], certification_id) -> str:
         certifications = data.get("certifications", [])
         if not isinstance(certifications, list):
             return json.dumps({"error": "certifications must be a list"}, indent=2)
-
-        certification_id = kwargs.get("certification_id")
         if not isinstance(certification_id, str) or not certification_id.strip():
             return json.dumps({"error": "certification_id must be a non-empty string"}, indent=2)
 

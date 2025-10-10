@@ -9,8 +9,7 @@ class GetProjectIdForRepositoryName(Tool):
     """Retrieves the project ID for a given repository name."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repository_name = kwargs.get("repository_name")
+    def invoke(data: Dict[str, Any], repository_name) -> str:
         repositories = list(data.get("repositories", {}).values())
         
         for repo in repositories:

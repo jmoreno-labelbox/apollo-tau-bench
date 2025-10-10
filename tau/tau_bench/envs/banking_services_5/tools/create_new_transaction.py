@@ -9,15 +9,13 @@ class CreateNewTransaction(Tool):
     """Adds a new transaction to the transactions database and updates the account balance if sufficient funds are available."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        account_id = kwargs.get("account_id", "").strip()
+    def invoke(data: Dict[str, Any], amount, currency, account_id = "", channel = "", description = "", merchant_name = "", purchase_type = "") -> str:
+        account_id = account_id.strip()
         transaction_date = date.today()
-        amount = kwargs.get("amount")
-        currency =  kwargs.get("currency")
-        purchase_type = kwargs.get("purchase_type", "").strip()
-        description = kwargs.get("description", "").strip()
-        merchant_name = kwargs.get("merchant_name", "").strip()
-        channel = kwargs.get("channel", "").strip()
+        purchase_type = purchase_type.strip()
+        description = description.strip()
+        merchant_name = merchant_name.strip()
+        channel = channel.strip()
 
         if not all([account_id, transaction_date, amount, currency, purchase_type, description, merchant_name, channel]):
             return json.dumps({"error": "All fields are required."}, indent=2)
@@ -28,7 +26,7 @@ class CreateNewTransaction(Tool):
         if not account:
             return json.dumps({"error": "Account not found."}, indent=2)
 
-        currency = kwargs.get("currency", "").strip()
+        currency = currency.strip()
         transaction_status = "Completed" if account["balance"] >= amount else "Pending"
 
         # Subtract the amount from the account if there are enough funds.

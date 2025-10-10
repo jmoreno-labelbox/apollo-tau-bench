@@ -9,9 +9,7 @@ class QueryAvailableAssetsByTypeTool(Tool):
     """Searches inventory_assets table for available assets matching specifications, with assignment status."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        asset_type = kwargs.get("asset_type")
-        status_filter = kwargs.get("status_filter")
+    def invoke(data: Dict[str, Any], asset_type, status_filter) -> str:
 
         if not asset_type:
             return _err("asset_type is required")

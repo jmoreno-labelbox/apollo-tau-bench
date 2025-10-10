@@ -9,9 +9,7 @@ class ApplyEmailLabelsAndThreadingTool(Tool):
     """Updates existing records in `emails` array by modifying labels and thread IDs."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        label_assignments = kwargs.get("label_assignments", {})
-        thread_assignments = kwargs.get("thread_assignments", {})
+    def invoke(data: Dict[str, Any], label_assignments = {}, thread_assignments = {}) -> str:
         message_ids = set(label_assignments.keys()) | set(thread_assignments.keys())
 
         emails = data.get("emails", [])

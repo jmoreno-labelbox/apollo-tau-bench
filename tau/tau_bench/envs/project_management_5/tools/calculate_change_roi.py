@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CalculateChangeROI(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cr_id = kwargs.get("cr_id")
-        expected_benefits = kwargs.get("expected_benefits", {})
-        benefit_timeframe_months = kwargs.get("benefit_timeframe_months", 12)
+    def invoke(data: Dict[str, Any], cr_id, benefit_timeframe_months = 12, expected_benefits = {}) -> str:
 
         if not cr_id:
             return json.dumps({"error": "cr_id is required"})

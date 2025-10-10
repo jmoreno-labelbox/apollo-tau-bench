@@ -51,7 +51,7 @@ class AddItemToInventoryTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> Dict[str, Any]:
+    def invoke(data: Dict[str, Any], household_id, ingredient_id, quantity, unit, user_id) -> Dict[str, Any]:
         """
         Executes the logic to add or update an inventory item.
 
@@ -74,12 +74,6 @@ class AddItemToInventoryTool(Tool):
         validation_error = _validate_inputs(kwargs, param_definitions)
         if validation_error:
             return _build_error_response(validation_error["error_code"], validation_error["details"])
-
-        household_id = kwargs["household_id"]
-        ingredient_id = kwargs["ingredient_id"]
-        quantity = kwargs["quantity"]
-        unit = kwargs["unit"]
-        user_id = kwargs.get("user_id")
 
         # 2. Validation of Preconditions
         if not any(h.get("household_id") == household_id for h in data.get("households", [])):

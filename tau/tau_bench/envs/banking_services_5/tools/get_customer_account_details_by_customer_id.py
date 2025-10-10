@@ -9,8 +9,7 @@ class GetCustomerAccountDetailsByCustomerId(Tool):
     """Returns the full account details of a customer using customer_id and last 4 digits of the account number."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
+    def invoke(data: Dict[str, Any], customer_id) -> str:
 
         if not customer_id :
             return json.dumps({

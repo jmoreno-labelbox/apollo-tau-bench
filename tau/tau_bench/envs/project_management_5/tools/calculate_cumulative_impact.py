@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CalculateCumulativeImpact(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
-        include_pending = kwargs.get("include_pending", False)
-        from_date = kwargs.get("from_date")
+    def invoke(data: Dict[str, Any], from_date, project_id, include_pending = False) -> str:
 
         if not project_id:
             return json.dumps({"error": "project_id is required"})

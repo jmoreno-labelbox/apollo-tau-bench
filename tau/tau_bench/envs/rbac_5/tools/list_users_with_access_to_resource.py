@@ -17,13 +17,9 @@ class ListUsersWithAccessToResource(Tool):
       include_role_details: bool = False
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        resource_id = kwargs.get("resource_id", "")
-        only_active = kwargs.get("only_active", True)
-        on_date_iso = kwargs.get("on_date") or get_current_timestamp()
+    def invoke(data: Dict[str, Any], on_date, include_role_details = False, include_user_details = False, only_active = True, resource_id = "") -> str:
+        on_date_iso = on_date or get_current_timestamp()
         on_dt = _parse_iso(on_date_iso) or datetime.now(tz=timezone.utc)
-        include_user_details = kwargs.get("include_user_details", False)
-        include_role_details = kwargs.get("include_role_details", False)
 
         # Create mappings for permissions and roles.
         perms = [p for p in list(data.get("permissions", {}).values()) if p.get("resource_id") == resource_id]

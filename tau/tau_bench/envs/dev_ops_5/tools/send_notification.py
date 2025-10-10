@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class SendNotification(Tool):
     """Simulates sending a notification by adding it to the notifications log."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], message, project_id, recipient_id, title, channel = "slack", notification_type = "system_notification") -> str:
         notifications = list(data.get("notifications", {}).values())
         
         # Create a new distinct identifier.
@@ -21,12 +21,12 @@ class SendNotification(Tool):
         # Instantiate a new notification object.
         new_notification = {
             "id": new_id,
-            "project_id": kwargs.get("project_id"),
-            "notification_type": kwargs.get("notification_type", "system_notification"),
-            "title": kwargs.get("title"),
-            "message": kwargs.get("message"),
-            "recipient_id": kwargs.get("recipient_id"),
-            "channel": kwargs.get("channel", "slack"),
+            "project_id": project_id,
+            "notification_type": notification_type,
+            "title": title,
+            "message": message,
+            "recipient_id": recipient_id,
+            "channel": channel,
             "sent_at": "2025-01-28T00:00:00Z",  # Employ a uniform placeholder for timestamps.
             "read_at": None
         }

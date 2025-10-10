@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetTeamDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        team_name = kwargs.get("team_name")
-        team_id = kwargs.get("team_id")
+    def invoke(data: Dict[str, Any], team_id, team_name) -> str:
 
         if not team_name and not team_id:
             return json.dumps({"error": "Either team_name or team_id is required"})

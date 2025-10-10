@@ -7,14 +7,11 @@ from tau_bench.envs.tool import Tool
 
 class CompleteAudit(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], audit_id, report_asset_id) -> str:
         required = ["audit_id", "report_asset_id"]
         missing = [f for f in required if f not in kwargs or kwargs[f] is None]
         if missing:
             return json.dumps({"error": f"Missing required fields: {', '.join(missing)}"}, indent=2)
-
-        audit_id = kwargs.get("audit_id")
-        report_asset_id = kwargs.get("report_asset_id")
 
         audits: List[Dict[str, Any]] = list(data.get("audits", {}).values())
         for row in audits:

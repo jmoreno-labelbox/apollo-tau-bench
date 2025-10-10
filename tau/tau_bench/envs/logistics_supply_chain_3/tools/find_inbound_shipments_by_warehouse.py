@@ -9,8 +9,7 @@ class FindInboundShipmentsByWarehouse(Tool):
     """Finds all inbound shipments destined for a specific warehouse ID."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        warehouse_id = kwargs.get("warehouse_id")
+    def invoke(data: Dict[str, Any], warehouse_id) -> str:
         inbound_shipments = list(data.get("inbound_shipments", {}).values())
         found_shipments = []
         for shipment in inbound_shipments:

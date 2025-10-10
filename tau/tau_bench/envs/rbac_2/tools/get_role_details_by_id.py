@@ -9,8 +9,7 @@ class GetRoleDetailsById(Tool):
     """ Find a specific role using its ID. """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        role_id = kwargs.get("role_id")
+    def invoke(data: Dict[str, Any], role_id) -> str:
         try:
             roles = list(data.get('roles', {}).values())
         except:

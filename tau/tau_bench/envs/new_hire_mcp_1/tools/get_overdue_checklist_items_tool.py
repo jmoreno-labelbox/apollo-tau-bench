@@ -9,9 +9,8 @@ class GetOverdueChecklistItemsTool(Tool):
     """Queries checklist_items for tasks past due date, grouped by candidate and task priority."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        candidate_id = kwargs.get("candidate_id")
-        days_overdue_threshold = _as_int(kwargs.get("days_overdue_threshold", 0))
+    def invoke(data: Dict[str, Any], candidate_id, days_overdue_threshold = 0) -> str:
+        days_overdue_threshold = _as_int(days_overdue_threshold)
 
         if days_overdue_threshold is None:
             return _err("days_overdue_threshold must be an integer.")

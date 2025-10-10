@@ -7,9 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class ComputeFeatureCoverage(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        required = kwargs.get("required_features") or []
-        available = kwargs.get("available_features") or []
+    def invoke(data: Dict[str, Any], available_features, required_features) -> str:
+        required = required_features or []
+        available = available_features or []
         req = sorted([str(x) for x in required])
         ava = sorted([str(x) for x in available])
         present = [x for x in req if x in ava]

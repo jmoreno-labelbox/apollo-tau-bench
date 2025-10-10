@@ -12,11 +12,9 @@ class BuildRecipeFilters(Tool):
       token = "F:<meal_type>:P<min_protein>:PF<0|1>:EX<csv_excluded_cuisines>"
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        meal_type = kwargs.get("meal_type", "Dinner")
-        min_protein_g = int(kwargs.get("min_protein_g", 0))
-        peanut_free = bool(kwargs.get("peanut_free", False))
-        cuisines_exclude = kwargs.get("cuisines_exclude", [])
+    def invoke(data: Dict[str, Any], cuisines_exclude = [], meal_type = "Dinner", min_protein_g = 0, peanut_free = False) -> str:
+        min_protein_g = int(min_protein_g)
+        peanut_free = bool(peanut_free)
         if not isinstance(cuisines_exclude, list):
             cuisines_exclude = []
         ex = ",".join(sorted(str(c) for c in cuisines_exclude))

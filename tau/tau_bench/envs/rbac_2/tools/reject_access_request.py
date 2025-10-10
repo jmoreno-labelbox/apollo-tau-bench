@@ -9,11 +9,8 @@ class RejectAccessRequest(Tool):
     """ Reject an access request and record the reason. """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        request_id_to_find = kwargs.get("request_id")
-        reviewer_id = kwargs.get("reviewer_id")
-        timestamp = kwargs.get("timestamp")
-        rejection_reason = kwargs.get("rejection_reason")
+    def invoke(data: Dict[str, Any], rejection_reason, request_id, reviewer_id, timestamp) -> str:
+        request_id_to_find = request_id
 
         try:
             access_requests = data.get('access_requests', [])

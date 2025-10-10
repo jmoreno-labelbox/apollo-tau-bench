@@ -11,12 +11,8 @@ class ListAuditLogsTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        action_type = kwargs.get("action_type") or kwargs.get("filter_by")
-        user_id = kwargs.get("user_id")
-        target_id = kwargs.get("target_id")
-        date_from = kwargs.get("date_from")
-        date_to = kwargs.get("date_to")
+    def invoke(data: Dict[str, Any], action_type, date_from, date_to, filter_by, target_id, user_id) -> str:
+        action_type = action_type or filter_by
 
         logs = data.get("audit_logs", [])
         out = []

@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetUserInfoByID(Tool):
     """Retrieves a user's profile, including their role and permissions."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
+    def invoke(data: Dict[str, Any], user_id) -> str:
         for user in data.get('user_preferences', []):
             if user.get('user_id') == user_id:
                 return json.dumps(user)

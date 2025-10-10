@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class GatherListingsWithProperties(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        ids = set(kwargs.get("listing_ids") or [])
+    def invoke(data: Dict[str, Any], listing_ids) -> str:
+        ids = set(listing_ids or [])
         props = _by_key(list(data.get("properties", {}).values()), "property_id")
         out: List[Dict[str, Any]] = []
         for lst in (list(data.get("listings", {}).values()) or []):

@@ -7,15 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class UpdateReleaseStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], new_status, release_id, thread_id, release_metadata = {}, version_notes = '') -> str:
         """
         Updates release status and manages release workflow metadata.
         """
-        release_id = kwargs.get('release_id')
-        new_status = kwargs.get('new_status')
-        version_notes = kwargs.get('version_notes', '')
-        thread_id = kwargs.get('thread_id')
-        release_metadata = kwargs.get('release_metadata', {})
 
         if not all([release_id, new_status]):
             return json.dumps({"error": "release_id and new_status are required."})

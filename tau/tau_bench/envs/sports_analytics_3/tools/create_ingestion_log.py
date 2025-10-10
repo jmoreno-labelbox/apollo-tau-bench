@@ -23,11 +23,8 @@ class CreateIngestionLog(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        source_name = kwargs.get("source_name")
-        status_code = kwargs.get("status_code")
-        records_ingested = kwargs.get("records_ingested")
-        request_ts = kwargs.get("request_timestamp_utc", "2025-08-10 12:00:00")
+    def invoke(data: Dict[str, Any], records_ingested, source_name, status_code, request_timestamp_utc = "2025-08-10 12:00:00") -> str:
+        request_ts = request_timestamp_utc
 
         # 1) Check mandatory fields for validity
         missing = []

@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateTransferOrder(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        from_store = kwargs["from_store"]
-        to_store = kwargs["to_store"]
-        sku = kwargs["sku"]
-        quantity = kwargs["quantity"]
+    def invoke(data: Dict[str, Any], from_store, quantity, sku, to_store) -> str:
         # Utilize hash-based transfer_id exclusively for every scenario.
         transfer_id = f"TRF-{hashlib.sha256(f'{from_store}-{to_store}-{sku}'.encode()).hexdigest()[:6].upper()}"
         entry = {

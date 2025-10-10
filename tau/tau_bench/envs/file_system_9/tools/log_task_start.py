@@ -8,10 +8,7 @@ from tau_bench.envs.tool import Tool
 class LogTaskStart(Tool):
     """Logs the start of a new task in task_logs.json."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        task_id = kwargs.get("task_id")
-        user_id = kwargs.get("user_id")
-        task_type = kwargs.get("task_type")
+    def invoke(data: Dict[str, Any], task_id, task_type, user_id) -> str:
 
         new_task_log = {
             "task_id": task_id,

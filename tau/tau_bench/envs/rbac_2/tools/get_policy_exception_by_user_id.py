@@ -9,9 +9,7 @@ class GetPolicyExceptionByUserId(Tool):
     """Finds all policy exceptions for a specific user, with an option to include inactive ones."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
-        include_inactive = kwargs.get("include_inactive", False) 
+    def invoke(data: Dict[str, Any], user_id, include_inactive = False) -> str:
         
         terminal_statuses = {"REVOKED", "REJECTED", "EXPIRED"}
         try:

@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class RemovePermissionFromRole(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        role_id = kwargs.get("role_id")
-        permission_id = kwargs.get("permission_id")
+    def invoke(data: Dict[str, Any], permission_id, role_id) -> str:
 
         if not role_id or not permission_id:
             return json.dumps({"error": "Both role_id and permission_id must be provided."})

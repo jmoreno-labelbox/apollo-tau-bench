@@ -1727,7 +1727,7 @@ Task(
 Task(
     user_id="044",
     instruction=(
-        "Step into the role of Emma Martinez (U-010), Human Resources. Follow the HR two-stage review policy for access request AR-037 related to resource RES-041 with the desired role ROL-019. The canonical result is APPROVED, with all actions based at 2024-05-30 19:00:00+00:00. Under this policy, document the first-stage reviewer as U-005 with decision_at=2024-05-30 19:00:00+00:00, and finalize the status as APPROVED updated_by=U-010 at the same anchor time. Utilize the standard tokenized notification format for stakeholders and apply the HR comms pin for SL-037 in # retrieve the exact modified access_request record.
+        "Step into the role of Emma Martinez (U-010), Human Resources. Follow the HR two-stage review policy for access request AR-037 related to resource RES-041 with the desired role ROL-019. The canonical result is APPROVED, with all actions based at 2024-05-30 19:00:00+00:00. Under this policy, document the first-stage reviewer as U-005 with decision_at=2024-05-30 19:00:00+00:00, and finalize the status as APPROVED updated_by=U-010 at the same anchor time. Utilize the standard tokenized notification format for stakeholders and apply the HR comms pin for SL-037 in # retrieve the exact modified access_request record."
     ),
     actions=[
         Action(name="GetUserDetails", kwargs={"user_id": "U-010"}),

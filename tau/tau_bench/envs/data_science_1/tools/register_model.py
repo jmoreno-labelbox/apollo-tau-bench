@@ -8,14 +8,14 @@ from . import _require
 
 class RegisterModel(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], feature_names, model_name, model_path, model_type, target_name, train_metrics_json_path_nullable, training_ts) -> str:
         err = _require(kwargs, ["model_name", "model_path"])
         if err: return err
-        row = {"model_name": kwargs["model_name"], "model_type": kwargs.get("model_type"),
-               "training_ts": kwargs.get("training_ts"),
-               "model_path": kwargs["model_path"], "feature_names": kwargs.get("feature_names"),
-               "target_name": kwargs.get("target_name"),
-               "train_metrics_json_path_nullable": kwargs.get("train_metrics_json_path_nullable")}
+        row = {"model_name": model_name, "model_type": model_type,
+               "training_ts": training_ts,
+               "model_path": model_path, "feature_names": feature_names,
+               "target_name": target_name,
+               "train_metrics_json_path_nullable": train_metrics_json_path_nullable}
         return json.dumps(_append(data.setdefault("models", []), row), indent=2)
 
     @staticmethod

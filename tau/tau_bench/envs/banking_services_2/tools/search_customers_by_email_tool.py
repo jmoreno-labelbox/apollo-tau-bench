@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SearchCustomersByEmailTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        email_domain = kwargs.get('email_domain', '')
-        partial_email = kwargs.get('partial_email', '')
+    def invoke(data: Dict[str, Any], email_domain = '', partial_email = '') -> str:
 
         customers = list(data.get('customers', {}).values())
         matches = []

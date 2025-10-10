@@ -7,9 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class CalculateTotals(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        hst_rate = float(kwargs.get("hst_rate", 0.13))
-        invoice_lines = kwargs.get("invoice_lines", [])
+    def invoke(data: Dict[str, Any], hst_rate = 0.13, invoice_lines = []) -> str:
+        hst_rate = float(hst_rate)
         if isinstance(invoice_lines, list) and invoice_lines and isinstance(invoice_lines[0], dict):
             subtotal = sum(float(l.get("line_amount", 0.0)) for l in invoice_lines)
         else:

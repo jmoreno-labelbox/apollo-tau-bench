@@ -7,9 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class RecordTranslations(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        entries = kwargs.get('entries', [])
-        reflect = bool(kwargs.get('reflect_in_loc', True))
+    def invoke(data: Dict[str, Any], entries = [], reflect_in_loc = True) -> str:
+        reflect = bool(reflect_in_loc)
         translations = _table(data, 'translations')
         loc_rows = _loc_table(data)
         ALLOWED = {'loc_string_id', 'string_key', 'locale', 'target_string', 'metadata'}

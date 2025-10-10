@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class SetVariantAvailability(Tool):
     """Set a variant's 'available' flag."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        item_id = kwargs.get('item_id')
-        available = kwargs.get('available')
+    def invoke(data, available, item_id) -> str:
         if item_id is None or available is None:
             return json.dumps({"error":"item_id and available are required"}, indent=2)
         prod, variant = _find_product_by_item(data, item_id)

@@ -9,10 +9,7 @@ class ModifyProjectStatus(Tool):
 
     """Tool to update the status and/or end date of a research project."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get('project_id')
-        new_status = kwargs.get('new_status')
-        end_date = kwargs.get('end_date') # Retrieve the new optional argument.
+    def invoke(data: Dict[str, Any], end_date, new_status, project_id) -> str:
 
         if not project_id or not (new_status or end_date):
             return json.dumps({"error": "project_id and either new_status or end_date are required."})

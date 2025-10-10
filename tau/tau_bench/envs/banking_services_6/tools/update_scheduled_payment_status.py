@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateScheduledPaymentStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        payment_id = kwargs.get("payment_id")
-        new_status = kwargs.get("new_status")
+    def invoke(data: Dict[str, Any], new_status, payment_id) -> str:
 
         payment = next((p for p in data['scheduled_payments'] if p['payment_id'] == payment_id), None)
         if not payment:

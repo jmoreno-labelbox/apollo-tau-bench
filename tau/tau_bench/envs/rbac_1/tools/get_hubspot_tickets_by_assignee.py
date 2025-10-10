@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetHubspotTicketsByAssignee(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        assignee_id = kwargs.get("assignee_id")
+    def invoke(data: Dict[str, Any], assignee_id) -> str:
 
         matching_tickets = [
                 ticket for ticket in data.get('hubspot_tickets', [])

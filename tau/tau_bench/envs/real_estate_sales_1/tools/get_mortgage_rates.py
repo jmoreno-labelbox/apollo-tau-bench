@@ -9,9 +9,7 @@ class GetMortgageRates(Tool):
     """Get current mortgage rates from available lenders."""
     
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        loan_type = kwargs.get('loan_type', 'conventional')
-        term_years = kwargs.get('term_years', 30)
+    def invoke(data: Dict[str, Any], loan_type = 'conventional', term_years = 30) -> str:
         
         # Retrieve mortgage rates from the database.
         rates = list(data.get('mortgage_rates', {}).values())

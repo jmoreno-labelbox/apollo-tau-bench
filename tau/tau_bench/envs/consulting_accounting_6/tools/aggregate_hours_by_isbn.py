@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class AggregateHoursByISBN(Tool):
     """Aggregate hours by ISBN within a set of time entries."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        rows = kwargs.get("rows") or []
+    def invoke(data: Dict[str, Any], rows) -> str:
+        rows = rows or []
         grouped: Dict[str, float] = {}
         for r in rows:
             isbn = r.get("isbn")

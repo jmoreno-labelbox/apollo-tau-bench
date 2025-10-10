@@ -7,11 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetProjectRevenueSummary(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], snapshot_id) -> str:
         """
         Returns row_ids of project revenue for a given snapshot_id.
         """
-        snapshot_id = kwargs["snapshot_id"]
         records = [pr["row_id"] for pr in data["project_revenue"] if pr["snapshot_id"] == snapshot_id]
         return json.dumps(records)
 

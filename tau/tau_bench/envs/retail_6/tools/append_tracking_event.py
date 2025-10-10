@@ -8,10 +8,7 @@ from tau_bench.envs.tool import Tool
 class AppendTrackingEvent(Tool):
     """Insert/overwrite an event timestamp in tracking_history for a tracking id (key -> timestamp)."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        tracking_id = kwargs.get('tracking_id')
-        event = kwargs.get('event')
-        timestamp = kwargs.get('timestamp')
+    def invoke(data, event, timestamp, tracking_id) -> str:
         if not tracking_id or not event or not timestamp:
             return json.dumps({"error":"tracking_id, event, timestamp are required"}, indent=2)
         t = _find_tracking(data, tracking_id)

@@ -9,8 +9,7 @@ class GetCalendarEventsForClient(Tool):
     """Retrieve calendar events for a specific client."""
     
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        client_id = kwargs.get('client_id')
+    def invoke(data: Dict[str, Any], client_id) -> str:
         if not client_id:
             return json.dumps({"error": "client_id is required"}, indent=2)
         

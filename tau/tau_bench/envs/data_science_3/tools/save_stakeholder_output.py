@@ -8,7 +8,7 @@ from . import _fixed_now_iso
 
 class SaveStakeholderOutput(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], artifact_path, audience, output_label) -> str:
         outs = data.get("stakeholder_outputs", [])
         max_id = 0
         for o in outs:
@@ -20,9 +20,9 @@ class SaveStakeholderOutput(Tool):
         new_id = max_id + 1
         row = {
             "output_id": new_id,
-            "output_label": kwargs.get("output_label"),
-            "audience": kwargs.get("audience"),
-            "artifact_path": kwargs.get("artifact_path"),
+            "output_label": output_label,
+            "audience": audience,
+            "artifact_path": artifact_path,
             "created_at": _fixed_now_iso()
         }
         outs.append(row)

@@ -13,10 +13,10 @@ class GetBranchContent(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get("owner", "").strip()
-        repo_name = kwargs.get("repo_name", "").strip()
-        branch = kwargs.get("branch_name", "").strip()
+    def invoke(data: Dict[str, Any], branch_name = "", owner = "", repo_name = "") -> str:
+        owner = owner.strip()
+        repo_name = repo_name.strip()
+        branch = branch_name.strip()
 
         if not owner or not repo_name or not branch:
             return json.dumps(

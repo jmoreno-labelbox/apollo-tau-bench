@@ -9,9 +9,9 @@ class GetSourceChange(Tool):
     """Fetch a source change by commit_sha or id."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cid = kwargs.get('id')
-        sha = kwargs.get('commit_sha')
+    def invoke(data: Dict[str, Any], commit_sha, id) -> str:
+        cid = id
+        sha = commit_sha
         rows = _table(data, 'source_changes')
         row = next((r for r in rows if cid and r.get('id') == cid or (sha and r.get('commit_sha') == sha)), None)
         return _ok({'source_change': row}) if row else _err('source_change not found')

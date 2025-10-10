@@ -9,9 +9,7 @@ class UpdateInventoryStatus(Tool):
     """Updates the stock status for a specific inventory ID."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        inventory_id = kwargs.get("inventory_id")
-        new_status = kwargs.get("new_status")
+    def invoke(data: Dict[str, Any], inventory_id, new_status) -> str:
         inventory_items = list(data.get("inventory", {}).values())
 
         if not inventory_id or not new_status:

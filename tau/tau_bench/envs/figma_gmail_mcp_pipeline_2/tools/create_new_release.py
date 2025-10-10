@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateNewRelease(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], figma_file_id, owner_email, release_name, thread_id, version_id, version_tag) -> str:
         required = ["figma_file_id", "version_id", "version_tag", "release_name", "owner_email"]
         missing = [f for f in required if f not in kwargs or kwargs[f] is None]
         if missing:
@@ -16,15 +16,14 @@ class CreateNewRelease(Tool):
         releases: List[Dict[str, Any]] = list(data.get("releases", {}).values())
         release_id = get_next_release_id(data)
         created_ts = get_now_timestamp()
-        thread_id = kwargs.get("thread_id")
 
         new_release = {
             "release_id": release_id,
-            "figma_file_id": kwargs["figma_file_id"],
-            "version_id": kwargs["version_id"],
-            "version_tag": kwargs["version_tag"],
-            "release_name": kwargs["release_name"],
-            "owner_email": kwargs["owner_email"],
+            "figma_file_id": figma_file_id,
+            "version_id": version_id,
+            "version_tag": version_tag,
+            "release_name": release_name,
+            "owner_email": owner_email,
             "created_ts": created_ts,
             "thread_id_nullable": thread_id
         }

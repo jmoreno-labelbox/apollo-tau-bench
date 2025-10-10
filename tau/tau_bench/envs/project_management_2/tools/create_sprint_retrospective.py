@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateSprintRetrospective(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        sprint_id = kwargs.get("sprint_id")
-        what_went_well = kwargs.get("what_went_well", [])
-        what_needs_improvement = kwargs.get("what_needs_improvement", [])
-        action_items = kwargs.get("action_items", [])
+    def invoke(data: Dict[str, Any], sprint_id, action_items = [], what_needs_improvement = [], what_went_well = []) -> str:
 
         if not sprint_id:
             return json.dumps({"error": "sprint_id is required"})

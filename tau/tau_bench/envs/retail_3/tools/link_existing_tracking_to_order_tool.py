@@ -25,9 +25,7 @@ class LinkExistingTrackingToOrderTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        order_id = kwargs.get("order_id")
-        tracking_id = kwargs.get("tracking_id")
+    def invoke(data: Dict[str, Any], order_id, tracking_id) -> str:
 
         if not order_id or not tracking_id:
             return json.dumps({"error": "order_id and tracking_id are required"}, indent=2)

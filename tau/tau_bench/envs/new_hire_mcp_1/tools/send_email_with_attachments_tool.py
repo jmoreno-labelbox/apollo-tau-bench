@@ -9,10 +9,7 @@ class SendEmailWithAttachmentsTool(Tool):
     """Creates a new email record from a template, with attachments."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        candidate_id = kwargs.get("candidate_id")
-        template_name = kwargs.get("template_name")
-        template_context = kwargs.get("template_context", {})
+    def invoke(data: Dict[str, Any], candidate_id, template_name, to_emails, attachment_file_paths = [], cc_emails = [], from_email = "hr@company.com", label_ids = [], template_context = {}) -> str:
 
         if not candidate_id or not template_name:
             return _err("candidate_id and template_name are required.")
@@ -37,7 +34,7 @@ class SendEmailWithAttachmentsTool(Tool):
             if "asset_name" not in template_context or "asset_tag" not in template_context:
                 return _err("asset_fulfillment_notification template requires asset_name and asset_tag in template_context.")
 
-        if not kwargs.get('to_emails'):
+        if not to_emails:
             return _err("to_emails is required for this template.")
 
         context = candidate.copy()
@@ -52,18 +49,18 @@ class SendEmailWithAttachmentsTool(Tool):
             "message_id": _next_str_id(emails, "message_id", "msg_"),
             "subject": rendered_content["subject"],
             "body": rendered_content["body"],
-            "from_email": kwargs.get("from_email", "hr@company.com"),
-            "to_emails": kwargs.get("to_emails"),
-            "cc_emails": kwargs.get("cc_emails", []),
+            "from_email": from_email,
+            "to_emails": to_emails,
+            "cc_emails": cc_emails,
             "date_ts": HARD_TS,
-            "labels_ids": kwargs.get("label_ids", []),
+            "labels_ids": label_ids,
             "attachments_ids": [],
             "draft_flag": False, "sent_flag": True,
             "candidate_id_nullable": candidate_id,
             "thread_id_nullable": None, "in_reply_to_message_id_nullable": None
         }
 
-        attachment_paths = kwargs.get("attachment_file_paths", [])
+        attachment_paths = attachment_file_paths
         if template_name == "welcome":
             welcome_packet_path = f"/onboarding/{candidate_id}/welcome_packet.md"
             if any(f.get("file_path") == welcome_packet_path for f in onboarding_files):

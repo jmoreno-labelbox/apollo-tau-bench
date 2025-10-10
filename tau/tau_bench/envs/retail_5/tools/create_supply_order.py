@@ -8,12 +8,7 @@ from . import generate_unique_id
 
 class CreateSupplyOrder(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        supplier_id = kwargs.get('supplier_id')
-        product_id = kwargs.get('product_id')
-        item_id = kwargs.get('item_id')
-        quantity = kwargs.get('quantity')
-        unit_cost = kwargs.get('unit_cost')
+    def invoke(data: Dict[str, Any], item_id, product_id, quantity, supplier_id, unit_cost) -> str:
 
         if not all([supplier_id, product_id, item_id, quantity, unit_cost]):
             return json.dumps({'error': 'supplier_id, product_id, item_id, quantity, and unit_cost are required'})

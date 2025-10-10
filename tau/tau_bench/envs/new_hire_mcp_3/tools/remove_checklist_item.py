@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class RemoveChecklistItem(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        item_id = kwargs.get("item_id")
+    def invoke(data: Dict[str, Any], item_id) -> str:
         items = list(data.get("checklist_items", {}).values())
         data["checklist_items"] = [i for i in items if i.get("item_id") != item_id]
         return json.dumps({"removed_item_id": item_id}, indent=2)

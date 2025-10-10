@@ -9,10 +9,7 @@ class UpdatePolicyParam(Tool):
     """Updates a policy parameter value."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        param_name = kwargs.get("param_name")
-        param_value = kwargs.get("param_value")
-        updated_at = kwargs.get("updated_at")
+    def invoke(data: Dict[str, Any], param_name, param_value, updated_at) -> str:
         
         policy_params = list(data.get("policy_params", {}).values())
         for param in policy_params:

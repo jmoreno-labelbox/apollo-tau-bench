@@ -16,8 +16,7 @@ class GetHighlightsByName(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        name = kwargs.get("name")
+    def invoke(data: Dict[str, Any], name) -> str:
 
         # 1) Verify
         if not isinstance(name, str) or name == "":

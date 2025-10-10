@@ -19,10 +19,8 @@ class CreateWorkflow(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        dag_name = kwargs.get("dag_name")
-        game_pk = kwargs.get("game_pk") or None
-        status = kwargs.get("status")
+    def invoke(data: Dict[str, Any], dag_name, game_pk, status) -> str:
+        game_pk = game_pk or None
         
 
         # Check mandatory fields for correctness.

@@ -9,9 +9,9 @@ class UpdatePullRequestState(Tool):
     """Updates the state of a pull request (e.g., 'open', 'closed')."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        pull_request_id = kwargs.get("id")
-        new_state = kwargs.get("state")
+    def invoke(data: Dict[str, Any], id, state) -> str:
+        pull_request_id = id
+        new_state = state
         pull_requests = list(data.get("pull_requests", {}).values())
         
         for pr in pull_requests:

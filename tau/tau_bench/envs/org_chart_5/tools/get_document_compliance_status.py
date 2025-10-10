@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class get_document_compliance_status(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
+    def invoke(data: Dict[str, Any], employee_id) -> str:
         emp_doc_record = next(
             (
                 d

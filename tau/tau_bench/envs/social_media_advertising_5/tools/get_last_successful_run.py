@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class GetLastSuccessfulRun(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        rtype = kwargs.get("run_type")
+    def invoke(data: Dict[str, Any], run_type) -> str:
+        rtype = run_type
         runs = [r for r in list(data.get("automation_runs", {}).values()) if
                 r.get("run_type") == rtype and r.get("status") == "completed"]
         if not runs:

@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class GetCreativeRotationHistory(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        aid = kwargs.get("adset_id")
+    def invoke(data: Dict[str, Any], adset_id) -> str:
+        aid = adset_id
         rows = _assert_table(data, "creative_rotations")
         out = [r for r in rows if (aid is None or str(r.get("adset_id")) == str(aid))]
         return json.dumps(out)

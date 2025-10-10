@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SearchNeighborhoods(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        city = kwargs.get('city')
-        min_avg_price = kwargs.get('min_avg_price', 0)
-        max_avg_price = kwargs.get('max_avg_price', float('inf'))
+    def invoke(data: Dict[str, Any], city, max_avg_price = float('inf'), min_avg_price = 0) -> str:
         
         neighborhoods = list(data.get('neighborhoods', {}).values())
         results = []

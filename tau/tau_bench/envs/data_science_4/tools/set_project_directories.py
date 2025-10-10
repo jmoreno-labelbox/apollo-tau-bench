@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SetProjectDirectories(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # This is a simulation; in an actual setting, it would engage with a file system.
-        files = kwargs.get("files", [])
+    def invoke(data: Dict[str, Any], files = []) -> str:
         project_dir_id = "PROJ_DIR_001"
         file_dir = {
             "paths": files,

@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class AppendTerminal(Tool):
     """Append a line to the in-memory terminal log."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cmd = kwargs.get("line") or ""
+    def invoke(data: Dict[str, Any], line) -> str:
+        cmd = line or ""
         _terminal(data).append({"line": cmd, "when": get_current_timestamp()})
         return json.dumps({"ok": True})
 

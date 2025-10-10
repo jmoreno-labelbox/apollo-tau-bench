@@ -21,12 +21,8 @@ class RegisterNewBeneficiaryTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
-        beneficiary_name = kwargs.get("beneficiary_name")
-        country = kwargs.get("country")
-        bank_details = kwargs.get("bank_details")
-        beneficiary_id = kwargs.get("beneficiary_id") or f"ben_{generate_unique_id()}"
+    def invoke(data: Dict[str, Any], bank_details, beneficiary_id, beneficiary_name, country, customer_id) -> str:
+        beneficiary_id = beneficiary_id or f"ben_{generate_unique_id()}"
 
         if not all([customer_id, beneficiary_name, country, bank_details]):
             return json.dumps({"error": "Missing required fields"}, indent=2)

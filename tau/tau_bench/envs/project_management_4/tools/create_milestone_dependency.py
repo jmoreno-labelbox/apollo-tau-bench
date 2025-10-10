@@ -47,14 +47,7 @@ class CreateMilestoneDependency(Tool):
         return False
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        predecessor_id = kwargs.get("predecessor_id")
-        successor_id = kwargs.get("successor_id")
-        dependency_type = kwargs.get("dependency_type", "finish_to_start")
-        lag_days = kwargs.get("lag_days", 0)
-        is_mandatory = kwargs.get("is_mandatory", True)
-        notes = kwargs.get("notes", "")
-        zero_lag = kwargs.get("zero_lag", False)
+    def invoke(data: Dict[str, Any], predecessor_id, successor_id, dependency_type = "finish_to_start", is_mandatory = True, lag_days = 0, notes = "", zero_lag = False) -> str:
 
         if not all([predecessor_id, successor_id]):
             return json.dumps({"error": "predecessor_id and successor_id are required"})

@@ -7,16 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class UpdateGmailMessageStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], body_html, body_text_stripped, message_id, sender_email, attachments_asset_ids = [], message_metadata = {}) -> str:
         """
         Updates Gmail message metadata and manages message workflow tracking.
         """
-        message_id = kwargs.get('message_id')
-        sender_email = kwargs.get('sender_email')
-        body_html = kwargs.get('body_html')
-        body_text_stripped = kwargs.get('body_text_stripped')
-        attachments_asset_ids = kwargs.get('attachments_asset_ids', [])
-        message_metadata = kwargs.get('message_metadata', {})
 
         if not message_id:
             return json.dumps({"error": "message_id is required."})

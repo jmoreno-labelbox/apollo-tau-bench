@@ -9,13 +9,13 @@ class UpdateCandidateInviteTimestamps(Tool):
     """Copy invite timestamps (orientation, manager intro) into candidate row."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cand_id = kwargs["candidate_id"]
+    def invoke(data: Dict[str, Any], candidate_id, manager_intro_invite_ts, orientation_invite_ts) -> str:
+        cand_id = candidate_id
         fields = {}
         if "orientation_invite_ts" in kwargs:
-            fields["orientation_invite_ts_nullable"] = _fixed_ts(kwargs["orientation_invite_ts"])
+            fields["orientation_invite_ts_nullable"] = _fixed_ts(orientation_invite_ts)
         if "manager_intro_invite_ts" in kwargs:
-            fields["manager_intro_invite_ts_nullable"] = _fixed_ts(kwargs["manager_intro_invite_ts"])
+            fields["manager_intro_invite_ts_nullable"] = _fixed_ts(manager_intro_invite_ts)
         return UpdateCandidateStatusFields.invoke(data, candidate_id=cand_id, fields=fields)
 
     @staticmethod

@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetPermissionByActionAndResource(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        action = kwargs.get("action")
-        resource_name = kwargs.get("resource_name")
+    def invoke(data: Dict[str, Any], action, resource_name) -> str:
         resource_id = None
         for res in data.get('resources', []):
             if res.get('name') == resource_name:

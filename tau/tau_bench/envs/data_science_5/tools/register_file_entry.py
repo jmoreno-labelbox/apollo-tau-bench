@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class RegisterFileEntry(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], mime_type, path, size) -> str:
         files = list(data.get("file_store", {}).values())
         max_id = 0
         for f in files:
@@ -19,9 +19,9 @@ class RegisterFileEntry(Tool):
         new_id = max_id + 1
         row = {
             "file_id": new_id,
-            "path": kwargs.get("path"),
-            "mime_type": kwargs.get("mime_type"),
-            "size": kwargs.get("size"),
+            "path": path,
+            "mime_type": mime_type,
+            "size": size,
             "created_at": _fixed_now_iso()
         }
         files.append(row)

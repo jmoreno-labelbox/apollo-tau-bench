@@ -9,18 +9,18 @@ class WritePendingTasksFile(Tool):
     """Write pending_tasks.md under /onboarding/<candidate>/, content provided by caller."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cand_id = kwargs["candidate_id"]
-        content_md = kwargs.get("content_markdown", "# Pending Tasks\n")
-        file_path = kwargs.get("file_path") or f"/onboarding/{cand_id}/pending_tasks.md"
+    def invoke(data: Dict[str, Any], candidate_id, created_ts, file_path, updated_ts, content_markdown = "# Pending Tasks\n") -> str:
+        cand_id = candidate_id
+        content_md = content_markdown
+        file_path = file_path or f"/onboarding/{cand_id}/pending_tasks.md"
         return WriteOnboardingFile.invoke(
             data,
             candidate_id=cand_id,
             file_path=file_path,
             content_text=content_md,
             mime_type="text/markdown",
-            created_ts=kwargs.get("created_ts"),
-            updated_ts=kwargs.get("updated_ts"),
+            created_ts=created_ts,
+            updated_ts=updated_ts,
         )
 
     @staticmethod

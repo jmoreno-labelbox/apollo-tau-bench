@@ -9,9 +9,8 @@ class ListAccessRequestsTool(Tool):
     """List access requests by status or resource."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        status = kwargs.get("status")
-        res_id = kwargs.get("resource_id")
+    def invoke(data: Dict[str, Any], resource_id, status) -> str:
+        res_id = resource_id
         reqs = data.get("access_requests", [])
         results = []
         for r in reqs:

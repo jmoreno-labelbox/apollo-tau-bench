@@ -9,8 +9,7 @@ class SearchAdsByCreativeType(Tool):
     """Searches for ads with a specific creative type."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        creative_type = kwargs.get("creative_type")
+    def invoke(data: Dict[str, Any], creative_type) -> str:
         ads = list(data.get("ads", {}).values())
         matching_ads = []
         

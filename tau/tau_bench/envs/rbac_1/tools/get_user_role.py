@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetUserRole(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
-        role_name = kwargs.get("role_name")
+    def invoke(data: Dict[str, Any], role_name, user_id) -> str:
         role_id = None
         for role in list(data.get('roles', {}).values()):
             if role.get('role_name') == role_name:

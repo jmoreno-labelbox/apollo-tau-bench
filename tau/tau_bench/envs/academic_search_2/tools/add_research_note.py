@@ -8,9 +8,8 @@ from tau_bench.envs.tool import Tool
 class AddResearchNote(Tool):
     """Creates a new entry in the research_logs."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        researcher_id, article_id, notes = kwargs.get('researcher_id'), kwargs.get('article_id'), kwargs.get('notes')
-        log_id_override = kwargs.get('log_id_override')
+    def invoke(data: Dict[str, Any], article_id, log_id_override, notes, researcher_id, relevance = 'medium') -> str:
+        researcher_id, article_id, notes = researcher_id, article_id, notes
         if not all([researcher_id, article_id, notes]):
             return json.dumps({"error": "researcher_id, article_id, and notes are required."})
         new_log = {
@@ -19,7 +18,7 @@ class AddResearchNote(Tool):
             "article_id": article_id,
             "entry_date": "2025-06-24",
             "notes": notes,
-            "relevance": kwargs.get('relevance', 'medium')
+            "relevance": relevance
         }
         list(data.get('research_logs', {}).values()).append(new_log)
         return json.dumps({"success": True, "log_entry": new_log}, indent=2)

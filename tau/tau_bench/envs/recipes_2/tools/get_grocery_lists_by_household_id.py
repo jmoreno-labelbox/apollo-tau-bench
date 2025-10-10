@@ -9,8 +9,7 @@ class GetGroceryListsByHouseholdId(Tool):
     """Retrieves all grocery lists for a specific household ID."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        household_id = kwargs.get("household_id")
+    def invoke(data: Dict[str, Any], household_id) -> str:
         if household_id is None:
             return json.dumps({"error": "household_id parameter is required."})
 

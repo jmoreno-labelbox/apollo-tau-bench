@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateTeamsDepartment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        team_id = kwargs.get("team_id")
-        department = kwargs.get("department")
+    def invoke(data: Dict[str, Any], department, team_id) -> str:
 
         if not all([team_id, department]):
             return json.dumps({"error": "team_id and department are required"})

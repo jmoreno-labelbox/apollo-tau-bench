@@ -9,10 +9,7 @@ class SearchGmailThreadsTool(Tool):
     """Search Gmail threads by label, participant, or topic keyword."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        label = kwargs.get("label")
-        participant = kwargs.get("participant")
-        keyword = kwargs.get("keyword")
+    def invoke(data: Dict[str, Any], keyword, label, participant) -> str:
 
         threads = list(data.get("gmail_threads", {}).values())
         out = []

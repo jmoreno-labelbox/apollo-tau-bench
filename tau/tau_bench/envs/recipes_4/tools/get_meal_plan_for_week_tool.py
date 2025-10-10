@@ -35,7 +35,7 @@ class GetMealPlanForWeekTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> Dict[str, Any]:
+    def invoke(data: Dict[str, Any], meal_plan_id) -> Dict[str, Any]:
         """
         Executes the logic to fetch and enrich a full meal plan.
 
@@ -54,8 +54,6 @@ class GetMealPlanForWeekTool(Tool):
         validation_error = _validate_inputs(kwargs, param_definitions)
         if validation_error:
             return _build_error_response(validation_error["error_code"], validation_error["details"])
-
-        meal_plan_id = kwargs["meal_plan_id"]
 
         # 2. Data Acquisition: Locate the primary meal plan object
         meal_plan_record = next(

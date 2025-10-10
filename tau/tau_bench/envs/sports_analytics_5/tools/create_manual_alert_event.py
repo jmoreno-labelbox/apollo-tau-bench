@@ -9,7 +9,7 @@ from . import _require_tables
 class CreateManualAlertEvent(Tool):
     """Create a manual in-game alert (is_manual_alert=true)."""
     @staticmethod
-    def invoke(data, **kwargs)->str:
+    def invoke(data, game_pk, pitch_id, suggestion_text, draft_status = "draft", leverage_index = 0.0)->str:
         err = _require_tables(data, ["game_day_events"])
         if err:
             return json.dumps({"error": err}, indent=2)
@@ -20,13 +20,13 @@ class CreateManualAlertEvent(Tool):
         new_id = _next_id(events, "event_id")
         row = {
             "event_id": new_id,
-            "game_pk": kwargs.get("game_pk"),
-            "pitch_id": kwargs.get("pitch_id"),
+            "game_pk": game_pk,
+            "pitch_id": pitch_id,
             "timestamp_utc": _now_utc_iso(),
-            "leverage_index": kwargs.get("leverage_index", 0.0),
+            "leverage_index": leverage_index,
             "is_manual_alert": True,
-            "suggestion_text": kwargs.get("suggestion_text"),
-            "draft_status": kwargs.get("draft_status","draft")
+            "suggestion_text": suggestion_text,
+            "draft_status": draft_status
         }
         events.append(row)
         return json.dumps({"event_id": new_id}, indent=2)

@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetRevenueSummary(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        group_by = kwargs.get('group_by', 'total')
+    def invoke(data: Dict[str, Any], group_by = 'total') -> str:
 
         orders = data['orders']
         revenue_data = {'total_revenue': 0.0, 'order_count': 0}

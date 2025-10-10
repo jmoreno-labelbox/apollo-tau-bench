@@ -9,8 +9,8 @@ class ComputeRoas(Tool):
     """Compute ROAS (revenue/spend) for an adset on a date."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        aid, date = kwargs.get("adset_id"), kwargs.get("date")
+    def invoke(data: Dict[str, Any], adset_id, date) -> str:
+        aid, date = adset_id, date
         for i in list(data.get("f_insights", {}).values()):
             if i.get("adset_id") == aid and i.get("date") == date:
                 s, r = i.get("spend", 0), i.get("revenue", 0)

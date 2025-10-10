@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class SuggestReviewers(Tool):
     """Suggests potential reviewers for an article, with an option to exclude certain authors."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        article_id = kwargs.get('article_id')
-        exclude_authors = kwargs.get('exclude_authors', [])
+    def invoke(data: Dict[str, Any], article_id, exclude_authors = []) -> str:
         if not article_id:
             return json.dumps({"error": "article_id is required."})
         article = next((a for a in list(data.get('articles', {}).values()) if a.get('article_id') == article_id), None)

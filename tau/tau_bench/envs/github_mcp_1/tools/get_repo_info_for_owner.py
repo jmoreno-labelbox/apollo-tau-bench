@@ -9,9 +9,9 @@ class GetRepoInfoForOwner(Tool):
     """Returns key repository info (including file paths and contents) for a given owner + repo_name."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get("owner", "").strip()
-        repo_name = kwargs.get("repo_name", "").strip()
+    def invoke(data: Dict[str, Any], owner = "", repo_name = "") -> str:
+        owner = owner.strip()
+        repo_name = repo_name.strip()
 
         if not owner or not repo_name:
             return json.dumps(

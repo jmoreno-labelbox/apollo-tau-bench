@@ -7,12 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class RoomManager(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], device_id, floor, room_id, action = 'get') -> str:
         rooms = list(data.get('rooms', {}).values())
-        action = kwargs.get('action', 'get')
-        room_id = kwargs.get('room_id')
-        device_id = kwargs.get('device_id')
-        floor = kwargs.get('floor')
 
         if action == 'get':
             result = [r for r in rooms if (not room_id or r['id'] == room_id) and

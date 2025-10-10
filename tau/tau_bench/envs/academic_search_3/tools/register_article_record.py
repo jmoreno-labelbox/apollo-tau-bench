@@ -8,15 +8,15 @@ from tau_bench.envs.tool import Tool
 class RegisterArticleRecord(Tool):
     """Tool to create a new article record."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], abstract, title, topic, authors = []) -> str:
         articles = list(data.get('articles', {}).values())
         new_article = {
             "article_id": f"art_{len(articles) + 1:02d}",
-            "title": kwargs.get('title'),
-            "authors": kwargs.get('authors', []),
+            "title": title,
+            "authors": authors,
             "publication_year": datetime.now().year,
-            "topic": kwargs.get('topic'),
-            "abstract": kwargs.get('abstract'),
+            "topic": topic,
+            "abstract": abstract,
             "status": "draft"
         }
         articles.append(new_article)

@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateLifecycleQueueStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        lifecycle_id = kwargs.get("lifecycle_id")
-        status = kwargs.get("status")
+    def invoke(data: Dict[str, Any], lifecycle_id, status) -> str:
         queue = list(data.get("lifecycle_queue", {}).values())
         entry = next((e for e in queue if e.get("lifecycle_id") == lifecycle_id), None)
         if not entry:

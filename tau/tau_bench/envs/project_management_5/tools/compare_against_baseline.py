@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CompareAgainstBaseline(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
+    def invoke(data: Dict[str, Any], baseline_version, project_id) -> str:
 
         if not project_id:
             return json.dumps({"error": "project_id is required"})
@@ -17,7 +16,7 @@ class CompareAgainstBaseline(Tool):
         change_requests = list(data.get("change_requests", {}).values())
         deliverables = list(data.get("deliverables", {}).values())
 
-        if baseline_version := kwargs.get("baseline_version"):
+        if baseline_version := baseline_version:
             baseline = next(
                 (
                     b

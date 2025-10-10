@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetCitationDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        citation_id = kwargs.get('citation_id')
+    def invoke(data: Dict[str, Any], citation_id) -> str:
         if not citation_id:
             return json.dumps({"error": "citation_id is required."})
 

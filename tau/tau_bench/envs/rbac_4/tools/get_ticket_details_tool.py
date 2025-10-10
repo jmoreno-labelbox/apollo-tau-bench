@@ -9,8 +9,7 @@ class GetTicketDetailsTool(Tool):
     """Retrieve a HubSpot ticket by ticket_id (read-only, deterministic)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        ticket_id = kwargs.get("ticket_id")
+    def invoke(data: Dict[str, Any], ticket_id) -> str:
         tickets = data.get("hubspot_tickets", [])
         if not isinstance(tickets, list):
             return json.dumps({"error": "hubspot_tickets must be a list"}, indent=2)

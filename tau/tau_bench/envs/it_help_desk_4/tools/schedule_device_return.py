@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ScheduleDeviceReturn(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
-        asset_id = kwargs.get("asset_id")
+    def invoke(data: Dict[str, Any], asset_id, employee_id) -> str:
         workflows = data.setdefault("device_workflow", [])
         workflow_id = _get_next_id(workflows, "workflow_id", "dwf")
         return_code = f"RT{workflow_id[-4:]}"

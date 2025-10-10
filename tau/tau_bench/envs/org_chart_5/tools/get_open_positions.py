@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class get_open_positions(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        department_id = kwargs.get("department_id")
-        level = kwargs.get("level")
+    def invoke(data: Dict[str, Any], department_id, level) -> str:
 
         filled_position_ids = {
             e.get("position_id")

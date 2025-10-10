@@ -9,8 +9,8 @@ class DlpScanThreadTool(Tool):
     """Scan a thread's messages for DLP block patterns from config; returns found patterns."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        thread_id = _require_str(kwargs.get("thread_id"), "thread_id")
+    def invoke(data: Dict[str, Any], thread_id) -> str:
+        thread_id = _require_str(thread_id, "thread_id")
         if not thread_id:
             return json.dumps({"error":"thread_id is required"})
 

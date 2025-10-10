@@ -7,12 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetFixPlanById(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], plan_id, include_items = True) -> str:
         """
         Retrieves a specific fix plan by its ID with detailed information.
         """
-        plan_id = kwargs.get('plan_id')
-        include_items = kwargs.get('include_items', True)
 
         if not plan_id:
             return json.dumps({"error": "plan_id is required"})

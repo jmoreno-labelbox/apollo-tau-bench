@@ -8,14 +8,9 @@ from tau_bench.envs.tool import Tool
 class LogErrorMessage(Tool):
     """Creates a structured error message log for a failed task."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], details_json, error_type, severity, task_id, task_type, user_id) -> str:
         error_logs = data.get('error_messages', [])
         new_id = f"err_msg_{max((int(e['msg_id'].split('_')[-1]) for e in error_logs), default=0) + 1:03d}"
-
-        # Generate messages automatically according to the error type and task information.
-        error_type = kwargs.get("error_type")
-        task_type = kwargs.get("task_type")
-        task_id = kwargs.get("task_id")
 
         # Create a suitable message according to the type of error encountered.
         if error_type == "permission_denied":
@@ -32,7 +27,7 @@ class LogErrorMessage(Tool):
             message = f"Error occurred during {task_type} task {task_id}: {error_type}"
 
         new_log = {
-            "msg_id": new_id, "err_type": error_type, "task_id": task_id, "task_type": task_type, "user_id": kwargs.get("user_id"), "msg": message, "created_at": "2024-01-20T12:00:00Z", "severity": kwargs.get("severity"), "details": kwargs.get("details_json")}
+            "msg_id": new_id, "err_type": error_type, "task_id": task_id, "task_type": task_type, "user_id": user_id, "msg": message, "created_at": "2024-01-20T12:00:00Z", "severity": severity, "details": details_json}
         error_logs.append(new_log)
         data['error_messages'] = error_logs
         return json.dumps(new_log)

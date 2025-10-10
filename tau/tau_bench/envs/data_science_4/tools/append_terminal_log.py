@@ -7,9 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class AppendTerminalLog(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        msg = kwargs.get("message")
-        log_type = kwargs.get("type")
+    def invoke(data: Dict[str, Any], message, type) -> str:
+        msg = message
+        log_type = type
         logs = data.setdefault("terminal_log", [])
         if log_type == "completed":
             entry = {"event_id": f"APPEND_002", "message": msg}

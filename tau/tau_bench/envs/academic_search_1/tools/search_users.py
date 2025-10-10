@@ -7,16 +7,13 @@ from tau_bench.envs.tool import Tool
 
 class SearchUsers(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], name, research_field, user_id) -> str:
         """
         Executes user search.
         - If 'user_id' is provided, returns the details of that specific user.
         - Otherwise, filters users by 'name' and/or 'research_field'.
         - If no parameters are provided, returns all users.
         """
-        user_id = kwargs.get('user_id')
-        name = kwargs.get('name')
-        research_field = kwargs.get('research_field')
 
         users = list(data.get('users', {}).values())
 

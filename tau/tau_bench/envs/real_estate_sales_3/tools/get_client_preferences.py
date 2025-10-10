@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetClientPreferences(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        client_id = kwargs.get("client_id")
+    def invoke(data: Dict[str, Any], client_id) -> str:
         if client_id is None:
             return json.dumps({"error": "client_id is required"}, indent=2)
         prefs = next((p for p in data.get("client_preferences", []) if p.get("client_id") == client_id), None)

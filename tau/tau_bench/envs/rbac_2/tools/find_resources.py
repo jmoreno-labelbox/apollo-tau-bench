@@ -9,10 +9,7 @@ class FindResources(Tool):
     """ Find resources based on search criteria like name keywords, criticality, or owner ID. """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        name_keyword = kwargs.get("name_keyword")
-        criticality = kwargs.get("criticality")
-        owner_id = kwargs.get("owner_id")  # The CRUCIAL new parameter
+    def invoke(data: Dict[str, Any], criticality, name_keyword, owner_id) -> str:
 
         try:
             resources = data.get('resources', [])

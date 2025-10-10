@@ -7,10 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class GetInvoiceDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], invoice_id, invoice_number) -> str:
         invs = data.get("invoices", [])
-        invoice_id = kwargs.get("invoice_id")
-        invoice_number = kwargs.get("invoice_number")
         row = None
         if invoice_id is not None:
             row = next((i for i in invs if str(i.get("invoice_id")) == str(invoice_id)), None)

@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetAdsetsByCategory(Tool):
     """Finds ad sets targeting a specific product category."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        category = kwargs.get("category")
+    def invoke(data: Dict[str, Any], category) -> str:
         adsets = [adset for adset in data.get('adsets', []) if adset.get('category') == category]
         return json.dumps({"adsets": adsets})
 

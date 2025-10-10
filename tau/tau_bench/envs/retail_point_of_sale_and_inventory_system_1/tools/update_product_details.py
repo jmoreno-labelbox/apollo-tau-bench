@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateProductDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        sku = kwargs.get('sku')
+    def invoke(data: Dict[str, Any], sku) -> str:
         products = list(data.get("products", {}).values())
         updated_product = None
         for product in products:

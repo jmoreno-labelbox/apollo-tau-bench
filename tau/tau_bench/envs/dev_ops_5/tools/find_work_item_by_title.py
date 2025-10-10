@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class FindWorkItemByTitle(Tool):
     """Finds a work item by its title."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        title_query = kwargs.get("title")
+    def invoke(data: Dict[str, Any], title) -> str:
+        title_query = title
         work_items = data.get("work_items", [])
         for item in work_items:
             if title_query in item.get("title", ""):

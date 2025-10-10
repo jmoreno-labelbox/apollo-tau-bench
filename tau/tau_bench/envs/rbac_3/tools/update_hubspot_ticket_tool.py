@@ -13,19 +13,18 @@ class UpdateHubspotTicketTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        ticket_id = kwargs.get("ticket_id")
+    def invoke(data: Dict[str, Any], actor_id, assignee_id, category, description, note, priority, requester_id, status, subject, ticket_id) -> str:
         if not ticket_id:
             return json.dumps({"error": "ticket_id is required"}, indent=2)
 
         updatable_fields = {
-            "subject": kwargs.get("subject"),
-            "description": kwargs.get("description"),
-            "status": kwargs.get("status"),
-            "priority": kwargs.get("priority"),
-            "assignee_id": kwargs.get("assignee_id"),
-            "requester_id": kwargs.get("requester_id"),
-            "category": kwargs.get("category"),
+            "subject": subject,
+            "description": description,
+            "status": status,
+            "priority": priority,
+            "assignee_id": assignee_id,
+            "requester_id": requester_id,
+            "category": category,
         }
 
         tickets: List[Dict[str, Any]] = data.setdefault("hubspot_tickets", [])
@@ -45,9 +44,6 @@ class UpdateHubspotTicketTool(Tool):
 
         if t.get("status") == "CLOSED":
             t["closed_at"] = _HARD_TS
-
-        actor_id = kwargs.get("actor_id")
-        note = kwargs.get("note")
         audit_entry = None
         if actor_id:
             logs = data.setdefault("audit_logs", [])

@@ -9,11 +9,9 @@ class SearchCompsAndCreateReportTool(Tool):
     """Runs neighborhood-first search, ranks candidates, and creates the comp report entry in a single step."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # --- Parameters sourced from both instruments ---
-        subject_property_id = kwargs.get("subject_property_id")
-        client_id = _as_int(kwargs.get("client_id"))
-        created_by_broker_id = _as_int(kwargs.get("created_by_broker_id"))
+    def invoke(data: Dict[str, Any], client_id, client_neighborhoods, created_by_broker_id, max_selections, price_tolerance_pct, subject_property_id) -> str:
+        client_id = _as_int(client_id)
+        created_by_broker_id = _as_int(created_by_broker_id)
 
         # Verification of mandatory parameters.
         if client_id is None or not subject_property_id or created_by_broker_id is None:
@@ -28,12 +26,12 @@ class SearchCompsAndCreateReportTool(Tool):
         # --- Search and Ranking Mechanism (from SearchAndRankCompsTool) ---
         client_neighborhoods = {
             v
-            for v in (_as_int(x) for x in (kwargs.get("client_neighborhoods") or []))
+            for v in (_as_int(x) for x in (client_neighborhoods or []))
             if v is not None
         }
-        max_selections = _as_int(kwargs.get("max_selections")) or 3
+        max_selections = _as_int(max_selections) or 3
         try:
-            price_tolerance_pct = float(kwargs.get("price_tolerance_pct") or 0.10)
+            price_tolerance_pct = float(price_tolerance_pct or 0.10)
         except Exception:
             price_tolerance_pct = 0.10
 

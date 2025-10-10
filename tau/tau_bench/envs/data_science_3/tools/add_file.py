@@ -8,7 +8,7 @@ from . import _fixed_now_iso
 
 class AddFile(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], mime_type, path, size) -> str:
         files = data.get("file_store", [])
         max_id = 0
         for f in files:
@@ -20,9 +20,9 @@ class AddFile(Tool):
         new_id = max_id + 1
         row = {
             "file_id": new_id,
-            "path": kwargs.get("path"),
-            "mime_type": kwargs.get("mime_type"),
-            "size": kwargs.get("size"),
+            "path": path,
+            "mime_type": mime_type,
+            "size": size,
             "created_at": _fixed_now_iso()
         }
         files.append(row)

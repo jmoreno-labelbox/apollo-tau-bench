@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CalculateCustomsDuty(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        shipment_id = kwargs.get("shipment_id")
-        total_value = kwargs.get("total_value")
-        country_of_origin = kwargs.get("country_of_origin")
+    def invoke(data: Dict[str, Any], country_of_origin, shipment_id, total_value) -> str:
 
         # Streamlined duty assessment - actual implementation would involve tariff schedules.
         duty_rates = {

@@ -9,9 +9,8 @@ class GetCommitSummary(Tool):
     """Returns commit count for a given repo and owner, broken down by branch."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get("owner") or _auth(data)["username"]
-        repo_name = kwargs.get("repo_name")
+    def invoke(data: Dict[str, Any], owner, repo_name) -> str:
+        owner = owner or _auth(data)["username"]
         if not all([owner, repo_name]):
             return json.dumps({"error": "owner and repo_name are required."}, indent=2)
 

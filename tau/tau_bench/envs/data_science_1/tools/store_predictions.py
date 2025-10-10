@@ -8,12 +8,12 @@ from . import _require
 
 class StorePredictions(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], columns, generated_ts, model_name, predictions_csv_path, row_count) -> str:
         err = _require(kwargs, ["model_name", "predictions_csv_path"])
         if err: return err
-        row = {"model_name": kwargs["model_name"], "predictions_csv_path": kwargs["predictions_csv_path"],
-               "row_count": kwargs.get("row_count"), "columns": kwargs.get("columns"),
-               "generated_ts": kwargs.get("generated_ts")}
+        row = {"model_name": model_name, "predictions_csv_path": predictions_csv_path,
+               "row_count": row_count, "columns": columns,
+               "generated_ts": generated_ts}
         return json.dumps(_append(data.setdefault("predictions", []), row), indent=2)
 
     @staticmethod

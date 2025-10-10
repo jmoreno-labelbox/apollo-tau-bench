@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CalculateOptimizationMetrics(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        projects = kwargs.get("projects", [])
-        metric_type = kwargs.get("metric_type", "efficiency_gain")
+    def invoke(data: Dict[str, Any], metric_type = "efficiency_gain", projects = []) -> str:
 
         allocations = data.get("allocations", [])
         employees = list(data.get("employees", {}).values())

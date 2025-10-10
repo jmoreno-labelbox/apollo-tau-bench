@@ -9,8 +9,7 @@ class CaV2CalculateInvoiceAging(Tool):
     """Calculate aging buckets for unpaid invoices."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        current_date = kwargs.get("current_date", "2024-12-10")
+    def invoke(data: Dict[str, Any], current_date = "2024-12-10") -> str:
 
         invoices = data.get("invoices", [])
         unpaid_invoices = [inv for inv in invoices if not inv.get("paid_at")]

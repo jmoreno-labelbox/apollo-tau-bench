@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class BuildFeaturesCsvPath(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        city_slug = kwargs.get("city_slug")
+    def invoke(data: Dict[str, Any], city_slug) -> str:
         if not city_slug:
             return json.dumps({"error":"Missing city_slug"})
         return json.dumps({"city_slug": city_slug, "features_csv_path": "/processed_data/features.csv"})

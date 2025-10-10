@@ -8,15 +8,15 @@ from tau_bench.envs.tool import Tool
 class CreateBranch(Tool):
     """Creates a new branch in a repository from a source branch."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], branch_name, repository_id) -> str:
         branches = list(data.get("branches", {}).values())
         new_id_num = max([int(b["id"].split("_")[1]) for b in branches]) + 1
         new_id = f"branch_{new_id_num:03d}"
         
         new_branch = {
             "id": new_id,
-            "repository_id": kwargs.get("repository_id"),
-            "name": kwargs.get("branch_name"),
+            "repository_id": repository_id,
+            "name": branch_name,
             "created_at": "2025-01-28T00:00:00Z"
         }
         branches.append(new_branch)

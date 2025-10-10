@@ -7,14 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetAuditFindingsSummary(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], audit_id, finding_type, severity, violation_type) -> str:
         """
         Retrieves a comprehensive summary of audit findings including design system and accessibility violations.
         """
-        audit_id = kwargs.get('audit_id')
-        finding_type = kwargs.get('finding_type')
-        severity = kwargs.get('severity')
-        violation_type = kwargs.get('violation_type')
 
         audits = data.get('audits', [])
         audit_findings_ds = data.get('audit_findings_ds', [])

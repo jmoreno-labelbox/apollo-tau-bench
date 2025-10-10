@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class MergePullRequest(Tool):
     """Merges a pull request."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        pr_id = kwargs.get("id")
+    def invoke(data: Dict[str, Any], id) -> str:
+        pr_id = id
         prs = list(data.get("pull_requests", {}).values())
         for pr in prs:
             if pr.get("id") == pr_id:

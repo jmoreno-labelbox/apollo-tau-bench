@@ -18,9 +18,7 @@ class CreateNewReport(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        player_id = kwargs.get("player_id")
-        week_of_date = kwargs.get("week_of_date")
+    def invoke(data: Dict[str, Any], player_id, week_of_date) -> str:
 
 
         # 1) Check mandatory inputs for validity.

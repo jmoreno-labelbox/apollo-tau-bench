@@ -9,8 +9,7 @@ class CheckFileStorageOrganizationTool(Tool):
     """Reviews onboarding_files table analyzing file path organization, duplicate content, and candidate file completeness."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        candidate_id = kwargs.get("candidate_id")
+    def invoke(data: Dict[str, Any], candidate_id) -> str:
 
         files = data.get("onboarding_files", [])
 

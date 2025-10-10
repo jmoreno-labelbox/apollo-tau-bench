@@ -7,13 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateSplitSummaryRecord(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        method = kwargs.get("method")
-        test_fraction = kwargs.get("test_fraction")
-        train_index_count = kwargs.get("train_index_count")
-        test_index_count = kwargs.get("test_index_count")
-        split_summary_json_path = kwargs.get("split_summary_json_path")
-        split_ts = kwargs.get("split_ts")
+    def invoke(data: Dict[str, Any], method, split_summary_json_path, split_ts, test_fraction, test_index_count, train_index_count) -> str:
 
         if method != "time_based":
             return json.dumps({"error": "Only 'time_based' method is supported."})

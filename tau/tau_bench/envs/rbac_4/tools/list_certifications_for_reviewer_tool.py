@@ -9,8 +9,7 @@ class ListCertificationsForReviewerTool(Tool):
     """List all certifications assigned to a given reviewer (read operation, deterministic)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        reviewer_id = kwargs.get("reviewer_id")
+    def invoke(data: Dict[str, Any], reviewer_id) -> str:
         certifications = data.get("certifications", [])
         if not isinstance(certifications, list):
             return json.dumps({"error": "certifications must be a list"}, indent=2)

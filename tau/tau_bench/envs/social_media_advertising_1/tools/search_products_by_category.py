@@ -9,8 +9,7 @@ class SearchProductsByCategory(Tool):
     """Searches for products with a specific category."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        category = kwargs.get("category")
+    def invoke(data: Dict[str, Any], category) -> str:
         products = list(data.get("dim_product", {}).values())
         matching_products = []
         

@@ -7,14 +7,14 @@ from tau_bench.envs.tool import Tool
 
 class GetSalesByCategoryRange(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], category, end_date, start_date) -> str:
         req = ["category", "start_date", "end_date"]
         err = _require(kwargs, req)
         if err: return _fail(err)
         rows = _assert_table(data, "f_sales")
         out = [r for r in rows if
-               r.get("category") == kwargs["category"] and r.get("start_date") == kwargs["start_date"] and r.get(
-                   "end_date") == kwargs["end_date"]]
+               r.get("category") == category and r.get("start_date") == start_date and r.get(
+                   "end_date") == end_date]
         return json.dumps(out)
 
     @staticmethod

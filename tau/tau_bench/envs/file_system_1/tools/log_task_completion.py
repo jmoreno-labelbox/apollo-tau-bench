@@ -8,12 +8,8 @@ from tau_bench.envs.tool import Tool
 class LogTaskCompletion(Tool):
     """Creates a log entry for a successfully completed task."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], task_id, task_type, user_id) -> str:
         task_logs = data.get('task_logs', [])
-
-        # Generate notes automatically depending on the type of task.
-        task_type = kwargs.get("task_type")
-        task_id = kwargs.get("task_id")
 
         if task_type == "archive":
             notes = f"Archive task {task_id} completed successfully"
@@ -25,7 +21,7 @@ class LogTaskCompletion(Tool):
             notes = f"{task_type.title()} task {task_id} completed successfully"
 
         new_log = {
-            "task_id": task_id, "task_type": task_type, "user_id": kwargs.get("user_id"), "result": "success", "completed_at": "2024-01-20T13:00:00Z", "notes": notes}
+            "task_id": task_id, "task_type": task_type, "user_id": user_id, "result": "success", "completed_at": "2024-01-20T13:00:00Z", "notes": notes}
         task_logs.append(new_log)
         data['task_logs'] = task_logs
         return json.dumps(new_log)

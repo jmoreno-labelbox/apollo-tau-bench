@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class BuildSplitSummaryPath(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        city_slug = kwargs.get("city_slug")
-        method = kwargs.get("method")
-        split_ts = kwargs.get("split_ts")
+    def invoke(data: Dict[str, Any], city_slug, method, split_ts) -> str:
         if not city_slug or not method or not split_ts:
             return json.dumps({"error":"Missing city_slug, method, or split_ts"})
         ymd = split_ts[:10].replace("-", "")

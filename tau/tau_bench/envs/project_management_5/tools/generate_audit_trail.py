@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GenerateAuditTrail(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cr_id = kwargs.get("cr_id")
-        include_approvals = kwargs.get("include_approvals", True)
-        include_artifacts = kwargs.get("include_artifacts", True)
+    def invoke(data: Dict[str, Any], cr_id, include_approvals = True, include_artifacts = True) -> str:
 
         if not cr_id:
             return json.dumps({"error": "cr_id is required"})

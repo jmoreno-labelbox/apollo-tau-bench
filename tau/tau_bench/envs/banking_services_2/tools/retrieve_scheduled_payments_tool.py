@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class RetrieveScheduledPaymentsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get('customer_id')
-        source_account_id = kwargs.get('source_account_id')
-        month = kwargs.get('month')
-        frequency = kwargs.get('frequency', None)
+    def invoke(data: Dict[str, Any], customer_id, month, source_account_id, frequency = None) -> str:
 
         scheduled_payments = data.get('scheduled_payments', [])
         results = []

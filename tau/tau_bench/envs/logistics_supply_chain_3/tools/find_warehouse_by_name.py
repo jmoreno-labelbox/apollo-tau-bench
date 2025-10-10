@@ -9,8 +9,7 @@ class FindWarehouseByName(Tool):
     """Finds a warehouse's ID by its name."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        warehouse_name = kwargs.get("warehouse_name")
+    def invoke(data: Dict[str, Any], warehouse_name) -> str:
         warehouses = list(data.get("warehouses", {}).values())
         for warehouse in warehouses:
             if warehouse.get("warehouse_name") == warehouse_name:

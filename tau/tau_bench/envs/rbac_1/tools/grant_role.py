@@ -7,17 +7,17 @@ from tau_bench.envs.tool import Tool
 
 class GrantRole(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], assigned_by, expires_on, role_id, user_id) -> str:
         user_roles = data.get('user_roles', [])
 
         new_id_num = max([int(ur["user_role_id"][3:]) for ur in user_roles], default=0) + 1
         new_user_role_id = f"UR-{new_id_num:03d}"
         new_assignment = {
                 "user_role_id": new_user_role_id,
-                "user_id": kwargs.get("user_id"),
-                "role_id": kwargs.get("role_id"),
-                "assigned_by": kwargs.get("assigned_by"),
-                "expires_on": kwargs.get("expires_on")
+                "user_id": user_id,
+                "role_id": role_id,
+                "assigned_by": assigned_by,
+                "expires_on": expires_on
         }
         user_roles.append(new_assignment)
         data['user_roles'] = user_roles

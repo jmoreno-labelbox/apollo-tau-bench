@@ -7,13 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateFinancialAlert(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        alert_type = kwargs.get("alert_type")
-        entity_type = kwargs.get("entity_type")
-        entity_id = kwargs.get("entity_id")
-        threshold_value = kwargs.get("threshold_value")
-        notify_list = kwargs.get("notify_list", [])
-        alert_id = kwargs.get("alert_id", f"alert_{uuid.uuid4().hex[:8]}")
+    def invoke(data: Dict[str, Any], alert_type, entity_id, entity_type, threshold_value, alert_id = f"alert_{uuid.uuid4().hex[:8]}", notify_list = []) -> str:
 
         if not all([alert_type, entity_type, entity_id, notify_list]):
             return json.dumps(

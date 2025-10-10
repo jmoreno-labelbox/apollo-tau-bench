@@ -7,11 +7,11 @@ from tau_bench.envs.tool import Tool
 
 class CreateCampaign(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], created_date, name, objective) -> str:
         campaigns = list(data.get("campaigns", {}).values())
         nid = max((int(c["campaign_id"]) for c in campaigns), default=0) + 1
-        rec = {"campaign_id": str(nid), "name": kwargs.get("name"), "objective": kwargs.get("objective"),
-               "created_date": kwargs.get("created_date"), "status": "paused"}
+        rec = {"campaign_id": str(nid), "name": name, "objective": objective,
+               "created_date": created_date, "status": "paused"}
         campaigns.append(rec)
         data["campaigns"] = campaigns
         return json.dumps(rec)

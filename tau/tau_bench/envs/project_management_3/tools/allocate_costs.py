@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class AllocateCosts(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        expense_id = kwargs.get("expense_id")
-        allocation_splits = kwargs.get("allocation_splits", [])
-        allocator_id = kwargs.get("allocator_id")
-        fiscal_year = kwargs.get("fiscal_year", datetime.now().year)
+    def invoke(data: Dict[str, Any], allocator_id, expense_id, allocation_splits = [], fiscal_year = datetime.now().year) -> str:
 
         if not all([expense_id, allocation_splits, allocator_id]):
             return json.dumps(

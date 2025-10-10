@@ -9,9 +9,7 @@ from . import _require, _json_dump
 class SetGroceryListStatus(Tool):
     """Update grocery_lists.status_enum for list_id."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        list_id = kwargs.get("list_id")
-        status_enum = kwargs.get("status_enum")
+    def invoke(data: Dict[str, Any], list_id, status_enum) -> str:
         if list_id is None or not status_enum:
             return _json_dump({"error": "list_id and status_enum are required"})
         row = _require(data, "grocery_lists", "list_id", int(list_id))

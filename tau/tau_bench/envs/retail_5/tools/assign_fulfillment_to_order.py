@@ -8,10 +8,7 @@ from . import generate_unique_id
 
 class AssignFulfillmentToOrder(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        order_id = kwargs.get('order_id')
-        courier_id = kwargs.get('courier_id')
-        delivery_options = kwargs.get('delivery_options', 'standard')
+    def invoke(data: Dict[str, Any], courier_id, order_id, delivery_options = 'standard') -> str:
         if not order_id or not courier_id:
             return json.dumps({'error': 'order_id and courier_id are required'})
 

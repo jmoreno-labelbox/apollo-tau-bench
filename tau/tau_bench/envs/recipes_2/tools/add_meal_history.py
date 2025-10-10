@@ -8,12 +8,7 @@ from tau_bench.envs.tool import Tool
 class AddMealHistory(Tool):
     """Adds a new entry to the meal history."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        household_id = kwargs.get("household_id")
-        recipe_id = kwargs.get("recipe_id")
-        plan_date = kwargs.get("plan_date")
-        was_prepared = kwargs.get("was_prepared")
-        rating_int = kwargs.get("rating_int")
+    def invoke(data: Dict[str, Any], household_id, plan_date, rating_int, recipe_id, was_prepared) -> str:
 
         history = list(data.get("meal_history", {}).values())
         new_id = max([h.get("history_id", 0) for h in history]) + 1 if history else 6201

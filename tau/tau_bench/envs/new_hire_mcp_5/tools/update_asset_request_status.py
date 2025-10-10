@@ -21,27 +21,27 @@ class UpdateAssetRequestStatus(Tool):
         return matches[0]
 
     @staticmethod
-    def invoke(db, **kwargs) -> str:
+    def invoke(db, asset_type, candidate_id, date_ts, email_message_id, request_id, subject, updated_ts, status = row.get("status")) -> str:
         reqs = db.setdefault("asset_requests", [])
         row = None
         if "request_id" in kwargs:
-            row = next((r for r in reqs if r.get("request_id") == kwargs["request_id"]), None)
+            row = next((r for r in reqs if r.get("request_id") == request_id), None)
         else:
-            row = next((r for r in reqs if r.get("candidate_id") == kwargs["candidate_id"] and r.get("asset_type") == kwargs["asset_type"]), None)
+            row = next((r for r in reqs if r.get("candidate_id") == candidate_id and r.get("asset_type") == asset_type), None)
         if not row:
             return json.dumps({"error": "asset request not found"}, indent=2)
-        email_id = kwargs.get("email_message_id")
+        email_id = email_message_id
         if not email_id:
-            cand_id = kwargs.get("candidate_id")
-            subj    = kwargs.get("subject")
-            dts     = _fixed_ts(kwargs.get("date_ts"))
+            cand_id = candidate_id
+            subj    = subject
+            dts     = _fixed_ts(date_ts)
             if cand_id and subj:
                 em = UpdateAssetRequestStatus._find_email(db, cand_id, subj, dts)
                 if em: email_id = em.get("message_id")
-        row["status"] = kwargs.get("status", row.get("status"))
+        row["status"] = status
         if email_id is not None:
             row["email_message_id_nullable"] = email_id
-        row["updated_ts"] = _fixed_ts(kwargs.get("updated_ts"))
+        row["updated_ts"] = _fixed_ts(updated_ts)
         return json.dumps({"request_id": row["request_id"], "status": row["status"], "email_message_id": row.get("email_message_id_nullable")}, indent=2)
 
 

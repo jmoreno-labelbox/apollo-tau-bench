@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class GetDeploymentById(Tool):
     """Retrieves a deployment by its ID."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        deployment_id = kwargs.get("id")
+    def invoke(data: Dict[str, Any], id) -> str:
+        deployment_id = id
         deployments = list(data.get("deployments", {}).values())
         for d in deployments:
             if d.get("id") == deployment_id:

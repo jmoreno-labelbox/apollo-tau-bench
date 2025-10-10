@@ -9,12 +9,7 @@ from datetime import datetime
 class RegisterNewArticle(Tool):
     """Registers a new article manuscript in the system."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        title = kwargs.get('title')
-        authors = kwargs.get('authors')
-        topic = kwargs.get('topic')
-        abstract = kwargs.get('abstract')
-        article_id_override = kwargs.get('article_id_override')
+    def invoke(data: Dict[str, Any], abstract, article_id_override, authors, title, topic, full_text = '') -> str:
 
         if not all([title, authors, topic, abstract]):
             return json.dumps({"error": "title, authors, topic, and abstract are required."})
@@ -29,7 +24,7 @@ class RegisterNewArticle(Tool):
             "topic": topic,
             "abstract": abstract,
             "status": "draft",
-            "full_text": kwargs.get('full_text', '')
+            "full_text": full_text
         }
         data['articles'].append(new_article)
         return json.dumps({"success": True, "article": new_article})

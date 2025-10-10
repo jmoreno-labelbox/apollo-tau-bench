@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class MailboxExists(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get('employee_id')
+    def invoke(data: Dict[str, Any], employee_id) -> str:
         if employee_id is None:
             return json.dumps({'status': 'error', 'reason': 'The employee_id field is required.'}, indent=2)
 

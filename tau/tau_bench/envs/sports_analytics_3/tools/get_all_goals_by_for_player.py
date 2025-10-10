@@ -9,8 +9,7 @@ class GetAllGoalsByForPlayer(Tool):
     """Fetch all development goals for a given player_id."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        player_id = kwargs.get("player_id")
+    def invoke(data: Dict[str, Any], player_id) -> str:
 
         # 1) Verify
         if player_id is None:

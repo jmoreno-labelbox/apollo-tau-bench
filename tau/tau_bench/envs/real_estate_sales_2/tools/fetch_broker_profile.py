@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class FetchBrokerProfile(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        broker_id = kwargs.get("broker_id")
+    def invoke(data: Dict[str, Any], broker_id) -> str:
         br = next((b for b in data.get("brokers", []) if b.get("broker_id") == broker_id), None)
         if not br:
             return json.dumps({"error": f"Broker {broker_id} not found"}, indent=2)

@@ -7,15 +7,12 @@ from tau_bench.envs.tool import Tool
 
 class ApproveReview(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], approval_comment_ref, approver_email, cycle_id) -> str:
         required = ["cycle_id", "approver_email"]
         missing = [f for f in required if f not in kwargs or kwargs[f] is None]
         if missing:
             return json.dumps({"error": f"Missing required fields: {', '.join(missing)}"}, indent=2)
-
-        cycle_id = kwargs.get("cycle_id")
-        approver_email = kwargs.get("approver_email")
-        approval_comment_ref: Optional[str] = kwargs.get("approval_comment_ref")
+        approval_comment_ref: Optional[str] = approval_comment_ref
 
         approvals: List[Dict[str, Any]] = data.get("review_approvals", [])
         cycles: List[Dict[str, Any]] = list(data.get("review_cycles", {}).values())

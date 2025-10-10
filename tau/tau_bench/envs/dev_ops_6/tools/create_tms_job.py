@@ -9,15 +9,15 @@ class CreateTmsJob(Tool):
     """Create a minimal TMS job entry (deterministic; error on duplicate id)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], due_date, id, assigned_reviewers = [], assigned_translators = [], created_at = FIXED_TS, job_name = f'tms_job_{jid}', job_type = 'translation', metadata = {}, priority = 'medium', source_locale = 'en', target_locales = [], tms_project_id = 'proj_001', total_segments = 0) -> str:
         jobs = _table(data, 'tms_jobs')
-        jid = kwargs.get('id')
+        jid = id
         if not jid:
             jid = f"tms_job_{len(jobs) + 1:04d}"
         
         if any((j.get('id') == jid for j in jobs)):
             return _err(f'TMS job id {jid} already exists')
-        job = {'id': jid, 'tms_project_id': kwargs.get('tms_project_id', 'proj_001'), 'job_name': kwargs.get('job_name', f'tms_job_{jid}'), 'job_type': kwargs.get('job_type', 'translation'), 'status': 'queued', 'created_at': kwargs.get('created_at', FIXED_TS), 'started_at': None, 'completed_at': None, 'total_segments': kwargs.get('total_segments', 0), 'completed_segments': 0, 'assigned_translators': kwargs.get('assigned_translators', []), 'assigned_reviewers': kwargs.get('assigned_reviewers', []), 'source_locale': kwargs.get('source_locale', 'en'), 'target_locales': kwargs.get('target_locales', []), 'priority': kwargs.get('priority', 'medium'), 'due_date': kwargs.get('due_date'), 'metadata': kwargs.get('metadata', {})}
+        job = {'id': jid, 'tms_project_id': tms_project_id, 'job_name': job_name, 'job_type': job_type, 'status': 'queued', 'created_at': created_at, 'started_at': None, 'completed_at': None, 'total_segments': total_segments, 'completed_segments': 0, 'assigned_translators': assigned_translators, 'assigned_reviewers': assigned_reviewers, 'source_locale': source_locale, 'target_locales': target_locales, 'priority': priority, 'due_date': due_date, 'metadata': metadata}
         jobs.append(job)
         return _ok({'tms_job': job})
 

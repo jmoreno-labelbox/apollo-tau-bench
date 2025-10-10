@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class FreezePlan(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], created_at, date, plan_id, policy_snapshot, total_budget, adset_mapping = [], allocations = [], author = default_author, checksum = default_checksum, creatives = [], strategies = []) -> str:
         """
         Compose & freeze a budget plan (category- or account-scoped).
         Accepts a subset of adsets (category-scoped) and validates against policy snapshot.
@@ -29,20 +29,20 @@ class FreezePlan(Tool):
         if err:
             return _fail(err)
 
-        plan_id: str = str(kwargs["plan_id"])
-        created_at: str = str(kwargs["created_at"])  # avoid parsing; handle as a non-interpreted string
-        date: str = str(kwargs["date"])
+        plan_id: str = str(plan_id)
+        created_at: str = str(created_at)  # avoid parsing; handle as a non-interpreted string
+        date: str = str(date)
 
         # Guidelines / presets
         rules = data.get("_rules", {}) if isinstance(data, dict) else {}
         default_author = rules.get("default_author", "automation_agent")
         default_checksum = rules.get("default_checksum", "CHK001")
 
-        author = str(kwargs.get("author", default_author))
-        checksum = str(kwargs.get("checksum", default_checksum))
+        author = str(author)
+        checksum = str(checksum)
 
         # Policy overview (derived from payload or standard from regulations)
-        policy_snapshot = kwargs.get("policy_snapshot") or {}
+        policy_snapshot = policy_snapshot or {}
         if not isinstance(policy_snapshot, dict):
             return _fail("invalid_policy_snapshot:not_object")
 
@@ -62,19 +62,10 @@ class FreezePlan(Tool):
             "timezone",
             rules.get("timezone", "UTC")
         ))
-
-        # adset_mapping: necessary for all adsets included in allocations
-        adset_mapping = kwargs.get("adset_mapping", [])
         if not isinstance(adset_mapping, list):
             return _fail("invalid_adset_mapping:not_array")
-
-        # strategies: necessary for any ad set included in allocations
-        strategies = kwargs.get("strategies", [])
         if not isinstance(strategies, list):
             return _fail("invalid_strategies:not_array")
-
-        # creatives: necessary for any ad set present in allocations
-        creatives = kwargs.get("creatives", [])
         if not isinstance(creatives, list):
             return _fail("invalid_creatives:not_array")
 
@@ -136,7 +127,7 @@ class FreezePlan(Tool):
             creat_idx[aid] = c
 
         # Verify resource allocations.
-        allocs = kwargs.get("allocations", [])
+        allocs = allocations
         if not isinstance(allocs, list) or len(allocs) == 0:
             return _fail("invalid_allocations:empty")
 
@@ -186,9 +177,9 @@ class FreezePlan(Tool):
             normalized_allocs.append({"adset_id": aid, "budget": float(bud)})
 
         # If total_budget exists, it must equal the subset sum.
-        if "total_budget" in kwargs and kwargs["total_budget"] is not None:
+        if "total_budget" in kwargs and total_budget is not None:
             try:
-                tb = _to_dec(kwargs["total_budget"])
+                tb = _to_dec(total_budget)
             except (InvalidOperation, TypeError, ValueError):
                 return _fail("invalid_total_budget:not_numeric")
             if (tb - total).copy_abs() > Decimal("0.000001"):

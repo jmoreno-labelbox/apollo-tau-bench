@@ -8,14 +8,7 @@ from tau_bench.envs.tool import Tool
 class AddRecipeToMealPlan(Tool):
     """Adds a recipe entry to an existing meal plan."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        meal_plan_id = kwargs.get("meal_plan_id")
-        plan_date = kwargs.get("plan_date")
-        recipe_id = kwargs.get("recipe_id")
-        meal_type = kwargs.get("meal_type", "Dinner")
-        servings_adult = kwargs.get("servings_adult", 2)
-        servings_child = kwargs.get("servings_child", 1)
-        notes = kwargs.get("notes", "")
+    def invoke(data: Dict[str, Any], meal_plan_id, plan_date, recipe_id, meal_type = "Dinner", notes = "", servings_adult = 2, servings_child = 1) -> str:
 
         entries = list(data.get("meal_plan_entries", {}).values())
         # Automatically create the subsequent entry_id.

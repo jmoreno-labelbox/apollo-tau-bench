@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class AssignLicenses(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get('employee_id')
+    def invoke(data: Dict[str, Any], employee_id, job_title) -> str:
         if employee_id is None:
             return json.dumps({'status': 'error', 'reason': 'The employee_id field is required.'}, indent=2)
 
@@ -20,7 +19,6 @@ class AssignLicenses(Tool):
                 licenses.add(assignment['license_id'])
 
         group_map = data.get('rbac_group_map', [])
-        job_title = kwargs.get('job_title')
         if job_title is None:
             for group in group_map:
                 if group['job_title'] == job_title:

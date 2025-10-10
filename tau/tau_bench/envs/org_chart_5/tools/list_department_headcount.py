@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class list_department_headcount(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        department_id = kwargs.get("department_id")
+    def invoke(data: Dict[str, Any], department_id) -> str:
         headcount = len(
             [
                 e

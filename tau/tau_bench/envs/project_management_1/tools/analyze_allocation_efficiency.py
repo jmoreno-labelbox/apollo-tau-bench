@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class AnalyzeAllocationEfficiency(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        projects = kwargs.get("projects", [])
-        check_partial_allocations = kwargs.get("check_partial_allocations", False)
-        check_skill_mismatch = kwargs.get("check_skill_mismatch", False)
+    def invoke(data: Dict[str, Any], check_partial_allocations = False, check_skill_mismatch = False, projects = []) -> str:
 
         allocations = data.get("allocations", [])
         employees = list(data.get("employees", {}).values())

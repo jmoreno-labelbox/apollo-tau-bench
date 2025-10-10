@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CompareTicketKPIs(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        current_kpis = kwargs.get("current_kpis")
-        previous_kpis = kwargs.get("previous_kpis")
+    def invoke(data: Dict[str, Any], current_kpis, previous_kpis) -> str:
         delta = {
             "total_open_delta": current_kpis.get("total_open", 0) - previous_kpis.get("total_open", 0),
             "p1_open_delta": current_kpis.get("p1_open_count", 0) - previous_kpis.get("p1_open_count", 0)

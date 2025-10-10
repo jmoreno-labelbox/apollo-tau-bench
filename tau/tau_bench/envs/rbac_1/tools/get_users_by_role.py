@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetUsersByRole(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        role_id = kwargs.get("role_id")
-        role_name = kwargs.get("role_name")
+    def invoke(data: Dict[str, Any], role_id, role_name) -> str:
 
         if not role_id and not role_name:
             return json.dumps({"error": "Either role_id or role_name must be provided"})

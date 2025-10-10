@@ -13,9 +13,7 @@ class FetchCreativeRotation(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        adset_id = kwargs.get("adset_id")
-        rotation_id = kwargs.get("rotation_id")
+    def invoke(data: Dict[str, Any], adset_id, rotation_id) -> str:
 
         if not adset_id and not rotation_id:
             return json.dumps("no rotation")

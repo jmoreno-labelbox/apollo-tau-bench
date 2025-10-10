@@ -7,10 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class RetrieveWaterLevels(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        station = kwargs.get("station_id")
-        start = kwargs.get("start")
-        end = kwargs.get("end")
+    def invoke(data: Dict[str, Any], end, start, station_id) -> str:
+        station = station_id
         rows = []
         for r in data.get("water_levels", []) or []:
             if station and r.get("station_id") != station:

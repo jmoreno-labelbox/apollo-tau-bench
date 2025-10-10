@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class cancel_promotion(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        promotion_id = kwargs.get("promotion_id")
+    def invoke(data: Dict[str, Any], promotion_id) -> str:
 
         if promotion_id is None:
             return json.dumps({"error": "promotion_id must be sent"})

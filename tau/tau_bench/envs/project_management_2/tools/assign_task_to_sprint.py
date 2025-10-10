@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class AssignTaskToSprint(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        task_id = kwargs.get("task_id")
-        sprint_id = kwargs.get("sprint_id")
+    def invoke(data: Dict[str, Any], sprint_id, task_id) -> str:
 
         if not all([task_id, sprint_id]):
             return json.dumps({"error": "task_id and sprint_id are required"})

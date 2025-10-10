@@ -29,8 +29,8 @@ class SshConnectivityVerifierTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        server_address = kwargs["remote_address"]
+    def invoke(data: Dict[str, Any], remote_address) -> str:
+        server_address = remote_address
 
         # Consistently provides a successful connection for testing scenarios.
         response_data = {

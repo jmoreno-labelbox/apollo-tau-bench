@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ValidateOrderItems(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        item_ids = kwargs.get('item_ids')
-        quantities = kwargs.get('quantities')
+    def invoke(data: Dict[str, Any], item_ids, quantities) -> str:
 
         if not item_ids:
             return json.dumps({'error': 'item_ids is required'})

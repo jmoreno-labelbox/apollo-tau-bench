@@ -9,8 +9,8 @@ class GetAutomationRun(Tool):
     """Fetch an automation run by id."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        aid = kwargs.get('id')
+    def invoke(data: Dict[str, Any], id) -> str:
+        aid = id
         rows = _table(data, 'automation_runs')
         row = next((r for r in rows if r.get('id') == aid), None)
         return _ok({'automation_run': row}) if row else _err('automation_run not found')

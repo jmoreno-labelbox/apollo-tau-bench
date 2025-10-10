@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class StartEmailThread(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], attachments_asset_ids, body_html, current_labels, recipients, sender_id, subject) -> str:
         required = ["subject", "sender_id", "recipients", "current_labels", "body_html", "attachments_asset_ids"]
         missing = [f for f in required if f not in kwargs or kwargs[f] is None]
         if missing:
@@ -19,8 +19,6 @@ class StartEmailThread(Tool):
         thread_id = get_next_thread_id(data)
         message_id = get_next_message_id(data)
         ts = get_now_timestamp()
-
-        body_html = kwargs["body_html"]
         t = body_html
         t = re.sub(r"</li\s*>", ", ", t, flags=re.IGNORECASE)
         t = re.sub(r"<\s*(br|/p|/ul|/ol)\s*/?>", " ", t, flags=re.IGNORECASE)
@@ -31,10 +29,10 @@ class StartEmailThread(Tool):
 
         new_thread = {
             "thread_id": thread_id,
-            "subject": kwargs["subject"],
-            "sender_identity": kwargs["sender_id"],
-            "recipients": kwargs["recipients"],
-            "current_labels": kwargs["current_labels"],
+            "subject": subject,
+            "sender_identity": sender_id,
+            "recipients": recipients,
+            "current_labels": current_labels,
             "created_ts": ts,
             "updated_ts": ts
         }
@@ -42,11 +40,11 @@ class StartEmailThread(Tool):
         new_message = {
             "message_id": message_id,
             "thread_id": thread_id,
-            "sender_email": kwargs["sender_id"],
-            "body_html": kwargs["body_html"],
+            "sender_email": sender_id,
+            "body_html": body_html,
             "body_text_stripped": body_text_stripped,
             "sent_ts": ts,
-            "attachments_asset_ids": kwargs["attachments_asset_ids"]
+            "attachments_asset_ids": attachments_asset_ids
         }
 
         threads.append(new_thread)

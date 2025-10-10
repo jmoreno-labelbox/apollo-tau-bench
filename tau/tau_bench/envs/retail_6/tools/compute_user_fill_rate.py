@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class ComputeUserFillRate(Tool):
     """Compute a naive fill rate for a user's orders: delivered_items / total_items across all orders."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        user_id = kwargs.get('user_id')
+    def invoke(data, user_id) -> str:
         if not user_id:
             return json.dumps({"error":"user_id is required"}, indent=2)
         user_orders = [o for o in list(data.get('orders', {}).values()) if o.get('user_id') == user_id]

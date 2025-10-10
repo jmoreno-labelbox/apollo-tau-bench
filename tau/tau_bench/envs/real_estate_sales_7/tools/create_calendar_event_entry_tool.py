@@ -9,17 +9,9 @@ class CreateCalendarEventEntryTool(Tool):
     """Creates entry in calendar_events table."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        broker_id = kwargs.get("broker_id")
-        client_id = kwargs.get("client_id")
-        title = kwargs.get("title")
+    def invoke(data: Dict[str, Any], broker_id, client_id, date, location, source, title) -> str:
         start_at = ""
         end_at = ""
-        location = kwargs.get("location")
-        source = kwargs.get("source")
-
-        # Improvement: Automatically populate full-day times if a date is given and start/end times are absent.
-        date = kwargs.get("date")
         if date and (not start_at or not end_at):
             date_str = str(date)
             if not start_at:

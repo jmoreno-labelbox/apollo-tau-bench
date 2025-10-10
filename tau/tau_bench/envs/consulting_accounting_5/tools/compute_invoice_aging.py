@@ -8,12 +8,11 @@ from tau_bench.envs.tool import Tool
 
 class ComputeInvoiceAging(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], as_of_date, invoice_id) -> str:
         """
         Compute days overdue, bucket, and escalation policy for a given invoice_id and as_of_date.
         """
-        invoice_id = kwargs["invoice_id"]
-        as_of_date = datetime.strptime(kwargs["as_of_date"], "%Y-%m-%d")
+        as_of_date = datetime.strptime(as_of_date, "%Y-%m-%d")
 
         invoice = next((inv for inv in data["invoices"] if inv["invoice_id"] == invoice_id), None)
         if not invoice:
@@ -40,7 +39,7 @@ class ComputeInvoiceAging(Tool):
 
         return json.dumps({
             "invoice_id": invoice_id,
-            "as_of_date": kwargs["as_of_date"],
+            "as_of_date": as_of_date,
             "days_overdue": days_overdue,
             "bucket": bucket,
             "escalation": escalation

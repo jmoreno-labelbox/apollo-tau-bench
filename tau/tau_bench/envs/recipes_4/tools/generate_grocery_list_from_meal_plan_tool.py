@@ -43,7 +43,7 @@ class GenerateGroceryListFromMealPlanTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> Dict[str, Any]:
+    def invoke(data: Dict[str, Any], household_id, meal_plan_id, user_id) -> Dict[str, Any]:
         """
         Executes the logic to generate an optimized grocery list.
 
@@ -64,10 +64,6 @@ class GenerateGroceryListFromMealPlanTool(Tool):
         validation_error = _validate_inputs(kwargs, param_definitions)
         if validation_error:
             return _build_error_response(validation_error["error_code"], validation_error["details"])
-
-        meal_plan_id = kwargs["meal_plan_id"]
-        household_id = kwargs["household_id"]
-        user_id = kwargs["user_id"]
 
         # 2. Preconditions Verification
         meal_plan = next((p for p in data.get("meal_plans", []) if p.get("meal_plan_id") == meal_plan_id), None)

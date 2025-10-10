@@ -8,11 +8,8 @@ from tau_bench.envs.tool import Tool
 class SearchRecipes(Tool):
     """Searches for recipes based on various criteria."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], cuisine, is_peanut_free, meal_type) -> str:
         recipes = list(data.get("recipes", {}).values())
-        cuisine = kwargs.get("cuisine")
-        meal_type = kwargs.get("meal_type")
-        is_peanut_free = kwargs.get("is_peanut_free")
         results = []
         for recipe in recipes:
             match = True

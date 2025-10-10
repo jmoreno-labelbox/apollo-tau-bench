@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateBudgetFromVelocity(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
-        target_story_points = kwargs.get("target_story_points")
-        buffer_percentage = kwargs.get("buffer_percentage", 20)
+    def invoke(data: Dict[str, Any], project_id, target_story_points, buffer_percentage = 20) -> str:
 
         if not all([project_id, target_story_points]):
             return json.dumps(

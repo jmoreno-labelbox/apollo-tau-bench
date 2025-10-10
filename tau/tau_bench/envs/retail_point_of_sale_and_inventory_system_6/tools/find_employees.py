@@ -7,11 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class find_employees(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], employee_id) -> str:
         employees = list(data.get("employees", {}).values())
-
-        # Sending a customer ID will take precedence over all other parameters.
-        employee_id = kwargs.get("employee_id")
 
         # These columns will correspond precisely to the provided value.
         exact_match_cols = [

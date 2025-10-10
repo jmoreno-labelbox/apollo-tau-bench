@@ -7,13 +7,12 @@ from tau_bench.envs.tool import Tool
 
 class CheckBlockedTasksForEscalation(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        check_all_sprints = kwargs.get("check_all_sprints", True)
+    def invoke(data: Dict[str, Any], sprint_id, check_all_sprints = True) -> str:
 
         tasks = list(data.get("tasks", {}).values())
         task_history = list(data.get("task_history", {}).values())
 
-        if sprint_id := kwargs.get("sprint_id"):
+        if sprint_id := sprint_id:
             tasks_to_check = [t for t in tasks if t.get("sprint_id") == sprint_id]
         elif check_all_sprints:
             tasks_to_check = tasks

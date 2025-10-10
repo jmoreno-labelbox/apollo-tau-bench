@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateCandidateEmailPointers(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        candidate_id = kwargs.get("candidate_id")
-        message_field = kwargs.get("message_field")
-        message_id = kwargs.get("message_id")
+    def invoke(data: Dict[str, Any], candidate_id, message_field, message_id) -> str:
         rows = _ensure_list(data, "candidates")
         row = _find_by_key(rows, "candidate_id", candidate_id)
         if row:

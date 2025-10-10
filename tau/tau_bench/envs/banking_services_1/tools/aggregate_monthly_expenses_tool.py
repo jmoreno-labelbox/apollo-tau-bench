@@ -22,9 +22,7 @@ class AggregateMonthlyExpensesTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        account_id = kwargs.get("account_id")
-        month = kwargs.get("month")
+    def invoke(data: Dict[str, Any], account_id, month) -> str:
         if not account_id or not month:
             return json.dumps(
                 {

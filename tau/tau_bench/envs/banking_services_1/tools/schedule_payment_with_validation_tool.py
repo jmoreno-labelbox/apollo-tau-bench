@@ -21,12 +21,7 @@ class SchedulePaymentWithValidationTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        from_account = kwargs.get("from_account")
-        to_account = kwargs.get("to_account")
-        amount = kwargs.get("amount")
-        currency = kwargs.get("currency")
-        date = kwargs.get("date")
+    def invoke(data: Dict[str, Any], amount, currency, date, from_account, to_account) -> str:
 
         if not all([from_account, to_account, amount, currency, date]):
             return json.dumps({"error": "Missing required fields"}, indent=2)

@@ -35,7 +35,7 @@ class GetRecipeDetailsTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> Dict[str, Any]:
+    def invoke(data: Dict[str, Any], recipe_id) -> Dict[str, Any]:
         """
         Executes the logic to fetch and enrich a specific recipe's data.
 
@@ -62,8 +62,6 @@ class GetRecipeDetailsTool(Tool):
                 validation_error["error_code"],
                 validation_error["details"]
             )
-
-        recipe_id = kwargs["recipe_id"]
 
         # 2. Data Acquisition: Locate the primary recipe object.
         recipe_record = next(

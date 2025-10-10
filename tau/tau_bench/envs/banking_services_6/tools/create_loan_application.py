@@ -7,9 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class CreateLoanApplication(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], amount, annual_income, customer_id, loan_type, purpose, term) -> str:
         application_id = _get_next_loan_application_id(data)
-        customer_id = kwargs.get("customer_id")
         customer = next((c for c in data['customers'] if c['customer_id'] == customer_id), None)
         if not customer:
             return json.dumps({"error": "Customer not found"})
@@ -23,12 +22,12 @@ class CreateLoanApplication(Tool):
                         "last_name": customer['personal_info']['last_name'],
                 },
                 "loan_details": {
-                        "loan_type": kwargs.get("loan_type"),
-                        "requested_amount": kwargs.get("amount"),
-                        "requested_term_months": kwargs.get("term"),
-                        "purpose": kwargs.get("purpose")
+                        "loan_type": loan_type,
+                        "requested_amount": amount,
+                        "requested_term_months": term,
+                        "purpose": purpose
                 },
-                "financial_snapshot": {"annual_income": kwargs.get("annual_income")},
+                "financial_snapshot": {"annual_income": annual_income},
                 "application_status": "Submitted",
                 "submission_date": NOW.strftime(DT_STR_FORMAT)
         }

@@ -7,12 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateBenchAssignment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
-        start_date = kwargs.get("start_date")
-        skills = kwargs.get("skills", [])
-        availability = kwargs.get("availability", "immediate")
-        preferred_projects = kwargs.get("preferred_projects", [])
+    def invoke(data: Dict[str, Any], employee_id, start_date, availability = "immediate", preferred_projects = [], skills = []) -> str:
 
         if not all([employee_id, start_date]):
             return json.dumps({"error": "employee_id and start_date are required"})

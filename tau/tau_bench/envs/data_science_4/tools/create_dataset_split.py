@@ -7,14 +7,14 @@ from tau_bench.envs.tool import Tool
 
 class CreateDatasetSplit(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], features_id, test_fraction) -> str:
         split_id = "SPLIT_001"
 
         split_entry = {
             "split_id": split_id,
-            "features_id": kwargs.get("features_id"),
+            "features_id": features_id,
             "method": "time_based",
-            "test_fraction": kwargs.get("test_fraction"),
+            "test_fraction": test_fraction,
             "split_summary_json_path": f"/processed_data/split_summary_{split_id}.json",
         }
 

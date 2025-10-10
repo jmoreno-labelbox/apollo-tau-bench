@@ -7,10 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class CreatePlan(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        rec = {"plan_id": kwargs.get("plan_id"), "date": kwargs.get("date"), "total_budget": kwargs.get("total_budget"),
-               "author": kwargs.get("author"), "created_at": kwargs.get("created_at"),
-               "checksum": kwargs.get("checksum"), "allocations": kwargs.get("allocations", [])}
+    def invoke(data: Dict[str, Any], author, checksum, created_at, date, plan_id, total_budget, allocations = []) -> str:
+        rec = {"plan_id": plan_id, "date": date, "total_budget": total_budget,
+               "author": author, "created_at": created_at,
+               "checksum": checksum, "allocations": allocations}
         data.setdefault("plans", []).append(rec)
         return json.dumps(rec)
 

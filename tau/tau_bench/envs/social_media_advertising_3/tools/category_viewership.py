@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class CategoryViewership(Tool):
     """Return viewership metrics for a product category on a date."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cat, date = kwargs.get("category"), kwargs.get("date")
+    def invoke(data: Dict[str, Any], category, date) -> str:
+        cat, date = category, date
         for v in data.get("f_viewership", []):
             if v.get("category") == cat and v.get("date") == date:
                 return json.dumps(v)

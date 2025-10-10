@@ -7,13 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class RecordInvoice(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        vendor_id = kwargs.get("vendor_id")
-        po_number = kwargs.get("po_number")
-        invoice_number = kwargs.get("invoice_number")
-        amount = kwargs.get("amount")
-        invoice_date = kwargs.get("invoice_date")
-        due_date = kwargs.get("due_date")
+    def invoke(data: Dict[str, Any], amount, due_date, invoice_date, invoice_number, po_number, vendor_id, invoice_id = f"inv_{uuid.uuid4().hex[:8]}") -> str:
 
         if not all([vendor_id, invoice_number, amount, invoice_date, due_date]):
             return json.dumps({"error": "All fields except po_number are required"})
@@ -41,8 +35,6 @@ class RecordInvoice(Tool):
                             "error": f"Invoice amount ${amount} does not match PO amount ${po.get('total_amount', 0)}"
                         }
                     )
-
-        invoice_id = kwargs.get("invoice_id", f"inv_{uuid.uuid4().hex[:8]}")
 
         new_invoice = {
             "invoice_id": invoice_id,

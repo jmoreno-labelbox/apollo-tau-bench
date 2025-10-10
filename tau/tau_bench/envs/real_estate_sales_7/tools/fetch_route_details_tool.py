@@ -9,9 +9,9 @@ class FetchRouteDetailsTool(Tool):
     """Fetch a route by route_id or the latest route for a client."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        route_id = _as_int(kwargs.get("route_id"))
-        client_id = _as_int(kwargs.get("client_id"))
+    def invoke(data: Dict[str, Any], client_id, route_id) -> str:
+        route_id = _as_int(route_id)
+        client_id = _as_int(client_id)
         if route_id is None and client_id is None:
             return _err("route_id or client_id is required")
 

@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class FindRolesByResourceId(Tool):
     """ Finds all roles that grant permissions to a specific resource ID. """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        resource_id = kwargs.get("resource_id")
+    def invoke(data: Dict[str, Any], resource_id) -> str:
         try:
             role_permissions = data.get('role_permissions', [])
             permissions = list(data.get('permissions', {}).values())

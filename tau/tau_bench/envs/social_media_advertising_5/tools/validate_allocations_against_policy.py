@@ -7,9 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class ValidateAllocationsAgainstPolicy(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        total_budget = float(kwargs.get("total_budget"))
-        allocations = kwargs.get("allocations", [])
+    def invoke(data: Dict[str, Any], total_budget, allocations = []) -> str:
+        total_budget = float(total_budget)
         params = {p["param_name"]: p["param_value"] for p in list(data.get("policy_params", {}).values())}
         min_alloc = float(params.get("min_budget_allocation", "0"))
         max_total = float(params.get("max_daily_budget_total", "1e15"))

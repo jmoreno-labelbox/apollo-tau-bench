@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetSprintFinancialAnalysis(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        sprint_id = kwargs.get("sprint_id")
+    def invoke(data: Dict[str, Any], sprint_id) -> str:
 
         if not sprint_id:
             return json.dumps({"error": "sprint_id is required"})

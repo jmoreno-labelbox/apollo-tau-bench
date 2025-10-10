@@ -22,11 +22,7 @@ class CreateCustomerAccountTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
-        account_type = kwargs.get("account_type")
-        currency = kwargs.get("currency")
-        initial_limit = kwargs.get("initial_limit", 0)
+    def invoke(data: Dict[str, Any], account_type, currency, customer_id, initial_limit = 0) -> str:
 
         if not all([customer_id, account_type, currency]):
             return json.dumps({"error": "Missing required fields"}, indent=2)

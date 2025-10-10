@@ -7,12 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class BuildFeatureValidationMessages(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        model_name = kwargs.get("model_name")
-        feature_validation_json_path = kwargs.get("feature_validation_json_path")
-        present_count = kwargs.get("present_count")
-        required_count = kwargs.get("required_count")
-        missing_features = kwargs.get("missing_features") or []
+    def invoke(data: Dict[str, Any], feature_validation_json_path, missing_features, model_name, present_count, required_count) -> str:
+        missing_features = missing_features or []
         if model_name is None or feature_validation_json_path is None or present_count is None or required_count is None:
             return json.dumps({"error":"Missing required fields"})
         miss = sorted([str(x) for x in missing_features])

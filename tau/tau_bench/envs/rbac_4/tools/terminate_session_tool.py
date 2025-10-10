@@ -9,9 +9,9 @@ class TerminateSessionTool(Tool):
     """Terminate a specific user session."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        sid = kwargs.get("session_id")
-        term_time = kwargs.get("terminated_on")
+    def invoke(data: Dict[str, Any], session_id, terminated_on) -> str:
+        sid = session_id
+        term_time = terminated_on
         for s in data.get("sessions", []):
             if s["session_id"] == sid:
                 s["end_time"] = term_time

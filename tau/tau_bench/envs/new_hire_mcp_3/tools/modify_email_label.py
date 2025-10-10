@@ -8,9 +8,8 @@ from . import _fixed_now_iso
 
 class ModifyEmailLabel(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        updates = kwargs.get("updates") or {}
-        label_id = kwargs.get("label_id")
+    def invoke(data: Dict[str, Any], label_id, updates) -> str:
+        updates = updates or {}
         labels = list(data.get("email_labels", {}).values())
         for l in labels:
             if l.get("label_id") == label_id:

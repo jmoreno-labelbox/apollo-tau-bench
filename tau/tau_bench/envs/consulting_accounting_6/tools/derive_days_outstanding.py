@@ -8,9 +8,9 @@ from tau_bench.envs.tool import Tool
 class DeriveDaysOutstanding(Tool):
     """Compute days outstanding for each invoice given an as-of date."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        today = kwargs.get("today") or "2025-08-20"
-        invs = kwargs.get("invoices") or []
+    def invoke(data: Dict[str, Any], invoices, today) -> str:
+        today = today or "2025-08-20"
+        invs = invoices or []
         out = []
         for r in invs:
             due = r.get("period_end") or r.get("invoice_date")

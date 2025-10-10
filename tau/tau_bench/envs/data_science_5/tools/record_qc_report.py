@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class RecordQcReport(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], artifact_type, figure_label, figure_path, related_model_name) -> str:
         figs = list(data.get("qc_figures", {}).values())
         max_id = 0
         for f in figs:
@@ -20,10 +20,10 @@ class RecordQcReport(Tool):
         new_id = max_id + 1
         row = {
             "figure_id": new_id,
-            "figure_label": kwargs.get("figure_label"),
-            "figure_path": kwargs.get("figure_path"),
-            "artifact_type": kwargs.get("artifact_type"),
-            "related_model_name": kwargs.get("related_model_name"),
+            "figure_label": figure_label,
+            "figure_path": figure_path,
+            "artifact_type": artifact_type,
+            "related_model_name": related_model_name,
             "created_at": _fixed_now_iso(),
         }
         figs.append(row)

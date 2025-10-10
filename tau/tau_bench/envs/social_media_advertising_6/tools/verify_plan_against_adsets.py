@@ -9,12 +9,12 @@ class VerifyPlanAgainstAdsets(Tool):
     """Compare plan allocations vs current adsets (active only)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], plan_id) -> str:
         err = _require(kwargs, ["plan_id"])
         if err: return _fail(err)
         plans = _assert_table(data, "plans")
         adsets = _index(_assert_table(data, "adsets"), "adset_id")
-        pid = kwargs["plan_id"]
+        pid = plan_id
         plan = next((p for p in plans if p.get("plan_id") == pid), None)
         if not plan: return _fail("plan_not_found")
         mismatches: List[Dict[str, Any]] = []

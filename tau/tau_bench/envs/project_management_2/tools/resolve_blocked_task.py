@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ResolveBlockedTask(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        task_id = kwargs.get("task_id")
-        resolution = kwargs.get("resolution")
-        unblock_dependencies = kwargs.get("unblock_dependencies", False)
+    def invoke(data: Dict[str, Any], resolution, task_id, unblock_dependencies = False) -> str:
 
         if not all([task_id, resolution]):
             return json.dumps({"error": "task_id and resolution are required"})

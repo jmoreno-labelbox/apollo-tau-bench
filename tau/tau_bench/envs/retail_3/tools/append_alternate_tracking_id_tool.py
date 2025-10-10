@@ -17,8 +17,8 @@ class AppendAlternateTrackingIdTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        original_tid = kwargs.get("tracking_id")
+    def invoke(data: Dict[str, Any], tracking_id) -> str:
+        original_tid = tracking_id
         if not original_tid:
             return json.dumps({"error": "tracking_id is required"}, indent=2)
 

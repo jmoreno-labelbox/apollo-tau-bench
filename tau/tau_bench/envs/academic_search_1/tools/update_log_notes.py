@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class UpdateLogNotes(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        log_id,new_notes = kwargs.get('log_id'),kwargs.get('new_notes')
+    def invoke(data: Dict[str, Any], log_id, new_notes) -> str:
+        log_id,new_notes = log_id,new_notes
         if not all([log_id, new_notes]):
             return json.dumps({"error": "log_id and new_notes are required."})
         for log in list(data.get('research_logs', {}).values()):

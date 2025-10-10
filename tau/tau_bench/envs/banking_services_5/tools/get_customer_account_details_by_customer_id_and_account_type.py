@@ -9,9 +9,8 @@ class GetCustomerAccountDetailsByCustomerIdAndAccountType(Tool):
     """Returns full account details using customer_id and account type."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
-        account_type = kwargs.get("account_type", "").strip().lower()
+    def invoke(data: Dict[str, Any], customer_id, account_type = "") -> str:
+        account_type = account_type.strip().lower()
 
         if not customer_id or not account_type:
             return json.dumps({

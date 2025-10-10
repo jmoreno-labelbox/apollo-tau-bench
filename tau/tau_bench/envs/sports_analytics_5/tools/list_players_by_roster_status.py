@@ -9,11 +9,11 @@ from . import _require_tables
 class ListPlayersByRosterStatus(Tool):
     """List players with a given roster_status (e.g., 'Active', 'IL-15')."""
     @staticmethod
-    def invoke(data, **kwargs)->str:
+    def invoke(data, roster_status)->str:
         err = _require_tables(data, ["players"])
         if err:
             return json.dumps({"error": err}, indent=2)
-        status = kwargs.get("roster_status")
+        status = roster_status
         if not status:
             return json.dumps({"error":"roster_status is required."}, indent=2)
         rows = [p for p in data["players"] if p.get("roster_status")==status]

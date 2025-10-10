@@ -9,8 +9,7 @@ class GetGameDetailsByGamePk(Tool):
     """Fetch a game record by its game_pk."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        game_pk = kwargs.get("game_pk")
+    def invoke(data: Dict[str, Any], game_pk) -> str:
 
         # 1) Confirm validity
         if game_pk is None:

@@ -9,9 +9,8 @@ class GetDraftEmailsRequiringActionTool(Tool):
     """Queries emails table for draft messages that need completion and sending, with aging analysis."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        draft_age_days = _as_int(kwargs.get("draft_age_days"))
-        candidate_filter = kwargs.get("candidate_filter")
+    def invoke(data: Dict[str, Any], candidate_filter, draft_age_days) -> str:
+        draft_age_days = _as_int(draft_age_days)
 
         if draft_age_days is None:
             return _err("draft_age_days (integer) is required")

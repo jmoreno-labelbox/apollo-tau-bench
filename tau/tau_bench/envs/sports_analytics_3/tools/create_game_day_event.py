@@ -20,12 +20,7 @@ class CreateGameDayEvent(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        game_pk = kwargs.get("game_pk")
-        pitch_id = kwargs.get("pitch_id")
-        leverage_index = kwargs.get("leverage_index")
-        is_manual_alert = kwargs.get("is_manual_alert")
-        suggestion_text = kwargs.get("suggestion_text")
+    def invoke(data: Dict[str, Any], game_pk, is_manual_alert, leverage_index, pitch_id, suggestion_text) -> str:
 
         # 1) Verify mandatory inputs
         missing = []

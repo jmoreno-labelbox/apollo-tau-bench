@@ -7,19 +7,18 @@ from tau_bench.envs.tool import Tool
 
 class CreateScheduledPayment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], amount, beneficiary_id, customer_id, frequency, source_account_id, start_date) -> str:
         payment_id = _get_next_scheduled_payment_id(data)
-        source_account_id = kwargs.get("source_account_id")
         new_payment = {
                 "payment_id": payment_id,
-                "customer_id": kwargs.get("customer_id"),
+                "customer_id": customer_id,
                 "source_account_id": source_account_id,
-                "beneficiary_id": kwargs.get("beneficiary_id"),
-                "amount": kwargs.get("amount"),
+                "beneficiary_id": beneficiary_id,
+                "amount": amount,
                 "currency": next((a['currency'] for a in data['accounts'] if a['account_id'] == source_account_id), "EUR"),
-                "frequency": kwargs.get("frequency"),
-                "start_date": kwargs.get("start_date"),
-                "next_payment_date": kwargs.get("start_date"),
+                "frequency": frequency,
+                "start_date": start_date,
+                "next_payment_date": start_date,
                 "status": "Active"
         }
         data['scheduled_payments'].append(new_payment)

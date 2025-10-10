@@ -8,10 +8,7 @@ from . import _fixed_now_iso
 
 class RecordTerminalLog(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        event_type = kwargs.get("event_type")
-        message = kwargs.get("message")
-        candidate_id = kwargs.get("candidate_id")
+    def invoke(data: Dict[str, Any], candidate_id, event_type, message) -> str:
         terminal_logs = data.setdefault("terminal_logs", [])
         log_entry = {
             "event_type": event_type,

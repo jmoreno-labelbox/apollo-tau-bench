@@ -9,9 +9,9 @@ class LogTerminalEventTool(Tool):
     """Append a log entry to terminal_logs (requires explicit log_ts)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        log_ts = _require_str(kwargs.get("log_ts"), "log_ts")
-        message = _require_str(kwargs.get("message"), "message")
+    def invoke(data: Dict[str, Any], log_ts, message) -> str:
+        log_ts = _require_str(log_ts, "log_ts")
+        message = _require_str(message, "message")
         if not (log_ts and message):
             return json.dumps({"error":"log_ts and message required"})
 

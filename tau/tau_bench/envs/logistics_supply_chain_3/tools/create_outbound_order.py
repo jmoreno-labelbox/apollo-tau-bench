@@ -9,7 +9,7 @@ class CreateOutboundOrder(Tool):
     """Creates a new outbound order record."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], carrier_name, customer_address, customer_city, customer_country, customer_id, customer_name, destination_address, destination_city, destination_country, expected_delivery_date, mode_of_transport, notes, number_of_packages, order_date, promised_ship_date, sales_order_number, shipping_cost, shipping_service_level, total_value, total_volume_cbm, warehouse_id, carrier_scac = None, fragile = True, hazmat = False, hazmat_class = None, number_of_line_items = 1, packaging_type = "Insulated Box", payment_terms = "Net 30", priority_level = "Medium", temperature_celsius = None, temperature_control_required = False, total_units = 1, total_weight_kg = 1.0, value_currency = "USD") -> str:
         outbound_orders = list(data.get("outbound_orders", {}).values())
         warehouses = list(data.get("warehouses", {}).values())
 
@@ -21,9 +21,6 @@ class CreateOutboundOrder(Tool):
             if order_num_str.isdigit():
                 max_order_num = max(max_order_num, int(order_num_str))
         new_order_id = f"ORD-{max_order_num + 1:04d}"
-
-        # --- Retrieve default warehouse information ---
-        warehouse_id = kwargs.get("warehouse_id")
         warehouse_details = next(
             (wh for wh in warehouses if wh.get("warehouse_id") == warehouse_id), {}
         )
@@ -31,57 +28,54 @@ class CreateOutboundOrder(Tool):
         warehouse_address = warehouse_details.get("address", "")
         origin_city = warehouse_details.get("city", "")
         origin_country = warehouse_details.get("country", "")
-        carrier_scac = kwargs.get("carrier_scac", None)
 
         new_order = {
             "order_id": new_order_id,
-            "sales_order_number": kwargs.get("sales_order_number"),
-            "customer_id": kwargs.get("customer_id"),
-            "customer_name": kwargs.get("customer_name"),
-            "customer_address": kwargs.get("customer_address"),
-            "customer_city": kwargs.get("customer_city"),
-            "customer_country": kwargs.get("customer_country"),
-            "destination_address": kwargs.get("destination_address"),
-            "destination_city": kwargs.get("destination_city"),
-            "destination_country": kwargs.get("destination_country"),
+            "sales_order_number": sales_order_number,
+            "customer_id": customer_id,
+            "customer_name": customer_name,
+            "customer_address": customer_address,
+            "customer_city": customer_city,
+            "customer_country": customer_country,
+            "destination_address": destination_address,
+            "destination_city": destination_city,
+            "destination_country": destination_country,
             "warehouse_id": warehouse_id,
             "warehouse_name": warehouse_name,
             "warehouse_address": warehouse_address,
             "origin_city": origin_city,
             "origin_country": origin_country,
-            "order_date": kwargs.get("order_date"),
-            "promised_ship_date": kwargs.get("promised_ship_date"),
+            "order_date": order_date,
+            "promised_ship_date": promised_ship_date,
             "actual_ship_date": None,
-            "expected_delivery_date": kwargs.get("expected_delivery_date"),
+            "expected_delivery_date": expected_delivery_date,
             "actual_delivery_date": None,
             "status": "Pending",
-            "number_of_line_items": kwargs.get("number_of_line_items", 1),
-            "total_units": kwargs.get("total_units", 1),
-            "number_of_packages": kwargs.get("number_of_packages"),
-            "packaging_type": kwargs.get("packaging_type", "Insulated Box"),
-            "total_weight_kg": kwargs.get("total_weight_kg", 1.0),
-            "total_volume_cbm": kwargs.get("total_volume_cbm"),
+            "number_of_line_items": number_of_line_items,
+            "total_units": total_units,
+            "number_of_packages": number_of_packages,
+            "packaging_type": packaging_type,
+            "total_weight_kg": total_weight_kg,
+            "total_volume_cbm": total_volume_cbm,
             "unit_of_measure_weight": "kg",
             "unit_of_measure_volume": "cbm",
-            "value_currency": kwargs.get("value_currency", "USD"),
-            "total_value": kwargs.get("total_value"),
-            "carrier_name": kwargs.get("carrier_name"),
+            "value_currency": value_currency,
+            "total_value": total_value,
+            "carrier_name": carrier_name,
             "carrier_scac": carrier_scac,
-            "mode_of_transport": kwargs.get("mode_of_transport"),
-            "shipping_service_level": kwargs.get("shipping_service_level"),
+            "mode_of_transport": mode_of_transport,
+            "shipping_service_level": shipping_service_level,
             "tracking_number": None,
-            "shipping_cost": kwargs.get("shipping_cost"),
-            "payment_terms": kwargs.get("payment_terms", "Net 30"),
-            "temperature_control_required": kwargs.get(
-                "temperature_control_required", False
-            ),
-            "temperature_celsius": kwargs.get("temperature_celsius", None),
-            "hazmat": kwargs.get("hazmat", False),
-            "hazmat_class": kwargs.get("hazmat_class", None),
-            "fragile": kwargs.get("fragile", True),
-            "priority_level": kwargs.get("priority_level", "Medium"),
+            "shipping_cost": shipping_cost,
+            "payment_terms": payment_terms,
+            "temperature_control_required": temperature_control_required,
+            "temperature_celsius": temperature_celsius,
+            "hazmat": hazmat,
+            "hazmat_class": hazmat_class,
+            "fragile": fragile,
+            "priority_level": priority_level,
             "return_status": "None",
-            "notes": kwargs.get("notes"),
+            "notes": notes,
         }
         outbound_orders.append(new_order)
 

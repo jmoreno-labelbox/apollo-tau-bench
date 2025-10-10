@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class LogError(Tool):
     """Logs an error message and returns the generated msg_id."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], err_type, message, severity, task_id, user_id) -> str:
         error_messages = list(data.get("error_messages", {}).values())
         max_id = 0
         if error_messages:
@@ -24,11 +24,11 @@ class LogError(Tool):
 
         new_error = {
             "msg_id": msg_id,
-            "err_type": kwargs.get("err_type"),
-            "task_id": kwargs.get("task_id"),
-            "user_id": kwargs.get("user_id"),
-            "msg": kwargs.get("message"),
-            "severity": kwargs.get("severity"),
+            "err_type": err_type,
+            "task_id": task_id,
+            "user_id": user_id,
+            "msg": message,
+            "severity": severity,
         }
         data["error_messages"].append(new_error)
         return json.dumps({"status": "success", "message": "Error message logged.", "msg_id": msg_id})

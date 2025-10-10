@@ -7,14 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class UpdateGmailThreadPriority(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], new_priority, thread_id, escalate_to = [], urgency_reason = '') -> str:
         """
         Updates Gmail thread priority and manages thread workflow urgency.
         """
-        thread_id = kwargs.get('thread_id')
-        new_priority = kwargs.get('new_priority')
-        urgency_reason = kwargs.get('urgency_reason', '')
-        escalate_to = kwargs.get('escalate_to', [])
 
         if not all([thread_id, new_priority]):
             return json.dumps({"error": "thread_id and new_priority are required."})

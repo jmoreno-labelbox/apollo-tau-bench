@@ -22,21 +22,21 @@ class ModifyEmailLabels(Tool):
         return matches[0]
 
     @staticmethod
-    def invoke(db: Dict[str, Any], **kwargs) -> str:
+    def invoke(db: Dict[str, Any], add_names, candidate_id, date_ts, message_id, remove_names, subject) -> str:
         email = None
-        msg_id = kwargs.get("message_id")
+        msg_id = message_id
         if msg_id:
             email = next((e for e in db.get("emails", []) if e.get("message_id") == msg_id), None)
         else:
-            cand_id = kwargs.get("candidate_id"); subject = kwargs.get("subject"); date_ts = _fixed_ts(kwargs.get("date_ts"))
+            cand_id = candidate_id; date_ts = _fixed_ts(date_ts)
             if cand_id and subject:
                 email = ModifyEmailLabels._find_email_by_keys(db, cand_id, subject, date_ts)
 
         if not email:
             return json.dumps({"message_id": None, "labels_ids": [], "note": "email not found for labeling"}, indent=2)
 
-        add = kwargs.get("add_names") or []
-        remove = kwargs.get("remove_names") or []
+        add = add_names or []
+        remove = remove_names or []
 
         labels_ids = set(email.get("labels_ids", []))
         for nm in add:

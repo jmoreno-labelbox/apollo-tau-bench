@@ -9,11 +9,7 @@ class UpdateAccessCheckStatusTool(Tool):
     """Updates the status of a specific system access check for a candidate."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        candidate_id = kwargs.get("candidate_id")
-        system_name = kwargs.get("system_name")
-        new_status = kwargs.get("new_status")
-        note = kwargs.get("note")
+    def invoke(data: Dict[str, Any], candidate_id, new_status, note, system_name) -> str:
 
         if not all([candidate_id, system_name, new_status]):
             return _err("candidate_id, system_name, and new_status are required.")

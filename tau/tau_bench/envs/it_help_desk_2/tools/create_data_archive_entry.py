@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateDataArchiveEntry(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
-        system = kwargs.get("system")
-        retention_label = kwargs.get("retention_label")
-        location_uri = kwargs.get("location_uri")
+    def invoke(data: Dict[str, Any], employee_id, location_uri, retention_label, system) -> str:
         archives = data.setdefault("data_archives", [])
         archive_id = _get_next_id(archives, "archive_id", "arch")
         new_archive = {"archive_id": archive_id, "employee_id": employee_id, "system": system, "location_uri": location_uri, "retention_label": retention_label, "created_at": FIXED_NOW}

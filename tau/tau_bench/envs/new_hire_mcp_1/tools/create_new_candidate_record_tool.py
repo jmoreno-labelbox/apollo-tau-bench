@@ -9,12 +9,7 @@ class CreateNewCandidateRecordTool(Tool):
     """Inserts candidate into candidates table with validation, duplicate checking, and initial status setting."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        candidate_name = kwargs.get("candidate_name")
-        role_title = kwargs.get("role_title")
-        start_date = kwargs.get("start_date")
-        candidate_email = kwargs.get("candidate_email")
-        manager_email = kwargs.get("manager_email")
+    def invoke(data: Dict[str, Any], candidate_email, candidate_name, manager_email, role_title, start_date) -> str:
 
         if not all([candidate_name, role_title, start_date, candidate_email]):
             return _err("candidate_name, role_title, start_date, and candidate_email are required")

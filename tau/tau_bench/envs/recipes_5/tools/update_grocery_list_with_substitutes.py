@@ -9,9 +9,7 @@ from . import _first_user_id
 
 class UpdateGroceryListWithSubstitutes(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        list_id = kwargs.get("list_id")
-        substitutions = kwargs.get("substitutions", [])
+    def invoke(data: Dict[str, Any], list_id, substitutions = []) -> str:
         if list_id is None:
             household_id = _default_household_id(data, _first_user_id(data))
             list_id = _latest_list_id(data, household_id)

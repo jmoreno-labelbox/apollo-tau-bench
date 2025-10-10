@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class ListInactiveUsers(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        inactive_since_str = kwargs.get("inactive_since")
+    def invoke(data: Dict[str, Any], inactive_since) -> str:
+        inactive_since_str = inactive_since
         inactive_since_dt = datetime.strptime(inactive_since_str, DT_STR_FORMAT)
 
         active_user_ids = {session['user_id'] for session in data.get('user_sessions', []) if datetime.strptime(session['end_time'], DT_STR_FORMAT) >= inactive_since_dt}

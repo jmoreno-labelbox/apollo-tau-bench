@@ -9,10 +9,9 @@ class CheckRecentEmailHistoryTool(Tool):
     """Checks recent email communications to prevent duplicates."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        client_id = _as_int(kwargs.get("client_id"))
-        template_code = kwargs.get("template_code")
-        days_lookback = _as_int(kwargs.get("days_lookback")) or 30
+    def invoke(data: Dict[str, Any], client_id, days_lookback, template_code) -> str:
+        client_id = _as_int(client_id)
+        days_lookback = _as_int(days_lookback) or 30
         if client_id is None or not template_code:
             return _err("client_id (int) and template_code (string) are required")
 

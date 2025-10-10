@@ -9,7 +9,7 @@ class CreateUser(Tool):
     """ Creates a new user in the user.json file with correct formatting and default values. """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], department, email, username, status = "ACTIVE") -> str:
         try:
            users = list(data.get('users', {}).values())
         except (KeyError, json.JSONDecodeError):
@@ -20,10 +20,10 @@ class CreateUser(Tool):
 
         new_user = {
             "user_id": user_id,
-            "username": kwargs.get("username"),
-            "email": kwargs.get("email"),
-            "department": kwargs.get("department"),
-            "status": kwargs.get("status", "ACTIVE"),  # Set to ACTIVE by default if not provided.
+            "username": username,
+            "email": email,
+            "department": department,
+            "status": status,  # Set to ACTIVE by default if not provided.
             "mfa_enabled": False
         }
         users.append(new_user)

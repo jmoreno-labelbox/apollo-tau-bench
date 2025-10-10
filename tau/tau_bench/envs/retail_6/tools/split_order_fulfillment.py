@@ -8,13 +8,7 @@ from tau_bench.envs.tool import Tool
 class SplitOrderFulfillment(Tool):
     """Create a new tracking record and fulfillment for a subset of items, based on provided tracking_id and courier_id."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        order_id = kwargs.get('order_id')
-        item_ids = kwargs.get('item_ids', [])
-        tracking_id = kwargs.get('tracking_id')
-        courier_id = kwargs.get('courier_id')
-        delivery_options = kwargs.get('delivery_options', 'Standard')
-        address = kwargs.get('address')
+    def invoke(data, address, courier_id, order_id, tracking_id, delivery_options = 'Standard', item_ids = []) -> str:
         if not order_id or not item_ids or not tracking_id or not courier_id:
             return json.dumps({"error":"order_id, item_ids, tracking_id, courier_id are required"}, indent=2)
         order = _find_order(data, order_id)

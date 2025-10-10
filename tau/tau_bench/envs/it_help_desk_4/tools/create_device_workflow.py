@@ -7,15 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateDeviceWorkflow(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
-        asset_id = kwargs.get("asset_id")
-        process = kwargs.get("process")
-        workflow_id = kwargs.get("workflow_id")
-        status = kwargs.get("status", "pending_pickup" if process == "onboarding" else "pending_return")
-        pickup_code = kwargs.get("pickup_code")
-        created_at = kwargs.get("created_at", FIXED_NOW)
-        completed_at = kwargs.get("completed_at")
+    def invoke(data: Dict[str, Any], asset_id, completed_at, employee_id, pickup_code, process, workflow_id, created_at = FIXED_NOW, status = "pending_pickup" if process == "onboarding" else "pending_return") -> str:
 
         workflows = data.setdefault("device_workflow", [])
 

@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ProcessBudgetTransfer(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        transfer_id = kwargs.get("transfer_id")
-        approval_action = kwargs.get("approval_action")
-        approver_id = kwargs.get("approver_id")
-        approver_role = kwargs.get("approver_role")
+    def invoke(data: Dict[str, Any], approval_action, approver_id, approver_role, transfer_id) -> str:
 
         if not all([transfer_id, approval_action, approver_id, approver_role]):
             return json.dumps({"error": "All fields are required"})

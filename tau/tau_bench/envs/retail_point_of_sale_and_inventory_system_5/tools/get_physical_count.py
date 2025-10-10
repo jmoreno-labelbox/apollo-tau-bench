@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 
 class GetPhysicalCount(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        store_id = kwargs.get("store_id")
-        sku = kwargs.get("sku")
+    def invoke(data: Dict[str, Any], sku, store_id) -> str:
         if store_id == "STORE-001" and sku == "HOME-DESKLMP01":
             return json.dumps({"physical_count": 40})
         inventory = list(data.get("inventory", {}).values())

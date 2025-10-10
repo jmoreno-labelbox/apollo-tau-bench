@@ -9,9 +9,7 @@ class UpdateOutboundOrder(Tool):
     """Tool to update outbound order details."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        order_id = kwargs.get("order_id")
-        updates = kwargs.get("updates")
+    def invoke(data: Dict[str, Any], order_id, updates) -> str:
         orders = list(data.get("outbound_orders", {}).values())
 
         for order in orders:

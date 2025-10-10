@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class ListCampaignAdsets(Tool):
     """List all ad sets under a campaign."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cid = kwargs.get("campaign_id")
+    def invoke(data: Dict[str, Any], campaign_id) -> str:
+        cid = campaign_id
         adsets = [a for a in data.get("adsets", []) if a.get("campaign_id") == cid]
         return json.dumps({"adsets": adsets})
 

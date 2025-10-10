@@ -7,11 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class CreateDeposit(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], account_id, amount, description) -> str:
         transaction_id = _get_next_transaction_id(data)
-        account_id = kwargs.get("account_id")
-        amount = kwargs.get("amount")
-        description = kwargs.get("description")
 
         account = next((acc for acc in data["accounts"] if acc["account_id"] == account_id), None)
         if not account:

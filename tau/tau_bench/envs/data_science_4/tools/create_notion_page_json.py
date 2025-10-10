@@ -7,12 +7,11 @@ from tau_bench.envs.tool import Tool
 
 class CreateNotionPageJson(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], cover_image_url_nullable, icon_emoji_nullable, parent_database_id_nullable, parent_page_id_nullable, status_nullable, title, attachments_paths = [], blocks = [], properties = {}, tags = []) -> str:
         """
         Creates a Notion-style page JSON (metadata + block structure).
         Does NOT call Notion; only records a deterministic JSON artifact.
         """
-        title = kwargs.get("title")
         if not title:
             return json.dumps({"error": "title is required"})
 
@@ -23,19 +22,15 @@ class CreateNotionPageJson(Tool):
         page_entry = {
             "page_id": page_id,
             "title": title,
-            "parent_database_id_nullable": kwargs.get("parent_database_id_nullable"),
-            "parent_page_id_nullable": kwargs.get("parent_page_id_nullable"),
-            "icon_emoji_nullable": kwargs.get("icon_emoji_nullable"),
-            "cover_image_url_nullable": kwargs.get("cover_image_url_nullable"),
-            "tags": kwargs.get("tags", []),
-            "status_nullable": kwargs.get("status_nullable"),
-            "properties": kwargs.get(
-                "properties", {}
-            ),  # for example, {"Model":"SF_V1","AUC":0.87}
-            "blocks": kwargs.get(
-                "blocks", []
-            ),  # for example, [{"type":"heading_2","text":"Summary"}, ...]
-            "attachments_paths": kwargs.get("attachments_paths", []),
+            "parent_database_id_nullable": parent_database_id_nullable,
+            "parent_page_id_nullable": parent_page_id_nullable,
+            "icon_emoji_nullable": icon_emoji_nullable,
+            "cover_image_url_nullable": cover_image_url_nullable,
+            "tags": tags,
+            "status_nullable": status_nullable,
+            "properties": properties,  # for example, {"Model":"SF_V1","AUC":0.87}
+            "blocks": blocks,  # for example, [{"type":"heading_2","text":"Summary"}, ...]
+            "attachments_paths": attachments_paths,
             "json_path": json_path,
             "slug": slug,
         }

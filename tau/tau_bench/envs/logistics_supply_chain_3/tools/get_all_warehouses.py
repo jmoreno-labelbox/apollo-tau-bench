@@ -9,9 +9,8 @@ class GetAllWarehouses(Tool):
     """Retrieves all warehouse records from the dataset, with an option to filter."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], filters) -> str:
         warehouses = list(data.get("warehouses", {}).values())
-        filters = kwargs.get("filters")
 
         if not warehouses:
             return json.dumps({"message": "No warehouses found."})

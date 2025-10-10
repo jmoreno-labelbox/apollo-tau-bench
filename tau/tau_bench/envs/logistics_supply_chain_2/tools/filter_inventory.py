@@ -9,11 +9,9 @@ class FilterInventory(Tool):
     """Tool to retrieve inventory items by key and value."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], key, value, list_of_ids = None) -> str:
         inventories = list(data.get("inventory", {}).values())
-        key = kwargs.get("key")
-        value = kwargs.get("value")
-        list_of_inventories = kwargs.get("list_of_ids", None)
+        list_of_inventories = list_of_ids
         result = [item['inventory_id'] for item in inventories if item[key].lower() == value.lower()]
         if list_of_inventories:
             result = [r for r in result if r in list_of_inventories]

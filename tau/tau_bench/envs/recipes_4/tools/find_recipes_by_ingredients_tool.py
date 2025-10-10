@@ -40,7 +40,7 @@ class FindRecipesByIngredientsTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> Dict[str, Any]:
+    def invoke(data: Dict[str, Any], available_ingredient_ids, max_missing_ingredients = 1) -> Dict[str, Any]:
         """
         Executes the logic to match available ingredients against recipe requirements.
 
@@ -72,8 +72,8 @@ class FindRecipesByIngredientsTool(Tool):
                 validation_error["details"]
             )
 
-        available_ids = set(kwargs["available_ingredient_ids"])
-        max_missing = kwargs.get("max_missing_ingredients", 1)
+        available_ids = set(available_ingredient_ids)
+        max_missing = max_missing_ingredients
 
         # 2. Prepare recipe specifications for optimized retrieval.
         recipe_requirements = collections.defaultdict(set)

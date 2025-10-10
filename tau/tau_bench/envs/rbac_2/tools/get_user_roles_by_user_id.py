@@ -9,8 +9,7 @@ class GetUserRolesByUserId(Tool):
     """ Retrieves all role assignments for a specific user ID. """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
+    def invoke(data: Dict[str, Any], user_id) -> str:
         try:
             user_roles = data.get('user_roles', [])
         except:

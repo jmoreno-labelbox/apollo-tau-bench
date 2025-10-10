@@ -8,11 +8,11 @@ from . import _require
 
 class SetPrimaryStation(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], station_id) -> str:
         err = _require(kwargs, ["station_id"])
         if err: return err
         cfg = (data.get("project_config") or [{}])[0] if data.get("project_config") else {}
-        cfg["primary_station_id_nullable"] = kwargs["station_id"]
+        cfg["primary_station_id_nullable"] = station_id
         data["project_config"] = [cfg] if data.get("project_config") else [cfg]
         return json.dumps(cfg, indent=2)
 

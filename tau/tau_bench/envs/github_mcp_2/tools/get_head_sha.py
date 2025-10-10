@@ -9,8 +9,8 @@ class GetHeadSha(Tool):
     """Returns the SHA of the latest commit on a given branch."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_name, branch = kwargs.get("repo_name"), kwargs.get("branch")
+    def invoke(data: Dict[str, Any], branch, repo_name) -> str:
+        repo_name, branch = repo_name, branch
         if not repo_name:
             return json.dumps({"error": "repo_name is required."}, indent=2)
 

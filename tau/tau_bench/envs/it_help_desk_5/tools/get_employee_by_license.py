@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetEmployeeByLicense(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        license_id = kwargs.get('license_id')
-        status = kwargs.get('status')
+    def invoke(data: Dict[str, Any], license_id, status) -> str:
         if license_id is None or status is None:
             return json.dumps({'status': 'error', 'reason': 'The license_id and status fields are required.'}, indent=2)
 

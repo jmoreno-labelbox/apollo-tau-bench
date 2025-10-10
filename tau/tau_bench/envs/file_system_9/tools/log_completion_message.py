@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class LogCompletionMessage(Tool):
     """Logs a completion message and returns the generated msg_id."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], message, task_id, user_id) -> str:
         completion_messages = list(data.get("completion_messages", {}).values())
         max_id = 0
         if completion_messages:
@@ -24,9 +24,9 @@ class LogCompletionMessage(Tool):
 
         new_log = {
             "msg_id": msg_id,
-            "task_id": kwargs.get("task_id"),
-            "user_id": kwargs.get("user_id"),
-            "msg": kwargs.get("message"),
+            "task_id": task_id,
+            "user_id": user_id,
+            "msg": message,
         }
         data["completion_messages"].append(new_log)
         return json.dumps({"status": "success", "message": "Completion message logged.", "msg_id": msg_id})

@@ -8,16 +8,16 @@ from . import _require
 
 class GmailSendEmail(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], draft_id, message_id = msg.get("message_id_nullable"), sent_ts = msg.get("sent_ts_nullable", "1970-01-01T00:00:00Z")) -> str:
         req = ["draft_id"]
         err = _require(kwargs, req)
         if err: return err
-        msg = next((m for m in data.setdefault("gmail_messages", []) if m.get("draft_id_nullable") == kwargs["draft_id"]), None)
+        msg = next((m for m in data.setdefault("gmail_messages", []) if m.get("draft_id_nullable") == draft_id), None)
         if not msg:
-            return json.dumps({"error": f"draft_id '{kwargs['draft_id']}' not found"}, indent=2)
-        msg["message_id_nullable"] = kwargs.get("message_id", msg.get("message_id_nullable"))
+            return json.dumps({"error": f"draft_id '{draft_id}' not found"}, indent=2)
+        msg["message_id_nullable"] = message_id
         msg["status"] = "sent"
-        msg["sent_ts_nullable"] = kwargs.get("sent_ts", msg.get("sent_ts_nullable", "1970-01-01T00:00:00Z"))
+        msg["sent_ts_nullable"] = sent_ts
         return json.dumps(msg, indent=2)
 
     @staticmethod

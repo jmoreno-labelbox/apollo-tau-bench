@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ComputeSplitCounts(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        row_count = kwargs.get("row_count")
-        test_fraction = kwargs.get("test_fraction")
+    def invoke(data: Dict[str, Any], row_count, test_fraction) -> str:
         try:
             row_count = int(row_count)
             test_fraction = float(test_fraction)

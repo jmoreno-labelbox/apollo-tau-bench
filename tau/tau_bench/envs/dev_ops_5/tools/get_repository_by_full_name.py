@@ -9,8 +9,7 @@ class GetRepositoryByFullName(Tool):
     """Retrieves a repository by its full name (e.g., 'gamecorp/engine-core')."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_full_name = kwargs.get("repo_full_name")
+    def invoke(data: Dict[str, Any], repo_full_name) -> str:
         repositories = list(data.get("repositories", {}).values())
         
         for repo in repositories:

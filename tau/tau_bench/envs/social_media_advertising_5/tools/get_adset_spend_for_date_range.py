@@ -7,10 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetAdsetSpendForDateRange(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        aid = kwargs.get("adset_id")
-        s = kwargs.get("start_date")
-        e = kwargs.get("end_date")
+    def invoke(data: Dict[str, Any], adset_id, end_date, start_date) -> str:
+        aid = adset_id
+        s = start_date
+        e = end_date
         sd = datetime.strptime(s, "%Y-%m-%d").date()
         ed = datetime.strptime(e, "%Y-%m-%d").date()
         tot = 0.0

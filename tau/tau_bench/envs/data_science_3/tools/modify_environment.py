@@ -8,8 +8,8 @@ from . import _fixed_now_iso
 
 class ModifyEnvironment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        updates = kwargs.get("updates") or {}
+    def invoke(data: Dict[str, Any], updates) -> str:
+        updates = updates or {}
         env = data.get("environment", {})
         if env is None or isinstance(env, list):
             env = {}

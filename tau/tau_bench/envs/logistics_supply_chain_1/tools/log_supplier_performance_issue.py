@@ -8,10 +8,7 @@ from tau_bench.envs.tool import Tool
 class LogSupplierPerformanceIssue(Tool):
     """Logs a performance issue against a supplier's record."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        supplier_id = kwargs.get('supplier_id')
-        issue_code = kwargs.get('issue_code')
-        shipment_id = kwargs.get('shipment_id')
+    def invoke(data: Dict[str, Any], issue_code, shipment_id, supplier_id) -> str:
         if not all([supplier_id, issue_code]):
             return json.dumps({"error": "supplier_id and issue_code are required."}, indent=2)
         supplier_to_update = next((s for s in data.get('supplier_master', []) if s.get('supplier_id') == supplier_id), None)

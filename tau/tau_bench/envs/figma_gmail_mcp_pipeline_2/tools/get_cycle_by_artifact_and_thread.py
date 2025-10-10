@@ -7,12 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetCycleByArtifactAndThread(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        if not kwargs.get("thread_id"):
+    def invoke(data: Dict[str, Any], artifact_id, thread_id) -> str:
+        if not thread_id:
             return json.dumps({"error": "Missing required field: thread_id"}, indent=2)
-
-        thread_id = kwargs.get("thread_id")
-        artifact_id: Optional[str] = kwargs.get("artifact_id")
+        artifact_id: Optional[str] = artifact_id
 
         cycles: List[Dict[str, Any]] = list(data.get("review_cycles", {}).values())
         results: List[Dict[str, Any]] = []

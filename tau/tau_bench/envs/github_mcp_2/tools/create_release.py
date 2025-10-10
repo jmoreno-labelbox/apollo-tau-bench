@@ -9,8 +9,8 @@ class CreateRelease(Tool):
     """Creates a release for a repository."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_name, tag, body = kwargs.get("repo_name"), kwargs.get("tag"), kwargs.get("body", "")
+    def invoke(data: Dict[str, Any], repo_name, tag, body = "", title = "") -> str:
+        repo_name, tag, body = repo_name, tag, body
         if not all([repo_name, tag]):
             return json.dumps({"error": "repo_name and tag are required."}, indent=2)
 
@@ -26,7 +26,7 @@ class CreateRelease(Tool):
             "message": "Release created.",
             "repo_name": repo_name,
             "tag_name": tag,
-            "title": kwargs.get("title", "")
+            "title": title
         }, indent=2)
 
     @staticmethod

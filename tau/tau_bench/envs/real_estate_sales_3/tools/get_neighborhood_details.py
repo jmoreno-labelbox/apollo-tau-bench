@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetNeighborhoodDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        neighborhood_id = kwargs.get("neighborhood_id")
+    def invoke(data: Dict[str, Any], neighborhood_id) -> str:
         n = next((n for n in data.get("neighborhoods", []) if n.get("neighborhood_id") == neighborhood_id), None)
         if not n:
             return json.dumps({"error": f"Neighborhood {neighborhood_id} not found"}, indent=2)

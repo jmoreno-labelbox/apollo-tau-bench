@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetOrdersByStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        status = kwargs.get('status')
-        limit = kwargs.get('limit', 20)
-        start_date = kwargs.get('start_date')
-        end_date = kwargs.get('end_date')
+    def invoke(data: Dict[str, Any], end_date, start_date, status, limit = 20) -> str:
 
         if not status:
             return json.dumps({'error': 'status is required'})

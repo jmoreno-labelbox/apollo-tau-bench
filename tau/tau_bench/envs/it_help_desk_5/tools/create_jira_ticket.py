@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateJiraTicket(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], issue_type, priority, summary) -> str:
         jira_tickets = data.get('jira_tickets')
 
         if len(jira_tickets) > 0:
@@ -17,16 +17,10 @@ class CreateJiraTicket(Tool):
 
         id_components = last_jira_id.split('-')
         new_jira_id = f'{id_components[0]}-{str(int(id_components[1])+1).zfill(4)}'
-
-        issue_type = kwargs.get('issue_type')
         if issue_type is None:
             return json.dumps({'status': 'error', 'reason': 'issue_type parameter is required'}, indent=2)
-
-        summary = kwargs.get('summary')
         if summary is None:
             return json.dumps({'status': 'error', 'reason': 'summary parameter is required'}, indent=2)
-
-        priority = kwargs.get('priority')
         if priority is None:
             return json.dumps({'status': 'error', 'reason': 'priority parameter is required'}, indent=2)
 

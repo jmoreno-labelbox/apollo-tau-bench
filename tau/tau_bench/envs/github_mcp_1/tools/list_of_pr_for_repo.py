@@ -14,10 +14,10 @@ class ListOfPRForRepo(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get("owner", "").strip()
-        repo_name = (kwargs.get("repo_name") or kwargs.get("repo_name") or "").strip()
-        state_filter = (kwargs.get("state") or "").strip().lower()  # not mandatory
+    def invoke(data: Dict[str, Any], repo_name, state, owner = "") -> str:
+        owner = owner.strip()
+        repo_name = (repo_name or repo_name or "").strip()
+        state_filter = (state or "").strip().lower()  # not mandatory
 
         if not owner or not repo_name:
             return json.dumps(

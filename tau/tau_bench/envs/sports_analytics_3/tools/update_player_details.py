@@ -10,11 +10,7 @@ class UpdatePlayerDetails(Tool):
     """Update a player's details: primary_position, current_team_id, and/or roster_status."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        player_id = kwargs.get("player_id")
-        primary_position = kwargs.get("primary_position")
-        current_team_id = kwargs.get("current_team_id")
-        roster_status = kwargs.get("roster_status")
+    def invoke(data: Dict[str, Any], current_team_id, player_id, primary_position, roster_status) -> str:
 
         # 1) Ensure: player_id is required.
         if player_id is None:

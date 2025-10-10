@@ -7,9 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class UpdateCandidateStatusFields(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cand_id = kwargs["candidate_id"]
-        fields: Dict[str, Any] = kwargs.get("fields", {})
+    def invoke(data: Dict[str, Any], candidate_id, fields = {}) -> str:
+        cand_id = candidate_id
+        fields: Dict[str, Any] = fields
         for row in list(data.get("candidates", {}).values()):
             if row.get("candidate_id") == cand_id:
                 for k, v in fields.items():

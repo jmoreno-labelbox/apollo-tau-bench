@@ -9,13 +9,11 @@ class GetAccessRequestTool(Tool):
     """Retrieve a single access request by ID (read-only, deterministic)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], request_id) -> str:
         # Assume: data["access_requests"] contains a list of dictionaries sourced from /mnt/data/access_requests.json.
         access_requests = data.get("access_requests", [])
         if not isinstance(access_requests, list):
             return json.dumps({"error": "access_requests must be a list"}, indent=2)
-
-        request_id = kwargs.get("request_id")
         if not isinstance(request_id, str) or not request_id.strip():
             return json.dumps({"error": "request_id must be a non-empty string"}, indent=2)
 

@@ -7,15 +7,13 @@ from tau_bench.envs.tool import Tool
 
 class RecordAuditFindings(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        if not kwargs.get("audit_id"):
+    def invoke(data: Dict[str, Any], a11y_findings, audit_id, ds_findings) -> str:
+        if not audit_id:
             return json.dumps({"error": "Missing required field: audit_id"}, indent=2)
-        if not kwargs.get("ds_findings") and not kwargs.get("a11y_findings"):
+        if not ds_findings and not a11y_findings:
             return json.dumps({"error": "At least one of ds_findings or a11y_findings is required"}, indent=2)
-
-        audit_id = kwargs.get("audit_id")
-        ds_findings_in: List[Dict[str, Any]] = kwargs.get("ds_findings") or []
-        a11y_findings_in: List[Dict[str, Any]] = kwargs.get("a11y_findings") or []
+        ds_findings_in: List[Dict[str, Any]] = ds_findings or []
+        a11y_findings_in: List[Dict[str, Any]] = a11y_findings or []
 
         ds_table: List[Dict[str, Any]] = data.get("audit_findings_ds", [])
         a11y_table: List[Dict[str, Any]] = data.get("audit_findings_a11y", [])

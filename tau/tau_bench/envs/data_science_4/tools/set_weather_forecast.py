@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SetWeatherForecast(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        city = kwargs.get("city")
+    def invoke(data: Dict[str, Any], city) -> str:
         id = "WEATHER_FORECAST_001"
         weather_forecast_json = {
             "forecast_id": id,

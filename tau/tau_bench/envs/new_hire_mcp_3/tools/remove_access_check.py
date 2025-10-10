@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class RemoveAccessCheck(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        check_id = kwargs.get("check_id")
+    def invoke(data: Dict[str, Any], check_id) -> str:
         checks = list(data.get("access_checks", {}).values())
         data["access_checks"] = [c for c in checks if c.get("check_id") != check_id]
         return json.dumps({"removed_check_id": check_id}, indent=2)

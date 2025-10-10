@@ -9,8 +9,8 @@ class GetPermissionDetailsTool(Tool):
     """Get full details of a permission by ID."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        pid = kwargs.get("permission_id")
+    def invoke(data: Dict[str, Any], permission_id) -> str:
+        pid = permission_id
         for p in list(data.get("permissions", {}).values()):
             if p["permission_id"] == pid:
                 return json.dumps(p, indent=2)

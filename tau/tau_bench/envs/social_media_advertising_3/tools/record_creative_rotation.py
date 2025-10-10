@@ -9,12 +9,12 @@ class RecordCreativeRotation(Tool):
     """Record a deterministic creative rotation event and enforce single-active rationale (validation only)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        ad_id: str = kwargs["ad_id"]
-        from_creative: str = kwargs["from_creative"]
-        to_creative: str = kwargs["to_creative"]
-        rationale: str = kwargs.get("rationale", "")
-        rotation_date: str = kwargs["rotation_date"]
+    def invoke(data: Dict[str, Any], ad_id, from_creative, rotation_date, to_creative, rationale = "") -> str:
+        ad_id: str = ad_id
+        from_creative: str = from_creative
+        to_creative: str = to_creative
+        rationale: str = rationale
+        rotation_date: str = rotation_date
 
         base = json.dumps({
             "ad_id": ad_id, "from_creative": from_creative,

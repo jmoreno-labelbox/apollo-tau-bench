@@ -9,8 +9,7 @@ class GetOutboundOrderById(Tool):
     """Tool to retrieve an outbound order by order ID."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        order_id = kwargs.get("order_id")
+    def invoke(data: Dict[str, Any], order_id) -> str:
         orders = list(data.get("outbound_orders", {}).values())
         for order in orders:
             if order["order_id"] == order_id:

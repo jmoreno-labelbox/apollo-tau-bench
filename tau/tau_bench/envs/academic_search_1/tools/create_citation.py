@@ -7,10 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class CreateCitation(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        source_article_id = kwargs.get('source_article_id')
-        cited_article_id = kwargs.get('cited_article_id')
-        context = kwargs.get('citation_context', 'No context provided.')
+    def invoke(data: Dict[str, Any], cited_article_id, source_article_id, citation_context = 'No context provided.') -> str:
+        context = citation_context
         if not all([source_article_id, cited_article_id]):
             return json.dumps({"error": "source_article_id and cited_article_id are required."})
 

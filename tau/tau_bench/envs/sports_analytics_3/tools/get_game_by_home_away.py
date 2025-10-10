@@ -21,11 +21,11 @@ class GetGameByHomeAway(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], away_id, home_id) -> str:
         import json
 
-        home = kwargs.get("home_id")
-        away = kwargs.get("away_id")
+        home = home_id
+        away = away_id
 
         # 1) Check mandatory inputs for validity.
         missing = []

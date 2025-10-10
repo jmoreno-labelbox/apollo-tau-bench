@@ -8,10 +8,7 @@ from tau_bench.envs.tool import Tool
 class IssueCustomerCreditMemo(Tool):
     """Issues a credit memo for a customer and logs the financial transaction."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        order_id = kwargs.get('order_id')
-        customer_id = kwargs.get('customer_id')
-        returned_items = kwargs.get('returned_items')
+    def invoke(data: Dict[str, Any], customer_id, order_id, returned_items) -> str:
 
         if not all([order_id, customer_id, returned_items]):
             return json.dumps({"error": "order_id, customer_id, and returned_items are required."}, indent=2)

@@ -9,8 +9,7 @@ class GetPermissionsForUserTool(Tool):
     """get_permissions_for_user"""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs["user_id"]
+    def invoke(data: Dict[str, Any], user_id) -> str:
         roles_active = [
             r.get("role_id")
             for r in data.get("user_roles", [])

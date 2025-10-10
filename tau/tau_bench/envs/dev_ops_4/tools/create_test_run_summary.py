@@ -8,14 +8,7 @@ from tau_bench.envs.tool import Tool
 class CreateTestRunSummary(Tool):
     """Create a test run summary with a deterministic id."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        pipeline_id = kwargs.get("pipeline_id")
-        total = kwargs.get("total")
-        failed = kwargs.get("failed")
-        passed = kwargs.get("passed")
-        skipped = kwargs.get("skipped", 0)
-        coverage_pct = kwargs.get("coverage_pct")
-        report_uri = kwargs.get("report_uri")
+    def invoke(data: Dict[str, Any], coverage_pct, failed, passed, pipeline_id, report_uri, total, skipped = 0) -> str:
 
         if pipeline_id == "pipeline_asset_validation":
             test_run_id = f"{ID_PREFIX}::test_run::{pipeline_id}::ctd1"

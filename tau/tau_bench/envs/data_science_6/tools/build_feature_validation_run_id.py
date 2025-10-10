@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class BuildFeatureValidationRunId(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        city_slug = kwargs.get("city_slug")
-        model_name = kwargs.get("model_name")
-        created_ts = kwargs.get("created_ts")
+    def invoke(data: Dict[str, Any], city_slug, created_ts, model_name) -> str:
         if not city_slug or not model_name or not created_ts:
             return json.dumps({"error":"Missing city_slug, model_name or created_ts"})
         ymd = created_ts[:10].replace("-", "")

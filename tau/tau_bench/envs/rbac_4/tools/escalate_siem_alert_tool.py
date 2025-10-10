@@ -9,12 +9,9 @@ class EscalateSiemAlertTool(Tool):
     """Escalate the severity of a SIEM alert and optionally create an incident ticket."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], alert_id, reason, severity) -> str:
         alerts = data.get("siem_alerts", [])
-
-        alert_id = kwargs.get("alert_id")
-        new_severity = kwargs.get("severity")
-        reason = kwargs.get("reason")
+        new_severity = severity
 
         alert = next((a for a in alerts if a["alert_id"] == alert_id), None)
         if not alert:

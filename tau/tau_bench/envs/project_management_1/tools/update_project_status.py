@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateProjectStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
-        status = kwargs.get("status")
+    def invoke(data: Dict[str, Any], project_id, status) -> str:
 
         if not all([project_id, status]):
             return json.dumps({"error": "project_id and status are required"})

@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class AssignReviewer(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        submission_id = kwargs.get('submission_id')
-        reviewer_user_id = kwargs.get('reviewer_user_id')
-        overwrite = kwargs.get('overwrite', False)
+    def invoke(data: Dict[str, Any], reviewer_user_id, submission_id, overwrite = False) -> str:
 
         submissions = list(data.get('submissions', {}).values())
         for sub in submissions:

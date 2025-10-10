@@ -9,17 +9,13 @@ class UpdateAccessRequestStatusTool(Tool):
     """update_access_request_status: approve/reject with notes and audit."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # support either approval/comments or a defined status
-        status = kwargs.get("status")
-        approve = kwargs.get("approve")
-        notes = kwargs.get("notes")
+    def invoke(data: Dict[str, Any], approve, notes, request_id, reviewer_id, status) -> str:
         if status is not None and approve is None:
             approve = True if str(status).upper() == "APPROVED" else False
         return ReviewAccessRequestTool.invoke(
             data,
-            request_id=kwargs.get("request_id"),
-            reviewer_id=kwargs.get("reviewer_id"),
+            request_id=request_id,
+            reviewer_id=reviewer_id,
             approve=approve,
             notes=notes,
         )

@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class Developments(Tool):
     @staticmethod
         # primary execution function
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        week_of = kwargs.get("week_of")
-        active_players = kwargs.get("active_players")
+    def invoke(data: Dict[str, Any], active_players, week_of) -> str:
         data.setdefault("player_dev_goals", []).append({
             "goal_id": f"goal_{len(data.get('player_dev_goals', []))+1}",
             "week_of": week_of,

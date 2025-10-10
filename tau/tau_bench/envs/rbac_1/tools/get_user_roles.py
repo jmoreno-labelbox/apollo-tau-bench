@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetUserRoles(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
+    def invoke(data: Dict[str, Any], user_id) -> str:
         assigned_role_ids = [
                 ur['role_id'] for ur in data.get('user_roles', [])
                 if ur.get('user_id') == user_id

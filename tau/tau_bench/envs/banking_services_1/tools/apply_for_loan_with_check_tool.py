@@ -22,10 +22,7 @@ class ApplyForLoanWithCheckTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
-        amount = kwargs.get("amount")
-        purpose = kwargs.get("purpose")
+    def invoke(data: Dict[str, Any], amount, customer_id, purpose) -> str:
 
         if not all([customer_id, amount, purpose]):
             return json.dumps({"error": "Missing required fields"}, indent=2)

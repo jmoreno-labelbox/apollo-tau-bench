@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ReassignJuniorWork(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        from_employee = kwargs.get("from_employee")
-        to_employee = kwargs.get("to_employee")
-        project_id = kwargs.get("project_id")
-        hours = kwargs.get("hours")
+    def invoke(data: Dict[str, Any], from_employee, hours, project_id, to_employee) -> str:
 
         params_and_keys = [
             ("from_employee", from_employee),

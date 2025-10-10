@@ -26,10 +26,7 @@ class AdvanceTrackingStatusTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        tracking_id = kwargs.get("tracking_id")
-        status = kwargs.get("status")
-        order_status = kwargs.get("order_status")
+    def invoke(data: Dict[str, Any], order_status, status, tracking_id) -> str:
 
         if not tracking_id or not status:
             return json.dumps({"error": "tracking_id and status are required"}, indent=2)

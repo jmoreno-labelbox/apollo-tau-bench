@@ -8,11 +8,8 @@ from tau_bench.envs.tool import Tool
 class SetIssueState(Tool):
     """Close or reopen an issue."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get("owner") or _actor_name(data)
-        repo = kwargs.get("repo")
-        number = kwargs.get("number")
-        state = kwargs.get("state")
+    def invoke(data: Dict[str, Any], number, owner, repo, state) -> str:
+        owner = owner or _actor_name(data)
         for i in _issues(data):
             if i.get("owner") == owner and i.get("repo") == repo and i.get("number") == number:
                 i["state"] = state

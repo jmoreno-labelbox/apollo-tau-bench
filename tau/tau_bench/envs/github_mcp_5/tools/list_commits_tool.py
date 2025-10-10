@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ListCommitsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get('owner')
-        repo = kwargs.get('repo')
-        path = kwargs.get('path') # This parameter appears to be unused in the current commit data structure but is retained for potential future use.
+    def invoke(data: Dict[str, Any], owner, path, repo) -> str:
 
         if not all([owner, repo]):
             return json.dumps({

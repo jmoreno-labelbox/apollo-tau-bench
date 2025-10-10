@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class AssignAppAccount(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get('employee_id')
-        app_id = kwargs.get('app_id')
+    def invoke(data: Dict[str, Any], app_id, employee_id) -> str:
 
         if employee_id is None or app_id is None:
             return json.dumps({'status': 'error', 'description': 'The employee_id and app_id fields are required.'}, indent=2)

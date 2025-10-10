@@ -29,14 +29,13 @@ class AddRunStep(Tool):
         }
 
     @staticmethod
-    def invoke(data, **kwargs):
-        run_id = kwargs.get("run_id")
+    def invoke(data, ended_at, name, run_id, started_at, status, step_id):
         step = {
-            "id": kwargs.get("step_id"),
-            "name": kwargs.get("name"),
-            "status": kwargs.get("status"),
-            "started_at": kwargs.get("started_at"),
-            "ended_at": kwargs.get("ended_at"),
+            "id": step_id,
+            "name": name,
+            "status": status,
+            "started_at": started_at,
+            "ended_at": ended_at,
         }
         runs = list(data.get("build_runs", {}).values())
         run = next((r for r in runs if r.get("id") == run_id), None)

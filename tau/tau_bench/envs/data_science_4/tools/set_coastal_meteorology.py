@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SetCoastalMeteorology(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        station_id = kwargs.get("station_id")
+    def invoke(data: Dict[str, Any], station_id) -> str:
         # This is a simulated scenario; in a real-world setting, data would be retrieved from NOAA.
 
         coastal_meteorology_data = {

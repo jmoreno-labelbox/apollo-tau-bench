@@ -9,12 +9,7 @@ class CaV2CreateInvoiceAuditEntry(Tool):
     """Create an audit trail entry for invoice actions."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        audit_id = kwargs.get("audit_id")
-        invoice_id = kwargs.get("invoice_id")
-        event_type = kwargs.get("event_type")
-        event_timestamp = kwargs.get("event_timestamp")
-        notes = kwargs.get("notes", "")
+    def invoke(data: Dict[str, Any], audit_id, event_timestamp, event_type, invoice_id, notes = "") -> str:
 
         if not all([audit_id, invoice_id, event_type, event_timestamp]):
             return _error("audit_id, invoice_id, event_type, and event_timestamp are required.")

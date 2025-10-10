@@ -29,8 +29,7 @@ class VerifySpaceRequirementsTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        destination_path = kwargs["destination_path"]
+    def invoke(data: Dict[str, Any], destination_path) -> str:
 
         # Obtain the overall size from the previous computation.
         total_size = data.get("last_total_size", 0)

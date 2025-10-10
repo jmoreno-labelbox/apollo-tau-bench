@@ -31,11 +31,9 @@ class AppendPaymentTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        order_id = kwargs.get("order_id")
-        txn_type = kwargs.get("transaction_type")
-        amount = kwargs.get("amount")
-        pm_id = kwargs.get("payment_method_id")
+    def invoke(data: Dict[str, Any], amount, order_id, payment_method_id, transaction_type) -> str:
+        txn_type = transaction_type
+        pm_id = payment_method_id
 
         if (
             not order_id

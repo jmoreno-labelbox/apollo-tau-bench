@@ -8,10 +8,7 @@ from tau_bench.envs.tool import Tool
 class CreatePurchaseOrder(Tool):
     """Creates a new purchase order and a corresponding 'Planned' inbound shipment."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        supplier_id = kwargs.get('supplier_id')
-        line_items = kwargs.get('line_items')
-        priority = kwargs.get('priority')
+    def invoke(data: Dict[str, Any], line_items, priority, supplier_id) -> str:
 
         if not all([supplier_id, line_items, priority]):
             return json.dumps({"error": "supplier_id, line_items, and priority are required."}, indent=2)

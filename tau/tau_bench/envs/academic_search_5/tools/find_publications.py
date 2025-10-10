@@ -8,12 +8,7 @@ from tau_bench.envs.tool import Tool
 class FindPublications(Tool):
     """Tool to search for articles based on various criteria."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        title = kwargs.get('title')
-        author_name = kwargs.get('author_name')
-        topic = kwargs.get('topic')
-        publication_year = kwargs.get('publication_year')
-        article_id = kwargs.get('article_id')
+    def invoke(data: Dict[str, Any], article_id, author_name, publication_year, title, topic) -> str:
 
         if not any([title, author_name, topic, publication_year, article_id]):
             return json.dumps({"error": "At least one search parameter is required."})

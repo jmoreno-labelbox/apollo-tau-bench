@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetModelConfigParam(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        saved_json_path = kwargs.get("saved_json_path")
+    def invoke(data: Dict[str, Any], saved_json_path) -> str:
         if not saved_json_path:
             return json.dumps({"error": "Missing saved_json_path"})
         for rec in data.get("model_config", []):

@@ -9,8 +9,8 @@ class GetRoleDetailsTool(Tool):
     """Get details about a specific role."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        rid = kwargs.get("role_id")
+    def invoke(data: Dict[str, Any], role_id) -> str:
+        rid = role_id
         for r in list(data.get("roles", {}).values()):
             if r["role_id"] == rid:
                 return json.dumps(r, indent=2)

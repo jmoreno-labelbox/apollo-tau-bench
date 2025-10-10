@@ -24,8 +24,7 @@ class CleanOriginalDirectoryTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        target_directory = kwargs["target_directory"]
+    def invoke(data: Dict[str, Any], target_directory) -> str:
         cleaned_count = 0
 
         # Count the files present in the file_list (these are the ones undergoing cleanup).

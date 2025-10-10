@@ -7,11 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetRecurringExpenses(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], category_code) -> str:
         """
         Returns recurring_ids for all recurring expenses (optionally filtered by category_code).
         """
-        category_code = kwargs.get("category_code")
         recs = data["recurring_schedules"]
         if category_code:
             recs = [r for r in recs if r["category_code"] == category_code]

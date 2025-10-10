@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CalculateProjectCost(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
-        include_planned = kwargs.get("include_planned", True)
-        as_of_date = kwargs.get("as_of_date")
+    def invoke(data: Dict[str, Any], as_of_date, project_id, include_planned = True) -> str:
 
         if not project_id:
             return json.dumps({"error": "project_id is required"})

@@ -7,15 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class SaveChangeRequestsConflicts(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cr_id = kwargs.get("cr_id")
-        conflicting_cr_id = kwargs.get("conflicting_cr_id")
-        conflict_type = kwargs.get("type")
-        conflicting_deliverables = kwargs.get("conflicting_deliverables")
-        severity = kwargs.get("severity")
-        rule_violation = kwargs.get("rule_violation")
-        action_required = kwargs.get("action_required")
-        recommendation = kwargs.get("recommendation")
+    def invoke(data: Dict[str, Any], action_required, conflicting_cr_id, conflicting_deliverables, cr_id, recommendation, rule_violation, severity, type) -> str:
+        conflict_type = type
 
         if not cr_id or not conflicting_cr_id:
             return json.dumps({"error": "cr_id and conflicting_cr_id are required parameters"})

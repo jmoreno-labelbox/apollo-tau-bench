@@ -9,9 +9,9 @@ class SyncGmailIntentsToReviewTool(Tool):
     """Scan thread messages for intent keywords and update review status counts (no status change)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cycle_id = _require_str(kwargs.get("cycle_id"), "cycle_id")
-        thread_id = _require_str(kwargs.get("thread_id"), "thread_id")
+    def invoke(data: Dict[str, Any], cycle_id, thread_id) -> str:
+        cycle_id = _require_str(cycle_id, "cycle_id")
+        thread_id = _require_str(thread_id, "thread_id")
         if not (cycle_id and thread_id):
             return json.dumps({"error":"cycle_id and thread_id required"})
 

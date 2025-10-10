@@ -9,8 +9,7 @@ class SearchAutomationRunsByType(Tool):
     """Searches for automation runs with a specific run type."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        run_type = kwargs.get("run_type")
+    def invoke(data: Dict[str, Any], run_type) -> str:
         runs = list(data.get("automation_runs", {}).values())
         matching_runs = []
         

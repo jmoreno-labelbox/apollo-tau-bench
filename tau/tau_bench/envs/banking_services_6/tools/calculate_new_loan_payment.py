@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CalculateNewLoanPayment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        current_balance = kwargs.get("current_balance")
-        new_interest_rate = kwargs.get("new_interest_rate")
-        remaining_term_months = kwargs.get("remaining_term_months")
+    def invoke(data: Dict[str, Any], current_balance, new_interest_rate, remaining_term_months) -> str:
 
         monthly_rate = (new_interest_rate / 100) / 12
         if monthly_rate == 0:

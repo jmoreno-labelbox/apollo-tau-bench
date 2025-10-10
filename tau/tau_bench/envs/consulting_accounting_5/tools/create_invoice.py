@@ -7,27 +7,27 @@ from tau_bench.envs.tool import Tool
 
 class CreateInvoice(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], hst_amount, invoice_number, publisher_id, subtotal, total_due, created_at = None, currency = "CAD", invoice_date = None, notes = "", paid_at = None, pdf_path = "", period_end = None, period_start = None, sent_at = None) -> str:
         """
         Creates a new invoice with core required fields and many optional ones.
         Non-critical fields default to None or empty string if not provided.
         """
         new_invoice = {
-            "invoice_id": f'INV{kwargs["invoice_number"]}',
-            "invoice_number": kwargs["invoice_number"],
-            "publisher_id": kwargs["publisher_id"],
-            "invoice_date": kwargs.get("invoice_date", None),
-            "period_start": kwargs.get("period_start", None),
-            "period_end": kwargs.get("period_end", None),
-            "subtotal": kwargs["subtotal"],
-            "hst_amount": kwargs["hst_amount"],
-            "total_due": kwargs["total_due"],
-            "pdf_path": kwargs.get("pdf_path", ""),
-            "sent_at": kwargs.get("sent_at", None),
-            "paid_at": kwargs.get("paid_at", None),
-            "created_at": kwargs.get("created_at", None),
-            "currency": kwargs.get("currency", "CAD"),
-            "notes": kwargs.get("notes", "")
+            "invoice_id": f'INV{invoice_number}',
+            "invoice_number": invoice_number,
+            "publisher_id": publisher_id,
+            "invoice_date": invoice_date,
+            "period_start": period_start,
+            "period_end": period_end,
+            "subtotal": subtotal,
+            "hst_amount": hst_amount,
+            "total_due": total_due,
+            "pdf_path": pdf_path,
+            "sent_at": sent_at,
+            "paid_at": paid_at,
+            "created_at": created_at,
+            "currency": currency,
+            "notes": notes
         }
         data["invoices"].append(new_invoice)
         return json.dumps(new_invoice["invoice_id"])

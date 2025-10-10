@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class AssignAsset(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        asset_id = kwargs.get("asset_id")
-        employee_id = kwargs.get("employee_id")
+    def invoke(data: Dict[str, Any], asset_id, employee_id) -> str:
         assets = list(data.get("it_assets", {}).values())
         asset = next((a for a in assets if a.get("asset_id") == asset_id), None)
         if not asset:

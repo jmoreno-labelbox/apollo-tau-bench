@@ -9,13 +9,10 @@ class RemoveRoleFromUserTool(Tool):
     """Remove a specific role assignment from a user (write operation, deterministic)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], role_id, user_id) -> str:
         user_roles = data.get("user_roles", [])
         if not isinstance(user_roles, list):
             return json.dumps({"error": "user_roles must be a list"}, indent=2)
-
-        user_id = kwargs.get("user_id")
-        role_id = kwargs.get("role_id")
 
         for fld, val in [("user_id", user_id), ("role_id", role_id)]:
             if not isinstance(val, str) or not val.strip():

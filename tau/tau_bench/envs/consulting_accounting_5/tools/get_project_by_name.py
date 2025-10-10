@@ -7,11 +7,11 @@ from tau_bench.envs.tool import Tool
 
 class GetProjectByName(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], project_name) -> str:
         """
         Returns project_id for a given project_title.
         """
-        project_title = kwargs["project_name"]
+        project_title = project_name
         project = next((p for p in data["projects"] if p["project_title"] == project_title), None)
         return json.dumps(project["project_id"] if project else None)
 

@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class AddCitation(Tool):
     """Adds a new citation."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        source_article_id, cited_article_id, context = kwargs.get('source_article_id'), kwargs.get('cited_article_id'), kwargs.get('context')
+    def invoke(data: Dict[str, Any], cited_article_id, context, source_article_id) -> str:
+        source_article_id, cited_article_id, context = source_article_id, cited_article_id, context
         if not all([source_article_id, cited_article_id]):
             return json.dumps({"error": "source_article_id and cited_article_id are required."})
         new_citation = {"citation_id": f"cit_{uuid.uuid4().hex[:4]}", "source_article_id": source_article_id, "cited_article_id": cited_article_id, "citation_context": context}

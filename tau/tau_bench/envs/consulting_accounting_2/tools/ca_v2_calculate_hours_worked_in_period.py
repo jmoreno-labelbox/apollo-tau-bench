@@ -9,10 +9,7 @@ class CaV2CalculateHoursWorkedInPeriod(Tool):
     """Calculate total hours worked across projects for a specific period."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        start_date = kwargs.get("start_date")
-        end_date = kwargs.get("end_date")
-        project_ids = kwargs.get("project_ids", [])
+    def invoke(data: Dict[str, Any], end_date, start_date, project_ids = []) -> str:
 
         if not all([start_date, end_date]):
             return _error("start_date and end_date are required.")

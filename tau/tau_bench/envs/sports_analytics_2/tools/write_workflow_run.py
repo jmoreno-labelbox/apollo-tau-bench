@@ -8,12 +8,12 @@ from . import _load_table
 
 class WriteWorkflowRun(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], dag_name, report_id, status) -> str:
         runs = _load_table(data, "workflow_runs")
         run = {
-            "dag_name": kwargs.get("dag_name"),
-            "status": kwargs.get("status"),
-            "report_id": kwargs.get("report_id"),
+            "dag_name": dag_name,
+            "status": status,
+            "report_id": report_id,
         }
         runs.append(run)
         return json.dumps({"status": "ok"}, indent=2)

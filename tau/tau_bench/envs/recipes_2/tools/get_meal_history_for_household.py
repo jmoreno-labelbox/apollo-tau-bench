@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetMealHistoryForHousehold(Tool):
     """Retrieves the meal history for a given household ID for a specified number of past days."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        household_id = kwargs.get("household_id")
-        days_ago = kwargs.get("days_ago", 14)
+    def invoke(data: Dict[str, Any], household_id, days_ago = 14) -> str:
         meal_history = list(data.get("meal_history", {}).values())
         current_date = datetime.strptime("2025-08-20", "%Y-%m-%d")
         start_date = current_date - timedelta(days=days_ago)

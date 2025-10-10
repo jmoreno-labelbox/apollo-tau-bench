@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SaveReport(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        save_data = kwargs.get('save_data',[])
+    def invoke(data: Dict[str, Any], save_data = []) -> str:
 
         if len(save_data) == 0:
             return json.dumps({'status': 'error', 'description': 'The save_data and file_path parameters are required.'}, indent=2)

@@ -7,11 +7,11 @@ from tau_bench.envs.tool import Tool
 
 class RecordMcpToolCall(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], server_name, tool_name, params_json = {}, result_meta_json = {}) -> str:
         rows = _ensure_list(data, "mcp_tool_calls")
         new_id = _next_seq_id(rows, "call_id")
-        payload = {"call_id": new_id, "server_name": kwargs.get("server_name"), "tool_name": kwargs.get("tool_name"),
-                   "params_json": kwargs.get("params_json", {}), "result_meta_json": kwargs.get("result_meta_json", {}),
+        payload = {"call_id": new_id, "server_name": server_name, "tool_name": tool_name,
+                   "params_json": params_json, "result_meta_json": result_meta_json,
                    "call_ts": NOW_TS}
         rows.append(payload)
         return json.dumps({"call_id": new_id}, indent=2)

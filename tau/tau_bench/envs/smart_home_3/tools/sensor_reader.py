@@ -7,13 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class SensorReader(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], location, sensor_id, state_param, threshold, type) -> str:
         sensors = list(data.get('sensors', {}).values())
-        sensor_id = kwargs.get('sensor_id')
-        sensor_type = kwargs.get('type')
-        location = kwargs.get('location')
-        state_param = kwargs.get('state_param')
-        threshold = kwargs.get('threshold')
+        sensor_type = type
 
         result = [s for s in sensors if (not sensor_id or s['id'] == sensor_id) and
                  (not sensor_type or s['type'] == sensor_type) and

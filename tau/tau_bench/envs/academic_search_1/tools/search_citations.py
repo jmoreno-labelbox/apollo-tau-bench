@@ -7,15 +7,13 @@ from tau_bench.envs.tool import Tool
 
 class SearchCitations(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], article_id, direction, context_keyword = '') -> str:
         """
         Searches for citations related to a specific article.
         - The search direction ('to' or 'from') is required.
         - 'to': Finds all citations that point TO the article_id.
         - 'from': Finds all citations made BY the article_id.
         """
-        article_id = kwargs.get('article_id')
-        direction = kwargs.get('direction')
 
         if not all([article_id, direction]):
             return json.dumps({"error": "article_id and direction are required."})
@@ -24,7 +22,7 @@ class SearchCitations(Tool):
         results = []
 
         if direction.lower() == 'to':
-            keyword = kwargs.get('context_keyword', '').lower()
+            keyword = context_keyword.lower()
             results = [
                 c for c in citations
                 if c.get('cited_article_id') == article_id and

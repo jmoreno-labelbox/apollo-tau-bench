@@ -9,13 +9,13 @@ class ComposeReleaseEmailDraftTool(Tool):
     """Compose a release email draft message in gmail_messages (deterministic message_id)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        release_id = _require_str(kwargs.get("release_id"), "release_id")
-        thread_id = _require_str(kwargs.get("thread_id"), "thread_id")  # identifier for an existing or new thread
-        from_email = _require_str(kwargs.get("from_email"), "from_email")
-        created_ts = _require_str(kwargs.get("created_ts"), "created_ts")
-        subject = _require_str(kwargs.get("subject"), "subject")
-        body = _require_str(kwargs.get("body"), "body")
+    def invoke(data: Dict[str, Any], body, created_ts, from_email, release_id, subject, thread_id) -> str:
+        release_id = _require_str(release_id, "release_id")
+        thread_id = _require_str(thread_id, "thread_id")  # identifier for an existing or new thread
+        from_email = _require_str(from_email, "from_email")
+        created_ts = _require_str(created_ts, "created_ts")
+        subject = _require_str(subject, "subject")
+        body = _require_str(body, "body")
         if not all([release_id, thread_id, from_email, created_ts, subject, body]):
             return json.dumps({"error":"release_id, thread_id, from_email, created_ts, subject, body required"})
 

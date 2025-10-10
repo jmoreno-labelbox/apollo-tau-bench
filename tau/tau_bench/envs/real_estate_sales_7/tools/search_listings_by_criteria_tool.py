@@ -9,12 +9,10 @@ class SearchListingsByCriteriaTool(Tool):
     """Searches listings table matching client criteria."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        neighborhoods = kwargs.get("neighborhoods_json") or []
-        price_min = kwargs.get("price_min") or 0
-        price_max = kwargs.get("price_max")
-        status_filter = kwargs.get("status_filter")
-        max_results = _as_int(kwargs.get("max_results"))
+    def invoke(data: Dict[str, Any], max_results, neighborhoods_json, price_max, price_min, status_filter) -> str:
+        neighborhoods = neighborhoods_json or []
+        price_min = price_min or 0
+        max_results = _as_int(max_results)
 
         valid_status = {"sold", "for_sale", "off_market", "active", "pending", "rented"}
 

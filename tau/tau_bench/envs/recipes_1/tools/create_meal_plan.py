@@ -9,10 +9,7 @@ from . import _max_id, _json_dump
 class CreateMealPlan(Tool):
     """Insert a new meal_plan row and return meal_plan_id."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        household_id = kwargs.get("household_id")
-        week_start_date = kwargs.get("week_start_date")
-        created_by_user_id = kwargs.get("created_by_user_id")
+    def invoke(data: Dict[str, Any], created_by_user_id, household_id, week_start_date) -> str:
         if household_id is None or created_by_user_id is None or not week_start_date:
             return _json_dump({"error": "household_id, week_start_date, created_by_user_id are required"})
         tbl = data.setdefault("meal_plans", [])

@@ -9,12 +9,7 @@ class SchedulePropertyShowing(Tool):
     """Schedule a private property showing for a client."""
     
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        property_id = kwargs.get('property_id')
-        client_id = kwargs.get('client_id')
-        broker_id = kwargs.get('broker_id')
-        scheduled_time = kwargs.get('scheduled_time')
-        duration_minutes = kwargs.get('duration_minutes', 60)
+    def invoke(data: Dict[str, Any], broker_id, client_id, property_id, scheduled_time, duration_minutes = 60) -> str:
         
         if not all([property_id, client_id, broker_id, scheduled_time]):
             return json.dumps({

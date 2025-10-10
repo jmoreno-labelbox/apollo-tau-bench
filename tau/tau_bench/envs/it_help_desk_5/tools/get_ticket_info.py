@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetTicketInfo(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        ticket_id = kwargs.get('ticket_id')
+    def invoke(data: Dict[str, Any], ticket_id) -> str:
         if ticket_id is None:
             return json.dumps({'status': 'error', 'description': 'The ticket_id field is required.'}, indent=2)
 

@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class RemoveEmailLabel(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        label_id = kwargs.get("label_id")
+    def invoke(data: Dict[str, Any], label_id) -> str:
         labels = list(data.get("email_labels", {}).values())
         data["email_labels"] = [l for l in labels if l.get("label_id") != label_id]
         return json.dumps({"removed_label_id": label_id}, indent=2)

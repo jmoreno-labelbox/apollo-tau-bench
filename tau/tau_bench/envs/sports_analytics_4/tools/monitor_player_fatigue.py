@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class MonitorPlayerFatigue(Tool):
     @staticmethod
         # primary execution function
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        player_id = kwargs.get("player_id")
+    def invoke(data: Dict[str, Any], player_id) -> str:
         workloads = data.get("player_workload", [])
         workload = next((w for w in workloads if w.get("player_id") == player_id), {})
         fatigue_score = (workload.get("innings_pitched", 0) * 0.5 + workload.get("pitches_thrown", 0) * 0.1)

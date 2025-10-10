@@ -9,9 +9,7 @@ class DecreaseValueWithPercent(Tool):
     """Decreases a value by a specified percentage."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        value = kwargs.get("value")
-        percent = kwargs.get("percent")
+    def invoke(data: Dict[str, Any], percent, value) -> str:
         
         if value is None or percent is None:
             return json.dumps({"error": "value and percent are required parameters."})

@@ -11,13 +11,7 @@ class find_transaction(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        transaction_id = kwargs.get("transaction_id")
-        store_id = kwargs.get("store_id")
-        employee_id = kwargs.get("employee_id")
-        customer_id = kwargs.get("customer_id")
-        status = kwargs.get("status")
-        date = kwargs.get("date")
+    def invoke(data: Dict[str, Any], customer_id, date, employee_id, status, store_id, transaction_id) -> str:
 
         transactions = list(data.get("transactions", {}).values())
 

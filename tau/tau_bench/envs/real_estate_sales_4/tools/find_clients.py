@@ -7,14 +7,13 @@ from tau_bench.envs.tool import Tool
 
 class FindClients(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], client_id, name = '') -> str:
         clients = data.get('client_preferences', [])
         if not clients:
             return json.dumps({"error": "No client data available"}, indent=2)
         
         results = []
-        name_query = kwargs.get('name', '').lower()
-        client_id = kwargs.get('client_id')
+        name_query = name.lower()
         
         for client in clients:
             if client_id and client.get('client_id') != client_id:

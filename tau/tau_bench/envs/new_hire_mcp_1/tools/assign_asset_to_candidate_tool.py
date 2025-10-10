@@ -9,9 +9,7 @@ class AssignAssetToCandidateTool(Tool):
     """Updates inventory_assets table to assign specific asset and updates corresponding asset_requests status."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        asset_request_id = kwargs.get("asset_request_id")
-        asset_tag = kwargs.get("asset_tag")
+    def invoke(data: Dict[str, Any], asset_request_id, asset_tag) -> str:
 
         if not asset_request_id or not asset_tag:
             return _err("asset_request_id and asset_tag are required.")

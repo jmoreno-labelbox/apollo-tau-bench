@@ -7,15 +7,12 @@ from tau_bench.envs.tool import Tool
 
 class SendNotification(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], message_content, recipient_user_id, sender_user_id = 'system') -> str:
         """
         Creates and sends a new notification to a user.
         - Requires recipient_user_id and message_content.
         - sender_user_id is optional and defaults to 'system'.
         """
-        recipient_user_id = kwargs.get('recipient_user_id')
-        message_content = kwargs.get('message_content')
-        sender_user_id = kwargs.get('sender_user_id', 'system')
 
         if not all([recipient_user_id, message_content]):
             return json.dumps({"error": "recipient_user_id and message_content are required."})

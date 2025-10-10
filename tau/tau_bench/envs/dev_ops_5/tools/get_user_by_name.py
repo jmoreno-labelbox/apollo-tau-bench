@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetUserByName(Tool):
     """Retrieves a user by their name."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        name = kwargs.get("name")
+    def invoke(data: Dict[str, Any], name) -> str:
         users = list(data.get("users", {}).values())
         for user in users:
             if user.get("name") == name:

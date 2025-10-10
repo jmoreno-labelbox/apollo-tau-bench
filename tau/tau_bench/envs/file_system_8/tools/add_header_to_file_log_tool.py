@@ -25,9 +25,7 @@ class AddHeaderToFileLogTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        log_name = kwargs.get("log_name", "file_check_log.json")
-        task_id = kwargs["task_id"]
+    def invoke(data: Dict[str, Any], task_id, log_name = "file_check_log.json") -> str:
         if log_name not in data:
             return json.dumps({"error": f"Log '{log_name}' not found."})
         # Enclose the current data within a 'data' key and include 'task_id' at the root level.

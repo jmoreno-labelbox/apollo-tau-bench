@@ -8,12 +8,10 @@ from tau_bench.envs.tool import Tool
 class OpenPR(Tool):
     """Open a pull request."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get("owner") or _actor_name(data)
-        repo = kwargs.get("repo")
-        title = kwargs.get("title")
-        head = kwargs.get("head_branch")
-        base = kwargs.get("base_branch", "main")
+    def invoke(data: Dict[str, Any], head_branch, owner, repo, title, base_branch = "main") -> str:
+        owner = owner or _actor_name(data)
+        head = head_branch
+        base = base_branch
         if not (_find_repo(data, owner, repo)):
             raise RuntimeError("Repository not found")
         seq = sum(1 for pr in _prs(data) if pr.get("owner") == owner and pr.get("repo") == repo) + 1

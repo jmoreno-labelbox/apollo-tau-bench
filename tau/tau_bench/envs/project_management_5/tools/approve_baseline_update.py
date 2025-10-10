@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ApproveBaselineUpdate(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        baseline_id = kwargs.get("baseline_id")
-        approved_by = kwargs.get("approved_by")
-        approval_notes = kwargs.get("approval_notes", "")
+    def invoke(data: Dict[str, Any], approved_by, baseline_id, approval_notes = "") -> str:
 
         if not all([baseline_id, approved_by]):
             return json.dumps({"error": "baseline_id and approved_by are required"})

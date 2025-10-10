@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GenerateInvoiceNumber(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        year = kwargs.get("year")
+    def invoke(data: Dict[str, Any], year) -> str:
         if not year:
             return json.dumps({"error": "year is required"}, indent=2)
         existing = [i.get("invoice_number") for i in list(data.get("invoices", {}).values()) if str(i.get("invoice_number", "")).startswith(f"{year}-")]

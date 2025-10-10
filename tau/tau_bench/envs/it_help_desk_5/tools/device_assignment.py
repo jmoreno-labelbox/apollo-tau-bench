@@ -7,13 +7,11 @@ from tau_bench.envs.tool import Tool
 
 class DeviceAssignment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get('employee_id')
+    def invoke(data: Dict[str, Any], employee_id, unassign) -> str:
         if employee_id is None:
             return json.dumps({'status': 'error', 'reason': 'The employee_id field is required.'}, indent=2)
 
         assets = data.get('it_assets')
-        unassign = kwargs.get('unassign')
         assigned_assets = []
 
         for asset in assets:

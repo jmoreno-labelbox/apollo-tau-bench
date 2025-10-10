@@ -8,17 +8,17 @@ from . import _require
 
 class StoreGeocodingResult(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], canonical_name, latitude, longitude, query_city, query_ts, raw_json_path_nullable) -> str:
         req = ["query_city", "latitude", "longitude"]
         err = _require(kwargs, req)
         if err: return err
         row = {
-            "query_city": kwargs["query_city"],
-            "latitude": kwargs["latitude"], "longitude": kwargs["longitude"],
-            "canonical_name": kwargs.get("canonical_name"),
+            "query_city": query_city,
+            "latitude": latitude, "longitude": longitude,
+            "canonical_name": canonical_name,
             "provider": "open-meteo",
-            "raw_json_path_nullable": kwargs.get("raw_json_path_nullable"),
-            "query_ts": kwargs.get("query_ts")
+            "raw_json_path_nullable": raw_json_path_nullable,
+            "query_ts": query_ts
         }
         return json.dumps(_append(data.setdefault("geocoding_results", []), row), indent=2)
 

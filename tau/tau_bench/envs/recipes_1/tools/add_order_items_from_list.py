@@ -10,10 +10,7 @@ from . import _require
 class AddOrderItemsFromList(Tool):
     """Populate order_items from a list by choosing the lowest-price in-stock product for each ingredient."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        order_id = kwargs.get("order_id")
-        store_id = kwargs.get("store_id")
-        product_overrides = kwargs.get("product_overrides", {})  # optional {ingredient_id: associated_product_id}
+    def invoke(data: Dict[str, Any], order_id, store_id, product_overrides = {}) -> str:
         if order_id is None or store_id is None:
             return _json_dump({"error": "order_id and store_id are required"})
         order = _require(data, "orders", "order_id", int(order_id))

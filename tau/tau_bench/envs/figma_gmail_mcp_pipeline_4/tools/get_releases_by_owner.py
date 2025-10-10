@@ -7,15 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetReleasesByOwner(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], created_after, created_before, owner_email, release_id, version_tag) -> str:
         """
         Retrieves releases filtered by owner and other criteria.
         """
-        owner_email = kwargs.get('owner_email')
-        release_id = kwargs.get('release_id')
-        version_tag = kwargs.get('version_tag')
-        created_after = kwargs.get('created_after')
-        created_before = kwargs.get('created_before')
 
         if not owner_email:
             return json.dumps({"error": "owner_email is required."})

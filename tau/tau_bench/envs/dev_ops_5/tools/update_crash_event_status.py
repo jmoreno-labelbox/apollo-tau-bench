@@ -8,9 +8,9 @@ from tau_bench.envs.tool import Tool
 class UpdateCrashEventStatus(Tool):
     """Updates the status of a crash event."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        crash_id = kwargs.get("id")
-        new_status = kwargs.get("status")
+    def invoke(data: Dict[str, Any], id, status) -> str:
+        crash_id = id
+        new_status = status
         crashes = data.get("crash_events", [])
         for crash in crashes:
             if crash.get("id") == crash_id:

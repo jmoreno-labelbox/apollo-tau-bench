@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SearchAllocations(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        end_date_before = kwargs.get("end_date_before")
-        status = kwargs.get("status")
-        allocation_id = kwargs.get("allocation_id")
+    def invoke(data: Dict[str, Any], allocation_id, end_date_before, status) -> str:
 
         allocations = data.get("allocations", [])
         results = []

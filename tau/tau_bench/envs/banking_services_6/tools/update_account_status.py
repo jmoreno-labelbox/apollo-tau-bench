@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateAccountStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        account_id = kwargs.get("account_id")
-        new_status = kwargs.get("new_status")
+    def invoke(data: Dict[str, Any], account_id, new_status) -> str:
 
         account = next((acc for acc in data["accounts"] if acc["account_id"] == account_id), None)
         if not account:

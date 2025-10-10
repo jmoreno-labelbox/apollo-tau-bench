@@ -9,10 +9,7 @@ class CompareValue(Tool):
     """Compares a value with a threshold using a specified operator."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        value = kwargs.get("value")
-        threshold = kwargs.get("threshold")
-        operator = kwargs.get("operator")
+    def invoke(data: Dict[str, Any], operator, threshold, value) -> str:
         
         if value is None or threshold is None or operator is None:
             return json.dumps({"error": "value, threshold, and operator are required parameters."})

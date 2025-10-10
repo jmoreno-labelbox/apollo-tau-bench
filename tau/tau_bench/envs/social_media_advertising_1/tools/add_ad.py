@@ -9,14 +9,7 @@ class AddAd(Tool):
     """Adds a new ad."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        ad_id = kwargs.get("ad_id")
-        adset_id = kwargs.get("adset_id")
-        name = kwargs.get("name")
-        creative_type = kwargs.get("creative_type")
-        status = kwargs.get("status")
-        start_date = kwargs.get("start_date")
-        end_date = kwargs.get("end_date")
+    def invoke(data: Dict[str, Any], ad_id, adset_id, creative_type, end_date, name, start_date, status) -> str:
 
         if not ad_id:
             return json.dumps({"error": "ad_id is a required parameter."})

@@ -7,13 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class GetAllArtifactsOfTypeWithTagsAndEmail(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        if not kwargs.get("artifact_type"):
+    def invoke(data: Dict[str, Any], artifact_type, owner_email, tags) -> str:
+        if not artifact_type:
             return json.dumps({"error": "Missing required field: artifact_type"}, indent=2)
-
-        artifact_type = kwargs.get("artifact_type")
-        tags = kwargs.get("tags")
-        owner_email = kwargs.get("owner_email")
 
         artifacts = list(data.get("figma_artifacts", {}).values())
         results = []

@@ -9,16 +9,7 @@ class AddAdSet(Tool):
     """Adds a new ad set."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        adset_id = kwargs.get("adset_id")
-        campaign_id = kwargs.get("campaign_id")
-        name = kwargs.get("name")
-        category = kwargs.get("category")
-        daily_budget = kwargs.get("daily_budget")
-        bid_strategy = kwargs.get("bid_strategy")
-        bid_amount = kwargs.get("bid_amount")
-        status = kwargs.get("status")
-        updated_at = kwargs.get("updated_at")
+    def invoke(data: Dict[str, Any], adset_id, bid_amount, bid_strategy, campaign_id, category, daily_budget, name, status, updated_at) -> str:
 
         if not adset_id:
             return json.dumps({"error": "adset_id is a required parameter."})

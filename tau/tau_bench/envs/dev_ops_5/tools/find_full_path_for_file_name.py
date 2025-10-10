@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class FindFullPathForFileName(Tool):
     """Finds the full file path for a given file name by searching the ownership map."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        file_name = kwargs.get("file_name")
+    def invoke(data: Dict[str, Any], file_name) -> str:
         ownership_map = data.get("ownership_map", [])
         
         # Locate a file path that concludes with the specified file name.

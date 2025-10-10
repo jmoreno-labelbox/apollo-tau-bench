@@ -29,8 +29,7 @@ class GetDiskSpaceTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        path = kwargs["path"]
+    def invoke(data: Dict[str, Any], path) -> str:
         available_space = 10**12  # 1 Terabyte
         data[f"disk_space_{path.replace('/', '_')}"] = available_space
         return json.dumps({"available_space": available_space, "path": path})

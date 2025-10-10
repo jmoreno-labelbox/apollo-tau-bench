@@ -17,11 +17,11 @@ class AdvanceReviewStatusTool(Tool):
     }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cycle_id = _require_str(kwargs.get("cycle_id"), "cycle_id")
-        new_status = _require_str(kwargs.get("new_status"), "new_status")
-        changed_ts = _require_str(kwargs.get("changed_ts"), "changed_ts")
-        allow_override = bool(kwargs.get("allow_override", False))
+    def invoke(data: Dict[str, Any], changed_ts, cycle_id, new_status, allow_override = False) -> str:
+        cycle_id = _require_str(cycle_id, "cycle_id")
+        new_status = _require_str(new_status, "new_status")
+        changed_ts = _require_str(changed_ts, "changed_ts")
+        allow_override = bool(allow_override)
         if not (cycle_id and new_status and changed_ts):
             return json.dumps({"error":"cycle_id, new_status, changed_ts required"})
 

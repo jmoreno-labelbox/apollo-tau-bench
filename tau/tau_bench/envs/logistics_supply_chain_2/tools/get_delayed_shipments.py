@@ -9,11 +9,11 @@ class GetDelayedShipments(Tool):
     """Tool to retrieve shipments whose expected arrival date is past but actual arrival date is missing."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], today, list_of_ids = None) -> str:
         from datetime import datetime
         shipments = list(data.get("inbound_shipments", {}).values())
-        list_of_shipments = kwargs.get("list_of_ids", None)
-        today = datetime.strptime(kwargs.get('today'), "%Y-%m-%d").date()
+        list_of_shipments = list_of_ids
+        today = datetime.strptime(today, "%Y-%m-%d").date()
         delayed = []
         for s in shipments:
             expected_arrival = s.get("expected_arrival_date")

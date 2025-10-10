@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetReturnAuthorizationDetails(Tool):
     """Retrieves details of a specific RMA."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        rma_id = kwargs.get('rma_id')
+    def invoke(data: Dict[str, Any], rma_id) -> str:
         if not rma_id:
             return json.dumps({"error": "rma_id is required."}, indent=2)
 

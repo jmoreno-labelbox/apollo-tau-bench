@@ -7,15 +7,12 @@ from tau_bench.envs.tool import Tool
 
 class NotifyStakeholders(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], attachments_asset_ids, body_html, thread_id) -> str:
         required = ["thread_id", "body_html", "attachments_asset_ids"]
         missing = [f for f in required if f not in kwargs or kwargs[f] is None]
         if missing:
             return json.dumps({"error": f"Missing required fields: {', '.join(missing)}"}, indent=2)
-
-        thread_id = kwargs.get("thread_id")
-        body_html = kwargs.get("body_html")
-        attachments_asset_ids: List[str] = kwargs.get("attachments_asset_ids")
+        attachments_asset_ids: List[str] = attachments_asset_ids
 
         threads: List[Dict[str, Any]] = list(data.get("gmail_threads", {}).values())
         messages: List[Dict[str, Any]] = list(data.get("gmail_messages", {}).values())

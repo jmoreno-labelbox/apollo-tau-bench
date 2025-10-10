@@ -21,9 +21,7 @@ class RemoveJointAccountHolderTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        account_id = kwargs.get("account_id")
-        holder_id = kwargs.get("holder_id")
+    def invoke(data: Dict[str, Any], account_id, holder_id) -> str:
         if not account_id or not holder_id:
             return json.dumps({"error": "Missing required parameters"}, indent=2)
         accounts = load_json("accounts_joint_holders.json")

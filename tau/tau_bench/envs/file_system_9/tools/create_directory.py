@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class CreateDirectory(Tool):
     """Creates a new directory."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        server_hostname = kwargs.get("server_hostname")
-        new_directory_path = kwargs.get("new_directory_path")
+    def invoke(data: Dict[str, Any], new_directory_path, server_hostname) -> str:
 
         for server in list(data.get("file_system", {}).values()):
             if server.get("hostname") == server_hostname:

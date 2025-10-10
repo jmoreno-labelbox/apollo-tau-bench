@@ -8,9 +8,8 @@ from tau_bench.envs.tool import Tool
 class DeleteRepo(Tool):
     """Delete a repository you own."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], name) -> str:
         me = _actor_name(data)
-        name = kwargs.get("name")
         if not name:
             raise RuntimeError("'name' is required")
         before = len(_repos(data))

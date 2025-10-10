@@ -9,9 +9,7 @@ class RoundNumberToUnit(Tool):
     """Rounds a number to the nearest multiple of a specified unit."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        number = kwargs.get("number")
-        unit = kwargs.get("unit")
+    def invoke(data: Dict[str, Any], number, unit) -> str:
         
         if number is None or unit is None:
             return json.dumps({"error": "number and unit are required parameters."})

@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class GetCampaignDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cid = kwargs.get("campaign_id")
+    def invoke(data: Dict[str, Any], campaign_id) -> str:
+        cid = campaign_id
         c = next((x for x in list(data.get("campaigns", {}).values()) if x.get("campaign_id") == cid), None)
         if not c:
             return json.dumps({"error": f"campaign_id {cid} not found"}, indent=2)

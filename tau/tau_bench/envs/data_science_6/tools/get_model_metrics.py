@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetModelMetrics(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        model_name = kwargs.get("model_name")
+    def invoke(data: Dict[str, Any], model_name) -> str:
         if not model_name:
             return json.dumps({"error": "Missing model_name"})
         for m in data.get("metrics", []):

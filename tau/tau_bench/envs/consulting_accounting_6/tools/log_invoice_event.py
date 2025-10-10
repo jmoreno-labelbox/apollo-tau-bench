@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class LogInvoiceEvent(Tool):
     """Append an audit event for an invoice (generated, emailed…)."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], event_type, invoice_id, invoice_number, notes) -> str:
         audits = data.get("invoice_audit", [])
         # Generate new audit IDs in the format AUD001, AUD002, etc.
         prefix, max_num = "AUD", 0
@@ -22,11 +22,11 @@ class LogInvoiceEvent(Tool):
         new_id = f"{prefix}{max_num + 1:03d}"
         row = {
             "audit_id": new_id,
-            "invoice_id": kwargs.get("invoice_id"),
-            "invoice_number": kwargs.get("invoice_number"),
-            "event_type": kwargs.get("event_type"),
+            "invoice_id": invoice_id,
+            "invoice_number": invoice_number,
+            "event_type": event_type,
             "event_timestamp": _now_iso(),
-            "notes": kwargs.get("notes")
+            "notes": notes
         }
         audits.append(row)
         return json.dumps(row, indent=2)

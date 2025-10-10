@@ -33,9 +33,7 @@ class UpdateArchiveStatusTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        archive_id = kwargs.get("archive_id")
-        status = kwargs.get("status")
+    def invoke(data: Dict[str, Any], archive_id, status) -> str:
         archive_task = next(
             (
                 t

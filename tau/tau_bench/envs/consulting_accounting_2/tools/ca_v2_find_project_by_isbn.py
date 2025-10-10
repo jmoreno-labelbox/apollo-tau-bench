@@ -9,8 +9,7 @@ class CaV2FindProjectByIsbn(Tool):
     """Find project by ISBN."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        isbn = kwargs.get("isbn")
+    def invoke(data: Dict[str, Any], isbn) -> str:
         if not isbn:
             return _error("isbn is required.")
         projects = list(data.get("projects", {}).values())

@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateExternalDependencyStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        dependency_id = kwargs.get("dependency_id")
-        new_status = kwargs.get("new_status")
-        actual_delivery_date = kwargs.get("actual_delivery_date")
+    def invoke(data: Dict[str, Any], actual_delivery_date, dependency_id, new_status) -> str:
 
         if not all([dependency_id, new_status]):
             return json.dumps({"error": "dependency_id and new_status are required"})

@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class DeleteAllocation(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        allocation_id = kwargs.get("allocation_id")
+    def invoke(data: Dict[str, Any], allocation_id) -> str:
         if not allocation_id:
             return json.dumps({"error": "allocation_id is required"})
 

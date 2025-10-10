@@ -7,12 +7,11 @@ from tau_bench.envs.tool import Tool
 
 class UpdateBankAccountBalance(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], account_id, balance, account_type = "") -> str:
         """
         Updates or inserts balance for a given bank account.
         """
-        account_id = kwargs["account_id"]
-        new_balance = kwargs["balance"]
+        new_balance = balance
         account = next((b for b in data["bank_accounts"] if b["account_id"] == account_id), None)
 
         if account:
@@ -20,7 +19,7 @@ class UpdateBankAccountBalance(Tool):
         else:
             account = {
                 "account_id": account_id,
-                "account_type": kwargs.get("account_type", ""),
+                "account_type": account_type,
                 "balance": new_balance
             }
             data["bank_accounts"].append(account)

@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class TrackChangeDependencies(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cr_id = kwargs.get("cr_id")
-        depends_on = kwargs.get("depends_on", [])
-        blocks = kwargs.get("blocks", [])
+    def invoke(data: Dict[str, Any], cr_id, blocks = [], depends_on = []) -> str:
 
         if not cr_id:
             return json.dumps({"error": "cr_id is required"})

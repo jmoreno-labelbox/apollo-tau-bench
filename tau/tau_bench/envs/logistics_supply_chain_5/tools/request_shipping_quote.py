@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class RequestShippingQuote(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        carrier_scac = kwargs.get("carrier_scac")
-        weight_kg = kwargs.get("weight_kg")
-        destination = kwargs.get("destination")
+    def invoke(data: Dict[str, Any], carrier_scac, destination, weight_kg) -> str:
 
         carriers = data.get("carriers", [])
 

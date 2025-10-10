@@ -9,12 +9,7 @@ class CaV2CreateDashboardSnapshot(Tool):
     """Create a dashboard snapshot with current financial metrics."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        snapshot_id = kwargs.get("snapshot_id")
-        snapshot_date = kwargs.get("snapshot_date")
-        ytd_revenue = kwargs.get("ytd_revenue")
-        ytd_tax_reserve = kwargs.get("ytd_tax_reserve")
-        pdf_path = kwargs.get("pdf_path")
+    def invoke(data: Dict[str, Any], pdf_path, snapshot_date, snapshot_id, ytd_revenue, ytd_tax_reserve) -> str:
 
         if not snapshot_date:
             return _error("snapshot_date is required")

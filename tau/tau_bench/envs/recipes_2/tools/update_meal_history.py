@@ -8,10 +8,7 @@ from tau_bench.envs.tool import Tool
 class UpdateMealHistory(Tool):
     """Updates an entry in the meal history, such as its preparation status or rating."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        history_id = kwargs.get("history_id")
-        was_prepared = kwargs.get("was_prepared")
-        rating_int = kwargs.get("rating_int")
+    def invoke(data: Dict[str, Any], history_id, rating_int, was_prepared) -> str:
 
         if history_id is None:
             return json.dumps({"error": "history_id parameter is required."})

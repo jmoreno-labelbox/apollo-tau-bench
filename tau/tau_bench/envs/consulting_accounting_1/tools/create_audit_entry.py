@@ -7,11 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class CreateAuditEntry(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], event_type, invoice_id, notes = "") -> str:
         import datetime as _dt
-        inv_id = kwargs.get("invoice_id")
-        event_type = kwargs.get("event_type")
-        notes = kwargs.get("notes", "")
+        inv_id = invoice_id
         if not inv_id or not event_type:
             return json.dumps({"error": "invoice_id and event_type are required"}, indent=2)
         audit = data.setdefault("invoice_audit", [])

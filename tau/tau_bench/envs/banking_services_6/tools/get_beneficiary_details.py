@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetBeneficiaryDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        beneficiary_id = kwargs.get("beneficiary_id")
+    def invoke(data: Dict[str, Any], beneficiary_id) -> str:
         beneficiary = next((b for b in list(data.get('beneficiaries', {}).values()) if b.get('beneficiary_id') == beneficiary_id), None)
 
         if beneficiary:

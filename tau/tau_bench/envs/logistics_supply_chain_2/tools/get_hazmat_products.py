@@ -9,9 +9,9 @@ class GetHazmatProducts(Tool):
     """Tool to list all hazardous material products."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], list_of_ids = None) -> str:
         products = list(data.get("product_master", {}).values())
-        list_of_products = kwargs.get("list_of_ids", None)
+        list_of_products = list_of_ids
         result = [p['sku'] for p in products if p.get("hazmat_information", {}).get("is_hazmat")]
         if list_of_products:
             result = [r for r in result if r in list_of_products]

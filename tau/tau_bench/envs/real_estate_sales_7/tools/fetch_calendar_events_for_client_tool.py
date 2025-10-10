@@ -9,13 +9,10 @@ class FetchCalendarEventsForClientTool(Tool):
     """Returns calendar events for a client, optionally within a date range."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        client_id = _as_int(kwargs.get("client_id"))
+    def invoke(data: Dict[str, Any], client_id, end_at, start_at) -> str:
+        client_id = _as_int(client_id)
         if client_id is None:
             return _err("client_id is required")
-
-        start_at = kwargs.get("start_at")
-        end_at = kwargs.get("end_at")
 
         events = [
             e

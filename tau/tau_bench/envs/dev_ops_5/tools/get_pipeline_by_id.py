@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class GetPipelineById(Tool):
     """Retrieves a pipeline by its ID."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        pipeline_id = kwargs.get("id")
+    def invoke(data: Dict[str, Any], id) -> str:
+        pipeline_id = id
         pipelines = list(data.get("pipelines", {}).values())
         for p in pipelines:
             if p.get("id") == pipeline_id:

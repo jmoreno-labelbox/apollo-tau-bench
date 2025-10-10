@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class RemoveCandidate(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        candidate_id = kwargs.get("candidate_id")
+    def invoke(data: Dict[str, Any], candidate_id) -> str:
         candidates = list(data.get("candidates", {}).values())
         data["candidates"] = [c for c in candidates if c.get("candidate_id") != candidate_id]
         return json.dumps({"removed_candidate_id": candidate_id}, indent=2)

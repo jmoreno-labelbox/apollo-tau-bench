@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetDelayedMilestones(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
-        include_recovery_plans = kwargs.get("include_recovery_plans", False)
+    def invoke(data: Dict[str, Any], project_id, include_recovery_plans = False) -> str:
 
         milestones = list(data.get("milestones", {}).values())
         recovery_plans = data.get("recovery_plans", [])

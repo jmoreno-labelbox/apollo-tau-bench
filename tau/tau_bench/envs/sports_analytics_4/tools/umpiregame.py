@@ -8,11 +8,7 @@ from tau_bench.envs.tool import Tool
 class Umpiregame(Tool):
     @staticmethod
         # primary execution method
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        game_pk = kwargs.get("game_pk")
-        zone_shift_x = kwargs.get("zone_shift_x")
-        zone_shift_z = kwargs.get("zone_shift_z")
-        calibration_error_pct = kwargs.get("calibration_error_pct")
+    def invoke(data: Dict[str, Any], calibration_error_pct, game_pk, zone_shift_x, zone_shift_z) -> str:
         data.setdefault("umpire_game_models", []).append({
             "umpire_game_id": f"ump_{len(data.get('umpire_game_models', []))+1}",
             "game_pk": game_pk,

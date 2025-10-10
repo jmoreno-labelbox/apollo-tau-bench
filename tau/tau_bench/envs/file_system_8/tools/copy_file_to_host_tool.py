@@ -28,9 +28,8 @@ class CopyFileToHostTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        log_name = kwargs["log_name"]
-        checksum_name = f"{kwargs['log_name']}.sha256"
+    def invoke(data: Dict[str, Any], log_name) -> str:
+        checksum_name = f"{log_name}.sha256"
         if log_name not in data or checksum_name not in data:
             return json.dumps({"error": "Log or checksum not found for copying."})
 

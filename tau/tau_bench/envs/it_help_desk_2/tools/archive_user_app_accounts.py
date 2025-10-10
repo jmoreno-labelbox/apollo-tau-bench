@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ArchiveUserAppAccounts(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
+    def invoke(data: Dict[str, Any], employee_id) -> str:
         app_accounts = data.get("app_accounts", [])
         archived_count = 0
         for acc in app_accounts:

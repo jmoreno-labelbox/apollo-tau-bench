@@ -9,11 +9,7 @@ class ScheduleOpenHouse(Tool):
     """Schedule an open house event for a property."""
     
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        property_id = kwargs.get('property_id')
-        date = kwargs.get('date')
-        start_time = kwargs.get('start_time')
-        end_time = kwargs.get('end_time')
+    def invoke(data: Dict[str, Any], date, end_time, property_id, start_time) -> str:
         
         if not all([property_id, date, start_time, end_time]):
             return json.dumps({

@@ -21,9 +21,7 @@ class VerifyCustomerIdentityTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
-        id_document = kwargs.get("id_document")
+    def invoke(data: Dict[str, Any], customer_id, id_document) -> str:
 
         if not customer_id or not id_document:
             return json.dumps(

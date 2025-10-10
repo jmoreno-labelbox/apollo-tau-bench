@@ -11,10 +11,7 @@ class make_transaction(Tool):
     """
 
     @staticmethod
-    def get_detailed_line_item_price(data, **kwargs):
-        sku = kwargs.get("sku")
-        barcode = kwargs.get("barcode")
-        quantity = kwargs.get("quantity", 1)
+    def get_detailed_line_item_price(data, barcode, sku, quantity = 1):
 
         if (sku is None) and (barcode is None):
             return json.dumps({"error": "sku or barcode must be sent"}, indent=2)
@@ -59,18 +56,11 @@ class make_transaction(Tool):
         return json.dumps({"error": "product not found"})
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        timestamp = kwargs.get("timestamp")
-        store_id = kwargs.get("store_id")
-        employee_id = kwargs.get("employee_id")
-        customer_id = kwargs.get("customer_id")
-        item_list = kwargs.get("line_items")
+    def invoke(data: Dict[str, Any], customer_id, employee_id, line_items, payment_amount, payment_method, status, store_id, timestamp, commit_transaction = True) -> str:
+        item_list = line_items
         if isinstance(item_list, str):
             item_list = json.loads(item_list)
-        payment_method = kwargs.get("payment_method")
-        status = kwargs.get("status")
-        amount_paid = kwargs.get("payment_amount")
-        commit_transaction = kwargs.get("commit_transaction", True)
+        amount_paid = payment_amount
 
         if (
             (store_id is None)

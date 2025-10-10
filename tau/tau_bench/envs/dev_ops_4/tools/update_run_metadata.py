@@ -25,9 +25,8 @@ class UpdateRunMetadata(Tool):
         }
 
     @staticmethod
-    def invoke(data, **kwargs):
-        run_id = kwargs.get("run_id")
-        patch = kwargs.get("metadata_patch") or {}
+    def invoke(data, metadata_patch, run_id):
+        patch = metadata_patch or {}
         runs = list(data.get("build_runs", {}).values())
         run = next((r for r in runs if r.get("id") == run_id), None)
         if not run:

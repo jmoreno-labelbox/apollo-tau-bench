@@ -8,9 +8,8 @@ from tau_bench.envs.tool import Tool
 class CreateSubmission(Tool):
     """Creates a new article submission."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        article_id, author_user_id = kwargs.get('article_id'), kwargs.get('author_user_id')
-        submission_id_override = kwargs.get('submission_id_override')
+    def invoke(data: Dict[str, Any], article_id, author_user_id, submission_id_override) -> str:
+        article_id, author_user_id = article_id, author_user_id
         if not all([article_id, author_user_id]):
             return json.dumps({"error": "article_id and author_user_id are required."})
         new_submission = {

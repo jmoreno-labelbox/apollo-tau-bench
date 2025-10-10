@@ -7,10 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class QueryWaterLevels(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        station = kwargs.get("station_id")
-        start = kwargs.get("start")
-        end = kwargs.get("end")
+    def invoke(data: Dict[str, Any], end, start, station_id) -> str:
+        station = station_id
         out = []
         for r in list(data.get("water_levels", {}).values()) or []:
             if station and r.get("station_id") != station:

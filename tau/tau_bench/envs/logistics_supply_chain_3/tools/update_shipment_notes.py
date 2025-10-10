@@ -9,9 +9,7 @@ class UpdateShipmentNotes(Tool):
     """Updates the notes for a specific inbound shipment."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        shipment_id = kwargs.get("shipment_id")
-        new_note = kwargs.get("new_note")
+    def invoke(data: Dict[str, Any], new_note, shipment_id) -> str:
         inbound_shipments = list(data.get("inbound_shipments", {}).values())
 
         for shipment in inbound_shipments:

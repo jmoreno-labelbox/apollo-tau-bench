@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetUserTargetRole(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
+    def invoke(data: Dict[str, Any], user_id) -> str:
         goals_data = data.get("goals", [])
 
         user_goals = [g for g in goals_data if g.get("user_id") == user_id]

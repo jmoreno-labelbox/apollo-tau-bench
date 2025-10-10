@@ -9,8 +9,7 @@ class SearchAdSetsByBidStrategy(Tool):
     """Searches for ad sets with a specific bid strategy."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        bid_strategy = kwargs.get("bid_strategy")
+    def invoke(data: Dict[str, Any], bid_strategy) -> str:
         adsets = list(data.get("adsets", {}).values())
         matching_adsets = []
         

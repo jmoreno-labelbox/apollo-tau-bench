@@ -8,13 +8,8 @@ from tau_bench.envs.tool import Tool
 class UpdateLocaleValidation(Tool):
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        loc_string_id = kwargs.get('loc_string_id')
-        string_key = kwargs.get('string_key')
-        locale = kwargs.get('locale')
-        new_status = kwargs.get('validation_status')
-        validation_error = kwargs.get('validation_error')
-        metadata = kwargs.get('metadata')
+    def invoke(data: Dict[str, Any], loc_string_id, locale, metadata, string_key, validation_error, validation_status) -> str:
+        new_status = validation_status
         loc_rows = _loc_table(data)
         target_row: Optional[Dict[str, Any]] = None
         for row in loc_rows:

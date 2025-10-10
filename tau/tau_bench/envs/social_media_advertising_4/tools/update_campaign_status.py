@@ -8,9 +8,8 @@ from tau_bench.envs.tool import Tool
 class UpdateCampaignStatus(Tool):
     """Changes the status of a campaign."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        campaign_id = kwargs.get("campaign_id")
-        new_status = kwargs.get("status")
+    def invoke(data: Dict[str, Any], campaign_id, status) -> str:
+        new_status = status
         for campaign in list(data.get('campaigns', {}).values()):
             if campaign.get('campaign_id') == campaign_id:
                 campaign['status'] = new_status

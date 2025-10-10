@@ -8,10 +8,10 @@ from tau_bench.envs.tool import Tool
 class CreateCampaign(Tool):
     """Creates a new advertising campaign."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], name, objective) -> str:
         campaigns = list(data.get('campaigns', {}).values())
         new_id = max((int(c['campaign_id']) for c in campaigns), default=0) + 1
-        new_campaign = {"campaign_id": str(new_id), "name": kwargs.get("name"), "objective": kwargs.get("objective"), "created_date": "2025-08-15", "status": "paused"}
+        new_campaign = {"campaign_id": str(new_id), "name": name, "objective": objective, "created_date": "2025-08-15", "status": "paused"}
         campaigns.append(new_campaign)
         data['campaigns'] = campaigns
         return json.dumps(new_campaign)

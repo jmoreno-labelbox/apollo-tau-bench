@@ -9,8 +9,7 @@ class DeleteAdSet(Tool):
     """Deletes an ad set."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        adset_id = kwargs.get("adset_id")
+    def invoke(data: Dict[str, Any], adset_id) -> str:
         if not adset_id:
             return json.dumps({"error": "adset_id is a required parameter."})
 

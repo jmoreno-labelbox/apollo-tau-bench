@@ -8,13 +8,13 @@ from . import _require
 
 class LogMcpToolCall(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], called_ts, params_json, response_meta_nullable, server_names, tool_names) -> str:
         req = ["server_names"]
         err = _require(kwargs, req)
         if err: return err
-        row = {"server_names": kwargs["server_names"], "tool_names": kwargs.get("tool_names"),
-               "params_json": kwargs.get("params_json"), "response_meta_nullable": kwargs.get("response_meta_nullable"),
-               "called_ts": kwargs.get("called_ts")}
+        row = {"server_names": server_names, "tool_names": tool_names,
+               "params_json": params_json, "response_meta_nullable": response_meta_nullable,
+               "called_ts": called_ts}
         return json.dumps(_append(data.setdefault("mcp_tool_calls", []), row), indent=2)
 
     @staticmethod

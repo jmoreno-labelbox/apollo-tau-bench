@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GenerateReportPDF(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        kpi_data_path = kwargs.get("kpi_data_path")
-        template_path = kwargs.get("template_path")
-        output_path = kwargs.get("output_path")
+    def invoke(data: Dict[str, Any], kpi_data_path, output_path, template_path) -> str:
         return json.dumps({"status": "generated", "output_path": output_path}, indent=2)
 
     @staticmethod

@@ -9,7 +9,7 @@ class SendEmail(Tool):
     """ A tool to send an email by creating a record in the database."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], receiver, sender, subject, text_content, timestamp) -> str:
         try:
             emails = data.get('emails', [])
         except (KeyError, json.JSONDecodeError):
@@ -20,11 +20,11 @@ class SendEmail(Tool):
 
         new_email = {
             "email_id": email_id,
-            "sender": kwargs.get("sender"),
-            "receiver": kwargs.get("receiver"),
-            "subject": kwargs.get("subject"),
-            "text_content": kwargs.get("text_content"),
-            "timestamp": kwargs.get("timestamp"),
+            "sender": sender,
+            "receiver": receiver,
+            "subject": subject,
+            "text_content": text_content,
+            "timestamp": timestamp,
         }
 
         emails.append(new_email)

@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class SearchResearchLogs(Tool):
     """Tool to search research logs."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        researcher_id = kwargs.get('researcher_id')
-        article_id = kwargs.get('article_id')
+    def invoke(data: Dict[str, Any], article_id, researcher_id) -> str:
 
         if not researcher_id and not article_id:
             return json.dumps({"error": "Either researcher_id or article_id is required."})

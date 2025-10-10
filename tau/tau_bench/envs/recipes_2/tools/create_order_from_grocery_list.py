@@ -8,12 +8,7 @@ from tau_bench.envs.tool import Tool
 class CreateOrderFromGroceryList(Tool):
     """Creates a new order from a grocery list."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        household_id = kwargs.get("household_id")
-        store_id = kwargs.get("store_id")
-        list_id = kwargs.get("list_id")
-        subtotal_cents = kwargs.get("subtotal_cents")
-        total_cents = kwargs.get("total_cents")
+    def invoke(data: Dict[str, Any], household_id, list_id, store_id, subtotal_cents, total_cents) -> str:
         
         orders = list(data.get("orders", {}).values())
         # Automatically create the subsequent order_id.

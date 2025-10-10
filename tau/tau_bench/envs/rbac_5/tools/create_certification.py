@@ -17,12 +17,9 @@ class CreateCertification(Tool):
       completed_on: str (optional) - If status=COMPLETED, explicit completion time; defaults to now
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        reviewer_id = kwargs.get("reviewer_id", "")
-        resource_id = kwargs.get("resource_id", "")
-        status = kwargs.get("status", "PENDING").upper()
-        due_date = kwargs.get("due_date")
-        completed_on_kw = kwargs.get("completed_on")
+    def invoke(data: Dict[str, Any], completed_on, due_date, resource_id = "", reviewer_id = "", status = "PENDING") -> str:
+        status = status.upper()
+        completed_on_kw = completed_on
 
         if not reviewer_id or not resource_id:
             return json.dumps({"error": "reviewer_id and resource_id are required"})

@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetDeliveryEstimate(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        destination_country = kwargs.get('destination_country')
-        delivery_option = kwargs.get('delivery_option', 'standard')
+    def invoke(data: Dict[str, Any], destination_country, delivery_option = 'standard') -> str:
 
         if not destination_country:
             return json.dumps({'error': 'destination_country is required'})

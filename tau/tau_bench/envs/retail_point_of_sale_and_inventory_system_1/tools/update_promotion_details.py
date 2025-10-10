@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdatePromotionDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        promotion_id = kwargs.get('promotion_id')
+    def invoke(data: Dict[str, Any], promotion_id) -> str:
         promotions = list(data.get("promotions", {}).values())
         updated_promo = None
         for promo in promotions:

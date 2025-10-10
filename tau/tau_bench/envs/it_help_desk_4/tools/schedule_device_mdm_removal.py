@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ScheduleDeviceMDMRemoval(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        asset_id = kwargs.get("asset_id")
-        last_day = kwargs.get("last_day")
+    def invoke(data: Dict[str, Any], asset_id, last_day) -> str:
         return json.dumps({"asset_id": asset_id, "removal_scheduled_for": last_day, "status": "pending_removal"}, indent=2)
 
     @staticmethod

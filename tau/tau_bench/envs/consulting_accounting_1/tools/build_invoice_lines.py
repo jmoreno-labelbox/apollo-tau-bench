@@ -7,9 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class BuildInvoiceLines(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        time_entries_ids = kwargs.get("time_entries", [])
-        hourly_rate = float(kwargs.get("hourly_rate", 0.0))
+    def invoke(data: Dict[str, Any], hourly_rate = 0.0, time_entries = []) -> str:
+        time_entries_ids = time_entries
+        hourly_rate = float(hourly_rate)
         entries_index = {t["time_entry_id"]: t for t in list(data.get("time_entries", {}).values())}
         lines = []
         subtotal = 0.0

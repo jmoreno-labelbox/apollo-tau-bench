@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class FindListingsInNeighborhoods(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        kwargs["neighborhood_ids"] = kwargs.get("neighborhood_ids") or []
+    def invoke(data: Dict[str, Any], neighborhood_ids) -> str:
+        neighborhood_ids = neighborhood_ids or []
         return FindListings.invoke(data, **kwargs)
 
     @staticmethod

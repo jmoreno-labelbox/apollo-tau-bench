@@ -9,9 +9,7 @@ from . import _first_user_id
 
 class GetUserByEmail(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        email = kwargs.get("email")
-        user_id = kwargs.get("user_id")
+    def invoke(data: Dict[str, Any], email, user_id) -> str:
         user = None
         if email:
             user = next((u for u in list(data.get("users", {}).values()) if u.get("email") == email), None)

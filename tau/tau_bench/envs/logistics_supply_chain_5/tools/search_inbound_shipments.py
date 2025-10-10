@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SearchInboundShipments(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        sku = kwargs.get("sku")
-        destination_warehouse_id = kwargs.get("destination_warehouse_id")
-        status = kwargs.get("status")
+    def invoke(data: Dict[str, Any], destination_warehouse_id, sku, status) -> str:
 
         inbound_shipments = list(data.get("inbound_shipments", {}).values())
         inventory = list(data.get("inventory", {}).values())

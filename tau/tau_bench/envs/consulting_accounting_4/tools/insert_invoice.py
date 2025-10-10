@@ -8,7 +8,7 @@ from . import _fixed_now_iso
 
 class InsertInvoice(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], hst_amount, invoice_date, invoice_number, pdf_path, period_end, period_start, publisher_id, subtotal, total_due) -> str:
         invoices = data.get("invoices", [])
         
         prefix = "INV"
@@ -28,15 +28,15 @@ class InsertInvoice(Tool):
 
         row = {
             "invoice_id": new_id,
-            "invoice_number": kwargs.get("invoice_number"),
-            "publisher_id": kwargs.get("publisher_id"),
-            "invoice_date": kwargs.get("invoice_date"),
-            "period_start": kwargs.get("period_start"),
-            "period_end": kwargs.get("period_end"),
-            "subtotal": kwargs.get("subtotal"),
-            "hst_amount": kwargs.get("hst_amount"),
-            "total_due": kwargs.get("total_due"),
-            "pdf_path": kwargs.get("pdf_path"),
+            "invoice_number": invoice_number,
+            "publisher_id": publisher_id,
+            "invoice_date": invoice_date,
+            "period_start": period_start,
+            "period_end": period_end,
+            "subtotal": subtotal,
+            "hst_amount": hst_amount,
+            "total_due": total_due,
+            "pdf_path": pdf_path,
             "sent_at": None,
             "paid_at": None,
             "created_at": _fixed_now_iso()

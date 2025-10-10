@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class AddOnboardingFile(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        new_file = kwargs.get("file") or {}
+    def invoke(data: Dict[str, Any], file) -> str:
+        new_file = file or {}
         files = list(data.get("onboarding_files", {}).values())
         files.append(new_file)
         data["onboarding_files"] = files

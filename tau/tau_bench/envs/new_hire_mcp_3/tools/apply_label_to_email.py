@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ApplyLabelToEmail(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        email_id = kwargs.get("email_id")
-        label_id = kwargs.get("label_id")
+    def invoke(data: Dict[str, Any], email_id, label_id) -> str:
         email_labels = list(data.get("email_labels", {}).values())
 
         # Locate the email within the list and assign the label.

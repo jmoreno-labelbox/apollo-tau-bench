@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class BulkAddLabelsToEmails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        message_ids = kwargs.get("message_ids", [])
-        label_ids = kwargs.get("label_ids", [])
+    def invoke(data: Dict[str, Any], label_ids = [], message_ids = []) -> str:
         rows = _ensure_list(data, "emails")
         updated = []
         for mid in message_ids:

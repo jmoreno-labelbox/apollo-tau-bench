@@ -7,15 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class UpdateFixItemStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], assignee_id, completion_date, fix_item_id, new_status, implementation_notes = '') -> str:
         """
         Updates the status of a fix item and manages the fix plan lifecycle.
         """
-        fix_item_id = kwargs.get('fix_item_id')
-        new_status = kwargs.get('new_status')
-        assignee_id = kwargs.get('assignee_id')
-        implementation_notes = kwargs.get('implementation_notes', '')
-        completion_date = kwargs.get('completion_date')
 
         if not all([fix_item_id, new_status]):
             return json.dumps({"error": "fix_item_id and new_status are required."})

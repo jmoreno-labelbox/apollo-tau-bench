@@ -9,9 +9,8 @@ class GetPendingAssetRequestsTool(Tool):
     """Retrieves asset_requests with status analysis and linked candidate information for fulfillment planning."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        status_filter = kwargs.get("status_filter")
-        role_filter = kwargs.get("candidate_role_filter")
+    def invoke(data: Dict[str, Any], candidate_role_filter, status_filter) -> str:
+        role_filter = candidate_role_filter
 
         asset_requests = data.get("asset_requests", [])
 

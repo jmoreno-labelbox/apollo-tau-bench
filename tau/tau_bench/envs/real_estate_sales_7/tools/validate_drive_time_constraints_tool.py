@@ -9,9 +9,9 @@ class ValidateDriveTimeConstraintsTool(Tool):
     """Validates that sequential hops between properties are within a max hop time."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        property_list = kwargs.get("property_list") or []
-        max_hop_minutes = _as_int(kwargs.get("max_hop_minutes"))
+    def invoke(data: Dict[str, Any], max_hop_minutes, property_list) -> str:
+        property_list = property_list or []
+        max_hop_minutes = _as_int(max_hop_minutes)
         if (
             not isinstance(property_list, list)
             or not property_list

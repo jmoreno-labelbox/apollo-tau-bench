@@ -9,11 +9,9 @@ class UpdateTicketStatusTool(Tool):
     """Update the status of a HubSpot ticket (write operation)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], status, ticket_id, updated_at) -> str:
         tickets = data.get("hubspot_tickets", [])
-        ticket_id = kwargs.get("ticket_id")
-        new_status = kwargs.get("status")
-        updated_at = kwargs.get("updated_at")
+        new_status = status
 
         if not isinstance(ticket_id, str):
             return json.dumps({"error": "ticket_id must be provided"}, indent=2)

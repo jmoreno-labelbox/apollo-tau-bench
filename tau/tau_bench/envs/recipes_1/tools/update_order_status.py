@@ -9,9 +9,7 @@ from . import _require, _json_dump
 class UpdateOrderStatus(Tool):
     """Set orders.status_enum to a new value (e.g., 'placed', 'delivered')."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        order_id = kwargs.get("order_id")
-        new_status = kwargs.get("new_status")
+    def invoke(data: Dict[str, Any], new_status, order_id) -> str:
         if order_id is None or not new_status:
             return _json_dump({"error": "order_id and new_status are required"})
         row = _require(data, "orders", "order_id", int(order_id))

@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SetWaterLevels(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        station_id = kwargs.get("station_id")
+    def invoke(data: Dict[str, Any], station_id) -> str:
         # This is a simulated environment; in reality, it would retrieve data from NOAA.
 
         water_level_data = {

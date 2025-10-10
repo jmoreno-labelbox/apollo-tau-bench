@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ComposeInvoicePdf(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        invoice_id = kwargs.get("invoice_id")
-        publisher_id = kwargs.get("publisher_id")
+    def invoke(data: Dict[str, Any], invoice_id, publisher_id) -> str:
         if not invoice_id or not publisher_id:
             return json.dumps({"error": "invoice_id and publisher_id are required"}, indent=2)
         path = f"/invoices/auto/{invoice_id}.pdf"

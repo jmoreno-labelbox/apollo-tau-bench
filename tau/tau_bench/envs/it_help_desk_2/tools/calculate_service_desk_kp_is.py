@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CalculateServiceDeskKPIs(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        input_path = kwargs.get("input_path")
-        metrics = kwargs.get("metrics")
-        output_path = kwargs.get("output_path")
+    def invoke(data: Dict[str, Any], input_path, metrics, output_path) -> str:
         kpis = {"total_open": 46, "avg_age_open_hours": 23.5, "avg_ttr_mins": 1440, "pct_closed_1d": 60.0, "p1_open_count": 5}
         return json.dumps({"kpis": kpis, "output_path": output_path}, indent=2)
 

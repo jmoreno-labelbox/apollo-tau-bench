@@ -7,10 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class remove_employee(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], employee_id) -> str:
         employees = list(data.get("employees", {}).values())
-
-        employee_id = kwargs.get("employee_id")
 
         if employee_id is None:
             return json.dumps({"error": "employee_id must be sent"}, indent=2)

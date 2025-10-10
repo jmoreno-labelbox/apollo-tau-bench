@@ -16,11 +16,7 @@ class GetSession(Tool):
       only_active: bool = False - Only return sessions without end_time
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        session_id = kwargs.get("session_id")
-        user_id = kwargs.get("user_id")
-        ip_address = kwargs.get("ip_address")
-        only_active = kwargs.get("only_active", False)
+    def invoke(data: Dict[str, Any], ip_address, session_id, user_id, only_active = False) -> str:
 
         sessions = data.get("sessions", [])
 

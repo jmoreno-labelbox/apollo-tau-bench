@@ -24,9 +24,7 @@ class AttachCourierByNameTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        order_id = kwargs.get("order_id")
-        courier_name = kwargs.get("courier_name")
+    def invoke(data: Dict[str, Any], courier_name, order_id) -> str:
 
         if not order_id or not courier_name:
             return json.dumps({"error": "order_id and courier_name are required"}, indent=2)

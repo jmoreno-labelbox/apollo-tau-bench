@@ -9,8 +9,7 @@ class GetWarehouseDetails(Tool):
     """Retrieves the full details for a warehouse by its ID."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        warehouse_id = kwargs.get("warehouse_id")
+    def invoke(data: Dict[str, Any], warehouse_id) -> str:
         warehouses = list(data.get("warehouses", {}).values())
         for warehouse in warehouses:
             if warehouse.get("warehouse_id") == warehouse_id:

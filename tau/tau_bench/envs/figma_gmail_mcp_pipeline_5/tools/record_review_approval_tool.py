@@ -9,12 +9,11 @@ class RecordReviewApprovalTool(Tool):
     """Record a reviewer decision for a cycle (deterministic approval_id)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cycle_id = _require_str(kwargs.get("cycle_id"), "cycle_id")
-        approver_email = _require_str(kwargs.get("approver_email"), "approver_email")
-        decision = _require_str(kwargs.get("decision"), "decision")  # AUTHORIZED|MODIFICATIONS_NEEDED|DENIED
-        decided_ts = _require_str(kwargs.get("decided_ts"), "decided_ts")
-        comment = kwargs.get("comment","")
+    def invoke(data: Dict[str, Any], approver_email, cycle_id, decided_ts, decision, comment = "") -> str:
+        cycle_id = _require_str(cycle_id, "cycle_id")
+        approver_email = _require_str(approver_email, "approver_email")
+        decision = _require_str(decision, "decision")  # AUTHORIZED|MODIFICATIONS_NEEDED|DENIED
+        decided_ts = _require_str(decided_ts, "decided_ts")
         if not all([cycle_id, approver_email, decision, decided_ts]):
             return json.dumps({"error":"cycle_id, approver_email, decision, decided_ts required"})
 

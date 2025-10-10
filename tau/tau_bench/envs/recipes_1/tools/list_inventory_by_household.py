@@ -9,9 +9,7 @@ from . import _json_dump
 class ListInventoryByHousehold(Tool):
     """Return all inventory_items for a household (optionally filtered by location)."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        household_id = kwargs.get("household_id")
-        location_enum = kwargs.get("location_enum")
+    def invoke(data: Dict[str, Any], household_id, location_enum) -> str:
         if household_id is None:
             return _json_dump({"error": "household_id is required"})
         rows = [i for i in list(data.get("inventory_items", {}).values()) if int(i.get("household_id")) == int(household_id)]

@@ -9,15 +9,7 @@ class CreateCalendarEvent(Tool):
     """Create a calendar event for a client meeting or appointment."""
     
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        broker_id = kwargs.get('broker_id')
-        client_id = kwargs.get('client_id')
-        title = kwargs.get('title')
-        start_at = kwargs.get('start_at')
-        end_at = kwargs.get('end_at')
-        location = kwargs.get('location')
-        notes = kwargs.get('notes')
-        source = kwargs.get('source')
+    def invoke(data: Dict[str, Any], broker_id, client_id, end_at, location, notes, source, start_at, title) -> str:
         
         if not all([broker_id, client_id, title, start_at, end_at]):
             return json.dumps({

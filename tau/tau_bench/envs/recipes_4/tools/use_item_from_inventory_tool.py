@@ -47,7 +47,7 @@ class UseItemFromInventoryTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> Dict[str, Any]:
+    def invoke(data: Dict[str, Any], household_id, ingredient_id, quantity, user_id) -> Dict[str, Any]:
         """
         Executes the logic to consume an inventory item.
 
@@ -69,11 +69,7 @@ class UseItemFromInventoryTool(Tool):
         validation_error = _validate_inputs(kwargs, param_definitions)
         if validation_error:
             return _build_error_response(validation_error["error_code"], validation_error["details"])
-
-        household_id = kwargs["household_id"]
-        ingredient_id = kwargs["ingredient_id"]
-        quantity_used = kwargs["quantity"]
-        user_id = kwargs.get("user_id")
+        quantity_used = quantity
 
         inventory_table = data.get("inventory_items", [])
 

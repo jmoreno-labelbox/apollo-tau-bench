@@ -9,10 +9,9 @@ class GetCarriersByMode(Tool):
     """Tool to retrieve carriers by supported mode."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], list_of_scacs = None, mode = None) -> str:
         carriers = list(data.get("carriers", {}).values())
-        mode = kwargs.get("mode", None)
-        list_of_carriers = kwargs.get("list_of_scacs", None)
+        list_of_carriers = list_of_scacs
         if mode:
             active_carriers = [carrier['scac'] for carrier in carriers if carrier.get("active_status") and mode in carrier.get("supported_modes")]
         else:

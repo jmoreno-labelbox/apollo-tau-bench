@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class AuditTimeEntries(Tool):
     """Validate the presence of ISBN and account_code for billable entries."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        rows = kwargs.get("rows") or []
+    def invoke(data: Dict[str, Any], rows) -> str:
+        rows = rows or []
         missing = [r for r in rows
                    if not r.get("description") or not r.get("isbn") or not r.get("account_code")]
         return json.dumps({"valid": len(missing) == 0, "missing_count": len(missing)}, indent=2)

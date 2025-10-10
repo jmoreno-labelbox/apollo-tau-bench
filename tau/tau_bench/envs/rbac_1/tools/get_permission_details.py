@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetPermissionDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        permission_id = kwargs.get("permission_id")
-        permission_name = kwargs.get("permission_name")
+    def invoke(data: Dict[str, Any], permission_id, permission_name) -> str:
 
         if not permission_id and not permission_name:
             return json.dumps({"error": "Either permission_id or permission_name must be provided."})

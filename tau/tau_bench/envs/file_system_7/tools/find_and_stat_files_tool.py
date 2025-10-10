@@ -27,8 +27,7 @@ class FindAndStatFilesTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        last_access_days = kwargs.get("last_access_days")
+    def invoke(data: Dict[str, Any], last_access_days) -> str:
         log_name = "file_check_log.json"
         all_remote_files: List[Dict[str, Any]] = []
 

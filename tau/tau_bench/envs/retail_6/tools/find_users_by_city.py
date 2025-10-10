@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class FindUsersByCity(Tool):
     """List users in a given city (exact match)."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        city = kwargs.get('city')
+    def invoke(data, city) -> str:
         if not city:
             return json.dumps({"error":"city is required"}, indent=2)
         users = list(data.get('users', {}).values())

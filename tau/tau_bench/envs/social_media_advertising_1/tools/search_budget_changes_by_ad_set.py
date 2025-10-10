@@ -9,8 +9,7 @@ class SearchBudgetChangesByAdSet(Tool):
     """Searches for budget changes for a specific ad set."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        adset_id = kwargs.get("adset_id")
+    def invoke(data: Dict[str, Any], adset_id) -> str:
         changes = list(data.get("budget_changes", {}).values())
         matching_changes = []
         

@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class FindAvailableAsset(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        asset_type = kwargs.get("asset_type")
+    def invoke(data: Dict[str, Any], asset_type) -> str:
         assets = data.get("it_assets", [])
         asset = next((a for a in assets if a.get("asset_type") == asset_type and a.get("status") == "in_stock"), None)
         if not asset:

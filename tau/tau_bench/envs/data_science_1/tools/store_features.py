@@ -8,11 +8,11 @@ from . import _require
 
 class StoreFeatures(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], csv_path, definitions_nullable, feature_names, generated_ts) -> str:
         err = _require(kwargs, ["csv_path", "feature_names"])
         if err: return err
-        row = {"csv_path": kwargs["csv_path"], "feature_names": kwargs["feature_names"],
-               "definitions_nullable": kwargs.get("definitions_nullable"), "generated_ts": kwargs.get("generated_ts")}
+        row = {"csv_path": csv_path, "feature_names": feature_names,
+               "definitions_nullable": definitions_nullable, "generated_ts": generated_ts}
         return json.dumps(_append(data.setdefault("features", []), row), indent=2)
 
     @staticmethod

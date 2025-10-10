@@ -9,8 +9,8 @@ class FetchClientFullContextTool(Tool):
     """Aggregates client preferences, mortgage profile, inferred assigned broker, and recent-activity counts."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        client_id = _as_int(kwargs.get("client_id"))
+    def invoke(data: Dict[str, Any], client_id) -> str:
+        client_id = _as_int(client_id)
         if client_id is None:
             return _err("client_id is required")
 

@@ -9,9 +9,7 @@ class NotifyManagerTool(Tool):
     """Sends a standardized notification email to a candidate's manager."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        candidate_id = kwargs.get("candidate_id")
-        notification_type = kwargs.get("notification_type")
+    def invoke(data: Dict[str, Any], candidate_id, notification_type) -> str:
 
         if not candidate_id or not notification_type:
             return _err("candidate_id and notification_type are required.")

@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SetAdsetStrategy(Tool):
     @staticmethod
-    def invoke(data, **kwargs) -> str:
+    def invoke(data, adset_id, bid_amount, bid_strategy, new_budget, reason) -> str:
         """
         Set an ad set's bidding strategy and (when applicable) bid amount. Must include an audit reason.
         Required: adset_id (str), bid_strategy ('cost_cap'|'lowest_cost'|'bid_cap'), reason (str)
@@ -19,11 +19,7 @@ class SetAdsetStrategy(Tool):
         """
         import json, time
 
-        adset_id = str(kwargs["adset_id"])
-        bid_strategy = kwargs["bid_strategy"]
-        reason = kwargs["reason"]
-        bid_amount = kwargs.get("bid_amount")
-        new_budget = kwargs.get("new_budget")
+        adset_id = str(adset_id)
 
         if bid_strategy in ("cost_cap", "bid_cap") and bid_amount is None:
             return json.dumps({"ok": False, "error": "bid_amount is required for cost_cap or bid_cap"}, indent=2)

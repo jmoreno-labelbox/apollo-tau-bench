@@ -9,9 +9,7 @@ class UpdateInboundShipment(Tool):
     """Tool to update inbound shipment information."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        shipment_id = kwargs.get("shipment_id")
-        updates = kwargs.get("updates")
+    def invoke(data: Dict[str, Any], shipment_id, updates) -> str:
         shipments = list(data.get("inbound_shipments", {}).values())
 
         for shipment in shipments:

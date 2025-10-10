@@ -9,13 +9,13 @@ from . import _require_tables
 class ListCuratedInsights(Tool):
     """List curated_insights by player_id and/or report_id, optional min supporting_stat_value. Sorted by value desc, player_id asc."""
     @staticmethod
-    def invoke(data, **kwargs)->str:
+    def invoke(data, min_supporting_stat_value, player_id, report_id)->str:
         err = _require_tables(data, ["curated_insights"])
         if err:
             return json.dumps({"error": err}, indent=2)
-        pid = kwargs.get("player_id")
-        rid = kwargs.get("report_id")
-        min_val = kwargs.get("min_supporting_stat_value")
+        pid = player_id
+        rid = report_id
+        min_val = min_supporting_stat_value
         rows = list(data.get("curated_insights", {}).values())
         if pid is not None:
             rows = [r for r in rows if r.get("player_id")==pid]

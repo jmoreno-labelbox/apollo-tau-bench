@@ -7,9 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class ComputeYtdFromMonthlyRevenue(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        year = kwargs.get("year")
-        through = kwargs.get("through_month")
+    def invoke(data: Dict[str, Any], through_month, year) -> str:
+        through = through_month
         if not year or not through:
             return json.dumps({"error":"year and through_month are required"}, indent=2)
         rows = [r for r in list(data.get("monthly_revenue", {}).values()) if str(r.get("month_year","")).startswith(f"{year}-")]

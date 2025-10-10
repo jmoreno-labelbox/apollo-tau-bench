@@ -9,10 +9,7 @@ class CalculateCampaignROASForPeriod(Tool):
     """Calculates ROAS for a campaign over a period."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        campaign_id = kwargs.get("campaign_id")
-        start_date = kwargs.get("start_date")
-        end_date = kwargs.get("end_date")
+    def invoke(data: Dict[str, Any], campaign_id, end_date, start_date) -> str:
         
         adsets = list(data.get("adsets", {}).values())
         campaign_adsets = [adset for adset in adsets if adset.get("campaign_id") == campaign_id]

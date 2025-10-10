@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class SetFixProposalOnRun(Tool):
     """Set fix_proposal_id on a run."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        run_id = kwargs.get("run_id")
-        fix_proposal_id = kwargs.get("fix_proposal_id")
+    def invoke(data: Dict[str, Any], fix_proposal_id, run_id) -> str:
         runs = list(data.get("build_runs", {}).values())
         idx = _idx_by_id(runs, run_id)
         updated = None

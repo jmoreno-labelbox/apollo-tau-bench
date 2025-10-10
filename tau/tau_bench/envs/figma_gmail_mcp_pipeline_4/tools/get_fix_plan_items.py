@@ -7,18 +7,15 @@ from tau_bench.envs.tool import Tool
 
 class GetFixPlanItems(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], plan_id, severity, status, include_resolved = False, limit = 50, plan_ids = []) -> str:
         """
         Retrieves fix items for one or more fix plans with filtering options.
         """
-        plan_ids = kwargs.get('plan_ids', [])
-        status_filter = kwargs.get('status')
-        severity_filter = kwargs.get('severity')
-        include_resolved = kwargs.get('include_resolved', False)
-        limit = kwargs.get('limit', 50)
+        status_filter = status
+        severity_filter = severity
 
         if not plan_ids and 'plan_id' in kwargs:
-            plan_ids = [kwargs['plan_id']]
+            plan_ids = [plan_id]
 
         if not plan_ids:
             return json.dumps({"error": "At least one plan_id is required"})

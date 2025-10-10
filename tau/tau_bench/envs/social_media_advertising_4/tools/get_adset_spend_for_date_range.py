@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class GetAdsetSpendForDateRange(Tool):
     """Calculates total spend for an ad set over a range."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        adset_id, start_str, end_str = kwargs.get("adset_id"), kwargs.get("start_date"), kwargs.get("end_date")
+    def invoke(data: Dict[str, Any], adset_id, end_date, start_date) -> str:
+        adset_id, start_str, end_str = adset_id, start_date, end_date
         start, end = datetime.strptime(start_str, "%Y-%m-%d").date(), datetime.strptime(end_str, "%Y-%m-%d").date()
         total_spend = sum(i.get('spend', 0) for i in data.get('f_insights', []) if i.get('adset_id') == adset_id and start <= datetime.strptime(i['date'], "%Y-%m-%d").date() <= end)
         return json.dumps({"adset_id": adset_id, "start_date": start_str, "end_date": end_str, "total_spend": round(total_spend, 2)})

@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetUserGroupMemberships(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        account_id = kwargs.get("account_id")
+    def invoke(data: Dict[str, Any], account_id) -> str:
         account = next((a for a in data.get("directory_accounts", []) if a.get("account_id") == account_id), None)
         if account and "group_ids" in account:
             return json.dumps({"account_id": account_id, "group_ids": account["group_ids"]}, indent=2)

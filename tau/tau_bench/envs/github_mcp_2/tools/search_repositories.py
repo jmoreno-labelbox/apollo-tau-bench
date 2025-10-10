@@ -9,9 +9,9 @@ class SearchRepositories(Tool):
     """Searches repositories by name substring or owner."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        name_query = kwargs.get("name", "").lower()
-        owner_query = kwargs.get("owner", "").lower()
+    def invoke(data: Dict[str, Any], name = "", owner = "") -> str:
+        name_query = name.lower()
+        owner_query = owner.lower()
         results = []
 
         for repo in _repos(data):

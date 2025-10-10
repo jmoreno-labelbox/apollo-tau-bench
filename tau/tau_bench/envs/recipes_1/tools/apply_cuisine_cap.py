@@ -9,9 +9,8 @@ from . import _json_dump
 class ApplyCuisineCap(Tool):
     """Limit a list of recipe_ids to at most N per cuisine."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        recipe_ids_json = kwargs.get("recipe_ids_json", "[]")
-        max_per_cuisine = int(kwargs.get("max_per_cuisine", 2))
+    def invoke(data: Dict[str, Any], max_per_cuisine = 2, recipe_ids_json = "[]") -> str:
+        max_per_cuisine = int(max_per_cuisine)
         ids = _parse_json_list_ids(recipe_ids_json)
         counts: Dict[str, int] = {}
         selected: List[int] = []

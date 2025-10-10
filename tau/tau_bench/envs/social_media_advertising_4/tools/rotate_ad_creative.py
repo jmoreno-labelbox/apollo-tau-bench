@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class RotateAdCreative(Tool):
     """Pauses one ad and activates another."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        ad_to_activate, ad_to_pause = kwargs.get("ad_id_to_activate"), kwargs.get("ad_id_to_pause")
+    def invoke(data: Dict[str, Any], ad_id_to_activate, ad_id_to_pause) -> str:
+        ad_to_activate, ad_to_pause = ad_id_to_activate, ad_id_to_pause
         activated, paused = False, False
         for ad in list(data.get('ads', {}).values()):
             if ad.get('ad_id') == ad_to_activate:

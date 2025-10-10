@@ -7,10 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetDashboardSnapshotDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], snapshot_date, snapshot_id) -> str:
         snaps = data.get("dashboard_snapshots", [])
-        sid = kwargs.get("snapshot_id")
-        sdate = kwargs.get("snapshot_date")
+        sid = snapshot_id
+        sdate = snapshot_date
         row = None
         if sid is not None:
             row = next((s for s in snaps if str(s.get("snapshot_id")) == str(sid)), None)

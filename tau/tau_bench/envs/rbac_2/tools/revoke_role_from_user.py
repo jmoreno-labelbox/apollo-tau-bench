@@ -9,8 +9,7 @@ class RevokeRoleFromUser(Tool):
     """ Revokes a specific role from a user by deleting the user-role entry from the database."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_role_id = kwargs.get("user_role_id")
+    def invoke(data: Dict[str, Any], user_role_id) -> str:
         try:
             user_roles = data.get('user_roles', [])
         except:

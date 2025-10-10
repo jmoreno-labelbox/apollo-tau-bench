@@ -7,9 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class GenerateExpenseDashboard(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        quarter = kwargs.get("quarter")
-        included = kwargs.get("included_expenses", [])
+    def invoke(data: Dict[str, Any], quarter, included_expenses = []) -> str:
+        included = included_expenses
         if not quarter or not isinstance(included, list):
             return json.dumps({"error": "quarter and included_expenses list are required"}, indent=2)
         path = f"/dashboards/ExpenseDashboards/{quarter}/expense_dashboard_{quarter}.pdf"

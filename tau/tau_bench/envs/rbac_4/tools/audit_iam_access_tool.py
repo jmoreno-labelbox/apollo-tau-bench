@@ -9,9 +9,9 @@ class AuditIamAccessTool(Tool):
     """List IAM access audit logs between timestamps."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        start = kwargs.get("start_time")
-        end = kwargs.get("end_time")
+    def invoke(data: Dict[str, Any], end_time, start_time) -> str:
+        start = start_time
+        end = end_time
         logs = data.get("audit_logs", [])
         results = [l for l in logs if start <= l["timestamp"] <= end and "IAM" in l.get("details", "")]
         return json.dumps(results, indent=2)

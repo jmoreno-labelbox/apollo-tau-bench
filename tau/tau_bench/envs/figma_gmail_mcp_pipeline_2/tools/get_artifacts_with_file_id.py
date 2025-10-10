@@ -7,14 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class GetArtifactsWithFileId(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        if not kwargs.get("figma_file_id"):
+    def invoke(data: Dict[str, Any], artifact_type, figma_file_id, frame_id, page_id) -> str:
+        if not figma_file_id:
             return json.dumps({"error": "Missing required field: figma_file_id"}, indent=2)
-
-        figma_file_id = kwargs.get("figma_file_id")
-        artifact_type = kwargs.get("artifact_type")
-        page_id = kwargs.get("page_id")
-        frame_id = kwargs.get("frame_id")
 
         artifacts = list(data.get("figma_artifacts", {}).values())
         results = []

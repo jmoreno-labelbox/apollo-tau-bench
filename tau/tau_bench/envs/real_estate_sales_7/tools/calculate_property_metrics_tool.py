@@ -38,10 +38,9 @@ class CalculatePropertyMetricsTool(Tool):
         return loan_amount * (r * (1 + r) ** n) / ((1 + r) ** n - 1)
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        subject_property_id = kwargs.get("subject_property_id")
-        comparable_properties = kwargs.get("comparable_properties") or []
-        client_budget = kwargs.get("client_budget") or {}
+    def invoke(data: Dict[str, Any], client_budget, comparable_properties, subject_property_id) -> str:
+        comparable_properties = comparable_properties or []
+        client_budget = client_budget or {}
         if not subject_property_id:
             return _err("subject_property_id is required")
 

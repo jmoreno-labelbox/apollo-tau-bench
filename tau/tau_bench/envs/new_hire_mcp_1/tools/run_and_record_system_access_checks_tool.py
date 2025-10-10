@@ -9,9 +9,7 @@ class RunAndRecordSystemAccessChecksTool(Tool):
     """Checks necessary system access for one or more candidates based on their role and records the results."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        candidate_id = kwargs.get("candidate_id")
-        candidate_ids = kwargs.get("candidate_ids")
+    def invoke(data: Dict[str, Any], candidate_id, candidate_ids) -> str:
 
         ids_to_process = []
         if candidate_ids:

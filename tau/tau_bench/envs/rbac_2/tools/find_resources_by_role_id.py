@@ -9,8 +9,7 @@ class FindResourcesByRoleId(Tool):
     """Finds all resource IDs that a specific role grants permissions to."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        role_id = kwargs.get("role_id")
+    def invoke(data: Dict[str, Any], role_id) -> str:
         try:
             role_permissions = data.get('role_permissions', [])
             permissions = list(data.get('permissions', {}).values())

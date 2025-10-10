@@ -8,9 +8,9 @@ from . import _fixed_now_iso
 
 class ModifyAttachment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        updates = kwargs.get("updates") or {}
-        attach_id = kwargs.get("attachment_id")
+    def invoke(data: Dict[str, Any], attachment_id, updates) -> str:
+        updates = updates or {}
+        attach_id = attachment_id
         attachments = list(data.get("attachments", {}).values())
         for a in attachments:
             if a.get("attachment_id") == attach_id:

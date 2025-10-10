@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class AdjustOrderPayment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        order_id = kwargs.get('order_id')
-        payment_method_id = kwargs.get('payment_method_id')
+    def invoke(data: Dict[str, Any], order_id, payment_method_id) -> str:
 
         if not order_id or not payment_method_id:
             return json.dumps({'error': 'order_id and payment_method_id are required'})

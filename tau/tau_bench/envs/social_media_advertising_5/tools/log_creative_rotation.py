@@ -7,12 +7,12 @@ from tau_bench.envs.tool import Tool
 
 class LogCreativeRotation(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], adset_id, new_ad_id, old_ad_id, rationale, rotated_at) -> str:
         rows = list(data.get("creative_rotations", {}).values())
         nid = f"CR-{max((int(r['rotation_id'][3:]) for r in rows), default=0) + 1}"
-        rec = {"rotation_id": nid, "adset_id": kwargs.get("adset_id"), "old_ad_id": kwargs.get("old_ad_id"),
-               "new_ad_id": kwargs.get("new_ad_id"), "rotated_at": kwargs.get("rotated_at"),
-               "rationale": kwargs.get("rationale")}
+        rec = {"rotation_id": nid, "adset_id": adset_id, "old_ad_id": old_ad_id,
+               "new_ad_id": new_ad_id, "rotated_at": rotated_at,
+               "rationale": rationale}
         rows.append(rec)
         data["creative_rotations"] = rows
         return json.dumps(rec)

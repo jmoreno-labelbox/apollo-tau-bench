@@ -22,9 +22,7 @@ class FindOrdersByUserAndStatusTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
-        status = kwargs.get("status")
+    def invoke(data: Dict[str, Any], status, user_id) -> str:
 
         if not user_id:
             return json.dumps({"error": "user_id is required"}, indent=2)

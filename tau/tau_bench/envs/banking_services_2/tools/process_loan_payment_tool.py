@@ -9,10 +9,7 @@ from . import generate_unique_id
 
 class ProcessLoanPaymentTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        loan_id = kwargs.get('loan_id')
-        payment_amount = kwargs.get('payment_amount')
-        from_account_id = kwargs.get('from_account_id')
+    def invoke(data: Dict[str, Any], from_account_id, loan_id, payment_amount) -> str:
 
         loans = list(data.get('loans', {}).values())
         accounts = list(data.get('accounts', {}).values())

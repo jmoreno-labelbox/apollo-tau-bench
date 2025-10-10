@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CheckTimeLoggingCompliance(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        sprint_id = kwargs.get("sprint_id")
-        check_all = kwargs.get("check_all", False)
+    def invoke(data: Dict[str, Any], sprint_id, check_all = False) -> str:
 
         tasks = list(data.get("tasks", {}).values())
         time_logs = list(data.get("time_logs", {}).values())

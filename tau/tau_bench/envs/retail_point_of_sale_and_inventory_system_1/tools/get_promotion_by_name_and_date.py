@@ -7,9 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class GetPromotionByNameAndDate(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        promotion_name = kwargs.get('promotion_name')
-        query_date_str = kwargs.get('query_date')
+    def invoke(data: Dict[str, Any], promotion_name, query_date) -> str:
+        query_date_str = query_date
         promotions = list(data.get("promotions", {}).values())
 
         if not query_date_str:

@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CheckProductAvailability(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        item_id = kwargs.get('item_id')
-        product_id = kwargs.get('product_id')
+    def invoke(data: Dict[str, Any], item_id, product_id) -> str:
 
         if not item_id and not product_id:
             return json.dumps({'error': 'Either item_id or product_id is required'})

@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetRecipeDetails(Tool):
     """Retrieves the full details for a specific recipe ID."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        recipe_id = kwargs.get("recipe_id")
+    def invoke(data: Dict[str, Any], recipe_id) -> str:
         recipes = list(data.get("recipes", {}).values())
         for recipe in recipes:
             if recipe.get("recipe_id") == recipe_id:

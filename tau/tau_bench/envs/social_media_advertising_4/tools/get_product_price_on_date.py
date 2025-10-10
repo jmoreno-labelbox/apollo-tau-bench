@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class GetProductPriceOnDate(Tool):
     """Looks up the price of a product on a specific date."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        product_id, query_date = kwargs.get("product_id"), kwargs.get("date")
+    def invoke(data: Dict[str, Any], date, product_id) -> str:
+        product_id, query_date = product_id, date
         for entry in data.get('f_price', []):
             if entry.get('product_id') == product_id and entry.get('date') == query_date:
                 return json.dumps(entry)

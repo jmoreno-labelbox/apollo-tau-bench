@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class CheckRemoteDiskSpace(Tool):
     """Checks the available disk space on a remote server's filesystem."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        hostname = kwargs.get("hostname")
+    def invoke(data: Dict[str, Any], hostname) -> str:
         for server_resources in data.get('system_resources', []):
             if server_resources.get('hostname') == hostname:
                 disk_info = server_resources.get('disk', {})

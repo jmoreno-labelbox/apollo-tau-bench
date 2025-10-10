@@ -7,19 +7,18 @@ from tau_bench.envs.tool import Tool
 
 class CreateDashboardSnapshotWithInvoiceId(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], invoice_id, snapshot_date, ytd_revenue, ytd_tax_reserve, notes = "Year-end snapshot", pdf_path = f"/dashboards/2024/SNAP_{kwargs['snapshot_date']}.pdf") -> str:
         """
         Create a new dashboard snapshot.
         """
-        invoice_id = kwargs["invoice_id"]
         snapshot_id = f"SNAP_{invoice_id}",
         new_snapshot = {
             "snapshot_id": str(snapshot_id[0]),
-            "snapshot_date": kwargs["snapshot_date"],
-            "notes": kwargs.get("notes", "Year-end snapshot"),
-            "ytd_revenue": kwargs.get("ytd_revenue"),
-            "ytd_tax_reserve": kwargs.get("ytd_tax_reserve"),
-            "pdf_path": kwargs.get("pdf_path", f"/dashboards/2024/SNAP_{kwargs['snapshot_date']}.pdf")
+            "snapshot_date": snapshot_date,
+            "notes": notes,
+            "ytd_revenue": ytd_revenue,
+            "ytd_tax_reserve": ytd_tax_reserve,
+            "pdf_path": pdf_path
 
         }
         data["dashboard_snapshots"].append(new_snapshot)

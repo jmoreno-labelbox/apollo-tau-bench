@@ -7,17 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetTerminalLogsSummary(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], created_after, created_before, log_level, source_component, workflow_id, limit = 100, message_keywords = []) -> str:
         """
         Retrieves terminal logs with filtering and summarization capabilities.
         """
-        log_level = kwargs.get('log_level')
-        source_component = kwargs.get('source_component')
-        workflow_id = kwargs.get('workflow_id')
-        message_keywords = kwargs.get('message_keywords', [])
-        created_after = kwargs.get('created_after')
-        created_before = kwargs.get('created_before')
-        limit = kwargs.get('limit', 100)
 
         terminal_logs = data.get('terminal_logs', [])
 

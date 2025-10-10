@@ -9,11 +9,10 @@ class CalculateTotal(Tool):
     """Tool to calculate totals."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        data_kw = kwargs.get("json")
-        value_kw = kwargs.get("value")
-        key_kw = kwargs.get("key")
-        list_of_ids = kwargs.get("list_of_ids", None)
+    def invoke(data: Dict[str, Any], json, key, value, list_of_ids = None) -> str:
+        data_kw = json
+        value_kw = value
+        key_kw = key
         dataset = data.get(data_kw, [])
 
         total = 0

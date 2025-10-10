@@ -17,12 +17,7 @@ class CreateUser(Tool):
       mfa_enabled: bool = True (optional)
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        username = kwargs.get("username", "")
-        email = kwargs.get("email", "")
-        department = kwargs.get("department", "")
-        status = kwargs.get("status", "ACTIVE")
-        mfa_enabled = kwargs.get("mfa_enabled", True)
+    def invoke(data: Dict[str, Any], department = "", email = "", mfa_enabled = True, status = "ACTIVE", username = "") -> str:
 
         if not username or not email or not department:
             return json.dumps({"error": "username, email, and department are required"})

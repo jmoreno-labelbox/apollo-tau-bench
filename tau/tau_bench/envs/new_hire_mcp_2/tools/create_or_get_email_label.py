@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateOrGetEmailLabel(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        name = kwargs.get("name")
+    def invoke(data: Dict[str, Any], name) -> str:
         rows = _ensure_list(data, "email_labels")
         for r in rows:
             if r.get("name") == name:

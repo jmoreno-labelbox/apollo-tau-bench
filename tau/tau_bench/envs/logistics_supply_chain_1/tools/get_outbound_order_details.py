@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetOutboundOrderDetails(Tool):
     """Retrieves the full details for a single outbound order by its ID."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        order_id = kwargs.get('order_id')
+    def invoke(data: Dict[str, Any], order_id) -> str:
         if not order_id:
             return json.dumps({"error": "order_id is required."}, indent=2)
         order = next((o for o in data.get('outbound_orders', []) if o.get('order_id') == order_id), None)

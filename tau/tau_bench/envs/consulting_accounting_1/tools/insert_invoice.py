@@ -7,13 +7,13 @@ from tau_bench.envs.tool import Tool
 
 class InsertInvoice(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], created_at, hst_amount, invoice_date, invoice_id, invoice_number, paid_at, pdf_path, period_end, period_start, publisher_id, sent_at, subtotal, total_due) -> str:
         required = ["invoice_id","publisher_id","subtotal","hst_amount","total_due"]
         for k in required:
             if kwargs.get(k) is None:
                 return json.dumps({"error": f"{k} is required"}, indent=2)
         invs = data.setdefault("invoices", [])
-        record = {"invoice_id": kwargs["invoice_id"],"invoice_number": kwargs.get("invoice_number"),"publisher_id": kwargs["publisher_id"],"invoice_date": kwargs.get("invoice_date"),"period_start": kwargs.get("period_start"),"period_end": kwargs.get("period_end"),"subtotal": kwargs["subtotal"],"hst_amount": kwargs["hst_amount"],"total_due": kwargs["total_due"],"pdf_path": kwargs.get("pdf_path"),"sent_at": kwargs.get("sent_at"),"paid_at": kwargs.get("paid_at"),"created_at": kwargs.get("created_at")}
+        record = {"invoice_id": invoice_id,"invoice_number": invoice_number,"publisher_id": publisher_id,"invoice_date": invoice_date,"period_start": period_start,"period_end": period_end,"subtotal": subtotal,"hst_amount": hst_amount,"total_due": total_due,"pdf_path": pdf_path,"sent_at": sent_at,"paid_at": paid_at,"created_at": created_at}
         invs.append(record)
         return json.dumps(record, indent=2)
 

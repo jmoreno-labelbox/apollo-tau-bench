@@ -9,10 +9,7 @@ class CreateRepository(Tool):
     """Creates a new repository owned by the current user."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_name = kwargs.get("repo_name")
-        visibility = kwargs.get("visibility", "public")
-        default_branch = kwargs.get("default_branch", "main")
+    def invoke(data: Dict[str, Any], repo_name, default_branch = "main", visibility = "public") -> str:
 
         if not repo_name:
             return json.dumps({"error": "repo_name is required."}, indent=2)

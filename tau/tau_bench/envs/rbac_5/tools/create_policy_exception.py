@@ -17,12 +17,7 @@ class CreatePolicyException(Tool):
       expires_on: str (optional) - ISO timestamp when exception expires
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id", "")
-        permission_id = kwargs.get("permission_id", "")
-        reviewed_by = kwargs.get("reviewed_by", "")
-        reason = kwargs.get("reason", "")
-        expires_on = kwargs.get("expires_on")
+    def invoke(data: Dict[str, Any], expires_on, permission_id = "", reason = "", reviewed_by = "", user_id = "") -> str:
 
         if not user_id or not permission_id or not reviewed_by or not reason:
             return json.dumps({"error": "user_id, permission_id, reviewed_by, and reason are required"})

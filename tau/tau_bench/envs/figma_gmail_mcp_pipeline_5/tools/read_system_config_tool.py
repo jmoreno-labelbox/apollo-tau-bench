@@ -9,8 +9,8 @@ class ReadSystemConfigTool(Tool):
     """Read a config by key and return limited fields (avoid large blobs)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        config_key = _require_str(kwargs.get("config_key"), "config_key")
+    def invoke(data: Dict[str, Any], config_key) -> str:
+        config_key = _require_str(config_key, "config_key")
         if not config_key:
             return json.dumps({"error":"config_key is required"})
 

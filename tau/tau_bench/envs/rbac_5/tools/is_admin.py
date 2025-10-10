@@ -17,10 +17,8 @@ class IsAdmin(Tool):
       include_role_details: bool = False (optional)
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id", "")
-        on_date_iso = kwargs.get("on_date") or get_current_timestamp()
-        include_role_details = kwargs.get("include_role_details", False)
+    def invoke(data: Dict[str, Any], on_date, include_role_details = False, user_id = "") -> str:
+        on_date_iso = on_date or get_current_timestamp()
 
         if not user_id:
             return json.dumps({"error": "user_id is required"})

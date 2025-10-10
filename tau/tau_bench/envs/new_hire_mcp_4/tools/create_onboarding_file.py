@@ -9,13 +9,13 @@ class CreateOnboardingFile(Tool):
     """Create or upsert an onboarding file for a candidate."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], candidate_id, doc_type, file_id, uploaded_at, status = "pending") -> str:
         f = {
-            "file_id": kwargs.get("file_id"),
-            "candidate_id": kwargs.get("candidate_id"),
-            "doc_type": kwargs.get("doc_type"),
-            "status": kwargs.get("status", "pending"),
-            "uploaded_at": kwargs.get("uploaded_at"),
+            "file_id": file_id,
+            "candidate_id": candidate_id,
+            "doc_type": doc_type,
+            "status": status,
+            "uploaded_at": uploaded_at,
         }
         if not f["file_id"] or not f["candidate_id"] or not f["doc_type"]:
             return json.dumps({"error": "missing_required_fields"}, indent=2)

@@ -7,13 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SendEmail(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        client_id = kwargs.get('client_id')
-        broker_id = kwargs.get('broker_id')
-        subject = kwargs.get('subject')
-        template_code = kwargs.get('template_code')
-        body_uri = kwargs.get('body_uri')
-        campaign_id = kwargs.get('campaign_id')
+    def invoke(data: Dict[str, Any], body_uri, broker_id, campaign_id, client_id, subject, template_code) -> str:
         
         if not all([client_id, broker_id, subject, template_code]):
             return json.dumps({

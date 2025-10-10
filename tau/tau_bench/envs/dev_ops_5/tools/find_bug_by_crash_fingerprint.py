@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class FindBugByCrashFingerprint(Tool):
     """Finds a bug/work item associated with a crash fingerprint."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        fingerprint = kwargs.get("crash_fingerprint")
+    def invoke(data: Dict[str, Any], crash_fingerprint) -> str:
+        fingerprint = crash_fingerprint
         work_items = data.get("work_items", [])
         for item in work_items:
             if item.get("metadata", {}).get("crash_fingerprint") == fingerprint:

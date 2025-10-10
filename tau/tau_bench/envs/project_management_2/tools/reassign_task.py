@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ReassignTask(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        task_id = kwargs.get("task_id")
-        new_assignee_id = kwargs.get("new_assignee_id")
+    def invoke(data: Dict[str, Any], new_assignee_id, task_id) -> str:
 
         if not all([task_id, new_assignee_id]):
             return json.dumps({"error": "task_id and new_assignee_id are required"})

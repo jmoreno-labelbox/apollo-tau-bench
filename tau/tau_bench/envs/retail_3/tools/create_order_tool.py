@@ -36,9 +36,8 @@ class CreateOrderTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        supplier_id = kwargs.get("supplier_id")
-        items_spec = kwargs.get("items")
+    def invoke(data: Dict[str, Any], items, supplier_id) -> str:
+        items_spec = items
 
         if not supplier_id or not isinstance(items_spec, list) or not items_spec:
             return json.dumps({"error": "supplier_id and non-empty items are required"}, indent=2)

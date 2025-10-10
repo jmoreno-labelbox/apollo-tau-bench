@@ -9,9 +9,7 @@ class UpdateSupplier(Tool):
     """Tool to update supplier information."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        supplier_id = kwargs.get("supplier_id")
-        updates = kwargs.get("updates")
+    def invoke(data: Dict[str, Any], supplier_id, updates) -> str:
         suppliers = list(data.get("supplier_master", {}).values())
 
         for supplier in suppliers:

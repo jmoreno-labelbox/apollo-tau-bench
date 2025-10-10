@@ -8,9 +8,9 @@ from tau_bench.envs.tool import Tool
 class DailyAdsetInsights(Tool):
     """Return spend/clicks/revenue for an adset on a date."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], adset_id, date) -> str:
         import json
-        aid, date = kwargs.get("adset_id"), kwargs.get("date")
+        aid, date = adset_id, date
         if not aid or not date:
             return json.dumps({"success": False, "error": "adset_id and date are required"}, indent=2)
 

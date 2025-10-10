@@ -9,9 +9,7 @@ class ListUsersByMfaTool(Tool):
     """list_users_by_mfa"""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        enabled = kwargs.get("enabled")
-        status = kwargs.get("status")
+    def invoke(data: Dict[str, Any], enabled, status) -> str:
 
         users: List[Dict[str, Any]] = list(data.get("users", {}).values())
         out: List[Dict[str, Any]] = []

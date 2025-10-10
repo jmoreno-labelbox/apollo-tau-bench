@@ -9,10 +9,7 @@ from . import _max_id, _json_dump
 class BulkAddMealPlanEntries(Tool):
     """Create Dinner entries for a week using ordered recipe_ids_json; returns entry_ids."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        meal_plan_id = kwargs.get("meal_plan_id")
-        week_start_date = kwargs.get("week_start_date")
-        selected_recipe_ids_json = kwargs.get("selected_recipe_ids_json", "[]")
+    def invoke(data: Dict[str, Any], meal_plan_id, week_start_date, selected_recipe_ids_json = "[]") -> str:
         if meal_plan_id is None or not week_start_date or not selected_recipe_ids_json:
             return _json_dump({"error": "meal_plan_id, week_start_date, selected_recipe_ids_json are required"})
         recipes = _parse_json_list_ids(selected_recipe_ids_json)

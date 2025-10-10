@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateInventoryRecord(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        sku = kwargs.get('sku')
-        store_id = kwargs.get('store_id')
-        location = kwargs.get('location')
+    def invoke(data: Dict[str, Any], location, sku, store_id) -> str:
 
         inventory_list = list(data.get("inventory", {}).values())  # Ajustado para lista
 

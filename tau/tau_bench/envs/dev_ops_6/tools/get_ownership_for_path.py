@@ -9,8 +9,8 @@ class GetOwnershipForPath(Tool):
     """Fetch ownership entry for a given file_path."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        path = kwargs.get('file_path')
+    def invoke(data: Dict[str, Any], file_path) -> str:
+        path = file_path
         rows = _table(data, 'ownership_map')
         row = next((r for r in rows if r.get('file_path') == path), None)
         return _ok({'ownership': row}) if row else _err('ownership not found')

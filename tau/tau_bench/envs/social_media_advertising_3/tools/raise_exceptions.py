@@ -12,14 +12,14 @@ class RaiseExceptions(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        plan_id: str = kwargs.get("plan_id", "")
-        insights: List[Dict[str, Any]] = kwargs.get("insights", [])
-        rules: Dict[str, Any] = kwargs.get("rules", {
-            "zero_delivery_impressions": 0,
-            "cap_hit_spend": None,
-            "data_gap_days": None
-        })
+    def invoke(data: Dict[str, Any], insights = [], plan_id = "", rules = {
+        "zero_delivery_impressions": 0,
+        "cap_hit_spend": None,
+        "data_gap_days": None
+    }) -> str:
+        plan_id: str = plan_id
+        insights: List[Dict[str, Any]] = insights
+        rules: Dict[str, Any] = rules
 
         alerts: List[Dict[str, Any]] = []
 

@@ -7,18 +7,17 @@ from tau_bench.envs.tool import Tool
 
 class WriteAssetRequestFile(Tool):
     @staticmethod
-    def invoke(db: Dict[str, Any], **kwargs) -> str:
-        cand_id = kwargs["candidate_id"]
-        file_path = kwargs.get("file_path") or f"/onboarding/{cand_id}/asset_request.json"
-        payload = kwargs.get("payload", {})
+    def invoke(db: Dict[str, Any], candidate_id, created_ts, file_path, updated_ts, payload = {}) -> str:
+        cand_id = candidate_id
+        file_path = file_path or f"/onboarding/{cand_id}/asset_request.json"
         return WriteOnboardingFile.invoke(
             db,
             candidate_id=cand_id,
             file_path=file_path,
             content_text=json.dumps(payload, sort_keys=True, indent=2),
             mime_type="application/json",
-            created_ts=kwargs.get("created_ts"),
-            updated_ts=kwargs.get("updated_ts"),
+            created_ts=created_ts,
+            updated_ts=updated_ts,
         )
 
     @staticmethod

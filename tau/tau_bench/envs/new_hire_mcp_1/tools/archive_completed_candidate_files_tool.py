@@ -9,9 +9,8 @@ class ArchiveCompletedCandidateFilesTool(Tool):
     """Updates file paths to archive them and creates a summary file."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        candidate_id = kwargs.get("candidate_id")
-        prefix = kwargs.get("archive_path_prefix", "/archived")
+    def invoke(data: Dict[str, Any], candidate_id, archive_path_prefix = "/archived") -> str:
+        prefix = archive_path_prefix
         files = data.setdefault("onboarding_files", [])
 
         updated_files = []

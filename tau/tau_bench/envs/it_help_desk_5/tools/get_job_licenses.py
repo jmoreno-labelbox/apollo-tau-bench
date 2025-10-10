@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetJobLicenses(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        job_title = kwargs.get('job_title')
+    def invoke(data: Dict[str, Any], job_title) -> str:
 
         if job_title is None:
             return json.dumps({'status': 'error', 'reason': 'The job_title parameter is required.'}, indent=2)

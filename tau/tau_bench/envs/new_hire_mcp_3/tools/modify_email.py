@@ -8,9 +8,8 @@ from . import _fixed_now_iso
 
 class ModifyEmail(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        updates = kwargs.get("updates") or {}
-        message_id = kwargs.get("message_id")
+    def invoke(data: Dict[str, Any], message_id, updates) -> str:
+        updates = updates or {}
         emails = list(data.get("emails", {}).values())
         for e in emails:
             if e.get("message_id") == message_id:

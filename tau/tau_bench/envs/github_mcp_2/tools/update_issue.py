@@ -9,15 +9,13 @@ class UpdateIssue(Tool):
     """Updates an issue's fields. Supports both aggregated blocks and flat issue rows."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_name = kwargs.get("repo_name")
-        issue_number = kwargs.get("issue_number")
+    def invoke(data: Dict[str, Any], body, issue_number, labels, repo_name, state, title, updates) -> str:
 
         # Support both `state` and legacy `updates` for compatibility.
-        new_state = kwargs.get("state") or kwargs.get("updates")
-        new_title = kwargs.get("title")
-        new_body = kwargs.get("body")
-        new_labels = kwargs.get("labels")  # substitute the complete label list if it is supplied
+        new_state = state or updates
+        new_title = title
+        new_body = body
+        new_labels = labels  # substitute the complete label list if it is supplied
 
         if not repo_name or issue_number is None:
             return json.dumps({"error": "repo_name and issue_number are required."}, indent=2)

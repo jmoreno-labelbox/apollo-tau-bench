@@ -9,11 +9,7 @@ class CreateClientNote(Tool):
     """Create a note for a client's file."""
     
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        client_id = kwargs.get('client_id')
-        broker_id = kwargs.get('broker_id')
-        note_text = kwargs.get('note_text')
-        note_type = kwargs.get('note_type', 'general')
+    def invoke(data: Dict[str, Any], broker_id, client_id, note_text, note_type = 'general') -> str:
         
         if not all([client_id, broker_id, note_text]):
             return json.dumps({

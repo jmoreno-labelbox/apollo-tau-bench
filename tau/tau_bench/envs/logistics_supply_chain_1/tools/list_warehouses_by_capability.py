@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class ListWarehousesByCapability(Tool):
     """A tool to find all warehouses that hold a specific certification."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        certification = kwargs.get('certification')
+    def invoke(data: Dict[str, Any], certification) -> str:
         if not certification:
             return json.dumps({"error": "certification is a required argument."}, indent=2)
         warehouses = list(data.get('warehouses', {}).values())

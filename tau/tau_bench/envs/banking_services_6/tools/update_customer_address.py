@@ -7,16 +7,15 @@ from tau_bench.envs.tool import Tool
 
 class UpdateCustomerAddress(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
+    def invoke(data: Dict[str, Any], city, country, customer_id, postal_code, state, street_address) -> str:
         for customer in list(data.get("customers", {}).values()):
             if customer.get("customer_id") == customer_id:
                 new_address = {
-                        "street_address": kwargs.get("street_address"),
-                        "city": kwargs.get("city"),
-                        "state": kwargs.get("state"),
-                        "postal_code": kwargs.get("postal_code"),
-                        "country": kwargs.get("country")
+                        "street_address": street_address,
+                        "city": city,
+                        "state": state,
+                        "postal_code": postal_code,
+                        "country": country
                 }
                 customer["contact_info"]["mailing_address"] = new_address
                 customer["contact_info"]["residential_address"] = new_address

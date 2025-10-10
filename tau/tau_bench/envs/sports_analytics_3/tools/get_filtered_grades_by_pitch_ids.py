@@ -24,10 +24,8 @@ class GetFilteredGradesByPitchIds(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # ---- 1) Verify input values
-        pitch_ids = kwargs.get("pitch_ids")
-        grades_to_exclude = kwargs.get("grades")
+    def invoke(data: Dict[str, Any], grades, pitch_ids) -> str:
+        grades_to_exclude = grades
 
         if not isinstance(pitch_ids, list) or len(pitch_ids) == 0:
             return json.dumps(

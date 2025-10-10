@@ -9,11 +9,8 @@ class UpdateInventoryAllocatedQuantity(Tool):
     """Updates the allocated and available quantities for a product in a warehouse upon order creation."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], quantity_to_allocate, sku, warehouse_id) -> str:
         inventory_items = list(data.get("inventory", {}).values())
-        sku = kwargs.get("sku")
-        warehouse_id = kwargs.get("warehouse_id")
-        quantity_to_allocate = kwargs.get("quantity_to_allocate")
 
         if not all([sku, warehouse_id, quantity_to_allocate]):
             return json.dumps(

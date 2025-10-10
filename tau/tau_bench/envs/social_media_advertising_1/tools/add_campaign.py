@@ -9,12 +9,7 @@ class AddCampaign(Tool):
     """Adds a new campaign."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        campaign_id = kwargs.get("campaign_id")
-        name = kwargs.get("name")
-        objective = kwargs.get("objective")
-        created_date = kwargs.get("created_date")
-        status = kwargs.get("status")
+    def invoke(data: Dict[str, Any], campaign_id, created_date, name, objective, status) -> str:
 
         if not campaign_id:
             return json.dumps({"error": "campaign_id is a required parameter."})

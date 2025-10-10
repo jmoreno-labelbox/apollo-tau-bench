@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class GetPlanForDate(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        d = kwargs.get("date")
+    def invoke(data: Dict[str, Any], date) -> str:
+        d = date
         for p in list(data.get("plans", {}).values()):
             if p.get("date") == d:
                 return json.dumps(p)

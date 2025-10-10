@@ -12,11 +12,10 @@ class CompleteCertificationsAndAuditTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        log_id = kwargs.get("log_id") or "LOG-CERT-CLOSE"
-        actor_id = kwargs.get("actor_id")
-        target_id = kwargs.get("target_id") or "CERT:ALL"
-        details = kwargs.get("details") or "Certifications completed."
+    def invoke(data: Dict[str, Any], actor_id, details, log_id, target_id) -> str:
+        log_id = log_id or "LOG-CERT-CLOSE"
+        target_id = target_id or "CERT:ALL"
+        details = details or "Certifications completed."
         if not actor_id:
             return json.dumps({"error": "actor_id is required"}, indent=2)
 

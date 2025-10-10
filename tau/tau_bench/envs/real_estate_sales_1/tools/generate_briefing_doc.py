@@ -9,9 +9,7 @@ class GenerateBriefingDoc(Tool):
     """Generate a briefing document for a client."""
     
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        client_id = kwargs.get('client_id')
-        broker_id = kwargs.get('broker_id')
+    def invoke(data: Dict[str, Any], broker_id, client_id) -> str:
         
         if not all([client_id, broker_id]):
             return json.dumps({

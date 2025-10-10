@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class DispatchResultsMail(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], attachment, batch_name, body_text, model_name, subject, to_address) -> str:
         inbox = list(data.get("gmail_messages", {}).values())
         max_id = 0
         for m in inbox:
@@ -20,12 +20,12 @@ class DispatchResultsMail(Tool):
         new_id = max_id + 1
         row = {
             "message_id": new_id,
-            "to": kwargs.get("to_address"),
-            "subject": kwargs.get("subject"),
-            "body_text": kwargs.get("body_text"),
-            "attachment": kwargs.get("attachment"),
-            "model_name": kwargs.get("model_name"),
-            "batch_name": kwargs.get("batch_name"),
+            "to": to_address,
+            "subject": subject,
+            "body_text": body_text,
+            "attachment": attachment,
+            "model_name": model_name,
+            "batch_name": batch_name,
             "sent_at": _fixed_now_iso(),
         }
         inbox.append(row)

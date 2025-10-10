@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetLastSuccessfulTaskRun(Tool):
     """Finds the log of the last time a task of a certain type completed successfully."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        task_type = kwargs.get("task_type")
+    def invoke(data: Dict[str, Any], task_type) -> str:
         successful_runs = [log for log in data.get('task_logs', []) if log.get('task_type') == task_type and log.get('result') == 'success']
         if not successful_runs:
             return json.dumps({"error": f"No successful run found for type '{task_type}'."})

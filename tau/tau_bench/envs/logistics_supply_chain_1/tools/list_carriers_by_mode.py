@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class ListCarriersByMode(Tool):
     """A tool to find all active carriers that support a specific mode of transport."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        mode = kwargs.get('mode')
+    def invoke(data: Dict[str, Any], mode) -> str:
         if not mode:
             return json.dumps({"error": "mode is a required argument."}, indent=2)
         carriers = list(data.get('carriers', {}).values())

@@ -9,8 +9,7 @@ class GetNameForAd(Tool):
     """Retrieves the name for a specific ad."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        ad_id = kwargs.get("ad_id")
+    def invoke(data: Dict[str, Any], ad_id) -> str:
         ads = list(data.get("ads", {}).values())
         
         for ad in ads:

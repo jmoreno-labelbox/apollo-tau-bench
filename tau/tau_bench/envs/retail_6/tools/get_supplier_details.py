@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetSupplierDetails(Tool):
     """Read supplier record by supplier_id."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        supplier_id = kwargs.get('supplier_id')
+    def invoke(data, supplier_id) -> str:
         if not supplier_id:
             return json.dumps({"error":"supplier_id is required"}, indent=2)
         sup = next((s for s in data.get('suppliers', []) if s.get('supplier_id') == supplier_id), None)

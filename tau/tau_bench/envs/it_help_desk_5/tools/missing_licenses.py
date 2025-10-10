@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class MissingLicenses(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get('employee_id')
-        job_title = kwargs.get('job_title')
+    def invoke(data: Dict[str, Any], employee_id, job_title) -> str:
         if employee_id is None or job_title is None:
             return json.dumps({'status': 'error', 'description': 'The employee_id and job_title fields are required.'}, indent=2)
 

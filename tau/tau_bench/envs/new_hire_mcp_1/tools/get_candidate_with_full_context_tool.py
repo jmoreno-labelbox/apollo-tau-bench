@@ -9,8 +9,7 @@ class GetCandidateWithFullContextTool(Tool):
     """Retrieves candidate record with all linked emails, asset requests, checklist items, and access checks for comprehensive view."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        candidate_id = kwargs.get("candidate_id")
+    def invoke(data: Dict[str, Any], candidate_id) -> str:
         if not candidate_id:
             return _err("candidate_id is required")
 

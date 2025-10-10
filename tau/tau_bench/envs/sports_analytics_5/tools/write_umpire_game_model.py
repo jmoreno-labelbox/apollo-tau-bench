@@ -9,7 +9,7 @@ from . import _require_tables
 class WriteUmpireGameModel(Tool):
     """Insert an umpire_game_models row."""
     @staticmethod
-    def invoke(data, **kwargs)->str:
+    def invoke(data, calibration_error_pct, confidence_interval, game_pk, umpire_id, zone_shift_x, zone_shift_z)->str:
         err = _require_tables(data, ["umpire_game_models"])
         if err:
             return json.dumps({"error": err}, indent=2)
@@ -20,12 +20,12 @@ class WriteUmpireGameModel(Tool):
         new_id = _next_id(rows, "umpire_game_id")
         row = {
             "umpire_game_id": new_id,
-            "game_pk": kwargs.get("game_pk"),
-            "umpire_id": kwargs.get("umpire_id"),
-            "zone_shift_x": kwargs.get("zone_shift_x"),
-            "zone_shift_z": kwargs.get("zone_shift_z"),
-            "calibration_error_pct": kwargs.get("calibration_error_pct"),
-            "confidence_interval": kwargs.get("confidence_interval")
+            "game_pk": game_pk,
+            "umpire_id": umpire_id,
+            "zone_shift_x": zone_shift_x,
+            "zone_shift_z": zone_shift_z,
+            "calibration_error_pct": calibration_error_pct,
+            "confidence_interval": confidence_interval
         }
         rows.append(row)
         return json.dumps({"umpire_game_id": new_id}, indent=2)

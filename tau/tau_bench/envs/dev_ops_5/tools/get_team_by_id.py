@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class GetTeamById(Tool):
     """Retrieves a team by its ID."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        team_id = kwargs.get("id")
+    def invoke(data: Dict[str, Any], id) -> str:
+        team_id = id
         teams = data.get("teams", [])
         for team in teams:
             if team.get("id") == team_id:

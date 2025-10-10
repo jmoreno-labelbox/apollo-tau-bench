@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateAssetRequest(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        request_id = kwargs.get("request_id")
-        fields = kwargs.get("fields", {})
+    def invoke(data: Dict[str, Any], request_id, fields = {}) -> str:
         rows = _ensure_list(data, "asset_requests")
         row = _find_by_key(rows, "request_id", request_id)
         if row:

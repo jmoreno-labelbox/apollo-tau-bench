@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class BuildMtpMessages(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        train_samples = kwargs.get("train_samples")
-        test_samples = kwargs.get("test_samples")
-        model_path = kwargs.get("model_path")
+    def invoke(data: Dict[str, Any], model_path, test_samples, train_samples) -> str:
         if train_samples is None or test_samples is None or not model_path:
             return json.dumps({"error":"Missing train_samples, test_samples, or model_path"})
         messages = [

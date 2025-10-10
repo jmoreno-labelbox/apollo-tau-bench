@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class UpdateWarehouseNotes(Tool):
     """Adds or overwrites notes for a specific warehouse."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        warehouse_id = kwargs.get('warehouse_id')
-        notes = kwargs.get('notes')
+    def invoke(data: Dict[str, Any], notes, warehouse_id) -> str:
         if not all([warehouse_id, notes]):
             return json.dumps({"error": "warehouse_id and notes are required."}, indent=2)
         warehouse = next((w for w in data.get('warehouses', []) if w.get('warehouse_id') == warehouse_id), None)

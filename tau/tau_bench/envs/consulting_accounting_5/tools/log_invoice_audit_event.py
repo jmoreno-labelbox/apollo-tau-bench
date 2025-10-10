@@ -7,15 +7,15 @@ from tau_bench.envs.tool import Tool
 
 class LogInvoiceAuditEvent(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], event_type, invoice_id, notes = "") -> str:
         """
         Logs an audit event for an invoice.
         """
         new_event = {
-            "audit_id": f"AUD_{kwargs['invoice_id']}",
-            "invoice_id": kwargs["invoice_id"],
-            "event_type": kwargs.get("event_type")  , # for example, "notification_dispatched", "escalation"
-            "notes": kwargs.get("notes", "")
+            "audit_id": f"AUD_{invoice_id}",
+            "invoice_id": invoice_id,
+            "event_type": event_type  , # for example, "notification_dispatched", "escalation"
+            "notes": notes
         }
         data["invoice_audit"].append(new_event)
         return json.dumps(new_event["audit_id"])

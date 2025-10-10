@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetServerStatusByHostname(Tool):
     """Checks the status of a remote server (e.g., online, maintenance)."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        hostname = kwargs.get("hostname")
+    def invoke(data: Dict[str, Any], hostname) -> str:
         for server in data.get('remote_servers', []):
             if server.get('hostname') == hostname:
                 return json.dumps({"hostname": hostname, "status": server.get("status")})

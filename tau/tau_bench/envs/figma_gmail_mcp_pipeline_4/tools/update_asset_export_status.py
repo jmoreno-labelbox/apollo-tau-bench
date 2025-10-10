@@ -7,15 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class UpdateAssetExportStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], asset_id, dlp_scan_status, new_status, storage_ref, export_notes = '') -> str:
         """
         Updates asset export status and manages export workflow metadata.
         """
-        asset_id = kwargs.get('asset_id')
-        new_status = kwargs.get('new_status')
-        export_notes = kwargs.get('export_notes', '')
-        dlp_scan_status = kwargs.get('dlp_scan_status')
-        storage_ref = kwargs.get('storage_ref')
 
         if not all([asset_id, new_status]):
             return json.dumps({"error": "asset_id and new_status are required."})

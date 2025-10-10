@@ -7,17 +7,17 @@ from tau_bench.envs.tool import Tool
 
 class WriteAuditLog(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], action_type, actor_id, details, target_id, timestamp) -> str:
         logs = data.get('audit_logs', [])
         new_id_num = max((int(l['log_id'][2:]) for l in logs), default=0) + 1
         new_log_id = f"L-{new_id_num:03d}"
         new_log = {
                 "log_id": new_log_id,
-                "actor_id": kwargs.get("actor_id"),
-                "action_type": kwargs.get("action_type"),
-                "target_id": kwargs.get("target_id"),
-                "timestamp": kwargs.get("timestamp"),
-                "details": kwargs.get("details"),
+                "actor_id": actor_id,
+                "action_type": action_type,
+                "target_id": target_id,
+                "timestamp": timestamp,
+                "details": details,
         }
         logs.append(new_log)
         data['audit_logs'] = logs

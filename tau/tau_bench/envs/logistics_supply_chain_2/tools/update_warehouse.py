@@ -9,9 +9,7 @@ class UpdateWarehouse(Tool):
     """Tool to update warehouse details."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        warehouse_id = kwargs.get("warehouse_id")
-        updates = kwargs.get("updates")
+    def invoke(data: Dict[str, Any], updates, warehouse_id) -> str:
         warehouses = list(data.get("warehouses", {}).values())
 
         for warehouse in warehouses:

@@ -9,10 +9,8 @@ class FindCarrierByService(Tool):
     """Finds the best-rated, active carrier for a specific transport mode AND service level."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], mode_of_transport, service_level) -> str:
         carriers = list(data.get("carriers", {}).values())
-        mode_of_transport = kwargs.get("mode_of_transport")
-        service_level = kwargs.get("service_level")
 
         if not mode_of_transport or not service_level:
             return json.dumps(

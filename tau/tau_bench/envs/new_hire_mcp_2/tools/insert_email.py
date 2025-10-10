@@ -7,19 +7,18 @@ from tau_bench.envs.tool import Tool
 
 class InsertEmail(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        message_id = kwargs.get("message_id")
+    def invoke(data: Dict[str, Any], body, candidate_id, in_reply_to_message_id_nullable, message_id, subject, thread_id_nullable, attachments_ids = [], cc_emails = [], date_ts = NOW_TS, draft_flag = False, from_email = "hr@company.com", labels_ids = [], sent_flag = True, to_emails = []) -> str:
         rows = _ensure_list(data, "emails")
         if _find_by_key(rows, "message_id", message_id) is None:
-            payload = {"message_id": message_id, "subject": kwargs.get("subject"), "body": kwargs.get("body"),
-                       "from_email": kwargs.get("from_email", "hr@company.com"),
-                       "to_emails": kwargs.get("to_emails", []), "cc_emails": kwargs.get("cc_emails", []),
-                       "date_ts": kwargs.get("date_ts", NOW_TS), "labels_ids": kwargs.get("labels_ids", []),
-                       "attachments_ids": kwargs.get("attachments_ids", []),
-                       "draft_flag": kwargs.get("draft_flag", False), "sent_flag": kwargs.get("sent_flag", True),
-                       "candidate_id_nullable": kwargs.get("candidate_id"),
-                       "thread_id_nullable": kwargs.get("thread_id_nullable"),
-                       "in_reply_to_message_id_nullable": kwargs.get("in_reply_to_message_id_nullable")}
+            payload = {"message_id": message_id, "subject": subject, "body": body,
+                       "from_email": from_email,
+                       "to_emails": to_emails, "cc_emails": cc_emails,
+                       "date_ts": date_ts, "labels_ids": labels_ids,
+                       "attachments_ids": attachments_ids,
+                       "draft_flag": draft_flag, "sent_flag": sent_flag,
+                       "candidate_id_nullable": candidate_id,
+                       "thread_id_nullable": thread_id_nullable,
+                       "in_reply_to_message_id_nullable": in_reply_to_message_id_nullable}
             rows.append(payload)
         return json.dumps({"message_id": message_id, "created": True}, indent=2)
 

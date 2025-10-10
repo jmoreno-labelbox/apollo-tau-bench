@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateProjectBudget(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
-        fiscal_year = kwargs.get("fiscal_year")
-        total_budget = kwargs.get("total_budget")
-        budget_categories = kwargs.get("budget_categories", {})
+    def invoke(data: Dict[str, Any], fiscal_year, project_id, total_budget, budget_categories = {}, budget_id = f"budget_{uuid.uuid4().hex[:8]}") -> str:
 
         if not all([project_id, fiscal_year, total_budget]):
             return json.dumps(
@@ -67,8 +63,6 @@ class CreateProjectBudget(Tool):
                     "suggested_budget": int(total_personnel_cost / 0.8),
                 }
             )
-
-        budget_id = kwargs.get("budget_id", f"budget_{uuid.uuid4().hex[:8]}")
 
         new_budget = {
             "budget_id": budget_id,

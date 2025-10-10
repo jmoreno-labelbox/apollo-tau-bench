@@ -9,9 +9,7 @@ class CaV2UpdateInvoicePayment(Tool):
     """Update invoice payment status."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        invoice_id = kwargs.get("invoice_id")
-        paid_at = kwargs.get("paid_at")
+    def invoke(data: Dict[str, Any], invoice_id, paid_at) -> str:
 
         if not invoice_id:
             return _error("invoice_id is required.")

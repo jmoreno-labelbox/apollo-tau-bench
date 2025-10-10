@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetUserByUpnOrHrId(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_lookup = kwargs.get("user_lookup")
+    def invoke(data: Dict[str, Any], user_lookup) -> str:
         accounts = list(data.get("directory_accounts", {}).values())
         for acc in accounts:
             if acc.get("hr_id") == user_lookup or acc.get("upn") == user_lookup or acc.get("employee_id") == user_lookup:

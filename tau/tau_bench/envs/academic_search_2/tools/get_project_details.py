@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class GetProjectDetails(Tool):
     """Searches for projects by project_name, linked_article_id, or project_id."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_name, linked_article_id, project_id = kwargs.get('project_name'), kwargs.get('linked_article_id'), kwargs.get('project_id')
+    def invoke(data: Dict[str, Any], linked_article_id, project_id, project_name) -> str:
+        project_name, linked_article_id, project_id = project_name, linked_article_id, project_id
         if not any([project_name, linked_article_id, project_id]):
             return json.dumps(list(data.get('projects', {}).values()), indent=2)
         projects = list(data.get('projects', {}).values())

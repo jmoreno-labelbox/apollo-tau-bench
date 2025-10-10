@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetUmpireRotation(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        game_pk = kwargs.get("game_pk")
+    def invoke(data: Dict[str, Any], game_pk) -> str:
         rotation = [u for u in data.get("umpire_game_models", []) if u.get("game_pk") == int(game_pk)]
         return json.dumps(rotation, indent=2)
 

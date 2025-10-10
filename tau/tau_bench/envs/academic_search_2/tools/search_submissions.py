@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class SearchSubmissions(Tool):
     """Searches for submissions by submission_id, article_id, or by a specific review_id."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        submission_id, article_id, review_id = kwargs.get('submission_id'), kwargs.get('article_id'), kwargs.get('review_id')
+    def invoke(data: Dict[str, Any], article_id, review_id, submission_id) -> str:
+        submission_id, article_id, review_id = submission_id, article_id, review_id
 
         # Code from the previous SearchReviews utility.
         if review_id:

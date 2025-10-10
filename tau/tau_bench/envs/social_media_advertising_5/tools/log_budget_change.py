@@ -7,12 +7,12 @@ from tau_bench.envs.tool import Tool
 
 class LogBudgetChange(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], adset_id, changed_at, new_budget, old_budget, reason) -> str:
         rows = list(data.get("budget_changes", {}).values())
         nid = f"BC-{max((int(r['change_id'][3:]) for r in rows), default=0) + 1}"
-        rec = {"change_id": nid, "adset_id": kwargs.get("adset_id"), "old_budget": kwargs.get("old_budget"),
-               "new_budget": kwargs.get("new_budget"), "changed_at": kwargs.get("changed_at"),
-               "reason": kwargs.get("reason")}
+        rec = {"change_id": nid, "adset_id": adset_id, "old_budget": old_budget,
+               "new_budget": new_budget, "changed_at": changed_at,
+               "reason": reason}
         rows.append(rec)
         data["budget_changes"] = rows
         return json.dumps(rec)

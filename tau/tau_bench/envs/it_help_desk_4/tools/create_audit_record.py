@@ -7,12 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateAuditRecord(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        lifecycle_id = kwargs.get("lifecycle_id")
-        event = kwargs.get("event")
-        details = kwargs.get("details")
-        actor = kwargs.get("actor", "SYSTEM")
-        timestamp = kwargs.get("timestamp", FIXED_NOW)
+    def invoke(data: Dict[str, Any], details, event, lifecycle_id, actor = "SYSTEM", timestamp = FIXED_NOW) -> str:
         audit_table = data.setdefault("lifecycle_audit", [])
         audit_id = _get_next_id(audit_table, "audit_id", "lcaud")
         audit_table.append({"audit_id": audit_id, "lifecycle_id": lifecycle_id, "event": event, "details": details, "timestamp": timestamp, "actor": actor})

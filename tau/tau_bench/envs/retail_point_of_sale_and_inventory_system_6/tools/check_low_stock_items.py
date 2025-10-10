@@ -11,9 +11,7 @@ class check_low_stock_items(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        store_id = kwargs.get("store_id")
-        sku = kwargs.get("sku")
+    def invoke(data: Dict[str, Any], sku, store_id) -> str:
 
         inventory = list(data.get("inventory", {}).values())
 

@@ -7,16 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetUser(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
-        username = kwargs.get("username")
-        first_name = kwargs.get("first_name")
-        last_name = kwargs.get("last_name")
-        department = kwargs.get("department")
-        status = kwargs.get("status")
-        mfa_enabled = kwargs.get("mfa_enabled")
-        role_id = kwargs.get("role_id")
-        allow_missing = kwargs.get("allow_missing", False)
+    def invoke(data: Dict[str, Any], department, first_name, last_name, mfa_enabled, role_id, status, user_id, username, allow_missing = False) -> str:
 
         def _not_found(msg: str) -> str:
             if allow_missing:

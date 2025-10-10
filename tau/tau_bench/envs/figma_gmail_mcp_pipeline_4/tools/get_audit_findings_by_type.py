@@ -7,15 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetAuditFindingsByType(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], audit_id, finding_type, severity, violation_type, limit = 10) -> str:
         """
         Retrieves audit findings filtered by type and other criteria.
         """
-        finding_type = kwargs.get("finding_type")
-        violation_type = kwargs.get("violation_type")
-        severity = kwargs.get("severity")
-        audit_id = kwargs.get("audit_id")
-        limit = kwargs.get("limit", 10)
 
         audit_findings_ds = data.get("audit_findings_ds", [])
         audit_findings_a11y = data.get("audit_findings_a11y", [])

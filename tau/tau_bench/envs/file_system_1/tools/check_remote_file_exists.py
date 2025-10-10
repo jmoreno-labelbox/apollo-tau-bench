@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class CheckRemoteFileExists(Tool):
     """Verifies that a specific file exists on a given remote server."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        hostname = kwargs.get("hostname")
-        filepath = kwargs.get("filepath")
+    def invoke(data: Dict[str, Any], filepath, hostname) -> str:
         for server in data.get('file_system', []):
             if server.get('hostname') == hostname:
                 for directory in server.get('directories', []):

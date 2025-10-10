@@ -22,14 +22,12 @@ class ReplyToEmailThread(Tool):
         return matches[0]
 
     @staticmethod
-    def invoke(db: Dict[str, Any], **kwargs) -> str:
-        cand_id = kwargs["candidate_id"]; subject = kwargs["subject"]; date_ts = _fixed_ts(kwargs.get("date_ts"))
+    def invoke(db: Dict[str, Any], candidate_id, cc_emails, date_ts, subject, task, to_emails, body = "") -> str:
+        cand_id = candidate_id; date_ts = _fixed_ts(date_ts)
         base = ReplyToEmailThread._find_email_by_keys(db, cand_id, subject, date_ts)
         cand_row = next((r for r in db.get("candidates", []) if r.get("candidate_id") == cand_id), None)
-        to_emails = kwargs.get("to_emails") or (base.get("to_emails") if base else [])
-        cc_emails = kwargs.get("cc_emails") or (base.get("cc_emails") if base else [])
-        body = kwargs.get("body", "")
-        task = kwargs.get("task")
+        to_emails = to_emails or (base.get("to_emails") if base else [])
+        cc_emails = cc_emails or (base.get("cc_emails") if base else [])
         if not body and task in TASK_TEMPLATES:
             body = _fill(TASK_TEMPLATES[task], cand_row)
 

@@ -9,11 +9,10 @@ from . import _require_tables
 class GetGameDetails(Tool):
     """Get full game row by game_pk."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], game_pk) -> str:
         err = _require_tables(data, ["games"])
         if err:
             return json.dumps({"error": err}, indent=2)
-        game_pk = kwargs.get("game_pk")
         if not game_pk:
             return json.dumps({"error": "game_pk is required."}, indent=2)
         row = next((g for g in data["games"] if g.get("game_pk") == game_pk), None)

@@ -9,8 +9,7 @@ class SearchCampaignsByObjective(Tool):
     """Searches for campaigns with a specific objective."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        objective = kwargs.get("objective")
+    def invoke(data: Dict[str, Any], objective) -> str:
         campaigns = list(data.get("campaigns", {}).values())
         matching_campaigns = []
         

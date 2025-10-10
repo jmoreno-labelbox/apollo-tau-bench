@@ -9,9 +9,9 @@ class GetLoanApplicationStatusByCustomerIdAndType(Tool):
     """Returns loan application status for a specific customer ID and loan type, including decision details."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id", "").strip()
-        loan_type   = kwargs.get("loan_type", "").strip().lower()
+    def invoke(data: Dict[str, Any], customer_id = "", loan_type = "") -> str:
+        customer_id = customer_id.strip()
+        loan_type   = loan_type.strip().lower()
 
         if not customer_id or not loan_type:
             return json.dumps({"error": "customer_id and loan_type are required."}, indent=2)

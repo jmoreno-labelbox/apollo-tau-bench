@@ -8,9 +8,9 @@ from tau_bench.envs.tool import Tool
 class UpdateTranslation(Tool):
     """Updates the target string of a translation."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        translation_id = kwargs.get("id")
-        new_string = kwargs.get("target_string")
+    def invoke(data: Dict[str, Any], id, target_string) -> str:
+        translation_id = id
+        new_string = target_string
         translations = data.get("translations", [])
         for t in translations:
             if t.get("id") == translation_id:

@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class RemoveItemFromGroceryList(Tool):
     """Removes an item from a grocery list by its item ID."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        item_id = kwargs.get("item_id")
+    def invoke(data: Dict[str, Any], item_id) -> str:
         if item_id is None:
             return json.dumps({"error": "item_id parameter is required."})
 

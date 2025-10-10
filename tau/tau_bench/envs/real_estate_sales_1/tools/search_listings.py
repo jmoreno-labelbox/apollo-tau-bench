@@ -9,15 +9,9 @@ class SearchListings(Tool):
     """Search for property listings by various criteria."""
     
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], property_id, status, max_price = float('inf'), min_price = 0) -> str:
         listings = list(data.get('listings', {}).values())
         results = []
-        
-        # Retrieve search parameters
-        status = kwargs.get('status')
-        min_price = kwargs.get('min_price', 0)
-        max_price = kwargs.get('max_price', float('inf'))
-        property_id = kwargs.get('property_id')
         
         for listing in listings:
             # Apply criteria-based filtering.

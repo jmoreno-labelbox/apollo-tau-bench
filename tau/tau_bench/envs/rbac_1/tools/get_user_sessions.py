@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetUserSessions(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
+    def invoke(data: Dict[str, Any], user_id) -> str:
         user_sessions = [
                 s for s in data.get('sessions', []) if s.get('user_id') == user_id
         ]

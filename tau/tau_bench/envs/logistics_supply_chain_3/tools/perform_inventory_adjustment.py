@@ -12,13 +12,8 @@ class PerformInventoryAdjustment(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], current_date, new_physical_count, sku, warehouse_id, reason_note = "") -> str:
         inventory_items = list(data.get("inventory", {}).values())
-        sku = kwargs.get("sku")
-        warehouse_id = kwargs.get("warehouse_id")
-        new_physical_count = kwargs.get("new_physical_count")
-        current_date = kwargs.get("current_date")
-        reason_note = kwargs.get("reason_note", "")
 
         if not all(
             [

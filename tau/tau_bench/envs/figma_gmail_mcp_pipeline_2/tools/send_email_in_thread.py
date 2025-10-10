@@ -7,16 +7,12 @@ from tau_bench.envs.tool import Tool
 
 class SendEmailInThread(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], attachments_asset_ids, body_html, sender_id, thread_id) -> str:
         required = ["thread_id", "sender_id", "body_html"]
         missing = [f for f in required if f not in kwargs or kwargs[f] is None]
         if missing:
             return json.dumps({"error": f"Missing required fields: {', '.join(missing)}"}, indent=2)
-
-        thread_id = kwargs.get("thread_id")
-        sender_id = kwargs.get("sender_id")
-        body_html = kwargs.get("body_html")
-        attachments_asset_ids: Optional[List[str]] = kwargs.get("attachments_asset_ids") or []
+        attachments_asset_ids: Optional[List[str]] = attachments_asset_ids or []
 
         threads: List[Dict[str, Any]] = list(data.get("gmail_threads", {}).values())
         messages: List[Dict[str, Any]] = list(data.get("gmail_messages", {}).values())

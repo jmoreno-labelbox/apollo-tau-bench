@@ -9,10 +9,10 @@ class RemoveArtifactTagTool(Tool):
     """Remove a tag from an artifact (no-op if absent). Requires explicit timestamp."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        artifact_id = _require_str(kwargs.get("artifact_id"), "artifact_id")
-        tag = _require_str(kwargs.get("tag"), "tag")
-        changed_ts = _require_str(kwargs.get("changed_ts"), "changed_ts")
+    def invoke(data: Dict[str, Any], artifact_id, changed_ts, tag) -> str:
+        artifact_id = _require_str(artifact_id, "artifact_id")
+        tag = _require_str(tag, "tag")
+        changed_ts = _require_str(changed_ts, "changed_ts")
         if not (artifact_id and tag and changed_ts):
             return json.dumps({"error":"artifact_id, tag, changed_ts are required"})
 

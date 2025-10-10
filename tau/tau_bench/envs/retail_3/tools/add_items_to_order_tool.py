@@ -24,9 +24,8 @@ class AddItemsToOrderTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        order_id = kwargs.get("order_id")
-        items_spec = kwargs.get("items")
+    def invoke(data: Dict[str, Any], items, order_id) -> str:
+        items_spec = items
 
         if not order_id or not isinstance(items_spec, list) or not items_spec:
             return json.dumps({"error": "order_id and non-empty items are required"}, indent=2)

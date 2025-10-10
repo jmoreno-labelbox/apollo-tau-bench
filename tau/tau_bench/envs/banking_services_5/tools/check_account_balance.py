@@ -9,10 +9,7 @@ class CheckAccountBalance(Tool):
     """Returns the current balance for a customer’s account, and optionally validates against a requested amount."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id     = kwargs.get("customer_id")
-        account_id      = kwargs.get("account_id")
-        requested_amount = kwargs.get("requested_amount", 0.0)
+    def invoke(data: Dict[str, Any], account_id, customer_id, requested_amount = 0.0) -> str:
 
         if not customer_id or not account_id:
             return json.dumps(

@@ -7,9 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class GetProjectPublisher(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], name) -> str:
         record = next((pr for pr in data["pipeline_opportunities"]
-                       if pr["project_title"] == kwargs["name"]),
+                       if pr["project_title"] == name),
                       None)
 
         return json.dumps(record["publisher_id"])

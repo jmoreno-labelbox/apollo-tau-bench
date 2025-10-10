@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetEmployeeCostByProject(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
-        project_id = kwargs.get("project_id")
-        include_expenses = kwargs.get("include_expenses", True)
+    def invoke(data: Dict[str, Any], employee_id, project_id, include_expenses = True) -> str:
 
         if not all([employee_id, project_id]):
             return json.dumps({"error": "employee_id and project_id are required"})

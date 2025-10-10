@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CalculateTotalBalance(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
-        account_ids = kwargs.get("account_ids", [])
+    def invoke(data: Dict[str, Any], customer_id, account_ids = []) -> str:
         if not customer_id or not isinstance(account_ids, list) or not account_ids:
             return json.dumps(
                 {"error": "customer_id and a non-empty list of account_ids are required."},

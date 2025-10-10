@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class IdentifyPotentialReviewers(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        article_id = kwargs.get('article_id')
-        exclude_user_ids = kwargs.get('exclude_user_ids', [])
+    def invoke(data: Dict[str, Any], article_id, exclude_user_ids = []) -> str:
 
         if not article_id:
             return json.dumps({"error": "article_id is required."})

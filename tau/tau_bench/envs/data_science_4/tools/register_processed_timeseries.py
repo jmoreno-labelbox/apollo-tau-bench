@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class RegisterProcessedTimeseries(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        path = kwargs.get("processed_csv_path")
+    def invoke(data: Dict[str, Any], processed_csv_path) -> str:
+        path = processed_csv_path
         entry = {"processed_csv_path": path}
         data.setdefault("processed_timeseries.json", []).append(entry)
         return json.dumps({**entry, "status": "completed"})

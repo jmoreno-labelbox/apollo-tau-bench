@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class OpenHouseWindowsByNeighborhoods(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        nids = set(kwargs.get("neighborhood_ids") or [])
+    def invoke(data: Dict[str, Any], neighborhood_ids) -> str:
+        nids = set(neighborhood_ids or [])
         props = [p for p in list(data.get("properties", {}).values()) if p.get("neighborhood_id") in nids]
         prop_ids = {p.get("property_id") for p in props}
         rows = [oh for oh in data.get("open_houses", []) if oh.get("property_id") in prop_ids]

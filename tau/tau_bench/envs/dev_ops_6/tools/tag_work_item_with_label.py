@@ -9,10 +9,7 @@ class TagWorkItemWithLabel(Tool):
     """Attach a label to a work item; create label by name if needed (deterministic ids)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        work_item_id = kwargs.get('work_item_id')
-        label_id = kwargs.get('label_id')
-        label_name = kwargs.get('label_name')
+    def invoke(data: Dict[str, Any], label_id, label_name, work_item_id) -> str:
         labels = _table(data, 'labels')
         wils = _table(data, 'work_item_labels')
         if not label_id:

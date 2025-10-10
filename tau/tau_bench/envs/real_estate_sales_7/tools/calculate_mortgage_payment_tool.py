@@ -9,11 +9,9 @@ class CalculateMortgagePaymentTool(Tool):
     """Calculates mortgage payment using client profile and rates."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        loan_amount = kwargs.get("loan_amount")
-        down_payment = kwargs.get("down_payment")
-        best_rate = kwargs.get("interest_rate")
-        term_years = _as_int(kwargs.get("term_years"))
+    def invoke(data: Dict[str, Any], down_payment, interest_rate, loan_amount, term_years) -> str:
+        best_rate = interest_rate
+        term_years = _as_int(term_years)
         if None in (loan_amount, down_payment, best_rate) or term_years is None:
             return _err("loan_amount, down_payment, best_rate, term_years are required")
 

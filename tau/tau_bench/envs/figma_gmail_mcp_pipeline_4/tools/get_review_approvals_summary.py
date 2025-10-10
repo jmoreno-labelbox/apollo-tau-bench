@@ -7,16 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetReviewApprovalsSummary(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], approval_id, approval_status, approved_after, approved_before, approver_id, cycle_id) -> str:
         """
         Retrieves review approvals with filtering and summary capabilities.
         """
-        approval_id = kwargs.get('approval_id')
-        cycle_id = kwargs.get('cycle_id')
-        approver_id = kwargs.get('approver_id')
-        approval_status = kwargs.get('approval_status')
-        approved_after = kwargs.get('approved_after')
-        approved_before = kwargs.get('approved_before')
 
         review_approvals = data.get('review_approvals', [])
         review_cycles = data.get('review_cycles', [])

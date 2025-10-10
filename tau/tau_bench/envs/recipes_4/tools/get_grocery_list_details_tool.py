@@ -32,7 +32,7 @@ class GetGroceryListDetailsTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> Dict[str, Any]:
+    def invoke(data: Dict[str, Any], list_id) -> Dict[str, Any]:
         """
         Executes the logic to fetch and enrich a full grocery list.
 
@@ -51,8 +51,6 @@ class GetGroceryListDetailsTool(Tool):
         validation_error = _validate_inputs(kwargs, param_definitions)
         if validation_error:
             return _build_error_response(validation_error["error_code"], validation_error["details"])
-
-        list_id = kwargs["list_id"]
 
         # 2. Data Acquisition: Locate the primary grocery list object.
         list_record = next(

@@ -9,14 +9,13 @@ class InsertEntity(Tool):
     """Generic deterministic insert into supported tables (ads, adsets)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], row, table, timestamp) -> str:
         err = _require(kwargs, ["table", "row", "timestamp", "request_id"])
         if err:
             return _fail(err)
 
-        table = str(kwargs["table"])
-        row = kwargs["row"]
-        ts = str(kwargs["timestamp"])
+        table = str(table)
+        ts = str(timestamp)
 
         tbl = _assert_table(data, table)
 

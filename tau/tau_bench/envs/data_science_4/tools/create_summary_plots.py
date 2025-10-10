@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateSummaryPlots(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        predictions_id = kwargs.get("predictions_id")
-        model_id = kwargs.get("model_id")
+    def invoke(data: Dict[str, Any], model_id, predictions_id) -> str:
 
         figure_id = "FIGURE_001"
         figure_path = f"/figures/risk_timeseries_{model_id}.png"

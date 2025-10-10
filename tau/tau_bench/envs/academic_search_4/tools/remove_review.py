@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class RemoveReview(Tool):
     """Deletes a review record from the system."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        review_id = kwargs.get('review_id')
+    def invoke(data: Dict[str, Any], review_id) -> str:
         if not review_id:
             return json.dumps({"error": "review_id is required."})
 

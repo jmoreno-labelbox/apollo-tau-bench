@@ -7,9 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class UpdateCompReportStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        report_id = kwargs.get("report_id")
-        new_status = kwargs.get("status")
+    def invoke(data: Dict[str, Any], report_id, status) -> str:
+        new_status = status
         rpt = next((r for r in data.get("comp_reports", []) if r.get("report_id") == int(report_id)), None)
         if not rpt:
             return json.dumps({"error": f"Report {report_id} not found"}, indent=2)

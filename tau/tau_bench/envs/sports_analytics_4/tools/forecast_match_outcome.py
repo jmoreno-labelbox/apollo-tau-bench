@@ -8,9 +8,9 @@ from tau_bench.envs.tool import Tool
 class ForecastMatchOutcome(Tool):
     @staticmethod
         # primary execution function
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        home_team = kwargs.get("home_team_id")
-        away_team = kwargs.get("away_team_id")
+    def invoke(data: Dict[str, Any], away_team_id, home_team_id) -> str:
+        home_team = home_team_id
+        away_team = away_team_id
         # Basic deterministic model: greater average runs lead to victory.
         games = data.get("games", [])
         def avg_runs(team):

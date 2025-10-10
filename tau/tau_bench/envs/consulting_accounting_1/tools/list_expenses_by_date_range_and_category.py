@@ -7,10 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class ListExpensesByDateRangeAndCategory(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        start = kwargs.get("start_date")
-        end = kwargs.get("end_date")
-        cats = kwargs.get("categories", [])
+    def invoke(data: Dict[str, Any], end_date, start_date, categories = []) -> str:
+        start = start_date
+        end = end_date
+        cats = categories
         if not start or not end or not cats:
             return json.dumps({"error":"start_date, end_date, categories are required"}, indent=2)
         exp = []

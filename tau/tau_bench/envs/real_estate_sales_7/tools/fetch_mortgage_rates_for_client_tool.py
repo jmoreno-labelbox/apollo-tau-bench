@@ -9,9 +9,8 @@ class FetchMortgageRatesForClientTool(Tool):
     """Gets available mortgage rates based on client qualification."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        credit_score = _as_int(kwargs.get("credit_score"))
-        region = kwargs.get("region")
+    def invoke(data: Dict[str, Any], credit_score, region) -> str:
+        credit_score = _as_int(credit_score)
         if credit_score is None or not region:
             return _err("credit_score (int) and region (string) are required")
 

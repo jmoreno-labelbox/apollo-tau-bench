@@ -32,7 +32,7 @@ class GetHouseholdInventoryTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> Dict[str, Any]:
+    def invoke(data: Dict[str, Any], household_id) -> Dict[str, Any]:
         """
         Executes the logic to find and return a household's inventory.
 
@@ -51,8 +51,6 @@ class GetHouseholdInventoryTool(Tool):
         validation_error = _validate_inputs(kwargs, param_definitions)
         if validation_error:
             return _build_error_response(validation_error["error_code"], validation_error["details"])
-
-        household_id = kwargs["household_id"]
 
         # 2. Pre-condition Validation: Verify the existence of the household.
         if not any(h.get("household_id") == household_id for h in data.get("households", [])):

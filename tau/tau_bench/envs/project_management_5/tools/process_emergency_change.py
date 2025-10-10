@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ProcessEmergencyChange(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cr_id = kwargs.get("cr_id")
-        authorized_by = kwargs.get("authorized_by")
-        emergency_type = kwargs.get("emergency_type")
-        justification = kwargs.get("justification")
+    def invoke(data: Dict[str, Any], authorized_by, cr_id, emergency_type, justification, log_id = f"elog_{uuid.uuid4().hex[:8]}") -> str:
 
         if not all([cr_id, authorized_by, emergency_type, justification]):
             return json.dumps(
@@ -47,8 +43,6 @@ class ProcessEmergencyChange(Tool):
         current_time = datetime.now()
         documentation_deadline = (current_time + timedelta(hours=24)).isoformat()
         retroactive_approval_deadline = (current_time + timedelta(hours=48)).isoformat()
-
-        log_id = kwargs.get("log_id", f"elog_{uuid.uuid4().hex[:8]}")
 
         emergency_log = {
             "log_id": log_id,

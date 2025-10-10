@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class update_employee_job_level(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
-        new_level = kwargs.get("new_level")
+    def invoke(data: Dict[str, Any], employee_id, new_level) -> str:
         employee = find_employee(list(data.get("employees", {}).values()), employee_id)
         if not employee:
             return json.dumps(

@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetUserGoals(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
+    def invoke(data: Dict[str, Any], user_id) -> str:
         goals = data.get("goals", [])
         result = [g for g in goals if g["user_id"] == user_id]
         return json.dumps(result, indent=2)

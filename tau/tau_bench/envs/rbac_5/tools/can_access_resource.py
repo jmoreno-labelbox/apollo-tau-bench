@@ -19,11 +19,8 @@ class CanAccessResource(Tool):
       include_details: bool = False (include which permissions/roles grant access)
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id", "")
-        resource_id = kwargs.get("resource_id", "")
-        on_date_iso = kwargs.get("on_date") or get_current_timestamp()
-        include_details = kwargs.get("include_details", False)
+    def invoke(data: Dict[str, Any], on_date, include_details = False, resource_id = "", user_id = "") -> str:
+        on_date_iso = on_date or get_current_timestamp()
 
         if not user_id or not resource_id:
             return json.dumps({"error": "user_id and resource_id are required"})

@@ -9,8 +9,7 @@ class FindTrackingByOrderTool(Tool):
     """Finds tracking data for an order from the shared in-memory state."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        order_id = kwargs.get("order_id")
+    def invoke(data: Dict[str, Any], order_id) -> str:
         # Fetches the tracking information from the in-memory state.
         tracking_data = data.get("tracking", [])
 

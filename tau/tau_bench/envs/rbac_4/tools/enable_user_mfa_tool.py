@@ -9,9 +9,8 @@ class EnableUserMFATool(Tool):
     """Enable MFA for a given user (write operation)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], user_id) -> str:
         users = list(data.get("users", {}).values())
-        user_id = kwargs.get("user_id")
 
         if not isinstance(user_id, str):
             return json.dumps({"error": "user_id must be provided"}, indent=2)

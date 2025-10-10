@@ -9,10 +9,7 @@ class CreateCampaignEntryTool(Tool):
     """Creates an entry in the campaigns table and an accompanying audit event."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        campaign_name = kwargs.get("campaign_name")
-        campaign_type = kwargs.get("campaign_type")
-        created_by = kwargs.get("created_by")
+    def invoke(data: Dict[str, Any], campaign_name, campaign_type, created_by) -> str:
 
         if not campaign_name or not campaign_type or created_by is None:
             return _err("campaign_name, campaign_type, and created_by are required")

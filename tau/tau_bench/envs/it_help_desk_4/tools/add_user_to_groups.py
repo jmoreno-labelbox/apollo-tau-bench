@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class AddUserToGroups(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        account_id = kwargs.get("account_id")
-        group_ids = kwargs.get("group_ids")
+    def invoke(data: Dict[str, Any], account_id, group_ids) -> str:
         audit_log = data.setdefault("group_membership_audit", [])
         added_groups = []
         for group_id in group_ids:

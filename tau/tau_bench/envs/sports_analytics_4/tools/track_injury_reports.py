@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class TrackInjuryReports(Tool):
     @staticmethod
         # primary execution function
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        player_id = kwargs.get("player_id")
+    def invoke(data: Dict[str, Any], player_id) -> str:
         injuries = data.get("injury_reports", [])
         player_injuries = [i for i in injuries if i.get("player_id") == player_id]
         # return outcome

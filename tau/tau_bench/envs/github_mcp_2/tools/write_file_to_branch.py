@@ -9,11 +9,7 @@ class WriteFileToBranch(Tool):
     """Adds or updates a file in a branch (does not commit)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_name = kwargs.get("repo_name")
-        branch = kwargs.get("branch")
-        path = kwargs.get("path")
-        content = kwargs.get("content")
+    def invoke(data: Dict[str, Any], branch, content, path, repo_name) -> str:
 
         if not all([repo_name, branch, path, content]):
             return json.dumps({"error": "repo_name, branch, path, and content are required."}, indent=2)

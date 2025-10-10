@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetPurchaseOrderDetails(Tool):
     """Retrieves details of an inbound shipment by its Purchase Order number."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        po_number = kwargs.get('po_number')
+    def invoke(data: Dict[str, Any], po_number) -> str:
         if not po_number:
             return json.dumps({"error": "po_number is required."}, indent=2)
 

@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class ComputeOrderTotal(Tool):
     """Compute the sum of item prices for an order (ignores refunds/payments)."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        order_id = kwargs.get('order_id')
+    def invoke(data, order_id) -> str:
         if not order_id:
             return json.dumps({"error":"order_id is required"}, indent=2)
         o = _find_order(data, order_id)

@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CalculateTicketMetrics(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        tickets = kwargs.get("tickets")
+    def invoke(data: Dict[str, Any], tickets) -> str:
         calculated_tickets = []
         for ticket in tickets:
             ticket["age_hours"] = 72

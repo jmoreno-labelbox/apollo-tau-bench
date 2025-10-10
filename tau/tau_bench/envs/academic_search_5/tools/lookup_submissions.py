@@ -10,11 +10,7 @@ class LookupSubmissions(Tool):
     Tool to search for submissions based on various criteria OR retrieve a single one by ID.
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        submission_id = kwargs.get('submission_id')
-        article_id = kwargs.get('article_id')
-        author_user_id = kwargs.get('author_user_id')
-        status = kwargs.get('status')
+    def invoke(data: Dict[str, Any], article_id, author_user_id, status, submission_id) -> str:
 
         submissions = list(data.get('submissions', {}).values())
 

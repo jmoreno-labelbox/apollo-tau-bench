@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class UpdateOutboundOrderStatus(Tool):
     """Updates the status of an existing outbound order."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        order_id = kwargs.get('order_id')
-        new_status = kwargs.get('new_status')
+    def invoke(data: Dict[str, Any], new_status, order_id) -> str:
 
         if not all([order_id, new_status]):
             return json.dumps({"error": "order_id and new_status are required."}, indent=2)

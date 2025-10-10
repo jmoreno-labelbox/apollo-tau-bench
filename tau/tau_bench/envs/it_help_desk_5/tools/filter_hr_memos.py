@@ -7,12 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class FilterHRMemos(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], first_name, last_name, type) -> str:
         memos = data.get('hr_memos')
-
-        first_name = kwargs.get('first_name')
-        last_name = kwargs.get('last_name')
-        memo_type = kwargs.get('type')
+        memo_type = type
 
         if first_name is None or last_name is None:
             if memo_type is not None:

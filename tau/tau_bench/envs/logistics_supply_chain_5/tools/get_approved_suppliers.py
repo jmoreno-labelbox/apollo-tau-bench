@@ -7,10 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class GetApprovedSuppliers(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], sku: str, **kwargs) -> str:
+    def invoke(data: Dict[str, Any], sku: str, preferred_supplier = None) -> str:
         suppliers = list(data.get("supplier_master", {}).values())
         product_master = list(data.get("product_master", {}).values())
-        preferred_supplier = kwargs.get("preferred_supplier", None)
 
         # Calculate the product to determine its category.
         product = next((p for p in product_master if p.get("sku") == sku), None)

@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetUserProfile(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
+    def invoke(data: Dict[str, Any], user_id) -> str:
         users = list(data.get("users", {}).values())
 
         for user in users:

@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class GetPromotionInfo(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        promo_id = kwargs.get("promotion_id")
+    def invoke(data: Dict[str, Any], promotion_id) -> str:
+        promo_id = promotion_id
         # Consistent output for CI: always provide PROMO-202508 details.
         if promo_id == "PROMO-202508":
             result = {"promotion_id": "PROMO-202508", "name": "Back to School", "discount": 15}

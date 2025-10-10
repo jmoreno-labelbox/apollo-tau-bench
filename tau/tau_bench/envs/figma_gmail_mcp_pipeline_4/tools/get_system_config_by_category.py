@@ -7,14 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetSystemConfigByCategory(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], config_category, config_key, key_pattern, include_history = False) -> str:
         """
         Retrieves system configuration entries filtered by category and key patterns.
         """
-        config_key = kwargs.get('config_key')
-        config_category = kwargs.get('config_category')
-        key_pattern = kwargs.get('key_pattern')
-        include_history = kwargs.get('include_history', False)
 
         system_config = data.get('system_config', [])
 

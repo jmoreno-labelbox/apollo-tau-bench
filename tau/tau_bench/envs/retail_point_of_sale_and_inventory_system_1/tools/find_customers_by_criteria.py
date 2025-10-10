@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class FindCustomersByCriteria(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        membership_levels = kwargs.get('membership_levels', [])
-        purchase_history_skus = kwargs.get('purchase_history_skus', [])
+    def invoke(data: Dict[str, Any], membership_levels = [], purchase_history_skus = []) -> str:
 
         customers = list(data.get("customers", {}).values())  # Ajustado para lista
         transactions = list(data.get("transactions", {}).values())  # Ajustado para lista

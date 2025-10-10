@@ -8,10 +8,7 @@ from . import get_current_timestamp
 
 class ResolveTicketTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        ticket_id = kwargs.get('ticket_id')
-        resolution = kwargs.get('resolution')
-        agent_id = kwargs.get('agent_id', 'SYSTEM')
+    def invoke(data: Dict[str, Any], resolution, ticket_id, agent_id = 'SYSTEM') -> str:
 
         support_tickets = list(data.get('support_tickets', {}).values())
 

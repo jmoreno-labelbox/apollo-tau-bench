@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CalculateTeamCapacity(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        team_id = kwargs.get("team_id")
+    def invoke(data: Dict[str, Any], sprint_id, team_id) -> str:
 
         if not team_id:
             return json.dumps({"error": "team_id is required"})
@@ -25,7 +24,7 @@ class CalculateTeamCapacity(Tool):
 
         total_capacity_hours = len(team_members) * 6 * 10
 
-        if sprint_id := kwargs.get("sprint_id"):
+        if sprint_id := sprint_id:
             sprint_tasks = [
                 t
                 for t in tasks

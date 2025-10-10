@@ -7,15 +7,15 @@ from tau_bench.envs.tool import Tool
 
 class SendSlackMessage(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], channel, message, username) -> str:
         messages = data.get('slack_messages', [])
         new_id_num = max((int(m['message_id'][3:]) for m in messages), default=0) + 1
         new_message_id = f"SL-{new_id_num:03d}"
         new_message = {
                 "message_id": new_message_id,
-                "username": kwargs.get("username"),
-                "channel": kwargs.get("channel"),
-                "message": kwargs.get("message"),
+                "username": username,
+                "channel": channel,
+                "message": message,
                 "timestamp": NOW.strftime(DT_STR_FORMAT)
         }
         messages.append(new_message)

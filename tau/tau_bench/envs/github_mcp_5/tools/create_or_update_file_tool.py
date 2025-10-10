@@ -7,13 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateOrUpdateFileTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get('owner')
-        repo = kwargs.get('repo')
-        path = kwargs.get('path')
-        content = kwargs.get('content')
-        message = kwargs.get('message')
-        branch = kwargs.get('branch')
+    def invoke(data: Dict[str, Any], branch, content, message, owner, path, repo) -> str:
 
 
         if not all([owner, repo, path, content, message, branch]):

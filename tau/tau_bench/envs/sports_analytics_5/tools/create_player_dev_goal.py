@@ -9,7 +9,7 @@ from . import _require_tables
 class CreatePlayerDevGoal(Tool):
     """Insert player_dev_goals row (status defaults to 'Proposed')."""
     @staticmethod
-    def invoke(data, **kwargs)->str:
+    def invoke(data, coach_id, dev_report_id, goal_text, player_id, target_review_date)->str:
         err = _require_tables(data, ["player_dev_goals"])
         if err:
             return json.dumps({"error": err}, indent=2)
@@ -20,12 +20,12 @@ class CreatePlayerDevGoal(Tool):
         new_id = _next_id(rows, "goal_id")
         row = {
             "goal_id": new_id,
-            "dev_report_id": kwargs.get("dev_report_id"),
-            "player_id": kwargs.get("player_id"),
-            "goal_text": kwargs.get("goal_text"),
+            "dev_report_id": dev_report_id,
+            "player_id": player_id,
+            "goal_text": goal_text,
             "goal_status": "Proposed",
-            "coach_id": kwargs.get("coach_id"),
-            "target_review_date": kwargs.get("target_review_date")
+            "coach_id": coach_id,
+            "target_review_date": target_review_date
         }
         rows.append(row)
         return json.dumps({"goal_id": new_id}, indent=2)

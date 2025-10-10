@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class UpdateArticleDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        article_id, new_topic, new_status = kwargs.get('article_id'), kwargs.get('new_topic'), kwargs.get('new_status')
+    def invoke(data: Dict[str, Any], article_id, new_status, new_topic) -> str:
+        article_id, new_topic, new_status = article_id, new_topic, new_status
         if not article_id or (not new_topic and not new_status):
             return json.dumps({"error": "article_id and either new_topic or new_status are required."})
         for article in list(data.get('articles', {}).values()):

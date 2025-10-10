@@ -9,8 +9,7 @@ class CaV2GetPaymentBehaviorByPublisher(Tool):
     """Get payment behavior data for a specific publisher."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        publisher_id = kwargs.get("publisher_id")
+    def invoke(data: Dict[str, Any], publisher_id) -> str:
         if not publisher_id:
             return _error("publisher_id is required.")
 

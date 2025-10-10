@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class update_company_document_content(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        doc_id = kwargs.get("doc_id")
-        new_content = kwargs.get("new_content")
+    def invoke(data: Dict[str, Any], doc_id, new_content) -> str:
 
         all_docs = data.get("company_doc", {}).get("company_documents", [])
         doc_to_update = next((d for d in all_docs if d.get("id") == doc_id), None)

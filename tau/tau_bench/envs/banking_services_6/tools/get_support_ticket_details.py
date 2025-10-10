@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetSupportTicketDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        ticket_id = kwargs.get("ticket_id")
+    def invoke(data: Dict[str, Any], ticket_id) -> str:
         ticket = next((t for t in list(data.get('support_tickets', {}).values()) if t['ticket_id'] == ticket_id), None)
         if ticket:
             return json.dumps(ticket)

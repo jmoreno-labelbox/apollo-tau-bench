@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class RemoveAssetRequest(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        request_id = kwargs.get("request_id")
+    def invoke(data: Dict[str, Any], request_id) -> str:
         requests = list(data.get("asset_requests", {}).values())
         data["asset_requests"] = [r for r in requests if r.get("request_id") != request_id]
         return json.dumps({"removed_request_id": request_id}, indent=2)

@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetAdsetsByCampaignID(Tool):
     """Retrieves all ad sets belonging to a specific campaign."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        campaign_id = kwargs.get("campaign_id")
+    def invoke(data: Dict[str, Any], campaign_id) -> str:
         adsets = [adset for adset in data.get('adsets', []) if adset.get('campaign_id') == campaign_id]
         return json.dumps({"adsets": adsets})
 

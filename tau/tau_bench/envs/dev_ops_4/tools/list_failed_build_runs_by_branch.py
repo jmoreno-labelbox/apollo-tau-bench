@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class ListFailedBuildRunsByBranch(Tool):
     """List failed build runs for a given branch."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        branch = kwargs.get("branch")
+    def invoke(data: Dict[str, Any], branch) -> str:
         runs = list(data.get("build_runs", {}).values())
         failed = [r for r in runs if r.get("branch") == branch and r.get("status") == "failed"]
         return json.dumps({"count": len(failed), "runs": failed}, indent=2)

@@ -9,10 +9,7 @@ class CaV2GetExpensesByCategory(Tool):
     """Get expenses filtered by category and optional date range."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        category_code = kwargs.get("category_code")
-        start_date = kwargs.get("start_date")
-        end_date = kwargs.get("end_date")
+    def invoke(data: Dict[str, Any], category_code, end_date, start_date) -> str:
 
         if not category_code:
             return _error("category_code is required.")

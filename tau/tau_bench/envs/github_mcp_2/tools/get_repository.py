@@ -9,8 +9,7 @@ class GetRepository(Tool):
     """Returns details about a repository by name, regardless of owner."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_name = kwargs.get("repo_name")
+    def invoke(data: Dict[str, Any], repo_name) -> str:
         if not repo_name:
             return json.dumps({"error": "repo_name is required."}, indent=2)
 

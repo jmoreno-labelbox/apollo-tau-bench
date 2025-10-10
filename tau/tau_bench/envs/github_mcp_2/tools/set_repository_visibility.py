@@ -9,10 +9,8 @@ class SetRepositoryVisibility(Tool):
     """Changes the visibility of a repository."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], repo_name, visibility) -> str:
         me = _auth(data)["username"]
-        repo_name = kwargs.get("repo_name")
-        visibility = kwargs.get("visibility")
 
         if not all([repo_name, visibility]):
             return json.dumps({"error": "repo_name and visibility are required."}, indent=2)

@@ -26,10 +26,8 @@ class AppendSimilarIncidentToRun(Tool):
         }
 
     @staticmethod
-    def invoke(data, **kwargs):
-        run_id = kwargs.get("run_id")
-        incident_run_id = kwargs.get("incident_run_id")
-        score = kwargs.get("similarity_score")
+    def invoke(data, incident_run_id, run_id, similarity_score):
+        score = similarity_score
         runs = list(data.get("build_runs", {}).values())
         run = next((r for r in runs if r.get("id") == run_id), None)
         if not run:

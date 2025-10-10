@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class FindFiles(Tool):
     """Finds files on a server based on specified criteria."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        server_hostname = kwargs.get("server_hostname")
-        search_path = kwargs.get("search_path")
+    def invoke(data: Dict[str, Any], search_path, server_hostname) -> str:
         
         found_files = []
         for server in list(data.get("file_system", {}).values()):

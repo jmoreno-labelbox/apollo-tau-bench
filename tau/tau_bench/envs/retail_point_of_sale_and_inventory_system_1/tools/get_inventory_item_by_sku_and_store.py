@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetInventoryItemBySkuAndStore(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        sku = kwargs.get('sku')
-        store_id = kwargs.get('store_id')
+    def invoke(data: Dict[str, Any], sku, store_id) -> str:
         inventory_items = list(data.get("inventory", {}).values())
         for item in inventory_items:
             if item.get("sku") == sku and item.get("store_id") == store_id:

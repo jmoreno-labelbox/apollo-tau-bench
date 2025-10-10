@@ -8,9 +8,9 @@ from tau_bench.envs.tool import Tool
 class ListInvoiceEvents(Tool):
     """List all audit events for an invoice."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        inv_id = kwargs.get("invoice_id")
-        inv_no = kwargs.get("invoice_number")
+    def invoke(data: Dict[str, Any], invoice_id, invoice_number) -> str:
+        inv_id = invoice_id
+        inv_no = invoice_number
         events = []
         for a in data.get("invoice_audit", []) or []:
             if inv_id and str(a.get("invoice_id")) == str(inv_id):

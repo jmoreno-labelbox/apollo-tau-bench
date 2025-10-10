@@ -16,8 +16,7 @@ class GetAllEevntsByGamePk(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        game_pk = kwargs.get("game_pk")
+    def invoke(data: Dict[str, Any], game_pk) -> str:
 
         # 1) Verify
         if game_pk is None:

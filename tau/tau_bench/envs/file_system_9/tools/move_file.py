@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class MoveFile(Tool):
     """Moves a file from a source path to a destination path."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        source_path = kwargs.get("source_path")
-        destination_path = kwargs.get("destination_path")
+    def invoke(data: Dict[str, Any], destination_path, source_path) -> str:
         
         file_to_move = None
         source_directory = None

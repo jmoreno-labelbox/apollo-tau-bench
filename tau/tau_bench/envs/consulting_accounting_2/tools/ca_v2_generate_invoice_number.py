@@ -9,8 +9,7 @@ class CaV2GenerateInvoiceNumber(Tool):
     """Generate next sequential invoice number for a given year."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        year = kwargs.get("year")
+    def invoke(data: Dict[str, Any], year) -> str:
         if not year:
             return _error("year is required.")
 

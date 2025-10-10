@@ -7,15 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class DeviceManager(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], device_id, location, schedule_updates, type, action = 'get', device_data = {}, state_updates = {}) -> str:
         devices = list(data.get('devices', {}).values())
-        action = kwargs.get('action', 'get')
-        device_id = kwargs.get('device_id')
-        device_type = kwargs.get('type')
-        location = kwargs.get('location')
-        state_updates = kwargs.get('state_updates', {})
-        schedule_updates = kwargs.get('schedule_updates')
-        device_data = kwargs.get('device_data', {})
+        device_type = type
 
         if action == 'get':
             result = [d for d in devices if (not device_id or d['id'] == device_id) and

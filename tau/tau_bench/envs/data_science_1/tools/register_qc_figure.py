@@ -8,11 +8,11 @@ from . import _require
 
 class RegisterQcFigure(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], created_ts, description, figure_path) -> str:
         err = _require(kwargs, ["figure_path"])
         if err: return err
-        row = {"figure_path": kwargs["figure_path"], "description": kwargs.get("description"),
-               "created_ts": kwargs.get("created_ts")}
+        row = {"figure_path": figure_path, "description": description,
+               "created_ts": created_ts}
         return json.dumps(_append(data.setdefault("qc_figures", []), row), indent=2)
 
     @staticmethod

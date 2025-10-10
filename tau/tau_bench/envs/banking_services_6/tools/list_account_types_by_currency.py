@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ListAccountTypesByCurrency(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        currency = kwargs.get("currency")
+    def invoke(data: Dict[str, Any], currency) -> str:
         account_types = []
         if currency == "GBP":
             account_types = ["Checking", "Savings", "ISA"]

@@ -9,11 +9,9 @@ class GetInventoryWithDamage(Tool):
     """Tool to retrieve inventory items with quantity_damaged > 0."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], less_than_threshold = "False", list_of_ids = None, threshold = None) -> str:
         inventories = list(data.get("inventory", {}).values())
-        threshold = kwargs.get("threshold", None)
-        less_than_threshold = kwargs.get("less_than_threshold", "False")
-        list_of_inventories = kwargs.get("list_of_ids", None)
+        list_of_inventories = list_of_ids
         if threshold:
             if less_than_threshold == "True":
                 damaged = [[item['inventory_id'], item['quantity_damaged']] for item in inventories if item["quantity_damaged"] < threshold]

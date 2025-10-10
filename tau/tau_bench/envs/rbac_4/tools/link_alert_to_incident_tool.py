@@ -9,7 +9,7 @@ class LinkAlertToIncidentTool(Tool):
     """Link an existing SIEM alert to an incident record (write operation, deterministic)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], alert_id, incident_id) -> str:
         incidents = list(data.get("incidents", {}).values())
         alerts = data.get("siem_alerts", [])
 
@@ -17,9 +17,6 @@ class LinkAlertToIncidentTool(Tool):
             return json.dumps({"error": "incidents must be a list"}, indent=2)
         if not isinstance(alerts, list):
             return json.dumps({"error": "siem_alerts must be a list"}, indent=2)
-
-        incident_id = kwargs.get("incident_id")
-        alert_id = kwargs.get("alert_id")
 
         if not isinstance(incident_id, str) or not incident_id.strip():
             return json.dumps({"error": "incident_id must be a non-empty string"}, indent=2)

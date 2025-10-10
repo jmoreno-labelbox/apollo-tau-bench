@@ -12,8 +12,8 @@ class GetRoleIdByName(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        find_role_name = kwargs.get("role_name")
+    def invoke(data: Dict[str, Any], role_name) -> str:
+        find_role_name = role_name
         try:
             roles = list(data.get('roles', {}).values())
         except (KeyError, json.JSONDecodeError):

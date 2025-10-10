@@ -7,16 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateProject(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_name = kwargs.get("project_name")
-        department = kwargs.get("department")
-        status = kwargs.get("status", "active")
-        priority = kwargs.get("priority", "low")
-        required_hours_per_week = kwargs.get("required_hours_per_week")
-        need_resources = kwargs.get("need_resources", "true")
-        start_date = kwargs.get("start_date", "to be defined")
-        end_date = kwargs.get("end_date", "to be defined")
-        project_id = kwargs.get("project_id", f"project_{uuid.uuid4().hex[:8]}")
+    def invoke(data: Dict[str, Any], department, project_name, required_hours_per_week, end_date = "to be defined", need_resources = "true", priority = "low", project_id = f"project_{uuid.uuid4().hex[:8]}", start_date = "to be defined", status = "active") -> str:
 
         if not all([project_name, department, required_hours_per_week]):
             return json.dumps({"error": "project_name, required_hours_per_week and department are required parameters"})

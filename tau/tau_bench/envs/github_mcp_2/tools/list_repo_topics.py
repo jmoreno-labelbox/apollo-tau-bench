@@ -9,8 +9,8 @@ class ListRepoTopics(Tool):
     """Lists all topics for a given repository."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo = _find_repo_record(data, kwargs.get("repo_name"))
+    def invoke(data: Dict[str, Any], repo_name) -> str:
+        repo = _find_repo_record(data, repo_name)
         return json.dumps({"topics": repo.get("topics", [])}, indent=2)
 
     @staticmethod

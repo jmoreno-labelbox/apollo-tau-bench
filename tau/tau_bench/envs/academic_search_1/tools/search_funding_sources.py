@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SearchFundingSources(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        source_name = kwargs.get('source_name')
-        focus_area = kwargs.get('focus_area')
-        status = kwargs.get('status')
+    def invoke(data: Dict[str, Any], focus_area, source_name, status) -> str:
         sources = list(data.get('funding_sources', {}).values())
 
         if not source_name and not focus_area and not status:

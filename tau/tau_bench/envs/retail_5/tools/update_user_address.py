@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateUserAddress(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get('user_id')
-        address = kwargs.get('address')
+    def invoke(data: Dict[str, Any], address, user_id) -> str:
         if not user_id or not address:
             return json.dumps({'error': 'user_id and address are required'})
 

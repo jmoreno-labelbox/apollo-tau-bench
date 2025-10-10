@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetAdsetAllocationFromPlan(Tool):
     """Retrieves a specific ad set's allocation from a plan."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        plan_id = kwargs.get("plan_id")
-        adset_id = kwargs.get("adset_id")
+    def invoke(data: Dict[str, Any], adset_id, plan_id) -> str:
         for plan in data.get('plans', []):
             if plan.get('plan_id') == plan_id:
                 for allocation in plan.get('allocations', []):

@@ -9,10 +9,7 @@ class CalculateCPAForAdSetForPeriod(Tool):
     """Calculates CPA for a specific ad set over a period."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        adset_id = kwargs.get("adset_id")
-        start_date = kwargs.get("start_date")
-        end_date = kwargs.get("end_date")
+    def invoke(data: Dict[str, Any], adset_id, end_date, start_date) -> str:
         insights = list(data.get("f_insights", {}).values())
         total_spend = 0
         total_purchases = 0

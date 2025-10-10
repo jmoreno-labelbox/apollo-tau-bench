@@ -8,16 +8,16 @@ from . import _require
 
 class StoreWaterLevels(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], datum_nullable, end_ts, fetched_ts, raw_json_path_nullable, start_ts, station_id, station_name_nullable, timestamps, units, water_level_m) -> str:
         req = ["station_id", "timestamps", "water_level_m", "units"]
         err = _require(kwargs, req)
         if err: return err
-        row = {"station_id": kwargs["station_id"], "station_name_nullable": kwargs.get("station_name_nullable"),
-               "start_ts": kwargs.get("start_ts"), "end_ts": kwargs.get("end_ts"),
-               "timestamps": kwargs["timestamps"], "water_level_m": kwargs["water_level_m"],
-               "units": kwargs["units"], "datum_nullable": kwargs.get("datum_nullable"),
-               "provider": "noaa-tides-currents", "raw_json_path_nullable": kwargs.get("raw_json_path_nullable"),
-               "fetched_ts": kwargs.get("fetched_ts")}
+        row = {"station_id": station_id, "station_name_nullable": station_name_nullable,
+               "start_ts": start_ts, "end_ts": end_ts,
+               "timestamps": timestamps, "water_level_m": water_level_m,
+               "units": units, "datum_nullable": datum_nullable,
+               "provider": "noaa-tides-currents", "raw_json_path_nullable": raw_json_path_nullable,
+               "fetched_ts": fetched_ts}
         return json.dumps(_append(data.setdefault("water_levels", []), row), indent=2)
 
     @staticmethod

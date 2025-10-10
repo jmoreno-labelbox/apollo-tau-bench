@@ -9,11 +9,7 @@ class ApproveAccessRequest(Tool):
     """ Approve access requests and change their status from 'PENDING' to 'APPROVED' and create the required user-role assignment to grant the access."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        request_id = kwargs.get("request_id")
-        reviewer_id = kwargs.get("reviewer_id")
-        timestamp = kwargs.get("timestamp")
-        expires_on = kwargs.get("expires_on")
+    def invoke(data: Dict[str, Any], expires_on, request_id, reviewer_id, timestamp) -> str:
 
         try:
             access_requests = data.get('access_requests', [])

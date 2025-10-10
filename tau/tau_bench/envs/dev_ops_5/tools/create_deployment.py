@@ -8,18 +8,18 @@ from tau_bench.envs.tool import Tool
 class CreateDeployment(Tool):
     """Creates a new deployment record."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], deployed_by, environment_id, pipeline_id, status, version) -> str:
         deployments = list(data.get("deployments", {}).values())
         new_id_num = max([int(d["id"].split("_")[1]) for d in deployments]) + 1
         new_id = f"deploy_{new_id_num:03d}"
         
         new_deployment = {
             "id": new_id,
-            "pipeline_id": kwargs.get("pipeline_id"),
-            "environment_id": kwargs.get("environment_id"),
-            "deployed_by": kwargs.get("deployed_by"),
-            "version": kwargs.get("version"),
-            "status": kwargs.get("status"),
+            "pipeline_id": pipeline_id,
+            "environment_id": environment_id,
+            "deployed_by": deployed_by,
+            "version": version,
+            "status": status,
             "deployed_at": "2025-01-28T00:00:00Z",
             "duration_minutes": 0
         }

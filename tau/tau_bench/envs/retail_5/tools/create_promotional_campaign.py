@@ -8,10 +8,7 @@ from . import generate_unique_id
 
 class CreatePromotionalCampaign(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        campaign_name = kwargs.get('campaign_name')
-        target_category = kwargs.get('target_category')
-        discount_percentage = kwargs.get('discount_percentage', 10)
+    def invoke(data: Dict[str, Any], campaign_name, target_category, discount_percentage = 10) -> str:
 
         if not campaign_name or not target_category:
             return json.dumps({'error': 'campaign_name and target_category are required'})

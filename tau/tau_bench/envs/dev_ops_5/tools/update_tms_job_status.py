@@ -8,9 +8,8 @@ from tau_bench.envs.tool import Tool
 class UpdateTmsJobStatus(Tool):
     """Updates the status of a TMS job."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        job_id = kwargs.get("job_id")
-        new_status = kwargs.get("status")
+    def invoke(data: Dict[str, Any], job_id, status) -> str:
+        new_status = status
         jobs = data.get("tms_jobs", [])
         for job in jobs:
             if job.get("id") == job_id:

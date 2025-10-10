@@ -9,10 +9,10 @@ class ExportLogsTool(Tool):
     """Export logs in CSV or JSON format within given time range."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        fmt = kwargs.get("format")
-        start = kwargs.get("start_time")
-        end = kwargs.get("end_time")
+    def invoke(data: Dict[str, Any], end_time, format, start_time) -> str:
+        fmt = format
+        start = start_time
+        end = end_time
         logs = [l for l in data.get("audit_logs", []) if start <= l["timestamp"] <= end]
         if not fmt or not isinstance(fmt, str) or fmt.upper() not in ["CSV", "JSON"]:
             return json.dumps({"error": "Invalid format"}, indent=2)

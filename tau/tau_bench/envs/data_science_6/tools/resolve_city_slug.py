@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ResolveCitySlug(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        city = kwargs.get("city")
+    def invoke(data: Dict[str, Any], city) -> str:
         if not city or not isinstance(city, str):
             return json.dumps({"error": "Missing city"})
         mapping = {"San Francisco": "sf", "Miami": "miami", "Boston": "boston", "Seattle": "seattle", "Charleston": "charleston", "New York": "new_york", "Los Angeles": "los_angeles"}

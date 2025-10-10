@@ -8,14 +8,9 @@ from tau_bench.envs.tool import Tool
 class CreateAccessRequestTool(Tool):
     """Submit a new access request for a user."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], justification, resource_id, role_id, user_id) -> str:
         access_requests = data.get("access_requests", [])
         audit_logs = data.get("audit_logs", [])
-
-        user_id = kwargs.get("user_id")
-        resource_id = kwargs.get("resource_id")
-        role_id = kwargs.get("role_id")
-        justification = kwargs.get("justification")
 
         # Eliminate redundant PENDING requests.
         for ar in access_requests:

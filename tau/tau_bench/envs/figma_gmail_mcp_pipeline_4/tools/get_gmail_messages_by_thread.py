@@ -7,17 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetGmailMessagesByThread(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], has_attachments, message_id, sender_email, sent_after, sent_before, thread_id, content_keywords = []) -> str:
         """
         Retrieves Gmail messages filtered by thread ID, sender, and other criteria.
         """
-        message_id = kwargs.get('message_id')
-        thread_id = kwargs.get('thread_id')
-        sender_email = kwargs.get('sender_email')
-        content_keywords = kwargs.get('content_keywords', [])
-        has_attachments = kwargs.get('has_attachments')
-        sent_after = kwargs.get('sent_after')
-        sent_before = kwargs.get('sent_before')
 
         gmail_messages = list(data.get('gmail_messages', {}).values())
 

@@ -9,9 +9,9 @@ class GetTopRatedCarriers(Tool):
     """Tool to return carriers sorted by highest average_rating."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], list_of_scacs = None) -> str:
         carriers = list(data.get("carriers", {}).values())
-        list_of_carriers = kwargs.get("list_of_scacs", None)
+        list_of_carriers = list_of_scacs
         sorted_carriers = sorted(
             carriers,
             key=lambda c: c.get("performance_metrics", {}).get("average_rating", 0),

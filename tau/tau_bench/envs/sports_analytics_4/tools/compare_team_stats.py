@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class CompareTeamStats(Tool):
     @staticmethod
         # primary execution method
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        team_a = kwargs.get("team_a")
-        team_b = kwargs.get("team_b")
+    def invoke(data: Dict[str, Any], team_a, team_b) -> str:
         games = data.get("games", [])
         def avg_runs(team):
             team_games = [g for g in games if g.get("home_team_id") == team or g.get("away_team_id") == team]

@@ -9,8 +9,8 @@ class CategoryAudience(Tool):
     """Return viewership metrics for a product category on a date."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cat, date = kwargs.get("category"), kwargs.get("date")
+    def invoke(data: Dict[str, Any], category, date) -> str:
+        cat, date = category, date
         for v in list(data.get("f_viewership", {}).values()):
             if v.get("category") == cat and v.get("date") == date:
                 return json.dumps(v)

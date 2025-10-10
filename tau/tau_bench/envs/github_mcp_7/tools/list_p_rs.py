@@ -8,10 +8,8 @@ from tau_bench.envs.tool import Tool
 class ListPRs(Tool):
     """List pull requests for a repo with optional state filter."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get("owner") or _actor_name(data)
-        repo = kwargs.get("repo")
-        state = kwargs.get("state")
+    def invoke(data: Dict[str, Any], owner, repo, state) -> str:
+        owner = owner or _actor_name(data)
         result = [p for p in _prs(data) if p.get("owner") == owner and p.get("repo") == repo]
         if state:
             result = [p for p in result if p.get("state") == state]

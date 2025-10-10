@@ -9,8 +9,7 @@ class GetRouteDetails(Tool):
     """Get details about a specific property route."""
     
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        route_id = kwargs.get('route_id')
+    def invoke(data: Dict[str, Any], route_id) -> str:
         if not route_id:
             return json.dumps({"error": "route_id is required"}, indent=2)
         

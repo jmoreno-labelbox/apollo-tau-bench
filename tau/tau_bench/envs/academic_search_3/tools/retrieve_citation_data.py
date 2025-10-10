@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class RetrieveCitationData(Tool):
     """Tool to get the full details of a specific citation."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        citation_id = kwargs.get('citation_id')
+    def invoke(data: Dict[str, Any], citation_id) -> str:
         for citation in list(data.get('citations', {}).values()):
             if citation.get('citation_id') == citation_id:
                 return json.dumps(citation, indent=2)

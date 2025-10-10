@@ -14,9 +14,9 @@ class AssignPermissionToRole(Tool):
       permission_id: str (required)
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        role_id = (kwargs.get("role_id", "") or "").strip()
-        permission_id = (kwargs.get("permission_id", "") or "").strip()
+    def invoke(data: Dict[str, Any], permission_id = "", role_id = "") -> str:
+        role_id = (role_id or "").strip()
+        permission_id = (permission_id or "").strip()
 
         if not role_id or not permission_id:
             return json.dumps({"error": "role_id and permission_id are required"})

@@ -9,8 +9,8 @@ class FindAccessRequestsByUserId(Tool):
     """Finds all access requests submitted by a specific user."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id_to_find = kwargs.get("user_id")
+    def invoke(data: Dict[str, Any], user_id) -> str:
+        user_id_to_find = user_id
         try:
             all_requests = data.get('access_requests', [])
         except (KeyError, json.JSONDecodeError):

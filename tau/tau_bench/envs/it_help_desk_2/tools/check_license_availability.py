@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CheckLicenseAvailability(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        license_id = kwargs.get("license_id")
+    def invoke(data: Dict[str, Any], license_id) -> str:
         inventory = data.get("license_inventory", [])
         license_info = next((lic for lic in inventory if lic.get("license_id") == license_id), None)
         if not license_info:

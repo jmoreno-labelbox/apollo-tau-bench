@@ -9,12 +9,11 @@ class GenerateCompReportDocumentTool(Tool):
     """Generates PDF comparable analysis report."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        report_id = kwargs.get("report_id")
-        subject_property_data = kwargs.get("subject_property_data") or {}
-        comparable_data = kwargs.get("comparable_data") or []
-        market_analysis = kwargs.get("market_analysis") or {}
-        mortgage_calculations = kwargs.get("mortgage_calculations") or {}
+    def invoke(data: Dict[str, Any], comparable_data, market_analysis, mortgage_calculations, report_id, subject_property_data) -> str:
+        subject_property_data = subject_property_data or {}
+        comparable_data = comparable_data or []
+        market_analysis = market_analysis or {}
+        mortgage_calculations = mortgage_calculations or {}
 
         if report_id is None:
             return _err("report_id is required")

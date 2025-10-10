@@ -9,13 +9,12 @@ from . import _require_tables
 class FindNextScheduledGame(Tool):
     """Find the next scheduled game on/after current_date; tie-break on smallest game_pk."""
     @staticmethod
-    def invoke(data, **kwargs)->str:
+    def invoke(data, current_date)->str:
         err = _require_tables(data, ["games"])
         if err:
             return json.dumps({"error": err}, indent=2)
-        if "current_date" not in kwargs or not kwargs["current_date"]:
+        if "current_date" not in kwargs or not current_date:
             return json.dumps({"error":"current_date is required (YYYY-MM-DD)."}, indent=2)
-        current_date = kwargs.get("current_date")
         candidates = [g for g in data["games"] if g.get("game_status")=="Scheduled" and str(g.get("game_date")) >= str(current_date)]
         if not candidates:
             return json.dumps({"error":"No scheduled games on or after current_date."}, indent=2)

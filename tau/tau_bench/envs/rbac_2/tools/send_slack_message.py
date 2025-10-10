@@ -9,7 +9,7 @@ class SendSlackMessage(Tool):
     """ Send a message to a Slack channel. """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], channel, message, timestamp, reply_to_message_id = None) -> str:
         try:
             slack_messages = data.get('slack_messages', [])
         except:
@@ -21,11 +21,11 @@ class SendSlackMessage(Tool):
 
         new_message = {
             "message_id": message_id,
-            "timestamp": kwargs.get("timestamp"),
+            "timestamp": timestamp,
             "username": "RBAC_BOT",
-            "message": kwargs.get("message"),
-            "channel": kwargs.get("channel"),
-            "reply_to_message_id": kwargs.get("reply_to_message_id", None) # Threading is optional.
+            "message": message,
+            "channel": channel,
+            "reply_to_message_id": reply_to_message_id # Threading is optional.
         }
 
         slack_messages.append(new_message)

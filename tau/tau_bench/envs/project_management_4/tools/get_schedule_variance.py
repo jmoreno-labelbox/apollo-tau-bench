@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetScheduleVariance(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
+    def invoke(data: Dict[str, Any], baseline_id, project_id) -> str:
 
         if not project_id:
             return json.dumps({"error": "project_id is required"})
@@ -20,7 +19,7 @@ class GetScheduleVariance(Tool):
             m for m in milestones if m.get("project_id") == project_id
         ]
 
-        if baseline_id := kwargs.get("baseline_id"):
+        if baseline_id := baseline_id:
             baseline = next(
                 (b for b in schedule_baselines if b.get("baseline_id") == baseline_id),
                 None,

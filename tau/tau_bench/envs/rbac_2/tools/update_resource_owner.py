@@ -9,9 +9,8 @@ class UpdateResourceOwner(Tool):
     """ Updates the 'owner_id' field for a specific resource in the database. """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        resource_id_to_update = kwargs.get("resource_id")
-        new_owner_id = kwargs.get("new_owner_id")
+    def invoke(data: Dict[str, Any], new_owner_id, resource_id) -> str:
+        resource_id_to_update = resource_id
 
         try:
             resources = data.get('resources', [])

@@ -8,9 +8,8 @@ from tau_bench.envs.tool import Tool
 class GetTranslationByKeyAndLocale(Tool):
     """Retrieves a translation by its string key and locale."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        key = kwargs.get("string_key")
-        locale = kwargs.get("locale")
+    def invoke(data: Dict[str, Any], locale, string_key) -> str:
+        key = string_key
         translations = data.get("translations", [])
         for t in translations:
             if t.get("string_key") == key and t.get("locale") == locale:

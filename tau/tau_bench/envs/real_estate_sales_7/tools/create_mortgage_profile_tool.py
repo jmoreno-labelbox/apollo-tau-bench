@@ -9,13 +9,9 @@ class CreateMortgageProfileTool(Tool):
     """Creates or updates a mortgage profile entry in the mortgage_profiles table."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        client_id = _as_int(kwargs.get("client_id"))
-        loan_amount = kwargs.get("loan_amount")
-        down_payment = kwargs.get("down_payment")
-        interest_rate = kwargs.get("interest_rate")
-        term_years = _as_int(kwargs.get("term_years"))
-        annual_income = kwargs.get("annual_income")
+    def invoke(data: Dict[str, Any], annual_income, client_id, credit_score, down_payment, interest_rate, loan_amount, region, term_years) -> str:
+        client_id = _as_int(client_id)
+        term_years = _as_int(term_years)
 
         if (
             client_id is None
@@ -29,8 +25,7 @@ class CreateMortgageProfileTool(Tool):
             )
 
         # Non-mandatory fields
-        credit_score = _as_int(kwargs.get("credit_score"))
-        region = kwargs.get("region")
+        credit_score = _as_int(credit_score)
 
         # Allow for the misspelling "mortage_profiles."
         if "mortgage_profiles" in data:

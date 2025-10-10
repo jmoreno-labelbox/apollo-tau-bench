@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class get_leave_calendar(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        department_id = kwargs.get("department_id")
-        employee_id = kwargs.get("employee_id")
-        start_date = kwargs.get("start_date")
-        end_date = kwargs.get("end_date")
+    def invoke(data: Dict[str, Any], department_id, employee_id, end_date, start_date) -> str:
 
         if not department_id and not employee_id:
             return json.dumps(

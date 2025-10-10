@@ -9,14 +9,7 @@ class SendEmailTool(Tool):
     """Creates an email entry with automatic subject/body generation when omitted."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        client_id = kwargs.get("client_id")
-        broker_id = kwargs.get("broker_id")
-        template_code = kwargs.get("template_code")
-        subject = kwargs.get("subject")
-        body_uri = kwargs.get("body_uri")
-        campaign_id = kwargs.get("campaign_id")
-        property_id = kwargs.get("property_id")
+    def invoke(data: Dict[str, Any], body_uri, broker_id, campaign_id, client_id, property_id, subject, template_code) -> str:
 
         if client_id is None or broker_id is None or not template_code:
             return _err("client_id, broker_id, and template_code are required")

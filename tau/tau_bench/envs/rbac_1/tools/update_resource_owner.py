@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateResourceOwner(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        resource_id = kwargs.get("resource_id")
-        new_owner_id = kwargs.get("new_owner_id")
+    def invoke(data: Dict[str, Any], new_owner_id, resource_id) -> str:
         for res in data.get('resources', []):
             if res.get('resource_id') == resource_id:
                 res['owner_id'] = new_owner_id

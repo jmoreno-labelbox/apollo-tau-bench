@@ -8,11 +8,9 @@ from tau_bench.envs.tool import Tool
 class AddCommit(Tool):
     """Record a commit on a branch (very lightweight)."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get("owner") or _actor_name(data)
-        repo = kwargs.get("repo")
-        branch = kwargs.get("branch", "main")
-        message = kwargs.get("message") or ""
+    def invoke(data: Dict[str, Any], message, owner, repo, branch = "main") -> str:
+        owner = owner or _actor_name(data)
+        message = message or ""
         if not (_find_repo(data, owner, repo)):
             raise RuntimeError("Repository not found")
         seq = sum(1 for c in _commits(data) if c.get("owner") == owner and c.get("repo") == repo) + 1

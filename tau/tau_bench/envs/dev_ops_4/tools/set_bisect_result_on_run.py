@@ -27,11 +27,10 @@ class SetBisectResultOnRun(Tool):
         }
 
     @staticmethod
-    def invoke(data, **kwargs):
-        run_id = kwargs.get("run_id")
-        fbc = kwargs.get("first_bad_commit_sha")
-        lgc = kwargs.get("last_good_commit_sha")
-        conf = kwargs.get("confidence")
+    def invoke(data, confidence, first_bad_commit_sha, last_good_commit_sha, run_id):
+        fbc = first_bad_commit_sha
+        lgc = last_good_commit_sha
+        conf = confidence
         runs = list(data.get("build_runs", {}).values())
         run = next((r for r in runs if r.get("id") == run_id), None)
         if not run:

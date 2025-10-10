@@ -7,16 +7,16 @@ from tau_bench.envs.tool import Tool
 
 class AddMonthlyRevenue(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], month, revenue, snapshot_id) -> str:
         """
         Insert or update monthly revenue for a given snapshot.
         """
 
         record = {
-            "row_id": "MON_"+kwargs["snapshot_id"],
-            "snapshot_id": kwargs["snapshot_id"],
-            "month_year": kwargs["month"],
-            "revenue": kwargs["revenue"]
+            "row_id": "MON_"+snapshot_id,
+            "snapshot_id": snapshot_id,
+            "month_year": month,
+            "revenue": revenue
         }
         data["monthly_revenue"].append(record)
 

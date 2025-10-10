@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class RemovePermission(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        permission_id_to_remove = kwargs.get("permission_id")
+    def invoke(data: Dict[str, Any], permission_id) -> str:
+        permission_id_to_remove = permission_id
 
         if not permission_id_to_remove:
             return json.dumps({"error": "permission_id must be provided."})

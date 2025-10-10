@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ListSupplyOrdersByStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        status = kwargs.get('status')
-        supplier_id = kwargs.get('supplier_id')
-        limit = kwargs.get('limit', 20)
+    def invoke(data: Dict[str, Any], status, supplier_id, limit = 20) -> str:
 
         if not status:
             return json.dumps({'error': 'status is required'})

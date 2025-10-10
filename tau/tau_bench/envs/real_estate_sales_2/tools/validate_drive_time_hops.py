@@ -7,9 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class ValidateDriveTimeHops(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        stops = kwargs.get("property_ids") or []
-        max_minutes = kwargs.get("max_minutes", 30)
+    def invoke(data: Dict[str, Any], property_ids, max_minutes = 30) -> str:
+        stops = property_ids or []
         hops = [{"from": stops[i], "to": stops[i + 1], "minutes": 20} for i in range(max(0, len(stops) - 1))]
         ok = all(h["minutes"] <= max_minutes for h in hops)
         return json.dumps({"ok": ok, "hops": hops, "max_minutes": max_minutes}, indent=2)

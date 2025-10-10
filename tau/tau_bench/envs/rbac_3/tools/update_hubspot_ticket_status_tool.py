@@ -9,12 +9,12 @@ class UpdateHubspotTicketStatusTool(Tool):
     """update_hubspot_ticket_status: set status with audit."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], actor_id, status, ticket_id) -> str:
         return UpdateHubspotTicketTool.invoke(
             data,
-            ticket_id=kwargs.get("ticket_id"),
-            status=kwargs.get("status"),
-            actor_id=kwargs.get("actor_id"),
+            ticket_id=ticket_id,
+            status=status,
+            actor_id=actor_id,
         )
 
     @staticmethod

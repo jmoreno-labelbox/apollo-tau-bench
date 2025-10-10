@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ListOpenPullRequests(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_name = kwargs.get("repo_name")
+    def invoke(data: Dict[str, Any], repo_name) -> str:
         me = _auth(data)["username"]
 
         prs = _prs(data)

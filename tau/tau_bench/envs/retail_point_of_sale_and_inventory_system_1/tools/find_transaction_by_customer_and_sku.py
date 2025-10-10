@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class FindTransactionByCustomerAndSku(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get('customer_id')
-        sku = kwargs.get('sku')
+    def invoke(data: Dict[str, Any], customer_id, sku) -> str:
         transactions = list(data.get("transactions", {}).values())  # Array []
         for txn in transactions:
             if txn.get("customer_id") == customer_id:

@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class GetBranchById(Tool):
     """Retrieves a branch by its ID."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        branch_id = kwargs.get("id")
+    def invoke(data: Dict[str, Any], id) -> str:
+        branch_id = id
         branches = list(data.get("branches", {}).values())
         for b in branches:
             if b.get("id") == branch_id:

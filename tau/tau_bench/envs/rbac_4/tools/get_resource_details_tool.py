@@ -9,8 +9,8 @@ class GetResourceDetailsTool(Tool):
     """Retrieve details for a given resource."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        rid = kwargs.get("resource_id")
+    def invoke(data: Dict[str, Any], resource_id) -> str:
+        rid = resource_id
         for res in data.get("resources", []):
             if res["resource_id"] == rid:
                 return json.dumps(res, indent=2)

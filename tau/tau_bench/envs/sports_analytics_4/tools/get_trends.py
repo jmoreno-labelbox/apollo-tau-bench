@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetTrends(Tool):
     @staticmethod
         # primary execution method
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        time_windows = kwargs.get("time_windows", [])
-        min_sample_size = kwargs.get("min_sample_size", 25)
+    def invoke(data: Dict[str, Any], min_sample_size = 25, time_windows = []) -> str:
         # return output
         return json.dumps({"trend_analysis": f"trends_min_{min_sample_size}"}, indent=2)
 

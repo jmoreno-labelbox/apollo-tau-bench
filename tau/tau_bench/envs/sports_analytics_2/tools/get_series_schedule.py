@@ -7,9 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class GetSeriesSchedule(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        opponent_team_id = kwargs.get("opponent_team_id")
-        date_filter = kwargs.get("date")
+    def invoke(data: Dict[str, Any], date, opponent_team_id) -> str:
+        date_filter = date
         games = data.get("games", [])
         schedule = [g for g in games if g.get("home_team_id") == opponent_team_id or g.get("away_team_id") == opponent_team_id]
         if date_filter:

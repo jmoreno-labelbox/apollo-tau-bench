@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetProductsByCategory(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        category = kwargs.get('category')
+    def invoke(data: Dict[str, Any], category) -> str:
         products = list(data.get("products", {}).values())  # Array []
         results = [product for product in products if product.get("category") == category]
         return json.dumps(results)

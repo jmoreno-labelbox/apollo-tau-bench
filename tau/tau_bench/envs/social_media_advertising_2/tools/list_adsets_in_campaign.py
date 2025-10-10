@@ -9,8 +9,8 @@ class ListAdsetsInCampaign(Tool):
     """List all ad sets under a campaign."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cid = kwargs.get("campaign_id")
+    def invoke(data: Dict[str, Any], campaign_id) -> str:
+        cid = campaign_id
         adsets = [a for a in list(data.get("adsets", {}).values()) if a.get("campaign_id") == cid]
         return json.dumps({"adsets": adsets})
 

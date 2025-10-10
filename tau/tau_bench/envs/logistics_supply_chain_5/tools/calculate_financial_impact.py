@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CalculateFinancialImpact(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        product_value = kwargs.get("product_value", 0)
-        liability_estimate = kwargs.get("liability_estimate", 0)
+    def invoke(data: Dict[str, Any], liability_estimate = 0, product_value = 0) -> str:
 
         financial_impact = {
             "product_value_at_risk": product_value,

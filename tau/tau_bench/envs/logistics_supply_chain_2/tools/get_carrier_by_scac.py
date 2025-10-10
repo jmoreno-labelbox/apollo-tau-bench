@@ -9,8 +9,7 @@ class GetCarrierBySCAC(Tool):
     """Tool to retrieve details of a carrier by carrier SCAC."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        carrier_scac = kwargs.get("carrier_scac")
+    def invoke(data: Dict[str, Any], carrier_scac) -> str:
         carriers = list(data.get("carriers", {}).values())
         for carrier in carriers:
             if carrier["scac"] == carrier_scac:

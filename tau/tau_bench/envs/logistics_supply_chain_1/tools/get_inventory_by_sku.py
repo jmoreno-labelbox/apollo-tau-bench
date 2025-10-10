@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetInventoryBySku(Tool):
     """A tool to retrieve all inventory records for a given SKU across all warehouses."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        sku = kwargs.get('sku')
+    def invoke(data: Dict[str, Any], sku) -> str:
         if not sku:
             return json.dumps({"error": "sku is a required argument."}, indent=2)
         inventory = list(data.get('inventory', {}).values())

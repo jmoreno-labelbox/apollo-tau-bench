@@ -9,9 +9,7 @@ class UpdateInventory(Tool):
     """Tool to update inventory record."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        inventory_id = kwargs.get("inventory_id")
-        updates = kwargs.get("updates")
+    def invoke(data: Dict[str, Any], inventory_id, updates) -> str:
         inventories = list(data.get("inventory", {}).values())
 
         for inv in inventories:

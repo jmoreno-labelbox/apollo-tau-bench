@@ -9,8 +9,8 @@ class ReplaceAdCreatives(Tool):
     """Deactivate one ad and activate another in the same adset."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        to_on, to_off = kwargs.get("activate_id"), kwargs.get("pause_id")
+    def invoke(data: Dict[str, Any], activate_id, pause_id) -> str:
+        to_on, to_off = activate_id, pause_id
         changed = []
         for ad in list(data.get("ads", {}).values()):
             if ad.get("ad_id") == to_on:

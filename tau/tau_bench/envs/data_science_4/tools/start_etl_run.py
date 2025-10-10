@@ -7,11 +7,11 @@ from tau_bench.envs.tool import Tool
 
 class StartEtlRun(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        weather = kwargs.get("weather_raw_path")
-        tides = kwargs.get("tides_raw_path")
-        water = kwargs.get("water_levels_raw_path")
-        city = kwargs.get("city_name")
+    def invoke(data: Dict[str, Any], city_name, tides_raw_path, water_levels_raw_path, weather_raw_path) -> str:
+        weather = weather_raw_path
+        tides = tides_raw_path
+        water = water_levels_raw_path
+        city = city_name
 
         # generate a processed path in a deterministic manner
         elt_id = "ETL_001"

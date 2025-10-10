@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class Pdf(Tool):
     @staticmethod
         # primary call function
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        game_pk = kwargs.get("game_pk")
-        report_type = kwargs.get("report_type")
+    def invoke(data: Dict[str, Any], game_pk, report_type) -> str:
         if not game_pk or not report_type:
             # Revert to a clear, deterministic error path to eliminate the use of placeholders.
         # return output

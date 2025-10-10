@@ -8,9 +8,8 @@ from . import _fixed_now_iso
 
 class ModifyAccessCheck(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        updates = kwargs.get("updates") or {}
-        check_id = kwargs.get("check_id")
+    def invoke(data: Dict[str, Any], check_id, updates) -> str:
+        updates = updates or {}
         checks = list(data.get("access_checks", {}).values())
         for c in checks:
             if c.get("check_id") == check_id:

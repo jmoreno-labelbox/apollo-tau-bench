@@ -8,9 +8,9 @@ from tau_bench.envs.tool import Tool
 class TransferFileToRemote(Tool):
     """Simulates transferring a file to a remote server, typically using SCP or rsync."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], destination_path, remote_address, source_path) -> str:
         return json.dumps({
-            "status": "success", "source_file": kwargs.get("source_path"), "destination": f"{kwargs.get('remote_address')}:{kwargs.get('destination_path')}", "checksum_verified": True})
+            "status": "success", "source_file": source_path, "destination": f"{remote_address}:{destination_path}", "checksum_verified": True})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

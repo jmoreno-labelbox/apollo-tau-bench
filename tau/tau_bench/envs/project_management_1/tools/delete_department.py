@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class DeleteDepartment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        department_name = kwargs.get("name")
+    def invoke(data: Dict[str, Any], name) -> str:
+        department_name = name
 
         if not all([department_name]):
             return json.dumps({"error": "department_name is a required parameters"})

@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateDepartmentCapacity(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        department = kwargs.get("department")
-        employee_id = kwargs.get("employee_id")
-        hours_allocated = kwargs.get("hours_allocated")
-        cross_department_project = kwargs.get("cross_department_project")
+    def invoke(data: Dict[str, Any], cross_department_project, department, employee_id, hours_allocated) -> str:
 
         if not all([department, employee_id, hours_allocated is not None]):
             return json.dumps(

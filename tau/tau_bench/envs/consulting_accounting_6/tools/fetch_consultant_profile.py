@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class FetchConsultantProfile(Tool):
     """Return the consultant profile row by consultant_id."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cid = kwargs.get("consultant_id")
+    def invoke(data: Dict[str, Any], consultant_id) -> str:
+        cid = consultant_id
         row = next((c for c in data.get("consultants", []) if c.get("consultant_id") == cid), None)
         if not row:
             return json.dumps({"error": f"consultant_id '{cid}' not found"}, indent=2)

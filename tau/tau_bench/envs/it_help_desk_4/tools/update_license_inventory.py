@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateLicenseInventory(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        license_id = kwargs.get("license_id")
-        operation = kwargs.get("operation")
+    def invoke(data: Dict[str, Any], license_id, operation) -> str:
         inventory = list(data.get("license_inventory", {}).values())
         license_info = next((lic for lic in inventory if lic.get("license_id") == license_id), None)
         if not license_info:

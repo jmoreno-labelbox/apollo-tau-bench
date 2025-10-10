@@ -9,12 +9,7 @@ class BuildRoute(Tool):
     """Build a property showing route for clients."""
     
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        client_id = kwargs.get('client_id')
-        date = kwargs.get('date')
-        stops_ordered_json = kwargs.get('stops_ordered_json')
-        map_url = kwargs.get('map_url')
-        created_by_broker_id = kwargs.get('created_by_broker_id')
+    def invoke(data: Dict[str, Any], client_id, created_by_broker_id, date, map_url, stops_ordered_json) -> str:
         
         if not all([client_id, date, stops_ordered_json, created_by_broker_id]):
             return json.dumps({

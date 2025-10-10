@@ -9,8 +9,7 @@ class GetManagerCandidateAssignmentsTool(Tool):
     """Analyzes candidates table to understand manager workload distribution and onboarding supervision patterns."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        manager_email = kwargs.get("manager_email")
+    def invoke(data: Dict[str, Any], manager_email) -> str:
 
         candidates = data.get("candidates", [])
 

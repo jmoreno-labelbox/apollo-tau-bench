@@ -9,8 +9,7 @@ class GetAdSetIdForBudgetChange(Tool):
     """Retrieves the ad set ID for a specific budget change."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        change_id = kwargs.get("change_id")
+    def invoke(data: Dict[str, Any], change_id) -> str:
         changes = list(data.get("budget_changes", {}).values())
         
         for change in changes:

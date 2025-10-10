@@ -8,13 +8,13 @@ from tau_bench.envs.tool import Tool
 class QueryProjects(Tool):
     """Tool to query projects by ID or name."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], project_id, project_name) -> str:
         projects = list(data.get('projects', {}).values())
         results = []
         for proj in projects:
             match = True
-            if kwargs.get('project_id') and kwargs['project_id'] != proj.get('project_id'): match = False
-            if kwargs.get('project_name') and kwargs['project_name'].lower() not in proj.get('project_name', '').lower(): match = False
+            if project_id and project_id != proj.get('project_id'): match = False
+            if project_name and project_name.lower() not in proj.get('project_name', '').lower(): match = False
             if match:
                 results.append(proj)
         return json.dumps(results, indent=2)

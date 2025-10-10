@@ -9,9 +9,9 @@ from . import _json_dump
 class ExcludeRecipeIds(Tool):
     """Remove any recipe_ids that appear in a provided exclusion list."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        candidates_json = kwargs.get("candidate_recipe_ids_json", "[]")
-        exclude_ids = kwargs.get("exclude_recipe_ids", [])
+    def invoke(data: Dict[str, Any], candidate_recipe_ids_json = "[]", exclude_recipe_ids = []) -> str:
+        candidates_json = candidate_recipe_ids_json
+        exclude_ids = exclude_recipe_ids
         cand = _parse_json_list_ids(candidates_json)
         exset = set(int(x) for x in (exclude_ids or []))
         out = [rid for rid in cand if rid not in exset]

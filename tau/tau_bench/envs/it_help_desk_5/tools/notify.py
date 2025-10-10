@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class Notify(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        recipient_ids = kwargs.get('recipient_ids',[])
-        summary = kwargs.get('summary')
+    def invoke(data: Dict[str, Any], summary, recipient_ids = []) -> str:
 
         if len(recipient_ids) == 0 or summary is None:
             return json.dumps({'status': 'error', 'reason': 'The recipient_ids and summary fields are required.'}, indent=2)

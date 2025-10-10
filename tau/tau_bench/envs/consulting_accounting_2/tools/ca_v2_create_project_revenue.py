@@ -9,11 +9,7 @@ class CaV2CreateProjectRevenue(Tool):
     """Create project revenue record for dashboard snapshot."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        row_id = kwargs.get("row_id")
-        snapshot_id = kwargs.get("snapshot_id")
-        project_id = kwargs.get("project_id")
-        ytd_revenue = kwargs.get("ytd_revenue")
+    def invoke(data: Dict[str, Any], project_id, row_id, snapshot_id, ytd_revenue) -> str:
 
         if not all([row_id, snapshot_id, project_id, ytd_revenue]):
             return _error("Required fields: row_id, snapshot_id, project_id, ytd_revenue")

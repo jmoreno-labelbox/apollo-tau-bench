@@ -9,8 +9,7 @@ class GetPermissionById(Tool):
     """ Get the full details of a specific permission using its ID. """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        permission_id = kwargs.get("permission_id")
+    def invoke(data: Dict[str, Any], permission_id) -> str:
         try:
             permissions = list(data.get('permissions', {}).values())
         except (KeyError, json.JSONDecodeError):

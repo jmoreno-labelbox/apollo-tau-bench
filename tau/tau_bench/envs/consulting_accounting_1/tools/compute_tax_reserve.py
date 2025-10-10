@@ -7,9 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class ComputeTaxReserve(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        year = kwargs.get("tax_year")
-        revenue = kwargs.get("ytd_revenue")
+    def invoke(data: Dict[str, Any], tax_year, ytd_revenue) -> str:
+        year = tax_year
+        revenue = ytd_revenue
         if year is None or revenue is None:
             return json.dumps({"error": "tax_year and ytd_revenue are required"}, indent=2)
         rate = next((t["rate_percent"] for t in list(data.get("tax_rates", {}).values()) if t.get("tax_year") == year), None)

@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ShortlistSuccessorCandidate(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs["user_id"]
-        target_role = kwargs["target_role"]
+    def invoke(data: Dict[str, Any], target_role, user_id) -> str:
 
         # Create a consistent date using user_id and target_role.
         import hashlib

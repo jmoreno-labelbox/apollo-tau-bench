@@ -9,8 +9,7 @@ from . import _json_dump
 class FlagPantryStaplesOnList(Tool):
     """Set pantry_staple_flag on list items based on ingredients table."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        list_id = kwargs.get("list_id")
+    def invoke(data: Dict[str, Any], list_id) -> str:
         if list_id is None:
             return _json_dump({"error": "list_id is required"})
         updated = 0

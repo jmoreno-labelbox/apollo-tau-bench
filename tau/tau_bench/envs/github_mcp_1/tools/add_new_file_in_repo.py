@@ -14,12 +14,11 @@ class AddNewFileInRepo(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get("owner", "").strip()
-        repo_name = kwargs.get("repo_name", "").strip()
-        branch_name = kwargs.get("branch_name", "").strip()
-        file_name = kwargs.get("file_name", "").strip()
-        file_content = kwargs.get("file_content", "")
+    def invoke(data: Dict[str, Any], branch_name = "", file_content = "", file_name = "", owner = "", repo_name = "") -> str:
+        owner = owner.strip()
+        repo_name = repo_name.strip()
+        branch_name = branch_name.strip()
+        file_name = file_name.strip()
 
         if not owner or not repo_name or not branch_name or not file_name:
             return json.dumps(

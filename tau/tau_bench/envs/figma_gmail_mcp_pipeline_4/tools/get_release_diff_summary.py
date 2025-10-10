@@ -7,15 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetReleaseDiffSummary(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], change_type, component_filter, diff_id, release_id, include_changelog = True) -> str:
         """
         Retrieves release diff information and change summaries between releases.
         """
-        diff_id = kwargs.get('diff_id')
-        release_id = kwargs.get('release_id')
-        component_filter = kwargs.get('component_filter')
-        change_type = kwargs.get('change_type')
-        include_changelog = kwargs.get('include_changelog', True)
 
         release_diffs = data.get('release_diffs', [])
         releases = data.get('releases', [])

@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetWarehouseDetails(Tool):
     """Retrieves all details for a specific warehouse by its name."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        warehouse_name = kwargs.get('warehouse_name')
+    def invoke(data: Dict[str, Any], warehouse_name) -> str:
         if not warehouse_name:
             return json.dumps({"error": "warehouse_name is required."}, indent=2)
         warehouse = next((w for w in data.get('warehouses', []) if w.get('warehouse_name') == warehouse_name), None)

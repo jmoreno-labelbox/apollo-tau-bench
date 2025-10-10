@@ -9,14 +9,14 @@ class AddChecklistItemForCandidate(Tool):
     """Create or upsert a checklist item for a candidate."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], candidate_id, completed_on, due_date, item_id, title, status = "pending") -> str:
         item = {
-            "item_id": kwargs.get("item_id"),
-            "candidate_id": kwargs.get("candidate_id"),
-            "title": kwargs.get("title"),
-            "due_date": kwargs.get("due_date"),
-            "status": kwargs.get("status", "pending"),
-            "completed_on": kwargs.get("completed_on"),
+            "item_id": item_id,
+            "candidate_id": candidate_id,
+            "title": title,
+            "due_date": due_date,
+            "status": status,
+            "completed_on": completed_on,
         }
         if not item["item_id"] or not item["candidate_id"]:
             return json.dumps({"error": "missing_required_fields"}, indent=2)

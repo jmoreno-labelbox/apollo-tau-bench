@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class RevokePolicyException(Tool):
     """ Revokes an active policy exception, setting its status to 'REVOKED'. """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        exception_id = kwargs.get("exception_id")
+    def invoke(data: Dict[str, Any], exception_id) -> str:
         try:
             policy_exceptions = data.get('policy_exceptions', [])
         except:

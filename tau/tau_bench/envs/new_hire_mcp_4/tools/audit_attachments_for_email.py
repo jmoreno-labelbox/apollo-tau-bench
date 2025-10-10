@@ -16,8 +16,8 @@ class AuditAttachmentsForEmail(Tool):
         return next((e for e in emails if e.get("candidate_id_nullable")==candidate_id and e.get("subject")==subject and e.get("date_ts")==date_ts), None)
 
     @staticmethod
-    def invoke(db: Dict[str, Any], **kwargs) -> str:
-        cand_id = kwargs["candidate_id"]; subject = kwargs["subject"]; date_ts = _fixed_ts(kwargs.get("date_ts"))
+    def invoke(db: Dict[str, Any], candidate_id, date_ts, subject) -> str:
+        cand_id = candidate_id; date_ts = _fixed_ts(date_ts)
         cand_row = next((r for r in db.get("candidates", []) if r.get("candidate_id")==cand_id), None)
         name = cand_row.get("candidate_name") if cand_row else cand_id
 

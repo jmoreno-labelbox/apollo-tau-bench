@@ -9,10 +9,7 @@ class AddLabelToIssue(Tool):
     """Adds a label to the specified issue. Supports both aggregated and flat issue shapes."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_name = kwargs.get("repo_name")
-        issue_number = kwargs.get("issue_number")
-        label = kwargs.get("label")
+    def invoke(data: Dict[str, Any], issue_number, label, repo_name) -> str:
 
         if not all([repo_name, issue_number, label]):
             return json.dumps({"error": "repo_name, issue_number, and label are required."}, indent=2)

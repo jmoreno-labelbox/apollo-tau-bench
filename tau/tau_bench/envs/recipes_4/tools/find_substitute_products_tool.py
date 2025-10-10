@@ -40,7 +40,7 @@ class FindSubstituteProductsTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> Dict[str, Any]:
+    def invoke(data: Dict[str, Any], problem_items, store_id) -> Dict[str, Any]:
         """
         Executes the logic to find viable, in-stock substitute products.
 
@@ -60,9 +60,6 @@ class FindSubstituteProductsTool(Tool):
         validation_error = _validate_inputs(kwargs, param_definitions)
         if validation_error:
             return _build_error_response(validation_error["error_code"], validation_error["details"])
-
-        store_id = kwargs["store_id"]
-        problem_items = kwargs["problem_items"]
 
         # 2. Condition Verification Before Execution
         if not any(s.get("store_id") == store_id for s in data.get("stores", [])):

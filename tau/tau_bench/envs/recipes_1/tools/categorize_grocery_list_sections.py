@@ -9,8 +9,7 @@ from . import _json_dump
 class CategorizeGroceryListSections(Tool):
     """Refresh grocery_section for all items in a list from ingredient definitions."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        list_id = kwargs.get("list_id")
+    def invoke(data: Dict[str, Any], list_id) -> str:
         if list_id is None:
             return _json_dump({"error": "list_id is required"})
         updated = 0

@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class PostJournalEntry(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        date = kwargs.get("date")
-        account = kwargs.get("account")
-        memo = kwargs.get("memo","")
-        amount_ref = kwargs.get("amount_ref", {})
+    def invoke(data: Dict[str, Any], account, date, amount_ref = {}, memo = "") -> str:
         amount = float(amount_ref.get("adjustment", 0.0))
         journals = data.setdefault("journals", [])
         rec = {"journal_id": f"JRN-{len(journals)+1:05d}", "date": date, "account": account, "amount": round(amount,2), "memo": memo}

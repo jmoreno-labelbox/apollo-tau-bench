@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetEmployeeIdByName(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_name = kwargs.get("employee_name")
+    def invoke(data: Dict[str, Any], employee_name) -> str:
         employees = list(data.get("employees", {}).values())
 
         for employee in employees:

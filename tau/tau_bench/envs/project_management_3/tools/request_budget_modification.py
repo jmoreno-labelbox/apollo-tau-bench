@@ -7,13 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class RequestBudgetModification(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
-        modification_amount = kwargs.get("modification_amount")
-        modification_type = kwargs.get("modification_type")
-        justification = kwargs.get("justification")
-        requestor_id = kwargs.get("requestor_id")
-        fiscal_year = kwargs.get("fiscal_year", datetime.now().year)
+    def invoke(data: Dict[str, Any], justification, modification_amount, modification_type, project_id, requestor_id, fiscal_year = datetime.now().year) -> str:
 
         if not all(
             [

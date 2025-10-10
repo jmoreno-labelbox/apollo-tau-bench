@@ -9,8 +9,7 @@ class GetRunTypeForAutomationRun(Tool):
     """Retrieves the run type for a specific automation run."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        run_id = kwargs.get("run_id")
+    def invoke(data: Dict[str, Any], run_id) -> str:
         runs = list(data.get("automation_runs", {}).values())
         
         for run in runs:

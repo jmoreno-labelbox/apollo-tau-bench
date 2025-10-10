@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateChecklistItem(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        item_id = kwargs.get("item_id")
-        fields = kwargs.get("fields", {})
+    def invoke(data: Dict[str, Any], item_id, fields = {}) -> str:
         rows = _ensure_list(data, "checklist_items")
         row = _find_by_key(rows, "item_id", item_id)
         if row:

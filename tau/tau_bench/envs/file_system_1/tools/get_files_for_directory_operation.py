@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetFilesForDirectoryOperation(Tool):
     """Retrieves the list of files to be moved for a file organization task."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        operation_id = kwargs.get("operation_id")
+    def invoke(data: Dict[str, Any], operation_id) -> str:
         files = [f for f in data.get('file_lists', []) if f.get('operation_id') == operation_id]
         return json.dumps({"files": files, "count": len(files)})
 

@@ -7,14 +7,13 @@ from tau_bench.envs.tool import Tool
 
 class ValidateOrderItems(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], item_list: List[Dict[str, Any]], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], item_list: List[Dict[str, Any]], allocate_orders = False) -> str:
         """
         Validate all items in an order before processing
         """
         products = list(data.get("products", {}).values())
         validated_items = []
         total_order_value = 0.0
-        allocate_orders = kwargs.get("allocate_orders", False)
 
         # Requirement: All items in multi-item orders must be in stock prior to confirmation.
         for item in item_list:

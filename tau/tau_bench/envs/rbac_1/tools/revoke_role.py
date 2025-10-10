@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class RevokeRole(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
-        role_id = kwargs.get("role_id")
+    def invoke(data: Dict[str, Any], role_id, user_id) -> str:
         data['user_roles'] = [
                 ur for ur in data.get('user_roles', [])
                 if not (ur.get('user_id') == user_id and ur.get('role_id') == role_id)

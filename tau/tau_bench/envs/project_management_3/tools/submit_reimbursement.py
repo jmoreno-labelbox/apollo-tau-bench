@@ -7,18 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class SubmitReimbursement(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], amount, category, description, employee_id, expense_date, project_id, receipt_provided = True, reimbursement_id = f"reimb_{uuid.uuid4().hex[:8]}", submission_date = datetime.now(timezone.utc).isoformat()) -> str:
 
         from datetime import timezone
-
-        employee_id = kwargs.get("employee_id")
-        submission_date = kwargs.get("submission_date", datetime.now(timezone.utc).isoformat())
-        expense_date = kwargs.get("expense_date")
-        amount = kwargs.get("amount")
-        description = kwargs.get("description")
-        category = kwargs.get("category")
-        receipt_provided = kwargs.get("receipt_provided", True)
-        project_id = kwargs.get("project_id")
 
         if not all([employee_id, expense_date, amount, description, category]):
             return json.dumps({"error": "Missing required fields"})
@@ -35,8 +26,6 @@ class SubmitReimbursement(Tool):
             return json.dumps(
                 {"error": "Receipts are required for expenses over $75 without receipt"}
             )
-
-        reimbursement_id = kwargs.get("reimbursement_id", f"reimb_{uuid.uuid4().hex[:8]}")
 
         new_reimbursement = {
             "reimbursement_id": reimbursement_id,

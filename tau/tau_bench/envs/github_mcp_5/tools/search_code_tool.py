@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SearchCodeTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get('owner')
-        repo = kwargs.get('repo')
-        query = kwargs.get('query')
+    def invoke(data: Dict[str, Any], owner, query, repo) -> str:
 
         if not all([owner, repo, query]):
             return json.dumps({

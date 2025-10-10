@@ -32,7 +32,7 @@ class GetIngredientInfoTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> Dict[str, Any]:
+    def invoke(data: Dict[str, Any], ingredient_id) -> Dict[str, Any]:
         """
         Executes the logic to find and return a specific ingredient's data.
 
@@ -56,8 +56,6 @@ class GetIngredientInfoTool(Tool):
                 validation_error["error_code"],
                 validation_error["details"]
             )
-
-        ingredient_id = kwargs["ingredient_id"]
 
         # 2. Data Acquisition
         ingredient_record = next(

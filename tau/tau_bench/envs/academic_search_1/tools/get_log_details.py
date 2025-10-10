@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetLogDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        log_id = kwargs.get('log_id')
+    def invoke(data: Dict[str, Any], log_id) -> str:
         if not log_id:
             return json.dumps({"error": "log_id is required."})
         for log in list(data.get('research_logs', {}).values()):

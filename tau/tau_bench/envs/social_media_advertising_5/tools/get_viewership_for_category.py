@@ -7,9 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class GetViewershipForCategory(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cat = kwargs.get("category")
-        d = kwargs.get("date")
+    def invoke(data: Dict[str, Any], category, date) -> str:
+        cat = category
+        d = date
         for r in list(data.get("f_viewership", {}).values()):
             if r.get("category") == cat and r.get("date") == d:
                 return json.dumps(r)

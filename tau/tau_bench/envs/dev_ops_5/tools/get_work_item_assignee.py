@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class GetWorkItemAssignee(Tool):
     """Retrieves the assignee for a work item."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        item_id = kwargs.get("id")
+    def invoke(data: Dict[str, Any], id) -> str:
+        item_id = id
         work_items = data.get("work_items", [])
         for item in work_items:
             if item.get("id") == item_id:

@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetCourierDetails(Tool):
     """Read courier record."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        courier_id = kwargs.get('courier_id')
+    def invoke(data, courier_id) -> str:
         if not courier_id:
             return json.dumps({"error":"courier_id is required"}, indent=2)
         c = _find_courier(data, courier_id)

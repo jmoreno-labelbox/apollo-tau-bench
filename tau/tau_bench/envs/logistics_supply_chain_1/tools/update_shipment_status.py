@@ -8,10 +8,7 @@ from tau_bench.envs.tool import Tool
 class UpdateShipmentStatus(Tool):
     """Updates the status and notes of a specific inbound shipment."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        shipment_id = kwargs.get('shipment_id')
-        new_status = kwargs.get('new_status')
-        notes = kwargs.get('notes')
+    def invoke(data: Dict[str, Any], new_status, notes, shipment_id) -> str:
         if not all([shipment_id, new_status, notes]):
             return json.dumps({"error": "shipment_id, new_status, and notes are required."}, indent=2)
         shipment_to_update = next((s for s in data.get('inbound_shipments', []) if s.get('shipment_id') == shipment_id), None)

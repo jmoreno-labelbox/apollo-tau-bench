@@ -8,10 +8,7 @@ from tau_bench.envs.tool import Tool
 class ShipOutboundOrder(Tool):
     """Updates an order to 'Shipped', assigns a carrier, allocates inventory, and calculates shipping cost."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        order_id = kwargs.get('order_id')
-        warehouse_id = kwargs.get('warehouse_id')
-        carrier_scac = kwargs.get('carrier_scac')
+    def invoke(data: Dict[str, Any], carrier_scac, order_id, warehouse_id) -> str:
         if not all([order_id, warehouse_id, carrier_scac]):
             return json.dumps({"error": "order_id, warehouse_id, and carrier_scac are required."}, indent=2)
 

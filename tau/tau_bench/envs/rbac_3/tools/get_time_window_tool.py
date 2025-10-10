@@ -28,12 +28,10 @@ class GetTimeWindowTool(Tool):
         return float(s[:-1])
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], days, hours, timestamp) -> str:
         import json
 
-        ts = kwargs.get("timestamp")
-        days = kwargs.get("days")
-        hours = kwargs.get("hours")
+        ts = timestamp
         if not ts:
             return json.dumps({"error": "timestamp is required"}, indent=2)
 

@@ -14,12 +14,12 @@ class InitialCommit(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get("owner", "").strip()
-        repo_name = kwargs.get("repo_name", "").strip()
-        branch_name = kwargs.get("branch_name", "").strip()
-        commit_message = kwargs.get("commit_message", "").strip()
-        commit_author = kwargs.get("commit_author", "").strip()
+    def invoke(data: Dict[str, Any], branch_name = "", commit_author = "", commit_message = "", owner = "", repo_name = "") -> str:
+        owner = owner.strip()
+        repo_name = repo_name.strip()
+        branch_name = branch_name.strip()
+        commit_message = commit_message.strip()
+        commit_author = commit_author.strip()
 
         if not owner or not repo_name or not branch_name or not commit_message or not commit_author:
             return json.dumps(

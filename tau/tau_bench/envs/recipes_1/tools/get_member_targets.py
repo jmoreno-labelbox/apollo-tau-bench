@@ -9,8 +9,7 @@ from . import _require, _json_dump
 class GetMemberTargets(Tool):
     """Return target_calories/target_protein and flags for a member."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        member_id = kwargs.get("member_id")
+    def invoke(data: Dict[str, Any], member_id) -> str:
         if member_id is None:
             return _json_dump({"error": "member_id is required"})
         row = _require(data, "members", "member_id", member_id)

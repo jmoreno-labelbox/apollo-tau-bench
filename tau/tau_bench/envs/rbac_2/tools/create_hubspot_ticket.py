@@ -9,7 +9,7 @@ class CreateHubspotTicket(Tool):
     """ Create a new ticket in the HubSpot system for tracking. """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], assignee_id, category, description, priority, requester_id, subject, timestamp) -> str:
         try:
             hubspot_tickets = data.get('hubspot_tickets', [])
         except:
@@ -19,19 +19,18 @@ class CreateHubspotTicket(Tool):
                         item.get("ticket_id", "").startswith("TI-")]
         next_id_num = max(existing_ids) + 1 if existing_ids else 1
         ticket_id = f"TI-{next_id_num:03d}"
-        timestamp = kwargs.get("timestamp")
 
         new_ticket = {
             "ticket_id": ticket_id,
             "created_at": timestamp,
             "updated_at": timestamp, 
-            "subject": kwargs.get("subject"),
-            "description": kwargs.get("description"),
+            "subject": subject,
+            "description": description,
             "status": "OPEN",
-            "priority": kwargs.get("priority"),
-            "assignee_id": kwargs.get("assignee_id"),
-            "requester_id": kwargs.get("requester_id"),
-            "category": kwargs.get("category"),
+            "priority": priority,
+            "assignee_id": assignee_id,
+            "requester_id": requester_id,
+            "category": category,
             "closed_at": None
         }
 

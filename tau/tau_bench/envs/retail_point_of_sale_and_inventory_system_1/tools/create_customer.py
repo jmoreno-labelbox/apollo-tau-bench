@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateCustomer(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        name = kwargs.get('name')
-        membership_level = kwargs.get('membership_level')
-        opt_in_marketing = kwargs.get('opt_in_marketing')
-        loyalty_points = kwargs.get('loyalty_points')
+    def invoke(data: Dict[str, Any], loyalty_points, membership_level, name, opt_in_marketing) -> str:
 
         customers = list(data.get("customers", {}).values())
 

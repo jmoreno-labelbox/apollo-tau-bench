@@ -7,20 +7,20 @@ from tau_bench.envs.tool import Tool
 
 class AddBeneficiary(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], account_number, bank_name, country, customer_id, iban, name, relationship, routing_number, sort_code) -> str:
         beneficiary_id = _get_next_beneficiary_id(data)
         new_beneficiary = {
                 "beneficiary_id": beneficiary_id,
-                "customer_id": kwargs.get("customer_id"),
-                "beneficiary_name": kwargs.get("name"),
-                "relationship": kwargs.get("relationship"),
+                "customer_id": customer_id,
+                "beneficiary_name": name,
+                "relationship": relationship,
                 "account_details": {
-                        "iban": kwargs.get("iban"),
-                        "account_number": kwargs.get("account_number"),
-                        "sort_code": kwargs.get("sort_code"),
-                        "routing_number": kwargs.get("routing_number"),
-                        "bank_name": kwargs.get("bank_name"),
-                        "country": kwargs.get("country")
+                        "iban": iban,
+                        "account_number": account_number,
+                        "sort_code": sort_code,
+                        "routing_number": routing_number,
+                        "bank_name": bank_name,
+                        "country": country
                 },
                 "date_added": NOW.strftime(DT_STR_FORMAT)
         }

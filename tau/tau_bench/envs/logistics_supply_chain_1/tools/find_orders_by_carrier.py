@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class FindOrdersByCarrier(Tool):
     """Finds all outbound orders assigned to a specific carrier, filtering by status."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        carrier_name = kwargs.get('carrier_name')
-        status = kwargs.get('status')
+    def invoke(data: Dict[str, Any], carrier_name, status) -> str:
         if not carrier_name:
             return json.dumps({"error": "carrier_name is a required argument."}, indent=2)
         orders = list(data.get('outbound_orders', {}).values())

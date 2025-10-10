@@ -9,11 +9,8 @@ class CalcPlanChecksum(Tool):
     """Compute a deterministic checksum for a plan envelope (sorted JSON)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], date, envelope) -> str:
         import hashlib, json
-
-        envelope = kwargs.get("envelope")
-        date = kwargs.get("date")
 
         if envelope is None and date is not None:
             plan = next((p for p in list(data.get("plans", {}).values()) if p.get("date") == date), None)

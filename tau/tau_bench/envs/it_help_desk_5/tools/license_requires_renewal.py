@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class LicenseRequiresRenewal(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        num_days = kwargs.get('num_days')
+    def invoke(data: Dict[str, Any], num_days) -> str:
         if num_days is None:
             return json.dumps({'status': 'error', 'reason': 'The num_days field is required.'}, indent=2)
 

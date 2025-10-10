@@ -9,11 +9,9 @@ class RequestPolicyExceptionTool(Tool):
     """Create a new policy exception request."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        uid = kwargs.get("user_id")
-        pid = kwargs.get("permission_id")
-        reason = kwargs.get("reason")
-        requested_on = kwargs.get("requested_on")
+    def invoke(data: Dict[str, Any], permission_id, reason, requested_on, user_id) -> str:
+        uid = user_id
+        pid = permission_id
         exceptions = data.get("policy_exceptions", [])
 
         new_id = f"PE-{len(exceptions) + 1:03d}"

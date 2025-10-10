@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetComparableProperties(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        property_id = kwargs.get('property_id')
+    def invoke(data: Dict[str, Any], property_id) -> str:
         if not property_id:
             return json.dumps({"error": "property_id is required"}, indent=2)
         

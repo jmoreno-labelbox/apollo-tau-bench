@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ValidateTeamMembership(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
-        team_id = kwargs.get("team_id")
+    def invoke(data: Dict[str, Any], team_id, user_id) -> str:
         teams = data.get("teams", [])
 
         for team in teams:

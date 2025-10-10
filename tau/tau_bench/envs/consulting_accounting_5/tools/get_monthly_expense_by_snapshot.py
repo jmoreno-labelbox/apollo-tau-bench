@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetMonthlyExpenseBySnapshot(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        snapshot_id = kwargs["snapshot_id"]
+    def invoke(data: Dict[str, Any], snapshot_id) -> str:
         for record in data.get("monthly_expenses", []):
             if record["snapshot_id"] == snapshot_id:
                 return json.dumps(record["row_id"])

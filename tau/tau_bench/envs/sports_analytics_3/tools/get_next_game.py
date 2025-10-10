@@ -22,9 +22,7 @@ class GetNextGame(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        current_date= kwargs.get("current_date")
-        team_id= kwargs.get("team_id")
+    def invoke(data: Dict[str, Any], current_date, team_id) -> str:
 
         # 1) Verify
         if not isinstance(current_date, str) or current_date == "":

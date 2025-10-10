@@ -7,15 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetFilteredLogEntries(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], after_timestamp, before_timestamp, component, log_level, message_pattern) -> str:
         """
         Retrieves terminal logs with filtering and summary capabilities.
         """
-        log_level = kwargs.get('log_level')
-        message_pattern = kwargs.get('message_pattern')
-        after_timestamp = kwargs.get('after_timestamp')
-        before_timestamp = kwargs.get('before_timestamp')
-        component = kwargs.get('component')
 
         terminal_logs = data.get('terminal_logs', [])
 

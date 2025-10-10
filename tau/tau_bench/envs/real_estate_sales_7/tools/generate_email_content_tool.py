@@ -9,11 +9,10 @@ class GenerateEmailContentTool(Tool):
     """Generates HTML email content."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        template_code = kwargs.get("template_code")
-        recipient_data = kwargs.get("recipient_data") or {}
-        context_data = kwargs.get("context_data") or {}
-        attachments = kwargs.get("attachments") or []
+    def invoke(data: Dict[str, Any], attachments, context_data, recipient_data, template_code) -> str:
+        recipient_data = recipient_data or {}
+        context_data = context_data or {}
+        attachments = attachments or []
 
         if not template_code:
             return _err("template_code is required")

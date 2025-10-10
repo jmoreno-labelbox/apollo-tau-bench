@@ -9,9 +9,8 @@ from . import _json_dump
 class MinimizeNewIngredients(Tool):
     """Keep only recipes whose non-staple ingredient count ≤ cap."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        recipe_ids_json = kwargs.get("recipe_ids_json", "[]")
-        max_new = int(kwargs.get("max_new_ingredients_per_recipe", 3))
+    def invoke(data: Dict[str, Any], max_new_ingredients_per_recipe = 3, recipe_ids_json = "[]") -> str:
+        max_new = int(max_new_ingredients_per_recipe)
         ids = _parse_json_list_ids(recipe_ids_json)
         kept: List[int] = []
         for rid in ids:

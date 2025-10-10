@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class GetAssetByPath(Tool):
     """Retrieves an asset by its file path."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        path = kwargs.get("asset_path")
+    def invoke(data: Dict[str, Any], asset_path) -> str:
+        path = asset_path
         assets = data.get("asset_catalog", [])
         for asset in assets:
             if asset.get("asset_path") == path:

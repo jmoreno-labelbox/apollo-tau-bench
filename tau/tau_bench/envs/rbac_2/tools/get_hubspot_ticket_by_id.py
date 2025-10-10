@@ -9,8 +9,7 @@ class GetHubspotTicketById(Tool):
     """ Get the full details of a specific HubSpot ticket using its ID. """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        ticket_id = kwargs.get("ticket_id")
+    def invoke(data: Dict[str, Any], ticket_id) -> str:
         try:
             hubspot_tickets = data.get('hubspot_tickets', [])
         except:

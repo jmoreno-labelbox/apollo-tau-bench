@@ -23,9 +23,8 @@ class AutoApproveSupplyOrderTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        so_id = kwargs.get("supply_order_id")
-        reason = kwargs.get("reason")
+    def invoke(data: Dict[str, Any], reason, supply_order_id) -> str:
+        so_id = supply_order_id
 
         if not so_id:
             return json.dumps({"error": "supply_order_id is required"}, indent=2)

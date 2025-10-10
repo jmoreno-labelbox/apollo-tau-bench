@@ -27,9 +27,7 @@ class SplitOrderIntoShipmentsTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        order_id = kwargs.get("order_id")
-        shipments = kwargs.get("shipments")
+    def invoke(data: Dict[str, Any], order_id, shipments) -> str:
 
         if not order_id or not isinstance(shipments, list) or not shipments:
             return json.dumps({"error": "order_id and non-empty shipments are required"}, indent=2)

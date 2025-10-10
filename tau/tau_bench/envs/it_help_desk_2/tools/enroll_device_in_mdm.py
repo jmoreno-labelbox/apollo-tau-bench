@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class EnrollDeviceInMDM(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        asset_id = kwargs.get("asset_id")
+    def invoke(data: Dict[str, Any], asset_id) -> str:
         asset = next((a for a in data.get("it_assets", []) if a.get("asset_id") == asset_id), None)
         if asset:
             asset["mdm_enrolled"] = True

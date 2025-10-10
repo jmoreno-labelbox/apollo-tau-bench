@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetSiemAlertById(Tool):
     """ Get the full details of a specific SIEM alert using its ID. """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        alert_id = kwargs.get("alert_id")
+    def invoke(data: Dict[str, Any], alert_id) -> str:
         try:
             siem_alerts = data.get('siem_alerts', [])
         except:

@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class FilterLicenses(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        utilization = kwargs.get('utilization')
+    def invoke(data: Dict[str, Any], utilization) -> str:
 
         if all([param == None for param in [utilization]]):
             return json.dumps({'status': 'error', 'reason': 'Input parameters to filter by are required.'}, indent=2)

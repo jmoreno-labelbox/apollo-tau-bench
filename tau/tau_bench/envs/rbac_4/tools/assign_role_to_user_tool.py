@@ -9,7 +9,7 @@ class AssignRoleToUserTool(Tool):
     """Assign a role to a user (write operation, deterministic)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], assigned_by, assigned_on, expires_on, role_id, user_id) -> str:
         user_roles = data.get("user_roles", [])
         users = list(data.get("users", {}).values())
         roles = list(data.get("roles", {}).values())
@@ -19,11 +19,6 @@ class AssignRoleToUserTool(Tool):
             return json.dumps({"error": "users must be a list"}, indent=2)
         if not isinstance(roles, list):
             return json.dumps({"error": "roles must be a list"}, indent=2)
-
-        user_id = kwargs.get("user_id")
-        role_id = kwargs.get("role_id")
-        assigned_by = kwargs.get("assigned_by")
-        assigned_on = kwargs.get("assigned_on")
 
         # Fundamental validation
         for fld, val in [("user_id", user_id), ("role_id", role_id), ("assigned_by", assigned_by), ("assigned_on", assigned_on)]:
@@ -60,7 +55,7 @@ class AssignRoleToUserTool(Tool):
             "role_id": role_id,
             "assigned_by": assigned_by,
             "assigned_on": assigned_on,
-            "expires_on": kwargs.get("expires_on")  # not mandatory
+            "expires_on": expires_on  # not mandatory
         }
         user_roles.append(record)
         return json.dumps({"success": f"Role {role_id} assigned to {user_id}", "user_role_id": new_id}, indent=2)

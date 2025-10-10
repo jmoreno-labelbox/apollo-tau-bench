@@ -9,8 +9,7 @@ class GetSessionDetailsById(Tool):
     """Get the full details of a specific session using its ID."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        session_id = kwargs.get("session_id")
+    def invoke(data: Dict[str, Any], session_id) -> str:
         try:
             sessions = data.get('sessions', [])
         except (KeyError, json.JSONDecodeError):

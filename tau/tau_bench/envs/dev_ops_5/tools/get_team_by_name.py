@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetTeamByName(Tool):
     """Retrieves a team by its name."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        name = kwargs.get("name")
+    def invoke(data: Dict[str, Any], name) -> str:
         teams = data.get("teams", [])
         for team in teams:
             if team.get("name") == name:

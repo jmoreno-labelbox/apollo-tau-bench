@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ValidateComplianceStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
-        required_clearance = kwargs.get("required_clearance", "secret")
+    def invoke(data: Dict[str, Any], project_id, required_clearance = "secret") -> str:
 
         if not project_id:
             return json.dumps({"error": "project_id is required"})

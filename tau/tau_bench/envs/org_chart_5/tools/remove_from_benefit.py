@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class remove_from_benefit(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
-        benefit_id = kwargs.get("benefit_id")
+    def invoke(data: Dict[str, Any], benefit_id, employee_id) -> str:
         employee = find_employee(list(data.get("employees", {}).values()), employee_id)
         if not employee:
             return json.dumps(

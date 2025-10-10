@@ -7,13 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ValidateExpenseSubmission(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
-        project_id = kwargs.get("project_id")
-        amount = kwargs.get("amount")
-        expense_date = kwargs.get("expense_date")
-        category = kwargs.get("category")
-        sprint_id = kwargs.get("sprint_id")
+    def invoke(data: Dict[str, Any], amount, category, employee_id, expense_date, project_id, sprint_id, task_id) -> str:
 
         if not all([employee_id, project_id, amount, category]):
             return json.dumps(
@@ -89,7 +83,7 @@ class ValidateExpenseSubmission(Tool):
                             "Expense date is outside sprint duration"
                         )
 
-        if task_id := kwargs.get("task_id"):
+        if task_id := task_id:
             task = next((t for t in tasks if t.get("task_id") == task_id), None)
             if task:
                 if task.get("assignee_id") != employee_id:

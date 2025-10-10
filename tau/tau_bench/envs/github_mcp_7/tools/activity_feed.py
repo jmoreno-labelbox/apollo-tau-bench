@@ -8,10 +8,9 @@ from tau_bench.envs.tool import Tool
 class ActivityFeed(Tool):
     """Return a simple combined feed of recent issues/PRs/commits for a repo."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get("owner") or _actor_name(data)
-        repo = kwargs.get("repo")
-        limit = int(kwargs.get("limit", 20))
+    def invoke(data: Dict[str, Any], owner, repo, limit = 20) -> str:
+        owner = owner or _actor_name(data)
+        limit = int(limit)
         feed: List[Dict[str, Any]] = []
         for i in _issues(data):
             if i.get("owner") == owner and i.get("repo") == repo:

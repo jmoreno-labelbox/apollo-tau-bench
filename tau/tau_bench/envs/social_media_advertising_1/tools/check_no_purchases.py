@@ -9,8 +9,7 @@ class CheckNoPurchases(Tool):
     """Checks if a list of purchase counts contains only zeros."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        purchases_list = kwargs.get("purchases_list")
+    def invoke(data: Dict[str, Any], purchases_list) -> str:
         
         if purchases_list is None:
             return json.dumps({"error": "purchases_list is a required parameter."})

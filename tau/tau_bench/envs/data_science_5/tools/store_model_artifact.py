@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class StoreModelArtifact(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], framework, model_name, model_type, status, version) -> str:
         models = list(data.get("models", {}).values())
         max_id = 0
         for m in models:
@@ -20,11 +20,11 @@ class StoreModelArtifact(Tool):
         new_id = max_id + 1
         row = {
             "model_id": new_id,
-            "model_name": kwargs.get("model_name"),
-            "model_type": kwargs.get("model_type"),
-            "framework": kwargs.get("framework"),
-            "version": kwargs.get("version"),
-            "status": kwargs.get("status"),
+            "model_name": model_name,
+            "model_type": model_type,
+            "framework": framework,
+            "version": version,
+            "status": status,
             "created_at": _fixed_now_iso(),
             "updated_at": _fixed_now_iso(),
         }

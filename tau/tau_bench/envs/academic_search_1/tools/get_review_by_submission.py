@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetReviewBySubmission(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        submission_id = kwargs.get('submission_id')
+    def invoke(data: Dict[str, Any], submission_id) -> str:
         if not submission_id:
             return json.dumps({"error": "submission_id is required."})
 

@@ -11,8 +11,8 @@ class CloseCompletedChecklistItems(Tool):
     Returns count updated.
     """
     @staticmethod
-    def invoke(db: Dict[str, Any], **kwargs) -> str:
-        cand_id = kwargs["candidate_id"]; due_lte = kwargs.get("due_date_lte")
+    def invoke(db: Dict[str, Any], candidate_id, due_date_lte) -> str:
+        cand_id = candidate_id; due_lte = due_date_lte
         items = db.get("checklist_items", [])
         updated = 0
         for it in items:

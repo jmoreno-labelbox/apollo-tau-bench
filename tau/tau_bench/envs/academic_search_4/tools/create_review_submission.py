@@ -9,9 +9,8 @@ from datetime import datetime
 
 class CreateReviewSubmission(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        author_user_id,article_id = kwargs.get('author_user_id'),kwargs.get('article_id')
-        submission_id_override = kwargs.get('submission_id_override')
+    def invoke(data: Dict[str, Any], article_id, author_user_id, submission_id_override) -> str:
+        author_user_id,article_id = author_user_id,article_id
 
         if not author_user_id or not article_id:
             return json.dumps({"error": "author_user_id and article_id are required."})

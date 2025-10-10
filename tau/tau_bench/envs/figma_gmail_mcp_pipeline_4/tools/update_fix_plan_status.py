@@ -7,15 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class UpdateFixPlanStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], delivery_method, new_status, owner_email, plan_id, delivery_notes = '') -> str:
         """
         Updates fix plan status and manages fix plan lifecycle workflow.
         """
-        plan_id = kwargs.get('plan_id')
-        new_status = kwargs.get('new_status')
-        owner_email = kwargs.get('owner_email')
-        delivery_method = kwargs.get('delivery_method')
-        delivery_notes = kwargs.get('delivery_notes', '')
 
         if not all([plan_id, new_status]):
             return json.dumps({"error": "plan_id and new_status are required."})

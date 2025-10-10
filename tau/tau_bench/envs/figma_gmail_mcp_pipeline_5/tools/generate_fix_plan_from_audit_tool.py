@@ -9,10 +9,10 @@ class GenerateFixPlanFromAuditTool(Tool):
     """Generate or upsert a minimal fix plan from audit findings, obeying change budget config."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        audit_id = _require_str(kwargs.get("audit_id"), "audit_id")
-        owner_email = _require_str(kwargs.get("owner_email"), "owner_email")
-        created_ts = _require_str(kwargs.get("created_ts"), "created_ts")
+    def invoke(data: Dict[str, Any], audit_id, created_ts, owner_email) -> str:
+        audit_id = _require_str(audit_id, "audit_id")
+        owner_email = _require_str(owner_email, "owner_email")
+        created_ts = _require_str(created_ts, "created_ts")
         if not all([audit_id, owner_email, created_ts]):
             return json.dumps({"error":"audit_id, owner_email, created_ts required"})
 

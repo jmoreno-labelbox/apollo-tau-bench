@@ -7,11 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class find_promotions(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], promotion_id) -> str:
         promotions = data.get("promotions", [])
-
-        # When a customer ID is provided, it will take precedence over any other filters.
-        promotion_id = kwargs.get("promotion_id")
 
         # These columns will align precisely with the provided value.
         exact_match_cols = ["type", "status"]

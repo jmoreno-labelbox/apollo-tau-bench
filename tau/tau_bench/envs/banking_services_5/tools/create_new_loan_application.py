@@ -9,12 +9,7 @@ class CreateNewLoanApplication(Tool):
     """Submits a new loan application using customer_id by auto-extracting customer data from the database."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
-        loan_type = kwargs.get("loan_type")
-        requested_amount = kwargs.get("requested_amount")
-        requested_term_months = kwargs.get("requested_term_months")
-        purpose = kwargs.get("purpose")
+    def invoke(data: Dict[str, Any], customer_id, loan_type, purpose, requested_amount, requested_term_months) -> str:
 
 
         if not all([customer_id, loan_type, requested_amount, requested_term_months, purpose]):

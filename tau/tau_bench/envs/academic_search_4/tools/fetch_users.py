@@ -8,10 +8,7 @@ from tau_bench.envs.tool import Tool
 class FetchUsers(Tool):
     """Tool to search for users by ID, name, or research field."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get('user_id')
-        name = kwargs.get('name')
-        research_field = kwargs.get('research_field')
+    def invoke(data: Dict[str, Any], name, research_field, user_id) -> str:
 
         users = list(data.get('users', {}).values())
 

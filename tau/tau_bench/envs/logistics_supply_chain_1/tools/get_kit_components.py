@@ -20,9 +20,9 @@ class GetKitComponents(Tool):
         }
     }
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        kit_sku: str | None = kwargs.get("kit_sku")
-        kit_name: str | None = kwargs.get("kit_name")
+    def invoke(data: Dict[str, Any], kit_name, kit_sku) -> str:
+        kit_sku: str | None = kit_sku
+        kit_name: str | None = kit_name
 
         if not kit_sku and not kit_name:
             return json.dumps(

@@ -8,10 +8,8 @@ from tau_bench.envs.tool import Tool
 class GetAutomationRunHistory(Tool):
     """Retrieves automation run history for analysis and monitoring."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        run_type = kwargs.get("run_type")
-        status_filter = kwargs.get("status", None)
-        limit = kwargs.get("limit", 10)
+    def invoke(data: Dict[str, Any], run_type, limit = 10, status = None) -> str:
+        status_filter = status
 
         runs = data.get('automation_runs', [])
 

@@ -9,8 +9,8 @@ class FetchCompReportDetailsTool(Tool):
     """Retrieves a comp report with related comparables, documents, emails summary, and audit trail."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        report_id = _as_int(kwargs.get("report_id"))
+    def invoke(data: Dict[str, Any], report_id) -> str:
+        report_id = _as_int(report_id)
         if report_id is None:
             return _err("report_id is required")
 

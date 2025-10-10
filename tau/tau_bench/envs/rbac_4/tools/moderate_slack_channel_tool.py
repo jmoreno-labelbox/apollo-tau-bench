@@ -8,13 +8,8 @@ from tau_bench.envs.tool import Tool
 class ModerateSlackChannelTool(Tool):
     """Moderate Slack channel: archive, pin, unpin, or move canonical messages (bulk support)."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], action, channel, moderator_id, target_channel, message_ids = []) -> str:
         messages = data.get("slack_messages", [])
-        channel = kwargs.get("channel")
-        action = kwargs.get("action")  # "store", "attach", "detach", "relocate"
-        message_ids = kwargs.get("message_ids", [])
-        target_channel = kwargs.get("target_channel")
-        moderator_id = kwargs.get("moderator_id")
 
         updated = []
         for msg in messages:

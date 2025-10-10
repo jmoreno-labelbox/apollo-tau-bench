@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class BuildMtpRunId(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        city_slug = kwargs.get("city_slug")
-        model_name = kwargs.get("model_name")
-        start_ts = kwargs.get("start_ts")
-        end_ts = kwargs.get("end_ts")
+    def invoke(data: Dict[str, Any], city_slug, end_ts, model_name, start_ts) -> str:
         if not city_slug or not model_name or not start_ts or not end_ts:
             return json.dumps({"error":"Missing city_slug, model_name, start_ts, or end_ts"})
         y0 = start_ts[:10].replace("-","")

@@ -8,11 +8,7 @@ from tau_bench.envs.tool import Tool
 class RefundOrderPayment(Tool):
     """Append a refund record with provided refund_id."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        order_id = kwargs.get('order_id')
-        amount = kwargs.get('amount')
-        reason_code = kwargs.get('reason_code')
-        refund_id = kwargs.get('refund_id')
+    def invoke(data, amount, order_id, reason_code, refund_id) -> str:
         if not order_id or amount is None or not reason_code or not refund_id:
             return json.dumps({"error":"order_id, amount, reason_code, refund_id are required"}, indent=2)
         o = _find_order(data, order_id)

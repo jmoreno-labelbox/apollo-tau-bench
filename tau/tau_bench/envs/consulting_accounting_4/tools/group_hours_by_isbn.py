@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class GroupHoursByISBN(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        rows = kwargs.get("rows") or []
+    def invoke(data: Dict[str, Any], rows) -> str:
+        rows = rows or []
         grouped = {}
         for r in rows:
             isbn = r.get("isbn")

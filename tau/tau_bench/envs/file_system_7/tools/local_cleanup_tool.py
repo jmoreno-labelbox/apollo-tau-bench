@@ -30,10 +30,10 @@ class LocalCleanupTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], files_to_delete) -> str:
         deleted = [
             f_key
-            for f_key in kwargs["files_to_delete"]
+            for f_key in files_to_delete
             if data.pop(f_key, None) is not None
         ]
         return json.dumps({"deleted_local_files": deleted})

@@ -8,11 +8,8 @@ from tau_bench.envs.tool import Tool
 class FindWorkItemByPr(Tool):
     """Finds a work item associated with a pull request number."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # This is a simulated implementation since the schema lacks a direct connection.
-        # It will locate a work item that closely corresponds to the PR title.
-        pr_number = kwargs.get("pr_number")
-        repo_id = kwargs.get("repository_id")
+    def invoke(data: Dict[str, Any], pr_number, repository_id) -> str:
+        repo_id = repository_id
         prs = list(data.get("pull_requests", {}).values())
         work_items = data.get("work_items", [])
         

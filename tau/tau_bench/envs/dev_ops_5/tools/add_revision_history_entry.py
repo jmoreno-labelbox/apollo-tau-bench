@@ -8,17 +8,16 @@ from tau_bench.envs.tool import Tool
 class AddRevisionHistoryEntry(Tool):
     """Adds an entry to the revision history of a translation."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        translation_id = kwargs.get("translation_id")
+    def invoke(data: Dict[str, Any], notes, translation, translation_id, translator, version) -> str:
         translations = data.get("translations", [])
         for t in translations:
             if t.get("id") == translation_id:
                 new_entry = {
-                    "version": kwargs.get("version"),
-                    "translation": kwargs.get("translation"),
+                    "version": version,
+                    "translation": translation,
                     "timestamp": "2025-01-28T00:00:00Z",
-                    "translator": kwargs.get("translator"),
-                    "notes": kwargs.get("notes")
+                    "translator": translator,
+                    "notes": notes
                 }
                 t["revision_history"].append(new_entry)
                 return json.dumps({"status": "success", "message": "Revision history updated."})

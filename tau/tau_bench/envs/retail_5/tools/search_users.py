@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SearchUsers(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        email = kwargs.get('email')
-        name = kwargs.get('name')
-        user_id = kwargs.get('user_id')
+    def invoke(data: Dict[str, Any], email, name, user_id) -> str:
 
         if not any([email, name, user_id]):
             return json.dumps({'error': 'email, name, or user_id is required'})

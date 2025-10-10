@@ -9,8 +9,7 @@ class GetSupplierDetails(Tool):
     """Retrieves the full details for a supplier by their id."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        supplier_id = kwargs.get("supplier_id")
+    def invoke(data: Dict[str, Any], supplier_id) -> str:
         suppliers = list(data.get("supplier_master", {}).values())
         for supplier in suppliers:
             if supplier.get("supplier_id") == supplier_id:

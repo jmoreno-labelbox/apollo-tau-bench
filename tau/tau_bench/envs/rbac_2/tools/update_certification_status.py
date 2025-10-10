@@ -9,10 +9,8 @@ class UpdateCertificationStatus(Tool):
     """ Update the status of an access certification campaign. """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        certification_id_to_update = kwargs.get("certification_id")
-        new_status = kwargs.get("new_status")
-        timestamp = kwargs.get("timestamp")
+    def invoke(data: Dict[str, Any], certification_id, new_status, timestamp) -> str:
+        certification_id_to_update = certification_id
         try:
             certifications = data.get('certifications', [])
         except:

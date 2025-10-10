@@ -9,8 +9,8 @@ class ListFiles(Tool):
     """Lists all file paths in the given branch of a repository."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_name, branch = kwargs.get("repo_name"), kwargs.get("branch")
+    def invoke(data: Dict[str, Any], branch, repo_name) -> str:
+        repo_name, branch = repo_name, branch
         if not repo_name:
             return json.dumps({"error": "repo_name is required."}, indent=2)
 

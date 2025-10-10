@@ -7,11 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetTimeEntryDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], time_entry_id) -> str:
         """
         Retrieves the full details for a given time_entry_id.
         """
-        time_entry_id = kwargs["time_entry_id"]
         entry = next((t for t in data["time_entries"] if t["time_entry_id"] == time_entry_id), None)
         return json.dumps(entry)
 

@@ -9,8 +9,7 @@ class GetInsightbyreportid(Tool):
     """Fetch all curated insights associated with a given report_id."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        report_id = kwargs.get("report_id")
+    def invoke(data: Dict[str, Any], report_id) -> str:
 
         # 1) Verify
         if report_id is None:

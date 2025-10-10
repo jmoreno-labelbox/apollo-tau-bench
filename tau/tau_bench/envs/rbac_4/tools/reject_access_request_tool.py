@@ -9,10 +9,9 @@ class RejectAccessRequestTool(Tool):
     """Reject an access request."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        rid = kwargs.get("request_id")
-        reviewer = kwargs.get("reviewer_id")
-        decision_at = kwargs.get("decision_at")
+    def invoke(data: Dict[str, Any], decision_at, request_id, reviewer_id) -> str:
+        rid = request_id
+        reviewer = reviewer_id
         for req in data.get("access_requests", []):
             if req["request_id"] == rid:
                 req["status"] = "REJECTED"

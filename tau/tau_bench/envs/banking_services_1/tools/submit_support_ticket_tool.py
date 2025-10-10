@@ -22,15 +22,9 @@ class SubmitSupportTicketTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
-        category = kwargs.get("category")
-        priority = kwargs.get("priority")
-        channel = kwargs.get("channel")
-        request_details = kwargs.get("request_details")
-        ticket_id = kwargs.get("ticket_id", f"ticket_{generate_unique_id()}")
+    def invoke(data: Dict[str, Any], category, channel, customer_id, priority, request_details, ticket_id) -> str:
         if "ticket_id" in kwargs:
-            ticket_id = kwargs["ticket_id"]
+            pass
         else:
             ticket_id = f"ticket_{generate_unique_id()}"
 

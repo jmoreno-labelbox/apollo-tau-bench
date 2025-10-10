@@ -9,8 +9,8 @@ class MapFindingsToFramesSummaryTool(Tool):
     """Produce a per-frame summary of counts from DS and A11y findings for a given audit."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        audit_id = _require_str(kwargs.get("audit_id"), "audit_id")
+    def invoke(data: Dict[str, Any], audit_id) -> str:
+        audit_id = _require_str(audit_id, "audit_id")
         if not audit_id:
             return json.dumps({"error":"audit_id is required"})
 

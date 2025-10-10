@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class get_compensation_records(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
+    def invoke(data: Dict[str, Any], employee_id) -> str:
         if not find_employee(list(data.get("employees", {}).values()), employee_id):
             return json.dumps(
                 {"error": f"employee_id {employee_id} not found"}, indent=2

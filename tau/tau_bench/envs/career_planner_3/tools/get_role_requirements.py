@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetRoleRequirements(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        role_name = kwargs.get("role_name")
+    def invoke(data: Dict[str, Any], role_name) -> str:
         role_catalog = data.get("role_skill_catalog", [])
         result = [r for r in role_catalog if r["role"] == role_name]
 

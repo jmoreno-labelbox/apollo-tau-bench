@@ -7,15 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetFigmaArtifactsByStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], artifact_id, artifact_type, review_status, status, tags = []) -> str:
         """
         Retrieves Figma artifacts filtered by various criteria including status, tags, and review state.
         """
-        artifact_id = kwargs.get('artifact_id')
-        status = kwargs.get('status')
-        tags = kwargs.get('tags', [])
-        review_status = kwargs.get('review_status')
-        artifact_type = kwargs.get('artifact_type')
 
         figma_artifacts = data.get('figma_artifacts', [])
         review_cycles = data.get('review_cycles', [])

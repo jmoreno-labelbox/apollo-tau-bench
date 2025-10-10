@@ -9,7 +9,7 @@ class CreateAccessRequest(Tool):
     """ Creates a new access request for a user to receive a specific role for a resource. """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], justification, resource_id, role_id, timestamp, user_id) -> str:
         try:
             requests = data.get('access_requests', [])
         except (KeyError, json.JSONDecodeError):
@@ -21,12 +21,12 @@ class CreateAccessRequest(Tool):
 
         new_request = {
             "request_id": request_id,
-            "user_id": kwargs.get("user_id"),
-            "resource_id": kwargs.get("resource_id"),
-            "requested_role_id": kwargs.get("role_id"),
-            "justification": kwargs.get("justification"),
+            "user_id": user_id,
+            "resource_id": resource_id,
+            "requested_role_id": role_id,
+            "justification": justification,
             "status": "PENDING",
-            "submitted_at": kwargs.get("timestamp"),
+            "submitted_at": timestamp,
             "reviewed_by": None,
             "decision_at": None
         }

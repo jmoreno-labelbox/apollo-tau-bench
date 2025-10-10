@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class LogTeamTraining(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # Create a consistent date derived from user_id and course_id.
-        user_id = kwargs["user_id"]
-        course_id = kwargs["course_id"]
+    def invoke(data: Dict[str, Any], course_id, skill_name, user_id) -> str:
 
         # Implement a basic hash-based method for generating consistent dates.
         import hashlib
@@ -28,7 +25,7 @@ class LogTeamTraining(Tool):
 
         entry = {
             "user_id": user_id,
-            "skill_name": kwargs["skill_name"],
+            "skill_name": skill_name,
             "course_id": course_id,
             "log_date": log_date,
         }

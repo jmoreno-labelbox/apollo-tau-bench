@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SaveReportToMetricsDB(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        kpis = kwargs.get("kpis")
+    def invoke(data: Dict[str, Any], kpis) -> str:
         report_date = FIXED_NOW.split('T')[0]
         metrics_db = data.setdefault("daily_metrics", [])
         run_id = f"run_{report_date.replace('-', '')}"

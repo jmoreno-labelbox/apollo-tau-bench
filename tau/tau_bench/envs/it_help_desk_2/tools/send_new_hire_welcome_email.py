@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SendNewHireWelcomeEmail(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        upn = kwargs.get("upn")
-        personal_email = kwargs.get("personal_email")
-        pickup_code = kwargs.get("pickup_code")
+    def invoke(data: Dict[str, Any], personal_email, pickup_code, upn) -> str:
         return json.dumps({"status": "sent", "recipients": [upn, personal_email], "pickup_code": pickup_code}, indent=2)
 
     @staticmethod

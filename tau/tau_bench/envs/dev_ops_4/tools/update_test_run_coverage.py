@@ -25,9 +25,7 @@ class UpdateTestRunCoverage(Tool):
         }
 
     @staticmethod
-    def invoke(data, **kwargs):
-        test_run_id = kwargs.get("test_run_id")
-        coverage_pct = kwargs.get("coverage_pct")
+    def invoke(data, coverage_pct, test_run_id):
         test_runs = list(data.get("test_runs", {}).values())
         row = next((t for t in test_runs if t.get("id") == test_run_id), None)
         if not row:

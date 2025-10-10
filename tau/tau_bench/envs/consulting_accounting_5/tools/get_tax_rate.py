@@ -7,11 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetTaxRate(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], year) -> str:
         """
         Returns tax_rate_id(s). Optionally filter by year.
         """
-        year = kwargs.get("year")
         if year:
             ids = [t["tax_rate_id"] for t in data["tax_rates"] if t.get("year") == year]
         else:

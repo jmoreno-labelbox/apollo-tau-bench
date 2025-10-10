@@ -38,11 +38,11 @@ class FilterFileLogTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], log_name, max_size, users) -> str:
         log_name, max_size, users = (
-            kwargs["log_name"],
-            kwargs["max_size"],
-            kwargs["users"],
+            log_name,
+            max_size,
+            users,
         )
         if log_name not in data:
             return json.dumps({"error": f"Log '{log_name}' not found."})

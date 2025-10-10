@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class ListClientCalendarEvents(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cid = kwargs.get("client_id")
+    def invoke(data: Dict[str, Any], client_id) -> str:
+        cid = client_id
         rows = [e for e in data.get("calendar_events", []) if e.get("client_id") == cid]
         return json.dumps({"client_id": cid, "events": rows}, indent=2)
 

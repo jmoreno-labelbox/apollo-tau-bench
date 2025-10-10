@@ -9,8 +9,7 @@ class FindInventoryBySku(Tool):
     """Finds all inventory records for a given SKU across all warehouses."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        sku = kwargs.get("sku")
+    def invoke(data: Dict[str, Any], sku) -> str:
         inventory_items = list(data.get("inventory", {}).values())
         found_records = []
         for item in inventory_items:

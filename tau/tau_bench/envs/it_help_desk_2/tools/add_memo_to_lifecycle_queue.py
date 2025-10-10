@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class AddMemoToLifecycleQueue(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        memo_id = kwargs.get("memo_id")
-        hr_id = kwargs.get("hr_id")
-        event_type = kwargs.get("event_type")
+    def invoke(data: Dict[str, Any], event_type, hr_id, memo_id) -> str:
         queue = data.setdefault("lifecycle_queue", [])
         lifecycle_id = _get_next_id(queue, "lifecycle_id", "lcq")
         new_entry = {"lifecycle_id": lifecycle_id, "memo_id": memo_id, "employee_ref": hr_id, "event": event_type, "status": "queued", "created_at": FIXED_NOW}

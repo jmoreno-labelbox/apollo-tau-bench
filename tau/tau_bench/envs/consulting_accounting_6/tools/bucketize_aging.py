@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class BucketizeAging(Tool):
     """Map days outstanding to standard Accounts Receivable aging buckets."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        aging = kwargs.get("aging") or []
+    def invoke(data: Dict[str, Any], aging) -> str:
+        aging = aging or []
         buckets = []
         for a in aging:
             days = int(a.get("days_outstanding", 0))

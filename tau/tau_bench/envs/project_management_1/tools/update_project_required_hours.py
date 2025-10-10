@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateProjectRequiredHours(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
-        required_hours = kwargs.get("required_hours")
+    def invoke(data: Dict[str, Any], project_id, required_hours) -> str:
 
         if not all([project_id, required_hours]):
             return json.dumps({"error": "project_id and required hours are required"})

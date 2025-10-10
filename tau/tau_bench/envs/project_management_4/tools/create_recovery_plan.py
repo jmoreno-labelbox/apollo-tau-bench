@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateRecoveryPlan(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        milestone_id = kwargs.get("milestone_id")
-        recovery_actions = kwargs.get("recovery_actions", [])
-        additional_resources = kwargs.get("additional_resources", [])
+    def invoke(data: Dict[str, Any], milestone_id, additional_resources = [], feasibility = "medium", recovery_actions = [], risk_mitigation = []) -> str:
 
         if not all([milestone_id, recovery_actions]):
             return json.dumps(
@@ -60,9 +57,9 @@ class CreateRecoveryPlan(Tool):
             "recovery_days": total_impact_days,
             "recovery_actions": recovery_actions,
             "additional_resources": additional_resources,
-            "risk_mitigation": kwargs.get("risk_mitigation", []),
+            "risk_mitigation": risk_mitigation,
             "total_impact_days": total_impact_days,
-            "feasibility": kwargs.get("feasibility", "medium"),
+            "feasibility": feasibility,
             "created_date": datetime.now(timezone.utc).isoformat(),
             "status": "pending_approval",
             "created_within_48hrs": created_within_48hrs,

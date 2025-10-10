@@ -7,9 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class ListTimeEntries(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        pid = kwargs.get("project_id")
-        month = kwargs.get("month")
+    def invoke(data: Dict[str, Any], month, project_id) -> str:
+        pid = project_id
         entries = [t for t in list(data.get("time_entries", {}).values()) if t.get("project_id") == pid]
         if month:
             entries = [t for t in entries if str(t.get("entry_date", "")).startswith(month)]

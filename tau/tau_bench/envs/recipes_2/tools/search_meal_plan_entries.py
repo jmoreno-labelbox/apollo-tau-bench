@@ -8,11 +8,7 @@ from tau_bench.envs.tool import Tool
 class SearchMealPlanEntries(Tool):
     """Searches for meal plan entries within a specific plan and date range that contain a substring in their notes."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        meal_plan_id = kwargs.get("meal_plan_id")
-        start_date = kwargs.get("start_date")
-        end_date = kwargs.get("end_date")
-        notes_substring = kwargs.get("notes_substring")
+    def invoke(data: Dict[str, Any], end_date, meal_plan_id, notes_substring, start_date) -> str:
         if not all([meal_plan_id, start_date, end_date, notes_substring]):
             return json.dumps({"error": "meal_plan_id, start_date, end_date, and notes_substring are required parameters."})
         meal_plan_entries = list(data.get("meal_plan_entries", {}).values())

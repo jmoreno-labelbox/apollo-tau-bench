@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class GetCampaignByName(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        n = kwargs.get("name")
+    def invoke(data: Dict[str, Any], name) -> str:
+        n = name
         for c in list(data.get("campaigns", {}).values()):
             if c.get("name") == n:
                 return json.dumps(c)

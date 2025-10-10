@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetSplitSummaryDefaults(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        path = kwargs.get("path")
+    def invoke(data: Dict[str, Any], path) -> str:
         if not path:
             return json.dumps({"error": "Missing path"})
         items = data.get("file_store", [])

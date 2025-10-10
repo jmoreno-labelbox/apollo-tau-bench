@@ -7,17 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetFigmaCommentsByArtifact(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], artifact_id, author_email, comment_id, created_after, created_before, resolved_status, content_keywords = []) -> str:
         """
         Retrieves Figma comments filtered by artifact, author, and other criteria.
         """
-        comment_id = kwargs.get('comment_id')
-        artifact_id = kwargs.get('artifact_id')
-        author_email = kwargs.get('author_email')
-        resolved_status = kwargs.get('resolved_status')
-        content_keywords = kwargs.get('content_keywords', [])
-        created_after = kwargs.get('created_after')
-        created_before = kwargs.get('created_before')
 
         figma_comments = data.get('figma_comments', [])
 

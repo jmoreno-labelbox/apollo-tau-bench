@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateCustomerLoyaltyPoints(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get('customer_id')
-        points_to_add = kwargs.get('points_to_add')
+    def invoke(data: Dict[str, Any], customer_id, points_to_add) -> str:
         customers = list(data.get("customers", {}).values())
         updated_customer = None
         for customer in customers:

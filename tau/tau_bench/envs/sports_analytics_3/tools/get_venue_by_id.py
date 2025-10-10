@@ -9,8 +9,7 @@ class GetVenueById(Tool):
     """Fetch a venue record by its venue_id."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        venue_id = kwargs.get("venue_id")
+    def invoke(data: Dict[str, Any], venue_id) -> str:
 
         # 1) Verify
         if venue_id is None:

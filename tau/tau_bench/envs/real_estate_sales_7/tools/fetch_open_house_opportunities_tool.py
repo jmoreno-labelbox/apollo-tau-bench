@@ -9,12 +9,8 @@ class FetchOpenHouseOpportunitiesTool(Tool):
     """Finds open houses matching client criteria and availability."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        property_candidates = kwargs.get("property_candidates") or []
-        # Improvement: enable single date input that automatically extends to a 3-day span.
-        date = kwargs.get("date")
-        date_range_start = kwargs.get("date_range_start")
-        date_range_end = kwargs.get("date_range_end")
+    def invoke(data: Dict[str, Any], date, date_range_end, date_range_start, property_candidates) -> str:
+        property_candidates = property_candidates or []
         if date and (not date_range_start or not date_range_end):
             try:
                 from datetime import datetime, timedelta

@@ -9,9 +9,8 @@ class GetAllOutboundOrders(Tool):
     """Retrieves all outbound order records from the dataset, with an option to filter."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], filters) -> str:
         outbound_orders = list(data.get("outbound_orders", {}).values())
-        filters = kwargs.get("filters")
 
         if not outbound_orders:
             return json.dumps({"message": "No outbound orders found."})

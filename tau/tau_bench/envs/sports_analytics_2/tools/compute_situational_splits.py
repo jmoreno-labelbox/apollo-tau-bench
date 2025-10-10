@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ComputeSituationalSplits(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        team_id = kwargs.get("team_id")
-        situations = kwargs.get("situations", [])
+    def invoke(data: Dict[str, Any], team_id, situations = []) -> str:
         return json.dumps({"situational_splits": f"splits_data_team_{team_id}"}, indent=2)
 
     @staticmethod

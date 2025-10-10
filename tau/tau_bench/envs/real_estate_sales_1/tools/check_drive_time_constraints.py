@@ -9,9 +9,7 @@ class CheckDriveTimeConstraints(Tool):
     """Check if properties can be visited within time constraints."""
     
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        property_ids = kwargs.get('property_ids')
-        max_minutes = kwargs.get('max_minutes', 30)
+    def invoke(data: Dict[str, Any], property_ids, max_minutes = 30) -> str:
         
         if not property_ids:
             return json.dumps({

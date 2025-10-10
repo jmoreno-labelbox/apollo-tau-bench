@@ -9,8 +9,7 @@ class GetAllTeamsInLeague(Tool):
     """Fetch all teams belonging to a given league."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        league = kwargs.get("league")
+    def invoke(data: Dict[str, Any], league) -> str:
 
         # 1) Verify
         if not isinstance(league, str) or league == "":

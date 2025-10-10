@@ -9,9 +9,7 @@ from . import _json_dump
 class UpdateMealPlanEntryNotes(Tool):
     """Set entry notes via a mapping {recipe_id: note} for a given meal_plan_id."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        meal_plan_id = kwargs.get("meal_plan_id")
-        notes_map = kwargs.get("notes_map")
+    def invoke(data: Dict[str, Any], meal_plan_id, notes_map) -> str:
         if meal_plan_id is None or not isinstance(notes_map, dict):
             return _json_dump({"error": "meal_plan_id and notes_map are required"})
         updated = 0

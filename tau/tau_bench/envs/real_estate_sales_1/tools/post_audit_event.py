@@ -9,12 +9,7 @@ class PostAuditEvent(Tool):
     """Record an audit event for tracking system actions."""
     
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        actor_id = kwargs.get('actor_id')
-        action = kwargs.get('action')
-        entity_type = kwargs.get('entity_type')
-        entity_id = kwargs.get('entity_id')
-        metadata_json = kwargs.get('metadata_json')
+    def invoke(data: Dict[str, Any], action, actor_id, entity_id, entity_type, metadata_json) -> str:
         
         if not all([actor_id, action, entity_type, entity_id]):
             return json.dumps({

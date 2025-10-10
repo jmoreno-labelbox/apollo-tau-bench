@@ -9,10 +9,8 @@ class CalculateExpectedArrivalDate(Tool):
     """Calculates an expected arrival date based on a supplier's standard lead time."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], current_date, supplier_id) -> str:
         suppliers = list(data.get("supplier_master", {}).values())
-        supplier_id = kwargs.get("supplier_id")
-        current_date = kwargs.get("current_date")
 
         supplier_details = next(
             (s for s in suppliers if s.get("supplier_id") == supplier_id), {}

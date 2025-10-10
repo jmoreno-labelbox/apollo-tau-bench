@@ -9,11 +9,7 @@ class ListArtifactsTool(Tool):
     """List Figma artifacts filtered by owner, tags, type, or modified since."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner_email = kwargs.get("owner_email")
-        tag = kwargs.get("tag")
-        artifact_type = kwargs.get("artifact_type")
-        modified_since = kwargs.get("modified_since")  # ISO formatted string
+    def invoke(data: Dict[str, Any], artifact_type, modified_since, owner_email, tag) -> str:
 
         rows = data.get("figma_artifacts", [])
         out: List[Dict[str, Any]] = []

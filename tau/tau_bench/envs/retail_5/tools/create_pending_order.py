@@ -8,9 +8,7 @@ from . import generate_unique_id
 
 class CreatePendingOrder(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get('user_id')
-        item_details = kwargs.get('item_details') # Collection of {item_id, quantity} pairs.
+    def invoke(data: Dict[str, Any], item_details, user_id) -> str:
         if not user_id or not item_details:
             return json.dumps({'error': 'user_id and item_details are required'})
 

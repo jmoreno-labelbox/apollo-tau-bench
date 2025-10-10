@@ -9,10 +9,10 @@ class MarkChecklistItemsReminded(Tool):
     """Set status='Reminder Sent', reminder_sent_flag=true, reminder_email_message_id_nullable, updated_ts."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        item_ids: List[str] = kwargs["item_ids"]
-        msg_id: Optional[str] = kwargs.get("reminder_email_message_id")
-        updated_ts = _fixed_ts(kwargs.get("updated_ts"))
+    def invoke(data: Dict[str, Any], item_ids, reminder_email_message_id, updated_ts) -> str:
+        item_ids: List[str] = item_ids
+        msg_id: Optional[str] = reminder_email_message_id
+        updated_ts = _fixed_ts(updated_ts)
 
         updated = 0
         for it in list(data.get("checklist_items", {}).values()):

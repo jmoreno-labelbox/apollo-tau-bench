@@ -7,13 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ValidatePurchaseOrder(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        po_number = kwargs.get("po_number")
-        vendor_id = kwargs.get("vendor_id")
-        project_id = kwargs.get("project_id")
-        amount = kwargs.get("amount")
-        description = kwargs.get("description")
-        fiscal_year = kwargs.get("fiscal_year", datetime.now().year)
+    def invoke(data: Dict[str, Any], amount, description, po_number, project_id, vendor_id, fiscal_year = datetime.now().year) -> str:
 
         if not all([po_number, vendor_id, project_id, amount]):
             return json.dumps(

@@ -9,8 +9,8 @@ class GetSlackMessageById(Tool):
     """ Retrieve the details of a specific Slack message using its ID. """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        message_id_to_find = kwargs.get("message_id")
+    def invoke(data: Dict[str, Any], message_id) -> str:
+        message_id_to_find = message_id
         try:
             slack_messages = data.get('slack_messages', [])
         except:

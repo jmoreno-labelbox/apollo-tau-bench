@@ -9,8 +9,8 @@ class GetCustomerDetailsByCustomerId(Tool):
     """Returns full customer record given a customer_id."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id", "").strip()
+    def invoke(data: Dict[str, Any], customer_id = "") -> str:
+        customer_id = customer_id.strip()
         if not customer_id:
             return json.dumps(
                 {"error": "customer_id is required."},

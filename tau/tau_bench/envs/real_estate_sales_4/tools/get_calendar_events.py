@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetCalendarEvents(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        date = kwargs.get("date")
+    def invoke(data: Dict[str, Any], date) -> str:
         if date:
             return json.dumps({"date": date, "events": [{"title": "Meeting", "time": "10:00 AM"}, {"title": "Lunch", "time": "1:00 PM"}]}, indent=2)
         else:

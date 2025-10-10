@@ -9,12 +9,7 @@ class SendEmailTool(Tool):
     """Send an email from a deterministic sender to a receiver, logging the event for compliance."""
 
     @staticmethod
-    def invoke(data, **kwargs):
-        sender = kwargs["sender"]        # identifier of the sender's user
-        receiver = kwargs["receiver"]    # ID of the recipient user
-        subject = kwargs["subject"]
-        body = kwargs["body"]
-        timestamp = kwargs["timestamp"]
+    def invoke(data, body, receiver, sender, subject, timestamp):
 
         # Check if the sender is present.
         sender_user = next((u for u in list(data.get("users", {}).values()) if u.get("user_id") == sender), None)

@@ -9,10 +9,8 @@ class RenameRepository(Tool):
     """Renames a repository owned by the acting user."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], new_name, old_name) -> str:
         me = _auth(data)["username"]
-        old_name = kwargs.get("old_name")
-        new_name = kwargs.get("new_name")
 
         if not all([old_name, new_name]):
             return json.dumps({"error": "old_name and new_name are required."}, indent=2)

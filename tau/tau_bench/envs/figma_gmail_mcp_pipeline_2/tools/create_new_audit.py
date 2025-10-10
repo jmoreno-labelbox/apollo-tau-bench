@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateNewAudit(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], artifact_id, audit_type) -> str:
         required = ["artifact_id", "audit_type"]
         missing = [f for f in required if f not in kwargs or kwargs[f] is None]
         if missing:
@@ -19,8 +19,8 @@ class CreateNewAudit(Tool):
 
         new_audit = {
             "audit_id": audit_id,
-            "artifact_id": kwargs["artifact_id"],
-            "audit_type": kwargs["audit_type"],
+            "artifact_id": artifact_id,
+            "audit_type": audit_type,
             "created_ts": created_ts,
             "status": "RUNNING",
             "report_asset_id_nullable": None

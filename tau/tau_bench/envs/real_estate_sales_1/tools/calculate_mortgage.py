@@ -9,10 +9,7 @@ class CalculateMortgage(Tool):
     """Calculate monthly mortgage payment based on loan parameters."""
     
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        principal = kwargs.get('principal')
-        interest_rate = kwargs.get('interest_rate')
-        loan_term_years = kwargs.get('loan_term_years', 30)
+    def invoke(data: Dict[str, Any], interest_rate, principal, loan_term_years = 30) -> str:
         
         if not principal or not interest_rate:
             return json.dumps({

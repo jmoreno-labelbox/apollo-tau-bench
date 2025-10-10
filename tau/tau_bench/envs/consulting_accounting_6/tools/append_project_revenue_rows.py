@@ -8,10 +8,9 @@ from tau_bench.envs.tool import Tool
 class AppendProjectRevenueRows(Tool):
     """Insert project revenue rows for a given snapshot."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], items, snapshot_id) -> str:
         rows_tbl = data.get("project_revenue", [])
-        snapshot_id = kwargs.get("snapshot_id")
-        items = kwargs.get("items") or []
+        items = items or []
         inserted = []
 
         max_id = 0

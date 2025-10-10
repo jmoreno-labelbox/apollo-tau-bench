@@ -9,8 +9,7 @@ from . import _first_user_id
 
 class GetMealPlanDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        meal_plan_id = kwargs.get("meal_plan_id")
+    def invoke(data: Dict[str, Any], meal_plan_id) -> str:
         if meal_plan_id is None:
             household_id = _default_household_id(data, _first_user_id(data))
             meal_plan_id = _latest_meal_plan_id(data, household_id)

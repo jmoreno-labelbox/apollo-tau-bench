@@ -7,10 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class ReadFeatureBundle(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], feature_set_id, feature_set_name) -> str:
         feats = list(data.get("features", {}).values()) or []
-        fid = kwargs.get("feature_set_id")
-        fname = kwargs.get("feature_set_name")
+        fid = feature_set_id
+        fname = feature_set_name
         row = None
         if fid is not None:
             row = next((f for f in feats if str(f.get("feature_set_id")) == str(fid)), None)

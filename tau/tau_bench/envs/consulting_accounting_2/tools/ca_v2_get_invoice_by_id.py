@@ -9,8 +9,7 @@ class CaV2GetInvoiceById(Tool):
     """Get specific invoice by ID."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        invoice_id = kwargs.get("invoice_id")
+    def invoke(data: Dict[str, Any], invoice_id) -> str:
         if not invoice_id:
             return _error("invoice_id is required.")
 

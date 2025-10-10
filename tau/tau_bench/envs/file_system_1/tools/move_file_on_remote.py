@@ -8,9 +8,9 @@ from tau_bench.envs.tool import Tool
 class MoveFileOnRemote(Tool):
     """Simulates moving a file from a source to a destination on the same remote server."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], destination_path, hostname, source_path) -> str:
         return json.dumps({
-            "status": "success", "message": f"Moved {kwargs.get('source_path')} to {kwargs.get('destination_path')} on {kwargs.get('hostname')}."})
+            "status": "success", "message": f"Moved {source_path} to {destination_path} on {hostname}."})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

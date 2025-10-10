@@ -8,12 +8,12 @@ from tau_bench.envs.tool import Tool
 class EndAutomationRun(Tool):
     """End a deterministic automation run; computes duration from provided or defaulted times."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        run_id: str = kwargs["run_id"]
-        started_at: str = kwargs.get("started_at") or _iso_at(current_date, current_time)
-        ended_at: str = kwargs.get("ended_at") or _iso_at(current_date, end_time)
-        outputs_json: Dict[str, Any] = kwargs.get("outputs_json", {})
-        errors_json: Dict[str, Any] = kwargs.get("errors_json", {})
+    def invoke(data: Dict[str, Any], ended_at, run_id, started_at, errors_json = {}, outputs_json = {}) -> str:
+        run_id: str = run_id
+        started_at: str = started_at or _iso_at(current_date, current_time)
+        ended_at: str = ended_at or _iso_at(current_date, end_time)
+        outputs_json: Dict[str, Any] = outputs_json
+        errors_json: Dict[str, Any] = errors_json
         duration_repr = f"{started_at}..{ended_at}"
         status = "success"
         return json.dumps({

@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetRecipeIngredients(Tool):
     """Retrieves all ingredients for a specific recipe ID."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        recipe_id = kwargs.get("recipe_id")
+    def invoke(data: Dict[str, Any], recipe_id) -> str:
         recipe_ingredients = list(data.get("recipe_ingredients", {}).values())
         ingredients = [ri for ri in recipe_ingredients if ri.get("recipe_id") == recipe_id]
         return json.dumps(ingredients)

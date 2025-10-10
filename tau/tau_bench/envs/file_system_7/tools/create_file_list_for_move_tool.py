@@ -24,8 +24,8 @@ class CreateFileListForMoveTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        target = kwargs["target_directory"]
+    def invoke(data: Dict[str, Any], target_directory) -> str:
+        target = target_directory
         file_list: List[Dict[str, Any]] = []
 
         for server in data.get("file_system", []):

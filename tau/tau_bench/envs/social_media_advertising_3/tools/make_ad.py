@@ -8,14 +8,14 @@ from tau_bench.envs.tool import Tool
 class MakeAd(Tool):
     """Create a new ad in an adset."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], adset_id, format, name) -> str:
         ads = list(data.get("ads", {}).values())
         new_id = str(max((int(a["ad_id"]) for a in ads), default=1000) + 1)
         ad = {
             "ad_id": new_id,
-            "adset_id": kwargs.get("adset_id"),
-            "name": kwargs.get("name"),
-            "format": kwargs.get("format"),
+            "adset_id": adset_id,
+            "name": name,
+            "format": format,
             "status": "paused",
         }
         ads.append(ad)

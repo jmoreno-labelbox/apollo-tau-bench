@@ -11,11 +11,7 @@ class UpdateAccessRequestTool(Tool):
     _ALLOWED = {"PENDING", "APPROVED", "REJECTED", "DEFERRED"}
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        request_id = kwargs.get("request_id")
-        status = kwargs.get("status")
-        updated_on = kwargs.get("updated_on")
-        updated_by = kwargs.get("updated_by")
+    def invoke(data: Dict[str, Any], request_id, status, updated_by, updated_on) -> str:
 
         # Necessary parameters
         missing = [k for k in ("request_id","status","updated_on","updated_by") if kwargs.get(k) is None]

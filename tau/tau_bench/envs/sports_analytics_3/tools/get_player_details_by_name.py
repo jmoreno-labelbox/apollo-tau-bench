@@ -9,8 +9,7 @@ class GetPlayerDetailsByName(Tool):
     """Fetch a player record by its full_name (exact match, case-sensitive)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        full_name = kwargs.get("full_name")
+    def invoke(data: Dict[str, Any], full_name) -> str:
 
         # 1) Verify
         if not full_name:

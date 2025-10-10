@@ -15,10 +15,8 @@ class CreateRole(Tool):
       is_temporary: bool = False (optional)
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        role_name = (kwargs.get("role_name", "") or "").strip()
-        description = kwargs.get("description", "")
-        is_temporary = kwargs.get("is_temporary", False)
+    def invoke(data: Dict[str, Any], description = "", is_temporary = False, role_name = "") -> str:
+        role_name = (role_name or "").strip()
 
         if not role_name or not description:
             return json.dumps({"error": "role_name and description are required"})

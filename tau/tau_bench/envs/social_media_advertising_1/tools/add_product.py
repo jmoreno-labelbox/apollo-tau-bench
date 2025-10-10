@@ -9,11 +9,7 @@ class AddProduct(Tool):
     """Adds a new product."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        product_id = kwargs.get("product_id")
-        sku = kwargs.get("sku")
-        name = kwargs.get("name")
-        category = kwargs.get("category")
+    def invoke(data: Dict[str, Any], category, name, product_id, sku) -> str:
 
         if not product_id:
             return json.dumps({"error": "product_id is a required parameter."})

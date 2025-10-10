@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateEmailMetadata(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        message_id = kwargs.get("message_id")
-        fields = kwargs.get("fields", {})
+    def invoke(data: Dict[str, Any], message_id, fields = {}) -> str:
         rows = _ensure_list(data, "emails")
         row = _find_by_key(rows, "message_id", message_id)
         if row:

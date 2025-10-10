@@ -9,9 +9,9 @@ class UpdateSubtitleTiming(Tool):
     """Update subtitle_timing row fields (e.g., subtitle_start/end/text) with basic guards."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        sub_id = kwargs.get('id')
-        updates: Dict[str, Any] = kwargs.get('updates', {})
+    def invoke(data: Dict[str, Any], id, updates = {}) -> str:
+        sub_id = id
+        updates: Dict[str, Any] = updates
         table = _table(data, 'subtitle_timing')
         row = next((r for r in table if r.get('id') == sub_id), None)
         if not row:

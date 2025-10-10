@@ -9,10 +9,8 @@ class ListFigmaCommentsTool(Tool):
     """List comments for an artifact, optionally filtered by author or since."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        artifact_id = _require_str(kwargs.get("artifact_id"), "artifact_id")
-        author_email = kwargs.get("author_email")
-        since_ts = kwargs.get("since_ts")
+    def invoke(data: Dict[str, Any], artifact_id, author_email, since_ts) -> str:
+        artifact_id = _require_str(artifact_id, "artifact_id")
 
         if not artifact_id:
             return json.dumps({"error":"artifact_id is required"})

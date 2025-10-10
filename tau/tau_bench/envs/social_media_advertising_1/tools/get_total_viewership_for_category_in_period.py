@@ -9,10 +9,7 @@ class GetTotalViewershipForCategoryInPeriod(Tool):
     """Calculates total viewership for a category over a date range."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        category = kwargs.get("category")
-        start_date = kwargs.get("start_date")
-        end_date = kwargs.get("end_date")
+    def invoke(data: Dict[str, Any], category, end_date, start_date) -> str:
         viewership_data = list(data.get("f_viewership", {}).values())
         
         total_sessions = 0

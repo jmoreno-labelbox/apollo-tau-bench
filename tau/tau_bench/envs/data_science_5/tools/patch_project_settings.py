@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class PatchProjectSettings(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        updates = kwargs.get("updates") or {}
+    def invoke(data: Dict[str, Any], updates) -> str:
+        updates = updates or {}
         cfg = data.get("project_config", {})
         if cfg is None or isinstance(cfg, list):
             cfg = {}

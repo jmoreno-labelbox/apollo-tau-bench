@@ -7,18 +7,16 @@ from tau_bench.envs.tool import Tool
 
 class InsertInvoiceLines(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], invoice_id, invoice_number, lines) -> str:
         invoice_lines = data.get("invoice_lines", [])
         invs = data.get("invoices", [])
-        invoice_id = kwargs.get("invoice_id")
-        invoice_number = kwargs.get("invoice_number")
         if invoice_id is None and invoice_number:
             inv = next((i for i in invs if i.get("invoice_number")==invoice_number), None)
             if inv:
                 invoice_id = inv.get("invoice_id")
         if invoice_id is None:
             return json.dumps({"error":"invoice_id or invoice_number required"}, indent=2)
-        lines = kwargs.get("lines") or []
+        lines = lines or []
         new_ids = []
         
         max_line_id = 0

@@ -9,9 +9,7 @@ class CalculateSpendVariance(Tool):
     """Calculates the variance percentage between planned and actual spend."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        planned_spend = kwargs.get("planned_spend")
-        actual_spend = kwargs.get("actual_spend")
+    def invoke(data: Dict[str, Any], actual_spend, planned_spend) -> str:
         
         if planned_spend is None or actual_spend is None:
             return json.dumps({"error": "planned_spend and actual_spend are required parameters."})

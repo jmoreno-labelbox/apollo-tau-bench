@@ -11,8 +11,7 @@ class find_discountable_products(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        supplier_id = kwargs.get("supplier_id")
+    def invoke(data: Dict[str, Any], supplier_id) -> str:
 
         products = list(data.get("products", {}).values())
 

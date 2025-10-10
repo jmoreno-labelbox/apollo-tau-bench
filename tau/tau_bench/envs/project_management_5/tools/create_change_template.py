@@ -7,13 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateChangeTemplate(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        template_name = kwargs.get("template_name")
-        template_type = kwargs.get("template_type")
-        standard_fields = kwargs.get("standard_fields", {})
-        required_approvals = kwargs.get("required_approvals", [])
-        risk_threshold = kwargs.get("risk_threshold", "medium")
-        created_by = kwargs.get("created_by")
+    def invoke(data: Dict[str, Any], created_by, template_name, template_type, required_approvals = [], risk_threshold = "medium", standard_fields = {}) -> str:
 
         if not all([template_name, template_type, created_by]):
             return json.dumps(

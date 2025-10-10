@@ -23,9 +23,7 @@ class SetOrderStatusTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        order_id = kwargs.get("order_id")
-        status = kwargs.get("status")
+    def invoke(data: Dict[str, Any], order_id, status) -> str:
 
         if not order_id or not isinstance(status, str) or not status:
             return json.dumps({"error": "order_id and non-empty status are required"}, indent=2)

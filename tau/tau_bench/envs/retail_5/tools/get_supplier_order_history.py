@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetSupplierOrderHistory(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        supplier_id = kwargs.get('supplier_id')
-        limit = kwargs.get('limit', 10)
+    def invoke(data: Dict[str, Any], supplier_id, limit = 10) -> str:
 
         if not supplier_id:
             return json.dumps({'error': 'supplier_id is required'})

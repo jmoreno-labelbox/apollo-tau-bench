@@ -7,10 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class GetUserOrders(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get('user_id')
-        status_filter = kwargs.get('status')
-        limit = kwargs.get('limit', 10)
+    def invoke(data: Dict[str, Any], status, user_id, limit = 10) -> str:
+        status_filter = status
 
         if not user_id:
             return json.dumps({'error': 'user_id is required'})

@@ -9,9 +9,7 @@ from . import _max_id, _json_dump
 class UpsertGroceryListItemsFromRecipes(Tool):
     """Replace all items for list_id with the aggregated ingredients from recipe_ids_json."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        list_id = kwargs.get("list_id")
-        recipe_ids_json = kwargs.get("recipe_ids_json", "[]")
+    def invoke(data: Dict[str, Any], list_id, recipe_ids_json = "[]") -> str:
         if list_id is None:
             return _json_dump({"error": "list_id is required"})
         recipe_ids = _parse_json_list_ids(recipe_ids_json)

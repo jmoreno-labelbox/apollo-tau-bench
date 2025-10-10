@@ -8,15 +8,11 @@ from tau_bench.envs.tool import Tool
 class UpdateUserStatusTool(Tool):
     """Update a user's status, department, or MFA settings with cascading effects."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], department, mfa_enabled, status, updated_by, user_id) -> str:
         users = list(data.get("users", {}).values())
         audit_logs = data.get("audit_logs", [])
         sessions = data.get("sessions", [])
-
-        user_id = kwargs.get("user_id")
-        new_status = kwargs.get("status")
-        department = kwargs.get("department")
-        mfa_enabled = kwargs.get("mfa_enabled")
+        new_status = status
 
         # Find user
         user = next((u for u in users if u["user_id"] == user_id), None)
@@ -39,7 +35,7 @@ class UpdateUserStatusTool(Tool):
         log_id = f"L-{len(audit_logs) + 1:03d}"
         audit_logs.append({
             "log_id": log_id,
-            "actor_id": kwargs.get("updated_by"),
+            "actor_id": updated_by,
             "action_type": "USER_UPDATED",
             "target_id": user_id,
             "timestamp": "2025-08-11 13:00:00+00:00",

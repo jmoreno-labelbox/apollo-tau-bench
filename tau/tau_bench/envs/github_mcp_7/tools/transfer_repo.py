@@ -8,10 +8,8 @@ from tau_bench.envs.tool import Tool
 class TransferRepo(Tool):
     """Transfer repository ownership to another username (string only)."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        current = kwargs.get("owner") or _actor_name(data)
-        repo = kwargs.get("repo")
-        new_owner = kwargs.get("new_owner")
+    def invoke(data: Dict[str, Any], new_owner, owner, repo) -> str:
+        current = owner or _actor_name(data)
         r = _find_repo(data, current, repo)
         if not r:
             raise RuntimeError("Repository not found")

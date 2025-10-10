@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateRoleDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        role_id = kwargs.get("role_id")
-        new_name = kwargs.get("new_name")
-        new_description = kwargs.get("new_description")
+    def invoke(data: Dict[str, Any], new_description, new_name, role_id) -> str:
         for role in list(data.get('roles', {}).values()):
             if role.get('role_id') == role_id:
                 if new_name:

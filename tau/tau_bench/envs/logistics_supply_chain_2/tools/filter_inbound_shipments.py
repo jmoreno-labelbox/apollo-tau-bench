@@ -9,11 +9,9 @@ class FilterInboundShipments(Tool):
     """Tool to retrieve inbound shipments by key and value."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], key, value, list_of_ids = None) -> str:
         shipments = list(data.get("inbound_shipments", {}).values())
-        key = kwargs.get("key")
-        value = kwargs.get("value")
-        list_of_shipments = kwargs.get("list_of_ids", None)
+        list_of_shipments = list_of_ids
         result = [item['shipment_id'] for item in shipments if item[key].lower() == value.lower()]
         if list_of_shipments:
             result = [r for r in result if r in list_of_shipments]

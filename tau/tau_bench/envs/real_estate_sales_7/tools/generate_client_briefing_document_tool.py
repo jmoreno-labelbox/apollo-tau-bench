@@ -9,9 +9,9 @@ class GenerateClientBriefingDocumentTool(Tool):
     """Generates a client briefing PDF and inserts a documents row (entity_type=client)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        client_id = _as_int(kwargs.get("client_id"))
-        created_by = _as_int(kwargs.get("created_by"))
+    def invoke(data: Dict[str, Any], client_id, created_by) -> str:
+        client_id = _as_int(client_id)
+        created_by = _as_int(created_by)
         if client_id is None or created_by is None:
             return _err("client_id and created_by are required")
 

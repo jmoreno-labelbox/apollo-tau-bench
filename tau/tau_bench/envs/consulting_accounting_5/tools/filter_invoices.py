@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 
 class FilterInvoices(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], end_date, invoice_date, invoice_number, max_amount, min_amount, publisher_id, start_date, unpaid_only) -> str:
         """
         Filter invoices by conditions such as invoice_number, date range, amount, or paid/unpaid status.
         Returns a list of matching invoice_ids.
@@ -18,33 +18,33 @@ class FilterInvoices(Tool):
 
         # Filter based on invoice_number.
         if "publisher_id" in kwargs:
-            results = [inv for inv in results if inv["publisher_id"] == kwargs["publisher_id"]]
+            results = [inv for inv in results if inv["publisher_id"] == publisher_id]
 
         # Filter based on invoice_number.
         if "invoice_number" in kwargs:
-            results = [inv for inv in results if inv["invoice_number"] == kwargs["invoice_number"]]
+            results = [inv for inv in results if inv["invoice_number"] == invoice_number]
 
         if "invoice_date" in kwargs:
-            results = [inv for inv in results if inv["invoice_date"] == kwargs["invoice_date"]]
+            results = [inv for inv in results if inv["invoice_date"] == invoice_date]
 
         # Restrict by date interval
         if "start_date" in kwargs and "end_date" in kwargs:
-            start = datetime.strptime(kwargs["start_date"], "%Y-%m-%d")
-            end = datetime.strptime(kwargs["end_date"], "%Y-%m-%d")
+            start = datetime.strptime(start_date, "%Y-%m-%d")
+            end = datetime.strptime(end_date, "%Y-%m-%d")
             results = [
                 inv for inv in results
                 if start <= datetime.strptime(inv["invoice_date"], "%Y-%m-%d") <= end
             ]
 
         # Select only invoices that are unpaid.
-        if kwargs.get("unpaid_only"):
+        if unpaid_only:
             results = [inv for inv in results if inv.get("paid_at") is None]
 
         # Filter based on the specified minimum and maximum values.
         if "min_amount" in kwargs:
-            results = [inv for inv in results if float(inv["total_due"]) >= kwargs["min_amount"]]
+            results = [inv for inv in results if float(inv["total_due"]) >= min_amount]
         if "max_amount" in kwargs:
-            results = [inv for inv in results if float(inv["total_due"]) <= kwargs["max_amount"]]
+            results = [inv for inv in results if float(inv["total_due"]) <= max_amount]
 
         return json.dumps([inv["invoice_id"] for inv in results])
 

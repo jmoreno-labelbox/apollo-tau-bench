@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class FindPendingTasksByType(Tool):
     """Finds all pending tasks of a specified type (e.g., 'archive', 'file_check')."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        task_type = kwargs.get("task_type")
+    def invoke(data: Dict[str, Any], task_type) -> str:
         pending_tasks = []
         if task_type == 'archive':
             db = data.get('archive_instructions', [])

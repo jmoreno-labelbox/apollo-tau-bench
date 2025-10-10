@@ -8,9 +8,8 @@ from tau_bench.envs.tool import Tool
 class ScanRemoteDirectory(Tool):
     """Scans a directory on a remote server and returns files matching the criteria."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        hostname = kwargs.get("hostname")
-        directory_path = kwargs.get("directory")
+    def invoke(data: Dict[str, Any], directory, hostname) -> str:
+        directory_path = directory
         found_files = []
         for server in data.get('file_system', []):
             if server.get('hostname') == hostname:

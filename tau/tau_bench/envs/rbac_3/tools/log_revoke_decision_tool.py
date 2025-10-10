@@ -14,12 +14,7 @@ class LogRevokeDecisionTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
-        role_id = kwargs.get("role_id")
-        actor_id = kwargs.get("actor_id")
-        details = kwargs.get("details")
-        revoked = kwargs.get("revoked")
+    def invoke(data: Dict[str, Any], actor_id, details, revoked, role_id, user_id) -> str:
 
         if not user_id or not role_id:
             return json.dumps({"error": "user_id and role_id are required"}, indent=2)

@@ -8,9 +8,8 @@ from . import _fixed_now_iso
 
 class ModifyChecklistItem(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        updates = kwargs.get("updates") or {}
-        item_id = kwargs.get("item_id")
+    def invoke(data: Dict[str, Any], item_id, updates) -> str:
+        updates = updates or {}
         items = list(data.get("checklist_items", {}).values())
         for i in items:
             if i.get("item_id") == item_id:

@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class AssignCourseToUser(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs["user_id"]
-        course_id = kwargs["course_id"]
+    def invoke(data: Dict[str, Any], course_id, user_id) -> str:
 
         # Create a consistent date derived from user_id and course_id.
         import hashlib

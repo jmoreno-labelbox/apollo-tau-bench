@@ -13,10 +13,7 @@ class transaction_price_info(Tool):
     # TODO: consolidate logic into a common utility for make_transaction.
 
     @staticmethod
-    def get_detailed_line_item_price(data, **kwargs):
-        sku = kwargs.get("sku")
-        barcode = kwargs.get("barcode")
-        quantity = kwargs.get("quantity", 1)
+    def get_detailed_line_item_price(data, barcode, sku, quantity = 1):
 
         if (sku is None) and (barcode is None):
             return json.dumps({"error": "sku or barcode must be sent"}, indent=2)
@@ -61,10 +58,9 @@ class transaction_price_info(Tool):
         return json.dumps({"error": "product not found"})
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        timestamp = kwargs.get("timestamp")
+    def invoke(data: Dict[str, Any], line_items, timestamp) -> str:
 
-        item_list = kwargs.get("line_items")
+        item_list = line_items
         if isinstance(item_list, str):
             item_list = json.loads(item_list)
 

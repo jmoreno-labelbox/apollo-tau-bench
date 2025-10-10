@@ -7,10 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class remove_customer(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], customer_id) -> str:
         customers = list(data.get("customers", {}).values())
-
-        customer_id = kwargs.get("customer_id")
 
         if customer_id is None:
             return json.dumps({"error": "customer_id must be sent"}, indent=2)

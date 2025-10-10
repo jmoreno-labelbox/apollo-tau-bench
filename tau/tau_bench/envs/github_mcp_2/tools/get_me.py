@@ -7,12 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetMe(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], username) -> str:
         existing = data.get("_me")
         if isinstance(existing, dict) and "username" in existing and not kwargs:
             return json.dumps(existing, indent=2)
-
-        username = kwargs.get("username")
         if username:
             auth_list = data.get("authentication") or []
             match = next((a for a in auth_list if a.get("username") == username), None)

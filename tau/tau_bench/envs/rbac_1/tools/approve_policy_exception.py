@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ApprovePolicyException(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        exception_id = kwargs.get("exception_id")
-        reviewed_by = kwargs.get("reviewed_by")
+    def invoke(data: Dict[str, Any], exception_id, reviewed_by) -> str:
         for ex in data.get('policy_exceptions', []):
             if ex.get('exception_id') == exception_id:
                 ex['status'] = 'ACTIVE'

@@ -9,12 +9,7 @@ from . import generate_unique_id
 
 class AddBeneficiaryTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get('customer_id')
-        beneficiary_name = kwargs.get('beneficiary_name')
-        account_number = kwargs.get('account_number')
-        routing_number = kwargs.get('routing_number')
-        bank_name = kwargs.get('bank_name')
+    def invoke(data: Dict[str, Any], account_number, bank_name, beneficiary_name, customer_id, routing_number) -> str:
 
         beneficiaries = list(data.get('beneficiaries', {}).values())
 

@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class AddAssetRequest(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        new_request = kwargs.get("request") or {}
+    def invoke(data: Dict[str, Any], request) -> str:
+        new_request = request or {}
         requests = list(data.get("asset_requests", {}).values())
         requests.append(new_request)
         data["asset_requests"] = requests

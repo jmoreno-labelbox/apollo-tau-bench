@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class AddAccessCheck(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        new_check = kwargs.get("check") or {}
+    def invoke(data: Dict[str, Any], check) -> str:
+        new_check = check or {}
         checks = list(data.get("access_checks", {}).values())
         checks.append(new_check)
         data["access_checks"] = checks

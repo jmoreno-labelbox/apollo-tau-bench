@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateGateReview(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        milestone_id = kwargs.get("milestone_id")
-        review_date = kwargs.get("review_date")
-        criteria_results = kwargs.get("criteria_results", {})
-        reviewers = kwargs.get("reviewers", [])
+    def invoke(data: Dict[str, Any], conditional_pass, milestone_id, review_date, action_items = [], criteria_results = {}, review_notes = "", reviewers = []) -> str:
 
         if not all([milestone_id, review_date, criteria_results, reviewers]):
             return json.dumps(
@@ -47,7 +43,7 @@ class CreateGateReview(Tool):
         failed_criteria = [k for k, v in criteria_results.items() if v == "fail"]
         overall_decision = "fail" if failed_criteria else "pass"
 
-        if failed_criteria and kwargs.get("conditional_pass"):
+        if failed_criteria and conditional_pass:
             overall_decision = "conditional_pass"
 
         review_id = f"gate_{uuid.uuid4().hex[:8]}"
@@ -73,9 +69,9 @@ class CreateGateReview(Tool):
             "review_date": review_date,
             "criteria_results": criteria_results,
             "overall_decision": overall_decision,
-            "review_notes": kwargs.get("review_notes", ""),
+            "review_notes": review_notes,
             "reviewers": reviewers,
-            "action_items": kwargs.get("action_items", []),
+            "action_items": action_items,
             "consecutive_failures": consecutive_failures
             + (1 if overall_decision == "fail" else 0),
             "created_date": datetime.now(timezone.utc).isoformat(),

@@ -9,9 +9,8 @@ class GetEmailThreadConversationsTool(Tool):
     """Traces email threads using thread_id and reply relationships to reconstruct conversation flows."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        candidate_id = kwargs.get("candidate_id")
-        include_drafts = kwargs.get("include_draft_responses", False)
+    def invoke(data: Dict[str, Any], candidate_id, include_draft_responses = False) -> str:
+        include_drafts = include_draft_responses
 
         if not candidate_id:
             return _err("candidate_id is required")

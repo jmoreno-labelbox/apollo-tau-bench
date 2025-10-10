@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class UpsertTrackingAddress(Tool):
     """Update the address on a tracking record."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        tracking_id = kwargs.get('tracking_id')
-        address = kwargs.get('address')
+    def invoke(data, address, tracking_id) -> str:
         if not tracking_id or not isinstance(address, dict):
             return json.dumps({"error":"tracking_id and address (object) are required"}, indent=2)
         tr = _find_tracking(data, tracking_id)

@@ -11,7 +11,7 @@ class ApplyCreatives(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], plan_id, rationale, request_id, targets, timestamp) -> str:
         # Deterministic fields are mandatory; the user needs to supply either plan_id or targets.
         err = _require(kwargs, ["request_id", "timestamp", "rationale"])
         if err:
@@ -25,14 +25,13 @@ class ApplyCreatives(Tool):
         _ensure_list(data, "f_insights")
         _ensure_list(data, "plans")  # for the path of plan_id
 
-        ts = kwargs["timestamp"]
-        rationale = kwargs["rationale"]
+        ts = timestamp
 
         # ---- Compilation targets -------------------------------------------------
         # Option A: based on plan_id (allocations[*].creative_type)
         targets: List[Dict[str, Any]] = []
         if "plan_id" in kwargs:
-            pid = kwargs["plan_id"]
+            pid = plan_id
             plan = next((p for p in data["plans"] if str(p.get("plan_id")) == str(pid)), None)
             if not plan:
                 return json.dumps({"error": f"missing_plan:{pid}"})
@@ -45,9 +44,9 @@ class ApplyCreatives(Tool):
                         "ad_name": row.get("ad_name")
                     })
         # Option B: defined targets array
-        if "targets" in kwargs and kwargs["targets"]:
+        if "targets" in kwargs and targets:
             # standardize and combine (prioritize plan targets, explicit targets may take precedence)
-            explicit: List[Dict[str, Any]] = kwargs["targets"]
+            explicit: List[Dict[str, Any]] = targets
             by_id = {t["adset_id"]: t for t in targets if t.get("adset_id")}
             for t in explicit:
                 aid = str(t.get("adset_id"))
@@ -63,8 +62,8 @@ class ApplyCreatives(Tool):
         if not targets:
             # No actions required; a deterministic no-operation.
             return json.dumps({
-                "plan_id": kwargs.get("plan_id"),
-                "request_id": kwargs["request_id"],
+                "plan_id": plan_id,
+                "request_id": request_id,
                 "updated_adsets": [],
                 "rotations": []
             })
@@ -161,15 +160,15 @@ class ApplyCreatives(Tool):
                 "new_type": want_type,
                 "rotated_at": ts,
                 "rationale": rationale,
-                "request_id": kwargs["request_id"],
+                "request_id": request_id,
             })
 
             updated.append(adset_id)
             rotations_written.append(rot_id)
 
         return json.dumps({
-            "plan_id": kwargs.get("plan_id"),
-            "request_id": kwargs["request_id"],
+            "plan_id": plan_id,
+            "request_id": request_id,
             "updated_adsets": updated,
             "rotations": rotations_written
         })

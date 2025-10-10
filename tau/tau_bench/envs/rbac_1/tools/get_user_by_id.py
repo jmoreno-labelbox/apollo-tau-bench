@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetUserById(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
+    def invoke(data: Dict[str, Any], user_id) -> str:
         for user in list(data.get('users', {}).values()):
             if user.get('user_id') == user_id:
                 return json.dumps(user)

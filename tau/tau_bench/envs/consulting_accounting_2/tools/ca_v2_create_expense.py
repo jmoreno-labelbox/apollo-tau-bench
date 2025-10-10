@@ -9,15 +9,7 @@ class CaV2CreateExpense(Tool):
     """Create a new expense record."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        expense_id = kwargs.get("expense_id")
-        vendor = kwargs.get("vendor")
-        expense_date = kwargs.get("expense_date")
-        gross_amount = kwargs.get("gross_amount")
-        currency = kwargs.get("currency", "CAD")
-        description = kwargs.get("description")
-        payment_method = kwargs.get("payment_method")
-        category_code = kwargs.get("category_code")
+    def invoke(data: Dict[str, Any], category_code, description, expense_date, expense_id, gross_amount, payment_method, vendor, created_at = expense_date + "T00:00:00Z", currency = "CAD", receipt_path = f"/receipts/{expense_date[:4]}/{expense_id}_receipt.pdf") -> str:
 
         if not all([expense_id, vendor, expense_date, gross_amount, description, category_code]):
             return _error("Required fields: expense_id, vendor, expense_date, gross_amount, description, category_code")
@@ -42,8 +34,8 @@ class CaV2CreateExpense(Tool):
             "payment_method": payment_method,
             "category_code": category_code,
             "allowed_amount": allowed_amount,
-            "receipt_path": kwargs.get("receipt_path", f"/receipts/{expense_date[:4]}/{expense_id}_receipt.pdf"),
-            "created_at": kwargs.get("created_at", expense_date + "T00:00:00Z")
+            "receipt_path": receipt_path,
+            "created_at": created_at
         }
 
         data.setdefault("expenses", []).append(new_expense)

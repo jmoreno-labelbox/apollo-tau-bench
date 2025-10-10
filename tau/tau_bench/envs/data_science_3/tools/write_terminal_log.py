@@ -8,7 +8,7 @@ from . import _fixed_now_iso
 
 class WriteTerminalLog(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], event_type, message) -> str:
         logs = data.get("terminal_log", [])
         max_id = 0
         for l in logs:
@@ -20,8 +20,8 @@ class WriteTerminalLog(Tool):
         new_id = max_id + 1
         row = {
             "log_id": new_id,
-            "event_type": kwargs.get("event_type"),
-            "message": kwargs.get("message"),
+            "event_type": event_type,
+            "message": message,
             "created_at": _fixed_now_iso()
         }
         logs.append(row)

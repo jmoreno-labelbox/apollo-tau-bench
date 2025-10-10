@@ -7,14 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class UpdateSystemConfig(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], config_category, config_key, config_value_json, description = '') -> str:
         """
         Updates system configuration values for workflow management.
         """
-        config_key = kwargs.get('config_key')
-        config_value_json = kwargs.get('config_value_json')
-        description = kwargs.get('description', '')
-        config_category = kwargs.get('config_category')
 
         if not all([config_key, config_value_json]):
             return json.dumps({"error": "config_key and config_value_json are required."})

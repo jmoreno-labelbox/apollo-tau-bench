@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetBuildRunDetails(Tool):
     """Return full details for a build run by its id."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        run_id = kwargs.get("run_id")
+    def invoke(data: Dict[str, Any], run_id) -> str:
         runs = list(data.get("build_runs", {}).values())
         run = _find_by_id(runs, run_id)
         return json.dumps({"run": run}, indent=2)

@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ExportRecentTickets(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        days = kwargs.get("days", 30)
+    def invoke(data: Dict[str, Any], days = 30) -> str:
         tickets = list(data.get("tickets", {}).values())
         report_path = f"\\\\IT\\Reports\\DailyReports\\{FIXED_NOW.split('T')[0]}\\Tickets_Export.csv"
         return json.dumps({"export_path": report_path, "ticket_count": len(tickets)}, indent=2)

@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SummarizeReallocation(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        reallocated_employees = kwargs.get("reallocated_employees", [])
-        cancelled_project_id = kwargs.get("cancelled_project_id")
-        new_projects = kwargs.get("new_projects", [])
+    def invoke(data: Dict[str, Any], cancelled_project_id, new_projects = [], reallocated_employees = []) -> str:
 
         if not all([reallocated_employees, cancelled_project_id]):
             return json.dumps(

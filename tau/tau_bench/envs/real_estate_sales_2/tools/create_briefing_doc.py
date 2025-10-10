@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateBriefingDoc(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        client_id = kwargs.get("client_id")
-        broker_id = kwargs.get("broker_id")
-        version_tag = kwargs.get("version_tag", "v1")
+    def invoke(data: Dict[str, Any], broker_id, client_id, version_tag = "v1") -> str:
         documents = data.get("documents", [])
         new_id = _next_auto_id(documents, "document_id")
         file_uri = f"https://test.storage.com/details/client_briefing_{client_id:03d}_{version_tag}.pdf"

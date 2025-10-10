@@ -9,9 +9,7 @@ from . import _json_dump
 class UpdateGroceryListWithSubstitutes(Tool):
     """Apply substitutions on grocery_list_items by changing ingredient_id and refreshing grocery_section."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        list_id = kwargs.get("list_id")
-        substitutions = kwargs.get("substitutions", [])
+    def invoke(data: Dict[str, Any], list_id, substitutions = []) -> str:
         if list_id is None or not isinstance(substitutions, list):
             return _json_dump({"error": "list_id and substitutions are required"})
         mapping = {int(s["ingredient_id"]): int(s["substitute_ingredient_id"])

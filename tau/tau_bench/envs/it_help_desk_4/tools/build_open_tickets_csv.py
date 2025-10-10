@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class BuildOpenTicketsCSV(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        open_tickets = kwargs.get("open_tickets")
+    def invoke(data: Dict[str, Any], open_tickets) -> str:
         file_path = f"\\\\IT\\Reports\\DailyReports\\{FIXED_NOW.split('T')[0]}\\Open_Tickets.csv"
         return json.dumps({"file_path": file_path, "rows_written": len(open_tickets)}, indent=2)
 

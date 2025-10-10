@@ -8,12 +8,12 @@ from . import _require
 
 class StoreMetrics(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], accuracy_nullable, auc_nullable, generated_ts, metrics_csv_path, model_name, rmse_nullable) -> str:
         err = _require(kwargs, ["model_name", "metrics_csv_path"])
         if err: return err
-        row = {"model_name": kwargs["model_name"], "metrics_csv_path": kwargs["metrics_csv_path"],
-               "auc_nullable": kwargs.get("auc_nullable"), "accuracy_nullable": kwargs.get("accuracy_nullable"),
-               "rmse_nullable": kwargs.get("rmse_nullable"), "generated_ts": kwargs.get("generated_ts")}
+        row = {"model_name": model_name, "metrics_csv_path": metrics_csv_path,
+               "auc_nullable": auc_nullable, "accuracy_nullable": accuracy_nullable,
+               "rmse_nullable": rmse_nullable, "generated_ts": generated_ts}
         return json.dumps(_append(data.setdefault("metrics", []), row), indent=2)
 
     @staticmethod

@@ -9,13 +9,10 @@ class WriteOnboardingFile(Tool):
     """Insert/update onboarding_files entry for candidate_id + file_path."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cand_id = kwargs["candidate_id"]
-        file_path = kwargs["file_path"]
-        content_text = kwargs.get("content_text", "")
-        mime_type = kwargs.get("mime_type", "text/markdown")
-        created_ts = _fixed_ts(kwargs.get("created_ts"))
-        updated_ts = _fixed_ts(kwargs.get("updated_ts"))
+    def invoke(data: Dict[str, Any], candidate_id, created_ts, file_path, updated_ts, content_text = "", mime_type = "text/markdown") -> str:
+        cand_id = candidate_id
+        created_ts = _fixed_ts(created_ts)
+        updated_ts = _fixed_ts(updated_ts)
 
         files = data.setdefault("onboarding_files", [])
         for f in files:

@@ -9,9 +9,9 @@ class GetInventoryBelowReorderPoint(Tool):
     """Tool to retrieve inventory items that are below reorder point."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], list_of_ids = None) -> str:
         inventories = list(data.get("inventory", {}).values())
-        list_of_inventories = kwargs.get("list_of_ids", None)
+        list_of_inventories = list_of_ids
         low_stock = [item['inventory_id'] for item in inventories if item["quantity_available"] < item["reorder_point"]]
         if list_of_inventories:
             low_stock = [ls for ls in low_stock if ls in list_of_inventories]

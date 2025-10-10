@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetLastAccessedFile(Tool):
     """Gets the most recently accessed file on a specific server."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        server_hostname = kwargs.get("server_hostname")
+    def invoke(data: Dict[str, Any], server_hostname) -> str:
         
         latest_file_path = None
         latest_timestamp = "1970-01-01T00:00:00Z" # Set the initial value to a significantly outdated timestamp.

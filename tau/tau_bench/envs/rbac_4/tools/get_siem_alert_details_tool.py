@@ -9,8 +9,8 @@ class GetSiemAlertDetailsTool(Tool):
     """Retrieve details of a SIEM alert."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        aid = kwargs.get("alert_id")
+    def invoke(data: Dict[str, Any], alert_id) -> str:
+        aid = alert_id
         for a in data.get("siem_alerts", []):
             if a["alert_id"] == aid:
                 return json.dumps(a, indent=2)

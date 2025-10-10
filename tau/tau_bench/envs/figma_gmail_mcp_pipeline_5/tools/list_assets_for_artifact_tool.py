@@ -9,8 +9,8 @@ class ListAssetsForArtifactTool(Tool):
     """List exported assets for a given artifact."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        artifact_id = _require_str(kwargs.get("artifact_id"), "artifact_id")
+    def invoke(data: Dict[str, Any], artifact_id) -> str:
+        artifact_id = _require_str(artifact_id, "artifact_id")
         if not artifact_id:
             return json.dumps({"error":"artifact_id is required"})
 

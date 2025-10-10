@@ -8,14 +8,14 @@ from . import _require
 
 class NotionCreatePage(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], created_ts, page_id, properties_json_nullable, title, updated_ts, url_nullable, sections_present = []) -> str:
         req = ["page_id", "title"]
         err = _require(kwargs, req)
         if err: return err
-        row = {"page_id": kwargs["page_id"], "title": kwargs["title"], "url_nullable": kwargs.get("url_nullable"),
-               "properties_json_nullable": kwargs.get("properties_json_nullable"),
-               "sections_present": kwargs.get("sections_present", []),
-               "created_ts": kwargs.get("created_ts"), "updated_ts": kwargs.get("updated_ts")}
+        row = {"page_id": page_id, "title": title, "url_nullable": url_nullable,
+               "properties_json_nullable": properties_json_nullable,
+               "sections_present": sections_present,
+               "created_ts": created_ts, "updated_ts": updated_ts}
         return json.dumps(_append(data.setdefault("notion_pages", []), row), indent=2)
 
     @staticmethod

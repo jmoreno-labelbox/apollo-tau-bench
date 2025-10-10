@@ -9,8 +9,7 @@ class VerifyCompReportWorkflowTool(Tool):
     """Verifies complete comparable analysis workflow was executed correctly."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        report_id = kwargs.get("report_id")
+    def invoke(data: Dict[str, Any], report_id) -> str:
         if report_id is None:
             return _err("report_id is required")
 

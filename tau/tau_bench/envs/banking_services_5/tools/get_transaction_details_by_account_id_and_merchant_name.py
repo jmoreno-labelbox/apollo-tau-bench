@@ -9,9 +9,9 @@ class GetTransactionDetailsByAccountIdAndMerchantName(Tool):
     """Retrieves transactions for a specific account and merchant name."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        account_id = (kwargs.get("account_id") or "").strip()
-        raw_name = kwargs.get("merchant_name")
+    def invoke(data: Dict[str, Any], account_id, merchant_name) -> str:
+        account_id = (account_id or "").strip()
+        raw_name = merchant_name
         merchant_name = (raw_name or "").strip().lower()
 
         if not account_id or not merchant_name:

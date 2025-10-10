@@ -7,16 +7,16 @@ from tau_bench.envs.tool import Tool
 
 class LinkDocumentToClient(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], client_id, created_by, doc_type, file_uri) -> str:
         documents = data.get("documents", [])
         new_id = _next_auto_id(documents, "document_id")
         row = {
             "document_id": new_id,
             "entity_type": "client",
-            "entity_id": kwargs.get("client_id"),
-            "doc_type": kwargs.get("doc_type") or "briefing_doc",
-            "file_uri": kwargs.get("file_uri"),
-            "created_by": kwargs.get("created_by"),
+            "entity_id": client_id,
+            "doc_type": doc_type or "briefing_doc",
+            "file_uri": file_uri,
+            "created_by": created_by,
             "created_at": _now_iso_fixed(),
         }
         documents.append(row)

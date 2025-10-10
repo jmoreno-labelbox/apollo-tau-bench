@@ -9,8 +9,7 @@ class GetInventoryById(Tool):
     """Tool to retrieve inventory item by inventory ID."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        inventory_id = kwargs.get("inventory_id")
+    def invoke(data: Dict[str, Any], inventory_id) -> str:
         inventories = list(data.get("inventory", {}).values())
         for item in inventories:
             if item["inventory_id"] == inventory_id:

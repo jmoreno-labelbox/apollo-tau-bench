@@ -7,15 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateMilestone(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
-        milestone_name = kwargs.get("milestone_name")
-        milestone_type = kwargs.get("milestone_type", "standard")
-        target_date = kwargs.get("target_date")
-        description = kwargs.get("description")
-        deliverables = kwargs.get("deliverables", [])
-        owner_id = kwargs.get("owner_id")
-        gate_criteria = kwargs.get("gate_criteria", [])
+    def invoke(data: Dict[str, Any], description, milestone_name, owner_id, project_id, start_date, target_date, deliverables = [], gate_criteria = [], milestone_id = f"ms_{uuid.uuid4().hex[:8]}", milestone_type = "standard") -> str:
 
         if not all([project_id, milestone_name, target_date, owner_id]):
             return json.dumps(
@@ -30,9 +22,6 @@ class CreateMilestone(Tool):
             )
 
         milestones = list(data.get("milestones", {}).values())
-        milestone_id = kwargs.get("milestone_id", f"ms_{uuid.uuid4().hex[:8]}")
-
-        start_date = kwargs.get("start_date")
         if not start_date:
             target_dt = datetime.fromisoformat(target_date.replace("Z", "+00:00"))
             start_dt = target_dt - timedelta(days=30)

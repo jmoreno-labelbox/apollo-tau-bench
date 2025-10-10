@@ -14,11 +14,11 @@ class ListOpenAlertsForRepo(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = (kwargs.get("owner") or "").strip()
-        repo_name = (kwargs.get("repo_name") or kwargs.get("repo_name") or "").strip()
-        severity_raw = (kwargs.get("severity") or "").strip()
-        ref_filter = (kwargs.get("ref") or "").strip()
+    def invoke(data: Dict[str, Any], owner, ref, repo_name, severity) -> str:
+        owner = (owner or "").strip()
+        repo_name = (repo_name or repo_name or "").strip()
+        severity_raw = (severity or "").strip()
+        ref_filter = (ref or "").strip()
 
         if not owner or not repo_name:
             return json.dumps(

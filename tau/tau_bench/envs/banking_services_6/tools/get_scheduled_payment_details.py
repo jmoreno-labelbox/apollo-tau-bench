@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetScheduledPaymentDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        payment_id = kwargs.get("payment_id")
+    def invoke(data: Dict[str, Any], payment_id) -> str:
         payment = next((p for p in data['scheduled_payments'] if p['payment_id'] == payment_id), None)
         if payment:
             return json.dumps(payment)

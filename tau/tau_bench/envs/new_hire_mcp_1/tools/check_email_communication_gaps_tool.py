@@ -9,9 +9,7 @@ class CheckEmailCommunicationGapsTool(Tool):
     """Analyzes emails table to identify candidates missing expected communications (welcome, orientation, reminders)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        candidate_id = kwargs.get("candidate_id")
-        expected_email_types = kwargs.get("expected_email_types")
+    def invoke(data: Dict[str, Any], candidate_id, expected_email_types) -> str:
 
         if not expected_email_types or not isinstance(expected_email_types, list):
             return _err("expected_email_types (array) is required")

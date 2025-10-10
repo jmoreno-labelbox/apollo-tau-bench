@@ -12,13 +12,8 @@ class CreateAndReviewAccessRequestTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        request_id = kwargs.get("request_id")
-        user_id = kwargs.get("user_id")
-        resource_id = kwargs.get("resource_id")
-        requested_role_id = kwargs.get("requested_role_id")
-        justification = kwargs.get("justification") or ""
-        reviewer_id = kwargs.get("reviewer_id")
+    def invoke(data: Dict[str, Any], justification, request_id, requested_role_id, resource_id, reviewer_id, user_id) -> str:
+        justification = justification or ""
 
         missing = [
             k

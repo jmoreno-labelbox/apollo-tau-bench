@@ -18,11 +18,8 @@ class find_check_out_employee(Tool):
     ]
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], store_id, ignore_ids = []) -> str:
         employees = list(data.get("employees", {}).values())
-
-        store_id = kwargs.get("store_id")
-        ignore_ids = kwargs.get("ignore_ids", [])
         if isinstance(ignore_ids, str):
             ignore_ids = json.loads(ignore_ids)
 

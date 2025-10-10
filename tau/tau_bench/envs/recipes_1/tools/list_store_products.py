@@ -9,9 +9,7 @@ from . import _json_dump
 class ListStoreProducts(Tool):
     """List store_products for a store (optionally filtered by ingredient_id)."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        store_id = kwargs.get("store_id")
-        ingredient_id = kwargs.get("ingredient_id")
+    def invoke(data: Dict[str, Any], ingredient_id, store_id) -> str:
         if store_id is None:
             return _json_dump({"error": "store_id is required"})
         rows = [p for p in list(data.get("store_products", {}).values()) if int(p.get("store_id")) == int(store_id)]

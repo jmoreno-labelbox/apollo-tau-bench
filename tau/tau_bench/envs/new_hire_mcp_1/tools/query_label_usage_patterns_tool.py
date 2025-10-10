@@ -9,8 +9,8 @@ class QueryLabelUsagePatternsTool(Tool):
     """Analyzes email_labels usage across emails to understand categorization patterns and missing labels."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        label_category_filter = kwargs.get("label_category") # This parameter is retained but will not be utilized since the category is absent.
+    def invoke(data: Dict[str, Any], label_category) -> str:
+        label_category_filter = label_category # This parameter is retained but will not be utilized since the category is absent.
 
         labels_map = {l.get("label_id"): l for l in data.get("email_labels", [])}
         emails = data.get("emails", [])

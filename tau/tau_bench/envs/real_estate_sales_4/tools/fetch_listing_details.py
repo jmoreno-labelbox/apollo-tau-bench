@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class FetchListingDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        listing_id = kwargs.get('listing_id')
+    def invoke(data: Dict[str, Any], listing_id) -> str:
         if not listing_id:
             return json.dumps({"error": "listing_id is required"}, indent=2)
         

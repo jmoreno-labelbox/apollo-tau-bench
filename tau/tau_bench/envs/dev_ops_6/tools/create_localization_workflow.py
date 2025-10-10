@@ -9,16 +9,16 @@ class CreateLocalizationWorkflow(Tool):
     """Create a localization_workflow record (deterministic; error on duplicate id)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], id, pr_number, tms_job_id, bundle_uris = {}, changed_keys = [], locales_processed = [], metadata = {}, overflow_issues = 0, status = 'queued', timestamp = FIXED_TS) -> str:
         table = _table(data, 'localization_workflow')
-        wid = kwargs.get('id')
+        wid = id
         # --- ISSUE RESOLUTION: Create ID when none is supplied ---
         if not wid:
             wid = f"loc_workflow_{len(table) + 1:04d}"
 
         if any((w.get('id') == wid for w in table)):
             return _err(f'localization_workflow id {wid} already exists')
-        record = {'id': wid, 'pr_number': kwargs.get('pr_number'), 'changed_keys': kwargs.get('changed_keys', []), 'locales_processed': kwargs.get('locales_processed', []), 'bundle_uris': kwargs.get('bundle_uris', {}), 'overflow_issues': kwargs.get('overflow_issues', 0), 'tms_job_id': kwargs.get('tms_job_id'), 'status': kwargs.get('status', 'queued'), 'timestamp': kwargs.get('timestamp', FIXED_TS), 'metadata': kwargs.get('metadata', {})}
+        record = {'id': wid, 'pr_number': pr_number, 'changed_keys': changed_keys, 'locales_processed': locales_processed, 'bundle_uris': bundle_uris, 'overflow_issues': overflow_issues, 'tms_job_id': tms_job_id, 'status': status, 'timestamp': timestamp, 'metadata': metadata}
         table.append(record)
         return _ok({'localization_workflow': record})
 

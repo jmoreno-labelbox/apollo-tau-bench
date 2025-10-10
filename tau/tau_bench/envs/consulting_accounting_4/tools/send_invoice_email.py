@@ -8,13 +8,8 @@ from . import _fixed_now_iso
 
 class SendInvoiceEmail(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        publisher_id = kwargs.get("publisher_id")
-        consultant_id = kwargs.get("consultant_id")
-        subject = kwargs.get("subject")
-        body_text = kwargs.get("body_text")
-        attachment = kwargs.get("attachment")
-        inv_no = kwargs.get("invoice_number")
+    def invoke(data: Dict[str, Any], attachment, body_text, consultant_id, invoice_number, publisher_id, subject) -> str:
+        inv_no = invoice_number
         if inv_no:
             inv = next((i for i in data.get("invoices", []) if i.get("invoice_number")==inv_no), None)
             if inv:

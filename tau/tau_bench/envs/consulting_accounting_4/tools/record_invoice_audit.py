@@ -8,7 +8,7 @@ from . import _fixed_now_iso
 
 class RecordInvoiceAudit(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], event_type, invoice_id, invoice_number, notes) -> str:
         audits = data.get("invoice_audit", [])
         prefix = "AUD"
         max_num = 0
@@ -28,11 +28,11 @@ class RecordInvoiceAudit(Tool):
 
         row = {
             "audit_id": new_id,
-            "invoice_id": kwargs.get("invoice_id"),
-            "invoice_number": kwargs.get("invoice_number"),
-            "event_type": kwargs.get("event_type"),
+            "invoice_id": invoice_id,
+            "invoice_number": invoice_number,
+            "event_type": event_type,
             "event_timestamp": _fixed_now_iso(),
-            "notes": kwargs.get("notes")
+            "notes": notes
         }
         audits.append(row)
         return json.dumps(row, indent=2)

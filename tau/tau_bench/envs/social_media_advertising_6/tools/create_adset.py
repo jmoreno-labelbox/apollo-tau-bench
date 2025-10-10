@@ -9,7 +9,7 @@ class CreateAdset(Tool):
     """Create an adset with explicit created_at; requires campaign exists."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], bid_amount, bid_strategy, campaign_id, created_at, daily_budget, end_date, name, start_date, status) -> str:
         req = ["campaign_id", "name", "daily_budget", "bid_strategy", "status", "created_at"]
         err = _require(kwargs, req)
         if err: return _fail(err)
@@ -18,15 +18,15 @@ class CreateAdset(Tool):
         new_id = _next_numeric_id(adsets, "adset_id")
         rec = {
             "adset_id": new_id,
-            "campaign_id": str(kwargs["campaign_id"]),
-            "name": kwargs["name"],
-            "daily_budget": float(kwargs["daily_budget"]),
-            "bid_strategy": kwargs["bid_strategy"],
-            "bid_amount": kwargs.get("bid_amount"),
-            "start_date": kwargs.get("start_date"),
-            "end_date": kwargs.get("end_date"),
-            "status": kwargs["status"],
-            "updated_at": kwargs["created_at"],
+            "campaign_id": str(campaign_id),
+            "name": name,
+            "daily_budget": float(daily_budget),
+            "bid_strategy": bid_strategy,
+            "bid_amount": bid_amount,
+            "start_date": start_date,
+            "end_date": end_date,
+            "status": status,
+            "updated_at": created_at,
         }
         adsets.append(rec)
         return json.dumps(rec)

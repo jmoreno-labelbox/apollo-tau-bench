@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ApplyResourceLeveling(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
-        resource_constraints = kwargs.get("resource_constraints", {})
-        priority_method = kwargs.get("priority_method", "critical_path")
+    def invoke(data: Dict[str, Any], project_id, priority_method = "critical_path", resource_constraints = {}) -> str:
 
         if not all([project_id, resource_constraints]):
             return json.dumps(

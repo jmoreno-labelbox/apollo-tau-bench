@@ -9,11 +9,10 @@ from . import _json_dump
 class RankRecipesForTargets(Tool):
     """Score recipes by closeness to (target_calories, target_protein); lower score is better."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        recipe_ids_json = kwargs.get("recipe_ids_json", "[]")
-        target_calories = int(kwargs.get("target_calories", 2000))
-        target_protein = int(kwargs.get("target_protein", 100))
-        needed_count = int(kwargs.get("needed_count", 7))
+    def invoke(data: Dict[str, Any], needed_count = 7, recipe_ids_json = "[]", target_calories = 2000, target_protein = 100) -> str:
+        target_calories = int(target_calories)
+        target_protein = int(target_protein)
+        needed_count = int(needed_count)
         ids = _parse_json_list_ids(recipe_ids_json)
         scored: List[Tuple[float, int, float]] = []
         for rid in ids:

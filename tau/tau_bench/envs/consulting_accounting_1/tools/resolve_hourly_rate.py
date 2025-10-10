@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class ResolveHourlyRate(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        pid = kwargs.get("project_id")
+    def invoke(data: Dict[str, Any], project_id) -> str:
+        pid = project_id
         proj = next((p for p in list(data.get("projects", {}).values()) if p.get("project_id") == pid), None)
         if not proj:
             return json.dumps({"error": f"Project {pid} not found"}, indent=2)

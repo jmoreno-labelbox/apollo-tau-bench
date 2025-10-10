@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class NotifyManager(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        manager_id = kwargs.get("manager_id")
-        subject = kwargs.get("subject")
-        body = kwargs.get("body")
+    def invoke(data: Dict[str, Any], body, manager_id, subject) -> str:
         return json.dumps({"status": "sent", "recipient_manager_id": manager_id, "subject": subject}, indent=2)
 
     @staticmethod

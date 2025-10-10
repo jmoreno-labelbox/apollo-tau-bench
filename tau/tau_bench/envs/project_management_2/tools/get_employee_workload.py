@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetEmployeeWorkload(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
-        sprint_id = kwargs.get("sprint_id")
-        include_blocked = kwargs.get("include_blocked", True)
+    def invoke(data: Dict[str, Any], employee_id, sprint_id, include_blocked = True) -> str:
 
         if not employee_id:
             return json.dumps({"error": "employee_id is required"})

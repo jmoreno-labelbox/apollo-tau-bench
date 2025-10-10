@@ -7,18 +7,17 @@ from tau_bench.envs.tool import Tool
 
 class TrainModel(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        model_name = kwargs.get("model_name")
+    def invoke(data: Dict[str, Any], config_id, features_id, model_name, model_type, split_id) -> str:
         model_id = f"MODEL_{model_name}"
         predictions_id = "PRED_001"
 
         model_entry = {
             "model_id": model_id,
             "model_name": model_name,
-            "model_type": kwargs.get("model_type"),
-            "features_id": kwargs.get("features_id"),
-            "config_id": kwargs.get("config_id"),
-            "split_id": kwargs.get("split_id"),
+            "model_type": model_type,
+            "features_id": features_id,
+            "config_id": config_id,
+            "split_id": split_id,
             "model_path": f"/models/{model_id}.joblib",
         }
 

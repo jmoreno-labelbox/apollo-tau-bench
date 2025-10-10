@@ -7,11 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetExpensesByCategory(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], category_code) -> str:
         """
         Returns expense_ids for all expenses under a given category_code.
         """
-        category_code = kwargs["category_code"]
         expense_ids = [exp["expense_id"] for exp in data["expenses"] if exp["category_code"] == category_code]
         return json.dumps(expense_ids)
 

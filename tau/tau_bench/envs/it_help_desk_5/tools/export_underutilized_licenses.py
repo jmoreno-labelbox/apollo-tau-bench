@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class ExportUnderutilizedLicenses(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        csv_data = kwargs.get('output_data')
+    def invoke(data: Dict[str, Any], output_data) -> str:
+        csv_data = output_data
         if csv_data is None:
             return json.dumps({'status': 'error', 'description': 'The data field is required.'}, indent=2)
 

@@ -9,9 +9,9 @@ class ListSiemAlertsTool(Tool):
     """List SIEM alerts with optional filtering."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        res_id = kwargs.get("resource_id")
-        sev = kwargs.get("severity")
+    def invoke(data: Dict[str, Any], resource_id, severity) -> str:
+        res_id = resource_id
+        sev = severity
         alerts = data.get("siem_alerts", [])
         results = []
         for a in alerts:

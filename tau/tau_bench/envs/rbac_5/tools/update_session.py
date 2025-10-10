@@ -17,12 +17,7 @@ class UpdateSession(Tool):
       is_mfa: bool (optional) - Update MFA status
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        session_id = kwargs.get("session_id", "")
-        end_time = kwargs.get("end_time")
-        ip_address = kwargs.get("ip_address")
-        device = kwargs.get("device")
-        is_mfa = kwargs.get("is_mfa")
+    def invoke(data: Dict[str, Any], device, end_time, ip_address, is_mfa, session_id = "") -> str:
 
         if not session_id:
             return json.dumps({"error": "session_id required"})

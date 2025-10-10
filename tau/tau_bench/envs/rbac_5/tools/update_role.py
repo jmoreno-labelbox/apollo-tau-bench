@@ -16,11 +16,7 @@ class UpdateRole(Tool):
       is_temporary: bool (optional)
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        role_id = kwargs.get("role_id", "")
-        role_name = kwargs.get("role_name")
-        description = kwargs.get("description")
-        is_temporary = kwargs.get("is_temporary")
+    def invoke(data: Dict[str, Any], description, is_temporary, role_name, role_id = "") -> str:
 
         if not role_id:
             return json.dumps({"error": "role_id is required"})

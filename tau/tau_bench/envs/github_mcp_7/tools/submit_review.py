@@ -8,12 +8,8 @@ from tau_bench.envs.tool import Tool
 class SubmitReview(Tool):
     """Submit a review on a PR (approve, request_changes, or comment)."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get("owner") or _actor_name(data)
-        repo = kwargs.get("repo")
-        number = kwargs.get("number")
-        state = kwargs.get("state")
-        note = kwargs.get("note", "")
+    def invoke(data: Dict[str, Any], number, owner, repo, state, note = "") -> str:
+        owner = owner or _actor_name(data)
         for p in _prs(data):
             if p.get("owner") == owner and p.get("repo") == repo and p.get("number") == number:
                 p.setdefault("review_states", []).append({

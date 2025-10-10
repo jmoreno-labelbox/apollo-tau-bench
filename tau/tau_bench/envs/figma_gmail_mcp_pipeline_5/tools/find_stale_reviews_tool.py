@@ -9,8 +9,8 @@ class FindStaleReviewsTool(Tool):
     """Return cycles exceeding SLA (status not APPROVED) by comparing last_updated with SLA hours."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        now_iso = _require_str(kwargs.get("now_iso"), "now_iso")  # reference point for comparison
+    def invoke(data: Dict[str, Any], now_iso) -> str:
+        now_iso = _require_str(now_iso, "now_iso")  # reference point for comparison
         if not now_iso:
             return json.dumps({"error":"now_iso is required (ISO timestamp baseline)"})
 

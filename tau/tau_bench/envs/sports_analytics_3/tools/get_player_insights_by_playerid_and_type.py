@@ -21,9 +21,8 @@ class GetPlayerInsightsByPlayeridAndType(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        player_id = kwargs.get("player_id")
-        type_filter = kwargs.get("type")
+    def invoke(data: Dict[str, Any], player_id, type) -> str:
+        type_filter = type
 
         # 1) Verify
         if player_id is None:

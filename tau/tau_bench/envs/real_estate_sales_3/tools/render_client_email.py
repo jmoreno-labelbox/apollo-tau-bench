@@ -7,11 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class RenderClientEmail(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        template_code = kwargs.get("template_code")
-        client_id = kwargs.get("client_id")
-        subject = kwargs.get("subject") or template_code
-        slug = kwargs.get("slug") or f"{template_code}_{client_id}".lower().replace(" ", "_")
+    def invoke(data: Dict[str, Any], client_id, slug, subject, template_code) -> str:
+        subject = subject or template_code
+        slug = slug or f"{template_code}_{client_id}".lower().replace(" ", "_")
         body_uri = f"https://storage.example.com/emails/{slug}.html"
         return json.dumps({"client_id": client_id, "subject": subject, "body_uri": body_uri, "template_code": template_code}, indent=2)
 

@@ -7,10 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class CreateAccessGapSummaryFile(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        file_path = kwargs.get("file_path")
-        lines = kwargs.get("content_lines", [])
-        candidate_id = kwargs.get("candidate_id")
+    def invoke(data: Dict[str, Any], candidate_id, file_path, content_lines = []) -> str:
+        lines = content_lines
         content_text = "\n".join(lines) + ("\n" if lines else "")
         res = json.loads(
             UpsertOnboardingFile.invoke(data, file_path=file_path, content_text=content_text, mime_type="text/markdown",

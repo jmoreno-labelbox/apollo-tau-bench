@@ -9,10 +9,10 @@ class LinkReviewToThreadTool(Tool):
     """Link a review cycle to a Gmail thread (idempotent)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cycle_id = _require_str(kwargs.get("cycle_id"), "cycle_id")
-        thread_id = _require_str(kwargs.get("thread_id"), "thread_id")
-        changed_ts = _require_str(kwargs.get("changed_ts"), "changed_ts")
+    def invoke(data: Dict[str, Any], changed_ts, cycle_id, thread_id) -> str:
+        cycle_id = _require_str(cycle_id, "cycle_id")
+        thread_id = _require_str(thread_id, "thread_id")
+        changed_ts = _require_str(changed_ts, "changed_ts")
         if not (cycle_id and thread_id and changed_ts):
             return json.dumps({"error":"cycle_id, thread_id, changed_ts required"})
 

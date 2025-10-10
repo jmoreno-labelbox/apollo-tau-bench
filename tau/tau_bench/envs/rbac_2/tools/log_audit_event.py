@@ -9,7 +9,7 @@ class LogAuditEvent(Tool):
     """ Recording actions or events in the system's audit log used for security, compliance, and traceability."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], action_type, actor_id, details, target_id, timestamp) -> str:
         try:
            audit_logs = data.get('audit_logs', [])
         except (KeyError, json.JSONDecodeError):
@@ -20,11 +20,11 @@ class LogAuditEvent(Tool):
 
         new_log = {
             "log_id": log_id,
-            "actor_id": kwargs.get("actor_id"),
-            "action_type": kwargs.get("action_type"),
-            "target_id": kwargs.get("target_id"),
-            "timestamp": kwargs.get("timestamp"),
-            "details": kwargs.get("details")
+            "actor_id": actor_id,
+            "action_type": action_type,
+            "target_id": target_id,
+            "timestamp": timestamp,
+            "details": details
         }
 
         audit_logs.append(new_log)

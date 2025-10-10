@@ -8,10 +8,7 @@ from tau_bench.envs.tool import Tool
 class CompleteAutomationRun(Tool):
     """Complete a previously started automation run with deterministic duration."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        automation_run_id = kwargs.get("automation_run_id")
-        status = kwargs.get("status")
-        outputs_json = kwargs.get("outputs_json", {})
+    def invoke(data: Dict[str, Any], automation_run_id, status, outputs_json = {}) -> str:
 
         runs = list(data.get("automation_runs", {}).values())
         idx = _idx_by_id(runs, automation_run_id)

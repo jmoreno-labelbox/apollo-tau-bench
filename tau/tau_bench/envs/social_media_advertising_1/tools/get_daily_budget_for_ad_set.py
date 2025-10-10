@@ -9,8 +9,7 @@ class GetDailyBudgetForAdSet(Tool):
     """Retrieves the daily budget for a specific ad set."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        adset_id = kwargs.get("adset_id")
+    def invoke(data: Dict[str, Any], adset_id) -> str:
         adsets = list(data.get("adsets", {}).values())
         
         for adset in adsets:

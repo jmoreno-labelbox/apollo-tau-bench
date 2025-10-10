@@ -9,8 +9,8 @@ from . import _next_int_id
 
 class CreateCampaign(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        name, ctype, created_by = kwargs.get("name"), kwargs.get("type"), kwargs.get("created_by")
+    def invoke(data: Dict[str, Any], created_by, name, type) -> str:
+        name, ctype, created_by = name, type, created_by
         c = list(data.get("campaigns", {}).values())
         new_id = _next_int_id(c, "campaign_id")
         row = {"campaign_id": new_id, "name": name, "type": ctype, "created_by": created_by, "created_at": _fixed_now_iso()}

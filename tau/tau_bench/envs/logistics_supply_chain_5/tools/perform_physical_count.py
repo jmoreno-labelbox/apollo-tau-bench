@@ -7,10 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class PerformPhysicalCount(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], sku: str, warehouse_id: str, **kwargs) -> str:
+    def invoke(data: Dict[str, Any], sku: str, warehouse_id: str, instruction_amount = 0, quantity_available_flag = False) -> str:
         inventory = list(data.get("inventory", {}).values())
-        instruction_amount = kwargs.get("instruction_amount", 0)
-        quantity_available_flag = kwargs.get("quantity_available_flag", False)
 
         inventory_item = next(
             (item for item in inventory

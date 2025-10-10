@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class GetTestResultById(Tool):
     """Retrieves a specific test result by its ID."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        test_result_id = kwargs.get("id")
+    def invoke(data: Dict[str, Any], id) -> str:
+        test_result_id = id
         test_results = data.get("test_results", [])
         for result in test_results:
             if result.get("id") == test_result_id:

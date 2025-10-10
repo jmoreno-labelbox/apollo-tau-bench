@@ -9,16 +9,16 @@ class FindUnderperformingAdsets(Tool):
     """Find adsets below a ROAS threshold for a given day (joins f_insights with adsets)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], date, min_roas) -> str:
         req = ["date", "min_roas"]
         err = _require(kwargs, req)
         if err: return _fail(err)
         ins = _assert_table(data, "f_insights")
         adsets = _index(_assert_table(data, "adsets"), "adset_id")
-        th = float(kwargs["min_roas"])
+        th = float(min_roas)
         out = []
         for r in ins:
-            if r.get("date") != kwargs["date"]:
+            if r.get("date") != date:
                 continue
             aid = str(r.get("adset_id"))
             spend = float(r.get("spend", 0.0));

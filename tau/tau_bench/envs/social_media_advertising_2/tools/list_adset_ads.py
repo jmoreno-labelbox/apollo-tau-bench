@@ -9,8 +9,8 @@ class ListAdsetAds(Tool):
     """List all ads inside an adset."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        aid = kwargs.get("adset_id")
+    def invoke(data: Dict[str, Any], adset_id) -> str:
+        aid = adset_id
         ads = [ad for ad in list(data.get("ads", {}).values()) if ad.get("adset_id") == aid]
         return json.dumps({"ads": ads})
 

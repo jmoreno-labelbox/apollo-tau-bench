@@ -8,12 +8,12 @@ from . import _load_table
 
 class WriteVideoPlaylist(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], internal_portal_link, report_id, clip_count = 0) -> str:
         playlists = _load_table(data, "video_playlists")
         playlists.append({
-            "report_id": kwargs.get("report_id"),
-            "internal_portal_link": kwargs.get("internal_portal_link"),
-            "clip_count": kwargs.get("clip_count", 0)
+            "report_id": report_id,
+            "internal_portal_link": internal_portal_link,
+            "clip_count": clip_count
         })
         return json.dumps({"status": "ok"}, indent=2)
 

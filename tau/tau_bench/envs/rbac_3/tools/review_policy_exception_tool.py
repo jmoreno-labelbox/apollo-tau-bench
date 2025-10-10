@@ -11,11 +11,7 @@ class ReviewPolicyExceptionTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        exception_id = kwargs.get("exception_id")
-        reviewer_id = kwargs.get("reviewer_id")
-        approve = kwargs.get("approve")
-        notes = kwargs.get("notes")
+    def invoke(data: Dict[str, Any], approve, exception_id, notes, reviewer_id) -> str:
 
         exceptions = data.get("policy_exceptions", [])
         for pe in exceptions:

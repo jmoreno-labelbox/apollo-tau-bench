@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class CalculateAdsetRoasForDay(Tool):
     """Calculates Return On Ad Spend for an ad set."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        adset_id, report_date = kwargs.get("adset_id"), kwargs.get("date")
+    def invoke(data: Dict[str, Any], adset_id, date) -> str:
+        adset_id, report_date = adset_id, date
         for insight in data.get('f_insights', []):
             if insight.get('adset_id') == adset_id and insight.get('date') == report_date:
                 spend, revenue = insight.get('spend', 0), insight.get('revenue', 0)

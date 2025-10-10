@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ReadWeatherForecast(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        city = kwargs.get("city")
+    def invoke(data: Dict[str, Any], city) -> str:
         rows = list(data.get("weather_forecasts", {}).values()) or []
         if city:
             rows = [r for r in rows if r.get("city") == city]

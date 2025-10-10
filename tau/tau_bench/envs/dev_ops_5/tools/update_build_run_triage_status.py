@@ -8,9 +8,9 @@ from tau_bench.envs.tool import Tool
 class UpdateBuildRunTriageStatus(Tool):
     """Updates the triage status of a build run."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        run_id = kwargs.get("id")
-        new_status = kwargs.get("triage_status")
+    def invoke(data: Dict[str, Any], id, triage_status) -> str:
+        run_id = id
+        new_status = triage_status
         build_runs = data.get("build_runs", [])
         for run in build_runs:
             if run.get("id") == run_id:

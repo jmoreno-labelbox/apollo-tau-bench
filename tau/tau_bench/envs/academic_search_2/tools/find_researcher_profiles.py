@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class FindResearcherProfiles(Tool):
     """Searches for users by their name, research field, or user_id."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        name, research_field, user_id = kwargs.get('name'), kwargs.get('research_field'), kwargs.get('user_id')
+    def invoke(data: Dict[str, Any], name, research_field, user_id) -> str:
+        name, research_field, user_id = name, research_field, user_id
         if not any([name, research_field, user_id]):
             return json.dumps(list(data.get('users', {}).values()), indent=2)
 

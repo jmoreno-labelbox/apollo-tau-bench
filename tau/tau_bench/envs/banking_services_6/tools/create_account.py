@@ -7,11 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class CreateAccount(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], account_type, currency, customer_id) -> str:
         account_id = _get_next_account_id(data)
-        customer_id = kwargs.get("customer_id")
-        account_type = kwargs.get("account_type")
-        currency = kwargs.get("currency")
 
         customer = next((c for c in data['customers'] if c['customer_id'] == customer_id), None)
         if not customer:

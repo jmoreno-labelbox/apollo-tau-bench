@@ -7,12 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class TransferMoneySameCurrency(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
-        src_id = kwargs.get("source_account_id")
-        tgt_id = kwargs.get("target_account_id")
-        currency = kwargs.get("currency")
-        amount = kwargs.get("amount")
+    def invoke(data: Dict[str, Any], amount, currency, customer_id, source_account_id, target_account_id) -> str:
+        src_id = source_account_id
+        tgt_id = target_account_id
 
         if not all([customer_id, src_id, tgt_id, currency, amount]):
             return json.dumps(

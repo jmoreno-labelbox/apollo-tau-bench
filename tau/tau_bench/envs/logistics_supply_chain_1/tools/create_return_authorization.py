@@ -8,10 +8,7 @@ from tau_bench.envs.tool import Tool
 class CreateReturnAuthorization(Tool):
     """Creates a Return Merchandise Authorization (RMA) record for a customer return."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        order_id = kwargs.get('order_id')
-        line_items = kwargs.get('line_items')
-        reason = kwargs.get('reason')
+    def invoke(data: Dict[str, Any], line_items, order_id, reason) -> str:
 
         if not all([order_id, line_items, reason]):
             return json.dumps({"error": "order_id, line_items, and reason are required."}, indent=2)

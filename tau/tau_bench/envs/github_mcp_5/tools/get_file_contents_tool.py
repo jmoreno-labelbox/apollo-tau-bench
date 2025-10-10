@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetFileContentsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get('owner')
-        repo = kwargs.get('repo')
-        path = kwargs.get('path')
-        ref = kwargs.get('ref', 'main') # Set to main branch by default.
+    def invoke(data: Dict[str, Any], owner, path, repo, ref = 'main') -> str:
 
         if not all([owner, repo, path]):
             return json.dumps({

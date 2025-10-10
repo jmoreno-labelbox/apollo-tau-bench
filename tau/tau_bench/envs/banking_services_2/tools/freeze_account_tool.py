@@ -8,9 +8,7 @@ from . import get_current_timestamp
 
 class FreezeAccountTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        account_id = kwargs.get('account_id')
-        reason = kwargs.get('reason', 'Customer request')
+    def invoke(data: Dict[str, Any], account_id, reason = 'Customer request') -> str:
         accounts = list(data.get('accounts', {}).values())
 
         for account in accounts:

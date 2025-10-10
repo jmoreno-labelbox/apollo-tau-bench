@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetLicenseAssignmentByType(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
-        license_type = kwargs.get("license_type")
+    def invoke(data: Dict[str, Any], employee_id, license_type) -> str:
         assignments = list(data.get("license_assignments", {}).values())
         assignment = next((a for a in assignments if a.get("employee_id") == employee_id and a.get("license_id") == license_type and a.get("status") == "active"), None)
         if not assignment:

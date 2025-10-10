@@ -7,10 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class ComputeInvoiceAging(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], invoice_id, today) -> str:
         import datetime as _dt
-        invoice_id = kwargs.get("invoice_id")
-        today_str = kwargs.get("today")
+        today_str = today
         if not invoice_id or not today_str:
             return json.dumps({"error": "invoice_id and today are required"}, indent=2)
         invoices = list(data.get("invoices", {}).values())

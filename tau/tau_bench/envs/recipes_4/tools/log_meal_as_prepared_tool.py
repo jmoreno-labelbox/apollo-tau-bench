@@ -52,7 +52,7 @@ class LogMealAsPreparedTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> Dict[str, Any]:
+    def invoke(data: Dict[str, Any], household_id, plan_date, rating_int, recipe_id, user_id, was_prepared = True) -> Dict[str, Any]:
         """
         Executes the logic to create a new meal history entry.
 
@@ -80,10 +80,6 @@ class LogMealAsPreparedTool(Tool):
                 validation_error["details"]
             )
 
-        household_id = kwargs["household_id"]
-        recipe_id = kwargs["recipe_id"]
-        user_id = kwargs.get("user_id")
-
         # 2. Validation Checks: Confirm the existence of associated entities
         if not any(h.get("household_id") == household_id for h in data.get("households", [])):
             return _build_error_response("NOT_FOUND", {"entity": "Household", "entity_id": household_id})
@@ -102,9 +98,9 @@ class LogMealAsPreparedTool(Tool):
             "history_id": new_history_id,
             "household_id": household_id,
             "recipe_id": recipe_id,
-            "plan_date": kwargs["plan_date"],
-            "was_prepared": kwargs.get("was_prepared", True),
-            "rating_int": kwargs.get("rating_int") # If absent, defaults to None.
+            "plan_date": plan_date,
+            "was_prepared": was_prepared,
+            "rating_int": rating_int # If absent, defaults to None.
         }
 
         history_table.append(new_history_record)
@@ -117,7 +113,7 @@ class LogMealAsPreparedTool(Tool):
             entity_type="meal_history",
             entity_id=new_history_id,
             action_enum="create",
-            payload_json={"recipe_id": recipe_id, "plan_date": kwargs["plan_date"]}
+            payload_json={"recipe_id": recipe_id, "plan_date": plan_date}
         )
 
         # 5. Reply

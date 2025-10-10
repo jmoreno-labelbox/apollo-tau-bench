@@ -9,9 +9,7 @@ class BlockAccountForCustomerId(Tool):
     """Blocks a customer's account by setting its status to 'Blocked'."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
-        account_id = kwargs.get("account_id")
+    def invoke(data: Dict[str, Any], account_id, customer_id) -> str:
         if not customer_id or not account_id:
             return json.dumps(
                 {"error": "Both customer_id and account_id are required."},

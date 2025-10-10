@@ -7,9 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class FindUnderperformingAdsets(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        th = float(kwargs.get("roas_threshold"))
-        d = kwargs.get("date")
+    def invoke(data: Dict[str, Any], date, roas_threshold) -> str:
+        th = float(roas_threshold)
+        d = date
         out = []
         for i in list(data.get("f_insights", {}).values()):
             if i.get("date") == d:

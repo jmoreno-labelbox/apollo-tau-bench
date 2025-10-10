@@ -9,9 +9,9 @@ class RevokeRoleFromUserTool(Tool):
     """Revoke a role from a user."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        uid = kwargs.get("user_id")
-        rid = kwargs.get("role_id")
+    def invoke(data: Dict[str, Any], role_id, user_id) -> str:
+        uid = user_id
+        rid = role_id
         user_roles = data.get("user_roles", [])
         to_remove = [ur for ur in user_roles if ur["user_id"] == uid and ur["role_id"] == rid]
         if not to_remove:

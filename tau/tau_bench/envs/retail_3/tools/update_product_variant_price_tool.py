@@ -25,10 +25,7 @@ class UpdateProductVariantPriceTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        product_id = kwargs.get("product_id")
-        item_id = kwargs.get("item_id")
-        new_price = kwargs.get("new_price")
+    def invoke(data: Dict[str, Any], item_id, new_price, product_id) -> str:
 
         # Validação fundamental
         if not product_id or not item_id or new_price is None:

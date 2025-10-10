@@ -8,12 +8,8 @@ from tau_bench.envs.tool import Tool
 class RemoveLabel(Tool):
     """Remove a label from an issue or PR."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        kind = kwargs.get("kind")
-        owner = kwargs.get("owner") or _actor_name(data)
-        repo = kwargs.get("repo")
-        number = kwargs.get("number")
-        label = kwargs.get("label")
+    def invoke(data: Dict[str, Any], kind, label, number, owner, repo) -> str:
+        owner = owner or _actor_name(data)
         target_list = _issues(data) if kind == "issue" else _prs(data)
         for obj in target_list:
             if obj.get("owner") == owner and obj.get("repo") == repo and obj.get("number") == number:

@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpsertJsonArtifact(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        file_path = kwargs.get("file_path")
-        content_obj = kwargs.get("content_obj", {})
-        candidate_id = kwargs.get("candidate_id")
+    def invoke(data: Dict[str, Any], candidate_id, file_path, content_obj = {}) -> str:
         text = json.dumps(content_obj, sort_keys=True)
         res = json.loads(
             UpsertOnboardingFile.invoke(data, file_path=file_path, content_text=text, mime_type="application/json",

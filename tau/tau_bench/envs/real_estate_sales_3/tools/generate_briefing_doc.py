@@ -9,10 +9,7 @@ from . import _next_int_id
 
 class GenerateBriefingDoc(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        client_id = kwargs.get("client_id")
-        broker_id = kwargs.get("broker_id")
-        version_tag = kwargs.get("version_tag", "v1")
+    def invoke(data: Dict[str, Any], broker_id, client_id, version_tag = "v1") -> str:
         documents = data.get("documents", [])
         new_id = _next_int_id(documents, "document_id")
         file_uri = f"https://storage.example.com/briefings/client_briefing_{client_id:03d}_{version_tag}.pdf"

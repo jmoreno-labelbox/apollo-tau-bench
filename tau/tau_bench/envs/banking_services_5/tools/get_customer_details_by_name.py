@@ -9,9 +9,9 @@ class GetCustomerDetailsByName(Tool):
     """Returns the full customer object using first name and last name."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        first_name = kwargs.get("first_name", "").strip().lower()
-        last_name = kwargs.get("last_name", "").strip().lower()
+    def invoke(data: Dict[str, Any], first_name = "", last_name = "") -> str:
+        first_name = first_name.strip().lower()
+        last_name = last_name.strip().lower()
 
         if not first_name or not last_name:
             return json.dumps({

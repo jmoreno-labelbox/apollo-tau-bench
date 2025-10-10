@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class ModifySubmissionStatus(Tool):
     """Tool to update the status of a submission."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        submission_id = kwargs.get('submission_id')
-        new_status = kwargs.get('new_status')
+    def invoke(data: Dict[str, Any], new_status, submission_id) -> str:
         if not submission_id or not new_status:
             return json.dumps({"error": "submission_id and new_status are required."})
 

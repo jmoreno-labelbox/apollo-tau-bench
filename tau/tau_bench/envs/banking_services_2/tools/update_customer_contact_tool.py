@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateCustomerContactTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get('customer_id')
-        email = kwargs.get('email')
-        phone = kwargs.get('phone')
+    def invoke(data: Dict[str, Any], customer_id, email, phone) -> str:
         customers = list(data.get('customers', {}).values())
 
         for customer in customers:

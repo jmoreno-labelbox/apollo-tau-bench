@@ -7,16 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetAuditsByStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], artifact_id, audit_id, audit_type, created_after, created_before, status) -> str:
         """
         Retrieves audits filtered by status, type, and other criteria.
         """
-        audit_id = kwargs.get('audit_id')
-        status = kwargs.get('status')
-        audit_type = kwargs.get('audit_type')
-        artifact_id = kwargs.get('artifact_id')
-        created_after = kwargs.get('created_after')
-        created_before = kwargs.get('created_before')
 
         audits = data.get('audits', [])
 

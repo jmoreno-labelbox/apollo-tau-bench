@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateQCFigures(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        processed_csv_path = kwargs.get("processed_csv_path")
-        figure_type = kwargs.get("figure_type", "overview")
+    def invoke(data: Dict[str, Any], processed_csv_path, figure_type = "overview") -> str:
         qc_fig_id = "QC_FIG_001"
         figures = {
             "qc_figure_id": qc_fig_id,

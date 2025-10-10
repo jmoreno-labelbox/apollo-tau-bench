@@ -9,8 +9,8 @@ class GetUserRolesTool(Tool):
     """Retrieve all roles assigned to a specific user."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        uid = kwargs.get("user_id")
+    def invoke(data: Dict[str, Any], user_id) -> str:
+        uid = user_id
         roles_map = [ur["role_id"] for ur in data.get("user_roles", []) if ur["user_id"] == uid]
         roles = [r for r in list(data.get("roles", {}).values()) if r["role_id"] in roles_map]
         return json.dumps(roles, indent=2)

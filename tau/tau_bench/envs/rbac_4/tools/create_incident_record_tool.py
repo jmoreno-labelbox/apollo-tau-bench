@@ -9,16 +9,16 @@ class CreateIncidentRecordTool(Tool):
     """Create a new incident record for tracking security or operational events."""
 
     @staticmethod
-    def invoke(data, **kwargs):
+    def invoke(data, created_by, summary, timestamp, linked_alerts = [], linked_resources = [], linked_users = []):
         incident_id = f"INC-{len(list(data.get('incidents', {}).values())) + 1:03d}"
         record = {
             "incident_id": incident_id,
-            "timestamp": kwargs["timestamp"],
-            "created_by": kwargs["created_by"],
-            "summary": kwargs["summary"],
-            "linked_alerts": kwargs.get("linked_alerts", []),
-            "linked_users": kwargs.get("linked_users", []),
-            "linked_resources": kwargs.get("linked_resources", []),
+            "timestamp": timestamp,
+            "created_by": created_by,
+            "summary": summary,
+            "linked_alerts": linked_alerts,
+            "linked_users": linked_users,
+            "linked_resources": linked_resources,
             "status": "OPEN"
         }
         data.setdefault("incidents", []).append(record)

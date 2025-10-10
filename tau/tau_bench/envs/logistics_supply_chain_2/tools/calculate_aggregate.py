@@ -9,13 +9,12 @@ class CalculateAggregate(Tool):
     """Tool to calculate aggregates."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        agg_kw = kwargs.get("agg")
-        data_kw = kwargs.get("json")
-        value_kw = kwargs.get("value")
-        value_kw2 = kwargs.get("value2", None)
-        key_kw = kwargs.get("key")
-        list_of_ids = kwargs.get("list_of_ids", None)
+    def invoke(data: Dict[str, Any], agg, json, key, value, list_of_ids = None, value2 = None) -> str:
+        agg_kw = agg
+        data_kw = json
+        value_kw = value
+        value_kw2 = value2
+        key_kw = key
         dataset = data.get(data_kw, [])
 
         result = []

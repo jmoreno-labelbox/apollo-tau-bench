@@ -11,11 +11,8 @@ class AcknowledgeSiemAlertTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        alert_id = kwargs.get("alert_id")
-        ack_by = kwargs.get("ack_by")
-        status = kwargs.get("status") or "ACKNOWLEDGED"
-        note = kwargs.get("note")
+    def invoke(data: Dict[str, Any], ack_by, alert_id, note, status) -> str:
+        status = status or "ACKNOWLEDGED"
         ack_at = _HARD_TS
 
         if not alert_id or not ack_by:

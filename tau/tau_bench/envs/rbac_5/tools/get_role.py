@@ -16,9 +16,7 @@ class GetRole(Tool):
     Note: Provide either role_id OR role_name, not both.
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        role_id = kwargs.get("role_id")
-        role_name = kwargs.get("role_name")
+    def invoke(data: Dict[str, Any], role_id, role_name) -> str:
 
         # Ensure that precisely one argument is supplied.
         if not role_id and not role_name:

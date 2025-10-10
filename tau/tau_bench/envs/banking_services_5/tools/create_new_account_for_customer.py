@@ -9,12 +9,9 @@ class CreateNewAccountForCustomer(Tool):
     """Creates a new account for a customer using account type and returns the full account object."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
-        account_type = kwargs.get("account_type", "").strip()
-        account_type_code = kwargs.get("account_type_code", "").strip()
-
-        currency = kwargs.get("currency", "USD")
+    def invoke(data: Dict[str, Any], customer_id, account_type = "", account_type_code = "", currency = "USD") -> str:
+        account_type = account_type.strip()
+        account_type_code = account_type_code.strip()
 
         if not customer_id or not account_type or not account_type_code or not currency:
             return json.dumps({

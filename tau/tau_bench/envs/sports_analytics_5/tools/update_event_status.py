@@ -9,12 +9,11 @@ from . import _require_tables
 class UpdateEventStatus(Tool):
     """Update draft_status for a game_day_event to one of: draft|published|archived, and audit the transition."""
     @staticmethod
-    def invoke(data, **kwargs)->str:
+    def invoke(data, draft_status, event_id)->str:
         err = _require_tables(data, ["game_day_events"])
         if err:
             return json.dumps({"error": err}, indent=2)
-        event_id = kwargs.get("event_id")
-        new_status = kwargs.get("draft_status")
+        new_status = draft_status
         if event_id is None or new_status is None:
             return json.dumps({"error":"event_id and draft_status are required."}, indent=2)
         if new_status not in ("draft","published","archived"):

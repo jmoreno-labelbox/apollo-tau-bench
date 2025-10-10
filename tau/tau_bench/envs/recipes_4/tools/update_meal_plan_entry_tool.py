@@ -48,7 +48,7 @@ class UpdateMealPlanEntryTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> Dict[str, Any]:
+    def invoke(data: Dict[str, Any], entry_id, updates, user_id) -> Dict[str, Any]:
         """
         Executes the logic to find and modify a meal plan entry.
 
@@ -69,10 +69,6 @@ class UpdateMealPlanEntryTool(Tool):
         validation_error = _validate_inputs(kwargs, param_definitions)
         if validation_error:
             return _build_error_response(validation_error["error_code"], validation_error["details"])
-
-        entry_id = kwargs["entry_id"]
-        updates = kwargs["updates"]
-        user_id = kwargs.get("user_id")
 
         # 2. Pre-condition Verification: Confirm the existence of recipe_id before updating.
         if "recipe_id" in updates:

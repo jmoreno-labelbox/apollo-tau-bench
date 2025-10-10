@@ -9,9 +9,7 @@ class GetMealHistoryByHouseholdAndDate(Tool):
     """Retrieves meal history for a specific household on a given date."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        household_id = kwargs.get("household_id")
-        plan_date = kwargs.get("plan_date")
+    def invoke(data: Dict[str, Any], household_id, plan_date) -> str:
 
         if household_id is None or plan_date is None:
             return json.dumps({"error": "household_id and plan_date parameters are required."})

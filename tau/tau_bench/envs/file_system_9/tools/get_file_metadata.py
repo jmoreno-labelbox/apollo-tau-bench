@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetFileMetadata(Tool):
     """Retrieves metadata for a specific file on a specific server."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        filepath = kwargs.get("filepath")
-        server_hostname = kwargs.get("server_hostname")
+    def invoke(data: Dict[str, Any], filepath, server_hostname) -> str:
 
         for server in list(data.get("file_system", {}).values()):
             if server.get("hostname") == server_hostname:

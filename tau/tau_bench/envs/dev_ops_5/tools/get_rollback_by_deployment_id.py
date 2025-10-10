@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetRollbackByDeploymentId(Tool):
     """Retrieves rollback details for a failed deployment ID."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        deployment_id = kwargs.get("deployment_id")
+    def invoke(data: Dict[str, Any], deployment_id) -> str:
         rollbacks = data.get("rollbacks", [])
         for r in rollbacks:
             if r.get("deployment_id") == deployment_id:

@@ -9,11 +9,7 @@ class CreateComparableEntryTool(Tool):
     """Creates single comparable entry in comparables table."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        report_id = kwargs.get("report_id")
-        comp_property_id = kwargs.get("comp_property_id")
-        similarity_score = kwargs.get("similarity_score")
-        selection_reason = kwargs.get("selection_reason")
+    def invoke(data: Dict[str, Any], comp_property_id, report_id, selection_reason, similarity_score) -> str:
 
         if report_id is None or not comp_property_id or similarity_score is None:
             return _err("report_id, comp_property_id, similarity_score are required")

@@ -8,13 +8,13 @@ from tau_bench.envs.tool import Tool
 class LocatePapers(Tool):
     """Tool to search for academic articles by topic, title, or year."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        topic,title,year = kwargs.get('topic'),kwargs.get('title'),kwargs.get('year')
+    def invoke(data: Dict[str, Any], article_id, title, topic, year) -> str:
+        topic,title,year = topic,title,year
         articles: list = list(data.get('articles', {}).values())
         results = []
         for article in articles:
             match = True
-            if kwargs.get('article_id') and kwargs['article_id'] != article.get('article_id'): match = False
+            if article_id and article_id != article.get('article_id'): match = False
             if topic and topic.lower() not in article.get('topic', '').lower(): match = False
             if title and title.lower() not in article.get('title', '').lower(): match = False
             if year and year != article.get('publication_year'): match = False

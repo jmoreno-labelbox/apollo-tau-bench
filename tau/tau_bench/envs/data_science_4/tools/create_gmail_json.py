@@ -7,18 +7,11 @@ from tau_bench.envs.tool import Tool
 
 class CreateGmailJson(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], body_html_nullable, subject, attachments_paths = [], bcc = [], body_text = "", cc = [], to = []) -> str:
         """
         Creates a Gmail-style JSON draft (not sending email). Useful for packaging
         evaluation results and deliverables into an email artifact.
         """
-        to = kwargs.get("to", [])
-        cc = kwargs.get("cc", [])
-        bcc = kwargs.get("bcc", [])
-        subject = kwargs.get("subject")
-        body_text = kwargs.get("body_text", "")
-        body_html_nullable = kwargs.get("body_html_nullable")
-        attachments_paths = kwargs.get("attachments_paths", [])
 
         message_id = "GMAIL_MSG_001"
         json_path = f"/gmail/outbox/{message_id}.json"

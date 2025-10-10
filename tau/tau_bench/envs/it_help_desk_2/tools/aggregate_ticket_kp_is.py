@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class AggregateTicketKPIs(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        tickets_with_metrics = kwargs.get("tickets_with_metrics")
+    def invoke(data: Dict[str, Any], tickets_with_metrics) -> str:
         kpis = {"open_count": len(tickets_with_metrics), "open_count_p1": 5, "avg_age_open_hours": 72.5, "avg_ttr_mins": 240.0, "pct_closed_1d": 50.0}
         return json.dumps(kpis, indent=2)
 

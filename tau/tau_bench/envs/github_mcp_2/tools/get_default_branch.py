@@ -9,8 +9,7 @@ class GetDefaultBranch(Tool):
     """Returns the default branch of a given repo owned by the acting user."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_name = kwargs.get("repo_name")
+    def invoke(data: Dict[str, Any], repo_name) -> str:
         if not repo_name:
             return json.dumps({"error": "repo_name is required."}, indent=2)
 

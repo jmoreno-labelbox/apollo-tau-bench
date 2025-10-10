@@ -8,11 +8,11 @@ from . import _require
 
 class ZoteroItemFulltext(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], fetched_ts, file_paths, item_ids) -> str:
         req = ["item_ids", "file_paths"]
         err = _require(kwargs, req)
         if err: return err
-        row = {"item_ids": kwargs["item_ids"], "file_paths": kwargs["file_paths"], "fetched_ts": kwargs.get("fetched_ts")}
+        row = {"item_ids": item_ids, "file_paths": file_paths, "fetched_ts": fetched_ts}
         return json.dumps(_append(data.setdefault("zotero_fulltexts", []), row), indent=2)
 
     @staticmethod

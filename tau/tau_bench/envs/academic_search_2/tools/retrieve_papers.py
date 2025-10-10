@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class RetrievePapers(Tool):
     """Searches for academic articles by ID, topic, title, year, or author name."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        article_id = kwargs.get('article_id')
+    def invoke(data: Dict[str, Any], article_id, author_name, title, topic, year) -> str:
         articles: list = list(data.get('articles', {}).values())
 
         if article_id:
@@ -18,7 +17,7 @@ class RetrievePapers(Tool):
                     return json.dumps([article], indent=2)
             return json.dumps([])
 
-        topic, title, year, author_name = kwargs.get('topic'), kwargs.get('title'), kwargs.get('year'), kwargs.get('author_name')
+        topic, title, year, author_name = topic, title, year, author_name
 
         results = [
             a for a in articles if

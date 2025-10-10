@@ -7,11 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetDashboardSnapshot(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], snapshot_id) -> str:
         """
         Returns the snapshot_id if found.
         """
-        snapshot_id = kwargs["snapshot_id"]
         snapshot = next((s for s in data["dashboard_snapshots"] if s["snapshot_id"] == snapshot_id), None)
         return json.dumps(snapshot["snapshot_id"] if snapshot else None)
 

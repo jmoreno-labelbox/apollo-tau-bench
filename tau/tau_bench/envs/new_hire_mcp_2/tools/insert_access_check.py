@@ -7,11 +7,11 @@ from tau_bench.envs.tool import Tool
 
 class InsertAccessCheck(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], candidate_id, note_nullable, status, system_name, checked_ts = NOW_TS) -> str:
         rows = _ensure_list(data, "access_checks")
-        payload = {"candidate_id": kwargs.get("candidate_id"), "system_name": kwargs.get("system_name"),
-                   "status": kwargs.get("status"), "note_nullable": kwargs.get("note_nullable"),
-                   "checked_ts": kwargs.get("checked_ts", NOW_TS)}
+        payload = {"candidate_id": candidate_id, "system_name": system_name,
+                   "status": status, "note_nullable": note_nullable,
+                   "checked_ts": checked_ts}
         rows.append(payload)
         return json.dumps({"inserted": payload}, indent=2)
 

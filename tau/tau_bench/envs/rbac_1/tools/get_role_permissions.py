@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetRolePermissions(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        role_id = kwargs.get("role_id")
+    def invoke(data: Dict[str, Any], role_id) -> str:
         permission_ids = [
                 rp['permission_id'] for rp in data.get('role_permissions', [])
                 if rp.get('role_id') == role_id

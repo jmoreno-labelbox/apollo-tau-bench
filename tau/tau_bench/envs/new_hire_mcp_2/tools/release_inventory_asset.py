@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ReleaseInventoryAsset(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        asset_tag = kwargs.get("asset_tag")
+    def invoke(data: Dict[str, Any], asset_tag) -> str:
         rows = _ensure_list(data, "inventory_assets")
         row = _find_by_key(rows, "asset_tag", asset_tag)
         if row:

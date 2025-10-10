@@ -7,17 +7,17 @@ from tau_bench.envs.tool import Tool
 
 class SendEmail(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], receiver, sender, subject, text_content, timestamp) -> str:
         emails = data.get('emails', [])
         new_id_num = max((int(e['email_id'][3:]) for e in emails), default=0) + 1
         new_email_id = f"EM-{new_id_num:03d}"
         new_email = {
                 "email_id": new_email_id,
-                "sender": kwargs.get("sender"),
-                "receiver": kwargs.get("receiver"),
-                "subject": kwargs.get("subject"),
-                "text_content": kwargs.get("text_content"),
-                "timestamp": kwargs.get("timestamp"),
+                "sender": sender,
+                "receiver": receiver,
+                "subject": subject,
+                "text_content": text_content,
+                "timestamp": timestamp,
         }
         emails.append(new_email)
         data['emails'] = emails

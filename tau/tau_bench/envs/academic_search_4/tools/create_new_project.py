@@ -9,10 +9,7 @@ from datetime import datetime
 class CreateNewProject(Tool):
     """Creates a new research project."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_name = kwargs.get('project_name')
-        lead_researcher_id = kwargs.get('lead_researcher_id')
-        project_id_override = kwargs.get('project_id_override')
+    def invoke(data: Dict[str, Any], lead_researcher_id, project_id_override, project_name, linked_article_ids = []) -> str:
 
         if not all([project_name, lead_researcher_id]):
             return json.dumps({"error": "project_name and lead_researcher_id are required."})
@@ -26,7 +23,7 @@ class CreateNewProject(Tool):
             "status": "active",
             "start_date": datetime.now().strftime('%Y-%m-%d'),
             "end_date": None,
-            "linked_articles": kwargs.get('linked_article_ids', [])
+            "linked_articles": linked_article_ids
         }
         data['projects'].append(new_project)
         return json.dumps({"success": True, "project": new_project})

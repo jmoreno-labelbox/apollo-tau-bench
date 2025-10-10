@@ -8,10 +8,7 @@ from tau_bench.envs.tool import Tool
 class CreateMealPlan(Tool):
     """Creates a new meal plan for a household."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        household_id = kwargs.get("household_id")
-        week_start_date = kwargs.get("week_start_date")
-        created_by_user_id = kwargs.get("created_by_user_id")
+    def invoke(data: Dict[str, Any], created_by_user_id, household_id, week_start_date) -> str:
 
         meal_plans = list(data.get("meal_plans", {}).values())
         # Automatically create the subsequent meal_plan_id.

@@ -9,16 +9,16 @@ from . import _next_int_id
 
 class BuildRoute(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], client_id, created_by_broker_id, date, map_url, stops_ordered_json) -> str:
         routes = list(data.get("routes", {}).values())
         new_id = _next_int_id(routes, "route_id")
         row = {
             "route_id": new_id,
-            "client_id": kwargs.get("client_id"),
-            "date": kwargs.get("date"),
-            "stops_ordered_json": kwargs.get("stops_ordered_json"),
-            "map_url": kwargs.get("map_url") or f"https://maps.google.com/route/route_{new_id:03d}",
-            "created_by_broker_id": kwargs.get("created_by_broker_id"),
+            "client_id": client_id,
+            "date": date,
+            "stops_ordered_json": stops_ordered_json,
+            "map_url": map_url or f"https://maps.google.com/route/route_{new_id:03d}",
+            "created_by_broker_id": created_by_broker_id,
             "created_at": _fixed_now_iso()
         }
         routes.append(row)

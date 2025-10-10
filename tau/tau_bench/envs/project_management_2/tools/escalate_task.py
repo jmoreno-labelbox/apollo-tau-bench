@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class EscalateTask(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        task_id = kwargs.get("task_id")
-        escalate_to = kwargs.get("escalate_to")
+    def invoke(data: Dict[str, Any], escalate_to, task_id) -> str:
 
         if not all([task_id, escalate_to]):
             return json.dumps(

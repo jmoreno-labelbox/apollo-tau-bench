@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ValidateCourseSkillMapping(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        course_id = kwargs.get("course_id")
-        skill_name = kwargs.get("skill_name")
+    def invoke(data: Dict[str, Any], course_id, skill_name) -> str:
         courses = data.get("course_catalog", [])
 
         course = None

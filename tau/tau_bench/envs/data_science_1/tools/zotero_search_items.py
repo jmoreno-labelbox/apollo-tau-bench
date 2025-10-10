@@ -8,13 +8,13 @@ from . import _require
 
 class ZoteroSearchItems(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], limit, query, result_item_ids, saved_path_nullable, search_ts, year_from, year_to) -> str:
         req = ["query", "result_item_ids", "search_ts"]
         err = _require(kwargs, req)
         if err: return err
-        row = {"query": kwargs["query"], "year_from": kwargs.get("year_from"), "year_to": kwargs.get("year_to"),
-               "limit": kwargs.get("limit"), "result_item_ids": kwargs["result_item_ids"],
-               "saved_path_nullable": kwargs.get("saved_path_nullable"), "search_ts": kwargs["search_ts"]}
+        row = {"query": query, "year_from": year_from, "year_to": year_to,
+               "limit": limit, "result_item_ids": result_item_ids,
+               "saved_path_nullable": saved_path_nullable, "search_ts": search_ts}
         return json.dumps(_append(data.setdefault("zotero_searches", []), row), indent=2)
 
     @staticmethod

@@ -9,9 +9,7 @@ class CreateInventoryRecord(Tool):
     """Creates a new, empty inventory record for a product in a specific warehouse."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        sku = kwargs.get("sku")
-        warehouse_id = kwargs.get("warehouse_id")
+    def invoke(data: Dict[str, Any], sku, warehouse_id) -> str:
 
         if not sku or not warehouse_id:
             return json.dumps({"error": "SKU and warehouse_id are required."})

@@ -9,9 +9,7 @@ class DeleteBranch(Tool):
     """Deletes a branch from a repository, except the default branch (deduped)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_name = kwargs.get("repo_name")
-        branch = kwargs.get("branch")
+    def invoke(data: Dict[str, Any], branch, repo_name) -> str:
 
         if not all([repo_name, branch]):
             return json.dumps({"error": "repo_name and branch are required."}, indent=2)

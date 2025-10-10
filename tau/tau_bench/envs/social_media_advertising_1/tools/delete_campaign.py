@@ -9,8 +9,7 @@ class DeleteCampaign(Tool):
     """Deletes a campaign."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        campaign_id = kwargs.get("campaign_id")
+    def invoke(data: Dict[str, Any], campaign_id) -> str:
         if not campaign_id:
             return json.dumps({"error": "campaign_id is a required parameter."})
 

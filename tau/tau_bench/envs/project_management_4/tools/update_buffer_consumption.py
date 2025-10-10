@@ -7,13 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateBufferConsumption(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
-        buffer_type = kwargs.get("buffer_type")
-        days_consumed = kwargs.get("days_consumed")
-        milestone_id = kwargs.get("milestone_id")
-        scope = kwargs.get("scope", "false")
-        change_request_id = kwargs.get("change_request_id")
+    def invoke(data: Dict[str, Any], buffer_type, change_request_id, days_consumed, milestone_id, project_id, scope = "false") -> str:
 
         if not all([project_id, buffer_type, days_consumed]):
             return json.dumps(

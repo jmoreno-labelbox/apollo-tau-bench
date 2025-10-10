@@ -9,8 +9,7 @@ class FindProductByName(Tool):
     """Finds a product's SKU and other details by its name."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        product_name = kwargs.get("product_name")
+    def invoke(data: Dict[str, Any], product_name) -> str:
         products = list(data.get("product_master", {}).values())
         for product in products:
             if product.get("product_name") == product_name:

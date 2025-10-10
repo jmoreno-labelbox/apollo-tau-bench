@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ArchiveMailbox(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
+    def invoke(data: Dict[str, Any], employee_id) -> str:
         mailboxes = data.get("mailboxes", [])
         archives = data.setdefault("data_archives", [])
         mailbox = next((m for m in mailboxes if m.get("employee_id") == employee_id), None)

@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class AssignRBACLicense(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        license_id = kwargs.get('license_id')
-        job_title = kwargs.get('job_title')
+    def invoke(data: Dict[str, Any], job_title, license_id) -> str:
 
         if license_id is None or job_title is None:
             return json.dumps({'status': 'error', 'description': 'The license_id and job_title fields are required.'}, indent=2)

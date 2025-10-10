@@ -9,14 +9,14 @@ class CreateAccessRequestTool(Tool):
     """create_access_request"""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], justification, request_id, requested_role_id, resource_id, user_id) -> str:
         req = {
-            "request_id": kwargs["request_id"],
-            "user_id": kwargs["user_id"],
-            "resource_id": kwargs["resource_id"],
-            "role": kwargs["requested_role_id"],
-            "requested_role_id": kwargs["requested_role_id"],
-            "justification": kwargs["justification"],
+            "request_id": request_id,
+            "user_id": user_id,
+            "resource_id": resource_id,
+            "role": requested_role_id,
+            "requested_role_id": requested_role_id,
+            "justification": justification,
             "submitted_at": _HARD_TS,
             "status": "PENDING",
             "reviewed_by": None,

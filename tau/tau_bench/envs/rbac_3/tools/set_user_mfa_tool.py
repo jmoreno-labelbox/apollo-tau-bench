@@ -12,10 +12,7 @@ class SetUserMfaTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
-        enabled = kwargs.get("enabled")
-        method = kwargs.get("method")
+    def invoke(data: Dict[str, Any], enabled, method, user_id) -> str:
 
         if user_id is None or enabled is None:
             return json.dumps({"error": "user_id and enabled are required"}, indent=2)

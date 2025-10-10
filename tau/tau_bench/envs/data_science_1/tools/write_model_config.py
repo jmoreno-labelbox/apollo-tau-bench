@@ -8,15 +8,15 @@ from . import _require
 
 class WriteModelConfig(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], classification_threshold_m_nullable, created_ts, precip_24h_threshold_mm_nullable, random_seed_nullable, saved_json_path, test_split_fraction_nullable) -> str:
         err = _require(kwargs, ["saved_json_path"])
         if err: return err
         row = {
-            "classification_threshold_m_nullable": kwargs.get("classification_threshold_m_nullable"),
-            "precip_24h_threshold_mm_nullable": kwargs.get("precip_24h_threshold_mm_nullable"),
-            "test_split_fraction_nullable": kwargs.get("test_split_fraction_nullable"),
-            "random_seed_nullable": kwargs.get("random_seed_nullable"),
-            "saved_json_path": kwargs["saved_json_path"], "created_ts": kwargs.get("created_ts")
+            "classification_threshold_m_nullable": classification_threshold_m_nullable,
+            "precip_24h_threshold_mm_nullable": precip_24h_threshold_mm_nullable,
+            "test_split_fraction_nullable": test_split_fraction_nullable,
+            "random_seed_nullable": random_seed_nullable,
+            "saved_json_path": saved_json_path, "created_ts": created_ts
         }
         return json.dumps(_append(data.setdefault("model_config", []), row), indent=2)
 

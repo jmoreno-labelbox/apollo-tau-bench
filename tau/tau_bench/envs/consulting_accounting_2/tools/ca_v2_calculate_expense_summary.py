@@ -9,11 +9,7 @@ class CaV2CalculateExpenseSummary(Tool):
     """Calculate expense summary by category for a given period."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        year = kwargs.get("year", "2024")
-        start_date = kwargs.get("start_date")
-        end_date = kwargs.get("end_date")
-        category_filter = kwargs.get("category_filter", [])
+    def invoke(data: Dict[str, Any], end_date, start_date, category_filter = [], year = "2024") -> str:
 
         expenses = data.get("expenses", [])
         expense_categories = data.get("expense_categories", [])

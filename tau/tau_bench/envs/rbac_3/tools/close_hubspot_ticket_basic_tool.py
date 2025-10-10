@@ -12,9 +12,7 @@ class CloseHubspotTicketBasicTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        ticket_id = kwargs.get("ticket_id")
-        actor_id = kwargs.get("actor_id")
+    def invoke(data: Dict[str, Any], actor_id, ticket_id) -> str:
         if not ticket_id or not actor_id:
             return json.dumps(
                 {"error": "ticket_id and actor_id are required"}, indent=2

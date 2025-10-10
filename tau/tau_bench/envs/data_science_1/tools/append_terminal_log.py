@@ -8,15 +8,15 @@ from . import _require
 
 class AppendTerminalLog(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], command, exit_code = 0, printed_message = "", printed_ts = "1970-01-01T00:00:00Z", stderr = "", stdout = "") -> str:
         err = _require(kwargs, ["command"])
         if err: return err
         tbl = data.setdefault("terminal_log", [])
         row = {
-            "command": kwargs["command"], "exit_code": kwargs.get("exit_code", 0),
-            "stdout": kwargs.get("stdout", ""), "stderr": kwargs.get("stderr", ""),
-            "printed_message": kwargs.get("printed_message", ""),
-            "printed_ts": kwargs.get("printed_ts", "1970-01-01T00:00:00Z")
+            "command": command, "exit_code": exit_code,
+            "stdout": stdout, "stderr": stderr,
+            "printed_message": printed_message,
+            "printed_ts": printed_ts
         }
         return json.dumps(_append(tbl, row), indent=2)
 

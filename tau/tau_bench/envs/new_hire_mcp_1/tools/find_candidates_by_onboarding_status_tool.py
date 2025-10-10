@@ -9,10 +9,9 @@ class FindCandidatesByOnboardingStatusTool(Tool):
     """Queries candidates table filtering by status, optionally including date ranges and related record counts."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        status = kwargs.get("onboarding_status")
-        start_date_after = kwargs.get("start_date_after")
-        include_counts = kwargs.get("include_record_counts", False)
+    def invoke(data: Dict[str, Any], onboarding_status, start_date_after, include_record_counts = False) -> str:
+        status = onboarding_status
+        include_counts = include_record_counts
 
         if not status:
             return _err("onboarding_status is required")

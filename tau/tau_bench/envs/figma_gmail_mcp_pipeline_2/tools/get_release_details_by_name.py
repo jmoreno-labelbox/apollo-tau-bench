@@ -7,11 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class GetReleaseDetailsByName(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        if not kwargs.get("release_name"):
+    def invoke(data: Dict[str, Any], release_name) -> str:
+        if not release_name:
             return json.dumps({"error": "Missing required field: release_name"}, indent=2)
-
-        release_name = kwargs.get("release_name")
         releases: List[Dict[str, Any]] = list(data.get("releases", {}).values())
 
         results: List[Dict[str, Any]] = [r for r in releases if r.get("release_name") == release_name]

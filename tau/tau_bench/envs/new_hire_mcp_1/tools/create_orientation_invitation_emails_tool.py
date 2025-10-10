@@ -9,14 +9,12 @@ class CreateOrientationInvitationEmailsTool(Tool):
     """Creates orientation and manager intro emails for candidates from templates."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], orientation_details = {}, ready_candidate_ids = []) -> str:
         candidates_map = {c.get("candidate_id"): c for c in data.get("candidates", [])}
         emails = data.setdefault("emails", [])
         results = []
 
-        orientation_details = kwargs.get("orientation_details", {})
-
-        for candidate_id in kwargs.get("ready_candidate_ids", []):
+        for candidate_id in ready_candidate_ids:
             candidate = candidates_map.get(candidate_id)
             if not candidate: continue
 

@@ -9,10 +9,7 @@ class LinkWorkItems(Tool):
     """Create or confirm a link {parent_id, child_id, link_type} (idempotent)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        parent_id = kwargs.get('parent_id')
-        child_id = kwargs.get('child_id')
-        link_type = kwargs.get('link_type', 'relates_to')
+    def invoke(data: Dict[str, Any], child_id, parent_id, link_type = 'relates_to') -> str:
         if not parent_id or not child_id:
             return _err('parent_id and child_id are required')
         if parent_id == child_id:

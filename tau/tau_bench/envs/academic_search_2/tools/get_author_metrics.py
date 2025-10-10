@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetAuthorMetrics(Tool):
     """Gets multiple metrics for an author."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        author_name = kwargs.get('author_name')
+    def invoke(data: Dict[str, Any], author_name) -> str:
         if not author_name:
             return json.dumps({"error": "author_name is required."})
         articles = [a for a in list(data.get('articles', {}).values()) if author_name in a.get('authors', [])]

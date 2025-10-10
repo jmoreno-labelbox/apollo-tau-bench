@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class GetAlertById(Tool):
     """Retrieves an alert by its ID."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        alert_id = kwargs.get("id")
+    def invoke(data: Dict[str, Any], id) -> str:
+        alert_id = id
         alerts = list(data.get("alerts", {}).values())
         for alert in alerts:
             if alert.get("id") == alert_id:

@@ -9,7 +9,7 @@ class AddNewCustomer(Tool):
     """Creates a new customer profile accepting only essential fields."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], annual_income, city, country, date_of_birth, email_address, first_name, last_name, phone_number, postal_code, state, street_address) -> str:
         # Necessary inputs
         required = [
             "first_name", "last_name", "date_of_birth", "email_address",
@@ -24,20 +24,20 @@ class AddNewCustomer(Tool):
         date_joined = get_current_timestamp()
 
         personal_info = {
-            "first_name":    kwargs["first_name"],
-            "last_name":     kwargs["last_name"],
-            "date_of_birth": kwargs["date_of_birth"],
-            "annual_income": kwargs["annual_income"]
+            "first_name":    first_name,
+            "last_name":     last_name,
+            "date_of_birth": date_of_birth,
+            "annual_income": annual_income
         }
         contact_info = {
-            "email_address": kwargs["email_address"],
-            "phone_numbers": [{"type": "Mobile", "number": kwargs["phone_number"], "is_primary": True}],
+            "email_address": email_address,
+            "phone_numbers": [{"type": "Mobile", "number": phone_number, "is_primary": True}],
             "mailing_address": {
-                "street_address": kwargs["street_address"],
-                "city":           kwargs["city"],
-                "state":          kwargs["state"],
-                "postal_code":    kwargs["postal_code"],
-                "country":        kwargs["country"]
+                "street_address": street_address,
+                "city":           city,
+                "state":          state,
+                "postal_code":    postal_code,
+                "country":        country
             },
             "residential_address": {}
         }
@@ -48,7 +48,7 @@ class AddNewCustomer(Tool):
             "contact_info":      contact_info,
             "account_ids":       [],
             "bank_relationship": {"date_joined": date_joined, "customer_segment": "Retail"},
-            "financial_profile": {"annual_income": kwargs["annual_income"]}
+            "financial_profile": {"annual_income": annual_income}
         }
 
         data.setdefault("customers", []).append(new_customer)

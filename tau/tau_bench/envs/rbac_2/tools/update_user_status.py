@@ -9,9 +9,8 @@ class UpdateUserStatus(Tool):
     """ Updating the 'status' field of a specific user in the database. """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id_to_update = kwargs.get("user_id")
-        new_status = kwargs.get("new_status")
+    def invoke(data: Dict[str, Any], new_status, user_id) -> str:
+        user_id_to_update = user_id
 
         try:
             users = list(data.get('users', {}).values())

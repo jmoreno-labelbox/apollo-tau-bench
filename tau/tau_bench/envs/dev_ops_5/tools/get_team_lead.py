@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetTeamLead(Tool):
     """Retrieves the lead engineer/lead ops for a specific team."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        team_id = kwargs.get("team_id")
+    def invoke(data: Dict[str, Any], team_id) -> str:
         teams = data.get("teams", [])
         for team in teams:
             if team.get("id") == team_id:

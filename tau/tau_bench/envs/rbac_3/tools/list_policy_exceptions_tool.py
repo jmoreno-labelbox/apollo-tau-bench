@@ -20,16 +20,13 @@ class ListPolicyExceptionsTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
-        permission_id = kwargs.get("permission_id")
-        status = kwargs.get("status")
-        active_only = bool(kwargs.get("active_only", False))
+    def invoke(data: Dict[str, Any], date_from, date_to, permission_id, requested_on_from, requested_on_to, status, user_id, active_only = False) -> str:
+        active_only = bool(active_only)
 
         # Enable functionality for both exact and general date filter names (consistent with
         # alternative tools)
-        date_from = kwargs.get("requested_on_from") or kwargs.get("date_from")
-        date_to = kwargs.get("requested_on_to") or kwargs.get("date_to")
+        date_from = requested_on_from or date_from
+        date_to = requested_on_to or date_to
 
         dt_from = _parse_iso(date_from)
         dt_to = _parse_iso(date_to)

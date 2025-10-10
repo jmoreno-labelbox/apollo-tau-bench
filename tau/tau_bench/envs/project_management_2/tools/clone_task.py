@@ -7,12 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CloneTask(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        source_task_id = kwargs.get("source_task_id")
-        new_title = kwargs.get("new_title")
-        new_assignee_id = kwargs.get("new_assignee_id")
-        sprint_id = kwargs.get("sprint_id")
-        new_task_id = kwargs.get("new_task_id")
+    def invoke(data: Dict[str, Any], new_assignee_id, new_task_id, new_title, source_task_id, sprint_id) -> str:
 
         if not all([source_task_id, new_title]):
             return json.dumps({"error": "source_task_id and new_title are required"})

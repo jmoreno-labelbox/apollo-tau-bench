@@ -9,9 +9,7 @@ class CaV2ForecastCashFlow(Tool):
     """Forecast cash flow based on unpaid invoices and payment behavior."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        forecast_months = kwargs.get("forecast_months", 3)
-        current_date = kwargs.get("current_date", "2024-12-10")
+    def invoke(data: Dict[str, Any], current_date = "2024-12-10", forecast_months = 3) -> str:
 
         # Retrieve outstanding invoices
         invoices = data.get("invoices", [])

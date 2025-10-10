@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetSshKeyByID(Tool):
     """Fetches details for a specific SSH key, including which servers it is authorized on."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        key_id = kwargs.get("key_id")
+    def invoke(data: Dict[str, Any], key_id) -> str:
         for key in data.get('ssh_keys', []):
             if key.get('key_id') == key_id:
                 return json.dumps(key)

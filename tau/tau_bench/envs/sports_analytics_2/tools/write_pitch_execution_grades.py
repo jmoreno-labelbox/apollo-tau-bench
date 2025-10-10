@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class WritePitchExecutionGrades(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        game_pk = kwargs.get("game_pk")
-        grades_count = kwargs.get("grades_count")
+    def invoke(data: Dict[str, Any], game_pk, grades_count) -> str:
         grades = data.setdefault("pitch_execution_grades", {})
         # Create the subsequent identifier.
         next_id = str(len(grades) + 1)

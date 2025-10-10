@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class UpdateUserAddress(Tool):
     """Update a user's address to the provided fields."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        user_id = kwargs.get('user_id')
-        address = kwargs.get('address')
+    def invoke(data, address, user_id) -> str:
         if not user_id or not isinstance(address, dict):
             return json.dumps({"error":"user_id and address (object) are required"}, indent=2)
         user = _find_user(data, user_id)

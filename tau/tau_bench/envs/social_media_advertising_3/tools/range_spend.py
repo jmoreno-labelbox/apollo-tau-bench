@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class RangeSpend(Tool):
     """Return total spend for an adset across a date range."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        aid, start, end = kwargs.get("adset_id"), kwargs.get("start_date"), kwargs.get("end_date")
+    def invoke(data: Dict[str, Any], adset_id, end_date, start_date) -> str:
+        aid, start, end = adset_id, start_date, end_date
         s, e = datetime.strptime(start, "%Y-%m-%d").date(), datetime.strptime(end, "%Y-%m-%d").date()
         total = sum(
             i.get("spend", 0)

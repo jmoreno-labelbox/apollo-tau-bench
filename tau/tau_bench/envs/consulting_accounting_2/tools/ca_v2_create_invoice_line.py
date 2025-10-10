@@ -9,14 +9,7 @@ class CaV2CreateInvoiceLine(Tool):
     """Create an invoice line item."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # Mandatory parameters
-        invoice_line_id = kwargs.get("invoice_line_id")
-        invoice_id = kwargs.get("invoice_id")
-        project_id = kwargs.get("project_id")
-        isbn = kwargs.get("isbn")
-        hours_billed = kwargs.get("hours_billed")
-        hourly_rate = kwargs.get("hourly_rate")
+    def invoke(data: Dict[str, Any], hourly_rate, hours_billed, invoice_id, invoice_line_id, isbn, project_id) -> str:
 
         if not all([invoice_line_id, invoice_id, project_id, isbn, hours_billed, hourly_rate]):
             return _error("All line item fields are required: invoice_line_id, invoice_id, project_id, isbn, hours_billed, hourly_rate")

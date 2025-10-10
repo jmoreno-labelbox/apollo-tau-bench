@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class BulkMoveTasksToSprint(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        task_ids = kwargs.get("task_ids", [])
-        target_sprint_id = kwargs.get("target_sprint_id")
+    def invoke(data: Dict[str, Any], target_sprint_id, task_ids = []) -> str:
 
         if not all([task_ids, target_sprint_id]):
             return json.dumps({"error": "task_ids and target_sprint_id are required"})

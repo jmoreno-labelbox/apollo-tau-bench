@@ -9,12 +9,10 @@ from . import _require_tables
 class ComputeGameLeverageSummary(Tool):
     """Summarize counts of events above the high-leverage threshold (strict > threshold; default 1.5)."""
     @staticmethod
-    def invoke(data, **kwargs)->str:
+    def invoke(data, game_pk, threshold = 1.5)->str:
         err = _require_tables(data, ["game_day_events"])
         if err:
             return json.dumps({"error": err}, indent=2)
-        game_pk = kwargs.get("game_pk")
-        threshold = kwargs.get("threshold", 1.5)
         if game_pk is None:
             return json.dumps({"error":"game_pk is required."}, indent=2)
         rows = [e for e in data["game_day_events"] if e.get("game_pk")==game_pk]

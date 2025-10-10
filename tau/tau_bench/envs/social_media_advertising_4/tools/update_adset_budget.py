@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class UpdateAdsetBudget(Tool):
     """Updates the daily budget of an ad set."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        adset_id = kwargs.get("adset_id")
-        new_budget = kwargs.get("new_budget")
+    def invoke(data: Dict[str, Any], adset_id, new_budget) -> str:
         for adset in list(data.get('adsets', {}).values()):
             if adset.get('adset_id') == adset_id:
                 adset['daily_budget'] = new_budget

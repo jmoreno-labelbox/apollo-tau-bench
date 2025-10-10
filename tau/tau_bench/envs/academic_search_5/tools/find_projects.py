@@ -7,18 +7,12 @@ from tau_bench.envs.tool import Tool
 
 class FindProjects(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get('project_id')
+    def invoke(data: Dict[str, Any], end_date_year, lead_researcher_id, project_id, project_name, status) -> str:
         if project_id:
             for project in list(data.get('projects', {}).values()):
                 if project.get('project_id') == project_id:
                     return json.dumps(project, indent=2)
             return json.dumps({"error": f"Project with ID '{project_id}' not found."})
-
-        project_name = kwargs.get('project_name')
-        lead_researcher_id = kwargs.get('lead_researcher_id')
-        status = kwargs.get('status')
-        end_date_year = kwargs.get('end_date_year') # Additional parameter
 
         # Incorporate an additional parameter into the validation process.
         if not any([project_name, lead_researcher_id, status, end_date_year]):

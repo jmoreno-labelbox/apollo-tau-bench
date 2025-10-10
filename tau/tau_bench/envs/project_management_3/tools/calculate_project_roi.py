@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CalculateProjectROI(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
-        revenue_generated = kwargs.get("revenue_generated", 0)
-        cost_savings = kwargs.get("cost_savings", 0)
-        fiscal_year = kwargs.get("fiscal_year", datetime.now().year)
+    def invoke(data: Dict[str, Any], project_id, cost_savings = 0, fiscal_year = datetime.now().year, revenue_generated = 0) -> str:
 
         if not project_id:
             return json.dumps({"error": "project_id is required"})

@@ -9,10 +9,7 @@ from . import _first_user_id
 
 class CreateGroceryListFromMealPlan(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        meal_plan_id = kwargs.get("meal_plan_id")
-        household_id = kwargs.get("household_id")
-        created_by_user_id = kwargs.get("created_by_user_id")
+    def invoke(data: Dict[str, Any], created_by_user_id, household_id, meal_plan_id) -> str:
         if created_by_user_id is None:
             created_by_user_id = _first_user_id(data)
         if household_id is None:

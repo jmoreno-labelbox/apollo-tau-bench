@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateScheduleBaseline(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
-        baseline_name = kwargs.get("baseline_name")
-        baseline_type = kwargs.get("baseline_type", "initial")
-        pmo_approval = kwargs.get("pmo_approval", False)
+    def invoke(data: Dict[str, Any], approval_ref, baseline_name, project_id, baseline_id = f"base_{uuid.uuid4().hex[:8]}", baseline_type = "initial", create_date = datetime.now(timezone.utc).isoformat(), executive_approval = False, notes = "", pmo_approval = False) -> str:
 
         if not all([project_id, baseline_name]):
             return json.dumps({"error": "project_id and baseline_name are required"})
@@ -46,9 +42,6 @@ class CreateScheduleBaseline(Tool):
             return json.dumps(
                 {"error": f"No milestones found for project '{project_id}'"}
             )
-
-        baseline_id = kwargs.get("baseline_id", f"base_{uuid.uuid4().hex[:8]}")
-        create_date = kwargs.get("create_date", datetime.now(timezone.utc).isoformat())
 
         downstream_impacts = []
         for milestone in project_milestones:
@@ -116,7 +109,7 @@ class CreateScheduleBaseline(Tool):
 
             milestone_snapshots.append(snapshot)
 
-            if variance_percentage > 20 and not kwargs.get("executive_approval", False):
+            if variance_percentage > 20 and not executive_approval:
                 return json.dumps(
                     {
                         "error": f"Milestone '{milestone.get('milestone_name')}' has {variance_percentage:.1f}% variance from original baseline. Executive approval required."
@@ -128,10 +121,10 @@ class CreateScheduleBaseline(Tool):
             "project_id": project_id,
             "baseline_name": baseline_name,
             "baseline_type": baseline_type,
-            "approval_ref": kwargs.get("approval_ref"),
+            "approval_ref": approval_ref,
             "pmo_approval": pmo_approval,
-            "executive_approval": kwargs.get("executive_approval", False),
-            "notes": kwargs.get("notes", ""),
+            "executive_approval": executive_approval,
+            "notes": notes,
             "milestone_count": len(milestone_snapshots),
             "max_variance_days": max_variance,
             "variance_percentage": 0,

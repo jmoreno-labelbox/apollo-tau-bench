@@ -24,11 +24,11 @@ class WriteReport(Tool):
         return f"{primary} – {date}"
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        date: str = kwargs["date"]
-        title: str = kwargs.get("title", "")
-        body_markdown: str = kwargs.get("body_markdown", "")
-        tags: List[str] = kwargs.get("tags", [])
+    def invoke(data: Dict[str, Any], date, body_markdown = "", tags = [], title = "") -> str:
+        date: str = date
+        title: str = title
+        body_markdown: str = body_markdown
+        tags: List[str] = tags
 
         final_title = title.strip() if isinstance(title, str) else ""
         if not final_title:

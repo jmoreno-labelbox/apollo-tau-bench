@@ -22,9 +22,7 @@ class RemovePaymentByIndexTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        order_id = kwargs.get("order_id")
-        index = kwargs.get("index")
+    def invoke(data: Dict[str, Any], index, order_id) -> str:
 
         if not order_id or index is None:
             return json.dumps({"error": "order_id and index are required"}, indent=2)

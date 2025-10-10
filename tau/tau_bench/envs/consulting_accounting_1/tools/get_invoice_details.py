@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetInvoiceDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        invoice_id = kwargs.get("invoice_id")
+    def invoke(data: Dict[str, Any], invoice_id) -> str:
         if not invoice_id:
             return json.dumps({"error": "invoice_id is required"}, indent=2)
         invoices = list(data.get("invoices", {}).values())

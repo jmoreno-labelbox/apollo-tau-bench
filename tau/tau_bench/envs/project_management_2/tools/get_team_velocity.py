@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetTeamVelocity(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        team_id = kwargs.get("team_id")
-        last_n_sprints = kwargs.get("last_n_sprints", 3)
+    def invoke(data: Dict[str, Any], team_id, last_n_sprints = 3) -> str:
 
         if not team_id:
             return json.dumps({"error": "team_id is required"})

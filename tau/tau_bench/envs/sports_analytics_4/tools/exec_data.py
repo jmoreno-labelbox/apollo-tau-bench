@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class ExecData(Tool):
     @staticmethod
         # primary execution function
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        game_pk = kwargs.get("game_pk")
-        grades_count = kwargs.get("grades_count")
+    def invoke(data: Dict[str, Any], game_pk, grades_count) -> str:
         data.setdefault("pitch_execution_grades", []).append({
             "grade_id": f"grade_{len(data.get('pitch_execution_grades', []))+1}",
             "game_pk": game_pk,

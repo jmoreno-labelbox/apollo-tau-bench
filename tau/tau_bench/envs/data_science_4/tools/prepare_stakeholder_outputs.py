@@ -7,15 +7,15 @@ from tau_bench.envs.tool import Tool
 
 class PrepareStakeholderOutputs(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], metrics_id, predictions_id) -> str:
         output_id = "STAKEHOLDER_OUTPUT_001"
 
         # In a practical situation, this would transfer files to a designated 'deliverables' folder.
         # This is where we generate the record.
         output_entry = {
             "stakeholder_output_id": output_id,
-            "final_predictions_id": kwargs.get("predictions_id"),
-            "final_metrics_id": kwargs.get("metrics_id"),
+            "final_predictions_id": predictions_id,
+            "final_metrics_id": metrics_id,
             "status": "ready",
             "predictions_csv_path": f"/deliverables/final_predictions_{output_id}.csv",
             "metrics_json_path": f"/deliverables/final_metrics_{output_id}.json",

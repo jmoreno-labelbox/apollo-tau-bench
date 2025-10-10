@@ -9,10 +9,7 @@ from . import _first_user_id
 
 class AddOrderItemsFromList(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        order_id = kwargs.get("order_id")
-        store_id = kwargs.get("store_id")
-        product_overrides = kwargs.get("product_overrides", {})
+    def invoke(data: Dict[str, Any], order_id, store_id, product_overrides = {}) -> str:
         if order_id is None:
             household_id = _default_household_id(data, _first_user_id(data))
             order_id = _latest_order_id(data, household_id)

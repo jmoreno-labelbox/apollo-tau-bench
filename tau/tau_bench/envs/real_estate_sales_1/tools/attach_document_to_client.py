@@ -9,9 +9,7 @@ class AttachDocumentToClient(Tool):
     """Attach a document to a client's file."""
     
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        client_id = kwargs.get('client_id')
-        document_id = kwargs.get('document_id')
+    def invoke(data: Dict[str, Any], client_id, document_id) -> str:
         
         if not all([client_id, document_id]):
             return json.dumps({

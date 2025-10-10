@@ -9,8 +9,7 @@ class GetAuditLogsForTargetTool(Tool):
     """Get audit logs filtered by target_id (read-only, deterministic)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        target_id = kwargs.get("target_id")
+    def invoke(data: Dict[str, Any], target_id) -> str:
         audit_logs = data.get("audit_logs", [])
         if not isinstance(audit_logs, list):
             return json.dumps({"error": "audit_logs must be a list"}, indent=2)

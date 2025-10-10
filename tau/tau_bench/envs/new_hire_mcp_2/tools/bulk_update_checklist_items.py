@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class BulkUpdateChecklistItems(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        item_ids = kwargs.get("item_ids", [])
-        fields = kwargs.get("fields", {})
+    def invoke(data: Dict[str, Any], fields = {}, item_ids = []) -> str:
         rows = _ensure_list(data, "checklist_items")
         updated = []
         for item_id in item_ids:

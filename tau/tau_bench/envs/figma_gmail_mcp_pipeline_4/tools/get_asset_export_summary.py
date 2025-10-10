@@ -7,16 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetAssetExportSummary(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], artifact_id, asset_id, created_after, created_before, dlp_scan_status, export_profile) -> str:
         """
         Retrieves comprehensive asset export information and metrics.
         """
-        asset_id = kwargs.get('asset_id')
-        artifact_id = kwargs.get('artifact_id')
-        export_profile = kwargs.get('export_profile')
-        dlp_scan_status = kwargs.get('dlp_scan_status')
-        created_after = kwargs.get('created_after')
-        created_before = kwargs.get('created_before')
 
         assets = data.get('assets', [])
         figma_artifacts = data.get('figma_artifacts', [])

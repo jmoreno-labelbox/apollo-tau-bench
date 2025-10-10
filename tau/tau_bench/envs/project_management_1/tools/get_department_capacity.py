@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetDepartmentCapacity(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        department = kwargs.get("department")
+    def invoke(data: Dict[str, Any], department) -> str:
         if not department:
             return json.dumps({"error": "department is required"})
 

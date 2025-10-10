@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class AssignLicense(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        account_id = kwargs.get("account_id")
-        employee_id = kwargs.get("employee_id")
-        license_id = kwargs.get("license_id")
+    def invoke(data: Dict[str, Any], account_id, employee_id, license_id) -> str:
         assignments = data.setdefault("license_assignments", [])
         assignment_id = _get_next_id(assignments, "assignment_id", "lca")
         new_assignment = {"assignment_id": assignment_id, "account_id": account_id, "employee_id": employee_id, "license_id": license_id, "status": "active", "assigned_at": FIXED_NOW}

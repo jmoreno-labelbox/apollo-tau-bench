@@ -8,8 +8,8 @@ from . import _fixed_now_iso
 
 class UpdateConsultantContact(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cid = kwargs.get("consultant_id")
+    def invoke(data: Dict[str, Any], consultant_id) -> str:
+        cid = consultant_id
         fields = {k:v for k,v in kwargs.items() if k in {"address","phone","email","gst_number"}}
         row = next((c for c in data.get("consultants", []) if c.get("consultant_id") == cid), None)
         if not row:

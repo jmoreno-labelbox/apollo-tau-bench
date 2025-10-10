@@ -8,9 +8,9 @@ from tau_bench.envs.tool import Tool
 class UpdateAlertState(Tool):
     """Updates the state of an alert."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        alert_id = kwargs.get("id")
-        new_state = kwargs.get("state")
+    def invoke(data: Dict[str, Any], id, state) -> str:
+        alert_id = id
+        new_state = state
         alerts = list(data.get("alerts", {}).values())
         for alert in alerts:
             if alert.get("id") == alert_id:

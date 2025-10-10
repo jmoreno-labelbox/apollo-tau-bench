@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class SendEmail(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        new_email = kwargs.get("email") or {}
+    def invoke(data: Dict[str, Any], email) -> str:
+        new_email = email or {}
         emails = list(data.get("emails", {}).values())
         emails.append(new_email)
         data["emails"] = emails

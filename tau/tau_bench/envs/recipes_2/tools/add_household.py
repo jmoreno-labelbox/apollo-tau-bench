@@ -8,10 +8,7 @@ from tau_bench.envs.tool import Tool
 class AddHousehold(Tool):
     """Adds a new household."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        household_name = kwargs.get("household_name")
-        timezone = kwargs.get("timezone")
-        primary_user_id = kwargs.get("primary_user_id")
+    def invoke(data: Dict[str, Any], household_name, primary_user_id, timezone) -> str:
         households = list(data.get("households", {}).values())
         new_id = max([h.get("household_id", 0) for h in households]) + 1 if households else 201
         new_household = {

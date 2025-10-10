@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class FilterInsightsByLeverage(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        threshold = kwargs.get("leverage_threshold")
+    def invoke(data: Dict[str, Any], leverage_threshold) -> str:
+        threshold = leverage_threshold
         return json.dumps({"filtered": True, "filtered_table": "flags_leverage", "leverage_threshold": threshold}, indent=2)
 
     @staticmethod

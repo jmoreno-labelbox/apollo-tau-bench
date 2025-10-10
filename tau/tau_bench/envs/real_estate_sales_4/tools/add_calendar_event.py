@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class AddCalendarEvent(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        title = kwargs.get("title")
-        start_time = kwargs.get("start_time")
-        end_time = kwargs.get("end_time")
+    def invoke(data: Dict[str, Any], end_time, start_time, title) -> str:
         return json.dumps({"status": "success", "event_title": title, "start": start_time, "end": end_time}, indent=2)
 
     @staticmethod

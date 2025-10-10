@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ProcessItemReturn(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        transaction_id = kwargs.get('transaction_id')
-        sku = kwargs.get('sku')
-        quantity_returned = kwargs.get('quantity_returned')
-        unit_price = kwargs.get('unit_price')
+    def invoke(data: Dict[str, Any], quantity_returned, sku, transaction_id, unit_price) -> str:
 
         transactions = list(data.get("transactions", {}).values())  # Array []
         inventory = list(data.get("inventory", {}).values())  # Array []

@@ -8,12 +8,12 @@ from tau_bench.envs.tool import Tool
 class SubmitArticleForReview(Tool):
     """Tool to create a new submission for an article."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], article_id, author_user_id) -> str:
         submissions = list(data.get('submissions', {}).values())
         new_submission = {
             "submission_id": f"sub_{len(submissions) + 1:02d}",
-            "article_id": kwargs.get('article_id'),
-            "author_user_id": kwargs.get('author_user_id'),
+            "article_id": article_id,
+            "author_user_id": author_user_id,
             "submission_date": datetime.now().strftime('%Y-%m-%d'),
             "status": "submitted",
             "assigned_reviewers": []

@@ -7,9 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class BuildCashflowView(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        horizon = int(kwargs.get("horizon_months", 3))
-        gran = kwargs.get("granularity", "monthly")
+    def invoke(data: Dict[str, Any], granularity = "monthly", horizon_months = 3) -> str:
+        horizon = int(horizon_months)
+        gran = granularity
         opening = 0.0
         for a in list(data.get("bank_accounts", {}).values()):
             opening += float(a.get("current_balance", 0.0))

@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class InitializePullRequestsBlock(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_name = kwargs["repo_name"]
+    def invoke(data: Dict[str, Any], repo_name) -> str:
         me = _auth(data)["username"]
         existing = next((pr for pr in _prs(data) if pr["owner"] == me and pr["repo_name"] == repo_name), None)
         if existing:

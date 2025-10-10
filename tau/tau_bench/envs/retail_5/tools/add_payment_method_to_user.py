@@ -8,9 +8,7 @@ from . import generate_unique_id
 
 class AddPaymentMethodToUser(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get('user_id')
-        payment_method = kwargs.get('payment_method')
+    def invoke(data: Dict[str, Any], payment_method, user_id) -> str:
         if not user_id or not payment_method:
             return json.dumps({'error': 'user_id and payment_method are required'})
 

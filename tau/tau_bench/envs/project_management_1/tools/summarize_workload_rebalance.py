@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SummarizeWorkloadRebalance(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        hours_transferred = kwargs.get("hours_transferred", 0)
-        from_employee = kwargs.get("from_employee")
-        to_employee = kwargs.get("to_employee")
+    def invoke(data: Dict[str, Any], from_employee, to_employee, hours_transferred = 0) -> str:
 
         if not all([hours_transferred, from_employee, to_employee]):
             return json.dumps(

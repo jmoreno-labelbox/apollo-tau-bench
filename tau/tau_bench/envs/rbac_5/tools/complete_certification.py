@@ -14,9 +14,7 @@ class CompleteCertification(Tool):
       reviewer_id: str (required)
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        certification_id = kwargs.get("certification_id", "")
-        reviewer_id = kwargs.get("reviewer_id", "")
+    def invoke(data: Dict[str, Any], certification_id = "", reviewer_id = "") -> str:
 
         certs = data.get("certifications", [])
         cert = _find_by_id(certs, "certification_id", certification_id)

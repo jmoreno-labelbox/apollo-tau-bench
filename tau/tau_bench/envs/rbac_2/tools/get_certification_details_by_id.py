@@ -9,8 +9,7 @@ class GetCertificationDetailsById(Tool):
     """ Get the full details of a specific access certification campaign using its ID. """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        certification_id = kwargs.get("certification_id")
+    def invoke(data: Dict[str, Any], certification_id) -> str:
         try:
             certifications = data.get('certifications', [])
         except:

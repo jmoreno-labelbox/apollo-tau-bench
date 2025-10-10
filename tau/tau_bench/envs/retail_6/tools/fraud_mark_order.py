@@ -8,10 +8,7 @@ from tau_bench.envs.tool import Tool
 class FraudMarkOrder(Tool):
     """Attach a fraud_check dict to an order."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        order_id = kwargs.get('order_id')
-        risk_level = kwargs.get('risk_level')
-        reason_code = kwargs.get('reason_code')
+    def invoke(data, order_id, reason_code, risk_level) -> str:
         if not order_id or not risk_level or not reason_code:
             return json.dumps({"error":"order_id, risk_level, reason_code are required"}, indent=2)
         o = _find_order(data, order_id)

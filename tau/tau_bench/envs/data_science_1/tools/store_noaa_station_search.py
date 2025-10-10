@@ -8,21 +8,21 @@ from . import _require
 
 class StoreNoaaStationSearch(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], query_latitude, query_longitude, query_ts, radius_km, raw_json_path_nullable, station_distances_km, station_ids, station_latitudes, station_longitudes, station_names, station_types_nullable) -> str:
         req = ["query_latitude", "query_longitude", "station_ids"]
         err = _require(kwargs, req)
         if err: return err
         row = {
-            "query_latitude": kwargs["query_latitude"], "query_longitude": kwargs["query_longitude"],
-            "radius_km": kwargs.get("radius_km"),
-            "station_ids": kwargs["station_ids"],
-            "station_names": kwargs.get("station_names"),
-            "station_distances_km": kwargs.get("station_distances_km"),
-            "station_latitudes": kwargs.get("station_latitudes"),
-            "station_longitudes": kwargs.get("station_longitudes"),
-            "station_types_nullable": kwargs.get("station_types_nullable"),
-            "raw_json_path_nullable": kwargs.get("raw_json_path_nullable"),
-            "query_ts": kwargs.get("query_ts")
+            "query_latitude": query_latitude, "query_longitude": query_longitude,
+            "radius_km": radius_km,
+            "station_ids": station_ids,
+            "station_names": station_names,
+            "station_distances_km": station_distances_km,
+            "station_latitudes": station_latitudes,
+            "station_longitudes": station_longitudes,
+            "station_types_nullable": station_types_nullable,
+            "raw_json_path_nullable": raw_json_path_nullable,
+            "query_ts": query_ts
         }
         return json.dumps(_append(data.setdefault("noaa_station_searches", []), row), indent=2)
 

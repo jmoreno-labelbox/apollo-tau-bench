@@ -15,9 +15,7 @@ class UpdateGameEventStatus(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        event_id = kwargs.get("event_id")
-        draft_status = kwargs.get("draft_status")
+    def invoke(data: Dict[str, Any], draft_status, event_id) -> str:
 
         # 1) Verify
         if event_id is None:

@@ -7,11 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetMonthlyRevenueBySnapshot(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], snapshot_id) -> str:
         """
         Returns row_ids of monthly revenue for a given snapshot_id.
         """
-        snapshot_id = kwargs["snapshot_id"]
         records = [mr["row_id"] for mr in data["monthly_revenue"] if mr["snapshot_id"] == snapshot_id]
         return json.dumps(records)
 

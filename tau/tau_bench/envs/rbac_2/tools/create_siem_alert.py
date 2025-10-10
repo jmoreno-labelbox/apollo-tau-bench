@@ -9,7 +9,7 @@ class CreateSiemAlert(Tool):
     """ Manually create a new SIEM alert based on an investigation. """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], alert_type, resource_id, severity, timestamp, user_id) -> str:
         try:
             siem_alerts = data.get('siem_alerts', [])
         except:
@@ -21,11 +21,11 @@ class CreateSiemAlert(Tool):
 
         new_alert = {
             "alert_id": alert_id,
-            "timestamp": kwargs.get("timestamp"),
-            "user_id": kwargs.get("user_id"),
-            "resource_id": kwargs.get("resource_id"),
-            "alert_type": kwargs.get("alert_type"),
-            "severity": kwargs.get("severity")
+            "timestamp": timestamp,
+            "user_id": user_id,
+            "resource_id": resource_id,
+            "alert_type": alert_type,
+            "severity": severity
         }
 
         siem_alerts.append(new_alert)

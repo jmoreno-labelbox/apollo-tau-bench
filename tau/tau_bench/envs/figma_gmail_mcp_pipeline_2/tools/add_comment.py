@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class AddComment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], artifact_id, author_email, content, resolved_flag, source_message_id) -> str:
         required = ["artifact_id", "author_email", "content", "resolved_flag"]
         missing = [f for f in required if f not in kwargs or kwargs[f] is None]
         if missing:
@@ -16,16 +16,16 @@ class AddComment(Tool):
         comments: List[Dict[str, Any]] = data.get("figma_comments", [])
         comment_id = get_next_comment_id(data)
         created_ts = get_now_timestamp()
-        source_message_id: Optional[str] = kwargs.get("source_message_id")
+        source_message_id: Optional[str] = source_message_id
 
         new_comment = {
             "comment_id": comment_id,
-            "artifact_id": kwargs["artifact_id"],
-            "author_email": kwargs["author_email"],
-            "content": kwargs["content"],
+            "artifact_id": artifact_id,
+            "author_email": author_email,
+            "content": content,
             "source_message_id_nullable": source_message_id,
             "created_ts": created_ts,
-            "resolved_flag": kwargs["resolved_flag"]
+            "resolved_flag": resolved_flag
         }
 
         comments.append(new_comment)

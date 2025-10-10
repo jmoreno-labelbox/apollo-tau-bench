@@ -8,11 +8,7 @@ from tau_bench.envs.tool import Tool
 class LogAuditTrail(Tool):
     """Logs a structured audit event for tracking important system actions."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        audit_event = kwargs.get('audit_event')
-        subject_id = kwargs.get('subject_id')
-        outcome_code = kwargs.get('outcome_code')
-        outcome_details = kwargs.get('outcome_details') # This is a map.
+    def invoke(data: Dict[str, Any], audit_event, outcome_code, outcome_details, subject_id) -> str:
 
         if not all([audit_event, subject_id, outcome_code]):
             return json.dumps({"error": "audit_event, subject_id, and outcome_code are required."}, indent=2)

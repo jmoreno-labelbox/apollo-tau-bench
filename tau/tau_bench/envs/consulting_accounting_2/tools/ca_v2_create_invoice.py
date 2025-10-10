@@ -9,15 +9,7 @@ class CaV2CreateInvoice(Tool):
     """Create a new invoice."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # Necessary parameters
-        invoice_id = kwargs.get("invoice_id")
-        invoice_number = kwargs.get("invoice_number")
-        publisher_id = kwargs.get("publisher_id")
-        invoice_date = kwargs.get("invoice_date")
-        period_start = kwargs.get("period_start")
-        period_end = kwargs.get("period_end")
-        subtotal = kwargs.get("subtotal")
+    def invoke(data: Dict[str, Any], invoice_date, invoice_id, invoice_number, paid_at, period_end, period_start, publisher_id, sent_at, subtotal, created_at = invoice_date + "T00:00:00Z") -> str:
 
         if not all([invoice_number, publisher_id, invoice_date,
                    period_start, period_end, subtotal]):
@@ -39,9 +31,9 @@ class CaV2CreateInvoice(Tool):
             "hst_amount": hst_amount,
             "total_due": total_due,
             "pdf_path": f"/invoices/{invoice_date[:4]}/{invoice_number}.pdf",
-            "sent_at": kwargs.get("sent_at"),
-            "paid_at": kwargs.get("paid_at"),
-            "created_at": kwargs.get("created_at", invoice_date + "T00:00:00Z")
+            "sent_at": sent_at,
+            "paid_at": paid_at,
+            "created_at": created_at
         }
 
         # Append to data

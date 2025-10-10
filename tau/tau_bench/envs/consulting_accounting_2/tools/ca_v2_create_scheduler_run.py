@@ -9,13 +9,7 @@ class CaV2CreateSchedulerRun(Tool):
     """Create a scheduler run log entry."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        run_id = kwargs.get("run_id")
-        task_name = kwargs.get("task_name")
-        scheduled_for = kwargs.get("scheduled_for")
-        executed_at = kwargs.get("executed_at")
-        status = kwargs.get("status")
-        log_path = kwargs.get("log_path")
+    def invoke(data: Dict[str, Any], executed_at, log_path, run_id, scheduled_for, status, task_name) -> str:
 
         if not all([task_name, status]):
             return _error("Required fields: task_name, status")

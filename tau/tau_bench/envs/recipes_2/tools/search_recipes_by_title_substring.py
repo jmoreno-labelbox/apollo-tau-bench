@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class SearchRecipesByTitleSubstring(Tool):
     """Searches for recipes with titles containing the specified text."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        title_substring = kwargs.get("title_substring")
+    def invoke(data: Dict[str, Any], title_substring) -> str:
         if not title_substring:
             return json.dumps({"error": "title_substring parameter is required."})
         recipes = list(data.get("recipes", {}).values())

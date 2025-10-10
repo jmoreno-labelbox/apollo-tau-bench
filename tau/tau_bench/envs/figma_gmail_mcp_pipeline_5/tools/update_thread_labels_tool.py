@@ -9,11 +9,11 @@ class UpdateThreadLabelsTool(Tool):
     """Update Gmail thread labels deterministically (idempotent)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        thread_id = _require_str(kwargs.get("thread_id"), "thread_id")
-        add_labels = kwargs.get("add_labels", []) or []
-        remove_labels = kwargs.get("remove_labels", []) or []
-        changed_ts = _require_str(kwargs.get("changed_ts"), "changed_ts")
+    def invoke(data: Dict[str, Any], changed_ts, thread_id, add_labels = [], remove_labels = []) -> str:
+        thread_id = _require_str(thread_id, "thread_id")
+        add_labels = add_labels or []
+        remove_labels = remove_labels or []
+        changed_ts = _require_str(changed_ts, "changed_ts")
         if not (thread_id and changed_ts):
             return json.dumps({"error":"thread_id and changed_ts required"})
 

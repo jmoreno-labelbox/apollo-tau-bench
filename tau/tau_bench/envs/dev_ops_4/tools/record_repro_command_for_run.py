@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class RecordReproCommandForRun(Tool):
     """Record a reproduction command on a run."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        run_id = kwargs.get("run_id")
-        command = kwargs.get("command")
+    def invoke(data: Dict[str, Any], command, run_id) -> str:
         runs = list(data.get("build_runs", {}).values())
         idx = _idx_by_id(runs, run_id)
         updated = None

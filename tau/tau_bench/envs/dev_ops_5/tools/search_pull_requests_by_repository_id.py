@@ -9,8 +9,7 @@ class SearchPullRequestsByRepositoryId(Tool):
     """Searches for all pull requests within a specific repository."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repository_id = kwargs.get("repository_id")
+    def invoke(data: Dict[str, Any], repository_id) -> str:
         pull_requests = list(data.get("pull_requests", {}).values())
         
         matching_prs = [

@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class ScheduleDelivery(Tool):
     """Set a 'scheduled' timestamp in tracking_history."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        tracking_id = kwargs.get('tracking_id')
-        scheduled = kwargs.get('scheduled')
+    def invoke(data, scheduled, tracking_id) -> str:
         if not tracking_id or not scheduled:
             return json.dumps({"error":"tracking_id and scheduled (ISO string) are required"}, indent=2)
         tr = _find_tracking(data, tracking_id)

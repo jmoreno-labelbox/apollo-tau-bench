@@ -9,7 +9,7 @@ from . import _require_tables
 class LogIngestionEvent(Tool):
     """Append ingestion_logs row."""
     @staticmethod
-    def invoke(data, **kwargs)->str:
+    def invoke(data, records_ingested, source_name, status_code, request_timestamp_utc = _now_utc_iso())->str:
         err = _require_tables(data, ["ingestion_logs"])
         if err:
             return json.dumps({"error": err}, indent=2)
@@ -20,10 +20,10 @@ class LogIngestionEvent(Tool):
         new_id = _next_id(rows, "ingestion_id")
         row = {
             "ingestion_id": new_id,
-            "source_name": kwargs.get("source_name"),
-            "request_timestamp_utc": kwargs.get("request_timestamp_utc", _now_utc_iso()),
-            "status_code": kwargs.get("status_code"),
-            "records_ingested": kwargs.get("records_ingested")
+            "source_name": source_name,
+            "request_timestamp_utc": request_timestamp_utc,
+            "status_code": status_code,
+            "records_ingested": records_ingested
         }
         rows.append(row)
         return json.dumps({"ingestion_id": new_id}, indent=2)

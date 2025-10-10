@@ -9,9 +9,7 @@ class CreateAssetRequestWithNotificationTool(Tool):
     """Creates asset requests and corresponding IT notification emails for one or more candidates."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        candidate_id = kwargs.get("candidate_id")
-        candidate_ids = kwargs.get("candidate_ids")
+    def invoke(data: Dict[str, Any], candidate_id, candidate_ids, asset_type = defaults["asset_type"], specifications = defaults["specifications"], urgency_level = defaults["urgency_level"]) -> str:
 
         ids_to_process = []
         if candidate_ids:
@@ -36,9 +34,8 @@ class CreateAssetRequestWithNotificationTool(Tool):
 
             role_title = candidate.get("role_title", "")
             defaults = ROLE_ASSET_DEFAULTS_MAP.get(role_title, ROLE_ASSET_DEFAULTS_MAP["Default"])
-            asset_type = kwargs.get("asset_type", defaults["asset_type"])
-            urgency = kwargs.get("urgency_level", defaults["urgency_level"])
-            specs = kwargs.get("specifications", defaults["specifications"])
+            urgency = urgency_level
+            specs = specifications
 
             context = {
                 "candidate_name": candidate.get("candidate_name", ""),

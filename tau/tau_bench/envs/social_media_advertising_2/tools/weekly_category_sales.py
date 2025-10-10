@@ -9,8 +9,8 @@ class WeeklyCategorySales(Tool):
     """Return weekly sales for a product category."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cat, week = kwargs.get("category"), kwargs.get("start_date")
+    def invoke(data: Dict[str, Any], category, start_date) -> str:
+        cat, week = category, start_date
         for s in list(data.get("f_sales", {}).values()):
             if s.get("category") == cat and s.get("start_date") == week:
                 return json.dumps(s)

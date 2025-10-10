@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class AllGames(Tool):
     @staticmethod
         # primary execution function
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        windows = kwargs.get("windows", [])
+    def invoke(data: Dict[str, Any], windows = []) -> str:
         batch_results = {}
 
         # Retrieve actual data from JSON files.

@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ConsolidateAllocations(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
-        from_projects = kwargs.get("from_projects", [])
-        to_project = kwargs.get("to_project")
-        total_hours = kwargs.get("total_hours")
+    def invoke(data: Dict[str, Any], employee_id, to_project, total_hours, from_projects = []) -> str:
 
         return json.dumps(
             {

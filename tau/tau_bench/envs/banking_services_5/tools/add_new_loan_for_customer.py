@@ -9,12 +9,8 @@ class AddNewLoanForCustomer(Tool):
     """Adds a new loan entry for a customer based on loan application and collateral details."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
-        loan_application_id = kwargs.get("application_id")
-        collateral_type = kwargs.get("collateral_type")
-        collateral_info = kwargs.get("collateral_info")
-        currency = kwargs.get("currency", "USD")
+    def invoke(data: Dict[str, Any], application_id, collateral_info, collateral_type, customer_id, currency = "USD") -> str:
+        loan_application_id = application_id
 
         if not all([customer_id, loan_application_id, collateral_type, collateral_info]):
             return json.dumps({

@@ -8,15 +8,15 @@ from . import _require
 
 class NotionUpdatePageProperties(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], page_id, properties_json, updated_ts = page.get("updated_ts")) -> str:
         req = ["page_id", "properties_json"]
         err = _require(kwargs, req)
         if err: return err
-        page = next((p for p in data.setdefault("notion_pages", []) if p.get("page_id") == kwargs["page_id"]), None)
+        page = next((p for p in data.setdefault("notion_pages", []) if p.get("page_id") == page_id), None)
         if not page:
-            return json.dumps({"error": f"page_id '{kwargs['page_id']}' not found"}, indent=2)
-        page["properties_json_nullable"] = kwargs["properties_json"]
-        page["updated_ts"] = kwargs.get("updated_ts", page.get("updated_ts"))
+            return json.dumps({"error": f"page_id '{page_id}' not found"}, indent=2)
+        page["properties_json_nullable"] = properties_json
+        page["updated_ts"] = updated_ts
         return json.dumps(page, indent=2)
 
     @staticmethod

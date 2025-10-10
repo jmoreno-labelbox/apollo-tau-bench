@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class DataPorter(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        action = kwargs.get('action')
-        data_types = kwargs.get('data_types', ['all'])
-        import_data = kwargs.get('import_data', {})
+    def invoke(data: Dict[str, Any], action, data_types = ['all'], import_data = {}) -> str:
 
         if action == 'export':
             export_result = {}

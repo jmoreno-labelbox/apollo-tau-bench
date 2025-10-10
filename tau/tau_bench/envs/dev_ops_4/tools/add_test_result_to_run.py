@@ -8,16 +8,7 @@ from tau_bench.envs.tool import Tool
 class AddTestResultToRun(Tool):
     """Append a test result to a test run deterministically."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        test_run_id = kwargs.get("test_run_id")
-        test_name = kwargs.get("test_name")
-        status = kwargs.get("status")  # succeeded, failed, bypassed
-        failure_type = kwargs.get("failure_type")
-        issue_message = kwargs.get("issue_message")
-        file_path = kwargs.get("file_path")
-        line_number = kwargs.get("line_number")
-        issue_code = kwargs.get("issue_code")
-        duration_ms = kwargs.get("duration_ms")
+    def invoke(data: Dict[str, Any], duration_ms, failure_type, file_path, issue_code, issue_message, line_number, status, test_name, test_run_id) -> str:
 
         rec = {
             "id": f"{ID_PREFIX}::test_result::{_sanitize(test_run_id)}__{_sanitize(test_name)}::001",

@@ -9,10 +9,10 @@ class OpenAutomationRun(Tool):
     """Start a deterministic automation run; the caller provides all timestamps/refs, with plan-date defaults."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        run_type: str = kwargs["run_type"]
-        started_at: str = kwargs.get("started_at") or _iso_at(current_date, current_time)
-        input_ref: Dict[str, Any] = kwargs.get("input_ref", {})
+    def invoke(data: Dict[str, Any], run_type, started_at, input_ref = {}) -> str:
+        run_type: str = run_type
+        started_at: str = started_at or _iso_at(current_date, current_time)
+        input_ref: Dict[str, Any] = input_ref
         run_id = "run_" + current_date
         return json.dumps({
             "success": True,

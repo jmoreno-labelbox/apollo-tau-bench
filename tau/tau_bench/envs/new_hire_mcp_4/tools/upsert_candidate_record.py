@@ -7,14 +7,12 @@ from tau_bench.envs.tool import Tool
 
 class UpsertCandidateRecord(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        email = kwargs["candidate_email"]
-        start = kwargs["start_date"]
-        name = kwargs["candidate_name"]
-        role = kwargs.get("role_title")
-        manager_email = kwargs.get("manager_email")
-        onboarding_status = kwargs.get("onboarding_status", "Created")
-        created_ts = _fixed_ts(kwargs.get("created_ts"))
+    def invoke(data: Dict[str, Any], candidate_email, candidate_name, created_ts, manager_email, role_title, start_date, onboarding_status = "Created") -> str:
+        email = candidate_email
+        start = start_date
+        name = candidate_name
+        role = role_title
+        created_ts = _fixed_ts(created_ts)
 
         candidates = data.setdefault("candidates", [])
         row = {}

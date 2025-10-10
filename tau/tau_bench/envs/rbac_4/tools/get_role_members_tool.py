@@ -9,12 +9,10 @@ class GetRoleMembersTool(Tool):
     """Return user records for members of a given role (read operation, deterministic)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], role_id, status) -> str:
         users = list(data.get("users", {}).values())
         user_roles = data.get("user_roles", [])
-
-        role_id = kwargs.get("role_id")
-        status_filter = kwargs.get("status")  # optional: for instance, "ACTIVE"
+        status_filter = status  # optional: for instance, "ACTIVE"
 
         if not isinstance(user_roles, list) or not isinstance(users, list):
             return json.dumps({"error": "users and user_roles must be lists"}, indent=2)

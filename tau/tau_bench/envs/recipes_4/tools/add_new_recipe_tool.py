@@ -52,7 +52,7 @@ class AddNewRecipeTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> Dict[str, Any]:
+    def invoke(data: Dict[str, Any], ingredients_list, recipe_data, user_id) -> Dict[str, Any]:
         """
         Executes the logic to create a new recipe and its ingredient links.
 
@@ -81,10 +81,6 @@ class AddNewRecipeTool(Tool):
                 validation_error["error_code"],
                 validation_error["details"]
             )
-
-        recipe_data = kwargs["recipe_data"]
-        ingredients_list = kwargs["ingredients_list"]
-        user_id = kwargs["user_id"]
 
         # 2. Comprehensive Validation
         if not AddNewRecipeTool.EXPECTED_RECIPE_FIELDS.issubset(recipe_data.keys()):

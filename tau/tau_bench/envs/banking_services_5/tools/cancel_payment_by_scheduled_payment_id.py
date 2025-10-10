@@ -10,9 +10,9 @@ class CancelPaymentByScheduledPaymentId(Tool):
        and ensures it belongs to the given customer."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id", "").strip()
-        scheduled_payment_id = kwargs.get("scheduled_payment_id", "").strip()
+    def invoke(data: Dict[str, Any], customer_id = "", scheduled_payment_id = "") -> str:
+        customer_id = customer_id.strip()
+        scheduled_payment_id = scheduled_payment_id.strip()
 
         # Check input values for correctness.
         missing = []

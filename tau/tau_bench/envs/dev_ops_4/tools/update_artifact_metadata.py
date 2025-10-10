@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class UpdateArtifactMetadata(Tool):
     """Patch artifact.metadata with provided keys deterministically."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        artifact_id = kwargs.get("artifact_id")
-        metadata_patch = kwargs.get("metadata_patch", {})
+    def invoke(data: Dict[str, Any], artifact_id, metadata_patch = {}) -> str:
         rows = list(data.get("artifacts", {}).values())
         idx = _idx_by_id(rows, artifact_id)
         if idx is None:

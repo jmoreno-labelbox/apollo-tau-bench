@@ -9,8 +9,8 @@ class GetPolicyExceptionDetailsTool(Tool):
     """Return the full stored record for a given policy exception (no error payloads)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        eid = kwargs.get("exception_id")
+    def invoke(data: Dict[str, Any], exception_id) -> str:
+        eid = exception_id
         for e in data.get("policy_exceptions", []) or []:
             if e.get("exception_id") == eid:
                 # Return the object formatted as pretty JSON to easily access reviewed_on and other fields.

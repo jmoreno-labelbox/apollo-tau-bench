@@ -9,8 +9,7 @@ from . import _json_dump
 class GetRecipeById(Tool):
     """Return a recipe row by id."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        recipe_id = kwargs.get("recipe_id")
+    def invoke(data: Dict[str, Any], recipe_id) -> str:
         if recipe_id is None:
             return _json_dump({"error": "recipe_id is required"})
         row = _recipe_by_id(data, int(recipe_id))

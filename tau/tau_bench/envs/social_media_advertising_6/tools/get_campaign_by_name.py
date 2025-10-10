@@ -7,12 +7,12 @@ from tau_bench.envs.tool import Tool
 
 class GetCampaignByName(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], name) -> str:
         err = _require(kwargs, ["name"])
         if err: return _fail(err)
         rows = _assert_table(data, "campaigns")
         for r in rows:
-            if r.get("name") == kwargs["name"]:
+            if r.get("name") == name:
                 return json.dumps(r)
         return _fail("campaign_not_found")
 

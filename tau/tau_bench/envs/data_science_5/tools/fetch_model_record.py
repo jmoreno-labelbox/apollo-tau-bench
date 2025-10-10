@@ -7,10 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class FetchModelRecord(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], model_id, model_name) -> str:
         models = list(data.get("models", {}).values()) or []
-        mid = kwargs.get("model_id")
-        mname = kwargs.get("model_name")
+        mid = model_id
+        mname = model_name
         row = None
         if mid is not None:
             row = next((m for m in models if str(m.get("model_id")) == str(mid)), None)

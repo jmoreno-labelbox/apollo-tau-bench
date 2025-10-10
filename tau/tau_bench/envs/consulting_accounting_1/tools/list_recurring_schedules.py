@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class ListRecurringSchedules(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        horizon = int(kwargs.get("horizon_months", 3))
+    def invoke(data: Dict[str, Any], horizon_months = 3) -> str:
+        horizon = int(horizon_months)
         schedules = [s for s in list(data.get("recurring_schedules", {}).values()) if s.get("is_active", False)]
         return json.dumps({"horizon_months": horizon,"active_schedules": schedules}, indent=2)
 

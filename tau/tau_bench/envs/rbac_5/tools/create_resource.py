@@ -16,11 +16,10 @@ class CreateResource(Tool):
       compliance_scope: str (optional) - ISO-27001, GDPR, SOX, PCI-DSS, ALL, or null
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        name = (kwargs.get("name", "") or "").strip()
-        owner_id = (kwargs.get("owner_id", "") or "").strip()
-        criticality = (kwargs.get("criticality", "") or "").strip().upper()
-        compliance_scope = kwargs.get("compliance_scope")
+    def invoke(data: Dict[str, Any], compliance_scope, criticality = "", name = "", owner_id = "") -> str:
+        name = (name or "").strip()
+        owner_id = (owner_id or "").strip()
+        criticality = (criticality or "").strip().upper()
 
         if not name or not owner_id or not criticality:
             return json.dumps({"error": "name, owner_id, and criticality are required"})

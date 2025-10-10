@@ -9,8 +9,7 @@ class ReturnIds(Tool):
     """Tool to return list of ids."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        list_of_ids = kwargs.get("list_of_ids", [])
+    def invoke(data: Dict[str, Any], list_of_ids = []) -> str:
         return json.dumps(list_of_ids, indent=2)
 
     @staticmethod

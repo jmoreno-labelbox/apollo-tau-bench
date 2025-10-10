@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetUsersWithLeadershipGoals(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_ids = kwargs.get("user_ids", [])
+    def invoke(data: Dict[str, Any], user_ids = []) -> str:
         goals = data.get("goals", [])
         leadership_users = []
 

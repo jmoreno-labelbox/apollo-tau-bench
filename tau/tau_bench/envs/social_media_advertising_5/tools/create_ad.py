@@ -7,11 +7,11 @@ from tau_bench.envs.tool import Tool
 
 class CreateAd(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], adset_id, creative_type, name, start_date) -> str:
         ads = list(data.get("ads", {}).values())
         nid = max((int(a["ad_id"]) for a in ads), default=1100) + 1
-        rec = {"ad_id": str(nid), "adset_id": kwargs.get("adset_id"), "name": kwargs.get("name"),
-               "creative_type": kwargs.get("creative_type"), "status": "paused", "start_date": kwargs.get("start_date"),
+        rec = {"ad_id": str(nid), "adset_id": adset_id, "name": name,
+               "creative_type": creative_type, "status": "paused", "start_date": start_date,
                "end_date": None}
         ads.append(rec)
         data["ads"] = ads

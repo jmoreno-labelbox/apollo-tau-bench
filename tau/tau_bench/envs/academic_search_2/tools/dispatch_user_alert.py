@@ -8,10 +8,7 @@ from tau_bench.envs.tool import Tool
 class DispatchUserAlert(Tool):
     """Dispatches an alert or notification to a user."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        recipient_user_id = kwargs.get('recipient_user_id')
-        message_content = kwargs.get('message_content')
-        sender_user_id = kwargs.get('sender_user_id', 'system')
+    def invoke(data: Dict[str, Any], message_content, recipient_user_id, sender_user_id = 'system') -> str:
 
         if not all([recipient_user_id, message_content]):
             return json.dumps({"error": "recipient_user_id and message_content are required."})

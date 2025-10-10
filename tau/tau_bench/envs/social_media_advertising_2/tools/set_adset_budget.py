@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SetAdsetBudget(Tool):
     @staticmethod
-    def invoke(data, **kwargs) -> str:
+    def invoke(data, adset_id, new_budget, reason) -> str:
         """
         Update an ad set's daily budget. Must include an audit reason.
         Required: adset_id (str), new_budget (float), reason (str)
@@ -18,9 +18,8 @@ class SetAdsetBudget(Tool):
         """
         import json, time
 
-        adset_id = str(kwargs["adset_id"])
-        new_budget = float(kwargs["new_budget"])
-        reason = kwargs["reason"]
+        adset_id = str(adset_id)
+        new_budget = float(new_budget)
 
         adsets = list(data.get("adsets", {}).values())
         target = next((a for a in adsets if str(a.get("adset_id") or a.get("id")) == adset_id), None)

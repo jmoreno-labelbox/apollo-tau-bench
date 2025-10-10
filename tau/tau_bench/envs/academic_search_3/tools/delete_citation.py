@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class DeleteCitation(Tool):
     """Tool to delete a citation record."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        citation_id = kwargs.get('citation_id')
+    def invoke(data: Dict[str, Any], citation_id) -> str:
         citations = list(data.get('citations', {}).values())
         original_count = len(citations)
         data['citations'] = [c for c in citations if c.get('citation_id') != citation_id]

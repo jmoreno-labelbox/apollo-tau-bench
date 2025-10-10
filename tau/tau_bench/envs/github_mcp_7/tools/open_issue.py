@@ -8,11 +8,8 @@ from tau_bench.envs.tool import Tool
 class OpenIssue(Tool):
     """Open a new issue."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get("owner") or _actor_name(data)
-        repo = kwargs.get("repo")
-        title = kwargs.get("title")
-        body = kwargs.get("body", "")
+    def invoke(data: Dict[str, Any], owner, repo, title, body = "") -> str:
+        owner = owner or _actor_name(data)
         if not (_find_repo(data, owner, repo)):
             raise RuntimeError("Repository not found")
         if not title:

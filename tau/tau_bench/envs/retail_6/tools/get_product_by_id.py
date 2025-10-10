@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetProductById(Tool):
     """Return a product by product_id."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        product_id = kwargs.get('product_id')
+    def invoke(data, product_id) -> str:
         if not product_id:
             return json.dumps({"error":"product_id is required"}, indent=2)
         prod = next((p for p in list(data.get('products', {}).values()) if p.get('product_id') == product_id), None)

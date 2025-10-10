@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class GetPublisherInfo(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        pid = kwargs.get("publisher_id")
+    def invoke(data: Dict[str, Any], publisher_id) -> str:
+        pid = publisher_id
         row = next((p for p in data.get("publishers", []) if p.get("publisher_id") == pid), None)
         if not row:
             return json.dumps({"error": f"Publisher '{pid}' not found"}, indent=2)

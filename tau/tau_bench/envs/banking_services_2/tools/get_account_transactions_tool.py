@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetAccountTransactionsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        account_id = kwargs.get('account_id')
-        limit = kwargs.get('limit', 10)
+    def invoke(data: Dict[str, Any], account_id, limit = 10) -> str:
         transactions = list(data.get('transactions', {}).values())
 
         account_transactions = []

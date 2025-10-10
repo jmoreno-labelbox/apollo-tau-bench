@@ -7,12 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class SceneManager(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], execute_time, scene_id, action = 'get', scene_data = {}) -> str:
         scenes = list(data.get('scenes', {}).values())
-        action = kwargs.get('action', 'get')
-        scene_id = kwargs.get('scene_id')
-        scene_data = kwargs.get('scene_data', {})
-        execute_time = kwargs.get('execute_time')
 
         if action == 'get':
             result = [s for s in scenes if (not scene_id or s['id'] == scene_id)]

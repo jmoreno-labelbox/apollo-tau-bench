@@ -9,10 +9,8 @@ class CreateCampaign(Tool):
     """Create a marketing campaign for client outreach."""
     
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        name = kwargs.get('name')
-        campaign_type = kwargs.get('type')
-        created_by = kwargs.get('created_by')
+    def invoke(data: Dict[str, Any], created_by, name, type) -> str:
+        campaign_type = type
         
         if not all([name, campaign_type, created_by]):
             return json.dumps({

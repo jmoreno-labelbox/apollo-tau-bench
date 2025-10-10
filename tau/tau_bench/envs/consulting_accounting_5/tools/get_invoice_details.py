@@ -7,11 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetInvoiceDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], invoice_number) -> str:
         """
         Retrieves the full details for a given invoice_number.
         """
-        invoice_number = kwargs["invoice_number"]
         invoice = next((inv for inv in data["invoices"] if inv["invoice_number"] == invoice_number), None)
         return json.dumps(invoice)
 

@@ -9,10 +9,7 @@ class RequestPullRequestReviewers(Tool):
     """Requests one or more reviewers on a pull request."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_name = kwargs.get("repo_name")
-        pr_number = kwargs.get("pr_number")
-        reviewers = kwargs.get("reviewers", [])  # List of strings
+    def invoke(data: Dict[str, Any], pr_number, repo_name, reviewers = []) -> str:
 
         if not all([repo_name, pr_number]) or not isinstance(reviewers, list) or len(reviewers) == 0:
             return json.dumps({"error": "repo_name, pr_number and non-empty reviewers[] are required."}, indent=2)

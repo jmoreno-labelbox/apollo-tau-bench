@@ -9,8 +9,7 @@ from . import _first_user_id
 
 class ListHouseholdMembers(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        household_id = kwargs.get("household_id")
+    def invoke(data: Dict[str, Any], household_id) -> str:
         if household_id is None:
             household_id = _default_household_id(data, _first_user_id(data))
         rows = [m for m in data.get("members", []) if m.get("household_id") == household_id]

@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class FindTestRunForBuildRun(Tool):
     """Finds the test run associated with a specific build run by matching pipelines and timestamps."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        build_run_id = kwargs.get("build_run_id")
+    def invoke(data: Dict[str, Any], build_run_id) -> str:
         build_runs = data.get("build_runs", [])
         test_runs = data.get("test_runs", [])
         pipelines = list(data.get("pipelines", {}).values())

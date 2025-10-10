@@ -39,9 +39,8 @@ class get_employee_by_ids_by_region(Tool):
     }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        region = kwargs.get("region")
-        status_filter = kwargs.get("status", "Active")
+    def invoke(data: Dict[str, Any], region, status = "Active") -> str:
+        status_filter = status
 
         if not region or region not in get_employee_by_ids_by_region.REGION_MAP:
             return json.dumps(

@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateUtilizationLog(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
-        new_utilization = kwargs.get("new_utilization")
+    def invoke(data: Dict[str, Any], employee_id, new_utilization) -> str:
 
         if not all([employee_id, new_utilization is not None]):
             return json.dumps({"error": "employee_id and new_utilization are required"})

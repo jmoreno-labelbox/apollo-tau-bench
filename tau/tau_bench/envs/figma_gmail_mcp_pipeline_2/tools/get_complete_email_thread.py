@@ -7,11 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class GetCompleteEmailThread(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        if not kwargs.get("thread_id"):
+    def invoke(data: Dict[str, Any], thread_id) -> str:
+        if not thread_id:
             return json.dumps({"error": "Missing required field: thread_id"}, indent=2)
-
-        thread_id = kwargs.get("thread_id")
         threads: List[Dict[str, Any]] = list(data.get("gmail_threads", {}).values())
         messages: List[Dict[str, Any]] = list(data.get("gmail_messages", {}).values())
 

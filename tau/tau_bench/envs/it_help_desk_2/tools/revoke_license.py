@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class RevokeLicense(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        assignment_id = kwargs.get("assignment_id")
+    def invoke(data: Dict[str, Any], assignment_id) -> str:
         assignments = data.get("license_assignments", [])
         assignment = next((a for a in assignments if a.get("assignment_id") == assignment_id), None)
         if not assignment:

@@ -9,10 +9,9 @@ class CalculateRouteOptimizationTool(Tool):
     """Optimizes property viewing route with travel time constraints."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        property_list = kwargs.get("property_list") or []
-        start_address = kwargs.get("start_address")
-        max_hop_minutes = _as_int(kwargs.get("max_hop_minutes"))
+    def invoke(data: Dict[str, Any], max_hop_minutes, property_list, start_address) -> str:
+        property_list = property_list or []
+        max_hop_minutes = _as_int(max_hop_minutes)
         if not property_list or not start_address or max_hop_minutes is None:
             return _err("property_list, start_address, max_hop_minutes are required")
 

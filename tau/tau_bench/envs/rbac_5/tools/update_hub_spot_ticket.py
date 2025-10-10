@@ -19,14 +19,8 @@ class UpdateHubSpotTicket(Tool):
       updated_at: str ISO (optional; defaults to now)
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        ticket_id = kwargs.get("ticket_id", "")
-        status = kwargs.get("status")
-        assignee_id = kwargs.get("assignee_id")
-        priority = kwargs.get("priority")
-        subject = kwargs.get("subject")
-        description = kwargs.get("description")
-        updated_at = kwargs.get("updated_at") or get_current_timestamp()
+    def invoke(data: Dict[str, Any], assignee_id, description, priority, status, subject, updated_at, ticket_id = "") -> str:
+        updated_at = updated_at or get_current_timestamp()
 
         if not ticket_id:
             return json.dumps({"error": "ticket_id is required"})

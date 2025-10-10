@@ -7,16 +7,13 @@ from tau_bench.envs.tool import Tool
 
 class UpdateCycleStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], cycle_id, escalated_ts, new_status, thread_id) -> str:
         required = ["cycle_id", "new_status"]
         missing = [f for f in required if f not in kwargs or kwargs[f] is None]
         if missing:
             return json.dumps({"error": f"Missing required fields: {', '.join(missing)}"}, indent=2)
-
-        cycle_id = kwargs.get("cycle_id")
-        new_status = kwargs.get("new_status")
-        escalated_ts: Optional[str] = kwargs.get("escalated_ts")
-        thread_id: Optional[str] = kwargs.get("thread_id")
+        escalated_ts: Optional[str] = escalated_ts
+        thread_id: Optional[str] = thread_id
 
         cycles: List[Dict[str, Any]] = list(data.get("review_cycles", {}).values())
         for row in cycles:

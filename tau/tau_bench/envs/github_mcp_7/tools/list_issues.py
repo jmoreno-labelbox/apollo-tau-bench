@@ -8,10 +8,8 @@ from tau_bench.envs.tool import Tool
 class ListIssues(Tool):
     """List issues for a repo with optional state filter."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get("owner") or _actor_name(data)
-        repo = kwargs.get("repo")
-        state = kwargs.get("state")
+    def invoke(data: Dict[str, Any], owner, repo, state) -> str:
+        owner = owner or _actor_name(data)
         result = [i for i in _issues(data) if i.get("owner") == owner and i.get("repo") == repo]
         if state:
             result = [i for i in result if i.get("state") == state]

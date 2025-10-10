@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class SummarizeARByClient(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        invoices = kwargs.get("invoices") or []
+    def invoke(data: Dict[str, Any], invoices) -> str:
+        invoices = invoices or []
         summary: Dict[str, Dict[str, float]] = {}
         for inv in invoices:
             pid = inv.get("publisher_id")

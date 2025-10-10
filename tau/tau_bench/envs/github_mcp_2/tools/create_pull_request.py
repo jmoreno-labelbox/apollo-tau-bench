@@ -7,12 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreatePullRequest(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_name = kwargs["repo_name"]
-        title = kwargs["title"]
-        body = kwargs.get("body", "")
-        head = kwargs["head"]
-        base = kwargs["base"]
+    def invoke(data: Dict[str, Any], base, head, repo_name, title, body = "") -> str:
 
         me = _auth(data)["username"]
         repo = _find_repo_record(data, repo_name)

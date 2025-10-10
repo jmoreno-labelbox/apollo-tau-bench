@@ -9,8 +9,7 @@ class GetAllVenueInCity(Tool):
     """Fetch all venues located in a given city (exact, case-sensitive)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        city = kwargs.get("city")
+    def invoke(data: Dict[str, Any], city) -> str:
 
         # 1) Verify
         if not isinstance(city, str) or city == "":

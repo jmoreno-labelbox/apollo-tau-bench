@@ -7,15 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class FilterEmployees(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], department, first_name, job_title, last_name, manager_id, status) -> str:
         employees = data.get('employees')
-
-        first_name = kwargs.get('first_name')
-        last_name = kwargs.get('last_name')
-        department = kwargs.get('department')
-        job_title = kwargs.get('job_title')
-        manager = kwargs.get('manager_id')
-        status = kwargs.get('status')
+        manager = manager_id
 
         if all([attribute == None for attribute in [first_name, last_name, department, job_title, manager, status]]):
             return json.dumps({'status': 'error', 'reason': 'No criteria specified'}, indent=2)

@@ -15,10 +15,7 @@ class GetWeatherForecast(Tool):
             return None
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        city = kwargs.get("city")
-        start_ts = kwargs.get("start_ts")
-        end_ts = kwargs.get("end_ts")
+    def invoke(data: Dict[str, Any], city, end_ts, start_ts) -> str:
 
         if not city or not start_ts or not end_ts:
             return json.dumps({"error": "Missing required parameters: city, start_ts, end_ts"})

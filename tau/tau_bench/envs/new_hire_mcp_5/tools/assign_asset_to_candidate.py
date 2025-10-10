@@ -13,9 +13,8 @@ class AssignAssetToCandidate(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        asset_tag = kwargs["asset_tag"]
-        cand_id = kwargs["candidate_id"]
+    def invoke(data: Dict[str, Any], asset_tag, candidate_id) -> str:
+        cand_id = candidate_id
 
         inv = data.get("inventory_assets", [])
         row = next((a for a in inv if a.get("asset_tag") == asset_tag), None)

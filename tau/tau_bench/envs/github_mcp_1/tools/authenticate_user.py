@@ -9,10 +9,10 @@ class AuthenticateUser(Tool):
     """Validates a user by username, email, and auth_key; returns full record on success."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        username = kwargs.get("username", "").strip()
-        email = kwargs.get("email", "").strip()
-        auth_key = kwargs.get("auth_key", "").strip()
+    def invoke(data: Dict[str, Any], auth_key = "", email = "", username = "") -> str:
+        username = username.strip()
+        email = email.strip()
+        auth_key = auth_key.strip()
 
         reset_variables()
 

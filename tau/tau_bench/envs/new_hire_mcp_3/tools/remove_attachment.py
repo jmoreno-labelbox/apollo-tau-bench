@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class RemoveAttachment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        attach_id = kwargs.get("attachment_id")
+    def invoke(data: Dict[str, Any], attachment_id) -> str:
+        attach_id = attachment_id
         attachments = list(data.get("attachments", {}).values())
         data["attachments"] = [a for a in attachments if a.get("attachment_id") != attach_id]
         return json.dumps({"removed_attachment_id": attach_id}, indent=2)

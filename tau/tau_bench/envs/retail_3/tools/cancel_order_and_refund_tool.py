@@ -25,10 +25,8 @@ class CancelOrderAndRefundTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        order_id = kwargs.get("order_id")
-        refund_amount = float(kwargs.get("refund_amount", 0) or 0)
-        payment_method_id = kwargs.get("payment_method_id")
+    def invoke(data: Dict[str, Any], order_id, payment_method_id, refund_amount = 0) -> str:
+        refund_amount = float(refund_amount or 0)
 
         if not order_id:
             return json.dumps({"error": "order_id is required"}, indent=2)

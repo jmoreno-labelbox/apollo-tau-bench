@@ -9,9 +9,7 @@ class MergePullRequest(Tool):
     """Merges the specified pull request into its base branch."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_name = kwargs.get("repo_name")
-        pr_number = kwargs.get("pr_number")
+    def invoke(data: Dict[str, Any], pr_number, repo_name) -> str:
 
         if not all([repo_name, pr_number]):
             return json.dumps({"error": "repo_name and pr_number are required."}, indent=2)

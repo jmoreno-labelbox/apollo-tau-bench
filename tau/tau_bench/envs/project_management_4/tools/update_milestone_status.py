@@ -7,12 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateMilestoneStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        milestone_id = kwargs.get("milestone_id")
-        new_status = kwargs.get("new_status")
-        progress_percentage = kwargs.get("progress_percentage")
-        health = kwargs.get("health")
-        deliverables_completed = kwargs.get("deliverables_completed", [])
+    def invoke(data: Dict[str, Any], health, milestone_id, new_status, progress_percentage, deliverables_completed = [], status_notes = "") -> str:
 
         if not all([milestone_id, new_status]):
             return json.dumps({"error": "milestone_id and new_status are required"})
@@ -65,7 +60,7 @@ class UpdateMilestoneStatus(Tool):
                     "milestone_id": milestone_id,
                     "progress_percentage": milestone["progress_percentage"],
                     "status": new_status,
-                    "status_notes": kwargs.get("status_notes", ""),
+                    "status_notes": status_notes,
                     "deliverables_completed": deliverables_completed,
                     "health_change": f"{old_health} -> {milestone['health']}",
                     "updated_date": datetime.now(timezone.utc).isoformat(),

@@ -9,22 +9,22 @@ class UpdateCampaignStatus(Tool):
     """Update campaign status with explicit timestamp and request_id (logged in automation_runs)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], campaign_id, request_id, status, timestamp) -> str:
         err = _require(kwargs, ["campaign_id", "status", "timestamp", "request_id"])
         if err: return _fail(err)
         rows = _assert_table(data, "campaigns")
-        row = next((r for r in rows if str(r.get("campaign_id")) == str(kwargs["campaign_id"])), None)
+        row = next((r for r in rows if str(r.get("campaign_id")) == str(campaign_id)), None)
         if not row: return _fail("campaign_not_found")
-        row["status"] = kwargs["status"]
-        row["updated_at"] = kwargs["timestamp"]
+        row["status"] = status
+        row["updated_at"] = timestamp
         # optional: record in automation_runs
         runs = _assert_table(data, "automation_runs")
-        _append_change(runs, {"run_type": "campaign_status_update", "started_at": kwargs["timestamp"],
-                              "ended_at": kwargs["timestamp"], "status": "completed",
-                              "input_ref": str(kwargs["campaign_id"]),
-                              "outputs_json": {"new_status": kwargs["status"], "request_id": kwargs["request_id"]},
+        _append_change(runs, {"run_type": "campaign_status_update", "started_at": timestamp,
+                              "ended_at": timestamp, "status": "completed",
+                              "input_ref": str(campaign_id),
+                              "outputs_json": {"new_status": status, "request_id": request_id},
                               "errors_json": None})
-        return json.dumps({"ok": True, "campaign_id": str(kwargs["campaign_id"]), "status": kwargs["status"]})
+        return json.dumps({"ok": True, "campaign_id": str(campaign_id), "status": status})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

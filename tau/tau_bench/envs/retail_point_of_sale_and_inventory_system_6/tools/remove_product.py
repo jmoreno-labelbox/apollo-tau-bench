@@ -7,10 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class remove_product(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], sku) -> str:
         products = list(data.get("products", {}).values())
-
-        sku = kwargs.get("sku")
 
         if sku is None:
             return json.dumps({"error": "sku must be sent"}, indent=2)

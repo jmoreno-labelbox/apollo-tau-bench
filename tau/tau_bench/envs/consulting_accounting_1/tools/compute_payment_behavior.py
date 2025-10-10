@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class ComputePaymentBehavior(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        pub_id = kwargs.get("publisher_id")
+    def invoke(data: Dict[str, Any], publisher_id) -> str:
+        pub_id = publisher_id
         if not pub_id:
             return json.dumps({"error": "publisher_id is required"}, indent=2)
         pb = next((p for p in list(data.get("payment_behavior", {}).values()) if p.get("publisher_id") == pub_id), None)

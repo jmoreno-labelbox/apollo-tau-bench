@@ -7,16 +7,16 @@ from tau_bench.envs.tool import Tool
 
 class CreateResource(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], compliance_scope, criticality, name, owner_id) -> str:
         resources = data.get('resources', [])
         new_id_num = max((int(r['resource_id'][4:]) for r in resources), default=0) + 1
         new_resource_id = f"RES-{new_id_num:03d}"
         new_resource = {
                 "resource_id": new_resource_id,
-                "name": kwargs.get("name"),
-                "owner_id": kwargs.get("owner_id"),
-                "criticality": kwargs.get("criticality"),
-                "compliance_scope": kwargs.get("compliance_scope")
+                "name": name,
+                "owner_id": owner_id,
+                "criticality": criticality,
+                "compliance_scope": compliance_scope
         }
         resources.append(new_resource)
         data['resources'] = resources

@@ -8,10 +8,7 @@ from tau_bench.envs.tool import Tool
 class CreateGroceryListFromMealPlan(Tool):
     """Generates a grocery list from a meal plan."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        household_id = kwargs.get("household_id")
-        meal_plan_id = kwargs.get("meal_plan_id")
-        user_id = kwargs.get("user_id")
+    def invoke(data: Dict[str, Any], household_id, meal_plan_id, user_id) -> str:
 
         lists = list(data.get("grocery_lists", {}).values())
         # Automatically create the subsequent list_id.

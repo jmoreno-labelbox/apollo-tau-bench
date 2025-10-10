@@ -29,8 +29,8 @@ class TmuxSessionManagerTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        requested_session = kwargs["session_name"]
+    def invoke(data: Dict[str, Any], session_name) -> str:
+        requested_session = session_name
 
         # Initialize session tracking.
         data.setdefault("tmux_sessions", [])

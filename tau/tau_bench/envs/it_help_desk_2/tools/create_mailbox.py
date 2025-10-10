@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateMailbox(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
-        upn = kwargs.get("upn")
+    def invoke(data: Dict[str, Any], employee_id, upn) -> str:
         mailboxes = data.setdefault("mailboxes", [])
         mailbox_id = _get_next_id(mailboxes, "mailbox_id", "mbx")
         new_mailbox = {"mailbox_id": mailbox_id, "employee_id": employee_id, "address": upn, "status": "active", "retention_policy": "std_2y", "created_at": FIXED_NOW}

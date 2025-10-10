@@ -8,9 +8,7 @@ from . import get_current_timestamp
 
 class CancelScheduledPaymentTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        payment_id = kwargs.get('payment_id')
-        reason = kwargs.get('reason', 'Customer request')
+    def invoke(data: Dict[str, Any], payment_id, reason = 'Customer request') -> str:
 
         scheduled_payments = data.get('scheduled_payments', [])
 

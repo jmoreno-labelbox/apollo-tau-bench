@@ -7,11 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class ExportARAgingReport(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], period_label) -> str:
         """
         Simulates the export of an A/R aging report and returns the file path.
         """
-        period_label = kwargs["period_label"]
         file_path = f"/reports/ar_aging/AR_Aging_Report_{period_label}.pdf"
         return json.dumps(file_path)
 

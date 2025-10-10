@@ -8,15 +8,8 @@ from tau_bench.envs.tool import Tool
 class CreateHubspotTicketTool(Tool):
     """Create a new HubSpot ticket linked to RBAC or SIEM context."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], assignee_id, category, description, requester_id, subject, priority = "MEDIUM") -> str:
         tickets = data.get("hubspot_tickets", [])
-
-        subject = kwargs.get("subject")
-        description = kwargs.get("description")
-        requester_id = kwargs.get("requester_id")
-        assignee_id = kwargs.get("assignee_id")
-        category = kwargs.get("category")
-        priority = kwargs.get("priority", "MEDIUM")
 
         # Predictable ticket identifier
         new_id = f"TI-{len(tickets) + 1:03d}"

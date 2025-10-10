@@ -7,13 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class ReminderManager(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], priority, reminder_id, status, action = 'get', reminder_data = {}) -> str:
         reminders = list(data.get('reminders', {}).values())
-        action = kwargs.get('action', 'get')
-        reminder_id = kwargs.get('reminder_id')
-        status = kwargs.get('status')
-        priority = kwargs.get('priority')
-        reminder_data = kwargs.get('reminder_data', {})
 
         if action == 'get':
             result = [r for r in reminders if (not reminder_id or r['reminder_id'] == reminder_id) and

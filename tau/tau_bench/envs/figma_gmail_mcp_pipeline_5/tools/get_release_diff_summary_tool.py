@@ -9,8 +9,8 @@ class GetReleaseDiffSummaryTool(Tool):
     """Summarize a release diff: counts of added/updated/removed frames."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        release_id = _require_str(kwargs.get("release_id"), "release_id")
+    def invoke(data: Dict[str, Any], release_id) -> str:
+        release_id = _require_str(release_id, "release_id")
         if not release_id:
             return json.dumps({"error":"release_id is required"})
 

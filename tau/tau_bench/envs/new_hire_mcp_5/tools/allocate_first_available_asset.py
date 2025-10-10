@@ -20,8 +20,8 @@ class AllocateFirstAvailableAsset(Tool):
     Returns: {"request_id", "candidate_id", "asset_type", "asset_tag", "status":"allocated"}
     """
     @staticmethod
-    def invoke(db: Dict[str, Any], **kwargs) -> str:
-        rid = kwargs["request_id"]
+    def invoke(db: Dict[str, Any], request_id, updated_ts) -> str:
+        rid = request_id
         req = next((r for r in db.get("asset_requests", []) if r.get("request_id") == rid), None)
         if not req:
             return json.dumps({"error": f"request_id {rid} not found"}, indent=2)
@@ -40,7 +40,7 @@ class AllocateFirstAvailableAsset(Tool):
             if c.get("candidate_id") == cand_id:
                 c["allocated_asset_tag_nullable"] = chosen.get("asset_tag")
                 break
-        req["updated_ts"] = _fixed_ts(kwargs.get("updated_ts"))
+        req["updated_ts"] = _fixed_ts(updated_ts)
         return json.dumps({
             "request_id": rid,
             "candidate_id": cand_id,

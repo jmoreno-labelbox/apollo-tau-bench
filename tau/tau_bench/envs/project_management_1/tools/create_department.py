@@ -7,10 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class CreateDepartment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        department_name = kwargs.get("name")
-        department_id = kwargs.get("department_id", f"conflict_{uuid.uuid4().hex[:8]}")
-        head_id = kwargs.get("head_id")
+    def invoke(data: Dict[str, Any], head_id, name, department_id = f"conflict_{uuid.uuid4().hex[:8]}") -> str:
+        department_name = name
 
         if not all([department_name, head_id]):
             return json.dumps({"error": "department_name and head_id are required parameters"})

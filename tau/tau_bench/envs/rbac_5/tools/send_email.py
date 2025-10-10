@@ -17,12 +17,8 @@ class SendEmail(Tool):
       timestamp: str ISO (optional; defaults to current timestamp)
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        sender = kwargs.get("sender", "")
-        receiver = kwargs.get("receiver", "")
-        subject = kwargs.get("subject", "")
-        text_content = kwargs.get("text_content", "")
-        timestamp = kwargs.get("timestamp") or get_current_timestamp()
+    def invoke(data: Dict[str, Any], timestamp, receiver = "", sender = "", subject = "", text_content = "") -> str:
+        timestamp = timestamp or get_current_timestamp()
 
         if not sender or not receiver or not subject or not text_content:
             return json.dumps({"error": "sender, receiver, subject, and text_content are required"})

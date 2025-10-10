@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetAccountTransactions(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        account_id = kwargs.get("account_id")
-        days_history = kwargs.get("days_history", 30)
-        current_date = kwargs.get("current_date")
+    def invoke(data: Dict[str, Any], account_id, current_date, days_history = 30) -> str:
         current_dt = NOW if not current_date else datetime.combine(date=date.fromisoformat(current_date), time=time(hour=0, minute=0, second=0, tzinfo=UTC))
 
         transactions = list(data.get('transactions', {}).values())

@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class AssignDevice(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get('employee_id')
-        asset_type = kwargs.get('asset_type')
+    def invoke(data: Dict[str, Any], asset_type, employee_id) -> str:
         if employee_id is None or asset_type is None:
             return json.dumps({'status': 'error', 'reason': 'The employee_id and asset_type fields are required.'}, indent=2)
 

@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ValidateUserGoalAlignment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
-        target_role = kwargs.get("target_role")
+    def invoke(data: Dict[str, Any], target_role, user_id) -> str:
         # Ensure goals is a list before processing
         goals = data.get("goals", [])
         if isinstance(goals, str):

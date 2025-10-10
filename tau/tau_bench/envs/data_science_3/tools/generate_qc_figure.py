@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class GenerateQCFigure(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        label = kwargs.get("figure_label")
+    def invoke(data: Dict[str, Any], figure_label) -> str:
+        label = figure_label
         pdf_path = f"https://storage.example.com/reports/{label}.pdf"
         return json.dumps({"figure_path": pdf_path}, indent=2)
     @staticmethod

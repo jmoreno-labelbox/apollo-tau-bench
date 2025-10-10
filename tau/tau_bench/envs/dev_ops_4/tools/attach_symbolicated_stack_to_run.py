@@ -8,11 +8,7 @@ from tau_bench.envs.tool import Tool
 class AttachSymbolicatedStackToRun(Tool):
     """Attach a symbolicated stack trace URI to a build run by choosing a matching symbol record."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        run_id = kwargs.get("run_id")
-        build_id = kwargs.get("build_id")
-        module_name = kwargs.get("module_name")
-        platform = kwargs.get("platform")
+    def invoke(data: Dict[str, Any], build_id, module_name, platform, run_id) -> str:
 
         symbols = list(data.get("symbols", {}).values())
         chosen = None

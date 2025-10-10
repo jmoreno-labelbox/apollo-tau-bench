@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class FindFileOwner(Tool):
     """Finds the owner of a file based on the ownership map."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        file_path = kwargs.get("file_path")
+    def invoke(data: Dict[str, Any], file_path) -> str:
         ownership_map = data.get("ownership_map", [])
         most_specific_owner = None
         longest_match = -1

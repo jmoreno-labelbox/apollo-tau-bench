@@ -9,8 +9,7 @@ class GetAccessRequestTool(Tool):
     """Fetch a single access request record by ID."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        request_id = kwargs.get("request_id")
+    def invoke(data: Dict[str, Any], request_id) -> str:
         if not request_id:
             return json.dumps({"error": "request_id is required"}, indent=2)
 

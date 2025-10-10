@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class RemoveBeneficiary(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        beneficiary_id = kwargs.get("beneficiary_id")
+    def invoke(data: Dict[str, Any], beneficiary_id) -> str:
         beneficiaries = list(data.get('beneficiaries', {}).values())
 
         initial_len = len(beneficiaries)

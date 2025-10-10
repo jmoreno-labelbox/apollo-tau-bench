@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class get_profit_margins(Tool):
     @staticmethod
-    def get_detailed_item_price(data, **kwargs):
-        sku = kwargs.get("sku")
-        barcode = kwargs.get("barcode")
+    def get_detailed_item_price(data, barcode, sku):
 
         if (sku is None) and (barcode is None):
             return json.dumps({"error": "sku or barcode must be sent"}, indent=2)
@@ -47,13 +45,10 @@ class get_profit_margins(Tool):
         return json.dumps({"error": "product not found"})
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], sku_list, ignore_discounts = True) -> str:
         products = list(data.get("products", {}).values())
-
-        sku_list = kwargs.get("sku_list")
         if isinstance(sku_list, str):
             sku_list = json.loads(sku_list)
-        ignore_discounts = kwargs.get("ignore_discounts", True)
 
         if sku_list is None:
             return json.dumps({"error": "sku_list must be sent"}, indent=2)

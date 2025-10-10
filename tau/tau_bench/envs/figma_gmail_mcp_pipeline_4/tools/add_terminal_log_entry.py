@@ -7,14 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class AddTerminalLogEntry(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], component, log_message, user_email, log_level = 'INFO') -> str:
         """
         Adds new terminal log entries and manages log level filtering.
         """
-        log_message = kwargs.get('log_message')
-        log_level = kwargs.get('log_level', 'INFO')
-        component = kwargs.get('component')
-        user_email = kwargs.get('user_email')
 
         if not log_message:
             return json.dumps({"error": "log_message is required."})

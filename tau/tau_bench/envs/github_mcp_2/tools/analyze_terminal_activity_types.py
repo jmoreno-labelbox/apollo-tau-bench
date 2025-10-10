@@ -11,9 +11,8 @@ class AnalyzeTerminalActivityTypes(Tool):
     DEFAULT_KEYWORDS = ["git", "docker", "kubectl", "pytest", "helm", "make", "terraform", "pip", "npm"]
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], keywords = AnalyzeTerminalActivityTypes.DEFAULT_KEYWORDS) -> str:
         logs = _terminal(data)
-        keywords = kwargs.get("keywords", AnalyzeTerminalActivityTypes.DEFAULT_KEYWORDS)
 
         counter = Counter()
         for entry in logs:

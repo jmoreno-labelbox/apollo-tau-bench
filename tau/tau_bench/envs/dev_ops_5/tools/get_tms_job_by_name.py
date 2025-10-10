@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetTmsJobByName(Tool):
     """Retrieves a TMS job by its name."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        job_name = kwargs.get("job_name")
+    def invoke(data: Dict[str, Any], job_name) -> str:
         jobs = data.get("tms_jobs", [])
         for job in jobs:
             if job.get("job_name") == job_name:

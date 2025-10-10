@@ -9,14 +9,7 @@ class ListSiemAlertsTool(Tool):
     """list_siem_alerts"""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
-        resource_id = kwargs.get("resource_id")
-        severity = kwargs.get("severity")
-        alert_type = kwargs.get("alert_type")
-        alert_id = kwargs.get("alert_id")
-        date_from = kwargs.get("date_from")
-        date_to = kwargs.get("date_to")
+    def invoke(data: Dict[str, Any], alert_id, alert_type, date_from, date_to, resource_id, severity, user_id) -> str:
 
         dt_from = _parse_iso(date_from)
         dt_to = _parse_iso(date_to)

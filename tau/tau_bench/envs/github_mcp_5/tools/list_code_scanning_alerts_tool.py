@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ListCodeScanningAlertsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get('owner')
-        repo = kwargs.get('repo')
+    def invoke(data: Dict[str, Any], owner, repo) -> str:
 
         if not all([owner, repo]):
             return json.dumps({

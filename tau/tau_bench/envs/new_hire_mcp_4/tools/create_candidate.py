@@ -9,15 +9,15 @@ class CreateCandidate(Tool):
     """Create or upsert a candidate (deterministic candidate_id)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], candidate_id, department, email, manager_email, name, start_date, status = "hired") -> str:
         c = {
-            "candidate_id": kwargs.get("candidate_id"),
-            "name": kwargs.get("name"),
-            "email": kwargs.get("email"),
-            "start_date": kwargs.get("start_date"),
-            "department": kwargs.get("department"),
-            "manager_email": kwargs.get("manager_email"),
-            "status": kwargs.get("status", "hired"),
+            "candidate_id": candidate_id,
+            "name": name,
+            "email": email,
+            "start_date": start_date,
+            "department": department,
+            "manager_email": manager_email,
+            "status": status,
         }
         if not c["candidate_id"]:
             return json.dumps({"error": "missing_candidate_id"}, indent=2)

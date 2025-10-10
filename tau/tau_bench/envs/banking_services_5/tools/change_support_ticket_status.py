@@ -7,10 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class ChangeSupportTicketStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
-        ticket_id   = kwargs.get("ticket_id")
-        new_status  = kwargs.get("new_status", "").strip()
+    def invoke(data: Dict[str, Any], customer_id, ticket_id, new_status = "") -> str:
+        new_status  = new_status.strip()
         if not all([customer_id, ticket_id, new_status]):
             return json.dumps({"error": "customer_id, ticket_id and new_status are required."}, indent=2)
 

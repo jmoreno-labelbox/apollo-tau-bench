@@ -7,12 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class CreateTransaction(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], amount, description, destination_account_id, source_account_id) -> str:
         transaction_id = _get_next_transaction_id(data)
-        source_account_id = kwargs.get("source_account_id")
-        destination_account_id = kwargs.get("destination_account_id")
-        amount = kwargs.get("amount")
-        description = kwargs.get("description")
 
         source_account = next((acc for acc in data["accounts"] if acc["account_id"] == source_account_id), None)
         if not source_account:

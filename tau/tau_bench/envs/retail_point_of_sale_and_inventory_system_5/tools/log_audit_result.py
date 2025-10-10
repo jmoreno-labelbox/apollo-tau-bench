@@ -7,12 +7,12 @@ from tau_bench.envs.tool import Tool
 
 class LogAuditResult(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], auditor_id, sku, store_id, result = "discrepancy_logged") -> str:
         entry = {
-            "store_id": kwargs["store_id"],
-            "sku": kwargs["sku"],
-            "auditor_id": kwargs["auditor_id"],
-            "result": kwargs.get("result", "discrepancy_logged")
+            "store_id": store_id,
+            "sku": sku,
+            "auditor_id": auditor_id,
+            "result": result
         }
         data.setdefault("audit_logs", []).append(entry)
         return json.dumps({"message": "Audit result logged.", "entry": entry})

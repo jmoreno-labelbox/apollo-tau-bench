@@ -9,13 +9,7 @@ from . import _next_int_id
 
 class SendEmail(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        client_id = kwargs.get("client_id")
-        broker_id = kwargs.get("broker_id")
-        subject = kwargs.get("subject")
-        body_uri = kwargs.get("body_uri")
-        template_code = kwargs.get("template_code")
-        campaign_id = kwargs.get("campaign_id")
+    def invoke(data: Dict[str, Any], body_uri, broker_id, campaign_id, client_id, subject, template_code) -> str:
         emails = data.get("emails", [])
         new_email_id = _next_int_id(emails, "email_id")
         row = {

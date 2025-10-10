@@ -167,14 +167,11 @@ class CheckUserStatusTool(Tool):
         return False
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        mode = (kwargs.get("mode") or "access_request").lower()
+    def invoke(data: Dict[str, Any], mode, request_id, resource_id, reviewer_id, role_id, user_id) -> str:
+        mode = (mode or "access_request").lower()
 
         # Branch: cancel assessment
         if mode in ("revoke", "revoke_evaluation"):
-            user_id = kwargs.get("user_id")
-            role_id = kwargs.get("role_id")
-            resource_id = kwargs.get("resource_id")
             if not user_id or not role_id:
                 return json.dumps(
                     {"error": "user_id and role_id are required for revoke evaluation"},
@@ -269,10 +266,6 @@ class CheckUserStatusTool(Tool):
                 },
                 indent=2,
             )
-
-        # Default branch: decision on access request
-        request_id = kwargs.get("request_id")
-        reviewer_id = kwargs.get("reviewer_id")
         if not request_id:
             return json.dumps({"error": "request_id is required"}, indent=2)
         req = next(

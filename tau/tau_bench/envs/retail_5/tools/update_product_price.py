@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateProductPrice(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        product_id = kwargs.get('product_id')
-        item_id = kwargs.get('item_id')
-        new_price = kwargs.get('new_price')
+    def invoke(data: Dict[str, Any], item_id, new_price, product_id) -> str:
 
         if not product_id or not item_id or new_price is None:
             return json.dumps({'error': 'product_id, item_id, and new_price are required'})

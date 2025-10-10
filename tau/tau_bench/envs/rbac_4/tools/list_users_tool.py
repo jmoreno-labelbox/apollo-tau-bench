@@ -9,10 +9,8 @@ class ListUsersTool(Tool):
     """List users with optional filters."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        dept = kwargs.get("department")
-        status = kwargs.get("status")
-        mfa_enabled = kwargs.get("mfa_enabled")
+    def invoke(data: Dict[str, Any], department, mfa_enabled, status) -> str:
+        dept = department
         users = list(data.get("users", {}).values())
 
         results = []

@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class FliteringSamples(Tool):
     @staticmethod
         # primary execution method
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        min_sample_size = kwargs.get("min_sample_size", 25)
-        source_table = kwargs.get("source_table", "")
+    def invoke(data: Dict[str, Any], min_sample_size = 25, source_table = "") -> str:
         # return outcome
         return json.dumps({"filtered_insights": "flags_filtered_sample"}, indent=2)
 

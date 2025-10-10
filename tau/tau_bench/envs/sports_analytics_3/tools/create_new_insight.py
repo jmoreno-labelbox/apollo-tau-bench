@@ -21,12 +21,7 @@ class CreateNewInsight(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        report_id = kwargs.get("report_id")
-        player_id = kwargs.get("player_id")
-        insight_text = kwargs.get("insight_text")
-        insight_type = kwargs.get("insight_type")
-        supporting_stat_value = kwargs.get("supporting_stat_value")
+    def invoke(data: Dict[str, Any], insight_text, insight_type, player_id, report_id, supporting_stat_value) -> str:
 
         # 1) Check for necessary inputs
         missing = []

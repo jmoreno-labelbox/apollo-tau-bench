@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class UpdateSupplyOrderStatus(Tool):
     """Set status on a supply order."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        supply_order_id = kwargs.get('supply_order_id')
-        status = kwargs.get('status')
+    def invoke(data, status, supply_order_id) -> str:
         if not supply_order_id or not status:
             return json.dumps({"error":"supply_order_id and status are required"}, indent=2)
         so = next((s for s in data.get('supply_orders', []) if s.get('supply_order_id') == supply_order_id), None)

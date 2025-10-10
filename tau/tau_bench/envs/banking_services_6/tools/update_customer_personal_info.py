@@ -7,10 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class UpdateCustomerPersonalInfo(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
-        field_to_update = kwargs.get("field")
-        new_value = kwargs.get("value")
+    def invoke(data: Dict[str, Any], customer_id, field, value) -> str:
+        field_to_update = field
+        new_value = value
 
         customer = next((c for c in data['customers'] if c['customer_id'] == customer_id), None)
         if not customer:

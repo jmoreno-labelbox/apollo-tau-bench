@@ -9,11 +9,7 @@ from . import generate_unique_id
 
 class TransferFundsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        from_account_id = kwargs.get('from_account_id')
-        to_account_id = kwargs.get('to_account_id')
-        amount = kwargs.get('amount')
-        description = kwargs.get('description', 'Internal transfer')
+    def invoke(data: Dict[str, Any], amount, from_account_id, to_account_id, description = 'Internal transfer') -> str:
 
         accounts = list(data.get('accounts', {}).values())
         transactions = list(data.get('transactions', {}).values())

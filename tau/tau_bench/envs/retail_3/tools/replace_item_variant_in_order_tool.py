@@ -12,11 +12,7 @@ class ReplaceItemVariantInOrderTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        order_id = kwargs.get("order_id")
-        index = kwargs.get("index")
-        product_id = kwargs.get("product_id")
-        item_id = kwargs.get("item_id")
+    def invoke(data: Dict[str, Any], index, item_id, order_id, product_id) -> str:
 
         orders = list(data.get("orders", {}).values())
         products = list(data.get("products", {}).values())

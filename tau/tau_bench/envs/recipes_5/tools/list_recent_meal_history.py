@@ -9,10 +9,8 @@ from . import _first_user_id
 
 class ListRecentMealHistory(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        household_id = kwargs.get("household_id")
-        days_back = int(kwargs.get("days_back", 14))
-        anchor_date = kwargs.get("anchor_date")
+    def invoke(data: Dict[str, Any], anchor_date, household_id, days_back = 14) -> str:
+        days_back = int(days_back)
         if household_id is None:
             household_id = _default_household_id(data, _first_user_id(data))
         out = _recent_recipe_ids(data, household_id, days_back, anchor_date)

@@ -9,12 +9,7 @@ class CreateRouteEntryTool(Tool):
     """Creates entry in routes table."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        client_id = kwargs.get("client_id")
-        route_date = kwargs.get("route_date")
-        stops_ordered_json = kwargs.get("stops_ordered_json")
-        map_url = kwargs.get("map_url")
-        created_by_broker_id = kwargs.get("created_by_broker_id")
+    def invoke(data: Dict[str, Any], client_id, created_by_broker_id, map_url, route_date, stops_ordered_json) -> str:
 
         if (
             client_id is None

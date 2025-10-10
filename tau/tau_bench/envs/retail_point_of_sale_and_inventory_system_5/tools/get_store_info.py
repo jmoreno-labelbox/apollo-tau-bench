@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetStoreInfo(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        store_id = kwargs.get("store_id")
+    def invoke(data: Dict[str, Any], store_id) -> str:
         stores = data.get("stores", [])
         result = [item for item in stores if item["store_id"] == store_id]
         if result:

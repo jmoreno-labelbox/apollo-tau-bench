@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class CheckDiskSpace(Tool):
     """Checks the available disk space on a server."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        server_hostname = kwargs.get("server_hostname")
+    def invoke(data: Dict[str, Any], server_hostname) -> str:
         for server in list(data.get("system_resources", {}).values()):
             if server.get("hostname") == server_hostname:
                 return json.dumps(server.get("disk"))

@@ -7,21 +7,21 @@ from tau_bench.envs.tool import Tool
 
 class CreateCustomer(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], annual_income, city, country, dob, email, first_name, last_name, phone, postal_code, street) -> str:
         customer_id = _get_next_customer_id(data)
         new_customer = {
                 "customer_id": customer_id,
-                "personal_info": {"first_name": kwargs.get("first_name"), "last_name": kwargs.get("last_name"), "date_of_birth": kwargs.get("dob")},
+                "personal_info": {"first_name": first_name, "last_name": last_name, "date_of_birth": dob},
                 "contact_info": {
-                        "email_address": kwargs.get("email"),
-                        "phone_numbers": [{"type": "Mobile", "number": kwargs.get("phone"), "is_primary": True}],
-                        "mailing_address": {"street_address": kwargs.get("street"), "city": kwargs.get("city"), "postal_code": kwargs.get("postal_code"),
-                                            "country": kwargs.get("country")},
-                        "residential_address": {"street_address": kwargs.get("street"), "city": kwargs.get("city"), "postal_code": kwargs.get("postal_code"),
-                                                "country": kwargs.get("country")}
+                        "email_address": email,
+                        "phone_numbers": [{"type": "Mobile", "number": phone, "is_primary": True}],
+                        "mailing_address": {"street_address": street, "city": city, "postal_code": postal_code,
+                                            "country": country},
+                        "residential_address": {"street_address": street, "city": city, "postal_code": postal_code,
+                                                "country": country}
                 },
                 "account_ids": [],
-                "financial_profile": {"annual_income": kwargs.get("annual_income")},
+                "financial_profile": {"annual_income": annual_income},
                 "bank_relationship": {"date_joined": NOW.strftime('%Y-%m-%d')},
                 "compliance": {"kyc_status": "Verified", "aml_risk_level": "Low"}
         }

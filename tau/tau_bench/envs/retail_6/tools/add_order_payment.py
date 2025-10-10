@@ -8,11 +8,8 @@ from tau_bench.envs.tool import Tool
 class AddOrderPayment(Tool):
     """Append a payment record."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        order_id = kwargs.get('order_id')
-        amount = kwargs.get('amount')
-        payment_method_id = kwargs.get('payment_method_id')
-        txn_id = kwargs.get('transaction_id')
+    def invoke(data, amount, order_id, payment_method_id, transaction_id) -> str:
+        txn_id = transaction_id
         if not order_id or amount is None or not payment_method_id or not txn_id:
             return json.dumps({"error":"order_id, amount, payment_method_id, transaction_id are required"}, indent=2)
         o = _find_order(data, order_id)

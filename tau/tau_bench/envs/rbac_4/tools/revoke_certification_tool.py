@@ -9,14 +9,10 @@ class RevokeCertificationTool(Tool):
     """Revoke an existing certification from a user (write operation, deterministic)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], certification_id, expires_on) -> str:
         certifications = data.get("certifications", [])
         if not isinstance(certifications, list):
             return json.dumps({"error": "certifications must be a list"}, indent=2)
-
-        certification_id = kwargs.get("certification_id")
-        # Optional field name for timestamp selected from available datasets; prevents the creation of new keys.
-        expires_on = kwargs.get("expires_on")
 
         if not isinstance(certification_id, str) or not certification_id.strip():
             return json.dumps({"error": "certification_id must be a non-empty string"}, indent=2)

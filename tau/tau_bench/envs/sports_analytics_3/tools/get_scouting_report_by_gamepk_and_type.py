@@ -20,9 +20,7 @@ class GetScoutingReportByGamepkAndType(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        game_pk = kwargs.get("game_pk")
-        report_type = kwargs.get("report_type")
+    def invoke(data: Dict[str, Any], game_pk, report_type) -> str:
 
         # Verify
         if game_pk is None:

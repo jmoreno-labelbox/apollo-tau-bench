@@ -9,8 +9,8 @@ class SearchIssues(Tool):
     """Searches issues by title, label, or body keyword."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        query = kwargs.get("query", "").lower()
+    def invoke(data: Dict[str, Any], query = "") -> str:
+        query = query.lower()
         results = []
 
         for issue in _issues(data):

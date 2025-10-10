@@ -7,12 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class AddExternalDependency(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        milestone_id = kwargs.get("milestone_id")
-        dependency_name = kwargs.get("dependency_name")
-        provider = kwargs.get("provider")
-        expected_delivery_date = kwargs.get("expected_delivery_date")
-        criticality = kwargs.get("criticality", "medium")
+    def invoke(data: Dict[str, Any], dependency_name, expected_delivery_date, milestone_id, provider, confirmed = False, contact_info = {}, contingency_days = 0, criticality = "medium", dependency_id = f"ext_{uuid.uuid4().hex[:8]}", notice_days = 30) -> str:
 
         if not all([milestone_id, dependency_name, provider, expected_delivery_date]):
             return json.dumps(
@@ -30,19 +25,17 @@ class AddExternalDependency(Tool):
         if not milestone:
             return json.dumps({"error": f"Milestone '{milestone_id}' not found"})
 
-        dependency_id = kwargs.get("dependency_id", f"ext_{uuid.uuid4().hex[:8]}")
-
         new_dependency = {
             "dependency_id": dependency_id,
             "milestone_id": milestone_id,
             "dependency_name": dependency_name,
             "provider": provider,
             "expected_delivery_date": expected_delivery_date,
-            "confirmed": kwargs.get("confirmed", False),
-            "contact_info": kwargs.get("contact_info", {}),
+            "confirmed": confirmed,
+            "contact_info": contact_info,
             "criticality": criticality,
-            "contingency_days": kwargs.get("contingency_days", 0),
-            "notice_days": kwargs.get("notice_days", 30),
+            "contingency_days": contingency_days,
+            "notice_days": notice_days,
             "created_date": datetime.now(timezone.utc).isoformat(),
             "status": "pending",
         }

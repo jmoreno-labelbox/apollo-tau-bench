@@ -9,13 +9,7 @@ from . import generate_unique_id
 
 class SetupScheduledPaymentTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get('customer_id')
-        from_account_id = kwargs.get('from_account_id')
-        beneficiary_id = kwargs.get('beneficiary_id')
-        amount = kwargs.get('amount')
-        frequency = kwargs.get('frequency')
-        start_date = kwargs.get('start_date')
+    def invoke(data: Dict[str, Any], amount, beneficiary_id, customer_id, frequency, from_account_id, start_date) -> str:
 
         scheduled_payments = data.get('scheduled_payments', [])
 

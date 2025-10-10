@@ -9,9 +9,7 @@ class UpdateAdStatus(Tool):
     """Updates the status for a specific ad."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        ad_id = kwargs.get("ad_id")
-        new_status = kwargs.get("new_status")
+    def invoke(data: Dict[str, Any], ad_id, new_status) -> str:
         
         ads = list(data.get("ads", {}).values())
         for ad in ads:

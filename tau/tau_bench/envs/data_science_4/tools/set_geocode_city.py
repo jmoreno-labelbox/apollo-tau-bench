@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SetGeocodeCity(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        city_name = kwargs.get("city_name")
+    def invoke(data: Dict[str, Any], city_name) -> str:
 
         results = list(data.get("geocoding_results", {}).values())
         for result in results:

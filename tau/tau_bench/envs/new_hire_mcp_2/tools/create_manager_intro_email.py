@@ -7,12 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateManagerIntroEmail(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        message_id = kwargs.get("message_id")
-        subject = kwargs.get("subject")
-        body = kwargs.get("body")
-        to_emails = kwargs.get("to_emails", [])
-        candidate_id = kwargs.get("candidate_id")
+    def invoke(data: Dict[str, Any], body, candidate_id, message_id, subject, to_emails = []) -> str:
         InsertEmail.invoke(data, message_id=message_id, subject=subject, body=body, to_emails=to_emails,
                            candidate_id=candidate_id, draft_flag=False, sent_flag=True)
         le = CreateOrGetEmailLabel.invoke

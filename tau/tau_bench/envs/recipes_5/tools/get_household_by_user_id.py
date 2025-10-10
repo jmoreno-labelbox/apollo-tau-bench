@@ -9,8 +9,7 @@ from . import _household_for_user, _first_user_id
 
 class GetHouseholdByUserId(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
+    def invoke(data: Dict[str, Any], user_id) -> str:
         if user_id is None:
             user_id = _first_user_id(data)
         hh = _household_for_user(data, user_id)

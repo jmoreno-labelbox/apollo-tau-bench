@@ -9,8 +9,7 @@ class FindUsersWithRole(Tool):
     """ Find all users who are currently assigned a specific role. """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        role_id = kwargs.get("role_id")
+    def invoke(data: Dict[str, Any], role_id) -> str:
         try:
             all_user_roles = data.get('user_roles', [])
         except:

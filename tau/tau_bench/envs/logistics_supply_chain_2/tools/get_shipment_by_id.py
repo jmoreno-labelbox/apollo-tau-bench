@@ -9,8 +9,7 @@ class GetShipmentById(Tool):
     """Tool to retrieve details of a shipment by shipment ID."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        shipment_id = kwargs.get("shipment_id")
+    def invoke(data: Dict[str, Any], shipment_id) -> str:
         shipments = list(data.get("inbound_shipments", {}).values())
         for shipment in shipments:
             if shipment["shipment_id"] == shipment_id:

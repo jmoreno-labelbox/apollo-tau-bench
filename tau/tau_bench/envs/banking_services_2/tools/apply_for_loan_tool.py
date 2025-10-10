@@ -9,12 +9,8 @@ from . import generate_unique_id
 
 class ApplyForLoanTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get('customer_id')
-        loan_type = kwargs.get('loan_type')
-        requested_amount = kwargs.get('requested_amount')
-        purpose = kwargs.get('purpose')
-        income = kwargs.get('annual_income')
+    def invoke(data: Dict[str, Any], annual_income, customer_id, loan_type, purpose, requested_amount) -> str:
+        income = annual_income
 
         loan_applications = data.get('loan_applications', [])
 

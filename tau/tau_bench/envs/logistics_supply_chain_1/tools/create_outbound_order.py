@@ -8,11 +8,7 @@ from tau_bench.envs.tool import Tool
 class CreateOutboundOrder(Tool):
     """A tool to create a new outbound order in the system."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_name = kwargs.get('customer_name')
-        destination_city = kwargs.get('destination_city')
-        priority_level = kwargs.get('priority_level')
-        line_items = kwargs.get('line_items')
+    def invoke(data: Dict[str, Any], customer_name, destination_city, line_items, priority_level) -> str:
         if not all([customer_name, destination_city, priority_level, line_items]):
             return json.dumps({"error": "customer_name, destination_city, priority_level, and line_items are required."}, indent=2)
         outbound_orders = list(data.get('outbound_orders', {}).values())

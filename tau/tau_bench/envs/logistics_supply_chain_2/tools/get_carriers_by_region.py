@@ -9,10 +9,9 @@ class GetCarriersByRegion(Tool):
     """Tool to retrieve carriers by region."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], list_of_scacs = None, region = None) -> str:
         carriers = list(data.get("carriers", {}).values())
-        region = kwargs.get("region", None)
-        list_of_carriers = kwargs.get("list_of_scacs", None)
+        list_of_carriers = list_of_scacs
         if region:
             active_carriers = [carrier['scac'] for carrier in carriers if carrier.get("active_status") and region.lower() in carrier.get("regional_coverage").lower()]
         else:

@@ -7,13 +7,11 @@ from tau_bench.envs.tool import Tool
 
 class GetThreadBySubject(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        if not kwargs.get("subject"):
+    def invoke(data: Dict[str, Any], label, sender_id, subject) -> str:
+        if not subject:
             return json.dumps({"error": "Missing required field: subject"}, indent=2)
-
-        subject = kwargs.get("subject")
-        sender_id: Optional[str] = kwargs.get("sender_id")
-        label: Optional[str] = kwargs.get("label")
+        sender_id: Optional[str] = sender_id
+        label: Optional[str] = label
 
         threads: List[Dict[str, Any]] = list(data.get("gmail_threads", {}).values())
         results: List[Dict[str, Any]] = []

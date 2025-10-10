@@ -7,16 +7,11 @@ from tau_bench.envs.tool import Tool
 
 class CreateNewAsset(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], artifact_id, export_profile, file_size_bytes, storage_ref) -> str:
         required = ["artifact_id", "export_profile", "file_size_bytes", "storage_ref"]
         missing = [f for f in required if f not in kwargs or kwargs[f] is None]
         if missing:
             return json.dumps({"error": f"Missing required fields: {', '.join(missing)}"}, indent=2)
-
-        artifact_id = kwargs.get("artifact_id")
-        export_profile = kwargs.get("export_profile")
-        file_size_bytes = kwargs.get("file_size_bytes")
-        storage_ref = kwargs.get("storage_ref")
 
         assets = data.get("assets", [])
         asset_id = get_next_asset_id(data)

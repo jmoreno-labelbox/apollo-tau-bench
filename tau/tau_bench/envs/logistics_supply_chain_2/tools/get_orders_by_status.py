@@ -9,9 +9,8 @@ class GetOrdersByStatus(Tool):
     """Tool to retrieve outbound orders by status."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        status = kwargs.get("status")
-        list_of_orders = kwargs.get("list_of_ids", None)
+    def invoke(data: Dict[str, Any], status, list_of_ids = None) -> str:
+        list_of_orders = list_of_ids
         orders = list(data.get("outbound_orders", {}).values())
         result = [order['order_id'] for order in orders if order["status"].lower() == status.lower()]
         if list_of_orders:

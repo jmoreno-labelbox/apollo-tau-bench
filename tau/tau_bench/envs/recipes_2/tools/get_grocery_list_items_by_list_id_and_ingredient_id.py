@@ -9,9 +9,7 @@ class GetGroceryListItemsByListIdAndIngredientId(Tool):
     """Retrieves grocery list items from a specific list that match a given ingredient ID."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        list_id = kwargs.get("list_id")
-        ingredient_id = kwargs.get("ingredient_id")
+    def invoke(data: Dict[str, Any], ingredient_id, list_id) -> str:
 
         if list_id is None or ingredient_id is None:
             return json.dumps({"error": "list_id and ingredient_id parameters are required."})

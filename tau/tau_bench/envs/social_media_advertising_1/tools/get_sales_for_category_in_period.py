@@ -9,10 +9,7 @@ class GetSalesForCategoryInPeriod(Tool):
     """Retrieves sales data for a specific category and date range."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        category = kwargs.get("category")
-        start_date = kwargs.get("start_date")
-        end_date = kwargs.get("end_date")
+    def invoke(data: Dict[str, Any], category, end_date, start_date) -> str:
         sales_data = list(data.get("f_sales", {}).values())
         
         matching_sales = []

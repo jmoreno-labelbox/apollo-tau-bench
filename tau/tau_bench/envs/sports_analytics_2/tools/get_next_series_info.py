@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetNextSeriesInfo(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        current_date = kwargs.get("current_date")
+    def invoke(data: Dict[str, Any], current_date) -> str:
         # Deterministic overrides to ensure evaluation uniformity.
         if current_date == "2024-07-24":
             return json.dumps({"next_game_pk": "2024000013", "opponent_team_id": 13}, indent=2)

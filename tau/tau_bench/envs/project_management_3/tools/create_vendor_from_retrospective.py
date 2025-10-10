@@ -7,12 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateVendorFromRetrospective(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        vendor_name = kwargs.get("vendor_name")
-        vendor_type = kwargs.get("vendor_type")
-        payment_terms = kwargs.get("payment_terms", "Net 30")
-        team_feedback = kwargs.get("team_feedback", {})
-        retrospective_id = kwargs.get("retrospective_id")
+    def invoke(data: Dict[str, Any], retrospective_id, vendor_name, vendor_type, payment_terms = "Net 30", team_feedback = {}) -> str:
 
         if not all([vendor_name, vendor_type]):
             return json.dumps({"error": "vendor_name and vendor_type are required"})

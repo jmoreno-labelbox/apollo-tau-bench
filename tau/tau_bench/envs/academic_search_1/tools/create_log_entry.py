@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class CreateLogEntry(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id,article_id,notes,relevance,log_id_override = kwargs.get('user_id'),kwargs.get('article_id'),kwargs.get('notes'),kwargs.get('relevance', 'medium'),kwargs.get('log_id_override')
+    def invoke(data: Dict[str, Any], article_id, log_id_override, notes, user_id, relevance = 'medium') -> str:
+        user_id,article_id,notes,relevance,log_id_override = user_id,article_id,notes,relevance,log_id_override
 
         if not all([user_id, notes]):
             return json.dumps({"error": "user_id and notes are required."})

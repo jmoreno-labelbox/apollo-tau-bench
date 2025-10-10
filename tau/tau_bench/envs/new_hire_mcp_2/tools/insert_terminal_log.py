@@ -7,10 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class InsertTerminalLog(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], message_text) -> str:
         rows = _ensure_list(data, "terminal_log")
         new_id = _next_seq_id(rows, "entry_id")
-        payload = {"entry_id": new_id, "message_text": kwargs.get("message_text"), "printed_ts": NOW_TS}
+        payload = {"entry_id": new_id, "message_text": message_text, "printed_ts": NOW_TS}
         rows.append(payload)
         return json.dumps({"entry_id": new_id}, indent=2)
 

@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CalculateTransactionTotals(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        line_items = kwargs.get('line_items', [])
-        promotion_ids = kwargs.get('promotion_ids', [])
-        credit_amount = kwargs.get('credit_amount', 0.0)
+    def invoke(data: Dict[str, Any], credit_amount = 0.0, line_items = [], promotion_ids = []) -> str:
 
         products = list(data.get("products", {}).values())  # Ajustado para lista
         promotions = list(data.get("promotions", {}).values())  # Ajustado para lista

@@ -9,8 +9,8 @@ class GetCandidatesNeedingOrientationSchedulingTool(Tool):
     """Identifies candidates ready for orientation based on status, access checks, and missing invitation timestamps."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        days_until_start = _as_int(kwargs.get("days_until_start"))
+    def invoke(data: Dict[str, Any], days_until_start) -> str:
+        days_until_start = _as_int(days_until_start)
         if days_until_start is None:
             return _err("days_until_start (integer) is required")
 

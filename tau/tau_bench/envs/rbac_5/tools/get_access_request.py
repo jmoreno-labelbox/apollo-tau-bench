@@ -20,15 +20,7 @@ class GetAccessRequest(Tool):
       include_resource: bool = False - Include resource details in response
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        request_id = kwargs.get("request_id")
-        user_id = kwargs.get("user_id")
-        status = kwargs.get("status")
-        resource_id = kwargs.get("resource_id")
-        requested_role_id = kwargs.get("requested_role_id")
-        include_user = kwargs.get("include_user", False)
-        include_role = kwargs.get("include_role", False)
-        include_resource = kwargs.get("include_resource", False)
+    def invoke(data: Dict[str, Any], request_id, requested_role_id, resource_id, status, user_id, include_resource = False, include_role = False, include_user = False) -> str:
 
         access_requests = data.get("access_requests", [])
 

@@ -9,9 +9,9 @@ class ProcessLoanApplicationId(Tool):
     """Evaluates a loan application using structured loan approval criteria and updates its status."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id    = kwargs.get("customer_id", "").strip()
-        application_id = kwargs.get("application_id", "").strip()
+    def invoke(data: Dict[str, Any], application_id = "", customer_id = "") -> str:
+        customer_id    = customer_id.strip()
+        application_id = application_id.strip()
         if not customer_id or not application_id:
             return json.dumps({"error": "customer_id and application_id are required."}, indent=2)
 

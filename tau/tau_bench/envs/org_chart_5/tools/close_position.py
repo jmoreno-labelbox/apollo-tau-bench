@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class close_position(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        position_id = kwargs.get("position_id")
+    def invoke(data: Dict[str, Any], position_id) -> str:
         positions = data.get("positions", [])
         position_to_close = next(
             (p for p in positions if p.get("position_id") == position_id), None

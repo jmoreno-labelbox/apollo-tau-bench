@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetPromotionsByStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        status = kwargs.get('status')
+    def invoke(data: Dict[str, Any], status) -> str:
         promotions = list(data.get("promotions", {}).values())
         results = [promo for promo in promotions if promo.get("status") == status]
         return json.dumps(results)

@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SetCandidateFields(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        candidate_id = kwargs.get("candidate_id")
-        fields = kwargs.get("fields", {})
+    def invoke(data: Dict[str, Any], candidate_id, fields = {}) -> str:
         rows = _ensure_list(data, "candidates")
         row = _find_by_key(rows, "candidate_id", candidate_id)
         if row:

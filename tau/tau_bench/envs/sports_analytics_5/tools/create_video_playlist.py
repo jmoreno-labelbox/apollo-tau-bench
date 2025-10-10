@@ -9,15 +9,15 @@ from . import _require_tables
 class CreateVideoPlaylist(Tool):
     """Create a video_playlists row for a report. Enforces non-negative counts; when using dev categories, enforces clip ranges."""
     @staticmethod
-    def invoke(data, **kwargs)->str:
+    def invoke(data, clip_count, playlist_name, report_id, internal_portal_link = f"https://portal.internal/videos/report/{kwargs.get('report_id')}/playlist/{new_id}")->str:
         err = _require_tables(data, ["video_playlists"])
         if err:
             return json.dumps({"error": err}, indent=2)
         need = _check_required(kwargs, ["report_id","playlist_name","clip_count"])
         if need:
             return json.dumps({"error": need}, indent=2)
-        name = kwargs.get("playlist_name")
-        cc = kwargs.get("clip_count")
+        name = playlist_name
+        cc = clip_count
         try:
             cc_int = int(cc)
         except Exception:
@@ -31,10 +31,10 @@ class CreateVideoPlaylist(Tool):
 
         rows = list(data.get("video_playlists", {}).values())
         new_id = _next_id(rows, "playlist_id")
-        link = kwargs.get("internal_portal_link", f"https://portal.internal/videos/report/{kwargs.get('report_id')}/playlist/{new_id}")
+        link = internal_portal_link
         row = {
             "playlist_id": new_id,
-            "report_id": kwargs.get("report_id"),
+            "report_id": report_id,
             "playlist_name": name,
             "internal_portal_link": link,
             "clip_count": cc_int

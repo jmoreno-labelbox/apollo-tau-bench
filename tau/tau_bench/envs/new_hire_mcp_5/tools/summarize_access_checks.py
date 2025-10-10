@@ -15,8 +15,8 @@ class SummarizeAccessChecks(Tool):
         return re.sub(r"[^A-Za-z0-9]+", "_", s or "").strip("_") or "unknown"
 
     @staticmethod
-    def invoke(db: Dict[str, Any], **kwargs) -> str:
-        cand_id = kwargs["candidate_id"]
+    def invoke(db: Dict[str, Any], candidate_id) -> str:
+        cand_id = candidate_id
         cand_row = next((r for r in db.get("candidates", []) if r.get("candidate_id") == cand_id), None)
         name = cand_row.get("candidate_name") if cand_row else cand_id
         checks = [r for r in db.get("access_checks", []) if r.get("candidate_id") == cand_id]

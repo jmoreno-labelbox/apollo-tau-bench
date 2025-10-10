@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetResourcesByOwner(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner_id = kwargs.get("owner_id")
+    def invoke(data: Dict[str, Any], owner_id) -> str:
 
         owned_resources = [
                 resource for resource in data.get('resources', [])

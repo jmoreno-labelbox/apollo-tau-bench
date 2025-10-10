@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GenerateAuditReportAsset(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], file_size_bytes, report_storage_ref) -> str:
         required = ["audit_id", "report_storage_ref", "file_size_bytes"]
         missing = [f for f in required if f not in kwargs or kwargs[f] is None]
         if missing:
@@ -21,8 +21,8 @@ class GenerateAuditReportAsset(Tool):
             "asset_id": asset_id,
             "artifact_id_nullable": None,
             "export_profile": "PDF",
-            "file_size_bytes": kwargs["file_size_bytes"],
-            "storage_ref": kwargs["report_storage_ref"],
+            "file_size_bytes": file_size_bytes,
+            "storage_ref": report_storage_ref,
             "created_ts": created_ts,
             "dlp_scan_status": "CLEAN",
             "dlp_scan_details_nullable": None

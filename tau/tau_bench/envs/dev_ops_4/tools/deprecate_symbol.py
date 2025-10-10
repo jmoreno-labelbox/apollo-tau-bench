@@ -24,8 +24,7 @@ class DeprecateSymbol(Tool):
         }
 
     @staticmethod
-    def invoke(data, **kwargs):
-        symbol_id = kwargs.get("symbol_id")
+    def invoke(data, symbol_id):
         symbols = list(data.get("symbols", {}).values())
         sym = next((s for s in symbols if s.get("id") == symbol_id), None)
         if not sym:

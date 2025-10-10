@@ -21,9 +21,7 @@ class UpdateAccountPreferencesTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
-        preferences = kwargs.get("preferences", {})
+    def invoke(data: Dict[str, Any], customer_id, preferences = {}) -> str:
 
         if not customer_id or not isinstance(preferences, dict):
             return json.dumps(

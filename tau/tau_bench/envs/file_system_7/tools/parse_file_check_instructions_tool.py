@@ -29,8 +29,7 @@ class ParseFileCheckInstructionsTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        task_id = kwargs["task_id"]
+    def invoke(data: Dict[str, Any], task_id) -> str:
         task_details = next(
             (t for t in data.get("file_check_db", []) if t["task_id"] == task_id), None
         )

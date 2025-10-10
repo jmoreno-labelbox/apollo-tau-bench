@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class GetProductByName(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        n = kwargs.get("product_name")
+    def invoke(data: Dict[str, Any], product_name) -> str:
+        n = product_name
         for p in list(data.get("dim_product", {}).values()):
             if p.get("name") == n:
                 return json.dumps(p)

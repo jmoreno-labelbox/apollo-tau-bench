@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetProbablePitchers(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        team_id = kwargs.get("team_id")
+    def invoke(data: Dict[str, Any], team_id) -> str:
         # Fixed response: provide two pitchers for team 13; otherwise, return an empty result.
         if team_id == 13:
             return json.dumps({"probable_pitcher_ids": [101, 102]}, indent=2)

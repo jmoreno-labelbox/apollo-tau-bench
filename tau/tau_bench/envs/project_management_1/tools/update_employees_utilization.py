@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateEmployeesUtilization(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-
-        employee_ids = kwargs.get("employee_ids", [])
+    def invoke(data: Dict[str, Any], employee_ids = []) -> str:
 
         if not employee_ids:
             return json.dumps({"error": "employee_ids is required"})

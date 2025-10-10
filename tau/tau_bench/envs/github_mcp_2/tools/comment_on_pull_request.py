@@ -9,10 +9,7 @@ class CommentOnPullRequest(Tool):
     """Adds a human comment to the pull request discussion thread."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_name = kwargs.get("repo_name")
-        pr_number = kwargs.get("pr_number")
-        comment = kwargs.get("comment")
+    def invoke(data: Dict[str, Any], comment, pr_number, repo_name) -> str:
 
         if not all([repo_name, pr_number, comment]):
             return json.dumps({"error": "repo_name, pr_number and comment are required."}, indent=2)

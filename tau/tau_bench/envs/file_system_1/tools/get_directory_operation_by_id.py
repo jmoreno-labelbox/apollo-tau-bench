@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetDirectoryOperationByID(Tool):
     """Retrieves a file organization (directory operation) task by its ID."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        operation_id = kwargs.get("operation_id")
+    def invoke(data: Dict[str, Any], operation_id) -> str:
         for op in data.get('directories', []):
             if op.get('operation_id') == operation_id:
                 return json.dumps(op)

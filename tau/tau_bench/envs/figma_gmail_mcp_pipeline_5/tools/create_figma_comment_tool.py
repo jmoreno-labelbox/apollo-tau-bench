@@ -9,12 +9,12 @@ class CreateFigmaCommentTool(Tool):
     """Create an anchored comment on an artifact. Deterministic comment_id from inputs."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        artifact_id = _require_str(kwargs.get("artifact_id"), "artifact_id")
-        author_email = _require_str(kwargs.get("author_email"), "author_email")
-        body = _require_str(kwargs.get("body"), "body")
-        anchor_ref = _require_str(kwargs.get("anchor_ref"), "anchor_ref")
-        created_ts = _require_str(kwargs.get("created_ts"), "created_ts")
+    def invoke(data: Dict[str, Any], anchor_ref, artifact_id, author_email, body, created_ts) -> str:
+        artifact_id = _require_str(artifact_id, "artifact_id")
+        author_email = _require_str(author_email, "author_email")
+        body = _require_str(body, "body")
+        anchor_ref = _require_str(anchor_ref, "anchor_ref")
+        created_ts = _require_str(created_ts, "created_ts")
         if not all([artifact_id, author_email, body, anchor_ref, created_ts]):
             return json.dumps({"error":"artifact_id, author_email, body, anchor_ref, created_ts are required"})
 

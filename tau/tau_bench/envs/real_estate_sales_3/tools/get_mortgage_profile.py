@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetMortgageProfile(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        client_id = kwargs.get("client_id")
+    def invoke(data: Dict[str, Any], client_id) -> str:
         profiles = data.get("mortgage_profiles") or data.get("mortage_profiles") or []  
         prof = next((m for m in profiles if m.get("client_id") == client_id), None)
         if not prof:

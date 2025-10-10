@@ -31,10 +31,10 @@ class ExportReportCsv(Tool):
         return ExportReportCsv._slug(base)
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        rows: List[Dict[str, Any]] = kwargs.get("rows") or []
-        out_path: str = kwargs.get("out_path", "")
-        delimiter: str = kwargs.get("delimiter", ",")
+    def invoke(data: Dict[str, Any], rows, delimiter = ",", out_path = "") -> str:
+        rows: List[Dict[str, Any]] = rows or []
+        out_path: str = out_path
+        delimiter: str = delimiter
 
         if not out_path:
             base = ExportReportCsv._infer_basename(rows)

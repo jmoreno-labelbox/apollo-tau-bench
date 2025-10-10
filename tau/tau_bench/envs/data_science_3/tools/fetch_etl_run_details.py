@@ -7,10 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class FetchETLRunDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], run_id, run_name) -> str:
         runs = data.get("etl_runs", []) or []
-        rid = kwargs.get("run_id")
-        rname = kwargs.get("run_name")
+        rid = run_id
+        rname = run_name
         row = None
         if rid is not None:
             row = next((r for r in runs if str(r.get("run_id"))==str(rid)), None)

@@ -8,16 +8,16 @@ from tau_bench.envs.tool import Tool
 
 class CreateProject(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], default_hourly_rate, isbn, project_id, project_title, publisher_id) -> str:
         """
         Creates a new project for a publisher.
         """
         new_project = {
-            "project_id": kwargs["project_id"],
-            "publisher_id": kwargs["publisher_id"],
-            "isbn": kwargs["isbn"],
-            "project_title": kwargs["project_title"],
-            "default_hourly_rate": kwargs["default_hourly_rate"],
+            "project_id": project_id,
+            "publisher_id": publisher_id,
+            "isbn": isbn,
+            "project_title": project_title,
+            "default_hourly_rate": default_hourly_rate,
             "is_active": True,
             "created_at": datetime.now().isoformat(),
             "updated_at": datetime.now().isoformat()

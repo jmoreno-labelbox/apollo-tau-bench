@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SearchPurchaseOrders(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        supplier_id = kwargs.get("supplier_id")
-        status = kwargs.get("status")
+    def invoke(data: Dict[str, Any], status, supplier_id) -> str:
 
         # Lacking purchase_orders data, we will query inbound_shipments instead.
         # denotes orders that have been submitted and are currently in the fulfillment process

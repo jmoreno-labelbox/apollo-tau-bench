@@ -9,8 +9,7 @@ class FindSupplierByName(Tool):
     """Finds a supplier's ID and lead time by its name."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        supplier_name = kwargs.get("supplier_name")
+    def invoke(data: Dict[str, Any], supplier_name) -> str:
         suppliers = list(data.get("supplier_master", {}).values())
         for supplier in suppliers:
             if supplier.get("supplier_name") == supplier_name:

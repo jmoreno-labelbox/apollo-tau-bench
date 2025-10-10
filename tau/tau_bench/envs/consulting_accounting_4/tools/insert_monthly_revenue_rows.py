@@ -7,10 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class InsertMonthlyRevenueRows(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], items, snapshot_id) -> str:
         rows_tbl = data.get("monthly_revenue", [])
-        snapshot_id = kwargs.get("snapshot_id")
-        items = kwargs.get("items") or []
+        items = items or []
         inserted = []
         
         max_id = 0

@@ -9,8 +9,7 @@ class SearchIngredientsByName(Tool):
     """Searches for ingredients with names containing the specified text."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        name_query = kwargs.get("name_query")
+    def invoke(data: Dict[str, Any], name_query) -> str:
         if not name_query:
             return json.dumps({"error": "name_query parameter is required."})
 

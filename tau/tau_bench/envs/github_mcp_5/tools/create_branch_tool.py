@@ -7,11 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class CreateBranchTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get('owner')
-        repo = kwargs.get('repo')
-        new_branch_name = kwargs.get('branch_name')
-        sha = kwargs.get('sha')
+    def invoke(data: Dict[str, Any], branch_name, owner, repo, sha) -> str:
+        new_branch_name = branch_name
 
         if not all([owner, repo, new_branch_name, sha]):
             return json.dumps({

@@ -9,11 +9,10 @@ class UpdateCertificationStatusTool(Tool):
     """Update the status of a certification review (write operation)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], certification_id, completed_on, status) -> str:
         certs = data.get("certifications", [])
-        cert_id = kwargs.get("certification_id")
-        new_status = kwargs.get("status")
-        completed_on = kwargs.get("completed_on")
+        cert_id = certification_id
+        new_status = status
 
         if not isinstance(cert_id, str):
             return json.dumps({"error": "certification_id must be provided"}, indent=2)

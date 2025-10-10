@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetTrackingInfo(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        tracking_id = kwargs.get('tracking_id')
-        order_id = kwargs.get('order_id')
+    def invoke(data: Dict[str, Any], order_id, tracking_id) -> str:
 
         if not tracking_id and not order_id:
             return json.dumps({'error': 'Either tracking_id or order_id is required'})

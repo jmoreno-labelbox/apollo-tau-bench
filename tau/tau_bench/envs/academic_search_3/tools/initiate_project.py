@@ -8,12 +8,12 @@ from tau_bench.envs.tool import Tool
 class InitiateProject(Tool):
     """Tool to create a new research project."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], lead_researcher_id, project_name) -> str:
         projects = list(data.get('projects', {}).values())
         new_project = {
             "project_id": f"proj_{len(projects) + 1:02d}",
-            "project_name": kwargs.get('project_name'),
-            "lead_researcher_id": kwargs.get('lead_researcher_id'),
+            "project_name": project_name,
+            "lead_researcher_id": lead_researcher_id,
             "status": "new",
             "start_date": datetime.now().strftime('%Y-%m-%d'),
             "end_date": None,

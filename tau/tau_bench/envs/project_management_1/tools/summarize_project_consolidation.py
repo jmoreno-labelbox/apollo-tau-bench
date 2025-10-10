@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SummarizeProjectConsolidation(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        consolidated_to = kwargs.get("consolidated_to")
-        total_hours = kwargs.get("total_hours")
-        team_size = kwargs.get("team_size")
-        consolidated_projects = kwargs.get("consolidated_projects", [])
+    def invoke(data: Dict[str, Any], consolidated_to, team_size, total_hours, consolidated_projects = []) -> str:
 
         if not all([consolidated_to, total_hours is not None, team_size is not None]):
             return json.dumps(

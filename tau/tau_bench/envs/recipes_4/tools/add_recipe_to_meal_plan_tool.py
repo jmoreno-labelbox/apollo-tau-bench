@@ -48,7 +48,7 @@ class AddRecipeToMealPlanTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> Dict[str, Any]:
+    def invoke(data: Dict[str, Any], meal_plan_id, plan_date, recipe_id, user_id, meal_type = "Dinner", notes = "", servings_adult = 2, servings_child = 0) -> Dict[str, Any]:
         """
         Executes the logic to create a new meal plan entry.
 
@@ -74,12 +74,6 @@ class AddRecipeToMealPlanTool(Tool):
         validation_error = _validate_inputs(kwargs, param_definitions)
         if validation_error:
             return _build_error_response(validation_error["error_code"], validation_error["details"])
-
-        meal_plan_id = kwargs["meal_plan_id"]
-        recipe_id = kwargs["recipe_id"]
-        plan_date = kwargs["plan_date"]
-        meal_type = kwargs.get("meal_type", "Dinner")
-        user_id = kwargs.get("user_id")
 
         # 2. Preconditions Verification
         meal_plan_record = next((p for p in data.get("meal_plans", []) if p.get("meal_plan_id") == meal_plan_id), None)
@@ -114,9 +108,9 @@ class AddRecipeToMealPlanTool(Tool):
             "plan_date": plan_date,
             "meal_type": meal_type,
             "recipe_id": recipe_id,
-            "servings_adult": kwargs.get("servings_adult", 2),
-            "servings_child": kwargs.get("servings_child", 0),
-            "notes": kwargs.get("notes", "")
+            "servings_adult": servings_adult,
+            "servings_child": servings_child,
+            "notes": notes
         }
         entries_table.append(new_entry_record)
 

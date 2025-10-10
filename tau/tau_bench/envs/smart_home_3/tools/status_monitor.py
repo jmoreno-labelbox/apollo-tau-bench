@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class StatusMonitor(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        report_type = kwargs.get('report_type', 'summary')
-        category = kwargs.get('category')
+    def invoke(data: Dict[str, Any], category, report_type = 'summary') -> str:
 
         status = {}
 

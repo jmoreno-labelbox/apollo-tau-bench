@@ -9,9 +9,7 @@ class FindTemplateFilesByTypeTool(Tool):
     """Searches onboarding_files table for available templates, filtering by content type and last update."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        template_category = kwargs.get("template_category")
-        mime_type = kwargs.get("mime_type")
+    def invoke(data: Dict[str, Any], mime_type, template_category) -> str:
 
         if not template_category:
             return _err("template_category is required")

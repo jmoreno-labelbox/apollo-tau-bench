@@ -23,9 +23,7 @@ class UpdateTrackingCourierTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        tracking_id = kwargs.get("tracking_id")
-        courier_name = kwargs.get("courier_name")
+    def invoke(data: Dict[str, Any], courier_name, tracking_id) -> str:
 
         if not tracking_id or not courier_name:
             return json.dumps({"error": "tracking_id and courier_name are required"}, indent=2)

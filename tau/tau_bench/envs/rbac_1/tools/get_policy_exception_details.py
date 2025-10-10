@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetPolicyExceptionDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        exception_id = kwargs.get("exception_id")
+    def invoke(data: Dict[str, Any], exception_id) -> str:
         for ex in data.get('policy_exceptions', []):
             if ex.get('exception_id') == exception_id:
                 return json.dumps(ex)

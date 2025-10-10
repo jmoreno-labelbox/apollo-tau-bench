@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateStockLevel(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        inventory_id = kwargs.get('inventory_id')
-        quantity_to_add = kwargs.get('quantity_to_add')
+    def invoke(data: Dict[str, Any], inventory_id, quantity_to_add) -> str:
         inventory = list(data.get("inventory", {}).values())  # Ajustado para lista
 
         found_item = None

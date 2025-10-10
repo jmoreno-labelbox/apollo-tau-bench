@@ -9,16 +9,7 @@ class CreateInboundShipment(Tool):
     """Creates a new inbound shipment record, which also serves as a Purchase Order."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # --- Retrieve necessary parameters from kwargs ---
-        supplier_id = kwargs.get("supplier_id")
-        # supplier_name = kwargs.get("supplier_name")
-        destination_warehouse_id = kwargs.get("destination_warehouse_id")
-        # destination_warehouse_name = kwargs.get("destination_warehouse_name")
-        order_quantity = kwargs.get("order_quantity")
-        unit_cost = kwargs.get("unit_cost")
-        unit_weight = kwargs.get("unit_weight")
-        expected_arrival_date = kwargs.get("expected_arrival_date")
+    def invoke(data: Dict[str, Any], destination_warehouse_id, expected_arrival_date, order_quantity, supplier_id, unit_cost, unit_weight, actual_arrival_date = None, actual_departure_date = None, bill_of_lading = None, carrier_name = None, carrier_scac = None, container_number = None, customs_entry_number = None, destination_address = destination_warehouse_details.get("address"), destination_city = destination_warehouse_details.get("city"), destination_country = destination_warehouse_details.get("country"), duty_paid = False, expected_departure_date = None, hazmat = False, hazmat_class = None, incoterms = "FOB", insurance_policy_number = None, insurance_provider = None, mode_of_transport = "Sea", notes = None, number_of_packages = max(1, round(order_quantity / 100)), origin_address = supplier_address.get("street"), origin_city = supplier_address.get("city"), origin_country = supplier_address.get("country"), priority_level = "Medium", temperature_celsius = None, temperature_control_required = False, total_volume_cbm = None, tracking_number = None, value_currency = "USD") -> str:
 
         # --- Manage possible absence of mandatory parameters ---
         if not all(
@@ -79,61 +70,46 @@ class CreateInboundShipment(Tool):
             "purchase_order_number": new_po_number,
             "supplier_id": supplier_id,
             "supplier_name": supplier_details.get("supplier_name"),
-            "origin_address": kwargs.get(
-                "origin_address", supplier_address.get("street")
-            ),
-            "origin_city": kwargs.get("origin_city", supplier_address.get("city")),
-            "origin_country": kwargs.get(
-                "origin_country", supplier_address.get("country")
-            ),
+            "origin_address": origin_address,
+            "origin_city": origin_city,
+            "origin_country": origin_country,
             "destination_warehouse_id": destination_warehouse_id,
             "destination_warehouse_name": destination_warehouse_details.get(
                 "warehouse_name"
             ),
-            "destination_address": kwargs.get(
-                "destination_address", destination_warehouse_details.get("address")
-            ),
-            "destination_city": kwargs.get(
-                "destination_city", destination_warehouse_details.get("city")
-            ),
-            "destination_country": kwargs.get(
-                "destination_country", destination_warehouse_details.get("country")
-            ),
-            "carrier_name": kwargs.get("carrier_name", None),
-            "carrier_scac": kwargs.get("carrier_scac", None),
-            "mode_of_transport": kwargs.get("mode_of_transport", "Sea"),
-            "incoterms": kwargs.get("incoterms", "FOB"),
-            "container_number": kwargs.get("container_number", None),
-            "bill_of_lading": kwargs.get("bill_of_lading", None),
-            "tracking_number": kwargs.get("tracking_number", None),
-            "expected_departure_date": kwargs.get("expected_departure_date", None),
+            "destination_address": destination_address,
+            "destination_city": destination_city,
+            "destination_country": destination_country,
+            "carrier_name": carrier_name,
+            "carrier_scac": carrier_scac,
+            "mode_of_transport": mode_of_transport,
+            "incoterms": incoterms,
+            "container_number": container_number,
+            "bill_of_lading": bill_of_lading,
+            "tracking_number": tracking_number,
+            "expected_departure_date": expected_departure_date,
             "expected_arrival_date": expected_arrival_date,
-            "actual_departure_date": kwargs.get("actual_departure_date", None),
-            "actual_arrival_date": kwargs.get("actual_arrival_date", None),
+            "actual_departure_date": actual_departure_date,
+            "actual_arrival_date": actual_arrival_date,
             "status": "Planned",
-            "number_of_packages": kwargs.get(
-                "number_of_packages",
-                max(1, round(order_quantity / 100)),  # type: ignore
-            ),
+            "number_of_packages": number_of_packages,
             "total_weight_kg": round(order_quantity * unit_weight, 2),  # type: ignore
-            "total_volume_cbm": kwargs.get("total_volume_cbm", None),
+            "total_volume_cbm": total_volume_cbm,
             "unit_of_measure_weight": "kg",
             "unit_of_measure_volume": "cbm",
             "customs_clearance_status": "Scheduled",
-            "customs_entry_number": kwargs.get("customs_entry_number", None),
-            "duty_paid": kwargs.get("duty_paid", False),
-            "temperature_control_required": kwargs.get(
-                "temperature_control_required", False
-            ),
-            "temperature_celsius": kwargs.get("temperature_celsius", None),
-            "hazmat": kwargs.get("hazmat", False),
-            "hazmat_class": kwargs.get("hazmat_class", None),
-            "value_currency": kwargs.get("value_currency", "USD"),
+            "customs_entry_number": customs_entry_number,
+            "duty_paid": duty_paid,
+            "temperature_control_required": temperature_control_required,
+            "temperature_celsius": temperature_celsius,
+            "hazmat": hazmat,
+            "hazmat_class": hazmat_class,
+            "value_currency": value_currency,
             "total_value": round(order_quantity * unit_cost, 2),  # type: ignore
-            "insurance_policy_number": kwargs.get("insurance_policy_number", None),
-            "insurance_provider": kwargs.get("insurance_provider", None),
-            "priority_level": kwargs.get("priority_level", "Medium"),
-            "notes": kwargs.get("notes", None),
+            "insurance_policy_number": insurance_policy_number,
+            "insurance_provider": insurance_provider,
+            "priority_level": priority_level,
+            "notes": notes,
         }
         inbound_shipments.append(new_shipment)
 

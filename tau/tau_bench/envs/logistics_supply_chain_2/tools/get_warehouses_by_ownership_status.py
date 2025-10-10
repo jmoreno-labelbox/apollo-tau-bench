@@ -9,9 +9,7 @@ class GetWarehousesByOwnershipStatus(Tool):
     """Tool to retrieve a warehouses by ownership status."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        ownership_status = kwargs.get("ownership_status")
-        list_of_ids = kwargs.get("list_of_ids", [])
+    def invoke(data: Dict[str, Any], ownership_status, list_of_ids = []) -> str:
         warehouses = list(data.get("warehouses", {}).values())
         result = []
         for warehouse in warehouses:

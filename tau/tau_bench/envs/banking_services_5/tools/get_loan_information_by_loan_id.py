@@ -9,9 +9,9 @@ class GetLoanInformationByLoanId(Tool):
     """Fetches loan details using a loan ID and verifies it belongs to the specified customer."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id", "").strip()
-        loan_id     = kwargs.get("loan_id", "").strip()
+    def invoke(data: Dict[str, Any], customer_id = "", loan_id = "") -> str:
+        customer_id = customer_id.strip()
+        loan_id     = loan_id.strip()
 
         if not customer_id or not loan_id:
             return json.dumps({"error": "customer_id and loan_id are required."}, indent=2)

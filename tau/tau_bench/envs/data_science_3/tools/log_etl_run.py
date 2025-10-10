@@ -8,7 +8,7 @@ from . import _fixed_now_iso
 
 class LogETLRun(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], rows_processed, run_name, status, task) -> str:
         runs = data.get("etl_runs", [])
         max_id = 0
         for r in runs:
@@ -20,10 +20,10 @@ class LogETLRun(Tool):
         new_id = max_id + 1
         row = {
             "run_id": new_id,
-            "run_name": kwargs.get("run_name"),
-            "task": kwargs.get("task"),
-            "status": kwargs.get("status"),
-            "rows_processed": kwargs.get("rows_processed"),
+            "run_name": run_name,
+            "task": task,
+            "status": status,
+            "rows_processed": rows_processed,
             "started_at": _fixed_now_iso(),
             "finished_at": _fixed_now_iso()
         }

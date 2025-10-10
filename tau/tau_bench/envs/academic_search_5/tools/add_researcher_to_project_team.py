@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class AddResearcherToProjectTeam(Tool):
     """Tool to add a researcher to a project's team."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get('project_id')
-        user_id = kwargs.get('user_id')
+    def invoke(data: Dict[str, Any], project_id, user_id) -> str:
         if not project_id or not user_id:
             return json.dumps({"error": "project_id and user_id are required."})
 

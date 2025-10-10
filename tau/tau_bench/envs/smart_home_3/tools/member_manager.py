@@ -7,14 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class MemberManager(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], lives_in_house, member_id, relation, action = 'get', field_updates = {}, member_data = {}) -> str:
         members = list(data.get('members', {}).values())
-        action = kwargs.get('action', 'get')
-        member_id = kwargs.get('member_id')
-        relation = kwargs.get('relation')
-        lives_in_house = kwargs.get('lives_in_house')
-        member_data = kwargs.get('member_data', {})
-        field_updates = kwargs.get('field_updates', {})
 
         if action == 'get':
             result = [m for m in members if (not member_id or m['id'] == member_id) and

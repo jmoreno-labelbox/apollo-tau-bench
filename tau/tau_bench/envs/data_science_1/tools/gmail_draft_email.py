@@ -8,15 +8,15 @@ from . import _require
 
 class GmailDraftEmail(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], body_preview_nullable, created_ts, draft_id, recipients, subject, attachments_paths = []) -> str:
         req = ["draft_id", "subject", "recipients"]
         err = _require(kwargs, req)
         if err: return err
-        row = {"draft_id_nullable": kwargs["draft_id"], "message_id_nullable": None,
-               "subject": kwargs["subject"], "recipients": kwargs["recipients"],
-               "body_preview_nullable": kwargs.get("body_preview_nullable"),
-               "attachments_paths": kwargs.get("attachments_paths", []),
-               "status": "drafted", "created_ts": kwargs.get("created_ts"), "sent_ts_nullable": None}
+        row = {"draft_id_nullable": draft_id, "message_id_nullable": None,
+               "subject": subject, "recipients": recipients,
+               "body_preview_nullable": body_preview_nullable,
+               "attachments_paths": attachments_paths,
+               "status": "drafted", "created_ts": created_ts, "sent_ts_nullable": None}
         return json.dumps(_append(data.setdefault("gmail_messages", []), row), indent=2)
 
     @staticmethod

@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ValidateChangeCompliance(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cr_id = kwargs.get("cr_id")
-        compliance_checklist = kwargs.get("compliance_checklist", [])
+    def invoke(data: Dict[str, Any], cr_id, compliance_checklist = []) -> str:
 
         if not cr_id:
             return json.dumps({"error": "cr_id is required"})

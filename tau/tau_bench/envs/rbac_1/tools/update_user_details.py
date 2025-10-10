@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateUserDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
-        new_username = kwargs.get("new_username")
-        new_email = kwargs.get("new_email")
+    def invoke(data: Dict[str, Any], new_email, new_username, user_id) -> str:
 
         for user in list(data.get('users', {}).values()):
             if user.get('user_id') == user_id:

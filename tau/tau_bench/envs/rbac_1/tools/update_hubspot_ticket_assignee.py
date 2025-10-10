@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateHubspotTicketAssignee(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        ticket_id = kwargs.get("ticket_id")
-        new_assignee_id = kwargs.get("new_assignee_id")
+    def invoke(data: Dict[str, Any], new_assignee_id, ticket_id) -> str:
         for ticket in data.get('hubspot_tickets', []):
             if ticket.get('ticket_id') == ticket_id:
                 ticket['assignee_id'] = new_assignee_id

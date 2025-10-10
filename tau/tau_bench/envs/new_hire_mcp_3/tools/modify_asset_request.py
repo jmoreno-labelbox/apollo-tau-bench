@@ -8,9 +8,8 @@ from . import _fixed_now_iso
 
 class ModifyAssetRequest(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        updates = kwargs.get("updates") or {}
-        request_id = kwargs.get("request_id")
+    def invoke(data: Dict[str, Any], request_id, updates) -> str:
+        updates = updates or {}
         requests = list(data.get("asset_requests", {}).values())
         for r in requests:
             if r.get("request_id") == request_id:

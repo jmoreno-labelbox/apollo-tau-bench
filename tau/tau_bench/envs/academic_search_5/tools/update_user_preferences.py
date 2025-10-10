@@ -8,10 +8,7 @@ from tau_bench.envs.tool import Tool
 class UpdateUserPreferences(Tool):
     """Tool to update a user's preferences."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get('user_id')
-        notification_channel = kwargs.get('notification_channel')
-        ui_theme = kwargs.get('ui_theme')
+    def invoke(data: Dict[str, Any], notification_channel, ui_theme, user_id) -> str:
         if not user_id or not (notification_channel or ui_theme):
             return json.dumps({"error": "user_id and at least one preference to update are required."})
 

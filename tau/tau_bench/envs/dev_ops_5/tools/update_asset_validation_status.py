@@ -8,9 +8,9 @@ from tau_bench.envs.tool import Tool
 class UpdateAssetValidationStatus(Tool):
     """Updates the validation status of an asset."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        asset_id = kwargs.get("id")
-        new_status = kwargs.get("validation_status")
+    def invoke(data: Dict[str, Any], id, validation_status) -> str:
+        asset_id = id
+        new_status = validation_status
         assets = data.get("asset_catalog", [])
         for asset in assets:
             if asset.get("id") == asset_id:

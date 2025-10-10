@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class PostToSlack(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        channel = kwargs.get("channel")
-        report_link = kwargs.get("report_link")
-        playlist_links = kwargs.get("playlist_links", [])
-        report_id = kwargs.get("report_id")
+    def invoke(data: Dict[str, Any], channel, report_id, report_link, playlist_links = []) -> str:
         return json.dumps({"post_status": "posted"}, indent=2)
 
     @staticmethod

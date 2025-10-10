@@ -8,10 +8,8 @@ from tau_bench.envs.tool import Tool
 class ResolveAlert(Tool):
     """Resolve a code scanning alert by id."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get("owner") or _actor_name(data)
-        repo = kwargs.get("repo")
-        alert_id = kwargs.get("alert_id")
+    def invoke(data: Dict[str, Any], alert_id, owner, repo) -> str:
+        owner = owner or _actor_name(data)
         for a in _alerts(data):
             if a.get("owner") == owner and a.get("repo") == repo and a.get("id") == alert_id:
                 a["state"] = "resolved"

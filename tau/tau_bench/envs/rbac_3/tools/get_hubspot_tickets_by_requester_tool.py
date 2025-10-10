@@ -9,9 +9,9 @@ class GetHubspotTicketsByRequesterTool(Tool):
     """get_hubspot_tickets_by_requester: filter tickets by requester."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], requester_id) -> str:
         return ListHubspotTicketsTool.invoke(
-            data, requester_id=kwargs.get("requester_id")
+            data, requester_id=requester_id
         )
 
     @staticmethod

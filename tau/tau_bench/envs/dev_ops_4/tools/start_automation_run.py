@@ -8,10 +8,7 @@ from tau_bench.envs.tool import Tool
 class StartAutomationRun(Tool):
     """Start an automation run (build triage, asset_qa, testing)."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        automation_type = kwargs.get("automation_type")  # triage_development, quality_assessment, validation
-        input_ref = kwargs.get("input_ref")
-        automation_run_id = kwargs.get("automation_run_id")
+    def invoke(data: Dict[str, Any], automation_run_id, automation_type, input_ref) -> str:
         run = {
             "id": automation_run_id,
             "automation_type": automation_type,

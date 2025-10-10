@@ -36,7 +36,7 @@ class GetMealHistoryTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> Dict[str, Any]:
+    def invoke(data: Dict[str, Any], days_back, household_id) -> Dict[str, Any]:
         """
         Executes the logic to find and return a household's meal history.
 
@@ -61,9 +61,6 @@ class GetMealHistoryTool(Tool):
                 validation_error["error_code"],
                 validation_error["details"]
             )
-
-        household_id = kwargs["household_id"]
-        days_back = kwargs.get("days_back")
 
         # 2. Preconditions Validation: Verify the existence of the household.
         if not any(h for h in data.get("households", []) if h.get("household_id") == household_id):

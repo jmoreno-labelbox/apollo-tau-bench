@@ -21,10 +21,9 @@ class GetBullpenSessionInfoForPlayer(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        playerid = kwargs.get("playerid")
-        date_filter = kwargs.get("date")
-        type_filter = kwargs.get("type")
+    def invoke(data: Dict[str, Any], date, playerid, type) -> str:
+        date_filter = date
+        type_filter = type
 
         # 1) Check for mandatory input validity
         if playerid is None:

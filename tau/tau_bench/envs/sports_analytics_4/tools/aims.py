@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class Aims(Tool):
     @staticmethod
         # primary execution function
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        goal_count_per_player = kwargs.get("goal_count_per_player", 2)
+    def invoke(data: Dict[str, Any], goal_count_per_player = 2) -> str:
         # return output
         return json.dumps({"player_goals": f"goals_per_player_{goal_count_per_player}"}, indent=2)
 

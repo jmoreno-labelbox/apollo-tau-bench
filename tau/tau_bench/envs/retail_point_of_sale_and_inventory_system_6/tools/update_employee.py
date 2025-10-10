@@ -7,12 +7,11 @@ from tau_bench.envs.tool import Tool
 
 class update_employee(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], employee_id, timestamp) -> str:
         employees = list(data.get("employees", {}).values())
 
         # These parameters are required for updates.
-        row_id = kwargs.get("employee_id")
-        timestamp = kwargs.get("timestamp")
+        row_id = employee_id
 
         if (row_id is None) or (timestamp is None):
             return json.dumps({"error": "employee_id and timestamp must be sent"})

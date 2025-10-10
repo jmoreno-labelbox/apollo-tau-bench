@@ -27,8 +27,8 @@ class UpdateTaskStatusTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        task_id, completed = kwargs["task_id"], kwargs["completed"]
+    def invoke(data: Dict[str, Any], completed, task_id) -> str:
+        task_id, completed = task_id, completed
         task = next(
             (t for t in data.get("file_check_db", []) if t["task_id"] == task_id), None
         )

@@ -7,14 +7,14 @@ from tau_bench.envs.tool import Tool
 
 class ApplyPlanAllocations(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], plan_id, request_id, timestamp) -> str:
         err = _require(kwargs, ["plan_id", "timestamp", "request_id"])
         if err:
             return _fail(err)
 
-        plan_id   = str(kwargs["plan_id"])
-        timestamp = str(kwargs["timestamp"])
-        request_id = str(kwargs["request_id"])
+        plan_id   = str(plan_id)
+        timestamp = str(timestamp)
+        request_id = str(request_id)
 
         # Data structures
         plans_tbl   = _assert_table(data, "plans")           # immutable plan envelopes

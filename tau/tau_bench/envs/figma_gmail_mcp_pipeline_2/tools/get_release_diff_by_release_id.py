@@ -7,11 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class GetReleaseDiffByReleaseId(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        if not kwargs.get("release_id"):
+    def invoke(data: Dict[str, Any], release_id) -> str:
+        if not release_id:
             return json.dumps({"error": "Missing required field: release_id"}, indent=2)
-
-        release_id = kwargs.get("release_id")
         release_diffs: List[Dict[str, Any]] = list(data.get("release_diffs", {}).values())
         for row in release_diffs:
             if row.get("release_id") == release_id:

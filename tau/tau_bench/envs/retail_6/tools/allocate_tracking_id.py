@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class AllocateTrackingId(Tool):
     """Allocate a new tracking_id string based on courier_id and a caller-provided seed."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        courier_id = kwargs.get('courier_id')
-        seed = kwargs.get('seed')
+    def invoke(data, courier_id, seed) -> str:
         if not courier_id or seed is None:
             return json.dumps({"error":"courier_id and seed are required"}, indent=2)
         new_id = f"TRK-{courier_id.strip('#')}-{str(seed)}"

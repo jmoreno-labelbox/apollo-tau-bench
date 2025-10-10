@@ -7,18 +7,18 @@ from tau_bench.envs.tool import Tool
 
 class CreateSupportTicket(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], category, customer_id, details, priority, target_entity, target_id) -> str:
         ticket_id = _get_next_support_ticket_id(data)
         new_ticket = {
                 "ticket_id": ticket_id,
-                "customer_id": kwargs.get("customer_id"),
+                "customer_id": customer_id,
                 "status": "Open",
-                "priority": kwargs.get("priority"),
-                "category": kwargs.get("category"),
+                "priority": priority,
+                "category": category,
                 "request_details": {
-                        "details": kwargs.get("details"),
-                        "target_entity": kwargs.get("target_entity"),
-                        "target_id": kwargs.get("target_id"),
+                        "details": details,
+                        "target_entity": target_entity,
+                        "target_id": target_id,
                 }
         }
         data['support_tickets'].append(new_ticket)

@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GenerateFingerprintForTestResult(Tool):
     """Generates a deterministic crash fingerprint from a test result."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        test_result_id = kwargs.get("test_result_id")
+    def invoke(data: Dict[str, Any], test_result_id) -> str:
         test_results = data.get("test_results", [])
         
         test_result = None

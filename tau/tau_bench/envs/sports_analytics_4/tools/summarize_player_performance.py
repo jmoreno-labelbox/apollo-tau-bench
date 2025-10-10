@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class SummarizePlayerPerformance(Tool):
     @staticmethod
         # primary execution function
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        player_id = kwargs.get("player_id")
+    def invoke(data: Dict[str, Any], player_id) -> str:
         games = data.get("games", [])
         stats = [g for g in games if player_id in g.get("player_stats", {})]
         summary = {

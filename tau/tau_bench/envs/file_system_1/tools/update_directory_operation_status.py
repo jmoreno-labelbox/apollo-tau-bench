@@ -8,9 +8,8 @@ from tau_bench.envs.tool import Tool
 class UpdateDirectoryOperationStatus(Tool):
     """Updates the status of a single file in a file organization task."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        file_id = kwargs.get("file_id")
-        new_status = kwargs.get("status")
+    def invoke(data: Dict[str, Any], file_id, status) -> str:
+        new_status = status
         for file in data.get('file_lists', []):
             if file.get('file_id') == file_id:
                 file['status'] = new_status

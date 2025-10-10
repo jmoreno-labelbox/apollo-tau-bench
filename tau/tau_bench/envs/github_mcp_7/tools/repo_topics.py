@@ -8,10 +8,8 @@ from tau_bench.envs.tool import Tool
 class RepoTopics(Tool):
     """Set or list repository topics (simple list of strings)."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get("owner") or _actor_name(data)
-        repo = kwargs.get("repo")
-        topics = kwargs.get("topics")
+    def invoke(data: Dict[str, Any], owner, repo, topics) -> str:
+        owner = owner or _actor_name(data)
         r = _find_repo(data, owner, repo)
         if not r:
             raise RuntimeError("Repository not found")

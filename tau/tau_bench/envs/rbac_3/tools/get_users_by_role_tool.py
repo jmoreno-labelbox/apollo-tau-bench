@@ -9,8 +9,7 @@ class GetUsersByRoleTool(Tool):
     """get_users_by_role: list user_ids having a role assigned (active only)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        role_id = kwargs.get("role_id")
+    def invoke(data: Dict[str, Any], role_id) -> str:
         result = [
             ur.get("user_id")
             for ur in data.get("user_roles", [])

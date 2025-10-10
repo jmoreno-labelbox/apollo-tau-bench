@@ -7,14 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateRiskAssessment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cr_id = kwargs.get("cr_id")
-        assessed_by = kwargs.get("assessed_by")
-        risk_categories = kwargs.get("risk_categories", {})
-        identified_risks = kwargs.get("identified_risks", [])
-        mitigation_strategies = kwargs.get("mitigation_strategies", [])
-        contingency_plans = kwargs.get("contingency_plans", {})
-        rollback_procedure = kwargs.get("rollback_procedure")
+    def invoke(data: Dict[str, Any], assessed_by, cr_id, rollback_procedure, contingency_plans = {}, identified_risks = [], mitigation_strategies = [], risk_categories = {}) -> str:
 
         if not all([cr_id, assessed_by]):
             return json.dumps({"error": "cr_id and assessed_by are required"})

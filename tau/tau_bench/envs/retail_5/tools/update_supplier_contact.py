@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateSupplierContact(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        supplier_id = kwargs.get('supplier_id')
-        phone = kwargs.get('phone')
-        email = kwargs.get('email')
-        contact_info = kwargs.get('contact_info')
+    def invoke(data: Dict[str, Any], contact_info, email, phone, supplier_id) -> str:
 
         if not supplier_id:
             return json.dumps({'error': 'supplier_id is required'})

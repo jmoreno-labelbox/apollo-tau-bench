@@ -7,14 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class UpdateAuditProgress(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], audit_id, progress_percentage, updated_by, notes = '') -> str:
         """
         Updates audit progress and completion percentage.
         """
-        audit_id = kwargs.get('audit_id')
-        progress_percentage = kwargs.get('progress_percentage')
-        notes = kwargs.get('notes', '')
-        updated_by = kwargs.get('updated_by')
 
         if not all([audit_id, progress_percentage is not None]):
             return json.dumps({"error": "audit_id and progress_percentage are required."})

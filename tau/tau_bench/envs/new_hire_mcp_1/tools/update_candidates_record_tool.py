@@ -9,9 +9,7 @@ class UpdateCandidatesRecordTool(Tool):
     """Updates one or more fields for a list of candidate records."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        candidate_ids = kwargs.get("candidate_ids")
-        fields_to_update = kwargs.get("fields_to_update")
+    def invoke(data: Dict[str, Any], candidate_ids, fields_to_update) -> str:
 
         if not candidate_ids or not isinstance(candidate_ids, list):
             return _err("candidate_ids (array) is required")

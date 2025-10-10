@@ -8,9 +8,8 @@ from tau_bench.envs.tool import Tool
 class UpdateArchiveTaskStatus(Tool):
     """Updates the status of an archive task in the instructions database."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        archive_id = kwargs.get("archive_id")
-        new_status = kwargs.get("status")
+    def invoke(data: Dict[str, Any], archive_id, status) -> str:
+        new_status = status
         for instruction in data.get('archive_instructions', []):
             if instruction.get('archive_id') == archive_id:
                 instruction['status'] = new_status

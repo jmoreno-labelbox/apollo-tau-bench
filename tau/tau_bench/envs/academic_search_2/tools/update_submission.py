@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class UpdateSubmission(Tool):
     """Updates a submission's status or overwrites its list of reviewers."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        submission_id = kwargs.get('submission_id')
+    def invoke(data: Dict[str, Any], status, submission_id, reviewers = []) -> str:
         if not submission_id:
             return json.dumps({"error": "submission_id is required."})
 
@@ -17,7 +16,7 @@ class UpdateSubmission(Tool):
         if not submission: return json.dumps({"error": "Submission not found."})
 
         if 'reviewers' in kwargs:
-            provided_reviewers = kwargs.get('reviewers', [])
+            provided_reviewers = reviewers
             users = list(data.get('users', {}).values())
 
             valid_reviewer_ids = []
@@ -32,7 +31,7 @@ class UpdateSubmission(Tool):
             submission['assigned_reviewers'] = sorted(list(set(valid_reviewer_ids)))
 
         if 'status' in kwargs:
-            submission['status'] = kwargs['status']
+            submission['status'] = status
 
         return json.dumps({"success": True, "submission": submission}, indent=2)
 

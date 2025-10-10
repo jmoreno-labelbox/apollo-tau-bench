@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ConfigManager(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        action = kwargs.get('action', 'get')
-        config_key = kwargs.get('config_key')
-        config_value = kwargs.get('config_value')
+    def invoke(data: Dict[str, Any], config_key, config_value, action = 'get') -> str:
 
         if 'config' not in data:
             data['config'] = {

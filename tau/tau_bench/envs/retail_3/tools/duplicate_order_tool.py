@@ -23,8 +23,8 @@ class DuplicateOrderTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        src_id = kwargs.get("source_order_id")
+    def invoke(data: Dict[str, Any], source_order_id) -> str:
+        src_id = source_order_id
         if not src_id:
             return json.dumps({"error": "source_order_id is required"}, indent=2)
 

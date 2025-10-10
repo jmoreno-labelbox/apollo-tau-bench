@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class EnrichNotion(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        page_id = kwargs.get("page_id")
-        model_id = kwargs.get("model_id")
+    def invoke(data: Dict[str, Any], model_id, page_id) -> str:
 
         zotero_id = "ZOTERO_001"
         entry = {

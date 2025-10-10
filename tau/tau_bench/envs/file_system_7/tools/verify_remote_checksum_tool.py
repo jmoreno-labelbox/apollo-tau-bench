@@ -20,11 +20,11 @@ class VerifyRemoteChecksumTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        remote_file = next((f for f in data.get("remote_storage", []) if f["path"] == kwargs["remote_path"]), None)
+    def invoke(data: Dict[str, Any], expected_checksum, remote_path) -> str:
+        remote_file = next((f for f in data.get("remote_storage", []) if f["path"] == remote_path), None)
         if not remote_file:
-            return json.dumps({"status": "error", "error": "remote_file_not_found", "remote_path": kwargs["remote_path"]})
-        expected = kwargs.get("expected_checksum")
+            return json.dumps({"status": "error", "error": "remote_file_not_found", "remote_path": remote_path})
+        expected = expected_checksum
         # If the caller fails to supply a required checksum, use the remotely stored checksum as the definitive value.
         if expected is None:
             expected = remote_file.get("checksum")

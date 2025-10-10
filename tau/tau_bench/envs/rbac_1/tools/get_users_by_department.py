@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class GetUsersByDepartment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        department_name = kwargs.get("department")
+    def invoke(data: Dict[str, Any], department) -> str:
+        department_name = department
         users_in_dept = [
                 user for user in list(data.get('users', {}).values())
                 if user.get('department') == department_name

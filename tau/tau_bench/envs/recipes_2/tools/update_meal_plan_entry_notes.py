@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class UpdateMealPlanEntryNotes(Tool):
     """Updates the notes for a specific meal plan entry."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        entry_id = kwargs.get("entry_id")
-        new_notes = kwargs.get("new_notes")
+    def invoke(data: Dict[str, Any], entry_id, new_notes) -> str:
 
         entries = list(data.get("meal_plan_entries", {}).values())
         for entry in entries:

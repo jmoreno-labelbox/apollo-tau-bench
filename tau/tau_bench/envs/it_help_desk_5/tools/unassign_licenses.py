@@ -7,12 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class UnassignLicenses(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get('employee_id')
+    def invoke(data: Dict[str, Any], employee_id, license_ids = []) -> str:
         if employee_id is None:
             return json.dumps({'status': 'error', 'reason': 'The employee_id field is required.'}, indent=2)
-
-        license_ids = kwargs.get('license_ids', [])
         assignments = data.get('license_assignments')
         inventory = data.get('license_inventory')
 

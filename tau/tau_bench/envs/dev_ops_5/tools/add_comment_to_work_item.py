@@ -8,15 +8,14 @@ from tau_bench.envs.tool import Tool
 class AddCommentToWorkItem(Tool):
     """Adds a comment to a work item."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        work_item_id = kwargs.get("id")
+    def invoke(data: Dict[str, Any], comment, id) -> str:
+        work_item_id = id
         work_items = data.get("work_items", [])
         for item in work_items:
             if item.get("id", '') == work_item_id:
                 break
         else:
             return json.dumps({"status": "error", "message": f"Work item with id '{work_item_id}' not found."})
-        comment = kwargs.get("comment")
         comments = item.get('comments', [])
         comments += [comment]
         item['comments'] = comments

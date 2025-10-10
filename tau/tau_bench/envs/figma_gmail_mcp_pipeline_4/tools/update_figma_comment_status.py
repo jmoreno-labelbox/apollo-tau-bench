@@ -7,15 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class UpdateFigmaCommentStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], assignee_email, comment_id, new_status, priority_level, resolution_notes = '') -> str:
         """
         Updates Figma comment status and manages comment workflow.
         """
-        comment_id = kwargs.get('comment_id')
-        new_status = kwargs.get('new_status')
-        resolution_notes = kwargs.get('resolution_notes', '')
-        assignee_email = kwargs.get('assignee_email')
-        priority_level = kwargs.get('priority_level')
 
         if not all([comment_id, new_status]):
             return json.dumps({"error": "comment_id and new_status are required."})

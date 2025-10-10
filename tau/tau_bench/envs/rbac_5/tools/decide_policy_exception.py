@@ -16,11 +16,9 @@ class DecidePolicyException(Tool):
       reviewed_on: str ISO (optional; defaults to current timestamp)
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        exception_id = kwargs.get("exception_id", "")
-        reviewer_id = kwargs.get("reviewer_id", "")
-        decision = (kwargs.get("decision") or "").upper()
-        reviewed_on = kwargs.get("reviewed_on") or get_current_timestamp()
+    def invoke(data: Dict[str, Any], decision, reviewed_on, exception_id = "", reviewer_id = "") -> str:
+        decision = (decision or "").upper()
+        reviewed_on = reviewed_on or get_current_timestamp()
 
         if decision not in ("APPROVED", "DENIED"):
             return json.dumps({"error": "decision must be APPROVED or DENIED"})

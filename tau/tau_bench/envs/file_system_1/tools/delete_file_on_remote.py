@@ -8,9 +8,9 @@ from tau_bench.envs.tool import Tool
 class DeleteFileOnRemote(Tool):
     """Simulates deleting a file from a remote server."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], filepath, hostname) -> str:
         return json.dumps({
-            "status": "success", "message": f"Deleted {kwargs.get('filepath')} from {kwargs.get('hostname')}."})
+            "status": "success", "message": f"Deleted {filepath} from {hostname}."})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

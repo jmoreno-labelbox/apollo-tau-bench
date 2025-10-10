@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetMortgageRates(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        loan_type = kwargs.get('loan_type', 'conventional')
-        term_years = kwargs.get('term_years', 30)
+    def invoke(data: Dict[str, Any], loan_type = 'conventional', term_years = 30) -> str:
         
         rates = list(data.get('mortgage_rates', {}).values())
         filtered_rates = []

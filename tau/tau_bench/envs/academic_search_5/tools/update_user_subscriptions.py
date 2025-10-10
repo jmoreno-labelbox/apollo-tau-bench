@@ -8,10 +8,7 @@ from tau_bench.envs.tool import Tool
 class UpdateUserSubscriptions(Tool):
     """Tool to add or remove a topic subscription for a user."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get('user_id')
-        topic = kwargs.get('topic')
-        action = kwargs.get('action', 'add')  # 'include' or 'exclude'
+    def invoke(data: Dict[str, Any], topic, user_id, action = 'add') -> str:
         if not user_id or not topic:
             return json.dumps({"error": "user_id and topic are required."})
 

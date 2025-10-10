@@ -7,15 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetReleaseSummary(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], figma_file_id, owner_email, release_id, status, version_tag_pattern) -> str:
         """
         Retrieves comprehensive release information and metrics.
         """
-        release_id = kwargs.get('release_id')
-        figma_file_id = kwargs.get('figma_file_id')
-        owner_email = kwargs.get('owner_email')
-        version_tag_pattern = kwargs.get('version_tag_pattern')
-        status = kwargs.get('status')
 
         releases = data.get('releases', [])
         gmail_threads = list(data.get('gmail_threads', {}).values())

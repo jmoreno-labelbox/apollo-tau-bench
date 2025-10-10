@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateCustomerSecurityQuestion(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
-        security_question = kwargs.get("security_question")
+    def invoke(data: Dict[str, Any], customer_id, security_question) -> str:
 
         customer = next((c for c in data['customers'] if c['customer_id'] == customer_id), None)
         if not customer:

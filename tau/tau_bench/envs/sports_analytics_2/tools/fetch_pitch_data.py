@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class FetchPitchData(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        pitcher_ids = kwargs.get("pitcher_ids", [])
-        time_window = kwargs.get("time_window")
+    def invoke(data: Dict[str, Any], time_window, pitcher_ids = []) -> str:
         return json.dumps({"performance_data_df": f"df_{'_'.join(pitcher_ids)}_{time_window}"}, indent=2)
 
     @staticmethod

@@ -20,12 +20,7 @@ class CreateNewGoal(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        dev_report_id = kwargs.get("dev_report_id")
-        player_id = kwargs.get("player_id")
-        goal_text = kwargs.get("goal_text")
-        coach_id = kwargs.get("coach_id")
-        target_review_date = kwargs.get("target_review_date")
+    def invoke(data: Dict[str, Any], coach_id, dev_report_id, goal_text, player_id, target_review_date) -> str:
 
         # Verify necessity
         missing = []

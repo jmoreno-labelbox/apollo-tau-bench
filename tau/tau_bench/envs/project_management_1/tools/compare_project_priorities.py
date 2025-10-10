@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CompareProjectPriorities(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id_1 = kwargs.get("project_id_1")
-        project_id_2 = kwargs.get("project_id_2")
+    def invoke(data: Dict[str, Any], project_id_1, project_id_2) -> str:
 
         if not all([project_id_1, project_id_2]):
             return json.dumps({"error": "project_id_1 and project_id_2 are required"})

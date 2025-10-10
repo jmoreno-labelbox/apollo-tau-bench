@@ -9,8 +9,7 @@ class GetScoutingReportById(Tool):
     """Fetch a single scouting report by its report_id."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        report_id = kwargs.get("report_id")
+    def invoke(data: Dict[str, Any], report_id) -> str:
 
         # 1) Confirm accuracy
         if report_id is None:

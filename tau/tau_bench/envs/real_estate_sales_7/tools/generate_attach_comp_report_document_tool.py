@@ -9,10 +9,10 @@ class GenerateAttachCompReportDocumentTool(Tool):
     """Generate comp_###.pdf URI from report_id, update comp_reports.doc_uri, and insert documents row."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        report_id = _as_int(kwargs.get("report_id"))
-        created_by = _as_int(kwargs.get("created_by"))
-        doc_type = (kwargs.get("doc_type") or "comp_report").strip()
+    def invoke(data: Dict[str, Any], created_by, doc_type, report_id) -> str:
+        report_id = _as_int(report_id)
+        created_by = _as_int(created_by)
+        doc_type = (doc_type or "comp_report").strip()
         if report_id is None or created_by is None:
             return _err("report_id and created_by are required")
 

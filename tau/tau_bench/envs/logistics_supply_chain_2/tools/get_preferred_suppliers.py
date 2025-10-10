@@ -9,8 +9,8 @@ class GetPreferredSuppliers(Tool):
     """Tool to list suppliers with 'Preferred' relationship status."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        list_of_suppliers = kwargs.get("list_of_ids", None)
+    def invoke(data: Dict[str, Any], list_of_ids = None) -> str:
+        list_of_suppliers = list_of_ids
         suppliers = list(data.get("supplier_master", {}).values())
         result = [s['supplier_id'] for s in suppliers if s["relationship_status"].lower() == "preferred"]
         if list_of_suppliers:

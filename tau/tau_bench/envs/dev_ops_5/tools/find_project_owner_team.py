@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class FindProjectOwnerTeam(Tool):
     """Finds the owner team for a project."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
+    def invoke(data: Dict[str, Any], project_id) -> str:
         repos = list(data.get("repositories", {}).values())
         teams = data.get("teams", [])
         

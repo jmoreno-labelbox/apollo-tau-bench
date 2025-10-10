@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetTicketsBacklog(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        snapshot_id = kwargs.get('snapshot_id')
+    def invoke(data: Dict[str, Any], snapshot_id) -> str:
 
         snapshots = data.get('backlog_snapshot_open')
 

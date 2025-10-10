@@ -26,10 +26,7 @@ class SetBuildFailureCategorization(Tool):
         }
 
     @staticmethod
-    def invoke(data, **kwargs):
-        run_id = kwargs.get("run_id")
-        category = kwargs.get("category")
-        subcategory = kwargs.get("subcategory")
+    def invoke(data, category, run_id, subcategory):
         runs = list(data.get("build_runs", {}).values())
         run = next((r for r in runs if r.get("id") == run_id), None)
         if not run:

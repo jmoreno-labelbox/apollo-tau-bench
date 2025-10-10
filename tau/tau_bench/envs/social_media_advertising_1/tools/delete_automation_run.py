@@ -9,8 +9,7 @@ class DeleteAutomationRun(Tool):
     """Deletes an automation run record."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        run_id = kwargs.get("run_id")
+    def invoke(data: Dict[str, Any], run_id) -> str:
         if not run_id:
             return json.dumps({"error": "run_id is a required parameter."})
 

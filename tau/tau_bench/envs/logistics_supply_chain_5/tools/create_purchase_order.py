@@ -7,14 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class CreatePurchaseOrder(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        supplier_id = kwargs.get("supplier_id")
-        sku = kwargs.get("sku")
-        quantity = kwargs.get("quantity")
-        destination_warehouse = kwargs.get("destination_warehouse")
-        priority = kwargs.get("priority", "Medium")
-        notes = kwargs.get("notes", "")
-        unit_price_specific = kwargs.get("unit_price", "")
+    def invoke(data: Dict[str, Any], destination_warehouse, quantity, sku, supplier_id, notes = "", priority = "Medium", unit_price = "") -> str:
+        unit_price_specific = unit_price
 
         if not all([supplier_id, sku, quantity, destination_warehouse]):
             return json.dumps({

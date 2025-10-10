@@ -8,9 +8,8 @@ from . import _fixed_now_iso
 
 class ModifyCandidate(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        updates = kwargs.get("updates") or {}
-        candidate_id = kwargs.get("candidate_id")
+    def invoke(data: Dict[str, Any], candidate_id, updates) -> str:
+        updates = updates or {}
         candidates = list(data.get("candidates", {}).values())
 
         # Locate the candidate in the list and modify accordingly.

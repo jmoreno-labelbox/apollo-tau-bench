@@ -9,19 +9,18 @@ class FindNearbyListingsTool(Tool):
     """Finds nearest listings to a subject property by parsing map coordinates from URLs."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        subject_property_id = kwargs.get("subject_property_id")
+    def invoke(data: Dict[str, Any], max_results, status_filter, subject_property_id) -> str:
         need = _require_property_id(subject_property_id)
         if need:
             return _err(need)
 
         try:
-            max_results = int(kwargs.get("max_results") or 3)
+            max_results = int(max_results or 3)
         except Exception:
             max_results = 3
 
         allowed_status = set(
-            kwargs.get("status_filter")
+            status_filter
             or ["active", "pending", "for_sale", "sold", "off_market", "rented"]
         )  # wide by default
 

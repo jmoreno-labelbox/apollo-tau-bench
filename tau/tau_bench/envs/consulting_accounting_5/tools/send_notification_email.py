@@ -7,16 +7,16 @@ from tau_bench.envs.tool import Tool
 
 class SendNotificationEmail(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], consultant_id, publisher_id, subject) -> str:
         """
         Simulates sending a general notification email. Does not require an invoice.
         """
         return json.dumps({
             "status": "success",
             "message": "Notification email sent.",
-            "recipient_publisher_id": kwargs.get("publisher_id"),
-            "sender_consultant_id": kwargs.get("consultant_id"),
-            "subject": kwargs.get("subject")
+            "recipient_publisher_id": publisher_id,
+            "sender_consultant_id": consultant_id,
+            "subject": subject
         })
 
     @staticmethod

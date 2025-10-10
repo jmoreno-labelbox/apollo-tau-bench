@@ -8,11 +8,9 @@ from tau_bench.envs.tool import Tool
 class CommentIssue(Tool):
     """Add a comment to an issue."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get("owner") or _actor_name(data)
-        repo = kwargs.get("repo")
-        number = kwargs.get("number")
-        comment = kwargs.get("comment") or ""
+    def invoke(data: Dict[str, Any], comment, number, owner, repo) -> str:
+        owner = owner or _actor_name(data)
+        comment = comment or ""
         for i in _issues(data):
             if i.get("owner") == owner and i.get("repo") == repo and i.get("number") == number:
                 i.setdefault("comments", []).append({

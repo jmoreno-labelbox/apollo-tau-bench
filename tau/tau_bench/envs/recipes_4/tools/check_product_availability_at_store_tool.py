@@ -39,7 +39,7 @@ class CheckProductAvailabilityAtStoreTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> Dict[str, Any]:
+    def invoke(data: Dict[str, Any], list_id, store_id) -> Dict[str, Any]:
         """
         Executes the logic to check store inventory against a grocery list.
 
@@ -59,9 +59,6 @@ class CheckProductAvailabilityAtStoreTool(Tool):
         validation_error = _validate_inputs(kwargs, param_definitions)
         if validation_error:
             return _build_error_response(validation_error["error_code"], validation_error["details"])
-
-        list_id = kwargs["list_id"]
-        store_id = kwargs["store_id"]
 
         # 2. Preconditions Verification
         if not any(g.get("list_id") == list_id for g in data.get("grocery_lists", [])):

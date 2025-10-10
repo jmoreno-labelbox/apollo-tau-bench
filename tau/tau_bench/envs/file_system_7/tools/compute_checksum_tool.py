@@ -20,8 +20,7 @@ class ComputeChecksumTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        log_name = kwargs["log_name"]
+    def invoke(data: Dict[str, Any], log_name) -> str:
         if log_name not in data:
             return json.dumps({"error": f"Log '{log_name}' not found."})
         content_str = json.dumps(data[log_name], sort_keys=True)

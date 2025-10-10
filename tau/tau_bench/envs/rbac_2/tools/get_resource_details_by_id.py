@@ -9,8 +9,7 @@ class GetResourceDetailsById(Tool):
     """ Get the full details of a specific resource using its ID. """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        resource_id = kwargs.get("resource_id")
+    def invoke(data: Dict[str, Any], resource_id) -> str:
         try:
             resources = data.get('resources', [])
         except:

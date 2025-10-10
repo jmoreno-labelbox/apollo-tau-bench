@@ -9,8 +9,7 @@ from . import _json_dump
 class GenerateChildModifications(Tool):
     """Return note per recipe_id for child-friendly changes (mild spice, bite-size)."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        recipe_ids_json = kwargs.get("recipe_ids_json", "[]")
+    def invoke(data: Dict[str, Any], recipe_ids_json = "[]") -> str:
         ids = _parse_json_list_ids(recipe_ids_json)
         notes: Dict[str, str] = {}
         for rid in ids:

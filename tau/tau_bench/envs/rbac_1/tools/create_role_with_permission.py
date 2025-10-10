@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateRoleWithPermission(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], permission_name, resource_id, role_name, permission_description = f"Permission for the '{kwargs.get('role_name')}' role.", role_description = f"Role with permission '{kwargs.get('permission_name')}'.") -> str:
         permissions = list(data.get('permissions', {}).values())
         roles = list(data.get('roles', {}).values())
         role_permissions = data.get('role_permissions', [])
@@ -16,9 +16,9 @@ class CreateRoleWithPermission(Tool):
         new_perm_id = f"P-{new_perm_id_num:03d}"
         new_permission = {
                 "permission_id": new_perm_id,
-                "action": kwargs.get("permission_name"),
-                "resource_id": kwargs.get("resource_id"),
-                "description": kwargs.get("permission_description", f"Permission for the '{kwargs.get('role_name')}' role.")
+                "action": permission_name,
+                "resource_id": resource_id,
+                "description": permission_description
         }
         permissions.append(new_permission)
         data['permissions'] = permissions
@@ -27,8 +27,8 @@ class CreateRoleWithPermission(Tool):
         new_role_id = f"ROL-{new_role_id_num:03d}"
         new_role = {
                 "role_id": new_role_id,
-                "role_name": kwargs.get("role_name"),
-                "description": kwargs.get("role_description", f"Role with permission '{kwargs.get('permission_name')}'."),
+                "role_name": role_name,
+                "description": role_description,
                 "is_temporary": False
         }
         roles.append(new_role)

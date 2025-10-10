@@ -9,15 +9,13 @@ class FetchEmailsForClientTool(Tool):
     """Returns emails for a client with optional filters and limits."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        client_id = _as_int(kwargs.get("client_id"))
+    def invoke(data: Dict[str, Any], client_id, limit, since_date, template_code, until_date) -> str:
+        client_id = _as_int(client_id)
         if client_id is None:
             return _err("client_id is required")
 
-        template_filter = kwargs.get("template_code")
-        since_date = kwargs.get("since_date")  # ISO string, evaluated in lexicographical order.
-        until_date = kwargs.get("until_date")
-        limit = _as_int(kwargs.get("limit")) or 50
+        template_filter = template_code
+        limit = _as_int(limit) or 50
 
         emails = [
             e

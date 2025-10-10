@@ -9,10 +9,7 @@ class CommitChangesToBranch(Tool):
     """Commits changes to a branch with a message (generates SHA and metadata)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_name = kwargs.get("repo_name")
-        branch = kwargs.get("branch")
-        commit_message = kwargs.get("commit_message")
+    def invoke(data: Dict[str, Any], branch, commit_message, repo_name) -> str:
 
         if not all([repo_name, branch, commit_message]):
             return json.dumps({"error": "repo_name, branch, and commit_message are required."}, indent=2)

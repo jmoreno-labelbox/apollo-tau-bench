@@ -7,11 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetAuditSummary(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], audit_id) -> str:
         """
         Retrieves a summary of audit findings.
         """
-        audit_id = kwargs.get('audit_id')
 
         if not audit_id:
             return json.dumps({"error": "audit_id is required"})

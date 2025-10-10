@@ -8,13 +8,7 @@ from tau_bench.envs.tool import Tool
 class CreateArticle(Tool):
     """Creates a new article record."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # Retrieve parameters for the new article.
-        title = kwargs.get('title')
-        authors = kwargs.get('authors')
-        topic = kwargs.get('topic')
-        publication_year = kwargs.get('publication_year')
-        article_id_override = kwargs.get('article_id_override')
+    def invoke(data: Dict[str, Any], article_id_override, authors, publication_year, title, topic, abstract = '...') -> str:
 
         if not all([title, authors, topic, publication_year]):
             return json.dumps({"error": "title, authors, topic, and publication_year are required."})
@@ -25,7 +19,7 @@ class CreateArticle(Tool):
             "authors": authors,
             "publication_year": publication_year,
             "topic": topic,
-            "abstract": kwargs.get('abstract', '...'),
+            "abstract": abstract,
             "status": "new"
         }
         list(data.get('articles', {}).values()).append(new_article)

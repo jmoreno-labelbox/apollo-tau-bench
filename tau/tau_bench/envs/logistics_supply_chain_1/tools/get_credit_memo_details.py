@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetCreditMemoDetails(Tool):
     """Retrieves details of a specific credit memo."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        credit_memo_id = kwargs.get('credit_memo_id')
+    def invoke(data: Dict[str, Any], credit_memo_id) -> str:
         if not credit_memo_id:
             return json.dumps({"error": "credit_memo_id is required."}, indent=2)
 

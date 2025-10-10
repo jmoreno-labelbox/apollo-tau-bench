@@ -7,13 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SearchTransactionsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        account_id = kwargs.get('account_id')
-        start_date = kwargs.get('start_date')
-        end_date = kwargs.get('end_date')
-        min_amount = kwargs.get('min_amount')
-        max_amount = kwargs.get('max_amount')
-        transaction_type = kwargs.get('transaction_type')
+    def invoke(data: Dict[str, Any], account_id, end_date, max_amount, min_amount, start_date, transaction_type) -> str:
 
         transactions = list(data.get('transactions', {}).values())
         filtered_transactions = []

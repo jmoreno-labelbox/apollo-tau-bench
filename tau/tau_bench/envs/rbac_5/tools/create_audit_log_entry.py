@@ -17,12 +17,8 @@ class CreateAuditLogEntry(Tool):
       timestamp: str ISO (defaults now)
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        action_type = kwargs.get("action_type", "")
-        actor_id = kwargs.get("actor_id", "")
-        target_id = kwargs.get("target_id", "")
-        details = kwargs.get("details", "")
-        timestamp = kwargs.get("timestamp") or get_current_timestamp()
+    def invoke(data: Dict[str, Any], timestamp, action_type = "", actor_id = "", details = "", target_id = "") -> str:
+        timestamp = timestamp or get_current_timestamp()
 
         log = {
             "log_id": _next_id(data, "audit_logs", "L"),

@@ -9,9 +9,7 @@ class ListAuditsTool(Tool):
     """List audit sessions filtered by artifact or status."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        artifact_id = kwargs.get("artifact_id")
-        status = kwargs.get("status")
+    def invoke(data: Dict[str, Any], artifact_id, status) -> str:
 
         audits = data.get("audits", [])
         out = []

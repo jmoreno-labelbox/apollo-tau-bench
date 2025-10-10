@@ -9,9 +9,8 @@ class ListPullRequests(Tool):
     """Lists pull requests for a specific repository or all repositories."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], repo_name) -> str:
         me = _auth(data)["username"]
-        repo_name = kwargs.get("repo_name")
 
         result = []
         for pr in _prs(data):

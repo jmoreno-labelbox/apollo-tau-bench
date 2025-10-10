@@ -7,10 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetCurrencyConversionAmount(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        source = kwargs.get("source_currency")
-        target = kwargs.get("target_currency")
-        amount = kwargs.get("source_amount")
+    def invoke(data: Dict[str, Any], source_amount, source_currency, target_currency) -> str:
+        source = source_currency
+        target = target_currency
+        amount = source_amount
 
         if not all([source, target, amount]):
             return json.dumps(

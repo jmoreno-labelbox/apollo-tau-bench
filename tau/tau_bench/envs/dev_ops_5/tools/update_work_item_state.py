@@ -8,9 +8,8 @@ from tau_bench.envs.tool import Tool
 class UpdateWorkItemState(Tool):
     """Updates the state of a work item (e.g., 'open', 'closed')."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        item_id = kwargs.get("id")
-        new_state = kwargs.get("new_state")
+    def invoke(data: Dict[str, Any], id, new_state) -> str:
+        item_id = id
         work_items = data.get("work_items", [])
         for item in work_items:
             if item.get("id") == item_id:

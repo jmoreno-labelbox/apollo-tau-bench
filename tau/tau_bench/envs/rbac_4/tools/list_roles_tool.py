@@ -9,8 +9,8 @@ class ListRolesTool(Tool):
     """List roles, with optional filter for temporary."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        temp_flag = kwargs.get("is_temporary")
+    def invoke(data: Dict[str, Any], is_temporary) -> str:
+        temp_flag = is_temporary
         roles = list(data.get("roles", {}).values())
         if temp_flag is None:
             return json.dumps(roles, indent=2)

@@ -9,12 +9,12 @@ class GetPolicyParameter(Tool):
     """Return a policy parameter by name (exact match on 'param_name')."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], param_name) -> str:
         err = _require(kwargs, ["param_name"])
         if err: return _fail(err)
         tbl = _assert_table(data, "policy_params")
         for r in tbl:
-            if r.get("param_name") == kwargs["param_name"]:
+            if r.get("param_name") == param_name:
                 return json.dumps({"param_name": r.get("param_name"), "param_value": r.get("param_value")})
         return _fail("param_not_found")
 

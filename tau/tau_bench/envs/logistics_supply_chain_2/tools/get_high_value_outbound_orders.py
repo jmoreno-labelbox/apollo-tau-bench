@@ -9,9 +9,9 @@ class GetHighValueOutboundOrders(Tool):
     """Tool to retrieve outbound orders above a specified value."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        threshold = kwargs.get("min_value", 100000)
-        list_of_orders = kwargs.get("list_of_ids", None)
+    def invoke(data: Dict[str, Any], list_of_ids = None, min_value = 100000) -> str:
+        threshold = min_value
+        list_of_orders = list_of_ids
         orders = list(data.get("outbound_orders", {}).values())
         result = [order['order_id'] for order in orders if order.get("total_value", 0) >= threshold]
         if list_of_orders:

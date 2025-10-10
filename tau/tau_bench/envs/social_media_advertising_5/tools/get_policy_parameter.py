@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class GetPolicyParameter(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        n = kwargs.get("param_name")
+    def invoke(data: Dict[str, Any], param_name) -> str:
+        n = param_name
         for r in list(data.get("policy_params", {}).values()):
             if r.get("param_name") == n:
                 return json.dumps(r)

@@ -7,10 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class ReadQcReport(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], figure_id, figure_label) -> str:
         figs = list(data.get("qc_figures", {}).values()) or []
-        fid = kwargs.get("figure_id")
-        label = kwargs.get("figure_label")
+        fid = figure_id
+        label = figure_label
         row = None
         if fid is not None:
             row = next((f for f in figs if str(f.get("figure_id")) == str(fid)), None)

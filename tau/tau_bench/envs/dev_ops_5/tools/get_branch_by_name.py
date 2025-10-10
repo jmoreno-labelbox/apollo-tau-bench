@@ -8,9 +8,8 @@ from tau_bench.envs.tool import Tool
 class GetBranchByName(Tool):
     """Retrieves a branch by its name within a specific repository."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_id = kwargs.get("repository_id")
-        branch_name = kwargs.get("branch_name")
+    def invoke(data: Dict[str, Any], branch_name, repository_id) -> str:
+        repo_id = repository_id
         branches = list(data.get("branches", {}).values())
         for branch in branches:
             if branch.get("repository_id") == repo_id and branch.get("name") == branch_name:

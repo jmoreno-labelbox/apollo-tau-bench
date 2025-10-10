@@ -9,10 +9,10 @@ class DeleteRepository(Tool):
     """Deletes a repository identified by owner and repo name."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get("owner", "").strip()
+    def invoke(data: Dict[str, Any], owner = "", repo_name = "") -> str:
+        owner = owner.strip()
         # Allow the use of 'repo_name' or 'repo_name' for ease of use.
-        repo_name = kwargs.get("repo_name", kwargs.get("repo_name", "")).strip()
+        repo_name = repo_name.strip()
 
         if not owner or not repo_name:
             return json.dumps(

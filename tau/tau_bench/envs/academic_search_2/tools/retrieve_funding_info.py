@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class RetrieveFundingInfo(Tool):
     """Searches for funding sources by source_name or funding_source_id."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        source_name, funding_source_id = kwargs.get('source_name'), kwargs.get('funding_source_id')
+    def invoke(data: Dict[str, Any], funding_source_id, source_name) -> str:
+        source_name, funding_source_id = source_name, funding_source_id
         if not source_name and not funding_source_id:
             return json.dumps(list(data.get('funding_sources', {}).values()), indent=2)
 

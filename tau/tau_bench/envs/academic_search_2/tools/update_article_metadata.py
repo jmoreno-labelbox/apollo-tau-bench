@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class UpdateArticleMetadata(Tool):
     """Updates article metadata for specified fields."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        article_id = kwargs.get('article_id')
+    def invoke(data: Dict[str, Any], article_id) -> str:
         if not article_id:
             return json.dumps({"error": "article_id is required."})
         article = next((a for a in list(data.get('articles', {}).values()) if a.get('article_id') == article_id), None)

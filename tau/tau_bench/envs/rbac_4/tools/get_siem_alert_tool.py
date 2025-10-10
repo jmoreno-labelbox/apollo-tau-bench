@@ -9,8 +9,7 @@ class GetSiemAlertTool(Tool):
     """Retrieve details of a specific SIEM alert (read-only, deterministic)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        alert_id = kwargs.get("alert_id")
+    def invoke(data: Dict[str, Any], alert_id) -> str:
         alerts = data.get("siem_alerts", [])
         if not isinstance(alerts, list):
             return json.dumps({"error": "siem_alerts must be a list"}, indent=2)

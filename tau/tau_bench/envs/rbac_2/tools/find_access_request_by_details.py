@@ -9,10 +9,7 @@ class FindAccessRequestByDetails(Tool):
     """ Find an access request based on its content details. """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
-        role_id = kwargs.get("role_id")
-        resource_id = kwargs.get("resource_id")
+    def invoke(data: Dict[str, Any], resource_id, role_id, user_id) -> str:
 
         try:
             access_requests = data.get('access_requests', [])

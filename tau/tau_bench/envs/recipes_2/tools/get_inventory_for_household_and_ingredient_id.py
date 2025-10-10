@@ -9,9 +9,7 @@ class GetInventoryForHouseholdAndIngredientId(Tool):
     """Retrieves all inventory items for a given household ID and a specific ingredient ID."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        household_id = kwargs.get("household_id")
-        ingredient_id = kwargs.get("ingredient_id")
+    def invoke(data: Dict[str, Any], household_id, ingredient_id) -> str:
 
         if household_id is None or ingredient_id is None:
             return json.dumps({"error": "household_id and ingredient_id parameters are required."})

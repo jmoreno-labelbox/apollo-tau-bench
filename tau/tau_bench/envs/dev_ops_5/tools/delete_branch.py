@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class DeleteBranch(Tool):
     """Deletes a branch."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        branch_id = kwargs.get("id")
+    def invoke(data: Dict[str, Any], id) -> str:
+        branch_id = id
         branches = list(data.get("branches", {}).values())
         original_count = len(branches)
         data['branches'] = [b for b in branches if b.get("id") != branch_id]

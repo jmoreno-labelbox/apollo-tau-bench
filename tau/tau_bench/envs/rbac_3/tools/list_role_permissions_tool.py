@@ -9,8 +9,7 @@ class ListRolePermissionsTool(Tool):
     """list_role_permissions"""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        role_id = kwargs["role_id"]
+    def invoke(data: Dict[str, Any], role_id) -> str:
         role_perms = data.get("role_permissions", [])
         perms = list(data.get("permissions", {}).values())
         perm_map = {p.get("permission_id"): p for p in perms}

@@ -8,9 +8,8 @@ from . import _fixed_now_iso
 
 class ModifyOnboardingFile(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        updates = kwargs.get("updates") or {}
-        file_path = kwargs.get("file_path")
+    def invoke(data: Dict[str, Any], file_path, updates) -> str:
+        updates = updates or {}
         files = list(data.get("onboarding_files", {}).values())
         for f in files:
             if f.get("file_path") == file_path:

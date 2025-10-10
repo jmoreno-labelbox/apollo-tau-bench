@@ -9,8 +9,7 @@ class SearchAutomationRunsByStatus(Tool):
     """Searches for automation runs with a specific status."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        status = kwargs.get("status")
+    def invoke(data: Dict[str, Any], status) -> str:
         runs = list(data.get("automation_runs", {}).values())
         matching_runs = []
         

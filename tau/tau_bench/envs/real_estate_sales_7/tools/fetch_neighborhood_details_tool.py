@@ -9,9 +9,8 @@ class FetchNeighborhoodDetailsTool(Tool):
     """Gets neighborhood characteristics and bordering areas."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        neighborhood_id = _as_int(kwargs.get("neighborhood_id"))
-        name = kwargs.get("name")
+    def invoke(data: Dict[str, Any], name, neighborhood_id) -> str:
+        neighborhood_id = _as_int(neighborhood_id)
 
         if neighborhood_id is None and name is None:
             return _err("Either neighborhood_id (int) or name (string) is required")

@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ExecuteInventoryTransfer(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        sku = kwargs.get('sku')
-        quantity = kwargs.get('quantity')
-        from_store_id = kwargs.get('from_store_id')
-        to_store_id = kwargs.get('to_store_id')
+    def invoke(data: Dict[str, Any], from_store_id, quantity, sku, to_store_id) -> str:
 
         inventory = list(data.get("inventory", {}).values())  # Ajustado para lista
         from_item = None

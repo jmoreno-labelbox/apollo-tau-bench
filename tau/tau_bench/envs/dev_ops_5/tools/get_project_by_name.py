@@ -9,8 +9,8 @@ class GetProjectByName(Tool):
     """Retrieves a project by its exact name."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_name = kwargs.get("name")
+    def invoke(data: Dict[str, Any], name) -> str:
+        project_name = name
         projects = list(data.get("projects", {}).values())
         
         for project in projects:

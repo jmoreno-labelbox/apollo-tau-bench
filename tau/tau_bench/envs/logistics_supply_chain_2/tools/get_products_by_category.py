@@ -9,9 +9,9 @@ class GetProductsByCategory(Tool):
     """Tool to retrieve products by category name."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        category = kwargs.get("category", "").lower()
-        list_of_products = kwargs.get("list_of_ids", None)
+    def invoke(data: Dict[str, Any], category = "", list_of_ids = None) -> str:
+        category = category.lower()
+        list_of_products = list_of_ids
         products = list(data.get("product_master", {}).values())
         result = [p['sku'] for p in products if p["category"].lower() == category]
         if list_of_products:

@@ -22,10 +22,7 @@ class TransferFundsWithLimitCheckTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        from_account = kwargs.get("from_account")
-        to_account = kwargs.get("to_account")
-        amount = kwargs.get("amount", 0)
+    def invoke(data: Dict[str, Any], from_account, to_account, amount = 0) -> str:
         if not from_account or not to_account or amount <= 0:
             return json.dumps({"error": "Invalid input"}, indent=2)
         if amount > 10000:

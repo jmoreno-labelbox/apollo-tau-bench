@@ -8,13 +8,7 @@ from tau_bench.envs.tool import Tool
 class AddAuditLog(Tool):
     """Adds a new entry to the audit logs."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        household_id = kwargs.get("household_id")
-        user_id = kwargs.get("user_id")
-        entity_type = kwargs.get("entity_type")
-        entity_id = kwargs.get("entity_id")
-        action_enum = kwargs.get("action_enum")
-        payload_json = kwargs.get("payload_json", {})
+    def invoke(data: Dict[str, Any], action_enum, entity_id, entity_type, household_id, user_id, payload_json = {}) -> str:
         
         logs = list(data.get("audit_logs", {}).values())
         # Auto-generate the subsequent audit_id.

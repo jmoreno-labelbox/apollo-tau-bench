@@ -25,9 +25,7 @@ class SetFirstBadCommitOnRun(Tool):
         }
 
     @staticmethod
-    def invoke(data, **kwargs):
-        run_id = kwargs.get("run_id")
-        commit_sha = kwargs.get("commit_sha")
+    def invoke(data, commit_sha, run_id):
         runs = list(data.get("build_runs", {}).values())
         run = next((r for r in runs if r.get("id") == run_id), None)
         if not run:

@@ -9,9 +9,9 @@ class GetBuildRun(Tool):
     """Fetch a build run by id; optionally filter by commit_sha."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        rid = kwargs.get('id')
-        commit = kwargs.get('commit_sha')
+    def invoke(data: Dict[str, Any], commit_sha, id) -> str:
+        rid = id
+        commit = commit_sha
         rows = _table(data, 'build_runs')
         row = next((r for r in rows if rid and r.get('id') == rid or (commit and r.get('commit_sha') == commit)), None)
         return _ok({'build_run': row}) if row else _err('build_run not found')

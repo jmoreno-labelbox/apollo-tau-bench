@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ProcessVendorPayment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        invoice_id = kwargs.get("invoice_id")
-        payment_amount = kwargs.get("payment_amount")
-        payment_method = kwargs.get("payment_method")
-        processor_id = kwargs.get("processor_id")
+    def invoke(data: Dict[str, Any], invoice_id, payment_amount, payment_method, processor_id) -> str:
 
         if not all([invoice_id, payment_amount, payment_method, processor_id]):
             return json.dumps({"error": "All fields are required"})

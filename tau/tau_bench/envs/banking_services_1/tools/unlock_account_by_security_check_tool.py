@@ -21,9 +21,7 @@ class UnlockAccountBySecurityCheckTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
-        security_code = kwargs.get("security_code")
+    def invoke(data: Dict[str, Any], customer_id, security_code) -> str:
         if not customer_id or not security_code:
             return json.dumps({"error": "customer_id and security_code are required"})
 

@@ -9,10 +9,8 @@ class RevokeRoleTool(Tool):
     """revoke_role: revoke a role and write a deterministic audit log."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
-        role_id = kwargs.get("role_id")
-        actor_id = kwargs.get("actor_id") or kwargs.get("revoked_by")
+    def invoke(data: Dict[str, Any], actor_id, revoked_by, role_id, user_id) -> str:
+        actor_id = actor_id or revoked_by
         base = json.loads(
             RevokeUserRoleTool.invoke(
                 data, user_id=user_id, role_id=role_id, revoked_by=actor_id

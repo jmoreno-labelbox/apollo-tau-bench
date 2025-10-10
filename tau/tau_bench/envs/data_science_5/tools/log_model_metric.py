@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class LogModelMetric(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], dataset_split, metric_name, model_name, value) -> str:
         metrics = list(data.get("metrics", {}).values())
         max_id = 0
         for m in metrics:
@@ -20,10 +20,10 @@ class LogModelMetric(Tool):
         new_id = max_id + 1
         row = {
             "metric_id": new_id,
-            "model_name": kwargs.get("model_name"),
-            "metric_name": kwargs.get("metric_name"),
-            "value": kwargs.get("value"),
-            "dataset_split": kwargs.get("dataset_split"),
+            "model_name": model_name,
+            "metric_name": metric_name,
+            "value": value,
+            "dataset_split": dataset_split,
             "timestamp": _fixed_now_iso(),
         }
         metrics.append(row)

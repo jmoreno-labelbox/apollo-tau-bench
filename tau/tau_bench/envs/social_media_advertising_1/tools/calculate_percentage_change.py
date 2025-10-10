@@ -9,9 +9,7 @@ class CalculatePercentageChange(Tool):
     """Calculates the percentage change in revenue between two values."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        current_value = kwargs.get("current_value")
-        previous_value = kwargs.get("previous_value")
+    def invoke(data: Dict[str, Any], current_value, previous_value) -> str:
         
         if current_value is None or previous_value is None:
             return json.dumps({"error": "current_value and previous_value are required parameters."})

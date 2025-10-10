@@ -14,13 +14,7 @@ class CreateEtlRunRecord(Tool):
             return None
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        run_id = kwargs.get("run_id")
-        input_paths = kwargs.get("input_paths", [])
-        output_paths = kwargs.get("output_paths", [])
-        started_ts = kwargs.get("started_ts")
-        finished_ts_nullable = kwargs.get("finished_ts_nullable")
-        messages = kwargs.get("messages", [])
+    def invoke(data: Dict[str, Any], finished_ts_nullable, run_id, started_ts, input_paths = [], messages = [], output_paths = []) -> str:
 
         if not run_id or not isinstance(input_paths, list) or not isinstance(output_paths, list):
             return json.dumps({"error": "Missing or invalid: run_id, input_paths, output_paths."})

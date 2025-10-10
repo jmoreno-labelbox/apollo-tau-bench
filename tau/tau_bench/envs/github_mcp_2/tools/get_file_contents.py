@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetFileContents(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_name = kwargs.get("repo_name")
-        path = kwargs.get("path")
-        branch = kwargs.get("branch")
+    def invoke(data: Dict[str, Any], branch, path, repo_name) -> str:
 
         if not all([repo_name, path]):
             return json.dumps({"error": "repo_name and path are required."}, indent=2)

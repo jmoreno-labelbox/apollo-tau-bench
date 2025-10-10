@@ -9,9 +9,7 @@ class UpdateCarrier(Tool):
     """Tool to update carrier information."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        carrier_scac = kwargs.get("carrier_scac")
-        updates = kwargs.get("updates")
+    def invoke(data: Dict[str, Any], carrier_scac, updates) -> str:
         carriers = list(data.get("carriers", {}).values())
 
         for carrier in carriers:

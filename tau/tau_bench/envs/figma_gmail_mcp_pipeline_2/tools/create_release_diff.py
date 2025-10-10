@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateReleaseDiff(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], changelog_highlights, component_version_bumps, frames_added, frames_removed, frames_updated, prior_release_id, release_id) -> str:
         required = ["release_id"]
         missing = [f for f in required if f not in kwargs or kwargs[f] is None]
         if missing:
@@ -17,16 +17,15 @@ class CreateReleaseDiff(Tool):
         diff_id = get_next_diff_id(data)
         created_ts = get_now_timestamp()
 
-        frames_added = kwargs.get("frames_added") or []
-        frames_updated = kwargs.get("frames_updated") or []
-        frames_removed = kwargs.get("frames_removed") or []
-        component_version_bumps = kwargs.get("component_version_bumps") or []
-        changelog_highlights = kwargs.get("changelog_highlights") or []
-        prior_release_id = kwargs.get("prior_release_id")
+        frames_added = frames_added or []
+        frames_updated = frames_updated or []
+        frames_removed = frames_removed or []
+        component_version_bumps = component_version_bumps or []
+        changelog_highlights = changelog_highlights or []
 
         new_diff = {
             "diff_id": diff_id,
-            "release_id": kwargs["release_id"],
+            "release_id": release_id,
             "prior_release_id_nullable": prior_release_id,
             "created_ts": created_ts,
             "frames_added": frames_added,

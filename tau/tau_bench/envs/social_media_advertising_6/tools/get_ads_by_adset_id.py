@@ -7,11 +7,11 @@ from tau_bench.envs.tool import Tool
 
 class GetAdsByAdsetID(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], adset_id) -> str:
         err = _require(kwargs, ["adset_id"])
         if err: return _fail(err)
         rows = _assert_table(data, "ads")
-        return json.dumps([r for r in rows if str(r.get("adset_id")) == str(kwargs["adset_id"])])
+        return json.dumps([r for r in rows if str(r.get("adset_id")) == str(adset_id)])
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

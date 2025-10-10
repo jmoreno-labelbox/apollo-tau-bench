@@ -7,20 +7,13 @@ from tau_bench.envs.tool import Tool
 
 class UpdateAuditType(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], audit_id, new_audit_type, updated_by, notes = "", status = "RUNNING", updated_ts = "2024-08-23T15:00:00Z") -> str:
         """
         Updates the audit type and associated metadata.
         """
-        audit_id = kwargs.get("audit_id")
-        new_audit_type = kwargs.get("new_audit_type")
 
         if not all([audit_id, new_audit_type]):
             return json.dumps({"error": "audit_id and new_audit_type are required."})
-
-        updated_by = kwargs.get("updated_by")
-        status = kwargs.get("status", "RUNNING")
-        notes = kwargs.get("notes", "")
-        updated_ts = kwargs.get("updated_ts", "2024-08-23T15:00:00Z")
 
         return json.dumps({
             "status": "SUCCESS",

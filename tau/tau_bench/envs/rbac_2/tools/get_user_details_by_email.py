@@ -9,8 +9,7 @@ class GetUserDetailsByEmail(Tool):
     """Retrieves a user's full details using their email address."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        email = kwargs.get("email")
+    def invoke(data: Dict[str, Any], email) -> str:
         try:
             users = list(data.get('users', {}).values())
         except (KeyError, json.JSONDecodeError):

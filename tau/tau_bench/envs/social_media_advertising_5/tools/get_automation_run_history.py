@@ -7,10 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class GetAutomationRunHistory(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        rtype = kwargs.get("run_type")
-        status = kwargs.get("status")
-        limit = int(kwargs.get("limit", 10))
+    def invoke(data: Dict[str, Any], run_type, status, limit = 10) -> str:
+        rtype = run_type
+        limit = int(limit)
         runs = list(data.get("automation_runs", {}).values())
         if rtype:
             runs = [r for r in runs if r.get("run_type") == rtype]

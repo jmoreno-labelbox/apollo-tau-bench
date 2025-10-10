@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateInventoryAdjustment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        sku = kwargs.get("sku")
-        warehouse_id = kwargs.get("warehouse_id")
-        adjustment_quantity = kwargs.get("adjustment_quantity")
-        reason = kwargs.get("reason")
+    def invoke(data: Dict[str, Any], adjustment_quantity, reason, sku, warehouse_id) -> str:
 
         inventory = list(data.get("inventory", {}).values())
 

@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateDirectoryAccount(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        legal_name = kwargs.get("legal_name")
-        hr_id = kwargs.get("hr_id")
+    def invoke(data: Dict[str, Any], hr_id, legal_name) -> str:
         accounts = list(data.get("directory_accounts", {}).values())
         username = legal_name.lower().replace(" ", ".")
         upn = f"{username}@company.com"

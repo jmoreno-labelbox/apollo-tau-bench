@@ -9,8 +9,7 @@ class GetAllAccountsOfCustomerByCustomerId(Tool):
     """Returns all account IDs associated with a given customer ID."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
+    def invoke(data: Dict[str, Any], customer_id) -> str:
         if not customer_id:
             return json.dumps({"error": "customer_id is required."}, indent=2)
 

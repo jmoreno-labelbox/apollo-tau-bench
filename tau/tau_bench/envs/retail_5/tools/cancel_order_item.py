@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CancelOrderItem(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        order_id = kwargs.get('order_id')
-        item_id = kwargs.get('item_id')
+    def invoke(data: Dict[str, Any], item_id, order_id) -> str:
         if not order_id or not item_id:
             return json.dumps({'error': 'order_id and item_id are required'})
 

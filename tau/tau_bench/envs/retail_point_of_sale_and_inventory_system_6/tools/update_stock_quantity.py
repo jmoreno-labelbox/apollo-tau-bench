@@ -11,12 +11,7 @@ class update_stock_quantity(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        timestamp = kwargs.get("timestamp")
-        store_id = kwargs.get("store_id")
-        sku = kwargs.get("sku")
-        quantity = kwargs.get("quantity")
-        relative_quantity = kwargs.get("relative_quantity")
+    def invoke(data: Dict[str, Any], quantity, relative_quantity, sku, store_id, timestamp) -> str:
 
         if (
             (store_id is None)

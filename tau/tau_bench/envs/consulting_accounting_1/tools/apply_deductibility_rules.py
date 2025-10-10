@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ApplyDeductibilityRules(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        expense_id = kwargs.get("expense_id")
+    def invoke(data: Dict[str, Any], expense_id) -> str:
         if not expense_id:
             return json.dumps({"error": "expense_id is required"}, indent=2)
         exp = next((e for e in list(data.get("expenses", {}).values()) if e.get("expense_id") == expense_id), None)

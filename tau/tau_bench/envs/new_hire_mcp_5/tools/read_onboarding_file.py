@@ -9,8 +9,7 @@ class ReadOnboardingFile(Tool):
     """Read a file from onboarding_files by file_path."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        file_path = kwargs["file_path"]
+    def invoke(data: Dict[str, Any], file_path) -> str:
         for f in list(data.get("onboarding_files", {}).values()):
             if f.get("file_path") == file_path:
                 return json.dumps({"file": f}, indent=2)

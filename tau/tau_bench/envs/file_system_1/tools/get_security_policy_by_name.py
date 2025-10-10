@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetSecurityPolicyByName(Tool):
     """Retrieves a specific security policy by its name."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        policy_name = kwargs.get("policy_name")
+    def invoke(data: Dict[str, Any], policy_name) -> str:
         for policy in data.get('security_policies', []):
             if policy.get('name') == policy_name:
                 return json.dumps(policy)

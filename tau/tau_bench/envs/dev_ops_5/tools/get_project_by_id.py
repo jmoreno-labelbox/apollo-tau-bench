@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class GetProjectById(Tool):
     """Retrieves a project by its ID."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("id")
+    def invoke(data: Dict[str, Any], id) -> str:
+        project_id = id
         projects = list(data.get("projects", {}).values())
         for p in projects:
             if p.get("id") == project_id:

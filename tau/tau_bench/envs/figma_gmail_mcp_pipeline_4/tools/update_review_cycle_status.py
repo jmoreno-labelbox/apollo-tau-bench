@@ -7,14 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class UpdateReviewCycleStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], approver_id, cycle_id, new_status, comments = '') -> str:
         """
         Updates the status of a review cycle and handles status transitions.
         """
-        cycle_id = kwargs.get('cycle_id')
-        new_status = kwargs.get('new_status')
-        approver_id = kwargs.get('approver_id')
-        comments = kwargs.get('comments', '')
 
         if not all([cycle_id, new_status]):
             return json.dumps({"error": "cycle_id and new_status are required."})

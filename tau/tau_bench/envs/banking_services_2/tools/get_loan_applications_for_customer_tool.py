@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetLoanApplicationsForCustomerTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get('customer_id')
+    def invoke(data: Dict[str, Any], customer_id) -> str:
         loan_applications = data.get('loan_applications', [])
         result = []
 

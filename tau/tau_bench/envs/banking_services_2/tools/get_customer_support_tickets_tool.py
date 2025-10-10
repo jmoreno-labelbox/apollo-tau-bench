@@ -7,9 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class GetCustomerSupportTicketsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get('customer_id')
-        status_filter = kwargs.get('status')
+    def invoke(data: Dict[str, Any], customer_id, status) -> str:
+        status_filter = status
 
         support_tickets = list(data.get('support_tickets', {}).values())
         customer_tickets = []

@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class RecordRetroactiveApproval(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        emergency_log_id = kwargs.get("emergency_log_id")
-        approver_id = kwargs.get("approver_id")
-        approval_decision = kwargs.get("approval_decision")
-        comments = kwargs.get("comments", "")
+    def invoke(data: Dict[str, Any], approval_decision, approver_id, emergency_log_id, comments = "") -> str:
 
         if not all([emergency_log_id, approver_id, approval_decision]):
             return json.dumps(

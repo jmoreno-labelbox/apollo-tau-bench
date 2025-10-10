@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class ListInvoiceLinesByInvoice(Tool):
     """List invoice lines for a given invoice."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        invoice_id = kwargs.get("invoice_id")
-        invoice_number = kwargs.get("invoice_number")
+    def invoke(data: Dict[str, Any], invoice_id, invoice_number) -> str:
         invs = data.get("invoices", [])
         if invoice_id is None and invoice_number:
             inv = next((i for i in invs if i.get("invoice_number") == invoice_number), None)

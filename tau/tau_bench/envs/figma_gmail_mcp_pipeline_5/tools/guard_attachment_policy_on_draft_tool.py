@@ -9,8 +9,8 @@ class GuardAttachmentPolicyOnDraftTool(Tool):
     """Check draft body length against release policy; returns OK/violation flags (simplified guard)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        message_id = _require_str(kwargs.get("message_id"), "message_id")
+    def invoke(data: Dict[str, Any], message_id) -> str:
+        message_id = _require_str(message_id, "message_id")
         if not message_id:
             return json.dumps({"error":"message_id is required"})
 

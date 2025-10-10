@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateJiraTicket(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        issue_type = kwargs.get("issue_type")
-        summary = kwargs.get("summary")
-        priority = kwargs.get("priority", "P2")
+    def invoke(data: Dict[str, Any], issue_type, summary, priority = "P2") -> str:
         tickets = data.setdefault("jira_tickets", [])
         jira_id = f"ITSD-{1001 + len(tickets)}"
         new_ticket = {"jira_id": jira_id, "issue_type": issue_type, "summary": summary, "priority": priority, "status": "To Do", "created_at": FIXED_NOW, "updated_at": FIXED_NOW}

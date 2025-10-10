@@ -9,8 +9,7 @@ from . import _first_user_id
 
 class ComputeAndSetMemberTargets(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        member_id = kwargs.get("member_id")
+    def invoke(data: Dict[str, Any], member_id) -> str:
         if member_id is None:
             household_id = _default_household_id(data, _first_user_id(data))
             members = [m for m in data.get("members", []) if m.get("household_id") == household_id]

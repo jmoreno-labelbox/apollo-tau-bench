@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CalculateTotalBillPaymentsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        account_id = kwargs.get('account_id')
-        start_date = kwargs.get('start_date')
-        end_date = kwargs.get('end_date')
+    def invoke(data: Dict[str, Any], account_id, end_date, start_date) -> str:
 
         transactions = list(data.get('transactions', {}).values())
         total_bill_payments = 0

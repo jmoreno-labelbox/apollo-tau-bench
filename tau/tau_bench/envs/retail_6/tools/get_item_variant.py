@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetItemVariant(Tool):
     """Return product and variant by item_id."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        item_id = kwargs.get('item_id')
+    def invoke(data, item_id) -> str:
         if not item_id:
             return json.dumps({"error":"item_id is required"}, indent=2)
         prod, variant = _find_product_by_item(data, item_id)

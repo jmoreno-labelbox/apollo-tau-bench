@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class NormalizeTicketTimestamps(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        input_path = kwargs.get("input_path")
-        output_path = kwargs.get("output_path")
-        timezone = kwargs.get("timezone", "UTC")
+    def invoke(data: Dict[str, Any], input_path, output_path, timezone = "UTC") -> str:
         return json.dumps({"status": "normalized", "input_path": input_path, "output_path": output_path, "timezone": timezone}, indent=2)
 
     @staticmethod

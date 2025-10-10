@@ -8,10 +8,10 @@ from . import _require
 
 class CreateDirectory(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], created_ts, path, updated_ts) -> str:
         err = _require(kwargs, ["path"])
         if err: return err
-        row = {"path": kwargs["path"], "created_ts": kwargs.get("created_ts"), "updated_ts": kwargs.get("updated_ts")}
+        row = {"path": path, "created_ts": created_ts, "updated_ts": updated_ts}
         tbl = data.setdefault("file_directory", [])
         existing = next((r for r in tbl if r.get("path") == row["path"]), None)
         if existing:

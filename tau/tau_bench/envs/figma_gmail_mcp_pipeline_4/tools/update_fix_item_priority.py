@@ -7,13 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class UpdateFixItemPriority(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], item_id, new_priority, updated_by) -> str:
         """
         Updates the priority of a fix item.
         """
-        item_id = kwargs.get('item_id')
-        new_priority = kwargs.get('new_priority')
-        updated_by = kwargs.get('updated_by')
 
         if not all([item_id, new_priority, updated_by]):
             return json.dumps({"error": "item_id, new_priority, and updated_by are required"})

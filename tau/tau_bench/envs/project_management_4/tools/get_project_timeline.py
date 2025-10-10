@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetProjectTimeline(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
-        include_dependencies = kwargs.get("include_dependencies", True)
+    def invoke(data: Dict[str, Any], project_id, include_dependencies = True) -> str:
 
         if not project_id:
             return json.dumps({"error": "project_id is required"})

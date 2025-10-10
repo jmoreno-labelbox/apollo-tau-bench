@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetSpatialArtifact(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        game_pk = kwargs.get("game_pk")
-        artifact_name = kwargs.get("artifact_name")
+    def invoke(data: Dict[str, Any], artifact_name, game_pk) -> str:
         artifacts = data.get("spatial_artifacts", [])
         rec = next((a for a in artifacts if str(a.get("game_pk")) == str(game_pk) and a.get("artifact_name") == artifact_name), None)
         return json.dumps(rec or {}, indent=2)

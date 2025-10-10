@@ -8,10 +8,9 @@ from tau_bench.envs.tool import Tool
 class CreateRepo(Tool):
     """Create a repository with basic fields."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], name, private = False) -> str:
         me = _actor_name(data)
-        name = kwargs.get("name")
-        private = bool(kwargs.get("private", False))
+        private = bool(private)
         if not name:
             raise RuntimeError("'name' is required")
         if _find_repo(data, me, name):

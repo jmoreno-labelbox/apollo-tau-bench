@@ -9,9 +9,9 @@ class EnforceChangeBudgetForFrameTool(Tool):
     """Check if a frame exceeds fix-item change budget (from config) within a plan."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        plan_id = _require_str(kwargs.get("plan_id"), "plan_id")
-        frame_id = _require_str(kwargs.get("frame_id"), "frame_id")
+    def invoke(data: Dict[str, Any], frame_id, plan_id) -> str:
+        plan_id = _require_str(plan_id, "plan_id")
+        frame_id = _require_str(frame_id, "frame_id")
         if not (plan_id and frame_id):
             return json.dumps({"error":"plan_id and frame_id required"})
 

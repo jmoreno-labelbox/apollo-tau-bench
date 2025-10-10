@@ -8,14 +8,14 @@ from . import _require
 
 class CreateTimeBasedSplit(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], method, split_summary_json_path, split_ts, test_fraction, test_index_count, train_index_count) -> str:
         err = _require(kwargs, ["split_summary_json_path"])
         if err: return err
-        row = {"method": kwargs.get("method"), "test_fraction": kwargs.get("test_fraction"),
-               "train_index_count": kwargs.get("train_index_count"),
-               "test_index_count": kwargs.get("test_index_count"),
-               "split_summary_json_path": kwargs["split_summary_json_path"],
-               "split_ts": kwargs.get("split_ts")}
+        row = {"method": method, "test_fraction": test_fraction,
+               "train_index_count": train_index_count,
+               "test_index_count": test_index_count,
+               "split_summary_json_path": split_summary_json_path,
+               "split_ts": split_ts}
         return json.dumps(_append(data.setdefault("dataset_split", []), row), indent=2)
 
     @staticmethod

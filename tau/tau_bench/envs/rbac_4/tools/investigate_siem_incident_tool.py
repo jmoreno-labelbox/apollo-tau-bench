@@ -9,11 +9,9 @@ class InvestigateSiemIncidentTool(Tool):
     """Record an investigation result for a SIEM alert."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        aid = kwargs.get("alert_id")
-        analyst = kwargs.get("analyst_id")
-        notes = kwargs.get("notes")
-        investigated_on = kwargs.get("investigated_on")
+    def invoke(data: Dict[str, Any], alert_id, analyst_id, investigated_on, notes) -> str:
+        aid = alert_id
+        analyst = analyst_id
 
         investigations = data.get("siem_investigations", [])
         new_id = f"INV-{len(investigations) + 1:03d}"

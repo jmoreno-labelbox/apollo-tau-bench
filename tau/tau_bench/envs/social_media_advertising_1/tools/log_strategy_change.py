@@ -9,14 +9,7 @@ class LogStrategyChange(Tool):
     """Adds a new entry to the strategy_changes table."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        adset_id = kwargs.get("adset_id")
-        old_strategy = kwargs.get("old_strategy")
-        new_strategy = kwargs.get("new_strategy")
-        old_bid = kwargs.get("old_bid")
-        new_bid = kwargs.get("new_bid")
-        changed_at = kwargs.get("changed_at")
-        reason = kwargs.get("reason")
+    def invoke(data: Dict[str, Any], adset_id, changed_at, new_bid, new_strategy, old_bid, old_strategy, reason) -> str:
         
         if not adset_id:
             return json.dumps({"error": "adset_id is a required parameter."})

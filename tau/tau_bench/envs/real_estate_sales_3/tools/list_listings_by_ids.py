@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class ListListingsByIds(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        ids = set(kwargs.get("listing_ids") or [])
+    def invoke(data: Dict[str, Any], listing_ids) -> str:
+        ids = set(listing_ids or [])
         props = _index_by(list(data.get("properties", {}).values()), "property_id")
         out = []
         for lst in list(data.get("listings", {}).values()) or []:

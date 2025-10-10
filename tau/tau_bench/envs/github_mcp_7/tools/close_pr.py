@@ -8,10 +8,8 @@ from tau_bench.envs.tool import Tool
 class ClosePR(Tool):
     """Close (but not merge) a PR."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get("owner") or _actor_name(data)
-        repo = kwargs.get("repo")
-        number = kwargs.get("number")
+    def invoke(data: Dict[str, Any], number, owner, repo) -> str:
+        owner = owner or _actor_name(data)
         for p in _prs(data):
             if p.get("owner") == owner and p.get("repo") == repo and p.get("number") == number:
                 p["state"] = "closed"

@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SummarizeTeamExpansion(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
-        new_team_members = kwargs.get("new_team_members", [])
-        additional_hours = kwargs.get("additional_hours", 0)
-        existing_hours = kwargs.get("existing_hours", 0)
+    def invoke(data: Dict[str, Any], project_id, additional_hours = 0, existing_hours = 0, new_team_members = []) -> str:
 
         if not all([project_id, new_team_members, additional_hours is not None]):
             return json.dumps(

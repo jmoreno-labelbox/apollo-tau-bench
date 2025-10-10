@@ -22,10 +22,7 @@ class CreateScoutingReport(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        report_type = kwargs.get("report_type")
-        game_pk = kwargs.get("game_pk")
-        core_narrative_text = kwargs.get("core_narrative_text")
+    def invoke(data: Dict[str, Any], core_narrative_text, game_pk, report_type) -> str:
 
         # 1) Verify
         missing = []

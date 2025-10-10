@@ -9,11 +9,7 @@ class PayToBeneficiary(Tool):
     """Transfers funds from a source account to a beneficiary’s external account."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        beneficiary_id = kwargs.get("beneficiary_id")
-        source_account_id = kwargs.get("source_account_id")
-        amount = kwargs.get("amount")
-        currency = kwargs.get("currency")
+    def invoke(data: Dict[str, Any], amount, beneficiary_id, currency, source_account_id) -> str:
 
         # check input values
         missing = [p for p in ("beneficiary_id", "source_account_id", "amount", "currency")

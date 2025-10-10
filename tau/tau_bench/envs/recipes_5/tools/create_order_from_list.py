@@ -9,12 +9,9 @@ from . import _first_user_id
 
 class CreateOrderFromList(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        household_id = kwargs.get("household_id")
-        store_id = kwargs.get("store_id")
-        list_id = kwargs.get("list_id")
-        slot_start = kwargs.get("scheduled_slot_start_ts")
-        slot_end = kwargs.get("scheduled_slot_end_ts")
+    def invoke(data: Dict[str, Any], household_id, list_id, scheduled_slot_end_ts, scheduled_slot_start_ts, store_id) -> str:
+        slot_start = scheduled_slot_start_ts
+        slot_end = scheduled_slot_end_ts
         if store_id is None:
             store_id = _default_store_id(data)
         if household_id is None:

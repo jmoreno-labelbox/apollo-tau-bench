@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class AssignFundingToProject(Tool):
     """Tool to assign a funding source to a project."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get('project_id')
-        funding_source_id = kwargs.get('funding_source_id')
+    def invoke(data: Dict[str, Any], funding_source_id, project_id) -> str:
         if not project_id or not funding_source_id:
             return json.dumps({"error": "project_id and funding_source_id are required."})
 

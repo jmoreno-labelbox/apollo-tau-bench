@@ -17,12 +17,7 @@ class GetPolicyException(Tool):
       status: str (optional) - Filter by status (PENDING_REVIEW, ACTIVE, EXPIRED, DENIED)
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        exception_id = kwargs.get("exception_id")
-        user_id = kwargs.get("user_id")
-        permission_id = kwargs.get("permission_id")
-        reviewed_by = kwargs.get("reviewed_by")
-        status = kwargs.get("status")
+    def invoke(data: Dict[str, Any], exception_id, permission_id, reviewed_by, status, user_id) -> str:
 
         exceptions = data.get("policy_exceptions", [])
 

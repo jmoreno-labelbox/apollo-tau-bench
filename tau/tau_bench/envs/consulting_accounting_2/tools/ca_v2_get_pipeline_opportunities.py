@@ -9,9 +9,7 @@ class CaV2GetPipelineOpportunities(Tool):
     """Get pipeline opportunities, optionally filtered by stage or probability."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        stage = kwargs.get("stage")
-        min_probability = kwargs.get("min_probability")
+    def invoke(data: Dict[str, Any], min_probability, stage) -> str:
 
         opportunities = data.get("pipeline_opportunities", [])
 

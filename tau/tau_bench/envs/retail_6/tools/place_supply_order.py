@@ -8,14 +8,7 @@ from tau_bench.envs.tool import Tool
 class PlaceSupplyOrder(Tool):
     """Create or update a supply order by provided supply_order_id."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        supply_order_id = kwargs.get('supply_order_id')
-        supplier_id = kwargs.get('supplier_id')
-        product_id = kwargs.get('product_id')
-        item_id = kwargs.get('item_id')
-        quantity = kwargs.get('quantity')
-        unit_cost = kwargs.get('unit_cost')
-        status = kwargs.get('status', 'pending')
+    def invoke(data, item_id, product_id, quantity, supplier_id, supply_order_id, unit_cost, status = 'pending') -> str:
         if not all([supply_order_id, supplier_id, product_id, item_id]) or quantity is None or unit_cost is None:
             return json.dumps({"error":"supply_order_id, supplier_id, product_id, item_id, quantity, unit_cost are required"}, indent=2)
         so_list = data.setdefault('supply_orders', [])

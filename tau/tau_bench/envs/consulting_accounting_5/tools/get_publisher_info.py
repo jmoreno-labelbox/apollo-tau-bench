@@ -7,11 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetPublisherInfo(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], publisher_id) -> str:
         """
         Retrieves the full details for a given publisher_id.
         """
-        publisher_id = kwargs["publisher_id"]
         publisher = next((p for p in data["publishers"] if p["publisher_id"] == publisher_id), None)
         return json.dumps(publisher)
 

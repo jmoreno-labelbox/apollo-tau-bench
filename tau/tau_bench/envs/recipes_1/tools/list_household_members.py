@@ -9,8 +9,7 @@ from . import _json_dump
 class ListHouseholdMembers(Tool):
     """List all members for a household."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        household_id = kwargs.get("household_id")
+    def invoke(data: Dict[str, Any], household_id) -> str:
         if household_id is None:
             return _json_dump({"error": "household_id is required"})
         rows = [m for m in list(data.get("members", {}).values()) if int(m.get("household_id")) == int(household_id)]

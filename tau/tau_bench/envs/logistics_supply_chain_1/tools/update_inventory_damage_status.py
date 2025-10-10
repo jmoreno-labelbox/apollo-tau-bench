@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class UpdateInventoryDamageStatus(Tool):
     """Updates the inventory count to move a number of units from 'available' to 'damaged'."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        inventory_id = kwargs.get('inventory_id')
-        damaged_quantity = kwargs.get('damaged_quantity')
+    def invoke(data: Dict[str, Any], damaged_quantity, inventory_id) -> str:
 
         if not all([inventory_id, damaged_quantity]):
             return json.dumps({"error": "inventory_id and damaged_quantity are required."}, indent=2)

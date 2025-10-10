@@ -8,14 +8,14 @@ from . import _require
 
 class WriteFileText(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], content, created_ts, mime_type, path, updated_ts) -> str:
         err = _require(kwargs, ["path", "content"])
         if err: return err
         tbl = data.setdefault("file_store", [])
-        row = {"path": kwargs["path"], "file_contents_text": kwargs["content"],
-               "file_mime_types": kwargs.get("mime_type"),
-               "char_counts": len(kwargs["content"]),
-               "created_ts": kwargs.get("created_ts"), "updated_ts": kwargs.get("updated_ts")}
+        row = {"path": path, "file_contents_text": content,
+               "file_mime_types": mime_type,
+               "char_counts": len(content),
+               "created_ts": created_ts, "updated_ts": updated_ts}
         existing = next((r for r in tbl if r.get("path") == row["path"]), None)
         if existing:
             existing.update(row)

@@ -7,12 +7,12 @@ from tau_bench.envs.tool import Tool
 
 class InsertAttachmentRecord(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], attachment_id, file_path, filename, message_id, mime_type, size_bytes = 0, stored_ts = NOW_TS) -> str:
         rows = _ensure_list(data, "attachments")
-        payload = {"attachment_id": kwargs.get("attachment_id"), "message_id": kwargs.get("message_id"),
-                   "filename": kwargs.get("filename"), "mime_type": kwargs.get("mime_type"),
-                   "file_path": kwargs.get("file_path"), "size_bytes": kwargs.get("size_bytes", 0),
-                   "stored_ts": kwargs.get("stored_ts", NOW_TS)}
+        payload = {"attachment_id": attachment_id, "message_id": message_id,
+                   "filename": filename, "mime_type": mime_type,
+                   "file_path": file_path, "size_bytes": size_bytes,
+                   "stored_ts": stored_ts}
         rows.append(payload)
         return json.dumps({"attachment_id": payload["attachment_id"], "created": True}, indent=2)
 

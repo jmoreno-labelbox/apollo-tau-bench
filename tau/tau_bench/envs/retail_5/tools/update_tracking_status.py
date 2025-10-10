@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateTrackingStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        tracking_id = kwargs.get('tracking_id')
-        status = kwargs.get('status')
+    def invoke(data: Dict[str, Any], status, tracking_id) -> str:
 
         if not tracking_id or not status:
             return json.dumps({'error': 'tracking_id and status are required'})

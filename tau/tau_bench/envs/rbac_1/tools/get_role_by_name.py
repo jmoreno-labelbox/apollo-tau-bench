@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetRoleByName(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        role_name = kwargs.get("role_name")
+    def invoke(data: Dict[str, Any], role_name) -> str:
         for role in list(data.get('roles', {}).values()):
             if role.get('role_name') == role_name:
                 return json.dumps(role)

@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class MergeChangeRequests(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        primary_cr_id = kwargs.get("primary_cr_id")
-        secondary_cr_ids = kwargs.get("secondary_cr_ids", [])
-        merged_by = kwargs.get("merged_by")
+    def invoke(data: Dict[str, Any], merged_by, primary_cr_id, secondary_cr_ids = []) -> str:
 
         if not all([primary_cr_id, secondary_cr_ids, merged_by]):
             return json.dumps(

@@ -8,10 +8,8 @@ from tau_bench.envs.tool import Tool
 class ListCommits(Tool):
     """List commits for a repo (optional branch filter)."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get("owner") or _actor_name(data)
-        repo = kwargs.get("repo")
-        branch = kwargs.get("branch")
+    def invoke(data: Dict[str, Any], branch, owner, repo) -> str:
+        owner = owner or _actor_name(data)
         result = [c for c in _commits(data) if c.get("owner") == owner and c.get("repo") == repo]
         if branch:
             result = [c for c in result if c.get("branch") == branch]

@@ -9,10 +9,7 @@ class UpdateAccessRequest(Tool):
     """Updates an existing access request, used for rerouting or corrections."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        request_id = kwargs.get("request_id")
-        new_reviewer_id = kwargs.get("new_reviewer_id")
-        new_status = kwargs.get("new_status")
+    def invoke(data: Dict[str, Any], new_reviewer_id, new_status, request_id, timestamp) -> str:
 
         for req in data.get('access_requests', []):
             if req.get("request_id") == request_id:
@@ -20,7 +17,7 @@ class UpdateAccessRequest(Tool):
                     req["reviewer_id"] = new_reviewer_id
                 if new_status:
                     req["status"] = new_status
-                req["decision_at"] = kwargs.get("timestamp") 
+                req["decision_at"] = timestamp 
                 return json.dumps({"status": "success", "updated_request_id": request_id})
         
         return json.dumps({"status": "error", "message": "Request not found."})

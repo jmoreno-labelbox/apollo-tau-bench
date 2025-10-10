@@ -21,9 +21,8 @@ class GetGradesByGradeForGame(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        game_pk = kwargs.get("game_pk")
-        grades_filter = kwargs.get("grades")
+    def invoke(data: Dict[str, Any], game_pk, grades) -> str:
+        grades_filter = grades
 
         # 1) Verify
         if game_pk is None:

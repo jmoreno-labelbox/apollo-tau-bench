@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class AddEmailLabel(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        new_label = kwargs.get("label") or {}
+    def invoke(data: Dict[str, Any], label) -> str:
+        new_label = label or {}
         labels = list(data.get("email_labels", {}).values())
         labels.append(new_label)
         data["email_labels"] = labels

@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class AllocateTaskExpenses(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        task_id = kwargs.get("task_id")
-        expense_amount = kwargs.get("expense_amount")
-        expense_category = kwargs.get("expense_category")
-        description = kwargs.get("description")
+    def invoke(data: Dict[str, Any], description, expense_amount, expense_category, task_id) -> str:
 
         if not all([task_id, expense_amount, expense_category, description]):
             return json.dumps({"error": "All fields are required"})

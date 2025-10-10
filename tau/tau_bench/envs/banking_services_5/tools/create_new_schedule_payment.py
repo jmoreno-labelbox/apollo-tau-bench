@@ -8,15 +8,10 @@ from tau_bench.envs.tool import Tool
 class CreateNewSchedulePayment(Tool):
     """Schedules a new payment for a customer with full validation and logic."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id       = kwargs.get("customer_id")
-        source_account_id = kwargs.get("source_account_id")
-        beneficiary_id    = kwargs.get("beneficiary_id")
-        amount            = kwargs.get("amount")
-        currency          = kwargs.get("currency", "")
-        frequency         = kwargs.get("frequency", "One-Time").capitalize()
-        start_date_str    = kwargs.get("start_date")
-        end_date_str      = kwargs.get("end_date")
+    def invoke(data: Dict[str, Any], amount, beneficiary_id, customer_id, end_date, source_account_id, start_date, currency = "", frequency = "One-Time") -> str:
+        frequency         = frequency.capitalize()
+        start_date_str    = start_date
+        end_date_str      = end_date
 
         # mandatory fields
         if not all([customer_id, source_account_id, beneficiary_id, amount, currency, frequency, start_date_str]):

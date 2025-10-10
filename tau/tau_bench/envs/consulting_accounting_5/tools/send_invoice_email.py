@@ -8,17 +8,11 @@ from tau_bench.envs.tool import Tool
 
 class SendInvoiceEmail(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], consultant_id, invoice_number, publisher_id, attachment = "", body_text = "", subject = "") -> str:
         """
         Simulates sending an invoice email and updates the sent_at field on the invoice.
         """
-        invoice_number = kwargs["invoice_number"]
         sent_time = '2025-09-05T00:00:00Z' # Get the current date and time in ISO 8601 format.
-        publisher_id = kwargs.get("publisher_id")
-        consultant_id = kwargs.get("consultant_id")
-        subject = kwargs.get("subject", "")
-        body_text = kwargs.get("body_text", "")
-        attachment = kwargs.get("attachment", "")
 
         invoice = next((inv for inv in data["invoices"] if inv["invoice_number"] == invoice_number), None)
         if invoice:

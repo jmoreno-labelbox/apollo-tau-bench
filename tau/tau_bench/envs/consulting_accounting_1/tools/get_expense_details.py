@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetExpenseDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        expense_id = kwargs.get("expense_id")
+    def invoke(data: Dict[str, Any], expense_id) -> str:
         if not expense_id:
             return json.dumps({"error": "expense_id is required"}, indent=2)
         expenses = list(data.get("expenses", {}).values())

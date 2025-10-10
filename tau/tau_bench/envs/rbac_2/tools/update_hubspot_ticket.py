@@ -9,8 +9,7 @@ class UpdateHubspotTicket(Tool):
     """ Updates an existing HubSpot ticket. """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        ticket_id= kwargs.get("ticket_id")
+    def invoke(data: Dict[str, Any], ticket_id, timestamp) -> str:
         try:
             hubspot_tickets = data.get('hubspot_tickets', [])
         except:
@@ -22,7 +21,7 @@ class UpdateHubspotTicket(Tool):
                 for key, value in kwargs.items():
                     if key in ticket:
                         ticket[key] = value
-                ticket["updated_at"] = kwargs.get("timestamp") # Continuously refresh the timestamp.
+                ticket["updated_at"] = timestamp # Continuously refresh the timestamp.
                 ticket_to_update = ticket
                 break
 

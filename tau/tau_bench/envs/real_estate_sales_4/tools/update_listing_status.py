@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateListingStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        listing_id = kwargs.get('listing_id')
-        new_status = kwargs.get('new_status')
-        updated_by = kwargs.get('updated_by')
+    def invoke(data: Dict[str, Any], listing_id, new_status, updated_by) -> str:
         
         if not all([listing_id, new_status, updated_by]):
             return json.dumps({

@@ -7,13 +7,12 @@ from tau_bench.envs.tool import Tool
 
 class EvaluateModel(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], model_id, predictions_id) -> str:
         metrics_id = "METRICS_001"
-        predictions_id = kwargs.get("predictions_id")
         if not predictions_id:
             predictions_id = "PRED_001"
         metrics_entry = {
-            "model_id": kwargs.get("model_id"),
+            "model_id": model_id,
             "metrics_id": metrics_id,
             "predictions_id": predictions_id,
             "auc": 0.87,

@@ -7,9 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class FindNoaaStation(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        lat = kwargs.get("latitude")
-        lon = kwargs.get("longitude")
+    def invoke(data: Dict[str, Any], latitude, longitude) -> str:
+        lat = latitude
+        lon = longitude
 
         station_id = "NOAA_STATION_001"
         noaa_station_json = {

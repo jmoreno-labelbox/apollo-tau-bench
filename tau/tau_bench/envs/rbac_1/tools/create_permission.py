@@ -7,15 +7,15 @@ from tau_bench.envs.tool import Tool
 
 class CreatePermission(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], action, description, resource_id) -> str:
         permissions = list(data.get('permissions', {}).values())
         new_id_num = max((int(p['permission_id'][2:]) for p in permissions), default=0) + 1
         new_permission_id = f"P-{new_id_num:03d}"
         new_permission = {
                 "permission_id": new_permission_id,
-                "action": kwargs.get("action"),
-                "resource_id": kwargs.get("resource_id"),
-                "description": kwargs.get("description")
+                "action": action,
+                "resource_id": resource_id,
+                "description": description
         }
         permissions.append(new_permission)
         data['permissions'] = permissions

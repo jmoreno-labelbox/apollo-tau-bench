@@ -7,10 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class ReadProcessedSeries(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        name = kwargs.get("series_name")
-        start = kwargs.get("start")
-        end = kwargs.get("end")
+    def invoke(data: Dict[str, Any], end, series_name, start) -> str:
+        name = series_name
         rows = []
         for r in list(data.get("processed_timeseries", {}).values()) or []:
             if name and r.get("series_name") != name:

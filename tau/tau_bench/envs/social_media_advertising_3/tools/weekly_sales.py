@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class WeeklySales(Tool):
     """Return weekly sales for a product category."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cat, week = kwargs.get("category"), kwargs.get("start_date")
+    def invoke(data: Dict[str, Any], category, start_date) -> str:
+        cat, week = category, start_date
         for s in data.get("f_sales", []):
             if s.get("category") == cat and s.get("start_date") == week:
                 return json.dumps(s)

@@ -7,12 +7,12 @@ from tau_bench.envs.tool import Tool
 
 class GetDailyInsightsForAdset(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], adset_id, date) -> str:
         req = ["adset_id", "date"]
         err = _require(kwargs, req)
         if err: return _fail(err)
         rows = _assert_table(data, "f_insights")
-        out = [r for r in rows if str(r.get("adset_id")) == str(kwargs["adset_id"]) and r.get("date") == kwargs["date"]]
+        out = [r for r in rows if str(r.get("adset_id")) == str(adset_id) and r.get("date") == date]
         return json.dumps(out)
 
     @staticmethod

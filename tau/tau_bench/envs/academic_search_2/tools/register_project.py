@@ -8,9 +8,8 @@ from tau_bench.envs.tool import Tool
 class RegisterProject(Tool):
     """Creates a new research project."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_name, lead_researcher_id, linked_article_id = kwargs.get('project_name'), kwargs.get('lead_researcher_id'), kwargs.get('linked_article_id')
-        project_id_override = kwargs.get('project_id_override')
+    def invoke(data: Dict[str, Any], lead_researcher_id, linked_article_id, project_id_override, project_name) -> str:
+        project_name, lead_researcher_id, linked_article_id = project_name, lead_researcher_id, linked_article_id
         if not all([project_name, lead_researcher_id, linked_article_id]):
             return json.dumps({"error": "project_name, lead_researcher_id, and linked_article_id are required."})
         new_project = {

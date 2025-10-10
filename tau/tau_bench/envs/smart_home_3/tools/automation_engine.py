@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class AutomationEngine(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        action = kwargs.get('action', 'get')
-        rule_id = kwargs.get('rule_id')
-        trigger_type = kwargs.get('trigger_type')
-        rule_data = kwargs.get('rule_data', {})
+    def invoke(data: Dict[str, Any], rule_id, trigger_type, action = 'get', rule_data = {}) -> str:
 
         if 'automation_rules' not in data:
             data['automation_rules'] = []

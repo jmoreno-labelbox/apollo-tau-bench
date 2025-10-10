@@ -9,9 +9,9 @@ class GetCertifiedSuppliers(Tool):
     """Tool to filter suppliers by certification keyword."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        keyword = kwargs.get("certification", "").lower()
-        list_of_suppliers = kwargs.get("list_of_ids", None)
+    def invoke(data: Dict[str, Any], certification = "", list_of_ids = None) -> str:
+        keyword = certification.lower()
+        list_of_suppliers = list_of_ids
         suppliers = list(data.get("supplier_master", {}).values())
         result = [
             s['supplier_id'] for s in suppliers

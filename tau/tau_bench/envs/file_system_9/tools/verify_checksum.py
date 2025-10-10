@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class VerifyChecksum(Tool):
     """Verifies the checksum of a file against its original record in file_lists.json."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        file_id = kwargs.get("file_id")
-        filepath = kwargs.get("filepath")
+    def invoke(data: Dict[str, Any], file_id, filepath) -> str:
         
         original_checksum = None
         for record in list(data.get("file_lists", {}).values()):

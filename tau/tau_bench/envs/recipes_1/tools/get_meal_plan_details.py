@@ -9,8 +9,7 @@ from . import _require, _json_dump
 class GetMealPlanDetails(Tool):
     """Return a meal_plan row by id."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        meal_plan_id = kwargs.get("meal_plan_id")
+    def invoke(data: Dict[str, Any], meal_plan_id) -> str:
         if meal_plan_id is None:
             return _json_dump({"error": "meal_plan_id is required"})
         row = _require(data, "meal_plans", "meal_plan_id", int(meal_plan_id))

@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class GetAdsetsByCategory(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        c = kwargs.get("category")
+    def invoke(data: Dict[str, Any], category) -> str:
+        c = category
         rows = [r for r in list(data.get("adsets", {}).values()) if r.get("category") == c]
         return json.dumps({"adsets": rows})
 

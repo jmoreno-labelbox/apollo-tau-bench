@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SetTidePredictions(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        station_id = kwargs.get("station_id")
+    def invoke(data: Dict[str, Any], station_id) -> str:
         # This simulates behavior; in a live setting, it would retrieve data from NOAA.
 
         tide_prediction_data = {

@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateInventoryAdjustment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        store_id = kwargs["store_id"]
-        sku = kwargs["sku"]
-        amount = kwargs["amount"]
+    def invoke(data: Dict[str, Any], amount, sku, store_id, reason = "audit_discrepancy") -> str:
         # Verify the presence of the inventory record.
         inventory = list(data.get("inventory", {}).values())
         exists = any(item["store_id"] == store_id and item["sku"] == sku for item in inventory)
@@ -22,7 +19,7 @@ class CreateInventoryAdjustment(Tool):
             "store_id": store_id,
             "sku": sku,
             "amount": amount,
-            "reason": kwargs.get("reason", "audit_discrepancy")
+            "reason": reason
         }
         data.setdefault("inventory_adjustments", []).append(entry)
         resp = {"message": "Inventory adjustment created.", "adjustment_id": adj_id, "entry": entry}

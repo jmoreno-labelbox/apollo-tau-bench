@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateResourceConflict(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
-        competing_projects = kwargs.get("competing_projects", [])
-        conflict_type = kwargs.get("conflict_type", "allocation")
-        resolution = kwargs.get("resolution", "")
+    def invoke(data: Dict[str, Any], employee_id, competing_projects = [], conflict_type = "allocation", resolution = "") -> str:
 
         if not all([employee_id, competing_projects]):
             return json.dumps(

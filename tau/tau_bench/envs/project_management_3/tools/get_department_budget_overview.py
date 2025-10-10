@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetDepartmentBudgetOverview(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        department_name = kwargs.get("department_name")
-        fiscal_year = kwargs.get("fiscal_year", datetime.now().year)
+    def invoke(data: Dict[str, Any], department_name, fiscal_year = datetime.now().year) -> str:
 
         if not department_name:
             return json.dumps({"error": "department_name is required"})

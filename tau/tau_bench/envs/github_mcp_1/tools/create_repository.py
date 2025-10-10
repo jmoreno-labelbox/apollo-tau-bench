@@ -16,12 +16,10 @@ class CreateRepository(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        owner = kwargs.get("owner", "").strip()
-        repo_name = kwargs.get("repo_name", "").strip()
-        description = kwargs.get("description", None)
-        private_flag = kwargs.get("private_flag", False)
-        autoinit_flag = kwargs.get("auto_init_flag", False)
+    def invoke(data: Dict[str, Any], auto_init_flag = False, description = None, owner = "", private_flag = False, repo_name = "") -> str:
+        owner = owner.strip()
+        repo_name = repo_name.strip()
+        autoinit_flag = auto_init_flag
 
         if not owner or not repo_name:
             return json.dumps(

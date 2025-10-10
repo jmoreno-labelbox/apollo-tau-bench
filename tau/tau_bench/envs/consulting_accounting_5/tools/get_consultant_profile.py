@@ -7,12 +7,12 @@ from tau_bench.envs.tool import Tool
 
 class GetConsultantProfile(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], name) -> str:
         """
         Returns consultant_id(s) (usually only one profile exists).
         """
         for c in data["consultants"]:
-            if c["name"] == kwargs.get("name"):
+            if c["name"] == name:
                 return json.dumps(c['consultant_id'])
 
     @staticmethod

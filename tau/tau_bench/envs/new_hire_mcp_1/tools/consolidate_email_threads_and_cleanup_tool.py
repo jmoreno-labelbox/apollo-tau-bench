@@ -9,9 +9,8 @@ class ConsolidateEmailThreadsAndCleanupTool(Tool):
     """Groups emails into threads and cleans up old drafts."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        candidate_id = kwargs.get("candidate_id")
-        age_days = kwargs.get("draft_cleanup_age_days", 30)
+    def invoke(data: Dict[str, Any], candidate_id, draft_cleanup_age_days = 30) -> str:
+        age_days = draft_cleanup_age_days
 
         all_emails = data.get("emails", [])
         candidate_emails = [e for e in all_emails if e.get("candidate_id_nullable") == candidate_id]

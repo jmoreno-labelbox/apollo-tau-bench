@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GenerateChangeReport(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
-        report_type = kwargs.get("report_type", "summary")
-        include_details = kwargs.get("include_details", False)
+    def invoke(data: Dict[str, Any], project_id, include_details = False, report_type = "summary") -> str:
 
         if not project_id:
             return json.dumps({"error": "project_id is required"})

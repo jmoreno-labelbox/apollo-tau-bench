@@ -9,11 +9,8 @@ class UpdateInventoryInboundQuantity(Tool):
     """Updates the inbound quantity for a specific product in a warehouse."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], quantity_to_add, sku, warehouse_id) -> str:
         inventory_items = list(data.get("inventory", {}).values())
-        sku = kwargs.get("sku")
-        warehouse_id = kwargs.get("warehouse_id")
-        quantity_to_add = kwargs.get("quantity_to_add")
         for item in inventory_items:
             if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id:
                 original_inbound = item.get("quantity_inbound", 0)

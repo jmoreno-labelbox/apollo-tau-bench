@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class BuildMtpInputPaths(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        merged_timeseries_path = kwargs.get("merged_timeseries_path")
-        features_csv_path = kwargs.get("features_csv_path")
-        split_summary_json_path = kwargs.get("split_summary_json_path")
+    def invoke(data: Dict[str, Any], features_csv_path, merged_timeseries_path, split_summary_json_path) -> str:
         if not merged_timeseries_path or not features_csv_path or not split_summary_json_path:
             return json.dumps({"error":"Missing merged_timeseries_path, features_csv_path, or split_summary_json_path"})
         return json.dumps({"input_paths":[merged_timeseries_path, features_csv_path, split_summary_json_path]})

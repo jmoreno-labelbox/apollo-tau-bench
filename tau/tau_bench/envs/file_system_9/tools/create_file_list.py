@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class CreateFileList(Tool):
     """Adds a list of files to the file_lists.json database, looking up their size and checksum from file_system.json."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        operation_id = kwargs.get("operation_id")
-        filepaths = kwargs.get("filepaths", [])
+    def invoke(data: Dict[str, Any], operation_id, filepaths = []) -> str:
         file_lists = list(data.get("file_lists", {}).values())
         
         max_id = 0

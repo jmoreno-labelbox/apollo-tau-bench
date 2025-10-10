@@ -22,8 +22,7 @@ class ReopenCancelledOrderTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        order_id = kwargs.get("order_id")
+    def invoke(data: Dict[str, Any], order_id) -> str:
         if not order_id:
             return json.dumps({"error": "order_id is required"}, indent=2)
 

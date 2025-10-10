@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateIncidentReport(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        id = kwargs.get("id")
-        incident_type = kwargs.get("incident_type")
-        severity = kwargs.get("severity", "medium")
+    def invoke(data: Dict[str, Any], id, incident_type, severity = "medium") -> str:
 
         incident_id = f"INC-{id}-{severity}"
 

@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GenerateReviewandLog(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        log_data = kwargs.get('log_data')
+    def invoke(data: Dict[str, Any], log_data) -> str:
         if log_data is None:
             return json.dumps({'status': 'error', 'description': 'The log_data field is required.'}, indent=2)
 

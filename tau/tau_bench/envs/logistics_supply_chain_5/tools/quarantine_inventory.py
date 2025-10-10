@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class QuarantineInventory(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        lot_number = kwargs.get("lot_number")
-        warehouse_id = kwargs.get("warehouse_id")
-        reason = kwargs.get("reason")
+    def invoke(data: Dict[str, Any], lot_number, reason, warehouse_id) -> str:
 
         quarantine_id = f"QTN-{lot_number}-{warehouse_id}"
 

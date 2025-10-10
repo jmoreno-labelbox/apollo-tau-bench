@@ -25,9 +25,8 @@ class ReassignTrackingToNewCourierTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        tid = kwargs.get("tracking_id")
-        new_courier_name = kwargs.get("new_courier_name")
+    def invoke(data: Dict[str, Any], new_courier_name, tracking_id) -> str:
+        tid = tracking_id
 
         if not tid or not new_courier_name:
             return json.dumps({"error": "tracking_id and new_courier_name are required"}, indent=2)

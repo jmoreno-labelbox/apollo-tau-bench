@@ -9,8 +9,7 @@ from . import _require, _json_dump
 class GetUserById(Tool):
     """Return a user row by user_id."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
+    def invoke(data: Dict[str, Any], user_id) -> str:
         if user_id is None:
             return _json_dump({"error": "user_id is required"})
         row = _require(data, "users", "user_id", user_id)

@@ -9,9 +9,8 @@ class ListCodeScanningAlerts(Tool):
     """Lists all code scanning alerts for a given repository and optional severity."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_name = kwargs.get("repo_name")
-        severity_filter = kwargs.get("severity")
+    def invoke(data: Dict[str, Any], repo_name, severity) -> str:
+        severity_filter = severity
 
         flat_alerts = []
 

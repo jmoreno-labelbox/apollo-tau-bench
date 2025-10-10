@@ -9,8 +9,7 @@ class GetAccessRequestById(Tool):
     """ Get the full details of a specific access request using its ID. """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        request_id = kwargs.get("request_id")
+    def invoke(data: Dict[str, Any], request_id) -> str:
         try:
             access_requests = data.get('access_requests', [])
         except:

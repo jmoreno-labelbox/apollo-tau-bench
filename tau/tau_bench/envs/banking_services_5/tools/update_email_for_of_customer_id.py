@@ -9,9 +9,7 @@ class UpdateEmailForOfCustomerId(Tool):
     """Updates the email address of a customer given their customer ID."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
-        new_email = kwargs.get("new_email")
+    def invoke(data: Dict[str, Any], customer_id, new_email) -> str:
 
         if not customer_id or not new_email:
             return json.dumps({

@@ -7,15 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateChangeRequest(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        title = kwargs.get("title")
-        description = kwargs.get("description")
-        requester_id = kwargs.get("requester_id")
-        project_id = kwargs.get("project_id")
-        change_type = kwargs.get("change_type")
-        priority = kwargs.get("priority", "medium")
-        affected_deliverables = kwargs.get("affected_deliverables", [])
-        business_justification = kwargs.get("business_justification")
+    def invoke(data: Dict[str, Any], business_justification, change_type, description, project_id, requester_id, title, affected_deliverables = [], cr_id = f"cr_{uuid.uuid4().hex[:8]}", priority = "medium") -> str:
 
         if not all(
             [
@@ -144,8 +136,6 @@ class CreateChangeRequest(Tool):
                             ),
                         }
                     )
-
-        cr_id = kwargs.get("cr_id", f"cr_{uuid.uuid4().hex[:8]}")
 
         new_cr = {
             "cr_id": cr_id,

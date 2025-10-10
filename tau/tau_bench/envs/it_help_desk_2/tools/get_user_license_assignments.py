@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetUserLicenseAssignments(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
+    def invoke(data: Dict[str, Any], employee_id) -> str:
         assignments = data.get("license_assignments", [])
         user_licenses = [a for a in assignments if a.get("employee_id") == employee_id and a.get("status") == "active"]
         return json.dumps(user_licenses, indent=2)

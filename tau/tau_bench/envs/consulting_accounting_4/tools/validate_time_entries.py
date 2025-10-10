@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class ValidateTimeEntries(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        rows = kwargs.get("rows") or []
+    def invoke(data: Dict[str, Any], rows) -> str:
+        rows = rows or []
         missing = [r for r in rows if not r.get("description") or r.get("isbn") in (None,"") or r.get("account_code") in (None,"")]
         return json.dumps({"valid": len(missing)==0, "missing_count": len(missing)}, indent=2)
     @staticmethod

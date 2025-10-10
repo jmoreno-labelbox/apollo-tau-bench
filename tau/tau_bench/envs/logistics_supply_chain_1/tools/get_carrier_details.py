@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetCarrierDetails(Tool):
     """Retrieves the full details for a single carrier by its name."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        carrier_name = kwargs.get('carrier_name')
+    def invoke(data: Dict[str, Any], carrier_name) -> str:
         if not carrier_name:
             return json.dumps({"error": "carrier_name is required."}, indent=2)
         carrier = next(

@@ -9,13 +9,7 @@ from . import _first_user_id
 
 class LogAuditEvent(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        household_id = kwargs.get("household_id")
-        user_id = kwargs.get("user_id")
-        entity_type = kwargs.get("entity_type")
-        entity_id = kwargs.get("entity_id")
-        action_enum = kwargs.get("action_enum", "create")
-        payload_json = kwargs.get("payload_json", {})
+    def invoke(data: Dict[str, Any], entity_id, entity_type, household_id, user_id, action_enum = "create", payload_json = {}) -> str:
         if user_id is None:
             user_id = _first_user_id(data)
         if household_id is None:

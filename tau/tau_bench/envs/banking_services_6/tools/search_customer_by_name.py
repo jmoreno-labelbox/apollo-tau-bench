@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SearchCustomerByName(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        first_name = kwargs.get("first_name")
-        last_name = kwargs.get("last_name")
+    def invoke(data: Dict[str, Any], first_name, last_name) -> str:
         customers = list(data.get("customers", {}).values())
         results = []
         for customer in customers:

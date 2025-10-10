@@ -8,19 +8,19 @@ from . import _next_int_id
 
 class CreateCalendarEvent(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], broker_id, client_id, end_at, location, notes, source, start_at, title) -> str:
         events = data.get("calendar_events", [])
         new_id = _next_int_id(events, "event_id")
         row = {
             "event_id": new_id,
-            "broker_id": kwargs.get("broker_id"),
-            "client_id": kwargs.get("client_id"),
-            "title": kwargs.get("title"),
-            "start_at": kwargs.get("start_at"),
-            "end_at": kwargs.get("end_at"),
-            "location": kwargs.get("location"),
-            "notes": kwargs.get("notes"),
-            "source": kwargs.get("source")
+            "broker_id": broker_id,
+            "client_id": client_id,
+            "title": title,
+            "start_at": start_at,
+            "end_at": end_at,
+            "location": location,
+            "notes": notes,
+            "source": source
         }
         events.append(row)
         return json.dumps(row, indent=2)

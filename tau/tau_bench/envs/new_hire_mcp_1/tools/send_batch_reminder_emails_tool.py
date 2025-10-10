@@ -9,9 +9,8 @@ class SendBatchReminderEmailsTool(Tool):
     """Creates multiple reminder emails from a template and updates corresponding `checklist_items`."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        candidate_ids = kwargs.get("candidate_ids", [])
-        days_overdue_threshold = _as_int(kwargs.get("days_overdue_threshold", 0))
+    def invoke(data: Dict[str, Any], candidate_ids = [], days_overdue_threshold = 0) -> str:
+        days_overdue_threshold = _as_int(days_overdue_threshold)
         template_name = "overdue_task_reminder"
 
         if not candidate_ids:

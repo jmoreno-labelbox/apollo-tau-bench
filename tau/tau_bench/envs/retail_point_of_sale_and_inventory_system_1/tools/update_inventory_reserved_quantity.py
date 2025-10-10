@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateInventoryReservedQuantity(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        inventory_id = kwargs.get('inventory_id')
-        change_amount = kwargs.get('change_amount')
+    def invoke(data: Dict[str, Any], change_amount, inventory_id) -> str:
         inventory_items = list(data.get("inventory", {}).values())
         updated_item = None
         for item in inventory_items:

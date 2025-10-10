@@ -9,9 +9,7 @@ class UpdateCampaignStatus(Tool):
     """Updates the status of a campaign."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        campaign_id = kwargs.get("campaign_id")
-        new_status = kwargs.get("new_status")
+    def invoke(data: Dict[str, Any], campaign_id, new_status) -> str:
         
         campaigns = list(data.get("campaigns", {}).values())
         for campaign in campaigns:

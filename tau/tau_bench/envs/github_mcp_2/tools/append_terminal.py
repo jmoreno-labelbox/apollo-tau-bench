@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class AppendTerminal(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        msg = kwargs.get("message")
+    def invoke(data: Dict[str, Any], message) -> str:
+        msg = message
         if not msg:
             return json.dumps({"error": "message is required."}, indent=2)
         entry = {"printed_ts": get_current_timestamp(), "message": str(msg)}

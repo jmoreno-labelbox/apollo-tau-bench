@@ -28,13 +28,12 @@ class PersistOwnerToRun(Tool):
         }
 
     @staticmethod
-    def invoke(data, **kwargs):
-        run_id = kwargs.get("run_id")
+    def invoke(data, confidence_score, owner_id, ownership_type, run_id, team_id):
         owner = {
-            "owner_id": kwargs.get("owner_id"),
-            "team_id": kwargs.get("team_id"),
-            "ownership_type": kwargs.get("ownership_type"),
-            "confidence_score": kwargs.get("confidence_score"),
+            "owner_id": owner_id,
+            "team_id": team_id,
+            "ownership_type": ownership_type,
+            "confidence_score": confidence_score,
         }
         runs = list(data.get("build_runs", {}).values())
         run = next((r for r in runs if r.get("id") == run_id), None)

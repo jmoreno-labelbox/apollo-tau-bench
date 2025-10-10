@@ -7,17 +7,17 @@ from tau_bench.envs.tool import Tool
 
 class AddMonthlyExpense(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], amount, month, snapshot_id) -> str:
         """
         Insert or update monthly expense for a given snapshot.
         Deterministic: keyed by snapshot_id + month.
         """
 
         record = {
-            "row_id": kwargs["snapshot_id"]+"_"+kwargs["month"],
-            "snapshot_id": kwargs["snapshot_id"],
-            "month_year": kwargs["month"],
-            "amount": kwargs["amount"]
+            "row_id": snapshot_id+"_"+month,
+            "snapshot_id": snapshot_id,
+            "month_year": month,
+            "amount": amount
         }
         data.setdefault("monthly_expenses", []).append(record)
 

@@ -8,8 +8,8 @@ from . import _fixed_now_iso
 
 class ModifyProjectConfig(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        updates = kwargs.get("updates") or {}
+    def invoke(data: Dict[str, Any], updates) -> str:
+        updates = updates or {}
         
         # Verify that project_config is present in the data.
         if "project_config" not in data or data["project_config"] is None or isinstance(data["project_config"], list):

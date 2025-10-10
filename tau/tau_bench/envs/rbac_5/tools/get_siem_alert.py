@@ -16,11 +16,7 @@ class GetSiemAlert(Tool):
       severity: str (optional) - Filter by severity (CRITICAL, HIGH, MEDIUM, LOW)
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        alert_id = kwargs.get("alert_id")
-        user_id = kwargs.get("user_id")
-        resource_id = kwargs.get("resource_id")
-        severity = kwargs.get("severity")
+    def invoke(data: Dict[str, Any], alert_id, resource_id, severity, user_id) -> str:
 
         siem_alerts = data.get("siem_alerts", [])
 

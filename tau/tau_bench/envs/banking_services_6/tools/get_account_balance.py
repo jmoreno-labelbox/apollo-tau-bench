@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetAccountBalance(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        account_id = kwargs.get("account_id")
+    def invoke(data: Dict[str, Any], account_id) -> str:
         accounts = list(data.get("accounts", {}).values())
         for account in accounts:
             if account.get("account_id") == account_id:

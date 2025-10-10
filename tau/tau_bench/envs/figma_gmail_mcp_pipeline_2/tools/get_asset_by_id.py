@@ -7,11 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class GetAssetById(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        if not kwargs.get("asset_id"):
+    def invoke(data: Dict[str, Any], asset_id) -> str:
+        if not asset_id:
             return json.dumps({"error": "Missing required field: asset_id"}, indent=2)
-
-        asset_id = kwargs.get("asset_id")
         assets = data.get("assets", [])
         for row in assets:
             if row.get("asset_id") == asset_id:

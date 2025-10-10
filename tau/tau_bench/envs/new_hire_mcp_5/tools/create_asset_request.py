@@ -8,11 +8,9 @@ from tau_bench.envs.tool import Tool
 class CreateAssetRequest(Tool):
     """Create or update an asset request for a candidate (idempotent by candidate_id+asset_type)."""
     @staticmethod
-    def invoke(db: Dict[str, Any], **kwargs) -> str:
-        cand_id = kwargs["candidate_id"]
-        asset_type = kwargs["asset_type"]
-        status = kwargs.get("status", "Requested")
-        ts = _fixed_ts(kwargs.get("requested_ts"))
+    def invoke(db: Dict[str, Any], asset_type, candidate_id, requested_ts, status = "Requested") -> str:
+        cand_id = candidate_id
+        ts = _fixed_ts(requested_ts)
         reqs = db.setdefault("asset_requests", [])
 
         row = next((r for r in reqs if r.get("candidate_id") == cand_id and r.get("asset_type") == asset_type), None)

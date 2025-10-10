@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class AppointReviewer(Tool):
     """Tool to assign a reviewer to a submission."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        submission_id = kwargs.get('submission_id')
-        reviewer_user_id = kwargs.get('reviewer_user_id')
+    def invoke(data: Dict[str, Any], reviewer_user_id, submission_id) -> str:
         if not submission_id or not reviewer_user_id:
             return json.dumps({"error": "submission_id and reviewer_user_id are required."})
 

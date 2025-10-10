@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class get_benefits_enrollment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
-        department_id = kwargs.get("department_id")
+    def invoke(data: Dict[str, Any], department_id, employee_id) -> str:
 
         if employee_id:
             employee = find_employee(list(data.get("employees", {}).values()), employee_id)

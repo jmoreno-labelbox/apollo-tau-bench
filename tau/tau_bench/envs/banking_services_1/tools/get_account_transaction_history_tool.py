@@ -21,9 +21,7 @@ class GetAccountTransactionHistoryTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        account_id = kwargs.get("account_id")
-        days = kwargs.get("days", 30)
+    def invoke(data: Dict[str, Any], account_id, days = 30) -> str:
         if not account_id:
             return json.dumps({"error": "account_id is required"}, indent=2)
 

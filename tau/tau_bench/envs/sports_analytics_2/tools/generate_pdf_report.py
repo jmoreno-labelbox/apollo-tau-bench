@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GeneratePdfReport(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        game_pk = kwargs.get("game_pk")
-        report_type = kwargs.get("report_type")
+    def invoke(data: Dict[str, Any], game_pk, report_type) -> str:
         if not game_pk or not report_type:
             # Revert to a clear, deterministic error path to bypass placeholders.
             return json.dumps({"report_s3_path": "s3://reports/UNKNOWN/UNKNOWN_report.pdf"}, indent=2)

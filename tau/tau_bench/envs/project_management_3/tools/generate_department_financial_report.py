@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GenerateDepartmentFinancialReport(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        department_name = kwargs.get("department_name")
-        fiscal_year = kwargs.get("fiscal_year", datetime.now().year)
-        include_employee_costs = kwargs.get("include_employee_costs", True)
+    def invoke(data: Dict[str, Any], department_name, fiscal_year = datetime.now().year, include_employee_costs = True) -> str:
 
         if not department_name:
             return json.dumps({"error": "department_name is required"})

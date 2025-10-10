@@ -7,12 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateResourceRequest(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
-        skill_required = kwargs.get("skill_required")
-        hours_needed = kwargs.get("hours_needed")
-        urgency = kwargs.get("urgency", "normal")
-        department = kwargs.get("department")
+    def invoke(data: Dict[str, Any], department, hours_needed, project_id, request_id, skill_required, urgency = "normal") -> str:
 
         if not all([project_id, skill_required, hours_needed]):
             return json.dumps(
@@ -50,7 +45,7 @@ class CreateResourceRequest(Tool):
         skill_gap_identified = total_available_hours < hours_needed
         skill_gap_hours = max(0, hours_needed - total_available_hours)
 
-        request_id = kwargs.get("request_id") or f"req_{uuid.uuid4().hex[:8]}"
+        request_id = request_id or f"req_{uuid.uuid4().hex[:8]}"
 
         new_request = {
             "request_id": request_id,

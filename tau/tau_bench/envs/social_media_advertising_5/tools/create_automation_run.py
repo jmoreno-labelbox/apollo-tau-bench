@@ -7,11 +7,11 @@ from tau_bench.envs.tool import Tool
 
 class CreateAutomationRun(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        rec = {"run_id": kwargs.get("run_id"), "run_type": kwargs.get("run_type"),
-               "started_at": kwargs.get("started_at"), "ended_at": kwargs.get("ended_at"),
-               "status": kwargs.get("status"), "input_ref": kwargs.get("input_ref"),
-               "errors_json": kwargs.get("errors_json")}
+    def invoke(data: Dict[str, Any], ended_at, errors_json, input_ref, run_id, run_type, started_at, status) -> str:
+        rec = {"run_id": run_id, "run_type": run_type,
+               "started_at": started_at, "ended_at": ended_at,
+               "status": status, "input_ref": input_ref,
+               "errors_json": errors_json}
         data.setdefault("automation_runs", []).append(rec)
         return json.dumps(rec)
 

@@ -9,11 +9,11 @@ class AppendMessageToThreadTool(Tool):
     """Append (or upsert) a message to a thread. Deterministic message_id from inputs. No send operation."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        thread_id = _require_str(kwargs.get("thread_id"), "thread_id")
-        from_email = _require_str(kwargs.get("from_email"), "from_email")
-        body = _require_str(kwargs.get("body"), "body")
-        created_ts = _require_str(kwargs.get("created_ts"), "created_ts")
+    def invoke(data: Dict[str, Any], body, created_ts, from_email, thread_id) -> str:
+        thread_id = _require_str(thread_id, "thread_id")
+        from_email = _require_str(from_email, "from_email")
+        body = _require_str(body, "body")
+        created_ts = _require_str(created_ts, "created_ts")
         snippet = (body[:120] + "...") if len(body) > 123 else body
         if not all([thread_id, from_email, body, created_ts]):
             return json.dumps({"error":"thread_id, from_email, body, created_ts required"})

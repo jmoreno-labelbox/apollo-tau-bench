@@ -9,7 +9,7 @@ from . import _require_tables
 class WritePitchExecutionGrade(Tool):
     """Insert pitch_execution_grades based on miss_distance and (optional) model fields."""
     @staticmethod
-    def invoke(data, **kwargs)->str:
+    def invoke(data, actual_quadrant, game_pk, intended_quadrant_model, miss_distance_inches, pitch_id)->str:
         err = _require_tables(data, ["pitch_execution_grades"])
         if err:
             return json.dumps({"error": err}, indent=2)
@@ -18,14 +18,14 @@ class WritePitchExecutionGrade(Tool):
             return json.dumps({"error": need}, indent=2)
         rows = data["pitch_execution_grades"]
         new_id = _next_id(rows, "grade_id")
-        grade = _grade_execution(kwargs.get("miss_distance_inches"))
+        grade = _grade_execution(miss_distance_inches)
         row = {
             "grade_id": new_id,
-            "pitch_id": kwargs.get("pitch_id"),
-            "game_pk": kwargs.get("game_pk"),
-            "intended_quadrant_model": kwargs.get("intended_quadrant_model"),
-            "actual_quadrant": kwargs.get("actual_quadrant"),
-            "miss_distance_inches": kwargs.get("miss_distance_inches"),
+            "pitch_id": pitch_id,
+            "game_pk": game_pk,
+            "intended_quadrant_model": intended_quadrant_model,
+            "actual_quadrant": actual_quadrant,
+            "miss_distance_inches": miss_distance_inches,
             "execution_grade": grade
         }
         rows.append(row)

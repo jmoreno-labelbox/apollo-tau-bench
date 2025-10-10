@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetLicenseInfo(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        license_name = kwargs.get('license_name')
+    def invoke(data: Dict[str, Any], license_name) -> str:
         if license_name is None:
             return json.dumps({'status': 'error', 'reason': 'The license_name field is required.'}, indent=2)
 

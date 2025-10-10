@@ -90,14 +90,23 @@ class KwargsRefactorTransformer(cst.CSTTransformer):
         # Remove **kwargs
         params = params.with_changes(star_kwarg=None)
 
-        # Append new params at the end of normal params
-        new_params_nodes = []
+        # Sort params: required (no default) first, then optional (with defaults)
+        required_params = []
+        optional_params = []
+        
         for name, spec in sorted(ctx.new_params.items()):
             # Avoid collisions with existing names
             if name in ctx.existing_param_names:
                 continue
-            new_params_nodes.append(cst.Param(name=cst.Name(name), default=spec.default))
-
+            param_node = cst.Param(name=cst.Name(name), default=spec.default)
+            if spec.default is None:
+                required_params.append(param_node)
+            else:
+                optional_params.append(param_node)
+        
+        # Append in correct order: required first, then optional
+        new_params_nodes = required_params + optional_params
+        
         if new_params_nodes:
             params = params.with_changes(params=list(params.params) + new_params_nodes)
 

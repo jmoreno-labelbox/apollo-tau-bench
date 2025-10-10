@@ -24,13 +24,7 @@ class UpdateUser(Tool):
       last_name: str (optional; can be provided independently)
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id", "")
-        department = kwargs.get("department")
-        status = kwargs.get("status")
-        mfa_enabled = kwargs.get("mfa_enabled")
-        first_name = kwargs.get("first_name")
-        last_name = kwargs.get("last_name")
+    def invoke(data: Dict[str, Any], department, first_name, last_name, mfa_enabled, status, user_id = "") -> str:
 
         if not user_id:
             return json.dumps({"error": "user_id is required"})

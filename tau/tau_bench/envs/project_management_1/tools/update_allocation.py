@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateAllocation(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        allocation_id = kwargs.get("allocation_id")
-        hours_per_week = kwargs.get("hours_per_week")
-        end_date = kwargs.get("end_date")
+    def invoke(data: Dict[str, Any], allocation_id, end_date, hours_per_week) -> str:
 
         if not allocation_id:
             return json.dumps({"error": "allocation_id is required"})

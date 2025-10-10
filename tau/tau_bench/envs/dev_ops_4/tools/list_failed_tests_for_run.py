@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class ListFailedTestsForRun(Tool):
     """List failed test results for a given test_run_id."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        test_run_id = kwargs.get("test_run_id")
+    def invoke(data: Dict[str, Any], test_run_id) -> str:
         results = list(data.get("test_results", {}).values())
         failed = [r for r in results if r.get("test_run_id") == test_run_id and r.get("status") == "failed"]
         return json.dumps({"count": len(failed), "failed_results": failed}, indent=2)

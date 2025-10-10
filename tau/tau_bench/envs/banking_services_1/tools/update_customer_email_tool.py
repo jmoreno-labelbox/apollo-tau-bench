@@ -21,10 +21,7 @@ class UpdateCustomerEmailTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
-        new_email = kwargs.get("new_email")
-        new_phone = kwargs.get("new_phone")
+    def invoke(data: Dict[str, Any], customer_id, new_email, new_phone) -> str:
 
         if not customer_id or not new_email or not new_phone:
             return json.dumps(

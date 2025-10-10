@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetSupportTicketsForAccountTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        account_id = kwargs.get('account_id')
-        fields = kwargs.get('fields', None)
-        start_date = kwargs.get('start_date')
-        end_date = kwargs.get('end_date')
+    def invoke(data: Dict[str, Any], account_id, end_date, start_date, fields = None) -> str:
 
         support_tickets = list(data.get('support_tickets', {}).values())
         results = []

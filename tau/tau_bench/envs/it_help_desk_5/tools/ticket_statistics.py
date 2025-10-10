@@ -7,9 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class TicketStatistics(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        field = kwargs.get('field')
-        stat_type = kwargs.get('type')
+    def invoke(data: Dict[str, Any], field, type) -> str:
+        stat_type = type
 
         if field is None or stat_type is None:
             return json.dumps({'status': 'error', 'reason': 'The field and type parameters are required.'}, indent=2)

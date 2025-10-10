@@ -7,10 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class ReadPredictionLots(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], batch_name, model_name) -> str:
         preds = list(data.get("predictions", {}).values()) or []
-        batch_name = kwargs.get("batch_name")
-        model_name = kwargs.get("model_name")
         rows = [
             p for p in preds
             if (not batch_name or p.get("batch_name") == batch_name)

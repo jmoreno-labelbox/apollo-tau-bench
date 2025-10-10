@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateProjectLinks(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get('project_id')
-        add_article_id = kwargs.get('add_article_id')
+    def invoke(data: Dict[str, Any], add_article_id, project_id) -> str:
         if not all([project_id, add_article_id]):
             return json.dumps({"error": "project_id and add_article_id are required."})
 

@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class RotateAdCreative(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], adset_id, new_creative_type, request_id, timestamp, ad_name = f"{new_type.title()} Ad", rationale = "direct_rotation") -> str:
         err = _require(kwargs, ["adset_id", "new_creative_type", "timestamp", "request_id"])
         if err:
             return _fail(err)
@@ -16,12 +16,10 @@ class RotateAdCreative(Tool):
         rotations = _assert_table(data, "creative_rotations")
         adsets_tbl = _assert_table(data, "adsets")
 
-        adset_id = str(kwargs["adset_id"])
-        new_type = str(kwargs["new_creative_type"])
-        ts = str(kwargs["timestamp"])
-        request_id = str(kwargs["request_id"])
-        rationale = kwargs.get("rationale", "direct_rotation")
-        ad_name = kwargs.get("ad_name", f"{new_type.title()} Ad")
+        adset_id = str(adset_id)
+        new_type = str(new_creative_type)
+        ts = str(timestamp)
+        request_id = str(request_id)
 
         # --- Retrieve the currently active advertisement (if one exists)
         old_active = next((a for a in ads if str(a.get("adset_id")) == adset_id and a.get("status") == "active"), None)

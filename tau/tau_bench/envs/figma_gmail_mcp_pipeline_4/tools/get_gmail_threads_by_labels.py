@@ -7,16 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetGmailThreadsByLabels(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], created_after, created_before, sender_email, thread_id, labels = [], subject_keywords = []) -> str:
         """
         Retrieves Gmail threads filtered by labels, sender, and other criteria.
         """
-        thread_id = kwargs.get('thread_id')
-        labels = kwargs.get('labels', [])
-        sender_email = kwargs.get('sender_email')
-        subject_keywords = kwargs.get('subject_keywords', [])
-        created_after = kwargs.get('created_after')
-        created_before = kwargs.get('created_before')
 
         gmail_threads = list(data.get('gmail_threads', {}).values())
 

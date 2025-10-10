@@ -9,9 +9,7 @@ class GetLocString(Tool):
     """Fetch a localization string row by string_key; optionally include a locale entry."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        string_key = kwargs.get('string_key')
-        locale = kwargs.get('locale')
+    def invoke(data: Dict[str, Any], locale, string_key) -> str:
         rows = _loc_table(data)
         for row in rows:
             if row.get('string_key') == string_key:

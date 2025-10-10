@@ -9,8 +9,7 @@ class GetOwnerForBisect(Tool):
     """Retrieves the primary owner for a bisect operation based on its suspect files."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        bisect_id = kwargs.get("bisect_id")
+    def invoke(data: Dict[str, Any], bisect_id) -> str:
         bisect_results = data.get("bisect_results", [])
         ownership_map = data.get("ownership_map", [])
         

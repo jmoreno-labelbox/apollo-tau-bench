@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class AddCandidate(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        new_candidate = kwargs.get("candidate") or {}
+    def invoke(data: Dict[str, Any], candidate) -> str:
+        new_candidate = candidate or {}
         candidates = list(data.get("candidates", {}).values())
         candidates.append(new_candidate)
         data["candidates"] = candidates

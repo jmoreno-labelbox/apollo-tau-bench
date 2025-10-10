@@ -7,12 +7,11 @@ from tau_bench.envs.tool import Tool
 
 class FetchInvoices(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], date_from, date_to, publisher_id, status) -> str:
         rows = data.get("invoices", []) or []
-        status = kwargs.get("status")
-        pid = kwargs.get("publisher_id")
-        start = kwargs.get("date_from")
-        end = kwargs.get("date_to")
+        pid = publisher_id
+        start = date_from
+        end = date_to
         out = []
         for r in rows:
             if status == "open" and r.get("paid_at") is not None:

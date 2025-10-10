@@ -7,14 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class ListManager(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], list_id, list_name, action = 'get', item_data = {}, list_data = {}, tags = []) -> str:
         lists = list(data.get('custom_lists', {}).values())
-        action = kwargs.get('action', 'get')
-        list_id = kwargs.get('list_id')
-        list_name = kwargs.get('list_name')
-        tags = kwargs.get('tags', [])
-        item_data = kwargs.get('item_data', {})
-        list_data = kwargs.get('list_data', {})
 
         if action == 'get':
             result = [l for l in lists if (not list_id or l['list_id'] == list_id) and

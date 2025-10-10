@@ -7,19 +7,13 @@ from tau_bench.envs.tool import Tool
 
 class UpdateAuditFindingSeverity(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], finding_id, new_severity, updated_by, notes = "", updated_ts = "2024-08-23T15:00:00Z") -> str:
         """
         Updates the severity level of an audit finding.
         """
-        finding_id = kwargs.get("finding_id")
-        new_severity = kwargs.get("new_severity")
 
         if not all([finding_id, new_severity]):
             return json.dumps({"error": "finding_id and new_severity are required."})
-
-        updated_by = kwargs.get("updated_by")
-        notes = kwargs.get("notes", "")
-        updated_ts = kwargs.get("updated_ts", "2024-08-23T15:00:00Z")
 
         return json.dumps({
             "status": "SUCCESS",

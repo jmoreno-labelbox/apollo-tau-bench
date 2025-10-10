@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetServerResourceUsage(Tool):
     """Retrieves a server's real-time CPU, memory, and disk usage."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        hostname = kwargs.get("hostname")
+    def invoke(data: Dict[str, Any], hostname) -> str:
         for server in data.get('system_resources', []):
             if server.get('hostname') == hostname:
                 return json.dumps(server)

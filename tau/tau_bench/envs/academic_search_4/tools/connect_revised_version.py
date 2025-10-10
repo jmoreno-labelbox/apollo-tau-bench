@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ConnectRevisedVersion(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        submission_id = kwargs.get('submission_id')
-        revised_article_id = kwargs.get('revised_article_id')
+    def invoke(data: Dict[str, Any], revised_article_id, submission_id) -> str:
 
         if not all([submission_id, revised_article_id]):
             return json.dumps({"error": "submission_id and revised_article_id are required."})

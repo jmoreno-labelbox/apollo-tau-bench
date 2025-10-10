@@ -21,10 +21,7 @@ class AutoClassifySupportTicketPriorityTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
-        message = kwargs.get("message")
-        ticket_id = kwargs.get("ticket_id")
+    def invoke(data: Dict[str, Any], customer_id, message, ticket_id) -> str:
 
         if not customer_id or not message or not ticket_id:
             return json.dumps(

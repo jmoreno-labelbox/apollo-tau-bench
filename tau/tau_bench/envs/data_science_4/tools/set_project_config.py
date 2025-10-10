@@ -7,10 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class SetProjectConfig(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        target_city = kwargs.get("target_city")
-        horizon = kwargs.get("forecast_horizon_days")
-        max_radius = kwargs.get("max_station_distance_km_nullable")
+    def invoke(data: Dict[str, Any], forecast_horizon_days, max_station_distance_km_nullable, target_city) -> str:
+        horizon = forecast_horizon_days
+        max_radius = max_station_distance_km_nullable
         configs = list(data.get("project_config", {}).values())
 
         timezone = "America/New_York"

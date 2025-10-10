@@ -9,9 +9,7 @@ class GetViewershipForDateAndCategory(Tool):
     """Retrieves viewership data for a specific date and category."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        date = kwargs.get("date")
-        category = kwargs.get("category")
+    def invoke(data: Dict[str, Any], category, date) -> str:
         viewership_data = list(data.get("f_viewership", {}).values())
         
         for entry in viewership_data:

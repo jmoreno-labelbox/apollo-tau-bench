@@ -9,17 +9,17 @@ from . import _require_tables
 class GetOpponentForTeamInGame(Tool):
     """Given a team_id and a game_pk, return the opponent team_id."""
     @staticmethod
-    def invoke(data, **kwargs)->str:
+    def invoke(data, game_pk, team_id)->str:
         err = _require_tables(data, ["games"])
         if err:
             return json.dumps({"error": err}, indent=2)
         need = _check_required(kwargs, ["game_pk","team_id"])
         if need:
             return json.dumps({"error": need}, indent=2)
-        g = next((g for g in data["games"] if g.get("game_pk")==kwargs["game_pk"]), None)
+        g = next((g for g in data["games"] if g.get("game_pk")==game_pk), None)
         if not g:
             return json.dumps({"error":"Game not found."}, indent=2)
-        team = kwargs["team_id"]
+        team = team_id
         if g.get("home_team_id")==team:
             opp = g.get("away_team_id")
         elif g.get("away_team_id")==team:

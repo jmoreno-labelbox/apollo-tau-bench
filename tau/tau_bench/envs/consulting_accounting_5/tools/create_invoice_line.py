@@ -7,17 +7,12 @@ from tau_bench.envs.tool import Tool
 
 class CreateInvoiceLine(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], invoice_id, project_id, hours = 1, hst_rate = 0.13, rate = 1) -> str:
         """
         Insert a new invoice line linked to an existing invoice_id.
         Deterministic: uses provided invoice_id, project_id, isbn, hours, rate, hst_rate.
         Returns created line_id.
         """
-        invoice_id = kwargs["invoice_id"]
-        project_id = kwargs["project_id"]
-        hours = kwargs.get("hours", 1)
-        rate = kwargs.get("rate", 1)
-        hst_rate = kwargs.get("hst_rate", 0.13)
 
         line_id = f"LINE-{len(data['invoice_lines'])+1:04d}"
         line_total = round(hours * rate, 2)

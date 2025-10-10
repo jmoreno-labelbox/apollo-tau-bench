@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateOrUpdateCompReport(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        client_id = kwargs.get("client_id")
-        subject_property_id = kwargs.get("subject_property_id")
-        created_by_broker_id = kwargs.get("created_by_broker_id")
-        final_status = kwargs.get("final_status", "draft")
+    def invoke(data: Dict[str, Any], client_id, created_by_broker_id, subject_property_id, final_status = "draft") -> str:
 
         reports = data.get("comp_reports", [])
         new_report_id = _next_auto_id(reports, "report_id")

@@ -9,8 +9,7 @@ class GetUmpiresDetailsById(Tool):
     """Fetch an umpire record by umpire_id."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        umpire_id = kwargs.get("umpire_id")
+    def invoke(data: Dict[str, Any], umpire_id) -> str:
 
         # 1) Verify
         if umpire_id is None:

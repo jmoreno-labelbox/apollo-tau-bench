@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class AssessSoftSkillAlignment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
-        target_role = kwargs.get("target_role")
+    def invoke(data: Dict[str, Any], target_role, user_id) -> str:
         soft_skills = data.get("soft_skills", [])
 
         # Identify relevant soft skills for the desired position.

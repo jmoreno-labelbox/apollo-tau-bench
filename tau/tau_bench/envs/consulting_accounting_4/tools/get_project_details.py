@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class GetProjectDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        pid = kwargs.get("project_id")
+    def invoke(data: Dict[str, Any], project_id) -> str:
+        pid = project_id
         row = next((p for p in list(data.get("projects", {}).values()) if p.get("project_id") == pid), None)
         if not row:
             return json.dumps({"error": f"Project '{pid}' not found"}, indent=2)

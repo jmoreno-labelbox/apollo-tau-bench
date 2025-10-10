@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateTaskDependency(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        task_id = kwargs.get("task_id")
-        depends_on_task_id = kwargs.get("depends_on_task_id")
-        block_task = kwargs.get("block_task")
+    def invoke(data: Dict[str, Any], block_task, depends_on_task_id, task_id) -> str:
 
         if not all([task_id, depends_on_task_id]):
             return json.dumps({"error": "task_id and depends_on_task_id are required"})

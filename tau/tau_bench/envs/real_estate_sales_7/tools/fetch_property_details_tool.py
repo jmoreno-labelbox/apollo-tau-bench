@@ -9,8 +9,7 @@ class FetchPropertyDetailsTool(Tool):
     """Consolidate listing, sales history, and open house info for a property."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        property_id = kwargs.get("property_id")
+    def invoke(data: Dict[str, Any], property_id) -> str:
         need = _require_property_id(property_id)
         if need:
             return _err(need)

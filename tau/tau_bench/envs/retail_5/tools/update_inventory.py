@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateInventory(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        supplier_id = kwargs.get('supplier_id')
-        item_id = kwargs.get('item_id')
-        new_stock = kwargs.get('new_stock')
-        adjustment = kwargs.get('adjustment')
+    def invoke(data: Dict[str, Any], adjustment, item_id, new_stock, supplier_id) -> str:
 
         if not supplier_id or not item_id:
             return json.dumps({'error': 'supplier_id and item_id are required'})

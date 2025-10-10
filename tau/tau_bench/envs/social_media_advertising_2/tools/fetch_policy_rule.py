@@ -9,8 +9,8 @@ class FetchPolicyRule(Tool):
     """Look up a business rule parameter by name (supports policy_params and policy_rules)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        target = kwargs.get("rule_name")
+    def invoke(data: Dict[str, Any], rule_name) -> str:
+        target = rule_name
         sources = []
         if isinstance(data.get("policy_params"), list):
             sources.extend(data["policy_params"])

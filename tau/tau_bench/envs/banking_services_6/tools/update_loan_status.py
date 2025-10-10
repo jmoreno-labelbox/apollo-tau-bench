@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateLoanStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        loan_id = kwargs.get("loan_id")
-        new_status = kwargs.get("new_status")
+    def invoke(data: Dict[str, Any], loan_id, new_status) -> str:
         loan = next((l for l in list(data.get('loans', {}).values()) if l['loan_id'] == loan_id), None)
         if loan:
             loan['status'] = new_status

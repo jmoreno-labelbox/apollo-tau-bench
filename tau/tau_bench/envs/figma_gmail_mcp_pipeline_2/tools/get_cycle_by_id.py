@@ -7,11 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class GetCycleById(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        if not kwargs.get("cycle_id"):
+    def invoke(data: Dict[str, Any], cycle_id) -> str:
+        if not cycle_id:
             return json.dumps({"error": "Missing required field: cycle_id"}, indent=2)
-
-        cycle_id = kwargs.get("cycle_id")
         cycles: List[Dict[str, Any]] = list(data.get("review_cycles", {}).values())
         for row in cycles:
             if row.get("cycle_id") == cycle_id:

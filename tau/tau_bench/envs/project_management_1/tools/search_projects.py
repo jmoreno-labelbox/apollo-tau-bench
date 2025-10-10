@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SearchProjects(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        name = kwargs.get("name")
-        needs_resources = kwargs.get("needs_resources")
+    def invoke(data: Dict[str, Any], name, needs_resources) -> str:
 
         projects = list(data.get("projects", {}).values())
         results = []

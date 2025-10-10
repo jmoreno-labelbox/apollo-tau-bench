@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class AddChecklistItem(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        new_item = kwargs.get("item") or {}
+    def invoke(data: Dict[str, Any], item) -> str:
+        new_item = item or {}
         items = list(data.get("checklist_items", {}).values())
         items.append(new_item)
         data["checklist_items"] = items

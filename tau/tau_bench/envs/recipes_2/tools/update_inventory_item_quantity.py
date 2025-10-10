@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class UpdateInventoryItemQuantity(Tool):
     """Updates the quantity of an item in the household inventory."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        inv_item_id = kwargs.get("inv_item_id")
-        new_quantity = kwargs.get("new_quantity")
+    def invoke(data: Dict[str, Any], inv_item_id, new_quantity) -> str:
         inventory = list(data.get("inventory_items", {}).values())
         for item in inventory:
             if item.get("inv_item_id") == inv_item_id:

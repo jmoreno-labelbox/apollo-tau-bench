@@ -9,8 +9,8 @@ class FetchBrokerDetailsTool(Tool):
     """Gets broker information for workflow coordination."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        broker_id = _as_int(kwargs.get("broker_id"))
+    def invoke(data: Dict[str, Any], broker_id) -> str:
+        broker_id = _as_int(broker_id)
         if broker_id is None:
             return _err("broker_id (int) is required")
 

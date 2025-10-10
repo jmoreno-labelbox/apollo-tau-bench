@@ -9,8 +9,7 @@ class GetAlertSummaryPerRepo(Tool):
     """Returns code scanning alert summary (count + severity breakdown) for specified repositories."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_names = kwargs.get("repo_names", [])
+    def invoke(data: Dict[str, Any], repo_names = []) -> str:
         if not repo_names:
             return json.dumps({"error": "repo_names is required."}, indent=2)
 

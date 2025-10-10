@@ -9,8 +9,8 @@ class FetchCampaignDetailsTool(Tool):
     """Fetch a campaign and related email count and audit entries."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        campaign_id = _as_int(kwargs.get("campaign_id"))
+    def invoke(data: Dict[str, Any], campaign_id) -> str:
+        campaign_id = _as_int(campaign_id)
         if campaign_id is None:
             return _err("campaign_id is required")
 

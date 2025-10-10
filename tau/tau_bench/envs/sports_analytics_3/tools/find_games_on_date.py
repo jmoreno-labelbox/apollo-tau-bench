@@ -9,8 +9,7 @@ class FindGamesOnDate(Tool):
     """Fetch all games scheduled on an exact date (YYYY-MM-DD)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        date = kwargs.get("date")
+    def invoke(data: Dict[str, Any], date) -> str:
 
         # 1) Verify
         if not isinstance(date, str) or date == "":

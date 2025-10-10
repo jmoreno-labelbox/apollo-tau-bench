@@ -9,11 +9,10 @@ class UpdateFixItemStatusDeterministicTool(Tool):
     """Update a fix item status deterministically (requires explicit changed_ts)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        item_id = _require_str(kwargs.get("item_id"), "item_id")
-        new_status = _require_str(kwargs.get("new_status"), "new_status")
-        changed_ts = _require_str(kwargs.get("changed_ts"), "changed_ts")
-        note = kwargs.get("note","")
+    def invoke(data: Dict[str, Any], changed_ts, item_id, new_status, note = "") -> str:
+        item_id = _require_str(item_id, "item_id")
+        new_status = _require_str(new_status, "new_status")
+        changed_ts = _require_str(changed_ts, "changed_ts")
         if not all([item_id, new_status, changed_ts]):
             return json.dumps({"error":"item_id, new_status, changed_ts required"})
 

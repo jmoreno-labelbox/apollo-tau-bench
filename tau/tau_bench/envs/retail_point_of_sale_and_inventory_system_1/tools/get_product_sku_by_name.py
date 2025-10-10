@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetProductSkuByName(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        product_name = kwargs.get('product_name')
+    def invoke(data: Dict[str, Any], product_name) -> str:
         products = list(data.get("products", {}).values())
         for product in products:
             if product.get("name") == product_name:

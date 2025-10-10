@@ -9,8 +9,8 @@ class LaunchCampaign(Tool):
     """Activate a campaign by ID."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cid = kwargs.get("campaign_id")
+    def invoke(data: Dict[str, Any], campaign_id) -> str:
+        cid = campaign_id
         for c in list(data.get("campaigns", {}).values()):
             if c.get("campaign_id") == cid:
                 c["status"] = "active"

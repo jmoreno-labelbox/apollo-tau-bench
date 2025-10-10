@@ -9,8 +9,8 @@ class GetRepositoryByName(Tool):
     """Retrieves a repository by its name."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_name = kwargs.get("name")
+    def invoke(data: Dict[str, Any], name) -> str:
+        repo_name = name
         repositories = list(data.get("repositories", {}).values())
         
         for repo in repositories:

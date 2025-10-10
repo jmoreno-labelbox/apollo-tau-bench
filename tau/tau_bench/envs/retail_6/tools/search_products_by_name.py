@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class SearchProductsByName(Tool):
     """Case-insensitive substring name search (read-only)."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        q = kwargs.get('query','').lower()
+    def invoke(data, query = '') -> str:
+        q = query.lower()
         out = [p for p in list(data.get('products', {}).values()) if q in p.get('name','').lower()]
         return json.dumps(out, indent=2)
 

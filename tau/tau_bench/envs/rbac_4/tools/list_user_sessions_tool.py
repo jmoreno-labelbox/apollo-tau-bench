@@ -9,13 +9,10 @@ class ListUserSessionsTool(Tool):
     """List sessions for a specific user with optional active-only filter (read operation, deterministic)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], user_id, active_only = False) -> str:
         sessions = data.get("sessions", [])
         if not isinstance(sessions, list):
             return json.dumps({"error": "sessions must be a list"}, indent=2)
-
-        user_id = kwargs.get("user_id")
-        active_only = kwargs.get("active_only", False)
 
         if not isinstance(user_id, str) or not user_id.strip():
             return json.dumps({"error": "user_id must be a non-empty string"}, indent=2)

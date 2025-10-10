@@ -9,9 +9,9 @@ class GetBranchProtection(Tool):
     """Gets protection settings for a branch."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo = _find_repo_record(data, kwargs.get("repo_name"))
-        idx = _branch_index(repo, kwargs.get("branch"))
+    def invoke(data: Dict[str, Any], branch, repo_name) -> str:
+        repo = _find_repo_record(data, repo_name)
+        idx = _branch_index(repo, branch)
         if "branch_protections" not in repo:
             repo["branch_protections"] = [False] * len(repo.get("branches", []))
 

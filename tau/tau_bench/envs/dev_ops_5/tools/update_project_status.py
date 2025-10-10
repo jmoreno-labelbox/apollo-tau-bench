@@ -8,9 +8,8 @@ from tau_bench.envs.tool import Tool
 class UpdateProjectStatus(Tool):
     """Updates the active status of a project."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("id")
-        is_active = kwargs.get("is_active")
+    def invoke(data: Dict[str, Any], id, is_active) -> str:
+        project_id = id
         projects = list(data.get("projects", {}).values())
         for p in projects:
             if p.get("id") == project_id:

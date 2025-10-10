@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class UpdateOrderStatus(Tool):
     """Set order status to provided value."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        order_id = kwargs.get('order_id')
-        status = kwargs.get('status')
+    def invoke(data, order_id, status) -> str:
         if not order_id or status is None:
             return json.dumps({"error":"order_id and status are required"}, indent=2)
         o = _find_order(data, order_id)

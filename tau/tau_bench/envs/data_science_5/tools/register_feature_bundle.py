@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class RegisterFeatureBundle(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], columns, feature_set_name, version) -> str:
         feats = list(data.get("features", {}).values())
         max_id = 0
         for f in feats:
@@ -20,9 +20,9 @@ class RegisterFeatureBundle(Tool):
         new_id = max_id + 1
         row = {
             "feature_set_id": new_id,
-            "feature_set_name": kwargs.get("feature_set_name"),
-            "version": kwargs.get("version"),
-            "columns": kwargs.get("columns"),
+            "feature_set_name": feature_set_name,
+            "version": version,
+            "columns": columns,
             "created_at": _fixed_now_iso(),
         }
         feats.append(row)

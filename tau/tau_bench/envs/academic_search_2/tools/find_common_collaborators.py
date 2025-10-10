@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class FindCommonCollaborators(Tool):
     """Finds common collaborators between two authors."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        author1_name, author2_name = kwargs.get('author1_name'), kwargs.get('author2_name')
+    def invoke(data: Dict[str, Any], author1_name, author2_name) -> str:
+        author1_name, author2_name = author1_name, author2_name
         if not all([author1_name, author2_name]):
             return json.dumps({"error": "author1_name and author2_name are required."})
         articles1 = [a for a in list(data.get('articles', {}).values()) if author1_name in a.get('authors', [])]

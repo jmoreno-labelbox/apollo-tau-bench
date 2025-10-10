@@ -33,9 +33,9 @@ class SlackMessageDispatcherTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        target_channel = kwargs["channel"]
-        msg_content = kwargs["message"]
+    def invoke(data: Dict[str, Any], channel, message) -> str:
+        target_channel = channel
+        msg_content = message
 
         # Set up slack logging if it hasn't been initialized.
         if data.get("slack_log") is None:

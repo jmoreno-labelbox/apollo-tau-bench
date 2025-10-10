@@ -9,8 +9,7 @@ class ListListingsByIds(Tool):
     """Get multiple listings by their IDs."""
     
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        listing_ids = kwargs.get('listing_ids')
+    def invoke(data: Dict[str, Any], listing_ids) -> str:
         if not listing_ids:
             return json.dumps({"error": "listing_ids is required"}, indent=2)
         

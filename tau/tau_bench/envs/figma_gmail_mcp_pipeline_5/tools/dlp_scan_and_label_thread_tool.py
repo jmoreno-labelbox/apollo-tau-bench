@@ -9,10 +9,10 @@ class DlpScanAndLabelThreadTool(Tool):
     """Scan a thread for DLP issues and apply a label if any issues found (idempotent)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        thread_id = _require_str(kwargs.get("thread_id"), "thread_id")
-        label_if_found = _require_str(kwargs.get("label_if_found"), "label_if_found") or "dlp-flag"
-        changed_ts = _require_str(kwargs.get("changed_ts"), "changed_ts")
+    def invoke(data: Dict[str, Any], changed_ts, label_if_found, thread_id) -> str:
+        thread_id = _require_str(thread_id, "thread_id")
+        label_if_found = _require_str(label_if_found, "label_if_found") or "dlp-flag"
+        changed_ts = _require_str(changed_ts, "changed_ts")
         if not (thread_id and label_if_found and changed_ts):
             return json.dumps({"error":"thread_id, label_if_found, changed_ts required"})
 

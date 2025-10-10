@@ -7,13 +7,10 @@ from tau_bench.envs.tool import Tool
 
 class GetAuditFindingDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], audit_id, finding_id, include_resolved = False) -> str:
         """
         Retrieves detailed information about audit findings with optional filtering.
         """
-        audit_id = kwargs.get('audit_id')
-        finding_id = kwargs.get('finding_id')
-        include_resolved = kwargs.get('include_resolved', False)
 
         if not audit_id:
             return json.dumps({"error": "audit_id is required."})

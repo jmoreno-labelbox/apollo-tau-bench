@@ -9,10 +9,9 @@ class GetHubspotTicketsByAssigneeTool(Tool):
     """get_hubspot_tickets_by_assignee: filter tickets by assignee."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], assignee_id) -> str:
         # utilize list tool with subsequent filtering
         tickets = json.loads(ListHubspotTicketsTool.invoke(data))
-        assignee_id = kwargs.get("assignee_id")
         return json.dumps(
             [t for t in tickets if t.get("assignee_id") == assignee_id], indent=2
         )

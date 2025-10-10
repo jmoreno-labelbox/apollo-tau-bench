@@ -16,11 +16,7 @@ class GetCertification(Tool):
       status: str (optional) - Filter by status (PENDING, IN_PROGRESS, COMPLETED)
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        certification_id = kwargs.get("certification_id")
-        reviewer_id = kwargs.get("reviewer_id")
-        resource_id = kwargs.get("resource_id")
-        status = kwargs.get("status")
+    def invoke(data: Dict[str, Any], certification_id, resource_id, reviewer_id, status) -> str:
 
         certifications = data.get("certifications", [])
 

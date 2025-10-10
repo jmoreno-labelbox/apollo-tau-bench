@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetLastSuccessfulRun(Tool):
     """Finds when a job type last completed successfully."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        run_type = kwargs.get("run_type")
+    def invoke(data: Dict[str, Any], run_type) -> str:
         successful_runs = [r for r in data.get('automation_runs', []) if r.get('run_type') == run_type and r.get('status') == 'completed']
         if not successful_runs:
             return json.dumps({"error": f"No successful run found for type '{run_type}'."})

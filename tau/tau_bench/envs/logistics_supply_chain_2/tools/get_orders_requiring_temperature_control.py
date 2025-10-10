@@ -9,9 +9,9 @@ class GetOrdersRequiringTemperatureControl(Tool):
     """Tool to retrieve orders that require temperature control."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], list_of_ids = None) -> str:
         orders = list(data.get("outbound_orders", {}).values())
-        list_of_orders = kwargs.get("list_of_ids", None)
+        list_of_orders = list_of_ids
         result = [order['order_id'] for order in orders if order.get("temperature_control_required")]
         if list_of_orders:
             result = [r for r in result if r in list_of_orders]

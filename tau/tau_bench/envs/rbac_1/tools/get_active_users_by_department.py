@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetActiveUsersByDepartment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        department = kwargs.get("department")
+    def invoke(data: Dict[str, Any], department) -> str:
         active_users = [
                 user['user_id'] for user in list(data.get('users', {}).values())
                 if user.get('department') == department and user.get('status') == 'ACTIVE'

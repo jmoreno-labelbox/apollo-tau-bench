@@ -7,15 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateAllocation(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
-        project_id = kwargs.get("project_id")
-        hours_per_week = kwargs.get("hours_per_week", 0)
-        role = kwargs.get("role")
-        start_date = kwargs.get("start_date", "")
-        end_date = kwargs.get("end_date", "")
-        status = kwargs.get("status", "active")
-        cross_department = kwargs.get("cross_department", False)
+    def invoke(data: Dict[str, Any], allocation_id, employee_id, project_id, role, cross_department = False, end_date = "", hours_per_week = 0, start_date = "", status = "active") -> str:
 
         if not all([employee_id, project_id, role]):
             return json.dumps(
@@ -68,7 +60,7 @@ class CreateAllocation(Tool):
                 new_gap = max(0, total_hours_needed - (current_hours + hours_per_week))
                 skill_gap_filled = previous_gap - new_gap
 
-        allocation_id = kwargs.get("allocation_id") or f"alloc_{uuid.uuid4().hex[:8]}"
+        allocation_id = allocation_id or f"alloc_{uuid.uuid4().hex[:8]}"
 
         new_allocation = {
             "allocation_id": allocation_id,

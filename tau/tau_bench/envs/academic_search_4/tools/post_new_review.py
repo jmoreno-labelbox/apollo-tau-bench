@@ -8,11 +8,7 @@ from datetime import datetime
 
 class PostNewReview(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        submission_id = kwargs.get('submission_id')
-        reviewer_user_id = kwargs.get('reviewer_user_id')
-        recommendation = kwargs.get('recommendation')
-        comments = kwargs.get('comments')
+    def invoke(data: Dict[str, Any], comments, recommendation, reviewer_user_id, submission_id) -> str:
 
         if not all([submission_id, reviewer_user_id, recommendation, comments]):
             return json.dumps({"error": "submission_id, reviewer_user_id, recommendation, and comments are required."})

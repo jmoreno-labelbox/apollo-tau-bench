@@ -9,9 +9,7 @@ from . import _first_user_id
 
 class GetMemberByName(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        household_id = kwargs.get("household_id")
-        full_name = kwargs.get("full_name")
+    def invoke(data: Dict[str, Any], full_name, household_id) -> str:
         if household_id is None:
             household_id = _default_household_id(data, _first_user_id(data))
         members = [m for m in data.get("members", []) if m.get("household_id") == household_id]

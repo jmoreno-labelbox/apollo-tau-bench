@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GenerateAndAssignPromoCodes(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_ids = kwargs.get('customer_ids', [])
-        promotion_id = kwargs.get('promotion_id')
+    def invoke(data: Dict[str, Any], promotion_id, customer_ids = []) -> str:
 
         if "promo_codes" not in data:
             data["promo_codes"] = {}

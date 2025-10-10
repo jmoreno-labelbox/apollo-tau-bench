@@ -7,12 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class CheckTemperatureLogs(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        shipment_id = kwargs.get("shipment_id")
+    def invoke(data: Dict[str, Any], required_temp_range, shipment_id, excursions_flag = False) -> str:
         shipments = list(data.get("inbound_shipments", {}).values())
-        required_temp_range = kwargs.get("required_temp_range")
         shipment = next((s for s in shipments if s.get("shipment_id") == shipment_id), None)
-        excursions_flag = kwargs.get("excursions_flag", False)
 
         excursions_detected = False
         temperature_compliance = "compliant"

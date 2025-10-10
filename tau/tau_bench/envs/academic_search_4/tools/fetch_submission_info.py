@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class FetchSubmissionInfo(Tool):
     """Tool to get submission details for an article or by submission ID."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        article_id = kwargs.get('article_id')
-        submission_id = kwargs.get('submission_id')
+    def invoke(data: Dict[str, Any], article_id, submission_id) -> str:
 
         if not article_id and not submission_id:
             return json.dumps({"error": "Either article_id or submission_id is required."})

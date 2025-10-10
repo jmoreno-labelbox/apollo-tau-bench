@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class RemoveOnboardingFile(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        file_path = kwargs.get("file_path")
+    def invoke(data: Dict[str, Any], file_path) -> str:
         files = list(data.get("onboarding_files", {}).values())
         data["onboarding_files"] = [f for f in files if f.get("file_path") != file_path]
         return json.dumps({"removed_file_path": file_path}, indent=2)

@@ -9,12 +9,12 @@ class LockPlan(Tool):
     """Freeze a plan for a date. If envelope/checksum are not provided, build them from the in-memory DB."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], checksum, date, envelope) -> str:
         import json, hashlib
 
-        date: str = kwargs["date"]
-        envelope: Dict[str, Any] = kwargs.get("envelope")
-        checksum: str = kwargs.get("checksum")
+        date: str = date
+        envelope: Dict[str, Any] = envelope
+        checksum: str = checksum
 
         if envelope is None:
             plan = next((p for p in list(data.get("plans", {}).values()) if p.get("date") == date), None)

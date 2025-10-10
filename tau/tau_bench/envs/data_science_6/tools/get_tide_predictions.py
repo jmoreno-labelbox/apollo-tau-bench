@@ -14,10 +14,7 @@ class GetTidePredictions(Tool):
             return None
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        station_id = kwargs.get("station_id")
-        start_ts = kwargs.get("start_ts")
-        end_ts = kwargs.get("end_ts")
+    def invoke(data: Dict[str, Any], end_ts, start_ts, station_id) -> str:
 
         if not station_id or not start_ts or not end_ts:
             return json.dumps({"error": "Missing required parameters: station_id, start_ts, end_ts"})

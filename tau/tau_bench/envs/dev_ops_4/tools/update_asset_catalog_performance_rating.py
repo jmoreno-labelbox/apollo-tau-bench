@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class UpdateAssetCatalogPerformanceRating(Tool):
     """Update performance_rating for an asset in the asset_catalog."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        asset_path = kwargs.get("asset_path")
-        performance_rating = kwargs.get("performance_rating")
+    def invoke(data: Dict[str, Any], asset_path, performance_rating) -> str:
         rows = list(data.get("asset_catalog", {}).values())
         idx = next((i for i, r in enumerate(rows) if r.get("asset_path") == asset_path), None)
         if idx is None:

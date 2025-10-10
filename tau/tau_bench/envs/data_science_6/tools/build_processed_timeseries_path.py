@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class BuildProcessedTimeseriesPath(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        city_slug = kwargs.get("city_slug")
+    def invoke(data: Dict[str, Any], city_slug) -> str:
         if not city_slug:
             return json.dumps({"error":"Missing city_slug"})
         path = f"/data/processed/timeseries_{city_slug}_weather.csv"

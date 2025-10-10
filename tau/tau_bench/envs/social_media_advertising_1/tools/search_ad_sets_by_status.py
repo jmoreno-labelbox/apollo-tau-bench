@@ -9,8 +9,7 @@ class SearchAdSetsByStatus(Tool):
     """Searches for ad sets with a specific status."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        status = kwargs.get("status")
+    def invoke(data: Dict[str, Any], status) -> str:
         adsets = list(data.get("adsets", {}).values())
         matching_adsets = []
         

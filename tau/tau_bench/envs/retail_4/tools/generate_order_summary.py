@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GenerateOrderSummary(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], user_id: str, item_list: List[Dict[str, Any]], payment_methods_source: List[str], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], user_id: str, item_list: List[Dict[str, Any]], payment_methods_source: List[str], shipping_cost) -> str:
         """
         Generate comprehensive order summary with pricing, taxes, and fulfillment requirements
 
@@ -91,7 +91,6 @@ class GenerateOrderSummary(Tool):
         total_amount = subtotal + tax_amount
 
         if 'shipping_cost' in kwargs:
-            shipping_cost = kwargs['shipping_cost']
             total_amount += shipping_cost
 
         # Policy: Orders exceeding $1000 must undergo payment verification prior to processing.

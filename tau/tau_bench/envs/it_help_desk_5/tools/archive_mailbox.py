@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ArchiveMailbox(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get('employee_id')
-        department = kwargs.get('department')
+    def invoke(data: Dict[str, Any], department, employee_id) -> str:
         if employee_id is None or department is None:
             return json.dumps({'status': 'error', 'description': 'The employee_id and department fields are required.'}, indent=2)
 

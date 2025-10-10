@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetTransactionDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        transaction_id = kwargs.get("transaction_id")
+    def invoke(data: Dict[str, Any], transaction_id) -> str:
         transaction = next((t for t in list(data.get('transactions', {}).values()) if t['transaction_id'] == transaction_id), None)
         if transaction:
             return json.dumps(transaction)

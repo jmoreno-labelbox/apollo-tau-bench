@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class FindReferences(Tool):
     """Tool to search for citations."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        article_id = kwargs.get('article_id')
-        direction = kwargs.get('direction', 'to')  # 'to' or 'from'
+    def invoke(data: Dict[str, Any], article_id, direction = 'to') -> str:
         if not article_id:
             return json.dumps({"error": "article_id is required."})
 

@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class CalculateSum(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        val = kwargs.get("values")
+    def invoke(data: Dict[str, Any], values) -> str:
+        val = values
         total = 0
         if val:
             total = sum([float(v) for v in val])

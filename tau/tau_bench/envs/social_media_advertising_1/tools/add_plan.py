@@ -9,11 +9,7 @@ class AddPlan(Tool):
     """Adds a new plan."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        plan_id = kwargs.get("plan_id")
-        date = kwargs.get("date")
-        author = kwargs.get("author")
-        allocations = kwargs.get("allocations")
+    def invoke(data: Dict[str, Any], allocations, author, date, plan_id) -> str:
 
         if not all([plan_id, date, author, allocations]):
             return json.dumps({"error": "plan_id, date, author, and allocations are required parameters."})

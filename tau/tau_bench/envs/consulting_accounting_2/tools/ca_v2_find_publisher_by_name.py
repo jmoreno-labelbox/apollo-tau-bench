@@ -9,8 +9,8 @@ class CaV2FindPublisherByName(Tool):
     """Find publisher by name."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        name = kwargs.get("publisher_name")
+    def invoke(data: Dict[str, Any], publisher_name) -> str:
+        name = publisher_name
         if not name:
             return _error("publisher_name is required.")
         publishers = data.get("publishers", [])

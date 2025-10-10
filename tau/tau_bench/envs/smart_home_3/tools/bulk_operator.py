@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class BulkOperator(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        operation = kwargs.get('operation')
-        target_type = kwargs.get('target_type')
-        filters = kwargs.get('filters', {})
-        updates = kwargs.get('updates', {})
+    def invoke(data: Dict[str, Any], operation, target_type, filters = {}, updates = {}) -> str:
 
         if not operation or not target_type:
             return json.dumps({"error": "operation and target_type required"}, indent=2)

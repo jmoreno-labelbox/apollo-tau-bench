@@ -8,14 +8,14 @@ from tau_bench.envs.tool import Tool
 class QuerySubmissions(Tool):
     """Tool to query submissions by article or status."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], article_id, status, submission_id) -> str:
         submissions = list(data.get('submissions', {}).values())
         results = []
         for sub in submissions:
             match = True
-            if kwargs.get('submission_id') and kwargs['submission_id'] != sub.get('submission_id'): match = False
-            if kwargs.get('article_id') and kwargs['article_id'] != sub.get('article_id'): match = False
-            if kwargs.get('status') and kwargs['status'] != sub.get('status'): match = False
+            if submission_id and submission_id != sub.get('submission_id'): match = False
+            if article_id and article_id != sub.get('article_id'): match = False
+            if status and status != sub.get('status'): match = False
             if match:
                 results.append(sub)
         return json.dumps(results, indent=2)

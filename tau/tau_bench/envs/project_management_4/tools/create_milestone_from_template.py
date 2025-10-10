@@ -7,12 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateMilestoneFromTemplate(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        template_id = kwargs.get("template_id")
-        project_id = kwargs.get("project_id")
-        milestone_name = kwargs.get("milestone_name")
-        target_date = kwargs.get("target_date")
-        owner_id = kwargs.get("owner_id")
+    def invoke(data: Dict[str, Any], milestone_name, owner_id, project_id, target_date, template_id, milestone_id = f"ms_{uuid.uuid4().hex[:8]}") -> str:
 
         if not all([template_id, project_id, milestone_name, target_date, owner_id]):
             return json.dumps(
@@ -37,8 +32,6 @@ class CreateMilestoneFromTemplate(Tool):
             return json.dumps(
                 {"error": "Major milestone templates must include gate criteria"}
             )
-
-        milestone_id = kwargs.get("milestone_id", f"ms_{uuid.uuid4().hex[:8]}")
 
         target_dt = datetime.fromisoformat(target_date.replace("Z", "+00:00"))
         duration_days = template.get("duration_days", 30)

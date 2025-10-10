@@ -12,9 +12,7 @@ class GetPermissionByName(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        permission_name = kwargs.get("permission_name")
-        resource_id = kwargs.get("resource_id") 
+    def invoke(data: Dict[str, Any], permission_name, resource_id) -> str:
         try:
             permissions = list(data.get('permissions', {}).values())
         except (KeyError, json.JSONDecodeError):

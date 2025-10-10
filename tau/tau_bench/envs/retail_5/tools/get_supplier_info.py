@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetSupplierInfo(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        supplier_id = kwargs.get('supplier_id')
-        product_id = kwargs.get('product_id')
+    def invoke(data: Dict[str, Any], product_id, supplier_id) -> str:
 
         if not supplier_id and not product_id:
             return json.dumps({'error': 'Either supplier_id or product_id is required'})

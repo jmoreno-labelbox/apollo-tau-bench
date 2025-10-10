@@ -15,11 +15,7 @@ class GetPermission(Tool):
       resource_id: str (optional) - Filter by resource involved in permissions
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        permission_id = kwargs.get("permission_id")
-        action = kwargs.get("action")
-        resource_id = kwargs.get("resource_id")
-        description = kwargs.get("description")
+    def invoke(data: Dict[str, Any], action, description, permission_id, resource_id) -> str:
 
         permissions = list(data.get("permissions", {}).values())
 

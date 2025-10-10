@@ -8,14 +8,14 @@ from tau_bench.envs.tool import Tool
 class GenerateNewReview(Tool):
     """Tool to generate a new review entry for a submission."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], comments, reviewer_user_id, score, submission_id) -> str:
         review_id = f"rev_{len(list(data.get('reviews', {}).values())) + 1:02d}"
         new_review = {
             "review_id": review_id,
-            "submission_id": kwargs.get('submission_id'),
-            "reviewer_user_id": kwargs.get('reviewer_user_id'),
-            "score": kwargs.get('score'),
-            "comments": kwargs.get('comments'),
+            "submission_id": submission_id,
+            "reviewer_user_id": reviewer_user_id,
+            "score": score,
+            "comments": comments,
             "review_date": datetime.now().strftime('%Y-%m-%d')
         }
         list(data.get('reviews', {}).values()).append(new_review)

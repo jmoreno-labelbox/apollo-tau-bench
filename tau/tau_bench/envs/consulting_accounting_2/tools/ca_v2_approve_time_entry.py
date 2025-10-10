@@ -9,10 +9,7 @@ class CaV2ApproveTimeEntry(Tool):
     """Manually approve time entry for invoicing when synced_at is null."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        entry_id = kwargs.get("entry_id")
-        approved_by = kwargs.get("approved_by")
-        approval_reason = kwargs.get("approval_reason")
+    def invoke(data: Dict[str, Any], approval_reason, approved_by, entry_id) -> str:
 
         if not all([entry_id, approved_by, approval_reason]):
             return _error("entry_id, approved_by, and approval_reason are required.")

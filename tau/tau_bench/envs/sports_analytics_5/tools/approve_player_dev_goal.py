@@ -9,11 +9,10 @@ from . import _require_tables
 class ApprovePlayerDevGoal(Tool):
     """Approve a goal (goal_status='Approved')."""
     @staticmethod
-    def invoke(data, **kwargs)->str:
+    def invoke(data, goal_id)->str:
         err = _require_tables(data, ["player_dev_goals"])
         if err:
             return json.dumps({"error": err}, indent=2)
-        goal_id = kwargs.get("goal_id")
         if goal_id is None:
             return json.dumps({"error":"goal_id is required."}, indent=2)
         row = next((g for g in data["player_dev_goals"] if g.get("goal_id")==goal_id), None)

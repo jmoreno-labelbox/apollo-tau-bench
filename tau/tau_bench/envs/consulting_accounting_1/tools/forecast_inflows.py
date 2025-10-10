@@ -7,9 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class ForecastInflows(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        invoices_ids = kwargs.get("invoices", [])
-        prob_rule = kwargs.get("probability_rule", "overdue_60=0.3")
+    def invoke(data: Dict[str, Any], invoices = [], probability_rule = "overdue_60=0.3") -> str:
+        invoices_ids = invoices
+        prob_rule = probability_rule
         discount = 0.3
         try:
             if "overdue_60=" in prob_rule:

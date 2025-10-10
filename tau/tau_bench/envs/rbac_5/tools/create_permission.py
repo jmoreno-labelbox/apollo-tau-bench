@@ -15,10 +15,9 @@ class CreatePermission(Tool):
       description: str (required)
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        action = (kwargs.get("action", "") or "").strip()
-        resource_id = (kwargs.get("resource_id", "") or "").strip()
-        description = kwargs.get("description", "")
+    def invoke(data: Dict[str, Any], action = "", description = "", resource_id = "") -> str:
+        action = (action or "").strip()
+        resource_id = (resource_id or "").strip()
 
         if not action or not resource_id or not description:
             return json.dumps({"error": "action, resource_id, and description are required"})

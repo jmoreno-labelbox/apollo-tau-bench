@@ -9,8 +9,7 @@ class GetAllocationsForPlan(Tool):
     """Retrieves the allocations for a specific plan."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        plan_id = kwargs.get("plan_id")
+    def invoke(data: Dict[str, Any], plan_id) -> str:
         plans = list(data.get("plans", {}).values())
         
         for plan in plans:

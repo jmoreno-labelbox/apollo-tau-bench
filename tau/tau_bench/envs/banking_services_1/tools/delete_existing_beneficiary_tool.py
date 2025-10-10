@@ -21,9 +21,7 @@ class DeleteExistingBeneficiaryTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
-        beneficiary_id = kwargs.get("beneficiary_id")
+    def invoke(data: Dict[str, Any], beneficiary_id, customer_id) -> str:
         if not customer_id or not beneficiary_id:
             return json.dumps(
                 {"error": "customer_id and beneficiary_id are required"}, indent=2

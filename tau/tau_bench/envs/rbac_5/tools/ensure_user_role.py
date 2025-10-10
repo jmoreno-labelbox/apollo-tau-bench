@@ -17,12 +17,8 @@ class EnsureUserRole(Tool):
       expires_on: str ISO (optional)
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id", "")
-        role_id = kwargs.get("role_id", "")
-        assigned_by = kwargs.get("assigned_by", "")
-        assigned_on = kwargs.get("assigned_on") or get_current_timestamp()
-        expires_on = kwargs.get("expires_on")
+    def invoke(data: Dict[str, Any], assigned_on, expires_on, assigned_by = "", role_id = "", user_id = "") -> str:
+        assigned_on = assigned_on or get_current_timestamp()
 
         # Presence validations
         if not _find_by_id(list(data.get("users", {}).values()), "user_id", user_id):

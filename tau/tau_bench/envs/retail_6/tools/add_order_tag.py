@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class AddOrderTag(Tool):
     """Add a tag string to an order (idempotent)."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        order_id = kwargs.get('order_id')
-        tag = kwargs.get('tag')
+    def invoke(data, order_id, tag) -> str:
         if not order_id or tag is None:
             return json.dumps({"error":"order_id and tag are required"}, indent=2)
         o = _find_order(data, order_id)

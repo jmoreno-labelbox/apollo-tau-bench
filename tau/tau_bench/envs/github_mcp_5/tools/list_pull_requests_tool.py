@@ -32,10 +32,9 @@ class ListPullRequestsTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
+    def invoke(data: Dict[str, Any], state) -> str:
         try:
             repo_name = _validate_param(kwargs, "repo_name", str)
-            state = kwargs.get("state")  # not mandatory
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 

@@ -7,14 +7,12 @@ from tau_bench.envs.tool import Tool
 
 class SearchProjects(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], funding_source_id, project_name) -> str:
         """
         Searches for research projects.
         - Filters by 'project_name' and/or 'funding_source_id'.
         - If no parameters are provided, returns all projects.
         """
-        project_name = kwargs.get('project_name')
-        funding_source_id = kwargs.get('funding_source_id')
 
         projects = list(data.get('projects', {}).values())
 

@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ExportServiceDeskTickets(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        start_date = kwargs.get("start_date")
-        end_date = kwargs.get("end_date")
-        export_path = kwargs.get("export_path")
+    def invoke(data: Dict[str, Any], end_date, export_path, start_date) -> str:
         tickets = list(data.get("tickets", {}).values())
         return json.dumps({"export_path": export_path, "ticket_count": len(tickets), "start_date": start_date, "end_date": end_date}, indent=2)
 

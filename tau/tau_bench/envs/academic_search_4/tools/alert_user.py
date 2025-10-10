@@ -9,10 +9,7 @@ from datetime import datetime
 
 class AlertUser(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        recipient_user_id = kwargs.get('recipient_user_id')
-        message = kwargs.get('message')
-        sender_user_id = kwargs.get('sender_user_id', 'system')
+    def invoke(data: Dict[str, Any], message, recipient_user_id, sender_user_id = 'system') -> str:
 
         if not all([recipient_user_id, message]):
             return json.dumps({"error": "recipient_user_id and message are required."})

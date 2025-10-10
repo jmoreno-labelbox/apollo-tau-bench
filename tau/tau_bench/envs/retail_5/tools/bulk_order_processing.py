@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class BulkOrderProcessing(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        order_ids = kwargs.get('order_ids')
-        new_status = kwargs.get('new_status')
+    def invoke(data: Dict[str, Any], new_status, order_ids) -> str:
 
         if not order_ids or not new_status:
             return json.dumps({'error': 'order_ids and new_status are required'})

@@ -7,15 +7,15 @@ from tau_bench.envs.tool import Tool
 
 class UpdateAdsetBidStrategy(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        aid = kwargs.get("adset_id")
-        bs = kwargs.get("bid_strategy")
-        ba = kwargs.get("bid_amount")
+    def invoke(data: Dict[str, Any], adset_id, bid_amount, bid_strategy, updated_at) -> str:
+        aid = adset_id
+        bs = bid_strategy
+        ba = bid_amount
         for a in list(data.get("adsets", {}).values()):
             if a.get("adset_id") == aid:
                 a["bid_strategy"] = bs
                 a["bid_amount"] = ba
-                a["updated_at"] = kwargs.get("updated_at")
+                a["updated_at"] = updated_at
                 return json.dumps(a)
         return json.dumps({"error": f"adset {aid} not found"})
 

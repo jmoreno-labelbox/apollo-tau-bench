@@ -7,9 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class ReadProjectSettings(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], key) -> str:
         cfg = data.get("project_config", {}) or {}
-        key = kwargs.get("key")
         if key:
             return json.dumps({key: cfg.get(key)}, indent=2)
         return json.dumps(cfg, indent=2)

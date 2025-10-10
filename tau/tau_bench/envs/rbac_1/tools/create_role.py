@@ -7,15 +7,15 @@ from tau_bench.envs.tool import Tool
 
 class CreateRole(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], description, role_name, is_temporary = False) -> str:
         roles = list(data.get('roles', {}).values())
         new_id_num = max((int(r['role_id'][4:]) for r in roles), default=0) + 1
         new_role_id = f"ROL-{new_id_num:03d}"
         new_role = {
                 "role_id": new_role_id,
-                "role_name": kwargs.get("role_name"),
-                "description": kwargs.get("description"),
-                "is_temporary": kwargs.get("is_temporary", False),
+                "role_name": role_name,
+                "description": description,
+                "is_temporary": is_temporary,
         }
         roles.append(new_role)
         data['roles'] = roles

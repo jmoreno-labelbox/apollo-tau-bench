@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetFinancialReport(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        report_type = kwargs.get("report_type")
-        entity_id = kwargs.get("entity_id")
-        fiscal_year = kwargs.get("fiscal_year", datetime.now().year)
-        quarter = kwargs.get("quarter")
+    def invoke(data: Dict[str, Any], entity_id, quarter, report_type, fiscal_year = datetime.now().year) -> str:
 
         if not all([report_type, entity_id]):
             return json.dumps({"error": "report_type and entity_id are required"})

@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetErrorLogDetails(Tool):
     """Retrieves the detailed step-by-step log for a specific failed task."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        task_id = kwargs.get("task_id")
+    def invoke(data: Dict[str, Any], task_id) -> str:
         for log in data.get('error_logs', []):
             if log.get('task_id') == task_id:
                 return json.dumps(log)

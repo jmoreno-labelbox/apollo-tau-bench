@@ -9,7 +9,7 @@ class AssignCertificationTool(Tool):
     """Create/assign a certification record to a user (write operation, deterministic)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], assigned_on, certification_id, status, user_id) -> str:
         certifications = data.get("certifications", [])
         users = list(data.get("users", {}).values())
 
@@ -17,11 +17,7 @@ class AssignCertificationTool(Tool):
             return json.dumps({"error": "certifications must be a list"}, indent=2)
         if not isinstance(users, list):
             return json.dumps({"error": "users must be a list"}, indent=2)
-
-        certification_id = kwargs.get("certification_id")
-        user_id = kwargs.get("user_id")
-        assigned_on = kwargs.get("assigned_on")  # ISO8601 or an equivalent predictable string
-        status = kwargs.get("status") or "ASSIGNED"
+        status = status or "ASSIGNED"
 
         if not isinstance(certification_id, str) or not certification_id.strip():
             return json.dumps({"error": "certification_id must be a non-empty string"}, indent=2)

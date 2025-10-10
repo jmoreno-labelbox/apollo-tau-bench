@@ -12,8 +12,7 @@ class GetGradesByPitchIds(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        pitch_ids = kwargs.get("pitch_ids")
+    def invoke(data: Dict[str, Any], pitch_ids) -> str:
 
         # 1) Verify
         if not isinstance(pitch_ids, list) or len(pitch_ids) == 0:

@@ -9,11 +9,7 @@ from . import generate_unique_id
 
 class CreateSupportTicketTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get('customer_id')
-        subject = kwargs.get('subject')
-        description = kwargs.get('description')
-        priority = kwargs.get('priority', 'Medium')
+    def invoke(data: Dict[str, Any], customer_id, description, subject, priority = 'Medium') -> str:
 
         support_tickets = list(data.get('support_tickets', {}).values())
 

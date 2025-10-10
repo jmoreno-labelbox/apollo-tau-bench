@@ -8,9 +8,8 @@ from tau_bench.envs.tool import Tool
 class CreateReview(Tool):
     """Creates a new review for a submission."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        submission_id, reviewer_user_id, content, recommendation = kwargs.get('submission_id'), kwargs.get('reviewer_user_id'), kwargs.get('content'), kwargs.get('recommendation')
-        review_id_override = kwargs.get('review_id_override')
+    def invoke(data: Dict[str, Any], content, recommendation, review_id_override, reviewer_user_id, submission_id) -> str:
+        submission_id, reviewer_user_id, content, recommendation = submission_id, reviewer_user_id, content, recommendation
         if not all([submission_id, reviewer_user_id, content, recommendation]):
             return json.dumps({"error": "submission_id, reviewer_user_id, content, and recommendation are required."})
 

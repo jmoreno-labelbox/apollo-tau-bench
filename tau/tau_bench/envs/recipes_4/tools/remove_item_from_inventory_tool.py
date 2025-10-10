@@ -48,7 +48,7 @@ class RemoveItemFromInventoryTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> Dict[str, Any]:
+    def invoke(data: Dict[str, Any], household_id, ingredient_id, inv_item_id, user_id) -> Dict[str, Any]:
         """
         Executes the logic to find and explicitly remove an inventory item.
 
@@ -70,11 +70,6 @@ class RemoveItemFromInventoryTool(Tool):
         validation_error = _validate_inputs(kwargs, param_definitions)
         if validation_error:
             return _build_error_response(validation_error["error_code"], validation_error["details"])
-
-        inv_item_id = kwargs.get("inv_item_id")
-        household_id = kwargs.get("household_id")
-        ingredient_id = kwargs.get("ingredient_id")
-        user_id = kwargs.get("user_id")
 
         # 2. Specific Validation: Confirm that at least one form of identification is supplied.
         if not inv_item_id and not (household_id and ingredient_id):

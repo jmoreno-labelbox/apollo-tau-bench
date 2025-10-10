@@ -8,9 +8,7 @@ from tau_bench.envs.tool import Tool
 class SetVariantPrice(Tool):
     """Set a variant's price to a specified numeric value."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        item_id = kwargs.get('item_id')
-        price = kwargs.get('price')
+    def invoke(data, item_id, price) -> str:
         if item_id is None or price is None:
             return json.dumps({"error":"item_id and price are required"}, indent=2)
         prod, variant = _find_product_by_item(data, item_id)

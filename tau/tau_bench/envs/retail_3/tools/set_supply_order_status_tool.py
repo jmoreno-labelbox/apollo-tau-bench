@@ -23,9 +23,8 @@ class SetSupplyOrderStatusTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        so_id = kwargs.get("supply_order_id")
-        status = kwargs.get("status")
+    def invoke(data: Dict[str, Any], status, supply_order_id) -> str:
+        so_id = supply_order_id
 
         if not so_id or not isinstance(status, str) or not status:
             return json.dumps(

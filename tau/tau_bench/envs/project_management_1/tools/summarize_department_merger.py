@@ -7,12 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class SummarizeDepartmentMerger(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        merged_departments = kwargs.get("merged_departments", [])
-        new_department_name = kwargs.get("new_department_name")
-        teams_consolidated = kwargs.get("teams_consolidated", [])
-        final_utilization = kwargs.get("final_utilization")
-        employees_affected = kwargs.get("employees_affected", [])
+    def invoke(data: Dict[str, Any], final_utilization, new_department_name, employees_affected = [], merged_departments = [], teams_consolidated = []) -> str:
 
         if not all([merged_departments, new_department_name]):
             return json.dumps(

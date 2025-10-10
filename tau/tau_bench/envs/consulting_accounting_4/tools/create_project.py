@@ -8,17 +8,17 @@ from . import _fixed_now_iso
 
 class CreateProject(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], account_code, default_hourly_rate, isbn, override_hourly_rate, project_id, project_title, publisher_id, is_active = True) -> str:
         projects = list(data.get("projects", {}).values())
         row = {
-            "project_id": kwargs.get("project_id"),
-            "publisher_id": kwargs.get("publisher_id"),
-            "isbn": kwargs.get("isbn"),
-            "project_title": kwargs.get("project_title"),
-            "default_hourly_rate": kwargs.get("default_hourly_rate"),
-            "override_hourly_rate": kwargs.get("override_hourly_rate"),
-            "account_code": kwargs.get("account_code"),
-            "is_active": kwargs.get("is_active", True),
+            "project_id": project_id,
+            "publisher_id": publisher_id,
+            "isbn": isbn,
+            "project_title": project_title,
+            "default_hourly_rate": default_hourly_rate,
+            "override_hourly_rate": override_hourly_rate,
+            "account_code": account_code,
+            "is_active": is_active,
             "created_at": _fixed_now_iso(),
             "updated_at": _fixed_now_iso()
         }

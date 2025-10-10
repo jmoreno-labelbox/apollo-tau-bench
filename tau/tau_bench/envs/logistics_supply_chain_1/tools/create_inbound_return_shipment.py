@@ -8,11 +8,7 @@ from tau_bench.envs.tool import Tool
 class CreateInboundReturnShipment(Tool):
     """Creates a new 'Planned' inbound shipment specifically for a customer return."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        rma_id = kwargs.get('rma_id')
-        from_customer_id = kwargs.get('from_customer_id')
-        to_warehouse_id = kwargs.get('to_warehouse_id')
-        carrier_scac = kwargs.get('carrier_scac')
+    def invoke(data: Dict[str, Any], carrier_scac, from_customer_id, rma_id, to_warehouse_id) -> str:
 
         if not all([rma_id, from_customer_id, to_warehouse_id, carrier_scac]):
             return json.dumps({"error": "rma_id, from_customer_id, to_warehouse_id, and carrier_scac are required."}, indent=2)

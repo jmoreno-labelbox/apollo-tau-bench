@@ -20,12 +20,9 @@ class AssignRoleOnApprovalTool(Tool):
         return f"UR-{digits}"
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], assigned_by, request_id, user_role_id) -> str:
         import json as _json
-
-        request_id = kwargs.get("request_id")
-        assigned_by = kwargs.get("assigned_by")
-        provided_urid = kwargs.get("user_role_id")
+        provided_urid = user_role_id
 
         if not request_id or not assigned_by:
             return _json.dumps(

@@ -7,24 +7,24 @@ from tau_bench.envs.tool import Tool
 
 class CreateNewCycle(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        if not kwargs.get("artifact_id") or not kwargs.get("sla_deadline_ts"):
+    def invoke(data: Dict[str, Any], artifact_id, sla_deadline_ts, thread_id) -> str:
+        if not artifact_id or not sla_deadline_ts:
             missing = []
-            if not kwargs.get("artifact_id"):
+            if not artifact_id:
                 missing.append("artifact_id")
-            if not kwargs.get("sla_deadline_ts"):
+            if not sla_deadline_ts:
                 missing.append("sla_deadline_ts")
             return json.dumps({"error": f"Missing required fields: {', '.join(missing)}"}, indent=2)
 
         cycles: List[Dict[str, Any]] = list(data.get("review_cycles", {}).values())
         cycle_id = get_next_cycle_id(data)
         created_ts = get_now_timestamp()
-        thread_id: Optional[str] = kwargs.get("thread_id")
-        sla_deadline_ts: str = kwargs.get("sla_deadline_ts")
+        thread_id: Optional[str] = thread_id
+        sla_deadline_ts: str = sla_deadline_ts
 
         new_cycle = {
             "cycle_id": cycle_id,
-            "artifact_id": kwargs["artifact_id"],
+            "artifact_id": artifact_id,
             "thread_id_nullable": thread_id,
             "status": "IN_FLIGHT",
             "created_ts": created_ts,

@@ -9,8 +9,8 @@ class GetPlanOnDate(Tool):
     """Return a frozen plan snapshot for a given date."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        target_date = kwargs.get("date")
+    def invoke(data: Dict[str, Any], date) -> str:
+        target_date = date
         for plan in list(data.get("plans", {}).values()):
             if plan.get("date") == target_date:
                 return json.dumps(plan)

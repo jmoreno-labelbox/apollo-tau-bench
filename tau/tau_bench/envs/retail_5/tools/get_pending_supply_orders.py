@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetPendingSupplyOrders(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        supplier_id = kwargs.get('supplier_id')
+    def invoke(data: Dict[str, Any], supplier_id) -> str:
 
         supply_orders = data['supply_orders']
         pending_orders = []

@@ -7,20 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class SearchEmployees(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        name = kwargs.get("name")
-        required_skills = kwargs.get("skills")
-        min_skill_matches = kwargs.get("min_skill_matches", 1)
-        department = kwargs.get("department")
-        role = kwargs.get("role")
-        role_contains = kwargs.get("role_contains")
-        role_disregard = kwargs.get("role_disregard")
-        clearance = kwargs.get("clearance")
-        utilization_below = kwargs.get("utilization_below")
-        utilization_above = kwargs.get("utilization_above")
-        min_proficiency = kwargs.get("min_proficiency", 0)
-        min_available_hours = kwargs.get("min_available_hours")
-        disregard_employees = kwargs.get("disregard_employee_ids", [])
+    def invoke(data: Dict[str, Any], clearance, department, min_available_hours, name, role, role_contains, role_disregard, skills, utilization_above, utilization_below, disregard_employee_ids = [], min_proficiency = 0, min_skill_matches = 1) -> str:
+        required_skills = skills
+        disregard_employees = disregard_employee_ids
 
 
         employees = list(data.get("employees", {}).values())

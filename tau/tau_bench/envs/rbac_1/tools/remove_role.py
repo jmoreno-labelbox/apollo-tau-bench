@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class RemoveRole(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        role_id_to_remove = kwargs.get("role_id")
+    def invoke(data: Dict[str, Any], role_id) -> str:
+        role_id_to_remove = role_id
 
         if not role_id_to_remove:
             return json.dumps({"error": "role_id must be provided."})

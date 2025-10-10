@@ -9,9 +9,9 @@ class GetLoanDetailsByCustomerIdAndType(Tool):
     """Fetches loan details for a specific customer and loan type."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id", "").strip()
-        loan_type = kwargs.get("loan_type", "").strip().lower()
+    def invoke(data: Dict[str, Any], customer_id = "", loan_type = "") -> str:
+        customer_id = customer_id.strip()
+        loan_type = loan_type.strip().lower()
 
         if not customer_id or not loan_type:
             return json.dumps({

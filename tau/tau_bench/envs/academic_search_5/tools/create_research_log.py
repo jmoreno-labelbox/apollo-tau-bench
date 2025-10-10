@@ -8,12 +8,7 @@ from tau_bench.envs.tool import Tool
 class CreateResearchLog(Tool):
     """Tool to create a research log entry for a researcher about an article."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        researcher_id = kwargs.get('researcher_id')
-        article_id = kwargs.get('article_id')
-        notes = kwargs.get('notes')
-        relevance = kwargs.get('relevance')
-        log_id_override = kwargs.get('log_id_override')
+    def invoke(data: Dict[str, Any], article_id, log_id_override, notes, relevance, researcher_id) -> str:
 
         if not all([researcher_id, article_id, notes, relevance]):
             return json.dumps({"error": "researcher_id, article_id, notes, and relevance are required."})

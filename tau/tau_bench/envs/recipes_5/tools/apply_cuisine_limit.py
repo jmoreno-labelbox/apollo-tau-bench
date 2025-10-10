@@ -8,9 +8,9 @@ from . import _json_dump
 
 class ApplyCuisineLimit(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], max_per_cuisine = 2) -> str:
         ids = _ids_from_kwargs_or_defaults(data, kwargs)
-        max_per_cuisine = int(kwargs.get("max_per_cuisine", 2))
+        max_per_cuisine = int(max_per_cuisine)
         cuisine_counts: Dict[str, int] = {}
         selected: List[int] = []
         for rid in ids:

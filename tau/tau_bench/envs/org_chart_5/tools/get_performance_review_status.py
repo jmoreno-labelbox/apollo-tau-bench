@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class get_performance_review_status(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        department_id = kwargs.get("department_id")
-        employee_id = kwargs.get("employee_id")
+    def invoke(data: Dict[str, Any], department_id, employee_id) -> str:
         reviews = data.get("performance_reviews", [])
 
         if employee_id:

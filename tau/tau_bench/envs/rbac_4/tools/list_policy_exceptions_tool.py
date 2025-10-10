@@ -9,9 +9,8 @@ class ListPolicyExceptionsTool(Tool):
     """List policy exceptions."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        status = kwargs.get("status")
-        uid = kwargs.get("user_id")
+    def invoke(data: Dict[str, Any], status, user_id) -> str:
+        uid = user_id
         exes = data.get("policy_exceptions", [])
         results = []
         for e in exes:

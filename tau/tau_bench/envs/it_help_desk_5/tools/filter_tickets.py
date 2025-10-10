@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class FilterTickets(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        ids = kwargs.get('ids',[])
-        status = kwargs.get('status')
-        not_status = kwargs.get('not_status')
+    def invoke(data: Dict[str, Any], not_status, status, ids = []) -> str:
 
         if len(ids) == 0 and all([param is None for param in [status, not_status]]):
             return json.dumps({'status': 'error', 'description': 'Input parameters to search for are required.'}, indent=2)

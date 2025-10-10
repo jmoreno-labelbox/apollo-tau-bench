@@ -9,17 +9,17 @@ from . import _next_int_id
 
 class PostAuditEvent(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], action, actor_id, entity_id, entity_type, metadata_json) -> str:
         audits = data.get("audit_events", [])
         new_id = _next_int_id(audits, "event_id")
         row = {
             "event_id": new_id,
-            "actor_id": kwargs.get("actor_id"),
-            "action": kwargs.get("action"),
-            "entity_type": kwargs.get("entity_type"),
-            "entity_id": kwargs.get("entity_id"),
+            "actor_id": actor_id,
+            "action": action,
+            "entity_type": entity_type,
+            "entity_id": entity_id,
             "occurred_at": _fixed_now_iso(),
-            "metadata_json": kwargs.get("metadata_json") or {}
+            "metadata_json": metadata_json or {}
         }
         audits.append(row)
         return json.dumps(row, indent=2)

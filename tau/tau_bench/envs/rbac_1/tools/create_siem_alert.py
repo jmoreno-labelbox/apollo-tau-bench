@@ -7,16 +7,16 @@ from tau_bench.envs.tool import Tool
 
 class CreateSiemAlert(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], alert_type, resource_id, severity, user_id) -> str:
         alerts = data.get('siem_alerts', [])
         new_id_num = max((int(a['alert_id'][5:]) for a in alerts), default=0) + 1
         new_alert_id = f"ALRT-{new_id_num:03d}"
         new_alert = {
                 "alert_id": new_alert_id,
-                "user_id": kwargs.get("user_id"),
-                "resource_id": kwargs.get("resource_id"),
-                "alert_type": kwargs.get("alert_type"),
-                "severity": kwargs.get("severity"),
+                "user_id": user_id,
+                "resource_id": resource_id,
+                "alert_type": alert_type,
+                "severity": severity,
                 "timestamp": NOW.strftime(DT_STR_FORMAT)
         }
         alerts.append(new_alert)

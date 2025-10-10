@@ -8,9 +8,8 @@ from tau_bench.envs.tool import Tool
 class UpdateFileCheckTaskStatus(Tool):
     """Updates the status of a file check task."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        task_id = kwargs.get("task_id")
-        is_completed = kwargs.get("completed")
+    def invoke(data: Dict[str, Any], completed, task_id) -> str:
+        is_completed = completed
         for task in data.get('file_check_db', []):
             if task.get('task_id') == task_id:
                 task['completed'] = is_completed

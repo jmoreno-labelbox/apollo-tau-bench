@@ -7,10 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class OpenHousesForProperties(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        pids = set(kwargs.get("property_ids") or [])
-        date_from = kwargs.get("date_from")
-        date_to = kwargs.get("date_to")
+    def invoke(data: Dict[str, Any], date_from, date_to, property_ids) -> str:
+        pids = set(property_ids or [])
         rows = []
         for oh in (data.get("open_houses", []) or []):
             if pids and oh.get("property_id") not in pids:

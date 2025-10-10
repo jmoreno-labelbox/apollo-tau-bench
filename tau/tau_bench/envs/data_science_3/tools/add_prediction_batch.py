@@ -8,7 +8,7 @@ from . import _fixed_now_iso
 
 class AddPredictionBatch(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], batch_name, items, model_name) -> str:
         preds = data.get("predictions", [])
         max_id = 0
         for p in preds:
@@ -20,9 +20,9 @@ class AddPredictionBatch(Tool):
         new_id = max_id + 1
         row = {
             "prediction_id": new_id,
-            "batch_name": kwargs.get("batch_name"),
-            "model_name": kwargs.get("model_name"),
-            "items": kwargs.get("items") or [],
+            "batch_name": batch_name,
+            "model_name": model_name,
+            "items": items or [],
             "created_at": _fixed_now_iso()
         }
         preds.append(row)

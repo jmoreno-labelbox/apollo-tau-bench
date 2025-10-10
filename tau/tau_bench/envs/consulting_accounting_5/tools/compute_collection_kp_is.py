@@ -7,8 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class ComputeCollectionKPIs(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        window_months = int(kwargs.get("window_months", 12))
+    def invoke(data: Dict[str, Any], window_months = 12) -> str:
+        window_months = int(window_months)
         invs = data.get("invoices", []) or []
         total_ar = sum(float(i.get("total_due", 0)) for i in invs if i.get("paid_at") is None)
         avg_daily_sales = round((sum(float(i.get("subtotal", 0)) for i in invs) / max(1, window_months * 30)), 2)

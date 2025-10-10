@@ -23,9 +23,7 @@ class FindSupplyOrdersTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        supplier_id = kwargs.get("supplier_id")
-        status = kwargs.get("status")
+    def invoke(data: Dict[str, Any], status, supplier_id) -> str:
 
         supply_orders = data.get("supply_orders", [])
         filtered = []

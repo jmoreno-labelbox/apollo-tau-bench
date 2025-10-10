@@ -7,11 +7,11 @@ from tau_bench.envs.tool import Tool
 
 class AssignPermissionToRole(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], permission_id, role_id) -> str:
         role_permissions = data.get('role_permissions', [])
         assignment = {
-                "role_id": kwargs.get("role_id"),
-                "permission_id": kwargs.get("permission_id")
+                "role_id": role_id,
+                "permission_id": permission_id
         }
         role_permissions.append(assignment)
         data['role_permissions'] = role_permissions

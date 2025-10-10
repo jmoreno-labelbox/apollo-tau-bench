@@ -8,9 +8,9 @@ from tau_bench.envs.tool import Tool
 class SearchReviews(Tool):
     """Tool to search for reviews by submission and reviewer."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], reviewer_user_id, submission_id) -> str:
         reviews = list(data.get('reviews', {}).values())
-        results = [r for r in reviews if r.get('submission_id') == kwargs.get('submission_id') and r.get('reviewer_user_id') == kwargs.get('reviewer_user_id')]
+        results = [r for r in reviews if r.get('submission_id') == submission_id and r.get('reviewer_user_id') == reviewer_user_id]
         return json.dumps(results, indent=2)
 
     @staticmethod

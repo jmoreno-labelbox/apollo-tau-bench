@@ -17,12 +17,7 @@ class GetResource(Tool):
       compliance_scope: str (optional) - Filter by compliance scope (ISO-27001, GDPR, SOX, PCI-DSS, ALL)
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        resource_id = kwargs.get("resource_id")
-        name = kwargs.get("name")
-        owner_id = kwargs.get("owner_id")
-        criticality = kwargs.get("criticality")
-        compliance_scope = kwargs.get("compliance_scope")
+    def invoke(data: Dict[str, Any], compliance_scope, criticality, name, owner_id, resource_id) -> str:
 
         resources = data.get("resources", [])
 

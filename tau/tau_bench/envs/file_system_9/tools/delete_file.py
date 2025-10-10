@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class DeleteFile(Tool):
     """Deletes a file from the file system."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        filepath = kwargs.get("filepath")
+    def invoke(data: Dict[str, Any], filepath) -> str:
         for server in list(data.get("file_system", {}).values()):
             for directory in server.get("directories", []):
                 original_len = len(directory.get("files", []))

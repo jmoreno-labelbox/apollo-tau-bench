@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetTeamBudgetStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        team_id = kwargs.get("team_id")
-        include_member_breakdown = kwargs.get("include_member_breakdown", False)
-        fiscal_year = kwargs.get("fiscal_year", datetime.now().year)
+    def invoke(data: Dict[str, Any], team_id, fiscal_year = datetime.now().year, include_member_breakdown = False) -> str:
 
         if not team_id:
             return json.dumps({"error": "team_id is required"})

@@ -7,15 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateTask(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        new_task_id = kwargs.get("new_task_id")
-        title = kwargs.get("title")
-        description = kwargs.get("description")
-        assignee_id = kwargs.get("assignee_id")
-        priority = kwargs.get("priority", "medium")
-        story_points = kwargs.get("story_points", 3)
-        sprint_id = kwargs.get("sprint_id")
-        dependencies = kwargs.get("dependencies", [])
+    def invoke(data: Dict[str, Any], assignee_id, description, new_task_id, sprint_id, title, dependencies = [], priority = "medium", story_points = 3) -> str:
 
         if not all([title, assignee_id]):
             return json.dumps({"error": "title and assignee_id are required"})

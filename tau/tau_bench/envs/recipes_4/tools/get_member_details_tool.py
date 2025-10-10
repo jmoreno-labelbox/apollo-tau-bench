@@ -32,7 +32,7 @@ class GetMemberDetailsTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> Dict[str, Any]:
+    def invoke(data: Dict[str, Any], member_id) -> Dict[str, Any]:
         """
         Executes the tool's logic to fetch a specific member's profile.
 
@@ -60,8 +60,6 @@ class GetMemberDetailsTool(Tool):
                 validation_error["error_code"],
                 validation_error["details"]
             )
-
-        member_id = kwargs.get("member_id")
 
         # 2. Data Acquisition: Locate the particular member within the dataset.
         member_profile = next(

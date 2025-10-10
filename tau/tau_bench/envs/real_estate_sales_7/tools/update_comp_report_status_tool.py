@@ -9,10 +9,7 @@ class UpdateCompReportStatusTool(Tool):
     """Updates status field in comp_reports table."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        report_id = kwargs.get("report_id")
-        new_status = kwargs.get("new_status")
-        actor_id = kwargs.get("actor_id")
+    def invoke(data: Dict[str, Any], actor_id, new_status, report_id) -> str:
         if report_id is None or not new_status or actor_id is None:
             return _err("report_id, new_status, and actor_id are required")
 

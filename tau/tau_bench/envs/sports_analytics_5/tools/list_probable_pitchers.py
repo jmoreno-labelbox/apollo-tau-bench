@@ -9,15 +9,13 @@ from . import _require_tables
 class ListProbablePitchers(Tool):
     """Returns probable pitchers for a team: deterministic sample from players table (position 'P' if present), sorted by full_name ASC."""
     @staticmethod
-    def invoke(data, **kwargs)->str:
+    def invoke(data, team_id, limit = 2)->str:
         err = _require_tables(data, ["players"])
         if err:
             return json.dumps({"error": err}, indent=2)
         need = _check_required(kwargs, ["team_id"])
         if need:
             return json.dumps({"error": need}, indent=2)
-        team_id = kwargs.get("team_id")
-        limit = kwargs.get("limit", 2)
         # Account for variations in position fields.
         def _is_pitcher(p):
             pos = (p.get("position") or p.get("primary_position") or "").upper()

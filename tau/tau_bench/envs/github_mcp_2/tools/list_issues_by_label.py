@@ -9,8 +9,7 @@ class ListIssuesByLabel(Tool):
     """Returns all issues that have a given label (e.g., 'bug')"""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        label = kwargs.get("label")
+    def invoke(data: Dict[str, Any], label) -> str:
         if not label:
             return json.dumps({"error": "label is required."}, indent=2)
 

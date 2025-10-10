@@ -8,14 +8,14 @@ from . import _require
 
 class ZoteroItemMetadata(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], abstracts_nullable, authors, fetched_ts, item_ids, saved_path_nullable, titles, urls_nullable, venues_nullable, years) -> str:
         req = ["item_ids", "titles", "fetched_ts"]
         err = _require(kwargs, req)
         if err: return err
-        row = {"item_ids": kwargs["item_ids"], "titles": kwargs["titles"], "authors": kwargs.get("authors"),
-               "years": kwargs.get("years"), "venues_nullable": kwargs.get("venues_nullable"),
-               "urls_nullable": kwargs.get("urls_nullable"), "abstracts_nullable": kwargs.get("abstracts_nullable"),
-               "saved_path_nullable": kwargs.get("saved_path_nullable"), "fetched_ts": kwargs["fetched_ts"]}
+        row = {"item_ids": item_ids, "titles": titles, "authors": authors,
+               "years": years, "venues_nullable": venues_nullable,
+               "urls_nullable": urls_nullable, "abstracts_nullable": abstracts_nullable,
+               "saved_path_nullable": saved_path_nullable, "fetched_ts": fetched_ts}
         return json.dumps(_append(data.setdefault("zotero_metadata", []), row), indent=2)
 
     @staticmethod

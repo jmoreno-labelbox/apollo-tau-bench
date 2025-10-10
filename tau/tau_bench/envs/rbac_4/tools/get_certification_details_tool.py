@@ -9,8 +9,8 @@ class GetCertificationDetailsTool(Tool):
     """Get details of a certification."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cid = kwargs.get("certification_id")
+    def invoke(data: Dict[str, Any], certification_id) -> str:
+        cid = certification_id
         for c in data.get("certifications", []):
             if c["certification_id"] == cid:
                 return json.dumps(c, indent=2)

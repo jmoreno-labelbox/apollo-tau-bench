@@ -9,8 +9,7 @@ class VerifyRouteCreationTool(Tool):
     """Verifies property viewing route was created successfully."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        route_id = kwargs.get("route_id")
+    def invoke(data: Dict[str, Any], route_id) -> str:
         if route_id is None:
             return _err("route_id is required")
 

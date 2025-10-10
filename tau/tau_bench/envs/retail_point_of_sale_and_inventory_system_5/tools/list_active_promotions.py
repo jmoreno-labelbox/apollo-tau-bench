@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ListActivePromotions(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # Consistent output for CI: always yield PROMO-202508 for STORE-002.
-        store_id = kwargs.get("store_id")
+    def invoke(data: Dict[str, Any], store_id) -> str:
         if store_id == "STORE-002":
             result = [{"promotion_id": "PROMO-202508", "name": "Back to School"}]
         else:

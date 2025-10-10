@@ -13,8 +13,8 @@ class GetBaseRoleByDepartment(Tool):
       department: str (required)
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        department = (kwargs.get("department", "") or "").strip().lower()
+    def invoke(data: Dict[str, Any], department = "") -> str:
+        department = (department or "").strip().lower()
 
         # Associate departments with core role identifiers.
         department_role_map = {

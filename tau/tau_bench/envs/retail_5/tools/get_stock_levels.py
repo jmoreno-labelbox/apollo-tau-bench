@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetStockLevels(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        supplier_id = kwargs.get('supplier_id')
-        item_id = kwargs.get('item_id')
-        low_stock_threshold = kwargs.get('low_stock_threshold', 50)
+    def invoke(data: Dict[str, Any], item_id, supplier_id, low_stock_threshold = 50) -> str:
 
         suppliers = data['suppliers']
 

@@ -7,11 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateBudgetThresholdAlert(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
-        threshold_percentage = kwargs.get("threshold_percentage", 80)
-        alert_recipients = kwargs.get("alert_recipients", [])
-        alert_name = kwargs.get("alert_name")
+    def invoke(data: Dict[str, Any], alert_name, project_id, alert_recipients = [], threshold_percentage = 80) -> str:
 
         if not all([project_id, alert_recipients]):
             return json.dumps({"error": "project_id and alert_recipients are required"})

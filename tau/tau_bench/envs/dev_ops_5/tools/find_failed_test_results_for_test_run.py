@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class FindFailedTestResultsForTestRun(Tool):
     """Finds all failed test results for a given test run ID."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        test_run_id = kwargs.get("test_run_id")
+    def invoke(data: Dict[str, Any], test_run_id) -> str:
         test_results = data.get("test_results", [])
 
         failed_tests = [tr for tr in test_results if tr.get("test_run_id") == test_run_id and tr.get("status") == "failed"]

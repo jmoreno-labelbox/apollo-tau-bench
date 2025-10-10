@@ -9,8 +9,8 @@ class GetCandidateDetails(Tool):
     """Return the full candidate row by candidate_id."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cand_id = kwargs["candidate_id"]
+    def invoke(data: Dict[str, Any], candidate_id) -> str:
+        cand_id = candidate_id
         for row in list(data.get("candidates", {}).values()):
             if row.get("candidate_id") == cand_id:
                 return json.dumps({"candidate": row}, indent=2)

@@ -40,7 +40,7 @@ class CreateMealPlanTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> Dict[str, Any]:
+    def invoke(data: Dict[str, Any], household_id, user_id, week_start_date) -> Dict[str, Any]:
         """
         Executes the logic to create a new meal plan record.
 
@@ -64,10 +64,6 @@ class CreateMealPlanTool(Tool):
                 validation_error["error_code"],
                 validation_error["details"]
             )
-
-        household_id = kwargs["household_id"]
-        week_start_date = kwargs["week_start_date"]
-        user_id = kwargs["user_id"]
 
         # 2. Validation of Preconditions
         if not any(h.get("household_id") == household_id for h in data.get("households", [])):

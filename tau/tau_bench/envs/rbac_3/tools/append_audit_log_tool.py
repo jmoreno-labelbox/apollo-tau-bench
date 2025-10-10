@@ -9,21 +9,20 @@ class AppendAuditLogTool(Tool):
     """append_audit_log"""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], access_request, action_type, actor_id, log_id, target_id, details = "") -> str:
         # Create a log_id if one is not supplied.
-        if "log_id" not in kwargs or kwargs["log_id"] is None:
-            access_request = kwargs["access_request"]
+        if "log_id" not in kwargs or log_id is None:
             log_id = f"LOG-{access_request}-decision"
         else:
-            log_id = kwargs["log_id"]
+            pass
 
         entry = {
             "log_id": log_id,
-            "actor_id": kwargs["actor_id"],
-            "action_type": kwargs["action_type"],
-            "target_id": kwargs["target_id"],
+            "actor_id": actor_id,
+            "action_type": action_type,
+            "target_id": target_id,
             "timestamp": _HARD_TS,
-            "details": kwargs.get("details", ""),
+            "details": details,
         }
         logs = data.setdefault("audit_logs", [])
         existing = next((l for l in logs if l.get("log_id") == entry["log_id"]), None)

@@ -30,11 +30,10 @@ class RenderOnboardingWelcome(Tool):
         return out
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cand_id = kwargs["candidate_id"]
-        name = kwargs.get("candidate_name", "")
-        role = kwargs.get("role_title", "")
-        start_date = kwargs.get("start_date", "")
+    def invoke(data: Dict[str, Any], candidate_id, candidate_name = "", role_title = "", start_date = "") -> str:
+        cand_id = candidate_id
+        name = candidate_name
+        role = role_title
 
         if not RenderOnboardingWelcome._candidate_exists(data, cand_id):
             return json.dumps({"error": f"candidate_id {cand_id} not found"}, indent=2)

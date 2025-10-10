@@ -8,10 +8,7 @@ from tau_bench.envs.tool import Tool
 class ConfigureProfileSettings(Tool):
     """Configures a user's profile settings."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get('user_id')
-        notification_channel = kwargs.get('notification_channel')
-        ui_theme = kwargs.get('ui_theme')
+    def invoke(data: Dict[str, Any], notification_channel, ui_theme, user_id) -> str:
 
         if not user_id:
             return json.dumps({"error": "user_id is required to configure settings."})

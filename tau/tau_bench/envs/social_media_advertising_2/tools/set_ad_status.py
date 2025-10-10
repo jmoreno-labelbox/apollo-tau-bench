@@ -9,8 +9,8 @@ class SetAdStatus(Tool):
     """Pause or activate a single ad by ID."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        ad_id, new_status = kwargs.get("ad_id"), kwargs.get("status")
+    def invoke(data: Dict[str, Any], ad_id, status) -> str:
+        ad_id, new_status = ad_id, status
         for ad in list(data.get("ads", {}).values()):
             if ad.get("ad_id") == ad_id:
                 ad["status"] = new_status

@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class GetPlanForDate(Tool):
     """Retrieves the entire frozen plan for a specific date."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        report_date = kwargs.get("date")
+    def invoke(data: Dict[str, Any], date) -> str:
+        report_date = date
         for plan in data.get('plans', []):
             if plan.get('date') == report_date:
                 return json.dumps(plan)

@@ -8,10 +8,9 @@ from tau_bench.envs.tool import Tool
 class SendSlackMessage(Tool):
     """Sends a message to a specified Slack channel."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], channel_name) -> str:
         messages = data.get('slack_messages', [])
         new_id = f"msg_{max((int(m['message_id'].split('_')[-1]) for m in messages), default=0) + 1:03d}"
-        channel_name = kwargs.get("channel_name")
 
         # Dynamically create a suitable message according to the channel name.
         if channel_name == "System Alerts":

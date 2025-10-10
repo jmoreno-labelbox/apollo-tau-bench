@@ -8,11 +8,7 @@ from tau_bench.envs.tool import Tool
 class UpdateItemOption(Tool):
     """Update a specific option key for a given item in an order."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        order_id = kwargs.get('order_id')
-        item_id = kwargs.get('item_id')
-        option_key = kwargs.get('option_key')
-        option_value = kwargs.get('option_value')
+    def invoke(data, item_id, option_key, option_value, order_id) -> str:
         if not order_id or not item_id or option_key is None or option_value is None:
             return json.dumps({"error":"order_id, item_id, option_key, option_value are required"}, indent=2)
         o = _find_order(data, order_id)

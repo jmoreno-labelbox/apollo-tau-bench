@@ -9,8 +9,7 @@ class SearchAdsByAdSet(Tool):
     """Searches for ads belonging to a specific ad set."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        adset_id = kwargs.get("adset_id")
+    def invoke(data: Dict[str, Any], adset_id) -> str:
         ads = list(data.get("ads", {}).values())
         matching_ads = []
         

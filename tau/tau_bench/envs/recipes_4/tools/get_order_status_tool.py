@@ -32,7 +32,7 @@ class GetOrderStatusTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> Dict[str, Any]:
+    def invoke(data: Dict[str, Any], order_id) -> Dict[str, Any]:
         """
         Executes the logic to find and return the details of an order.
 
@@ -51,8 +51,6 @@ class GetOrderStatusTool(Tool):
         validation_error = _validate_inputs(kwargs, param_definitions)
         if validation_error:
             return _build_error_response(validation_error["error_code"], validation_error["details"])
-
-        order_id = kwargs["order_id"]
 
         # 2. Data Extraction
         order_record = next((o for o in list(data.get("orders", {}).values()) if o.get("order_id") == order_id), None)

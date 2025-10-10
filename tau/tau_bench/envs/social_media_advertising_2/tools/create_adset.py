@@ -9,15 +9,15 @@ class CreateAdset(Tool):
     """Create a new ad set inside a campaign."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], bid_type, budget, campaign_id, name) -> str:
         all_adsets = list(data.get("adsets", {}).values())
         new_id = str(max((int(a["adset_id"]) for a in all_adsets), default=100) + 1)
         new = {
             "adset_id": new_id,
-            "campaign_id": kwargs.get("campaign_id"),
-            "name": kwargs.get("name"),
-            "budget": kwargs.get("budget"),
-            "bid_type": kwargs.get("bid_type"),
+            "campaign_id": campaign_id,
+            "name": name,
+            "budget": budget,
+            "bid_type": bid_type,
             "status": "paused",
         }
         all_adsets.append(new)

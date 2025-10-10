@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class InventoryAlert(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        threshold = kwargs.get('threshold', 10)
-        category_filter = kwargs.get('category_filter')
+    def invoke(data: Dict[str, Any], category_filter, threshold = 10) -> str:
 
         suppliers = data['suppliers']
         products = data['products']

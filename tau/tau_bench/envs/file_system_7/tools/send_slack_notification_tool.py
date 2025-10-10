@@ -33,9 +33,7 @@ class SendSlackNotificationTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        channel = kwargs["channel"]
-        message = kwargs["message"]
+    def invoke(data: Dict[str, Any], channel, message) -> str:
         if "slack_log" not in data:
             data["slack_log"] = []
         log_entry = {"channel": channel, "message": message}

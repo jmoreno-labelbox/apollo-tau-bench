@@ -22,17 +22,9 @@ class DecideAccessRequest(Tool):
       waive_sla: bool = False
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        request_id = kwargs.get("request_id", "")
-        reviewer_id = kwargs.get("reviewer_id", "")
-        decision = (kwargs.get("decision") or "").upper()
-        decision_at_kw = kwargs.get("decision_at", get_current_timestamp())
-        enforce_admin = kwargs.get("enforce_admin", True)
-        enforce_pending = kwargs.get("enforce_pending", True)
-        # SLA enforcement is not mandatory; set to False by default to prevent hindering decisions in static datasets.
-        enforce_sla = kwargs.get("enforce_sla", False)
-        sla_days = kwargs.get("sla_days", 5)
-        waive_sla = kwargs.get("waive_sla", False)
+    def invoke(data: Dict[str, Any], decision, decision_at = get_current_timestamp(), enforce_admin = True, enforce_pending = True, enforce_sla = False, request_id = "", reviewer_id = "", sla_days = 5, waive_sla = False) -> str:
+        decision = (decision or "").upper()
+        decision_at_kw = decision_at
 
         if decision not in ("APPROVED", "REJECTED"):
             return json.dumps({"error": "decision must be APPROVED or REJECTED"})

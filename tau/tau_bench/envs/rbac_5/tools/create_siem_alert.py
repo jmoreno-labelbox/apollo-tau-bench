@@ -17,12 +17,8 @@ class CreateSiemAlert(Tool):
       timestamp: str ISO (defaults now)
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id", "")
-        resource_id = kwargs.get("resource_id", "")
-        alert_type = kwargs.get("alert_type", "UNAUTHORIZED_ACCESS_ATTEMPT")
-        severity = kwargs.get("severity", "HIGH")
-        timestamp = kwargs.get("timestamp") or get_current_timestamp()
+    def invoke(data: Dict[str, Any], timestamp, alert_type = "UNAUTHORIZED_ACCESS_ATTEMPT", resource_id = "", severity = "HIGH", user_id = "") -> str:
+        timestamp = timestamp or get_current_timestamp()
 
         if not user_id or not resource_id:
             return json.dumps({"error": "user_id and resource_id required"})

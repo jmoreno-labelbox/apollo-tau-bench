@@ -9,8 +9,7 @@ class GetTeamDetailsById(Tool):
     """Fetch a team record by its team_id."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        team_id = kwargs.get("team_id")
+    def invoke(data: Dict[str, Any], team_id) -> str:
 
         # 1) Verify
         if team_id is None:

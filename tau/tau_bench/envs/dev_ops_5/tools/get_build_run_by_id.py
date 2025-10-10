@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class GetBuildRunById(Tool):
     """Retrieves a specific build run by its ID."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        build_run_id = kwargs.get("id")
+    def invoke(data: Dict[str, Any], id) -> str:
+        build_run_id = id
         build_runs = data.get("build_runs", [])
         for run in build_runs:
             if run.get("id") == build_run_id:

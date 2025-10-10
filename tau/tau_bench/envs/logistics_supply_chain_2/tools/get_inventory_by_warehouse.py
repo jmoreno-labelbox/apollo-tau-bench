@@ -9,9 +9,8 @@ class GetInventoryByWarehouse(Tool):
     """Tool to retrieve inventory items stored in a specific warehouse."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        warehouse_id = kwargs.get("warehouse_id")
-        list_of_inventories = kwargs.get("list_of_ids", None)
+    def invoke(data: Dict[str, Any], warehouse_id, list_of_ids = None) -> str:
+        list_of_inventories = list_of_ids
         inventories = list(data.get("inventory", {}).values())
         filtered = [item['inventory_id'] for item in inventories if item["warehouse_id"] == warehouse_id]
         if list_of_inventories:

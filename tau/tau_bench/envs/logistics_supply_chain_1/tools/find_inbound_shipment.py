@@ -8,10 +8,7 @@ from tau_bench.envs.tool import Tool
 class FindInboundShipment(Tool):
     """Finds a specific inbound shipment based on supplier and origin."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        supplier_name = kwargs.get('supplier_name')
-        origin_city = kwargs.get('origin_city')
-        status = kwargs.get('status')
+    def invoke(data: Dict[str, Any], origin_city, status, supplier_name) -> str:
         if not all([supplier_name, origin_city]):
             return json.dumps({"error": "supplier_name and origin_city are required arguments."}, indent=2)
         shipments = list(data.get('inbound_shipments', {}).values())

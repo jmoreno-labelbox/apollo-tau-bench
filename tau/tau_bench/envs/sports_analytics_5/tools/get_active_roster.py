@@ -9,12 +9,10 @@ from . import _require_tables
 class GetActiveRoster(Tool):
     """Active roster snapshot for a team, excluding IL/Taxi unless include_il=True."""
     @staticmethod
-    def invoke(data, **kwargs)->str:
+    def invoke(data, team_id, include_il = False)->str:
         err = _require_tables(data, ["players"])
         if err:
             return json.dumps({"error": err}, indent=2)
-        team_id = kwargs.get("team_id")
-        include_il = kwargs.get("include_il", False)
         if team_id is None:
             return json.dumps({"error":"team_id is required."}, indent=2)
         def _eligible(p):

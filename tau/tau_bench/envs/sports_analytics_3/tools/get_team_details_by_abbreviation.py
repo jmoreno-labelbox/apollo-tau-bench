@@ -9,8 +9,7 @@ class GetTeamDetailsByAbbreviation(Tool):
     """Fetch a team record by its abbreviation (exact, case-sensitive)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        abbreviation = kwargs.get("abbreviation")
+    def invoke(data: Dict[str, Any], abbreviation) -> str:
 
         # 1) Verify
         if not isinstance(abbreviation, str) or abbreviation == "":

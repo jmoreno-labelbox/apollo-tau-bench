@@ -8,9 +8,8 @@ from . import _fixed_now_iso
 
 class ModifyAsset(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        updates = kwargs.get("updates") or {}
-        asset_tag = kwargs.get("asset_tag")
+    def invoke(data: Dict[str, Any], asset_tag, updates) -> str:
+        updates = updates or {}
         assets = list(data.get("inventory_assets", {}).values())
         for a in assets:
             if a.get("asset_tag") == asset_tag:

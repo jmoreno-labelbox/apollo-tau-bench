@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetTaskDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        task_id = kwargs.get("task_id")
+    def invoke(data: Dict[str, Any], task_id) -> str:
 
         tasks = list(data.get("tasks", {}).values())
 

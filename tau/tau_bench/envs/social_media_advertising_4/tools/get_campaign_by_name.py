@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetCampaignByName(Tool):
     """Retrieves a campaign's details by its name."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        name = kwargs.get("name")
+    def invoke(data: Dict[str, Any], name) -> str:
         for campaign in list(data.get('campaigns', {}).values()):
             if campaign.get('name') == name:
                 return json.dumps(campaign)

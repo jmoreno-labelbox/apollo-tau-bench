@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetFileCheckTaskByID(Tool):
     """Retrieves a specific file check task by its ID."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        task_id = kwargs.get("task_id")
+    def invoke(data: Dict[str, Any], task_id) -> str:
         for task in data.get('file_check_db', []):
             if task.get('task_id') == task_id:
                 return json.dumps(task)

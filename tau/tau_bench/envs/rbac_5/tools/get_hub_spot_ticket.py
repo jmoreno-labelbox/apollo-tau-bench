@@ -20,14 +20,7 @@ class GetHubSpotTicket(Tool):
       requester_id: str (optional)
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        ticket_id = kwargs.get("ticket_id")
-        alert_id = kwargs.get("alert_id")
-        status = kwargs.get("status")
-        priority = kwargs.get("priority")
-        category = kwargs.get("category")
-        assignee_id = kwargs.get("assignee_id")
-        requester_id = kwargs.get("requester_id")
+    def invoke(data: Dict[str, Any], alert_id, assignee_id, category, priority, requester_id, status, ticket_id) -> str:
 
         tickets = data.get("hubspot_tickets", [])
 

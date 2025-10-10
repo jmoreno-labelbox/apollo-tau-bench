@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class ReportRun(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        report_type = kwargs.get('report_type')
-        run_data = kwargs.get('run_data')
+    def invoke(data: Dict[str, Any], report_type, run_data) -> str:
 
         if report_type is None or run_data is None:
             return json.dumps({'status': 'error', 'description': 'The report_type and data fields are required.'}, indent=2)

@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class BuildOutputPaths(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        feature_validation_json_path = kwargs.get("feature_validation_json_path")
+    def invoke(data: Dict[str, Any], feature_validation_json_path) -> str:
         if not feature_validation_json_path:
             return json.dumps({"error":"Missing feature_validation_json_path"})
         return json.dumps({"output_paths": [feature_validation_json_path]})

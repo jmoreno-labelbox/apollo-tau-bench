@@ -9,9 +9,8 @@ class CompleteCertificationTool(Tool):
     """complete_certification"""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cert_id = kwargs["certification_id"]
-        reviewer_id = kwargs.get("reviewer_id")
+    def invoke(data: Dict[str, Any], certification_id, reviewer_id) -> str:
+        cert_id = certification_id
 
         certs = data.get("certifications", [])
         c = None

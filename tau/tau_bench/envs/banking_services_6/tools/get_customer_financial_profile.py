@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetCustomerFinancialProfile(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get("customer_id")
+    def invoke(data: Dict[str, Any], customer_id) -> str:
         customer = next((c for c in data['customers'] if c['customer_id'] == customer_id), None)
         if customer and "financial_profile" in customer:
             return json.dumps(customer['financial_profile'])

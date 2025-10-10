@@ -28,12 +28,7 @@ class RegisterSymbol(Tool):
         }
 
     @staticmethod
-    def invoke(data, **kwargs):
-        build_id = kwargs.get("build_id")
-        module_name = kwargs.get("module_name")
-        platform = kwargs.get("platform")
-        pdb_uri = kwargs.get("pdb_uri")
-        status = kwargs.get("status")
+    def invoke(data, build_id, module_name, pdb_uri, platform, status):
         symbols = list(data.get("symbols", {}).values())
         sym_id = f"AUTO::symbol::{build_id}::{module_name}"
         existing = next((s for s in symbols if s.get("id") == sym_id), None)

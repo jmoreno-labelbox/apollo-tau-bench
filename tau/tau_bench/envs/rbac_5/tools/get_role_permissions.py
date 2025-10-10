@@ -16,11 +16,7 @@ class GetRolePermissions(Tool):
       include_permission: bool = False - Include permission details in each mapping
     """
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        role_id = kwargs.get("role_id")
-        permission_id = kwargs.get("permission_id")
-        include_role = kwargs.get("include_role", False)
-        include_permission = kwargs.get("include_permission", False)
+    def invoke(data: Dict[str, Any], permission_id, role_id, include_permission = False, include_role = False) -> str:
 
         if not role_id and not permission_id:
             return json.dumps({"error": "Must provide role_id and/or permission_id"})

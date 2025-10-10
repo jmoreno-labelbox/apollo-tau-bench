@@ -9,9 +9,7 @@ class ListCommits(Tool):
     """Lists commits for a given repository and optional branch."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo_name = kwargs.get("repo_name")
-        branch = kwargs.get("branch")
+    def invoke(data: Dict[str, Any], branch, repo_name) -> str:
         commits = _commits(data)
 
         for entry in commits:

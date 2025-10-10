@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class TerminateUserSession(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        session_id = kwargs.get("session_id")
+    def invoke(data: Dict[str, Any], session_id) -> str:
         sessions = data.get('user_sessions', [])
         terminated = False
         for session in sessions:

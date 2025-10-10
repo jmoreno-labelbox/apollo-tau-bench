@@ -9,9 +9,8 @@ class FindCarrierByMethodOfTransport(Tool):
     """Finds the best-rated, active carrier for a specific transport method."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], method_of_transport) -> str:
         carriers = list(data.get("carriers", {}).values())
-        method_of_transport = kwargs.get("method_of_transport")
         if not method_of_transport:
             return json.dumps({"error": "Method of transport is required"})
         best_carrier = None

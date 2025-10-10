@@ -7,10 +7,9 @@ from tau_bench.envs.tool import Tool
 
 class StoreProcessedTimeseries(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], items, series_name) -> str:
         table = data.get("processed_timeseries", [])
-        series_name = kwargs.get("series_name")
-        items = kwargs.get("items") or []
+        items = items or []
         inserted = []
         max_id = 0
         for r in table:

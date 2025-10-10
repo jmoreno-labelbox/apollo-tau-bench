@@ -7,14 +7,14 @@ from tau_bench.envs.tool import Tool
 
 class CreateDashboardSnapshot(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], snapshot_date, snapshot_id, notes = "Year-end snapshot") -> str:
         """
         Create a new dashboard snapshot.
         """
         new_snapshot = {
-            "snapshot_id": kwargs["snapshot_id"],
-            "snapshot_date": kwargs["snapshot_date"],
-            "notes": kwargs.get("notes", "Year-end snapshot")
+            "snapshot_id": snapshot_id,
+            "snapshot_date": snapshot_date,
+            "notes": notes
         }
         data["dashboard_snapshots"].append(new_snapshot)
         return json.dumps(new_snapshot["snapshot_id"])

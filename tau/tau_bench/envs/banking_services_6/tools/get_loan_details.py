@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetLoanDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        loan_id = kwargs.get("loan_id")
+    def invoke(data: Dict[str, Any], loan_id) -> str:
         loan = next((l for l in data['loans'] if l['loan_id'] == loan_id), None)
         if loan:
             return json.dumps(loan)

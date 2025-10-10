@@ -8,18 +8,18 @@ from . import _require
 
 class SetProjectConfig(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], created_ts, forecast_horizon_days, max_station_distance_km_nullable, primary_station_id_nullable, target_city, timezone_default, top_n_results, updated_ts) -> str:
         err = _require(kwargs, ["target_city", "timezone_default"])
         if err: return err
         cfg = {
-            "target_city": kwargs["target_city"],
-            "forecast_horizon_days": kwargs.get("forecast_horizon_days"),
-            "top_n_results": kwargs.get("top_n_results"),
-            "timezone_default": kwargs["timezone_default"],
-            "max_station_distance_km_nullable": kwargs.get("max_station_distance_km_nullable"),
-            "created_ts": kwargs.get("created_ts"),
-            "updated_ts": kwargs.get("updated_ts"),
-            "primary_station_id_nullable": kwargs.get("primary_station_id_nullable"),
+            "target_city": target_city,
+            "forecast_horizon_days": forecast_horizon_days,
+            "top_n_results": top_n_results,
+            "timezone_default": timezone_default,
+            "max_station_distance_km_nullable": max_station_distance_km_nullable,
+            "created_ts": created_ts,
+            "updated_ts": updated_ts,
+            "primary_station_id_nullable": primary_station_id_nullable,
         }
         data["project_config"] = [cfg]  
         return json.dumps(cfg, indent=2)

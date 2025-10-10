@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateRepositoryNameTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        target_name = kwargs.get("target_name")
-        repo_already_exists = kwargs.get("repo_already_exists")
+    def invoke(data: Dict[str, Any], repo_already_exists, target_name) -> str:
 
         if not target_name:
             return json.dumps(

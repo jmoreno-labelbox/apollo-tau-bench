@@ -9,9 +9,8 @@ class RemoveRepoTopic(Tool):
     """Removes a topic from a repository."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        repo = _find_repo_record(data, kwargs.get("repo_name"))
-        topic = kwargs.get("topic")
+    def invoke(data: Dict[str, Any], repo_name, topic) -> str:
+        repo = _find_repo_record(data, repo_name)
         if not topic:
             return json.dumps({"error": "topic is required."}, indent=2)
 

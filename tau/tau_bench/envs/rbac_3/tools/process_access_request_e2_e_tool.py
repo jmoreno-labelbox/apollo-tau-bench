@@ -16,9 +16,7 @@ class ProcessAccessRequestE2ETool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        request_id = kwargs.get("request_id")
-        reviewer_id = kwargs.get("reviewer_id")
+    def invoke(data: Dict[str, Any], request_id, reviewer_id) -> str:
         if not request_id or not reviewer_id:
             return json.dumps(
                 {"error": "request_id and reviewer_id are required"}, indent=2

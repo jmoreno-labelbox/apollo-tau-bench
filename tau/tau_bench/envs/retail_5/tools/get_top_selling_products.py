@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetTopSellingProducts(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        limit = kwargs.get('limit', 10)
-        category = kwargs.get('category')
+    def invoke(data: Dict[str, Any], category, limit = 10) -> str:
 
         orders = data['orders']
         product_sales = {}

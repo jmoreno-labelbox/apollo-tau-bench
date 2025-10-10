@@ -27,13 +27,13 @@ class CalculateTotalSizeTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], file_list_name, file_paths) -> str:
         # Allow for either direct file_paths or a reference to a list of files in data.
         file_entries = []
-        if "file_paths" in kwargs and kwargs.get("file_paths") is not None:
-            file_entries = kwargs.get("file_paths") or []
-        elif "file_list_name" in kwargs and kwargs.get("file_list_name"):
-            name = kwargs.get("file_list_name")
+        if "file_paths" in kwargs and file_paths is not None:
+            file_entries = file_paths or []
+        elif "file_list_name" in kwargs and file_list_name:
+            name = file_list_name
             stored = data.get(name)
             if isinstance(stored, dict) and isinstance(stored.get("data"), list):
                 file_entries = stored.get("data")

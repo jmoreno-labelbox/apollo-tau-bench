@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class NotifyManagementTeam(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        report_path = kwargs.get("report_path")
-        recipient_group = kwargs.get("recipient_group")
-        subject = kwargs.get("subject")
+    def invoke(data: Dict[str, Any], recipient_group, report_path, subject) -> str:
         return json.dumps({"status": "notified", "recipient_group": recipient_group, "subject": subject}, indent=2)
 
     @staticmethod

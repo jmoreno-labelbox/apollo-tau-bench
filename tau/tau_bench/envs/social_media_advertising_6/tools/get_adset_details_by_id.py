@@ -7,12 +7,12 @@ from tau_bench.envs.tool import Tool
 
 class GetAdsetDetailsByID(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], adset_id) -> str:
         err = _require(kwargs, ["adset_id"])
         if err:
             return _fail(err)
 
-        adset_id = str(kwargs["adset_id"])
+        adset_id = str(adset_id)
         adsets_tbl = _assert_table(data, "adsets")
         row = _index(adsets_tbl, "adset_id").get(adset_id)
         if not row:

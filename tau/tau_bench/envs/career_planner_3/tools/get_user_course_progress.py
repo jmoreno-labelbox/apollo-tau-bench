@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class GetUserCourseProgress(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
+    def invoke(data: Dict[str, Any], user_id) -> str:
         progress_data = data.get("user_course_progress", [])
 
         user_progress = [p for p in progress_data if p.get("user_id") == user_id]

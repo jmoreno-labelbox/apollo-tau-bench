@@ -9,9 +9,7 @@ class CalculateROASForAdSetForDay(Tool):
     """Calculates ROAS for a specific ad set on a specific day."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        adset_id = kwargs.get("adset_id")
-        date = kwargs.get("date")
+    def invoke(data: Dict[str, Any], adset_id, date) -> str:
         insights = list(data.get("f_insights", {}).values())
         
         for insight in insights:

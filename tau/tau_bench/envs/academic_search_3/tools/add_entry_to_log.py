@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class AddEntryToLog(Tool):
     """Tool to add a log note to a user, project, submission or article."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        notes = kwargs.get('notes')
+    def invoke(data: Dict[str, Any], article_id, notes, project_id, submission_id, user_id) -> str:
         target_list = None
         target_id_key = None
         target_id_value = None
@@ -17,19 +16,19 @@ class AddEntryToLog(Tool):
         if 'user_id' in kwargs:
             target_list = list(data.get('users', {}).values())
             target_id_key = 'user_id'
-            target_id_value = kwargs['user_id']
+            target_id_value = user_id
         elif 'project_id' in kwargs:
             target_list = list(data.get('projects', {}).values())
             target_id_key = 'project_id'
-            target_id_value = kwargs['project_id']
+            target_id_value = project_id
         elif 'submission_id' in kwargs:
             target_list = list(data.get('submissions', {}).values())
             target_id_key = 'submission_id'
-            target_id_value = kwargs['submission_id']
+            target_id_value = submission_id
         elif 'article_id' in kwargs:
             target_list = list(data.get('articles', {}).values())
             target_id_key = 'article_id'
-            target_id_value = kwargs['article_id']
+            target_id_value = article_id
         else:
             return json.dumps({"error": "Either user_id, project_id, submission_id, or article_id is required."}, indent=2)
 

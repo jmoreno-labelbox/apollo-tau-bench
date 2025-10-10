@@ -8,12 +8,11 @@ from . import _json_dump
 
 class RankRecipesForTargets(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], member_id, target_calories, target_protein, needed_count = 7) -> str:
         ids = _ids_from_kwargs_or_defaults(data, kwargs)
-        needed_count = int(kwargs.get("needed_count", 7))
-        member_id = kwargs.get("member_id")
-        tc = kwargs.get("target_calories")
-        tp = kwargs.get("target_protein")
+        needed_count = int(needed_count)
+        tc = target_calories
+        tp = target_protein
         if tc is None or tp is None:
             tc2, tp2 = _pick_target_from_member(data, member_id)
             target_calories = int(tc if tc is not None else tc2)

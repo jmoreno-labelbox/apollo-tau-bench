@@ -9,10 +9,9 @@ class SearchLogsTool(Tool):
     """Search system logs by query text."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        query = kwargs.get("query") or ""
-        res_id = kwargs.get("resource_id")
-        since = kwargs.get("since")
+    def invoke(data: Dict[str, Any], query, resource_id, since) -> str:
+        query = query or ""
+        res_id = resource_id
         logs = data.get("audit_logs", [])
         results = []
         for l in logs:

@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetLabelByName(Tool):
     """Retrieves a label by its name."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        name = kwargs.get("name")
+    def invoke(data: Dict[str, Any], name) -> str:
         labels = data.get("labels", [])
         for label in labels:
             if label.get("name") == name:

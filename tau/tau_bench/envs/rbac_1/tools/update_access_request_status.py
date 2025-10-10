@@ -7,10 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class UpdateAccessRequestStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        request_id = kwargs.get("request_id")
-        new_status = kwargs.get("status")
-        reviewed_by = kwargs.get("reviewed_by")
+    def invoke(data: Dict[str, Any], request_id, reviewed_by, status) -> str:
+        new_status = status
         for req in data.get('access_requests', []):
             if req.get('request_id') == request_id:
                 req['status'] = new_status

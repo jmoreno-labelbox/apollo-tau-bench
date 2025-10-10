@@ -9,7 +9,7 @@ class AddSupportTicketForCustomerId(Tool):
     """Creates and adds a new support ticket for a customer."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], category, channel, customer_id, operation, target_entity, target_id, parameters = {}, priority = "Medium") -> str:
         required_fields = [
             "customer_id", "channel", "priority",
             "category", "target_id", "target_entity",
@@ -22,20 +22,20 @@ class AddSupportTicketForCustomerId(Tool):
                 indent=2
             )
 
-        priority = kwargs.get("priority", "Medium").capitalize()
+        priority = priority.capitalize()
         ticket_id = get_next_support_ticket_id()
         now = get_current_timestamp()
 
         new_ticket = {
             "ticket_id": ticket_id,
-            "customer_id": kwargs["customer_id"],
+            "customer_id": customer_id,
             "priority": priority,
-            "channel": kwargs["channel"],
-            "category": kwargs["category"],
-            "target_id": kwargs["target_id"],
-            "target_entity": kwargs["target_entity"],
-            "operation": kwargs["operation"],
-            "parameters": kwargs.get("parameters", {}),
+            "channel": channel,
+            "category": category,
+            "target_id": target_id,
+            "target_entity": target_entity,
+            "operation": operation,
+            "parameters": parameters,
             "status": "Open",
             "created_at": now,
             "last_updated": now

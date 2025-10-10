@@ -12,12 +12,11 @@ class RecordAccessChecksAndNotifyGaps(Tool):
     Returns: {"message_id": "...", "checks_recorded": N}
     """
     @staticmethod
-    def invoke(db, **kw) -> str:
-        candidate_id = kw["candidate_id"]
-        checks = kw.get("checks") or []
-        to_emails = kw.get("to_emails") or ["it-assets@example.com"]
-        subject = kw.get("subject") or "Access Gaps"
-        date_ts = kw.get("date_ts") or "2000-01-01T00:00:00Z"
+    def invoke(db, candidate_id, checks, date_ts, subject, to_emails) -> str:
+        checks = checks or []
+        to_emails = to_emails or ["it-assets@example.com"]
+        subject = subject or "Access Gaps"
+        date_ts = date_ts or "2000-01-01T00:00:00Z"
 
         rows = db.setdefault("access_checks", [])
         rows.append({"candidate_id": candidate_id, "checks": checks, "recorded_ts": date_ts})

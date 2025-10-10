@@ -25,8 +25,8 @@ class RemoteCleanupTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        files_to_delete = set(kwargs.get("files_to_delete", []))
+    def invoke(data: Dict[str, Any], session_to_kill, files_to_delete = []) -> str:
+        files_to_delete = set(files_to_delete)
         deleted: List[str] = []
 
         # Eliminate primary keys that correspond to files_to_delete.
@@ -70,7 +70,7 @@ class RemoteCleanupTool(Tool):
                 directory["files"] = remaining_files
 
         # Terminate the tmux session if instructed.
-        session = kwargs.get("session_to_kill")
+        session = session_to_kill
         session_killed = False
         if session and "tmux_sessions" in data and session in data["tmux_sessions"]:
             data["tmux_sessions"].remove(session)

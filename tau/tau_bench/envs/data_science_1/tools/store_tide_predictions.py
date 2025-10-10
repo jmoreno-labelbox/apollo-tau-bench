@@ -8,15 +8,15 @@ from . import _require
 
 class StoreTidePredictions(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], end_ts, fetched_ts, method_nullable, raw_json_path_nullable, start_ts, station_id, station_name_nullable, tide_pred_m, timestamps, units) -> str:
         req = ["station_id", "timestamps", "tide_pred_m", "units"]
         err = _require(kwargs, req)
         if err: return err
-        row = {"station_id": kwargs["station_id"], "station_name_nullable": kwargs.get("station_name_nullable"),
-               "start_ts": kwargs.get("start_ts"), "end_ts": kwargs.get("end_ts"),
-               "timestamps": kwargs["timestamps"], "tide_pred_m": kwargs["tide_pred_m"], "units": kwargs["units"],
-               "method_nullable": kwargs.get("method_nullable"), "provider": "noaa-tides-currents",
-               "raw_json_path_nullable": kwargs.get("raw_json_path_nullable"), "fetched_ts": kwargs.get("fetched_ts")}
+        row = {"station_id": station_id, "station_name_nullable": station_name_nullable,
+               "start_ts": start_ts, "end_ts": end_ts,
+               "timestamps": timestamps, "tide_pred_m": tide_pred_m, "units": units,
+               "method_nullable": method_nullable, "provider": "noaa-tides-currents",
+               "raw_json_path_nullable": raw_json_path_nullable, "fetched_ts": fetched_ts}
         return json.dumps(_append(data.setdefault("tide_predictions", []), row), indent=2)
 
     @staticmethod

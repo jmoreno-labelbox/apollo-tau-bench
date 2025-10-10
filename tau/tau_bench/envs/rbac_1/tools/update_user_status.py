@@ -7,9 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class UpdateUserStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        user_id = kwargs.get("user_id")
-        new_status = kwargs.get("status")
+    def invoke(data: Dict[str, Any], status, user_id) -> str:
+        new_status = status
         for user in list(data.get('users', {}).values()):
             if user.get('user_id') == user_id:
                 user['status'] = new_status

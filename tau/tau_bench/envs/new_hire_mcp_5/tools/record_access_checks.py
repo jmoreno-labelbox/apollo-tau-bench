@@ -7,9 +7,8 @@ from tau_bench.envs.tool import Tool
 
 class RecordAccessChecks(Tool):
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        cand_id = kwargs["candidate_id"]
-        checks = kwargs.get("checks", [])
+    def invoke(data, candidate_id, checks = []) -> str:
+        cand_id = candidate_id
         rows = data.setdefault("access_checks", [])
         ids = []
         for i, chk in enumerate(checks):

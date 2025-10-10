@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class AnalyzeBullpenUsage(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        team_id = kwargs.get("team_id")
-        time_window = kwargs.get("time_window", "last_21_days")
+    def invoke(data: Dict[str, Any], team_id, time_window = "last_21_days") -> str:
         return json.dumps({"bullpen_usage_analysis": f"usage_patterns_team_{team_id}"}, indent=2)
 
     @staticmethod

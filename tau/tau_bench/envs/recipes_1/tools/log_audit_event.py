@@ -9,13 +9,7 @@ from . import _max_id, _json_dump
 class LogAuditEvent(Tool):
     """Insert an audit_logs row with deterministic timestamp; returns audit_id."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        household_id = kwargs.get("household_id")
-        user_id = kwargs.get("user_id")
-        entity_type = kwargs.get("entity_type")
-        entity_id = kwargs.get("entity_id")
-        action_enum = kwargs.get("action_enum")
-        payload_json = kwargs.get("payload_json", {})
+    def invoke(data: Dict[str, Any], action_enum, entity_id, entity_type, household_id, user_id, payload_json = {}) -> str:
         if household_id is None or user_id is None or not entity_type or entity_id is None or not action_enum:
             return _json_dump({"error": "household_id, user_id, entity_type, entity_id, action_enum are required"})
         tbl = data.setdefault("audit_logs", [])

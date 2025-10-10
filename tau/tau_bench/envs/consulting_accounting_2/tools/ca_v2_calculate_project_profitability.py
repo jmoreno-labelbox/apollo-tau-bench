@@ -9,8 +9,7 @@ class CaV2CalculateProjectProfitability(Tool):
     """Calculate profitability metrics for projects."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        project_id = kwargs.get("project_id")
+    def invoke(data: Dict[str, Any], project_id) -> str:
 
         if not project_id:
             return _error("project_id is required.")

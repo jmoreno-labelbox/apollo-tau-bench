@@ -9,9 +9,7 @@ class GrantRoleTool(Tool):
     """grant_role: assign a role either by request_id or direct user_id/role_id."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        request_id = kwargs.get("request_id")
-        assigned_by = kwargs.get("assigned_by")
+    def invoke(data: Dict[str, Any], assigned_by, expires_on, request_id, role_id, user_id, user_role_id) -> str:
         if request_id:
             return AssignRoleOnApprovalTool.invoke(
                 data, request_id=request_id, assigned_by=assigned_by
@@ -19,11 +17,11 @@ class GrantRoleTool(Tool):
         # straightforward
         return AssignUserRoleTool.invoke(
             data,
-            user_role_id=kwargs.get("user_role_id"),
-            user_id=kwargs.get("user_id"),
-            role_id=kwargs.get("role_id"),
+            user_role_id=user_role_id,
+            user_id=user_id,
+            role_id=role_id,
             assigned_by=assigned_by,
-            expires_on=kwargs.get("expires_on"),
+            expires_on=expires_on,
         )
 
     @staticmethod

@@ -39,7 +39,7 @@ class GetRecipeSubstitutionsTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> Dict[str, Any]:
+    def invoke(data: Dict[str, Any], ingredient_id_to_replace, recipe_id) -> Dict[str, Any]:
         """
         Executes the logic to find and suggest ingredient substitutions.
 
@@ -67,9 +67,7 @@ class GetRecipeSubstitutionsTool(Tool):
                 validation_error["error_code"],
                 validation_error["details"]
             )
-
-        recipe_id = kwargs["recipe_id"]
-        ing_id_to_replace = kwargs["ingredient_id_to_replace"]
+        ing_id_to_replace = ingredient_id_to_replace
 
         # 2. Preconditions Validation
         if not any(r.get("recipe_id") == recipe_id for r in list(data.get("recipes", {}).values())):

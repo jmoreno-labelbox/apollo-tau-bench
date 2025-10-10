@@ -36,7 +36,7 @@ class ListHouseholdMembersTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs: Any) -> Dict[str, Any]:
+    def invoke(data: Dict[str, Any], household_id) -> Dict[str, Any]:
         """
         Executes the tool's logic to fetch all members of a household.
 
@@ -64,8 +64,6 @@ class ListHouseholdMembersTool(Tool):
                 validation_error["error_code"],
                 validation_error["details"]
             )
-
-        household_id = kwargs.get("household_id")
 
         # 2. Business Logic: Identify target household if it hasn't been specified.
         if not household_id:

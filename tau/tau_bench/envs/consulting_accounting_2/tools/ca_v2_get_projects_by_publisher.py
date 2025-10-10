@@ -9,9 +9,7 @@ class CaV2GetProjectsByPublisher(Tool):
     """Get all projects for a specific publisher."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        publisher_id = kwargs.get("publisher_id")
-        active_only = kwargs.get("active_only", True)
+    def invoke(data: Dict[str, Any], publisher_id, active_only = True) -> str:
         if not publisher_id:
             return _error("publisher_id is required.")
 

@@ -7,13 +7,11 @@ from tau_bench.envs.tool import Tool
 
 class ComputeNetCashFlow(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], inflows, outflows) -> str:
         """
         Compute net cash flow from inflows and outflows.
         Returns inflows, outflows, and net result.
         """
-        inflows = kwargs["inflows"]
-        outflows = kwargs["outflows"]
         net = round(inflows - outflows, 2)
 
         return json.dumps({

@@ -8,8 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetBisectResultForBuildRun(Tool):
     """Retrieves the bisect result for a specific build run ID."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        build_run_id = kwargs.get("build_run_id")
+    def invoke(data: Dict[str, Any], build_run_id) -> str:
         bisect_results = data.get("bisect_results", [])
         for result in bisect_results:
             if result.get("build_run_id") == build_run_id:

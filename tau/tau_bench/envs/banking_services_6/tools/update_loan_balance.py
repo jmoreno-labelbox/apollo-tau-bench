@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class UpdateLoanBalance(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        loan_id = kwargs.get("loan_id")
-        amount = kwargs.get("amount")
+    def invoke(data: Dict[str, Any], amount, loan_id) -> str:
         loan = next((l for l in list(data.get('loans', {}).values()) if l['loan_id'] == loan_id), None)
         if loan:
             loan['current_balance'] += amount

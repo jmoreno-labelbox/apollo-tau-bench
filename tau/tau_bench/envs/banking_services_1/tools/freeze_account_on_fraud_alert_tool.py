@@ -21,9 +21,7 @@ class FreezeAccountOnFraudAlertTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        account_id = kwargs.get("account_id")
-        alert_reason = kwargs.get("alert_reason")
+    def invoke(data: Dict[str, Any], account_id, alert_reason) -> str:
 
         if not account_id or not alert_reason:
             return json.dumps(

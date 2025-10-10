@@ -7,9 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class LinkAssetRequestToCandidate(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        candidate_id = kwargs.get("candidate_id")
-        request_id = kwargs.get("request_id")
+    def invoke(data: Dict[str, Any], candidate_id, request_id) -> str:
         crows = _ensure_list(data, "candidates")
         cand = _find_by_key(crows, "candidate_id", candidate_id)
         if cand:

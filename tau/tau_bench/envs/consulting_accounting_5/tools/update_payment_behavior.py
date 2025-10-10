@@ -8,11 +8,10 @@ from tau_bench.envs.tool import Tool
 
 class UpdatePaymentBehavior(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], avg_days_to_pay, late_payment_frequency, publisher_id) -> str:
         """
         Updates or inserts a payment behavior record for a publisher.
         """
-        publisher_id = kwargs["publisher_id"]
         # Ensure payment_behavior is a list before iterating
         payment_behavior = data.get("payment_behavior", [])
         if isinstance(payment_behavior, str):
@@ -31,9 +30,9 @@ class UpdatePaymentBehavior(Tool):
 
         if record:
             if "avg_days_to_pay" in kwargs:
-                record["avg_days_to_pay"] = kwargs["avg_days_to_pay"]
+                record["avg_days_to_pay"] = avg_days_to_pay
             if "late_payment_frequency" in kwargs:
-                record["late_payment_frequency"] = kwargs["late_payment_frequency"]
+                record["late_payment_frequency"] = late_payment_frequency
             record["last_updated"] = datetime.now().isoformat()
             return json.dumps(record["behavior_id"])
 

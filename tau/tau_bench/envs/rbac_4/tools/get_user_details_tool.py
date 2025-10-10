@@ -9,8 +9,8 @@ class GetUserDetailsTool(Tool):
     """Get complete user details."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        uid = kwargs.get("user_id")
+    def invoke(data: Dict[str, Any], user_id) -> str:
+        uid = user_id
         for u in list(data.get("users", {}).values()):
             if u["user_id"] == uid:
                 return json.dumps(u, indent=2)

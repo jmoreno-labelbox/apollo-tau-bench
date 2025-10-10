@@ -9,8 +9,7 @@ class GetPitchDetailsById(Tool):
     """Fetch a single pitch by its pitch_id."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        pitch_id = kwargs.get("pitch_id")
+    def invoke(data: Dict[str, Any], pitch_id) -> str:
 
         # 1) Verify
         if pitch_id is None:

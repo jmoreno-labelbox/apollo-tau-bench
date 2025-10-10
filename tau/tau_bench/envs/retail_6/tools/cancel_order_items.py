@@ -8,10 +8,7 @@ from tau_bench.envs.tool import Tool
 class CancelOrderItems(Tool):
     """Mark specific items in an order as cancelled with a reason_code (adds 'cancelled': True)."""
     @staticmethod
-    def invoke(data, **kwargs) -> str:
-        order_id = kwargs.get('order_id')
-        item_ids = kwargs.get('item_ids', [])
-        reason_code = kwargs.get('reason_code')
+    def invoke(data, order_id, reason_code, item_ids = []) -> str:
         if not order_id or not item_ids or not reason_code:
             return json.dumps({"error":"order_id, item_ids, reason_code are required"}, indent=2)
         o = _find_order(data, order_id)

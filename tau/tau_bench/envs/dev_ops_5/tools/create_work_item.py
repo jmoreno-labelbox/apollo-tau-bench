@@ -8,23 +8,23 @@ from tau_bench.envs.tool import Tool
 class CreateWorkItem(Tool):
     """Creates a new work item like a bug, task, or incident."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], assignee_id, project_id, title, type, description = '', points = 0, priority = 'high', state = "open") -> str:
         work_items = data.get("work_items", [])
         new_id_num = max([int(w["id"].split("_")[1]) for w in work_items]) + 1
         new_id = f"work_{new_id_num:03d}"
         
         new_item = {
             "id": new_id,
-            "project_id": kwargs.get("project_id"),
-            "type": kwargs.get("type"),
-            "title": kwargs.get("title"),
-            "state": kwargs.get("state", "open"),
-            "assignee_id": kwargs.get("assignee_id"),
+            "project_id": project_id,
+            "type": type,
+            "title": title,
+            "state": state,
+            "assignee_id": assignee_id,
             "created_at": "2025-01-28T00:00:00Z", # Temporary timestamp
             "closed_at": None,
-            "priority": kwargs.get("priority", 'high'),
-            "points": kwargs.get("points", 0),
-            "metadata": {"description": kwargs.get("description", '')}
+            "priority": priority,
+            "points": points,
+            "metadata": {"description": description}
         }
         work_items.append(new_item)
         return json.dumps(new_item)

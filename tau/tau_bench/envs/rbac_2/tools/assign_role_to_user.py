@@ -9,7 +9,7 @@ class AssignRoleToUser(Tool):
     """ Directly assigning a role to an user. """
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], assigned_by, role_id, user_id, expires_on = None) -> str:
         try:
             user_roles = data.get('user_roles', [])
         except (KeyError, json.JSONDecodeError):
@@ -20,10 +20,10 @@ class AssignRoleToUser(Tool):
 
         new_assignment = {
             "user_role_id": user_role_id,
-            "user_id": kwargs.get("user_id"),
-            "role_id": kwargs.get("role_id"),
-            "assigned_by": kwargs.get("assigned_by"),
-            "expires_on": kwargs.get("expires_on", None) # Optional: for interim positions
+            "user_id": user_id,
+            "role_id": role_id,
+            "assigned_by": assigned_by,
+            "expires_on": expires_on # Optional: for interim positions
         }
 
         user_roles.append(new_assignment)

@@ -8,15 +8,8 @@ from tau_bench.envs.tool import Tool
 class SearchSlackMessagesTool(Tool):
     """Search Slack messages by channel, user, time range, keywords, regex, or thread context."""
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
+    def invoke(data: Dict[str, Any], channel, end_time, regex, start_time, thread_id, username, keywords = []) -> str:
         messages = data.get("slack_messages", [])
-        channel = kwargs.get("channel")
-        username = kwargs.get("username")
-        start_time = kwargs.get("start_time")
-        end_time = kwargs.get("end_time")
-        keywords = kwargs.get("keywords", [])
-        regex = kwargs.get("regex")
-        thread_id = kwargs.get("thread_id")
         import re
 
         results = []

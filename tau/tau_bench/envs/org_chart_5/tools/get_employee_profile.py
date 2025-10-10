@@ -7,8 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class get_employee_profile(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        employee_id = kwargs.get("employee_id")
+    def invoke(data: Dict[str, Any], employee_id) -> str:
         employee = find_employee(list(data.get("employees", {}).values()), employee_id)
         if not employee:
             return json.dumps(

@@ -9,10 +9,10 @@ class StartReviewCycleTool(Tool):
     """Create or upsert a review cycle for an artifact (deterministic cycle_id from inputs)."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        artifact_id = _require_str(kwargs.get("artifact_id"), "artifact_id")
-        created_ts = _require_str(kwargs.get("created_ts"), "created_ts")
-        status = kwargs.get("status") or "IN_FLIGHT"
+    def invoke(data: Dict[str, Any], artifact_id, created_ts, status) -> str:
+        artifact_id = _require_str(artifact_id, "artifact_id")
+        created_ts = _require_str(created_ts, "created_ts")
+        status = status or "IN_FLIGHT"
         if not (artifact_id and created_ts):
             return json.dumps({"error":"artifact_id and created_ts required"})
 

@@ -7,10 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class EscalateChangeRequest(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        cr_id = kwargs.get("cr_id")
-        escalate_to_level = kwargs.get("escalate_to_level")
-        escalated_by = kwargs.get("escalated_by")
+    def invoke(data: Dict[str, Any], cr_id, escalate_to_level, escalated_by) -> str:
 
         if not all([cr_id, escalate_to_level, escalated_by]):
             return json.dumps(
