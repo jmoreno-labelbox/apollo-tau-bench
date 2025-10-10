@@ -3,7 +3,7 @@
         {
             "task_id": 0,
             "author": "environment",
-            "description": "The environment is responsible for the fault in the trajectory because it repeatedly returns an error message \"'str' object has no attribute 'get'\" instead of providing the necessary data or insights required for the subsequent actions. This error prevents the agent from executing the required actions such as retrieving the plan, calculating ROAS, and adjusting the ad set according to the plan, as outlined in the ground truth action sequence."
+            "description": "The environment is responsible for the fault in the trajectory because it repeatedly returns an error message \"'str' object has no attribute 'get'\" instead of providing the necessary data or performing the required actions. This error prevents the agent from executing the subsequent steps needed to assess the delivery, calculate ROAS, and adjust the ad set according to the plan, as outlined in the ground truth action sequence."
         }
     ],
     "fault_type_analysis": []

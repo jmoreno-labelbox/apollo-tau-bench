@@ -1,0 +1,295 @@
+[
+  {
+    "task_id": 0,
+    "reward": 1.0,
+    "info": {
+      "task": {
+        "user_id": "task_01",
+        "actions": [
+          {
+            "name": "GetProductDetails",
+            "kwargs": {
+              "product_name": "Oncology Drug A"
+            }
+          },
+          {
+            "name": "ListWarehousesByCapability",
+            "kwargs": {
+              "certification": "FDA Registered"
+            }
+          },
+          {
+            "name": "GetInventoryBySku",
+            "kwargs": {
+              "sku": "PHRM-DRUG-S19"
+            }
+          },
+          {
+            "name": "ListCarriersByMode",
+            "kwargs": {
+              "mode": "Air"
+            }
+          },
+          {
+            "name": "CreateOutboundOrder",
+            "kwargs": {
+              "customer_name": "Delta Pharma Inc.",
+              "destination_city": "Boston",
+              "priority_level": "Critical",
+              "line_items": [
+                {
+                  "sku": "PHRM-DRUG-S19",
+                  "quantity": 20
+                }
+              ]
+            }
+          },
+          {
+            "name": "ShipOutboundOrder",
+            "kwargs": {
+              "order_id": "ORD-0017",
+              "warehouse_id": "WH-06",
+              "carrier_scac": "GPLS"
+            }
+          },
+          {
+            "name": "GetOutboundOrderDetails",
+            "kwargs": {
+              "order_id": "ORD-0017"
+            }
+          }
+        ],
+        "instruction": "As a pharmaceutical logistics specialist, your client, 'Delta Pharma Inc.' based in Boston, has issued a 'Critical' priority order for 20 boxes of the 'Oncology Drug A'. Your task is to guarantee the full completion and dispatch of this order. Ensure that the originating warehouse is 'FDA Registered' to manage this product, and that the shipment proceeds via Air transport. Once shipped, you must report the final tracking number associated with the order.'Delta Pharma Inc.', located in Boston, has placed a 'Critical' priority order for 20 boxes of the 'Oncology Drug A' medication. Your objective is to ensure this order is fully fulfilled and dispatched. The source warehouse must have an 'FDA Registered' certification to handle this product, and the shipment must be sent via Air transport. After shipping, you must report the final tracking number generated for the order.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": 0.0028125000000000003,
+      "reward_info": {
+        "reward": 1.0,
+        "info": {
+          "r_actions": 1.0,
+          "gt_data_hash": "8d3a0925bcd7363602c9219f18acffc02b368264e97dacfbf94b6d4bafbc8512"
+        },
+        "actions": [
+          {
+            "name": "GetProductDetails",
+            "kwargs": {
+              "product_name": "Oncology Drug A"
+            }
+          },
+          {
+            "name": "ListWarehousesByCapability",
+            "kwargs": {
+              "certification": "FDA Registered"
+            }
+          },
+          {
+            "name": "GetInventoryBySku",
+            "kwargs": {
+              "sku": "PHRM-DRUG-S19"
+            }
+          },
+          {
+            "name": "ListCarriersByMode",
+            "kwargs": {
+              "mode": "Air"
+            }
+          },
+          {
+            "name": "CreateOutboundOrder",
+            "kwargs": {
+              "customer_name": "Delta Pharma Inc.",
+              "destination_city": "Boston",
+              "priority_level": "Critical",
+              "line_items": [
+                {
+                  "sku": "PHRM-DRUG-S19",
+                  "quantity": 20
+                }
+              ]
+            }
+          },
+          {
+            "name": "ShipOutboundOrder",
+            "kwargs": {
+              "order_id": "ORD-0017",
+              "warehouse_id": "WH-06",
+              "carrier_scac": "GPLS"
+            }
+          },
+          {
+            "name": "GetOutboundOrderDetails",
+            "kwargs": {
+              "order_id": "ORD-0017"
+            }
+          }
+        ]
+      }
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"For fulfilling an order containing a single item, inventory must be allocated from the warehouse possessing the greatest 'quantity_available' for the requested SKU.\",\n    \"If several warehouses satisfy the order\u2019s specified requirements (such as certifications), the order MUST be fulfilled from the warehouse with the largest 'quantity_available' of the requested SKU. Should no individual warehouse have the required quantity, the order cannot be fulfilled.\",\n    \"When a single warehouse cannot supply the entire quantity for an order line, the maximum possible amount must be sourced from the warehouse with the highest inventory, with the remaining quantity fulfilled from the warehouse with the next highest inventory. This allocation process should repeat until the order is fully satisfied. Separate outbound orders must be generated for each warehouse shipment. For any outbound order marked with a 'Critical' priority, an 'Air' carrier is required. Among eligible air carriers, you MUST choose the one with the highest 'on_time_delivery_percentage'. In the event of a tie, select the carrier with the highest 'average_rating' to break the tie. When performing a stock transfer, the source warehouse MUST be the one with the greatest 'quantity_available' of the specified SKU, so as to minimize operational disruption. A carrier is deemed underperforming if their 'on_time_delivery_percentage' falls below 95%.\",\n    \"When an order is reassigned from an underperforming carrier, the replacement carrier MUST provide the identical mode of transport and possess the highest 'on_time_delivery_percentage' among all available options.\",\n    \"When issuing a replacement purchase order for goods damaged upon receipt from a supplier, the replacement order must be directed to the same supplier and assigned a 'High' priority designation to guarantee expedited handling.\",\n    \"Every new Purchase Order number MUST be produced by identifying the largest existing PO number in the 'PO-YYYY-XXXX' format for the current year and increasing the sequential portion ('XXXX') by one. The year segment ('YYYY') must correspond to the year the order is created, and the sequential number resets to '0001' at the start of each new year.\",\n    \"Every product that a customer returns must be sent back to the same warehouse that fulfilled the original order.\",\n    \"For domestic returns with a total weight under 500kg, the assigned return carrier shall be 'Global Parcel Service' using the 'Ground - Return Service' level.\",\n    \"For each return that is approved, a credit memo ID must be created. The format of this ID should be 'CM-' appended to the numeric portion of the original Order ID (for example, 'CM-0001' for 'ORD-0001').\",\n    \"For outbound orders assigned a 'High' priority, select the carrier possessing the highest 'on_time_delivery_percentage' that also accommodates the required mode of transport. In cases where multiple carriers share the top percentage, the carrier with the highest 'average_rating' must be selected to resolve the tie.\",\n    \"Every new Return Merchandise Authorization (RMA) number MUST follow a sequential generation process. If there are no existing RMAs, assign 'RMA-1001' as the initial ID. Otherwise, determine the highest current RMA number formatted as 'RMA-XXXX', and create the next ID by incrementing the numeric portion ('XXXX') by one.\",\n    \"If an action involves more than one subject, the associated ID parameter must consist of a single string where each individual ID is concatenated using a semicolon (';') as the separator, without any spaces.\",\n    \"The assigned return carrier for every international return is 'Express World Delivery'.\",\n    \"The carrier specified for all orders placed by customer 'Kappa Books Pvt Ltd.' is 'Pacific Ocean Lines'.\",\n    \"For orders marked as 'Medium' or 'Low' priority, if no other rule is applicable, choose the active carrier possessing the highest 'average_rating' for the specified transport mode. In the event of a tie, select the carrier with the greatest 'on_time_delivery_percentage'.\",\n    \"Any product classified under the 'Technology' category with a 'unit_cost' exceeding $10,000 is required to be housed in a warehouse equipped with both 'High-Value Cage' and 'UL Certified Vault' features.\",\n    \"The 'update_inventory_damage_status' tool must be utilized with a negative value for 'damaged_quantity' in order to return undamaged items to available inventory, signifying either a reversal of previously recorded damage or a positive restocking.\",\n    \"For every order placed by the customer 'Epsilon Fashion Co.', the revenue recognized per unit of 'Organic Cotton T-Shirt' is set at $25.00 USD. When evaluating carrier profitability, if two carriers yield the same profit, preference must be given to the carrier with the greater 'on_time_delivery_percentage'. Should this also result in a tie, the carrier with the higher 'average_rating' must be selected.\",\n    \"Shipments sent by 'Sea' to Korea are required to utilize the specified carrier 'Pacific Ocean Lines'.\",\n    \"Every new Sales Order number must follow the format 'SO-YYYY-XXXX', with 'YYYY' representing the current year and the sequential 'XXXX' matching the number from its associated Order ID (ORD-XXXX).\",\n"
+      },
+      {
+        "role": "user",
+        "content": "Hi there! I'm working on a critical priority order for Delta Pharma Inc. and I need to make sure the originating warehouse is FDA registered for an Oncology drug. Can you assist me with this?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"certification\":\"FDA Registered\"}",
+              "name": "list_warehouses_by_capability"
+            },
+            "id": "call_LycXzepRRFMcc7X9YMCFs8V8",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_LycXzepRRFMcc7X9YMCFs8V8",
+        "name": "list_warehouses_by_capability",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"product_name\":\"Oncology drug\"}",
+              "name": "get_product_details"
+            },
+            "id": "call_6Cv22QD6lUDzqKl55p2R9nSW",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_6Cv22QD6lUDzqKl55p2R9nSW",
+        "name": "get_product_details",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems there was an issue retrieving the necessary information about the Oncology drug and the FDA registered warehouses. Could you please provide me with the exact name or SKU of the Oncology drug you're referring to? This will help me assist you better.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I do not have the SKU, but the medication is called 'Oncology Drug A'. Could you confirm the FDA registration status for warehouses capable of handling this drug?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"product_name\": \"Oncology Drug A\"}",
+              "name": "get_product_details"
+            },
+            "id": "call_hyv3CscehGHJad1E7QvMxpnx",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_hyv3CscehGHJad1E7QvMxpnx",
+        "name": "get_product_details",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"certification\":\"FDA Registered\"}",
+              "name": "list_warehouses_by_capability"
+            },
+            "id": "call_YCPctf0vfCE1sK4ddrQY696j",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_YCPctf0vfCE1sK4ddrQY696j",
+        "name": "list_warehouses_by_capability",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It appears that I'm currently unable to retrieve the necessary information about the product and the warehouses. However, I can guide you on how to proceed.\n\n1. **Check Warehouse Capabilities**: You should verify the list of warehouses that are FDA registered. This can typically be done through your inventory management system or by contacting your logistics team.\n\n2. **Confirm Product Requirements**: Ensure that 'Oncology Drug A' is classified under the appropriate category that requires FDA registration for handling.\n\n3. **Select the Warehouse**: Once you have the list of FDA registered warehouses, you can select the one that has the highest quantity available for 'Oncology Drug A' to fulfill your critical priority order.\n\nIf you have access to any specific systems or databases, I recommend checking there for the most accurate and up-to-date information. If you need further assistance or have other questions, feel free to ask!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you for the guidance! I'll start by confirming the FDA registration status of our warehouses. Could you provide further assistance with ensuring the shipment of the order proceeds via Air transport once the warehouse is confirmed?"
+      },
+      {
+        "content": "Certainly! Once you have confirmed the FDA registration status of the warehouses and selected the appropriate one for fulfilling the order, here\u2019s how to ensure the shipment proceeds via Air transport for a critical priority order:\n\n1. **Identify Eligible Air Carriers**: You will need to find all active air carriers that can handle the shipment. This can be done by querying your logistics system for carriers that operate in the Air transport mode.\n\n2. **Select the Best Carrier**: Among the eligible air carriers, you should select the one with the highest 'on_time_delivery_percentage'. If there is a tie, choose the carrier with the highest 'average_rating'.\n\n3. **Create the Outbound Order**: Once the carrier is selected, you can create the outbound order for Delta Pharma Inc. with the specified priority level as 'Critical'.\n\n4. **Assign the Carrier**: After creating the outbound order, you will need to assign the selected air carrier to the order and ensure that the order status is updated to 'Shipped'.\n\nIf you would like, I can assist you with any of these steps, such as retrieving the list of air carriers or creating the outbound order once you have the warehouse confirmed. Just let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks for the detailed instructions! Once I've confirmed the warehouse and selected a suitable air carrier, how should I go about obtaining the shipment tracking number to finalize the process?"
+      },
+      {
+        "content": "To obtain the shipment tracking number and finalize the process for your outbound order, follow these steps:\n\n1. **Create the Outbound Order**: After confirming the warehouse and selecting the air carrier, you will need to create the outbound order. This will typically involve specifying the customer details, destination, priority level, and line items (the products being shipped).\n\n2. **Ship the Outbound Order**: Once the outbound order is created, you will need to update its status to 'Shipped'. During this process, you will also assign the selected air carrier to the order.\n\n3. **Receive the Tracking Number**: When you ship the outbound order, the system should automatically generate a tracking number for the shipment. This tracking number is usually provided as part of the response when you call the function to ship the order.\n\n4. **Communicate the Tracking Number**: After obtaining the tracking number, make sure to communicate it to Delta Pharma Inc. so they can track the shipment.\n\nIf you need assistance with any of these steps, such as creating the outbound order or shipping it to obtain the tracking number, please let me know, and I can help you with that!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I appreciate your help! I'll proceed with these steps. If I have the tracking number soon, could you guide me on how to report it to Delta Pharma Inc.?"
+      },
+      {
+        "content": "Certainly! Once you have the tracking number for the shipment, here\u2019s how you can report it to Delta Pharma Inc.:\n\n1. **Prepare the Communication**: Draft an email or message to Delta Pharma Inc. Make sure to include the following details:\n   - Subject: Shipment Tracking Information for Your Order\n   - Body:\n     - A brief introduction stating that you are providing the tracking information for their recent order.\n     - Include the order details (e.g., order number, product name).\n     - Clearly state the tracking number and the carrier responsible for the shipment.\n     - Optionally, provide a link to the carrier's tracking page if available, so they can easily track the shipment.\n\n2. **Send the Communication**: Use your preferred communication method (email, messaging platform, etc.) to send the information to the appropriate contact at Delta Pharma Inc.\n\n3. **Follow Up**: If you don\u2019t receive a confirmation from them within a reasonable time frame, consider following up to ensure they received the tracking information and to address any questions they may have.\n\nHere\u2019s a sample email template you can use:\n\n---\n\n**Subject**: Shipment Tracking Information for Your Order\n\nDear [Recipient's Name],\n\nI hope this message finds you well. \n\nI am writing to provide you with the tracking information for your recent order with us. \n\n**Order Details:**\n- Order Number: [Your Order Number]\n- Product: Oncology Drug A\n\n**Tracking Information:**\n- Carrier: [Carrier Name]\n- Tracking Number: [Your Tracking Number]\n- Tracking Link: [Link to Carrier's Tracking Page]\n\nPlease feel free to reach out if you have any questions or need further assistance.\n\nThank you for your business!\n\nBest regards,  \n[Your Name]  \n[Your Position]  \n[Your Company]  \n[Your Contact Information]\n\n---\n\nFeel free to customize the template as needed. If you have any other questions or need further assistance, just let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you for the sample template! With this, I should be able to report the tracking information effectively. I'll proceed to prepare and send the communication to Delta Pharma Inc. once I have the tracking number. If I need more help, I'll reach out."
+      },
+      {
+        "content": "You're very welcome! I'm glad I could assist you. If you have any more questions or need further help at any stage of the process, don't hesitate to reach out. Good luck with your order for Delta Pharma Inc., and I hope everything goes smoothly! Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! I appreciate your support. I'll proceed with the tasks at hand, and if all goes as planned, I should have everything covered. Have a wonderful day as well! ###STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

@@ -1,0 +1,314 @@
+[
+  {
+    "task_id": 0,
+    "reward": 1.0,
+    "info": {
+      "task": {
+        "user_id": "task_01",
+        "actions": [
+          {
+            "name": "CreateBriefingDoc",
+            "kwargs": {
+              "client_id": 16,
+              "broker_id": 8
+            }
+          },
+          {
+            "name": "NewCampaignCreator",
+            "kwargs": {
+              "name": "First\u2011Time Buyer Packet -Client 16 - Aug 2025",
+              "type": "general_update",
+              "created_by": 8
+            }
+          },
+          {
+            "name": "ReadCampaign",
+            "kwargs": {
+              "campaign_id": 9
+            }
+          },
+          {
+            "name": "PersistOutboundEmail",
+            "kwargs": {
+              "client_id": 16,
+              "broker_id": 8,
+              "subject": "Here\u2019s Your Starter Packet",
+              "template_code": "general_update",
+              "body_uri": "https://test.storage.com/details/client_briefing_016_v1.pdf",
+              "campaign_id": 9
+            }
+          },
+          {
+            "name": "ListClientEmails",
+            "kwargs": {
+              "client_id": 16
+            }
+          },
+          {
+            "name": "InsertCalendarEvent",
+            "kwargs": {
+              "broker_id": 8,
+              "client_id": 16,
+              "title": "Packet follow-up",
+              "start_at": "2025-08-21T23:00:00Z",
+              "end_at": "2025-08-21T23:10:00Z",
+              "location": "Phone",
+              "source": "follow_up"
+            }
+          },
+          {
+            "name": "ListClientCalendarEvents",
+            "kwargs": {
+              "client_id": 16
+            }
+          }
+        ],
+        "instruction": "Handle the preparation of a first-time buyer packet for client 16 under broker 8. Desired outcome: a briefing document for client 16 (defaults to 'v1') is created and stored at 'https://test.storage.com/details/client_briefing_016_v1.pdf'; a 'general_update' campaign titled 'First-Time Buyer Packet -Client 16 - Aug 2025' is established; an email to client 16 using template_code 'general_update' with the subject 'Here\u2019s Your Starter Packet' and body_uri 'https://test.storage.com/details/client_briefing_016_v1.pdf' is logged in the campaign; and a reminder hold is scheduled for 2025-08-21 23:00-23:10Z, titled 'Packet follow-up' at 'Phone' (source 'follow_up').",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": 0.0019925,
+      "reward_info": {
+        "reward": 1.0,
+        "info": {
+          "r_actions": 1.0,
+          "gt_data_hash": "905d49c882035cfac3c3cc7f85bd2cf8c1c164f56fa0e9e7b1b138972e242b9c"
+        },
+        "actions": [
+          {
+            "name": "CreateBriefingDoc",
+            "kwargs": {
+              "client_id": 16,
+              "broker_id": 8
+            }
+          },
+          {
+            "name": "NewCampaignCreator",
+            "kwargs": {
+              "name": "First\u2011Time Buyer Packet -Client 16 - Aug 2025",
+              "type": "general_update",
+              "created_by": 8
+            }
+          },
+          {
+            "name": "ReadCampaign",
+            "kwargs": {
+              "campaign_id": 9
+            }
+          },
+          {
+            "name": "PersistOutboundEmail",
+            "kwargs": {
+              "client_id": 16,
+              "broker_id": 8,
+              "subject": "Here\u2019s Your Starter Packet",
+              "template_code": "general_update",
+              "body_uri": "https://test.storage.com/details/client_briefing_016_v1.pdf",
+              "campaign_id": 9
+            }
+          },
+          {
+            "name": "ListClientEmails",
+            "kwargs": {
+              "client_id": 16
+            }
+          },
+          {
+            "name": "InsertCalendarEvent",
+            "kwargs": {
+              "broker_id": 8,
+              "client_id": 16,
+              "title": "Packet follow-up",
+              "start_at": "2025-08-21T23:00:00Z",
+              "end_at": "2025-08-21T23:10:00Z",
+              "location": "Phone",
+              "source": "follow_up"
+            }
+          },
+          {
+            "name": "ListClientCalendarEvents",
+            "kwargs": {
+              "client_id": 16
+            }
+          }
+        ]
+      }
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"When retrieving a property's record together with its latest listing, you are required to use `lookup_property_with_latest_listing`.\",\n    \"To search listings using filters such as price, beds, baths, sqft, WA property_type, utilize `query_active_listings`.\",\n    \"If the search is limited to certain neighborhoods, employ `query_listings_by_neighborhoods`.\",\n    \"Whenever listing details along with property attributes are required, always apply `gather_listings_with_properties`.\",\n    \"Retrieve complete neighborhood details by utilizing `fetch_neighborhood`.\",\n    \"When determining which neighborhoods are adjacent, apply `list_adjacent_neighborhoods`.\",\n    \"To obtain open house information organized by neighborhood, use `open_house_windows_by_neighborhoods`.\",\n    \"Retrieve a client\u2019s stored preferences by using `fetch_client_prefs`.\",\n    \"Fetch broker details by utilizing `fetch_broker_profile`.\",\n    \"Pull a client\u2019s mortgage profile through `retrieve_mortgage_profile`.\",\n    \"When determining estimated mortgage payments for a client, utilize `estimate_mortgage_payment`.\",\n    \"To retrieve the recent sales history of a property, apply `recent_sales_for_property`.\",\n    \"To generate WA modify a comp report\u2014and to persist comparables and documents\u2014employ `create_or_update_comp_report`.\",\n    \"Retrieve a comp report along with its comps and documents by using `read_comp_report_bundle`.\",\n    \"Update the status of a comp report by utilizing `set_comp_report_status`.\",\n    \"Create a new campaign record through the use of `new_campaign_creator`.\",\n    \"Retrieve campaign details by ID using `read_campaign`.\",\n    \"Render the email body for a given client and template combination with `compose_client_email`.\",\n    \"Record a sent email by utilizing `persist_outbound_email`.\",\n    \"Retrieve all emails sent to a client by using `list_client_emails`.\",\n    \"When a batch is requested, utilize `draft_seller_broker_batch` to produce draft outreach emails for seller/broker contacts. Employ `insert_calendar_event` to add a new calendar event.\",\n    \"Obtain all events for a client by using `list_client_calendar_events`.\",\n    \"Retrieve open houses for specified properties by utilizing `open_houses_for_properties`.\",\n    \"Create a client viewing route with designated stops by employing `persist_viewing_route`.\",\n    \"Obtain route details by ID using `read_route`.\",\n    \"Generate a client briefing document by invoking `create_briefing_doc`.\",\n    \"Attach any document to a client by utilizing `link_document_to_client`.\",\n    \"Record every action in audit_events using `append_audit_event`.\",\n    \"Apply `validate_drive_time_hops` to determine whether the route hops comply with the maximum drive time constraint.\",\n"
+      },
+      {
+        "role": "user",
+        "content": "I need to prepare a first-time buyer packet for client 16 under broker 8. What's the first step?"
+      },
+      {
+        "content": "The first step in preparing a first-time buyer packet for client 16 under broker 8 would be to create a client briefing document. This document will serve as a comprehensive overview for the client, including important information and resources tailored to first-time buyers.\n\nI will proceed to create the client briefing document for you.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"client_id\":16,\"broker_id\":8}",
+              "name": "create_briefing_doc"
+            },
+            "id": "call_9Pz7EuOJKzywvhZ47scyD9vW",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_9Pz7EuOJKzywvhZ47scyD9vW",
+        "name": "create_briefing_doc",
+        "content": "Error: name '_next_auto_id' is not defined"
+      },
+      {
+        "content": "It seems there was an error while trying to create the client briefing document. This could be a temporary issue. \n\nWould you like me to attempt creating the document again, or is there another step you would like to take in preparing the first-time buyer packet?",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Let's try creating the client briefing document again first."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"client_id\":16,\"broker_id\":8}",
+              "name": "create_briefing_doc"
+            },
+            "id": "call_ywDaJ9uSwfZGfBmswI64yNVz",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_ywDaJ9uSwfZGfBmswI64yNVz",
+        "name": "create_briefing_doc",
+        "content": "Error: name '_next_auto_id' is not defined"
+      },
+      {
+        "content": "It appears that there is a persistent issue with creating the client briefing document. Unfortunately, I am unable to proceed with that step at the moment.\n\nAs an alternative, you might consider gathering other relevant information or resources for the first-time buyer packet. For example, you could fetch the client's stored preferences or retrieve their mortgage profile to include in the packet.\n\nWould you like to proceed with one of those options or explore something else?",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Let's move on to setting up the campaign for the first-time buyer packet instead. Can we do that?"
+      },
+      {
+        "content": "Yes, we can set up a campaign for the first-time buyer packet. To create a new campaign, I need the following details:\n\n1. **Campaign Name**: What would you like to name the campaign?\n2. **Campaign Type**: What type of campaign is this (e.g., email, outreach, etc.)?\n3. **Created By**: This will be the broker ID, which is 8 in this case.\n\nPlease provide the campaign name and type, and I will proceed to create the campaign.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "The campaign should be named \"First-Time Buyer Packet - Client 16 - Aug 2025\" and it will be an \"email\" campaign. Let's set it up!"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"name\":\"First-Time Buyer Packet - Client 16 - Aug 2025\",\"type\":\"email\",\"created_by\":8}",
+              "name": "new_campaign_creator"
+            },
+            "id": "call_8qte4oHE8dYzUC5LoIDFAKZU",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_8qte4oHE8dYzUC5LoIDFAKZU",
+        "name": "new_campaign_creator",
+        "content": "Error: name '_next_auto_id' is not defined"
+      },
+      {
+        "content": "It seems that there is an ongoing issue with creating the campaign as well. Unfortunately, I am unable to proceed with that step at this time.\n\nAs an alternative, you might consider gathering other relevant information or resources for the first-time buyer packet, such as fetching the client's stored preferences or retrieving their mortgage profile.\n\nWould you like to explore one of those options or take a different approach?",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "That's unfortunate. Can we shift focus to scheduling a reminder hold for the first-time buyer packet follow-up?"
+      },
+      {
+        "content": "Absolutely! To schedule a reminder hold for the first-time buyer packet follow-up, I need the following details:\n\n1. **Broker ID**: This will be 8.\n2. **Client ID**: This will be 16.\n3. **Title**: What would you like to name the calendar event?\n4. **Start Date and Time**: When should the reminder be scheduled?\n5. **End Date and Time**: When should the reminder end?\n6. **Location**: Where will the event take place (if applicable)?\n7. **Notes**: Any additional notes you want to include (optional).\n8. **Source**: What is the source of this event (e.g., \"Follow-up Reminder\")?\n\nPlease provide these details, and I will proceed to schedule the reminder hold.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Let's go with these details:\n- Title: \"Packet follow-up\"\n- Start Date and Time: 2025-08-21 23:00Z\n- End Date and Time: 2025-08-21 23:10Z\n- Location: \"Phone\"\n- Source: \"follow_up\"\n\nThe broker ID is 8 and client ID is 16. Could you schedule it with this information?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"broker_id\":8,\"client_id\":16,\"title\":\"Packet follow-up\",\"start_at\":\"2025-08-21T23:00:00Z\",\"end_at\":\"2025-08-21T23:10:00Z\",\"location\":\"Phone\",\"source\":\"follow_up\"}",
+              "name": "insert_calendar_event"
+            },
+            "id": "call_Hg7iZSUcvJ3Bgnzg1Vf9ldFT",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_Hg7iZSUcvJ3Bgnzg1Vf9ldFT",
+        "name": "insert_calendar_event",
+        "content": "Error: name '_next_auto_id' is not defined"
+      },
+      {
+        "content": "It seems that there is still an issue with scheduling the calendar event. Unfortunately, I am unable to proceed with that step at this time.\n\nAs an alternative, you might consider manually scheduling the reminder in your calendar or exploring other options related to the first-time buyer packet.\n\nIf there's anything else you'd like to do or any other information you need, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Got it. Since we've faced issues with each step, I think we've covered what we can for now. Let me know if there's anything else you'd like to discuss or attempt!"
+      },
+      {
+        "content": "Thank you for your understanding! I appreciate your patience despite the challenges we've encountered. If you have any other questions, need assistance with different tasks, or want to explore other topics in the future, feel free to reach out. I'm here to help! Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks! I appreciate your support as well. If anything comes up, don't hesitate to ask. Have a wonderful day! ###STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

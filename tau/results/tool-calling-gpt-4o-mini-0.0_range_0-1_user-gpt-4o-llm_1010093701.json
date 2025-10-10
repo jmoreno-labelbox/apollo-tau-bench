@@ -1,0 +1,222 @@
+[
+  {
+    "task_id": 0,
+    "reward": 1.0,
+    "info": {
+      "task": {
+        "user_id": "task_01",
+        "actions": [
+          {
+            "name": "GetAllArtifactsOfTypeWithTagsAndEmail",
+            "kwargs": {
+              "artifact_type": "FRAME",
+              "owner_email": "emma.creative@company.com",
+              "tags": [
+                "needs-review"
+              ]
+            }
+          },
+          {
+            "name": "CreateNewAsset",
+            "kwargs": {
+              "artifact_id": "art_001",
+              "export_profile": "PNG 2x",
+              "file_size_bytes": 2000,
+              "storage_ref": "gs://company-assets/figma-exports/hero-section-2x-r2.png"
+            }
+          },
+          {
+            "name": "CreateNewCycle",
+            "kwargs": {
+              "artifact_id": "art_001",
+              "sla_deadline_ts": "2024-08-28T12:30:00Z"
+            }
+          },
+          {
+            "name": "StartEmailThread",
+            "kwargs": {
+              "subject": "Design Review: hero-section-2x-r2.png",
+              "sender_id": "emma.creative@company.com",
+              "recipients": [
+                "jake.design@company.com",
+                "chris.engineer@company.com",
+                "anna.brand@company.com"
+              ],
+              "current_labels": [
+                "Design/Needs-Review",
+                "figma",
+                "review"
+              ],
+              "body_html": "<p>Review for the hero-section-2x-r2.png. See attachment.</p>",
+              "attachments_asset_ids": [
+                "asset_019"
+              ]
+            }
+          },
+          {
+            "name": "UpdateCycleStatus",
+            "kwargs": {
+              "cycle_id": "cycle_013",
+              "new_status": "NEEDS_REVIEW",
+              "thread_id": "thread_015"
+            }
+          },
+          {
+            "name": "AddComment",
+            "kwargs": {
+              "artifact_id": "art_001",
+              "author_email": "emma.creative@company.com",
+              "content": "Submitted for review",
+              "source_message_id": "msg_017",
+              "resolved_flag": false
+            }
+          }
+        ],
+        "instruction": "Handle a review request submission for your frame as 'emma.creative@company.com' by exporting a PNG 2x asset for that frame with the filename 'hero-section-2x-r2.png' in the Gmail thread addressed to 'jake.design@company.com', 'chris.engineer@company.com', 'anna.brand@company.com'.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": 0.0018225000000000001,
+      "reward_info": {
+        "reward": 1.0,
+        "info": {
+          "r_actions": 1.0,
+          "gt_data_hash": "34f935e3053d8eeb84c29c38993f6851060de6fffffe0bc065724f5a87f20369"
+        },
+        "actions": [
+          {
+            "name": "GetAllArtifactsOfTypeWithTagsAndEmail",
+            "kwargs": {
+              "artifact_type": "FRAME",
+              "owner_email": "emma.creative@company.com",
+              "tags": [
+                "needs-review"
+              ]
+            }
+          },
+          {
+            "name": "CreateNewAsset",
+            "kwargs": {
+              "artifact_id": "art_001",
+              "export_profile": "PNG 2x",
+              "file_size_bytes": 2000,
+              "storage_ref": "gs://company-assets/figma-exports/hero-section-2x-r2.png"
+            }
+          },
+          {
+            "name": "CreateNewCycle",
+            "kwargs": {
+              "artifact_id": "art_001",
+              "sla_deadline_ts": "2024-08-28T12:30:00Z"
+            }
+          },
+          {
+            "name": "StartEmailThread",
+            "kwargs": {
+              "subject": "Design Review: hero-section-2x-r2.png",
+              "sender_id": "emma.creative@company.com",
+              "recipients": [
+                "jake.design@company.com",
+                "chris.engineer@company.com",
+                "anna.brand@company.com"
+              ],
+              "current_labels": [
+                "Design/Needs-Review",
+                "figma",
+                "review"
+              ],
+              "body_html": "<p>Review for the hero-section-2x-r2.png. See attachment.</p>",
+              "attachments_asset_ids": [
+                "asset_019"
+              ]
+            }
+          },
+          {
+            "name": "UpdateCycleStatus",
+            "kwargs": {
+              "cycle_id": "cycle_013",
+              "new_status": "NEEDS_REVIEW",
+              "thread_id": "thread_015"
+            }
+          },
+          {
+            "name": "AddComment",
+            "kwargs": {
+              "artifact_id": "art_001",
+              "author_email": "emma.creative@company.com",
+              "content": "Submitted for review",
+              "source_message_id": "msg_017",
+              "resolved_flag": false
+            }
+          }
+        ]
+      }
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"Create-style events must utilize a fixed created timestamp, while update-style events must utilize a fixed updated timestamp.\",\n    \"Approvals must apply a fixed approval timestamp; however, if the review was escalated, a fixed escalated-approval timestamp must be used instead.\",\n    \"SLA deadlines and escalation moments must be captured with fixed, deterministic timestamps.\",\n    \"Assign each newly created row within any entity (artifacts, assets, cycles, threads, messages, comments, approvals, releases, diffs) a monotonic, human-readable identifier that is based on the present database size.\",\n    \"The process for generating identifiers must yield the same result on every run; do not incorporate randomness or wall-clock timestamps.\",\n    \"When multiple rows are returned, ensure the output is consistently ordered by the entity\u2019s identifier in ascending sequence.\",\n    \"Thread message histories must be sorted first by sent time, followed by identifier, to guarantee consistent playback.\",\n    \"Artifacts record type, naming, ownership, location, and link metadata; fields specific to frames are filled in solely when relevant.\",\n    \"Artifact tags are initialized as an empty list and must not change unless they are deliberately updated.\",\n    \"Assets are connected to artifacts, log export profile and size, and initially assume a clean data-loss-prevention status with no additional details.\",\n    \"During asset listing or grouping, maintain deterministic ordering and restrict inclusion to rows that correspond to the specified artifact linkage.\",\n    \"New review cycles start in-flight, monitor SLA deadlines, and unambiguously capture escalation state.\",\n    \"Updates to a cycle can modify status, thread linkage, and escalation information; assigning an escalation automatically sets the SLA breach flag.\",\n    \"Retrieving a cycle requires an exact match: the operation yields either the one matching cycle or a deterministic not-found result.\",\n    \"Any approval action must set the parent cycle to the approved state.\",\n    \"When a cycle is flagged as breached, its approval timestamp indicates the escalated timeline.\",\n    \"Approvals are added to the ledger in a deterministic sequence and do not alter the historical order retroactively.\",\n    \"New threads define sender identity, recipients, labels, and the initial message content; the text is deterministically generated from the HTML.\",\n    \"Any following message must have sender authorization associated with the thread\u2019s participants; if not authorized, the system returns a uniform error.\",\n    \"When a post is made in a thread, the thread\u2019s updated time is refreshed according to the fixed update policy, while the ordered history remains intact.\",\n    \"Notifications sent to a thread adopt the thread\u2019s sender identity and utilize identical HTML-to-text normalization procedures.\",\n    \"Comments are attached to artifacts, record the author and content, may optionally reference a source message, and include a flag indicating whether they are resolved.\",\n    \"Comment entries are unchangeable records except for the explicit ability to update the resolution state in subsequent modifications.\",\n    \"Releases represent versioned milestones that record the time of creation and may optionally be linked to a communication.\",\n    \"Release diffs record items that have been added, updated, or removed, as well as highlights and version bumps, within deterministic lists.\",\n    \"Retrieving a diff by release returns precisely one row or a deterministic not-found outcome.\",\n    \"Before/after comparisons retain all previous items unless they are explicitly removed, and incorporate any items that are new or have been updated.\",\n    \"Sorted lists are used for comparison outputs to guarantee consistent and repeatable results.\",\n    \"Each change in user-visible state results in appending a terminal log entry that includes the fixed timestamp and a brief, human-readable message.\",\n    \"Log storage maintains a one-to-one correspondence between printed timestamps and messages for auditability, applying a uniform rendering format.\",\n    \"When creating events such as artifacts, assets, cycles, threads, releases, or diffs, always apply the fixed created time; for updates\u2014including messages, cycle changes, or approvals\u2014use the fixed updated or approval time as relevant.\",\n    \"All behaviors must ensure reproducibility, maintain idempotency for repeated operations, and provide explicit failure modes in cases of invalid lookups or insufficient permissions. Every instance of the now date defaults to '2024-08-23T12:00:00Z'. To retrieve any feedback for the artifact, the default tag must contain 'needs-review'.\",\n    \"The input parameters require that 'frame' be represented as 'FRAME'.\",\n    \"To submit an approval request, an artifact must first be transformed into an asset by generating a new asset.\",\n    \"The default storage_ref location follows the format 'gs://company-assets/figma-exports/<filename>'.\",\n    \"Unless otherwise specified, the default size for a newly created PNG 2x is 2000, for PNG 3x is 3000, for PNG 1x is 1000, for SVG is 500, and for PDF is 200.\",\n    \"When initiating an approval request for an asset, generate a new cycle and ensure that a gmail thread is consistently maintained during the entire process.\",\n    \"The sla_deadline_ts field should have a default value set to 2024-08-28T12:30:00Z.\",\n    \"The standard format for the subject line of email threads pertaining to reviews is 'Design Review: <filename>'.\",\n    \"The standard html body format for an email thread concerning a review is '<p>Review for the <filename>. See attachment.</p>'\",\n    \"The standard html body format for an email thread regarding a request for changes is '<p>Requesting changes: <message>.</p>'\",\n    \"The standard html body format for an email thread pertaining to changes implementation is '<p>Changes implemented: <message>.</p>'\",\n    \"The standard html body format for an approval-related email thread is '<p>Approved: <message>.</p>'.\",\n    \"The standard html body format for an email thread about a new release is '<h2>Release Notes - <release_name></h2>'. The set of current_labels for a review-related email thread must contain the labels 'Design/Needs-Review', 'figma', and 'review'.\",\n    \"The set of current_labels for a release-related email thread must include 'Design/Release'.\",\n    \"When a new review cycle is created, its initial value for status is set to IN_FLIGHT, and for review tasks, the status is updated to NEEDS_REVIEW.\",\n    \"To approve, set the review cycle status to APPROVED; to request changes, update the review cycle status to CHANGES_REQUESTED.\",\n    \"For both approval and change request actions on a review cycle, a comment and a message must be generated within the email thread.\",\n    \"Comments between gmail and figma must be synchronized: when a user submits a review, the user must also post a comment with the content 'Submitted for review'. If a change is requested, the comment content should be 'Requested changes'. When a change is implemented, the comment must state 'Changes implemented'. If the request is approved, the comment content should be 'Approved'.\",\n    \"When creating a comment, the resolved_flag is set to False by default, except when the content is 'Changes implemented' or 'Approved'. For new artifacts, the default values are: artifact_type as FRAME, artifact_name as Hero Section, page_id as 1:2, and current_tags as ['user', 'settings'\n"
+      },
+      {
+        "role": "user",
+        "content": "Hi! I need to work on a review request submission and I have to export a specific design asset. Could you remind me how to export a PNG at 2x scale from a design file?"
+      },
+      {
+        "content": "To export a PNG at 2x scale from a design file, you typically follow these steps:\n\n1. **Select the Asset**: Open your design file and select the specific design asset you want to export.\n\n2. **Export Settings**: Look for the export settings in your design tool. This is usually found in the properties panel or export section.\n\n3. **Choose PNG Format**: Select PNG as the export format.\n\n4. **Set Scale**: Set the scale to 2x. This means the exported image will be twice the size of the original asset.\n\n5. **Export**: Click the export button to save the PNG file to your desired location.\n\nMake sure to check the dimensions and quality settings to ensure the exported asset meets your requirements. If you're using a specific design tool, the exact steps may vary slightly, so refer to the tool's documentation if needed.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Great, thanks! I've got the asset ready. Now, what's the next step to proceed with the review request submission?"
+      },
+      {
+        "content": "To proceed with the review request submission for your asset, follow these steps:\n\n1. **Transform the Asset**: Ensure that the asset is properly linked to an artifact. If it\u2019s not already done, you need to create a new asset from the artifact.\n\n2. **Create a New Review Cycle**: Initiate a new review cycle for the asset. This will involve:\n   - Setting the initial status to **IN_FLIGHT**.\n   - Specifying the **sla_deadline_ts** (default is set to `2024-08-28T12:30:00Z`).\n   - Optionally linking it to a Gmail thread.\n\n3. **Start an Email Thread**: Create a new Gmail thread for the review request. The subject should follow the format: `Design Review: <filename>`, and the body should be: `<p>Review for the <filename>. See attachment.</p>`.\n\n4. **Notify Stakeholders**: Send a notification email to the relevant stakeholders, including the asset as an attachment.\n\n5. **Add Comments**: Post a comment in the system indicating that the review has been submitted. The content should be \"Submitted for review\".\n\n6. **Approval Process**: Once the review is submitted, wait for feedback. If changes are requested, you will need to update the review cycle status accordingly.\n\nIf you need assistance with any specific step, let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks! I think I can handle that. Could you remind me to whom I should send the Gmail thread with the exported asset?"
+      },
+      {
+        "content": "When sending the Gmail thread with the exported asset for the review request, you should typically send it to the following recipients:\n\n1. **Design Team Members**: Include team members who are directly involved in the design process or who need to review the asset.\n\n2. **Stakeholders**: Add any stakeholders who have a vested interest in the design, such as project managers, product owners, or marketing team members.\n\n3. **Reviewers**: If there are specific individuals designated as reviewers for the asset, make sure to include them.\n\n4. **Yourself**: It's often a good practice to include yourself in the thread to keep track of the communication.\n\nMake sure to check if there are any specific guidelines or protocols in your organization regarding who should be included in review requests.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks for the reminder! I\u2019ll make sure to address it to jake.design@company.com, chris.engineer@company.com, and anna.brand@company.com. Anything else I need to do?"
+      },
+      {
+        "content": "You're on the right track! Here\u2019s a quick checklist to ensure everything is covered before you send the review request:\n\n1. **Subject Line**: Make sure the subject line of the email thread is formatted correctly: `Design Review: <filename>`.\n\n2. **Email Body**: Ensure the body of the email follows the standard format: `<p>Review for the <filename>. See attachment.</p>`.\n\n3. **Attachments**: Double-check that the exported PNG asset is attached to the email.\n\n4. **Review Cycle Creation**: Confirm that you have created a new review cycle for the asset and that it is linked to the email thread.\n\n5. **Comment Submission**: Remember to add a comment in the system stating \"Submitted for review\" to keep track of the submission.\n\n6. **SLA Deadline**: Ensure that the SLA deadline is set correctly for the review cycle.\n\n7. **Notify Stakeholders**: If applicable, consider sending a notification email to stakeholders about the review request.\n\nOnce you\u2019ve confirmed all these points, you should be ready to send the email! If you need any further assistance, feel free to ask.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Perfect! I've got everything ready. Thanks for all the help! I'll send the email now."
+      },
+      {
+        "content": "You're very welcome! I'm glad I could assist you. Good luck with your review request submission, and if you have any more questions in the future or need further assistance, don't hesitate to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

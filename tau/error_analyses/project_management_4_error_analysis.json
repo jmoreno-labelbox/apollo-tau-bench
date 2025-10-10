@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to provide the correct total impact days realized and the cost-benefit ratio derived from the compression analysis. The required outputs were '5' for total impact days and '500' for the cost-benefit ratio, but the agent did not communicate these specific values to the user."
+            "description": "----- start trajectory -----\n\n**User:** Can you help me with the Mobile App Launch project? I need to handle the Phase 1 Gate Review milestone, which seems to be delayed.\n\n**Agent:** Sure, I can assist with that. Let's start by reviewing the project timeline to understand the current status.\n\n**User:** I've reviewed the timeline. The ms_002 milestone is experiencing negative float. What should I do next?\n\n**Agent:** Since ms_002 has negative float, we should consider schedule compression strategies. We can aim for a 10-day reduction using the crashing method.\n\n**User:** Okay, I've considered the crashing method. How should I proceed with the recovery plan?\n\n**Agent:** You can coordinate the development of a recovery plan by adding 2 senior developers to crucial tasks for 3 impact days and introducing weekend work for 2 impact days.\n\n**User:** I've coordinated the recovery plan. What should I do about the ms_002 target date?\n\n**Agent:** You should revise the ms_002 target date to April 12th in accordance with the recovery strategy.\n\n**User:** I've revised the target date. Can you tell me the total impact days realized and the cost-benefit ratio?\n\n**Agent:** The total impact days realized are 5, and the cost-benefit ratio is 500.\n\n----- end trajectory -----\n\nThe agent is responsible for the fault because it failed to provide the required outputs '5' and '500' at the appropriate point in the conversation. Instead, it only provided these outputs after being prompted by the user, rather than proactively communicating them as part of the recovery strategy discussion."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "goal_partially_completed",
-            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because it fails to present the total impact days realized and the cost-benefit ratio derived from the compression analysis, which are '5' and '500', respectively. These outputs are essential to fully address the user's instruction regarding the recovery plan and its evaluation."
+            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the agent failed to communicate the total impact days realized and the cost-benefit ratio derived from the compression analysis. The required outputs were '5' for total impact days and '500' for the cost-benefit ratio, but these were not provided in the trajectory."
         }
     ]
 }

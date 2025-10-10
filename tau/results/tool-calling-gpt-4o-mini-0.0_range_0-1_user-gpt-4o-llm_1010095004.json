@@ -1,0 +1,420 @@
+[
+  {
+    "task_id": 0,
+    "reward": 1.0,
+    "info": {
+      "task": {
+        "user_id": "task_001",
+        "actions": [
+          {
+            "name": "ActivatePromotion",
+            "kwargs": {
+              "promotion_id": "PROMO-001"
+            }
+          },
+          {
+            "name": "GetPromotionsByStatus",
+            "kwargs": {
+              "status": "active"
+            }
+          },
+          {
+            "name": "GetProductDetailsBySku",
+            "kwargs": {
+              "sku": "ELEC-4KTV55"
+            }
+          },
+          {
+            "name": "GetInventoryItemBySkuAndStore",
+            "kwargs": {
+              "sku": "ELEC-4KTV55",
+              "store_id": "STORE-001"
+            }
+          },
+          {
+            "name": "UpdatePromotionDetails",
+            "kwargs": {
+              "promotion_id": "PROMO-001",
+              "times_used": 10
+            }
+          }
+        ],
+        "instruction": "Handle marketing management activities. Activate the 'Summer Electronics Sale' (PROMO-001) scheduled to commence on '2025-06-01'. Next, obtain all active promotions to verify the inclusion of 'UltraVision 55\" 4K Smart TV' (SKU: ELEC-4KTV55), and check its current inventory at 'STORE-001'. Lastly, modify the 'times_used' count for PROMO-001 to 10 to initiate usage tracking.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": 0.003105,
+      "reward_info": {
+        "reward": 1.0,
+        "info": {
+          "r_actions": 1.0,
+          "gt_data_hash": "c7b77a6186e4cddfb4654db26e065edf6f55876dc85cefb94e66569c077a1378"
+        },
+        "actions": [
+          {
+            "name": "ActivatePromotion",
+            "kwargs": {
+              "promotion_id": "PROMO-001"
+            }
+          },
+          {
+            "name": "GetPromotionsByStatus",
+            "kwargs": {
+              "status": "active"
+            }
+          },
+          {
+            "name": "GetProductDetailsBySku",
+            "kwargs": {
+              "sku": "ELEC-4KTV55"
+            }
+          },
+          {
+            "name": "GetInventoryItemBySkuAndStore",
+            "kwargs": {
+              "sku": "ELEC-4KTV55",
+              "store_id": "STORE-001"
+            }
+          },
+          {
+            "name": "UpdatePromotionDetails",
+            "kwargs": {
+              "promotion_id": "PROMO-001",
+              "times_used": 10
+            }
+          }
+        ]
+      }
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"You function as a specialized retail assistant, optimized to handle store operations and customer engagements with high efficiency.\",\n    \"Consistently ensure that updates to the inventory, customer, and transaction databases are both precise and uniform.\",\n    \"Prior to completing any sales transaction, verify the availability of the product in the designated store location.\",\n    \"Whenever an inventory adjustment occurs as a result of a sale or return, make sure to update both 'quantity' and 'reserved_quantity' appropriately.\",\n    \"While searching for promotions, include only those that have an 'active' status on the date of the query.\",\n    \"Compute transaction totals, taxes, and discounts accurately using the product's price, quantity, relevant promotions, and applicable tax rates.\",\n    \"Each customer record must contain a membership level, loyalty points, and marketing opt-in status at the time of creation.\",\n    \"Upon creation of a new customer, the email address must adhere to a standardized format derived from the customer's name.\",\n    \"During the activation or deactivation of a promotion, verify that the promotion ID is valid and update the status appropriately.\",\n    \"During promotion detail updates, modify only the designated fields and retain all other fields unchanged.\",\n    \"To apply a discount, first confirm that the product is marked as 'is_discountable', then, if relevant, compute the discount using the promotion's 'discount_value'.\",\n    \"For promotions of type 'fixed_bundle', confirm that every applicable SKU exists within the line items prior to discount application.\",\n    \"In the case of 'bogo_percentage' (Buy One Get One Percentage) promotions, the discount must be applied to the second and any additional items of the identical SKU.\",\n    \"When fetching promotions based on status, return every promotion that corresponds to the specified status.\",\n    \"During the creation of a new promotion, verify that all mandatory fields\u2014including name, type, discount value, applicable SKUs, dates, and status\u2014are supplied.\",\n    \"During customer detail updates, verify that the customer ID is valid and update only the fields that are specified.\",\n    \"To retrieve products based on status, provide all products whose status corresponds to the requested value.\",\n    \"Upon creation of a new promotion, assign it an ID in the sequential format 'PROMO-XXX', with XXX representing a zero-padded number.\",\n    \"Accurately record any modifications to customer records that involve changes in membership level or contact information.\",\n    \"To identify critical or low stock situations during inventory monitoring, reference the 'reorder_level' and 'safety_stock' thresholds specified in the inventory data.\",\n"
+      },
+      {
+        "role": "user",
+        "content": "I'd like to activate a promotion for an upcoming sale. Could you assist with that?"
+      },
+      {
+        "content": "Please provide me with the promotion ID that you would like to activate, and I'll take care of it for you.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "The promotion ID is PROMO-001. Could you activate it for the 'Summer Electronics Sale'?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"promotion_id\":\"PROMO-001\"}",
+              "name": "activate_promotion"
+            },
+            "id": "call_nJgAvd4kXW4qFPBxJLYi0DF7",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_nJgAvd4kXW4qFPBxJLYi0DF7",
+        "name": "activate_promotion",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"promotion_id\":\"PROMO-001\"}",
+              "name": "get_promotion_by_id"
+            },
+            "id": "call_vskmmStAbPRva576rKJ3VZqu",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_vskmmStAbPRva576rKJ3VZqu",
+        "name": "get_promotion_by_id",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"status\":\"active\"}",
+              "name": "get_promotions_by_status"
+            },
+            "id": "call_7FOmv8Osj8wLkJWftuxNNhp6",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_7FOmv8Osj8wLkJWftuxNNhp6",
+        "name": "get_promotions_by_status",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems there was an issue retrieving the promotion details. Let me try to check the status of the promotion with ID \"PROMO-001\" again. Please hold on.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"promotion_id\":\"PROMO-001\"}",
+              "name": "get_promotion_by_id"
+            },
+            "id": "call_CXidDvxQXueYIMbWRdpwbH2V",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_CXidDvxQXueYIMbWRdpwbH2V",
+        "name": "get_promotion_by_id",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It appears that I'm currently unable to retrieve the promotion details for \"PROMO-001.\" \n\nCould you please confirm if the promotion ID is correct or provide any additional details about the promotion? This will help me assist you better.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Yes, the promotion ID is correct: PROMO-001. It's for the 'Summer Electronics Sale' set to start on June 1, 2025. Can you activate it now?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"promotion_id\":\"PROMO-001\"}",
+              "name": "activate_promotion"
+            },
+            "id": "call_WAibxU0T9ve8GK120pcC8PzN",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_WAibxU0T9ve8GK120pcC8PzN",
+        "name": "activate_promotion",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems that I'm encountering a persistent issue when trying to activate the promotion. Unfortunately, I'm unable to proceed with the activation at this moment.\n\nAs an alternative, you may want to check the promotion status through your internal system or contact support for assistance. If there's anything else I can help you with, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Let's move on to reviewing all active promotions. Could you provide a list of those to verify the inclusion of a particular item?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"status\":\"active\"}",
+              "name": "get_promotions_by_status"
+            },
+            "id": "call_7r7fGSqDuM1lazocPfWSauuw",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_7r7fGSqDuM1lazocPfWSauuw",
+        "name": "get_promotions_by_status",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems I'm currently unable to retrieve the list of active promotions due to a technical issue. \n\nIf you have access to your internal system, you might want to check there for the active promotions. Alternatively, if you have specific details about the promotion or item you're interested in, I can assist you with that. Please let me know how you'd like to proceed!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I was hoping to confirm the inclusion of the UltraVision 55\" 4K Smart TV with SKU ELEC-4KTV55 in the promotions. I also wanted to check its inventory status at a specific store. Can you help with that?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"sku\": \"ELEC-4KTV55\", \"store_id\": \"1\"}",
+              "name": "get_inventory_item_by_sku_and_store"
+            },
+            "id": "call_IotINZbS04epYmaHkWlU9H7W",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_IotINZbS04epYmaHkWlU9H7W",
+        "name": "get_inventory_item_by_sku_and_store",
+        "content": "{}"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"sku\":\"ELEC-4KTV55\"}",
+              "name": "get_product_details_by_sku"
+            },
+            "id": "call_bkvcjUHwZ5jWLkkSN609Vw45",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_bkvcjUHwZ5jWLkkSN609Vw45",
+        "name": "get_product_details_by_sku",
+        "content": "{\"sku\": \"ELEC-4KTV55\", \"name\": \"UltraVision 55\\\" 4K Smart TV\", \"category\": \"Electronics\", \"price\": 699.99, \"is_discountable\": true, \"description\": \"55-inch UHD smart television with HDR and voice control.\", \"supplier_id\": \"SUP-1001\", \"weight_kg\": 15.4, \"dimensions_cm\": \"124x73x8\", \"brand\": \"UltraVision\", \"cost\": 480.0, \"barcode\": \"0123456789012\", \"tax_rate\": 0.0825, \"discount_rate\": 0.1, \"status\": \"active\", \"expiry_date\": null, \"created_at\": \"2024-11-08T10:15:00Z\", \"updated_at\": \"2025-05-01T14:20:00Z\"}"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"status\":\"active\"}",
+              "name": "get_promotions_by_status"
+            },
+            "id": "call_gpBGNz2w1AGgCWyhkr3BJobh",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_gpBGNz2w1AGgCWyhkr3BJobh",
+        "name": "get_promotions_by_status",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "I was able to retrieve the details for the UltraVision 55\" 4K Smart TV (SKU: ELEC-4KTV55). Here are the details:\n\n- **Name:** UltraVision 55\" 4K Smart TV\n- **Category:** Electronics\n- **Price:** $699.99\n- **Is Discountable:** Yes\n- **Description:** 55-inch UHD smart television with HDR and voice control.\n- **Supplier ID:** SUP-1001\n- **Weight:** 15.4 kg\n- **Dimensions:** 124x73x8 cm\n- **Brand:** UltraVision\n- **Cost:** $480.00\n- **Barcode:** 0123456789012\n- **Tax Rate:** 8.25%\n- **Discount Rate:** 10%\n- **Status:** Active\n\nUnfortunately, I'm still unable to retrieve the list of active promotions to confirm if this product is included in any of them. \n\nIf you have access to your internal system, you may want to check there for the active promotions. If there's anything else you need, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you for the details. Could you also check the inventory status for this item at STORE-001?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"sku\":\"ELEC-4KTV55\",\"store_id\":\"STORE-001\"}",
+              "name": "get_inventory_item_by_sku_and_store"
+            },
+            "id": "call_ruf9zdg83uZ1TFtgK1AytHgP",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_ruf9zdg83uZ1TFtgK1AytHgP",
+        "name": "get_inventory_item_by_sku_and_store",
+        "content": "{\"id\": \"INV-0001\", \"sku\": \"ELEC-4KTV55\", \"store_id\": \"STORE-001\", \"quantity\": 8, \"reserved_quantity\": 2, \"reorder_level\": 3, \"safety_stock\": 2, \"location\": \"Aisle 05, Bay B\", \"status\": \"in_stock\", \"last_stock_count\": \"2025-05-02\", \"created_at\": \"2024-11-10T09:00:00Z\", \"updated_at\": \"2025-05-02T11:15:00Z\"}"
+      },
+      {
+        "content": "Here are the inventory details for the UltraVision 55\" 4K Smart TV (SKU: ELEC-4KTV55) at STORE-001:\n\n- **Inventory ID:** INV-0001\n- **Quantity Available:** 8 units\n- **Reserved Quantity:** 2 units\n- **Reorder Level:** 3 units\n- **Safety Stock:** 2 units\n- **Location:** Aisle 05, Bay B\n- **Status:** In Stock\n- **Last Stock Count Date:** May 2, 2025\n\nIf you need any further assistance or information, feel free to ask!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Great, thanks for that information! Lastly, could you update the 'times_used' count for PROMO-001 to 10 so we can start tracking its use?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"promotion_id\":\"PROMO-001\",\"times_used\":10}",
+              "name": "update_promotion_details"
+            },
+            "id": "call_uDZKrpETLHlcVFhdU3v1P5x2",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_uDZKrpETLHlcVFhdU3v1P5x2",
+        "name": "update_promotion_details",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems that I'm currently unable to update the 'times_used' count for the promotion due to a technical issue.\n\nYou may want to check this through your internal system or contact support for assistance. If there's anything else I can help you with, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Alright, thank you for your efforts. That will be all for now. ###STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

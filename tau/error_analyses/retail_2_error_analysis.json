@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to retrieve and provide the courier details associated with the order. In the ground truth action sequence, the agent should have executed the `GetTrackingHistory` and `GetCourierById` actions to obtain and verify the courier information. However, in the trajectory, the agent encountered errors and did not successfully retrieve or communicate the courier details to the user, which is a critical part of the audit process as per the user instruction."
+            "description": "The agent is responsible for the fault in the trajectory because it failed to perform the necessary actions to audit the order comprehensively. Specifically, the agent did not retrieve the order details, payment history, tracking history, or courier information, which are essential steps in the ground truth action sequence. The agent only focused on updating product availability and pricing without conducting the required audit of the order and its logistics chain."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
-            "fault_type": "other",
-            "description": "The fault in the trajectory is that the assistant failed to retrieve and provide the courier details associated with the order, which is a necessary part of the logistics chain examination as specified in the user instruction. The ground truth action sequence includes actions to get the courier details, but the trajectory does not successfully complete this step, resulting in incomplete information being provided to the user."
+            "fault_type": "goal_partially_completed",
+            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because it does not include the actions necessary to conduct a comprehensive examination of the customer's payment history and the entire logistics chain, including the courier, as specified in the user instruction. The ground truth action sequence includes actions such as `GetOrderPaymentHistory`, `GetTrackingHistory`, and `GetCourierById`, which are missing in the trajectory. These actions are essential for completing the audit as instructed."
         }
     ]
 }

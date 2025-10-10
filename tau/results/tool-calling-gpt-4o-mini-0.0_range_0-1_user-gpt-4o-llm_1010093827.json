@@ -1,0 +1,351 @@
+[
+  {
+    "task_id": 0,
+    "reward": 1.0,
+    "info": {
+      "task": {
+        "user_id": "USER_001",
+        "actions": [
+          {
+            "name": "ScanIncompleteTasks",
+            "kwargs": {}
+          },
+          {
+            "name": "CheckSshConnection",
+            "kwargs": {
+              "remote_address": "server-prod-01.company.com"
+            }
+          },
+          {
+            "name": "FindAndStatFiles",
+            "kwargs": {
+              "target_directory": "/var/log/applications",
+              "last_access_days": 7
+            }
+          },
+          {
+            "name": "FilterFileLog",
+            "kwargs": {
+              "log_name": "file_check_log.json",
+              "max_size": 52428800,
+              "users": [
+                "web_service"
+              ]
+            }
+          },
+          {
+            "name": "ComputeChecksum",
+            "kwargs": {
+              "log_name": "file_check_log.json"
+            }
+          },
+          {
+            "name": "CopyFileToHost",
+            "kwargs": {
+              "log_name": "file_check_log.json"
+            }
+          },
+          {
+            "name": "VerifyLocalChecksum",
+            "kwargs": {
+              "log_name": "file_check_log.json"
+            }
+          },
+          {
+            "name": "RemoteCleanup",
+            "kwargs": {
+              "files_to_delete": [
+                "file_check_log.json",
+                "file_check_log.json.sha256"
+              ]
+            }
+          },
+          {
+            "name": "UpdateTaskStatus",
+            "kwargs": {
+              "task_id": "fc_task_001",
+              "completed": true
+            }
+          },
+          {
+            "name": "LogTaskCompletion",
+            "kwargs": {
+              "task_id": "fc_task_001",
+              "task_name": "Weekly Log Analysis",
+              "result": "Success"
+            }
+          }
+        ],
+        "instruction": "Ensure NERC-CIP compliance for Task ID SCAN_016 by processing the first incomplete task from the `file_check_db`. Connect to the designated server, execute a file scan based on all specified criteria, and verify the integrity of the resulting log file. Conclude by updating the task's status in the database and cleaning up remote artifacts.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": 0.0018900000000000002,
+      "reward_info": {
+        "reward": 1.0,
+        "info": {
+          "r_actions": 1.0,
+          "gt_data_hash": "0d3983423da9a3c8ea853df97b4243d486e7d25912816ecf603ed8cc479c4b93"
+        },
+        "actions": [
+          {
+            "name": "ScanIncompleteTasks",
+            "kwargs": {}
+          },
+          {
+            "name": "CheckSshConnection",
+            "kwargs": {
+              "remote_address": "server-prod-01.company.com"
+            }
+          },
+          {
+            "name": "FindAndStatFiles",
+            "kwargs": {
+              "target_directory": "/var/log/applications",
+              "last_access_days": 7
+            }
+          },
+          {
+            "name": "FilterFileLog",
+            "kwargs": {
+              "log_name": "file_check_log.json",
+              "max_size": 52428800,
+              "users": [
+                "web_service"
+              ]
+            }
+          },
+          {
+            "name": "ComputeChecksum",
+            "kwargs": {
+              "log_name": "file_check_log.json"
+            }
+          },
+          {
+            "name": "CopyFileToHost",
+            "kwargs": {
+              "log_name": "file_check_log.json"
+            }
+          },
+          {
+            "name": "VerifyLocalChecksum",
+            "kwargs": {
+              "log_name": "file_check_log.json"
+            }
+          },
+          {
+            "name": "RemoteCleanup",
+            "kwargs": {
+              "files_to_delete": [
+                "file_check_log.json",
+                "file_check_log.json.sha256"
+              ]
+            }
+          },
+          {
+            "name": "UpdateTaskStatus",
+            "kwargs": {
+              "task_id": "fc_task_001",
+              "completed": true
+            }
+          },
+          {
+            "name": "LogTaskCompletion",
+            "kwargs": {
+              "task_id": "fc_task_001",
+              "task_name": "Weekly Log Analysis",
+              "result": "Success"
+            }
+          }
+        ]
+      }
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"You function as an AI agent specialized in file management.\",\n    \"A collection of tools is utilized to engage with a simulated file system and databases.\",\n    \"Your actions should be determined by both the details in the user's request and the results from earlier tool calls.\",\n    \"Perform a single tool call per execution.\",\n    \"The user must receive a final notification that communicates the result of the task.\",\n    \"The 'File Tree Adjustment Protocol' serves as a general reference for file organization.\",\n    \"According to this protocol, a 'file_list' should be generated and a pre-flight disk space check should be conducted.\",\n    \"It further suggests that checksums should be verified following file transfers, and the source directory should be cleaned up only if the verification is successful.\",\n    \"The default setting for parallel_processes is 6 when utilizing the find_and_stat_files tool. For remote_cleanup, the session_to_kill parameter defaults to \"none\".\",\n    \"The 'File Archival Protocol' outlines a recommended workflow for the archival of files.\",\n    \"The protocol advises conducting pre-flight verifications to confirm file existence and available disk space.\",\n    \"It proposes generating a '.tar.gz' archive and performing a checksum validation on the remote server following the transfer.\",\n    \"The concluding notification can contain information regarding the archive's location and its size.\",\n    \"The 'File Search & Validation Protocol' is recommended for use during file discovery.\",\n    \"Tasks from the 'file_check_db' may be handled by this protocol within a persistent 'tmux' session.\",\n    \"The protocol advises generating a filtered metadata log, confirming its integrity via checksum, and removing any temporary files afterward.\",\n"
+      },
+      {
+        "role": "user",
+        "content": "I need to ensure NERC-CIP compliance for a specific task. Can you guide me through processing an incomplete task from our file check database?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{}",
+              "name": "scan_incomplete_tasks"
+            },
+            "id": "call_JzIAduwMUqE57azzqao4dq9R",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_JzIAduwMUqE57azzqao4dq9R",
+        "name": "scan_incomplete_tasks",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{}",
+              "name": "scan_incomplete_tasks"
+            },
+            "id": "call_409DVNUR0D7X5ZQXd2zx0e7I",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_409DVNUR0D7X5ZQXd2zx0e7I",
+        "name": "scan_incomplete_tasks",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems there is an issue with retrieving the incomplete tasks from the file check database. I will attempt to scan for incomplete tasks again.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{}",
+              "name": "scan_incomplete_tasks"
+            },
+            "id": "call_sGz17Eu5RdXI773bsNNmTmrW",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_sGz17Eu5RdXI773bsNNmTmrW",
+        "name": "scan_incomplete_tasks",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It appears that I'm unable to retrieve the incomplete tasks from the file check database due to a persistent error. Unfortunately, without this information, I cannot guide you through processing a specific task.\n\nIf you have any specific task ID or details about the task you want to process, please provide that information, and I can assist you further.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I remember the task ID is SCAN_016. Could you guide me on what to do next?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"task_id\":\"SCAN_016\"}",
+              "name": "parse_file_check_instructions"
+            },
+            "id": "call_Lqipo6agtB63CcPUJ69nqv6t",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_Lqipo6agtB63CcPUJ69nqv6t",
+        "name": "parse_file_check_instructions",
+        "content": "Error: string indices must be integers"
+      },
+      {
+        "content": "It seems there is an issue with parsing the instructions for the task ID SCAN_016. I will attempt to parse the instructions again.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"task_id\":\"SCAN_016\"}",
+              "name": "parse_file_check_instructions"
+            },
+            "id": "call_6bxSPzj3qjD0JRNsEWRajiYB",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_6bxSPzj3qjD0JRNsEWRajiYB",
+        "name": "parse_file_check_instructions",
+        "content": "Error: string indices must be integers"
+      },
+      {
+        "content": "Unfortunately, I'm still encountering errors while trying to parse the instructions for the task ID SCAN_016. This prevents me from providing you with the necessary guidance.\n\nIf you have any specific details about the task or if there are alternative ways to access the instructions, please let me know, and I'll do my best to assist you.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "No worries. Let's start by connecting to the server where we need to perform a file scan. Do you have the server details handy?"
+      },
+      {
+        "content": "I currently do not have the server details available. If you could provide the remote address of the server, I can proceed to check the SSH connection for you.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I don't recall the exact server details either. You may want to check the network documentation for the correct server information. Let me know once you have it."
+      },
+      {
+        "content": "I currently do not have access to external documentation or network resources to retrieve server details. If you can provide any specific information or context about the server, I can assist you further. Otherwise, you may need to consult your internal documentation or team members to obtain the server address.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Alright, I'll look into it and get back to you with the server details. Thanks for your help!"
+      },
+      {
+        "content": "You're welcome! Feel free to reach out whenever you have the server details or if you need further assistance. I'm here to help!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Great, I'll do that. Thanks again!"
+      },
+      {
+        "content": "You're welcome! Have a great day, and I'll be here whenever you need assistance. Take care!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "You too! Talk to you later. ###STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

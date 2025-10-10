@@ -1,0 +1,271 @@
+[
+  {
+    "task_id": 0,
+    "reward": 1.0,
+    "info": {
+      "task": {
+        "user_id": "faris_1",
+        "actions": [
+          {
+            "name": "CreateNewCandidateRecord",
+            "kwargs": {
+              "candidate_name": "Alex Chen",
+              "role_title": "Software Engineer",
+              "start_date": "2024-09-01",
+              "candidate_email": "alex.chen@example.com",
+              "manager_email": "jane.doe@example.com"
+            }
+          },
+          {
+            "name": "GeneratePersonalizedWelcomeFile",
+            "kwargs": {
+              "candidate_id": "CAND-001"
+            }
+          },
+          {
+            "name": "CreateRoleBasedChecklistTasks",
+            "kwargs": {
+              "candidate_id": "CAND-001"
+            }
+          },
+          {
+            "name": "CreateAssetRequestWithNotification",
+            "kwargs": {
+              "candidate_id": "CAND-001"
+            }
+          },
+          {
+            "name": "SendEmailWithAttachments",
+            "kwargs": {
+              "candidate_id": "CAND-001",
+              "template_name": "welcome",
+              "to_emails": [
+                "alex.chen@example.com"
+              ]
+            }
+          },
+          {
+            "name": "UpdateCandidateOnboardingStatus",
+            "kwargs": {
+              "candidate_id": "CAND-001",
+              "new_status": "Packet Sent"
+            }
+          },
+          {
+            "name": "RunAndRecordSystemAccessChecks",
+            "kwargs": {
+              "candidate_id": "CAND-001"
+            }
+          }
+        ],
+        "instruction": "Handle the onboarding of a new Software Engineer, Alex Chen. Their start date is 2024-09-01, their email is alex.chen@example.com, and their manager is jane.doe@example.com.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": 0.0017200000000000002,
+      "reward_info": {
+        "reward": 1.0,
+        "info": {
+          "r_actions": 1.0,
+          "gt_data_hash": "11131b0d72f4a0d9671fb8241e4c67a32d6b67a65002cfb1df6dbb1c2afe4bc6"
+        },
+        "actions": [
+          {
+            "name": "CreateNewCandidateRecord",
+            "kwargs": {
+              "candidate_name": "Alex Chen",
+              "role_title": "Software Engineer",
+              "start_date": "2024-09-01",
+              "candidate_email": "alex.chen@example.com",
+              "manager_email": "jane.doe@example.com"
+            }
+          },
+          {
+            "name": "GeneratePersonalizedWelcomeFile",
+            "kwargs": {
+              "candidate_id": "CAND-001"
+            }
+          },
+          {
+            "name": "CreateRoleBasedChecklistTasks",
+            "kwargs": {
+              "candidate_id": "CAND-001"
+            }
+          },
+          {
+            "name": "CreateAssetRequestWithNotification",
+            "kwargs": {
+              "candidate_id": "CAND-001"
+            }
+          },
+          {
+            "name": "SendEmailWithAttachments",
+            "kwargs": {
+              "candidate_id": "CAND-001",
+              "template_name": "welcome",
+              "to_emails": [
+                "alex.chen@example.com"
+              ]
+            }
+          },
+          {
+            "name": "UpdateCandidateOnboardingStatus",
+            "kwargs": {
+              "candidate_id": "CAND-001",
+              "new_status": "Packet Sent"
+            }
+          },
+          {
+            "name": "RunAndRecordSystemAccessChecks",
+            "kwargs": {
+              "candidate_id": "CAND-001"
+            }
+          }
+        ]
+      }
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"The agent acts as a new hire onboarding coordinator within the company, tasked with carrying out multi-step workflows related to candidate management, onboarding processes, and verifying system access.\",\n    \"When onboarding a new hire, the agent is required to perform the following actions in order: 1. `create_new_candidate_record`, 2. `generate_personalized_welcome_file`, 3. `create_role_based_checklist_tasks`, 4. `create_asset_request_with_notification`, 5. `send_email_with_attachments`, 6. `update_candidate_onboarding_status` setting the status to 'Packet Sent', and 7. `run_and_record_system_access_checks`.\",\n    \"To proactively manage overdue onboarding tasks, the agent must execute these steps: 1. `find_candidates_by_onboarding_status`, 2. `get_overdue_checklist_items`, 3. `send_batch_reminder_emails` to candidates who have overdue items, 4. If the instruction includes 'comprehensive' or 'analysis': perform `analyze_system_access_failures` for candidates with Started status and no overdue items, retrieve `get_pending_asset_requests` for workflow context, and use `notify_manager` for candidates with overdue items, applying 'overdue_escalation', 5. `update_candidates_record` for all candidates processed, and 6. `get_candidate_with_full_context` to confirm the action.\",\n    \"For the escalation of system access issues, the agent must adhere to these steps: 1. `find_candidates_by_onboarding_status`, 2. `analyze_system_access_failures` for the relevant candidate, 3. If the instruction references 'blocked tasks' or if the candidate status is 'Access Issues': execute `send_email_with_attachments` with the 'it_support_request' template to it-support@example.com, 4. `notify_manager`, 5. `run_and_record_system_access_checks` for access re-verification, 6. `update_candidates_record`, and 7. `get_candidate_with_full_context` to confirm the action.\",\n    \"To address system access issues, the agent is required to proceed as follows: 1. If the instruction omits a candidate ID, initiate `find_candidates_by_onboarding_status` with the 'Access Issues' parameter, 2. Execute `analyze_system_access_failures` for the identified candidate, 3. Use the 'it_support_request' template in `send_email_with_attachments` to contact it-support@example.com, 4. Trigger `notify_manager` with the notification type set to 'access_issue', 5. If the instruction includes 'resolve' or 'fix', incorporate either `resolve_sso_access_issue` or `update_access_check_status` with the status 'Success' and the note 'Resolved by IT.', 6. Update the `checklist_follow_up_ts_nullable` field by calling `update_candidates_record` to record the resolution timestamp, 7. Confirm the resolution by running `get_candidate_with_full_context`.\",\n    \"For escalating overdue tasks for candidates who have already completed onboarding, the agent must execute the following sequence: 1. Call `get_overdue_checklist_items` with the relevant threshold, 2. Use `find_candidates_by_onboarding_status` with the status 'Onboarded', 3. Perform `analyze_system_access_failures` for the designated candidate, 4. Send a notification to the manager via `notify_manager` with the notification type 'overdue_escalation', 5. Run `run_and_record_system_access_checks`, 6. Update records using `update_candidates_record`, and 7. Validate the escalation by invoking `get_candidate_with_full_context`.\",\n    \"When arranging orientation for a single new hire (where the instruction references a specific candidate or is clearly directed at one individual), the agent must first execute `get_candidates_needing_orientation_scheduling`, then proceed to `create_orientation_invitation_emails`, and apply `apply_email_labels_and_threading`. Once the emails have been sent, the agent should update the onboarding status for the candidate via `update_candidate_onboarding_status`. To complete the process, the agent must perform comprehensive verification by running `get_candidate_with_full_context`, `get_email_thread_conversations`, `get_available_email_types`, and `check_email_communication_gaps` for that candidate.\",\n    \"When arranging orientation for several new hires (if the instruction references 'all candidates' or multiple recipients without specifying an individual), the agent is required to execute the following steps in this precise order: 1. `get_candidates_needing_orientation_scheduling`, 2. `create_orientation_invitation_emails`, 3. `apply_email_labels_and_threading`, 4. `update_candidates_record` updating solely the 'orientation_invite_ts_nullable' timestamp. For confirmation, the agent must proceed with 5. `get_available_email_types`, followed by 6. `check_email_communication_gaps` without including specific candidate IDs. Exception: If the instruction explicitly calls for sending a full onboarding packet (for example, by applying label_6), then in step 4, both 'status': 'Packet Sent' AND 'orientation_invite_ts_nullable' must be updated\u2014this is necessary because label_6 signifies that the entire onboarding packet has been delivered, requiring the candidate's status to be fully advanced to indicate that all welcome materials and onboarding documents have been provided.\",\n    \"If there is a need to check for blockers during orientation scheduling, the agent must verify outstanding assets using `get_pending_asset_requests` and investigate system access problems with `analyze_system_access_failures`. These verifications must occur after executing `get_candidates_needing_orientation_scheduling` and before initiating `create_orientation_invitation_emails`.\",\n    \"In the event of system access problems, the agent must issue IT support requests to it-support@example.com by utilizing the `send_email_with_attachments` action with the 'it_support_request' template, ensuring that detailed failure notes are included within the template context.\",\n    \"For asset fulfillment tasks, the agent may utilize the 'asset_fulfillment_notification' email template in conjunction with the `send_email_with_attachments` action. This template mandates that asset_name and asset_tag be included within the template_context parameter to inform candidates regarding asset delivery or availability.\",\n    \"If instructions indicate that a label should be applied to emails sent 'to the users', the label must be assigned exclusively to emails addressed to candidates (excluding management recipients). Conversely, if the instruction merely states to apply a label to emails without specifying 'to the users', the label should be applied to both candidate and management notification emails.\",\n    \"In cases where no explicit rule addresses a given scenario, task instructions may provide prescriptive directives that outline the execution of actions in a particular order for unique tasks, provided these directives are consistent with the agent's responsibilities as a new hire onboarding coordinator.\",\n    \"For any action that necessitates a timestamp, apply the deterministic timestamp: 2024-08-15T12:00:00Z.\",\n    \"The `notify_manager` tool permits only two possible values for notification_type: Select 'access_issue' when a candidate encounters system access failures (including Email, SSO, Slack, GitHub, VPN, or AWS Console) that hinder them from finishing onboarding tasks\u2014this informs the manager that IT support has been notified and onboarding progress may be delayed. Choose 'overdue_escalation' when a candidate\u2019s onboarding tasks are substantially overdue (generally 10 or more days past the due date) and require action to ensure completion\u2014this escalates the outstanding tasks for direct manager follow-up with the candidate.\",\n    \"The candidate\u2019s onboarding_status must be assigned exactly one of the following five values according to the workflow stage: Assign 'Started' to candidates who are newly created and have not yet received their welcome packet or completed the initial onboarding setup. Assign 'Packet Sent' to candidates who have been sent the welcome email, had asset requests submitted, and had access checks started, but whose onboarding remains incomplete. Assign 'Access Issues' to candidates facing system access failures that prevent them from completing onboarding tasks and necessitate intervention. Assign 'Asset Pending' to candidates whose onboarding is specifically awaiting asset allocation or delivery before they can advance to fully onboarded status. Assign 'Onboarded' to candidates who have fulfilled all onboarding requirements, including system access verification, asset allocation, and completion of all checklist tasks.\",\n    \"The asset request status must be assigned to one, and only one, of the following four values according to the current fulfillment stage: Assign 'Pending' to asset requests that have just been created and submitted but are not yet under review by the asset management team. Assign 'In Progress' to asset requests that are currently being handled, such as when equipment is in the process of being ordered or prepared for shipment. Assign 'Completed' to asset requests once all specified assets have been delivered and acknowledged as received by the candidate. Assign 'Cancelled' to asset requests that are no longer required, whether due to changes in the candidate's role, candidate withdrawal, or any other reason rendering the assets unnecessary.\",\n    \"The `query_available_assets_by_type` tool is capable of accepting both 'Available' and 'Assigned' as status values when performing asset type searches, thereby enabling the agent to retrieve both assets that are unassigned and ready for allocation, as well as assets that are already assigned to candidates.\",\n    \"When processing existing pending asset requests, the agent is required to execute the following sequence: 1. Invoke `get_pending_asset_requests` with the status filter set to 'Pending', 2. Use `query_available_assets_by_type` with the relevant asset type and a status filter of 'Available', 3. Apply `assign_asset_to_candidate` for each combination of request and asset, 4. Execute `update_asset_request_status` to set the status to 'Completed' for every request that has been fulfilled, 5. Call `get_candidate_with_full_context` for the recipient of the asset, 6. Utilize `send_email_with_attachments` with the 'asset_fulfillment_notification' template to inform the candidate and CC their manager, ensuring that asset details, including 'asset_name' and 'asset_tag', are provided in the template_context.\",\n    \"When creating new asset requests with optional fulfillment, the agent is required to proceed as follows: 1. Execute `create_asset_request_with_notification` for the designated candidate, ensuring the correct priority level is set, 2. Use `get_pending_asset_requests` with a status filter of 'Pending', 3. Invoke `query_available_assets_by_type` with the relevant asset type and a status filter of 'Available', 4. For each request-asset match to be fulfilled, apply `assign_asset_to_candidate`, 5. Retrieve each asset recipient\u2019s full context using `get_candidate_with_full_context`, 6. Dispatch emails via `send_email_with_attachments` using the 'asset_fulfillment_notification' template and including asset details in the template_context. Exception: If the instruction states 'do not notify newly created request candidate', send fulfillment notifications only for existing requests, omitting the newly created one. If the instruction does not mention a notification policy, send fulfillment notifications for every fulfilled request.\",\n    \"To onboard two new hires within a single workflow, the agent must adhere to this precise order: 1. Initiate `create_new_candidate_record` for the first candidate, 2. Repeat `create_new_candidate_record` for the second candidate, 3. Generate a personalized welcome file for both candidates using `generate_personalized_welcome_file` with the `candidate_ids` parameter, 4. Create role-based checklist tasks for both candidates via `create_role_based_checklist_tasks`, 5. Submit `create_asset_request_with_notification` for both candidates, 6. Send an email with attachments to the first candidate using `send_email_with_attachments`, 7. Use `send_email_with_attachments` for both candidates unless otherwise specified in the instructions, 8. Update the onboarding status for both candidates through `update_candidate_onboarding_status`, and 9. Conduct and record system access checks for both candidates using `run_and_record_system_access_checks`.\",\n    \"If an instruction\u2019s intent is to either review a manager\u2019s team or confirm a manager\u2019s existence (such as 'review...hires managed by' or 'verify that...is not a manager'), the agent must begin by calling `get_manager_candidate_assignments`. If this tool returns one or more candidates, the agent is required to perform a 'review and remediate' workflow, which involves examining each candidate\u2019s context and generating any missing items like checklists. If the tool yields no results, the agent must switch to a 'catch-up' workflow for the specified candidate, carrying out initial onboarding actions such as creating checklists and sending a welcome email.\",\n    \"For auditing and scheduling activities focused on managers, the agent is required to execute the following steps in order: 1. Use `get_manager_candidate_assignments` to confirm manager status, 2. Invoke `get_candidates_needing_orientation_scheduling` to locate all eligible candidates, applying a 30-day lead time unless otherwise directed, 3. Generate orientation invitation emails for every identified candidate via `create_orientation_invitation_emails`, 4. Apply `update_candidates_record` to record the invitation timestamps for all candidates processed, and 5. Conduct an audit of the outcomes using `check_email_communication_gaps`.\",\n    \"During final audits, if it is determined that the welcome, orientation, and introduction emails are missing and the 'Email' access check has failed, the agent is required to resolve the issue by sending the welcome email, generating the orientation invitation, and setting the email access status to 'Success' prior to updating the candidate status to 'Onboarded'.\",\n    \"In final audits, if missing orientation and introduction emails are detected along with outstanding checklist items, but there are no access failures, the agent must address the situation by generating the orientation invitation and marking all pending tasks as 'Completed' before updating the candidate status to 'Onboarded'.\",\n    \"During final audits, if missing orientation and introduction emails, a pending checklist item, and a failed 'GitHub' system access check are identified, the agent is required to generate the orientation invitation, resolve the pending checklist item, and set the GitHub access status to 'Success' prior to marking the candidate as 'Onboarded'.\",\n    \"During final audits, if the only outstanding issue is pending checklist items, the agent must solely complete these tasks by invoking `update_task_completion_status` before setting the candidate's status to 'Onboarded'.\",\n    \"During final audits, if missing orientation/introduction emails, pending checklist items, and a failed 'SSO' access check are all detected, remediation must include generating the orientation invitation, completing all outstanding tasks, and executing `resolve_sso_access_issue` before updating the candidate's status to 'Onboarded'.\",\n    \"In the case of final audits, when the audit identifies that the welcome, orientation, and introduction emails are missing, AND exactly one checklist item remains pending, remediation requires sending the welcome email, generating the orientation invite, and completing the pending checklist item prior to updating the status to 'Onboarded'.\",\n    \"Asset requests must be fulfilled using the first available asset of the same type. If more than one asset of the required type is available, the request should be satisfied with the first available asset.\",\n"
+      },
+      {
+        "role": "user",
+        "content": "Hi there! I need some help with setting up a new Software Engineer who's joining our team soon."
+      },
+      {
+        "content": "I can help you with that! To get started with the onboarding process for the new Software Engineer, I'll need the following information:\n\n1. **Candidate's Full Name**\n2. **Role Title** (e.g., Software Engineer)\n3. **Start Date** (in YYYY-MM-DD format)\n4. **Company Email Address**\n5. **Manager's Email Address** (if known)\n\nOnce I have this information, I can proceed with creating the candidate record and initiating the onboarding workflow.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Sure! The new team member's name is Alex Chen. Their role is a Software Engineer."
+      },
+      {
+        "content": "Great! I still need a couple more details to proceed:\n\n1. **Start Date** (in YYYY-MM-DD format)\n2. **Company Email Address**\n3. **Manager's Email Address** (if known)\n\nOnce I have this information, I can set up the onboarding for Alex Chen.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Alex's start date is 2024-09-01, and their email address is alex.chen@example.com."
+      },
+      {
+        "content": "Could you please provide the manager's email address (if known) so I can complete the onboarding setup for Alex Chen? If you don't have it, I can proceed without it.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Yes, the manager's email address is jane.doe@example.com."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"candidate_name\":\"Alex Chen\",\"role_title\":\"Software Engineer\",\"start_date\":\"2024-09-01\",\"candidate_email\":\"alex.chen@example.com\",\"manager_email\":\"jane.doe@example.com\"}",
+              "name": "create_new_candidate_record"
+            },
+            "id": "call_jV43ucNwkOjXJFqQnxUTUUn0",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_jV43ucNwkOjXJFqQnxUTUUn0",
+        "name": "create_new_candidate_record",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"candidate_name\":\"Alex Chen\",\"role_title\":\"Software Engineer\",\"start_date\":\"2024-09-01\",\"candidate_email\":\"alex.chen@example.com\",\"manager_email\":\"jane.doe@example.com\"}",
+              "name": "create_new_candidate_record"
+            },
+            "id": "call_7CSOSwQQg49PwtFa7hOzf9FU",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_7CSOSwQQg49PwtFa7hOzf9FU",
+        "name": "create_new_candidate_record",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems there was an issue while trying to create the candidate record. Let me try that again. Please hold on for a moment.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"candidate_name\":\"Alex Chen\",\"role_title\":\"Software Engineer\",\"start_date\":\"2024-09-01\",\"candidate_email\":\"alex.chen@example.com\",\"manager_email\":\"jane.doe@example.com\"}",
+              "name": "create_new_candidate_record"
+            },
+            "id": "call_JZ4WtHOQYNOA7XpJkEt3fPat",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_JZ4WtHOQYNOA7XpJkEt3fPat",
+        "name": "create_new_candidate_record",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It appears that I'm encountering a persistent issue when trying to create the candidate record. Let me attempt a different approach to resolve this. Please hold on for a moment.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"candidate_name\":\"Alex Chen\",\"role_title\":\"Software Engineer\",\"start_date\":\"2024-09-01\",\"candidate_email\":\"alex.chen@example.com\",\"manager_email\":\"jane.doe@example.com\"}",
+              "name": "create_new_candidate_record"
+            },
+            "id": "call_RnmKl2Uv75l69MWWbXq5cI53",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_RnmKl2Uv75l69MWWbXq5cI53",
+        "name": "create_new_candidate_record",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "I apologize for the inconvenience, but it seems there is a technical issue preventing me from creating the candidate record. \n\nAs an alternative, I can guide you through the steps to manually set up the onboarding process for Alex Chen. Would you like to proceed with that?",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "No worries, I think I have everything I need now. Thank you so much for your help! \n\n###STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

@@ -3,7 +3,7 @@
         {
             "task_id": 0,
             "author": "environment",
-            "description": "The environment is responsible for the fault in the trajectory because it repeatedly returns an error message \"'str' object has no attribute 'get'\" when the assistant attempts to perform actions. This indicates a malfunction in the environment's handling of the tool's responses, preventing the assistant from executing the necessary actions to complete the task. The ground truth action sequence involves multiple steps that require interaction with the environment, such as verifying stock and calculating prices, which are not possible due to the persistent error."
+            "description": "The environment is responsible for the fault in the trajectory because it encountered an error ('str' object has no attribute 'get') when attempting to execute actions. This indicates a malfunction in the environment's handling of the tool's response or the data structure being used, preventing the agent from proceeding with the necessary actions to complete the task. The ground truth action sequence involves multiple steps that require interaction with the environment, such as verifying stock and calculating prices, which were not executed due to this error."
         }
     ],
     "fault_type_analysis": []

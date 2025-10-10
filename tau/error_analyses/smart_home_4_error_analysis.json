@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to successfully add the smart plug to the database and assign it to the kitchen. The agent encountered multiple errors and did not execute the necessary actions to update the device's state or schedule the automation as specified in the ground truth action sequence. Additionally, the agent did not create the shopping list or set up the reminder, which were also part of the user instruction."
+            "description": "The agent is responsible for the fault because it failed to add the device with the correct parameters and did not set up the automation schedule for the smart plug. The agent did not include the \"id\" and \"state\" parameters when adding the device, which led to errors. Additionally, the agent did not manage to update the device with the scheduled automation to turn on at 6:45 AM daily, as specified in the user instruction."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant failed to correctly use the required parameters for the actions. Specifically, the assistant's attempts to add the device to the database and assign it to the kitchen were unsuccessful due to missing or incorrect parameters. The ground truth action sequence specifies the use of \"AddDeviceToDatabase\" and \"ManageRoomInDatabase\" with specific parameters, but the trajectory shows errors such as \"'device' parameter is required\" and \"'room_id', 'device_id', and 'device_settings' are required for update_device_settings\", indicating that the assistant did not provide the correct arguments for these actions."
+            "description": "The fault in the trajectory is that the assistant used the wrong tool argument when adding the device to the database. The assistant added the device with the type \"smart_plug\" and only included the state parameter \"power\". However, the ground truth specifies that the device should be added with the type \"outlet\" and should include both \"power\" and \"energy_kwh\" as state parameters. This discrepancy in the device type and state parameters constitutes the \"used_wrong_tool_argument\" fault."
         }
     ]
 }
