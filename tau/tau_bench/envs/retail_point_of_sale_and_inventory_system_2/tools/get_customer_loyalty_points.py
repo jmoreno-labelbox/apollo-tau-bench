@@ -18,7 +18,7 @@ class GetCustomerLoyaltyPoints(Tool):
                     "membership_level": customer.get("membership_level", "bronze")
                 }
                 return json.dumps(loyalty_info, indent=2)
-        return json.dumps({"error": f"Customer with ID {customer_id} not found."})
+                return json.dumps({"error": f"Customer with ID {customer_id} not found."})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

@@ -11,7 +11,7 @@ class AddNewCustomer(Tool):
         customers = list(data.get("customers", {}).values())
 
         if any(c.get("email") == email for c in customers):
-            return json.dumps({"error": f"Customer with email {email} already exists."})
+                return json.dumps({"error": f"Customer with email {email} already exists."})
 
         customer_id = f"CUST-{len(customers) + 5001:04d}"
 
@@ -26,9 +26,8 @@ class AddNewCustomer(Tool):
         }
 
         customers.append(new_customer)
-        data["customers"] = customers
-
-        return json.dumps(new_customer, indent=2)
+        data["customers"][customer_id] = new_customer
+                return json.dumps(new_customer, indent=2)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

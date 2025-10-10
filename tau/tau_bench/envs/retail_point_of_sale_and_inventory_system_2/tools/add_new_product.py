@@ -22,9 +22,8 @@ class AddNewProduct(Tool):
         }
 
         products.append(new_product)
-        data["products"] = products
-
-        return json.dumps(new_product, indent=2)
+        data["products"][product_id] = new_product
+                return json.dumps(new_product, indent=2)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

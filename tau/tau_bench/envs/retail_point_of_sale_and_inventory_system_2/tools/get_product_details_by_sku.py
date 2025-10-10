@@ -12,7 +12,7 @@ class GetProductDetailsBySKU(Tool):
         for product in products:
             if product.get("sku") == sku:
                 return json.dumps(product, indent=2)
-        return json.dumps({"error": f"Product with SKU {sku} not found."})
+                return json.dumps({"error": f"Product with SKU {sku} not found."})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

@@ -13,10 +13,8 @@ class RemoveEmployee(Tool):
         employees[:] = [e for e in employees if e.get("employee_id") != employee_id]
 
         if len(employees) == original_len:
-            return json.dumps({"error": f"Employee with ID {employee_id} not found."})
-
-        data["employees"] = employees
-        return json.dumps({"success": f"Employee {employee_id} removed successfully."}, indent=2)
+                return json.dumps({"error": f"Employee with ID {employee_id} not found."})
+                return json.dumps({"success": f"Employee {employee_id} removed successfully."}, indent=2)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

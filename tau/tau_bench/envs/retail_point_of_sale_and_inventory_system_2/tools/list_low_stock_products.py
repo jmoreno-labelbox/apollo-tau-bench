@@ -26,8 +26,7 @@ class ListLowStockProducts(Tool):
                     "category": product.get("category") if product else "Unknown"
                 }
                 low_stock_products.append(low_stock_info)
-
-        return json.dumps({"low_stock_products": low_stock_products, "count": len(low_stock_products), "threshold": threshold}, indent=2)
+                return json.dumps({"low_stock_products": low_stock_products, "count": len(low_stock_products), "threshold": threshold}, indent=2)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

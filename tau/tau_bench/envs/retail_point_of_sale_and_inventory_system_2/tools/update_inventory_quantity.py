@@ -14,10 +14,8 @@ class UpdateInventoryQuantity(Tool):
             if inv_record.get("id") == inventory_id:
                 inventory[i]["quantity"] = new_quantity
                 inventory[i]["updated_at"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                data["inventory"] = inventory
                 return json.dumps(inventory[i], indent=2)
-
-        return json.dumps({"error": f"Inventory record with ID {inventory_id} not found."})
+                return json.dumps({"error": f"Inventory record with ID {inventory_id} not found."})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

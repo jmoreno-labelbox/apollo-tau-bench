@@ -17,9 +17,8 @@ class UpdateCustomerEmail(Tool):
         for i, customer in enumerate(customers):
             if customer.get("customer_id") == customer_id:
                 customers[i]["email"] = new_email
-                data["customers"] = customers
                 return json.dumps(customers[i], indent=2)
-        return json.dumps({"error": f"Customer with ID {customer_id} not found."})
+                return json.dumps({"error": f"Customer with ID {customer_id} not found."})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

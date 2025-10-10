@@ -13,12 +13,12 @@ class GetInventoryLevel(Tool):
 
         product = next((p for p in products if p.get("sku") == sku), None)
         if not product:
-            return json.dumps({"error": f"Product with SKU {sku} not found."})
+                return json.dumps({"error": f"Product with SKU {sku} not found."})
 
         inventory_records = [inv for inv in inventory if inv.get("sku") == sku]
 
         if not inventory_records:
-            return json.dumps({"error": f"No inventory records found for SKU {sku}"})
+                return json.dumps({"error": f"No inventory records found for SKU {sku}"})
 
         total_quantity = sum(inv.get("quantity", 0) for inv in inventory_records)
         total_reserved = sum(inv.get("reserved_quantity", 0) for inv in inventory_records)
@@ -32,8 +32,7 @@ class GetInventoryLevel(Tool):
             "total_available_quantity": total_available,
             "inventory_records": inventory_records
         }
-
-        return json.dumps(inventory_info, indent=2)
+                return json.dumps(inventory_info, indent=2)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

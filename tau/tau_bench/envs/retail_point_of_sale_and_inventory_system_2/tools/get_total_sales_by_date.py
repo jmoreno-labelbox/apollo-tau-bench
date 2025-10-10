@@ -22,8 +22,7 @@ class GetTotalSalesByDate(Tool):
             "total_sales": total_sales,
             "transaction_count": transaction_count
         }
-
-        return json.dumps(sales_info, indent=2)
+                return json.dumps(sales_info, indent=2)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

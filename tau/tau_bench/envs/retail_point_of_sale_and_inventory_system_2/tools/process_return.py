@@ -11,7 +11,7 @@ class ProcessReturn(Tool):
         transactions = list(data.get("transactions", {}).values())
         original_txn = next((t for t in transactions if t.get("transaction_id") == original_transaction_id), None)
         if not original_txn:
-            return json.dumps({"error": f"Original transaction {original_transaction_id} not found."})
+                return json.dumps({"error": f"Original transaction {original_transaction_id} not found."})
 
         inventory = list(data.get("inventory", {}).values())
         return_amount = 0.0
@@ -61,9 +61,7 @@ class ProcessReturn(Tool):
         }
 
         transactions.append(return_transaction)
-        data["transactions"] = transactions
-
-        return json.dumps(return_transaction, indent=2)
+                return json.dumps(return_transaction, indent=2)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

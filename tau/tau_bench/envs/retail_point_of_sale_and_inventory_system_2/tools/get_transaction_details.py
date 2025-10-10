@@ -12,7 +12,7 @@ class GetTransactionDetails(Tool):
         for transaction in transactions:
             if transaction.get("transaction_id") == transaction_id:
                 return json.dumps(transaction, indent=2)
-        return json.dumps({"error": f"Transaction with ID {transaction_id} not found."})
+                return json.dumps({"error": f"Transaction with ID {transaction_id} not found."})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

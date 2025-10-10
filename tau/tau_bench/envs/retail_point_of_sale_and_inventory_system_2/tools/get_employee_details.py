@@ -12,7 +12,7 @@ class GetEmployeeDetails(Tool):
         for employee in employees:
             if employee.get("employee_id") == employee_id:
                 return json.dumps(employee, indent=2)
-        return json.dumps({"error": f"Employee with ID {employee_id} not found."})
+                return json.dumps({"error": f"Employee with ID {employee_id} not found."})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:
