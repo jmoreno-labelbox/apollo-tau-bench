@@ -1,32 +1,30 @@
+from domains.dto import Tool
+from typing import Any, Dict, List, Optional
 import json
-from datetime import datetime, timedelta, timezone
-from typing import Any
-
-from tau_bench.envs.tool import Tool
+from datetime import datetime, timezone, timedelta
 
 
+def get_current_timestamp() -> str:
+    # Deterministic timestamp for tests
+    return "2025-08-08T12:00:00.000000Z"
 
 
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db.values())
-    return db
+def _parse_iso(ts: Optional[str]) -> Optional[datetime]:
+    if not ts or not isinstance(ts, str):
+        return None
+    t = ts.replace("Z", "+00:00")
+    try:
+        return datetime.fromisoformat(t)
+    except Exception:
+        return None
 
 
-def _find_by_id(
-    items: list[dict[str, Any]], key: str, value: str
-) -> dict[str, Any] | None:
-    pass
-    for it in items or []:
-        if it.get(key) == value:
-            return it
-    return None
+def _next_id(data: Dict[str, Any], collection: str, prefix: str) -> str:
+    n = len(data.get(collection, [])) + 1
+    return f"{prefix}-{n:03d}"
 
-
-def _next_user_role_id(data: dict[str, Any], user_id: str) -> str:
-    pass
-    user_roles = data.get("user_roles", {}).values()
+def _next_user_role_id(data: Dict[str, Any], user_id: str) -> str:
+    user_roles = data.get("user_roles", [])
     if not user_roles:
         return "UR-001"
     last = user_roles[-1].get("user_role_id")
@@ -40,165 +38,119 @@ def _next_user_role_id(data: dict[str, Any], user_id: str) -> str:
     return f"UR-{n:03d}"
 
 
-def _next_id(data: dict[str, Any], collection: str, prefix: str) -> str:
-    pass
-    n = len(data.get(collection, {})) + 1
-    return f"{prefix}-{n:03d}"
+def _find_by_id(items: List[Dict[str, Any]], key: str, value: str) -> Optional[Dict[str, Any]]:
+    for it in items or []:
+        if it.get(key) == value:
+            return it
+    return None
 
 
-def _parse_iso(ts: str | None) -> datetime | None:
-    pass
-    if not ts or not isinstance(ts, str):
-        return None
-    t = ts.replace("Z", "+00:00")
-    try:
-        return datetime.fromisoformat(t)
-    except Exception:
-        return None
-
-
-def get_current_timestamp() -> str:
-    pass
-    #Consistent timestamp for testing purposes
-    return "2025-08-08T12:00:00.000000Z"
-
-
-#USER ADMINISTRATION
+# USER MANAGEMENT
 class CreateUser(Tool):
     """
-    Establish a new user account with consistent ID generation.
+    Create a new user account with deterministic ID generation.
 
     kwargs:
-      username: str (mandatory)
-      email: str (mandatory)
-      department: str (mandatory)
+      username: str (required)
+      email: str (required)
+      department: str (required)
       status: str = "ACTIVE" (optional)
       mfa_enabled: bool = True (optional)
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], username: str = "", email: str = "", department: str = "", status: str = "ACTIVE", mfa_enabled: bool = True,
-    actor_id: Any = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        username = kwargs.get("username", "")
+        email = kwargs.get("email", "")
+        department = kwargs.get("department", "")
+        status = kwargs.get("status", "ACTIVE")
+        mfa_enabled = kwargs.get("mfa_enabled", True)
+
         if not username or not email or not department:
-            payload = {"error": "username, email, and department are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "username, email, and department are required"})
 
-        # Verify if the username is already taken
-        users = data.get("users", {}).values()
-        for user in users.values():
+        # Check if username already exists
+        users = data.get("users", [])
+        for user in users:
             if user.get("username") == username:
-                payload = {"error": f"username {username} already exists"}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"error": f"username {username} already exists"})
 
-        # Register a new user
+        # Create new user
         new_user = {
             "user_id": _next_id(data, "users", "U"),
             "username": username,
             "email": email,
             "department": department,
             "status": status,
-            "mfa_enabled": mfa_enabled,
+            "mfa_enabled": mfa_enabled
         }
 
-        table = data.setdefault("users", {})
-        key = f"{len(table)}"
-        table[key] = new_user
-        payload = {"ok": True, "user": new_user}
-        out = json.dumps(payload)
-        return out
+        data.setdefault("users", []).append(new_user)
+        return json.dumps({"ok": True, "user": new_user})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateUser",
+                "name": "create_user",
                 "description": "Create a new user account with deterministic ID generation.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "username": {
-                            "type": "string",
-                            "description": "Username (lowercase, no spaces).",
-                        },
-                        "email": {
-                            "type": "string",
-                            "description": "User email address.",
-                        },
-                        "department": {
-                            "type": "string",
-                            "description": "User department.",
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "User status.",
-                            "default": "ACTIVE",
-                        },
-                        "mfa_enabled": {
-                            "type": "boolean",
-                            "description": "Enable MFA for user.",
-                            "default": True,
-                        },
+                        "username": {"type": "string", "description": "Username (lowercase, no spaces)."},
+                        "email": {"type": "string", "description": "User email address."},
+                        "department": {"type": "string", "description": "User department."},
+                        "status": {"type": "string", "description": "User status.", "default": "ACTIVE"},
+                        "mfa_enabled": {"type": "boolean", "description": "Enable MFA for user.", "default": True}
                     },
                     "required": ["username", "email", "department"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
-
 
 class UpdateUser(Tool):
     """
-    Modify user details such as department, status, or name.
+    Update user information like department, status, or name.
 
-    Also accommodates name changes by allowing first_name and/or last_name to be provided separately,
-    which will deterministically adjust the username and corporate email following the
-    format:
+    Also supports name changes by accepting first_name and/or last_name independently,
+    which will deterministically update the username and corporate email using the
+    convention:
       - username: <first_initial><last_name> (lowercase, alphanumeric)
-      - email: <first_name>.<last_name>@sigmatech.com (lowercase, alphanumeric in local-part)
+      - email: <first_name>.<last_name>@taucorp.com (lowercase, alphanumeric in local-part)
 
     kwargs:
-      user_id: str (mandatory)
+      user_id: str (required)
       department: str (optional)
       status: str (optional)
       mfa_enabled: bool (optional)
-      first_name: str (optional; can be provided separately)
-      last_name: str (optional; can be provided separately)
+      first_name: str (optional; can be provided independently)
+      last_name: str (optional; can be provided independently)
     """
-
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        user_id: str = "",
-        department: str = None,
-        status: str = None,
-        mfa_enabled: bool = None,
-        first_name: str = None,
-        last_name: str = None
-,
-    updated_by: Any = None,
-    ) -> str:
-        if not user_id:
-            payload = {"error": "user_id is required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id", "")
+        department = kwargs.get("department")
+        status = kwargs.get("status")
+        mfa_enabled = kwargs.get("mfa_enabled")
+        first_name = kwargs.get("first_name")
+        last_name = kwargs.get("last_name")
 
-        # Locate the user
-        users = data.get("users", {}).values()
+        if not user_id:
+            return json.dumps({"error": "user_id is required"})
+
+        # Find the user
+        users = data.get("users", [])
         user_index = None
-        for i, user in enumerate(users.values()):
+        for i, user in enumerate(users):
             if user.get("user_id") == user_id:
                 user_index = i
                 break
 
         if user_index is None:
-            payload = {"error": f"user_id {user_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"user_id {user_id} not found"})
 
-        # Modify user details
+        # Update the user
         updated_user = dict(users[user_index])
         if department is not None:
             updated_user["department"] = department
@@ -207,19 +159,19 @@ class UpdateUser(Tool):
         if mfa_enabled is not None:
             updated_user["mfa_enabled"] = mfa_enabled
 
-        # Manage name changes by deterministically updating the username and email
+        # Handle name change -> update username and email deterministically
         if (first_name is not None) or (last_name is not None):
-            # Retrieve current user information to utilize existing name elements if not supplied
+            # Get current user data to use existing name components if not provided
             current_user = users[user_index]
             current_email = current_user.get("email", "")
 
-            # If the current email matches the format first.last@taucorp.com, derive names
-            if "@sigmatech.com" in current_email:
+            # If current email follows the pattern first.last@taucorp.com, extract names
+            if "@taucorp.com" in current_email:
                 local_part = current_email.split("@")[0]
                 if "." in local_part:
                     current_first, current_last = local_part.split(".", 1)
                 else:
-                    # Alternative: attempt to derive from username (first_initial + last_name)
+                    # Fallback: try to extract from username (first_initial + last_name)
                     current_username = current_user.get("username", "")
                     if len(current_username) >= 2:
                         current_first = current_username[0]
@@ -229,18 +181,14 @@ class UpdateUser(Tool):
             else:
                 current_first = current_last = ""
 
-            # Utilize supplied names or revert to existing names
+            # Use provided names or fall back to current names
             effective_first = first_name if first_name is not None else current_first
             effective_last = last_name if last_name is not None else current_last
 
             if not effective_first or not effective_last:
-                payload = {
-                    "error": "Cannot determine both first and last name for username/email generation"
-                }
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"error": "Cannot determine both first and last name for username/email generation"})
 
-            # Standardize names: use only lowercase alphanumeric characters for ID segments
+            # Normalize names: lowercase alphanumerics only for id parts
             def _norm(s: str) -> str:
                 s = (s or "").strip().lower()
                 return "".join(ch for ch in s if ch.isalnum())
@@ -248,135 +196,97 @@ class UpdateUser(Tool):
             fn = _norm(effective_first)
             ln = _norm(effective_last)
             if not fn or not ln:
-                payload = {
-                    "error": "first_name and last_name must contain at least one alphanumeric character"
-                }
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"error": "first_name and last_name must contain at least one alphanumeric character"})
 
             new_username = f"{fn[0]}{ln}"
             new_email_local = f"{fn}.{ln}"
-            new_email = f"{new_email_local}@sigmatech.com"
+            new_email = f"{new_email_local}@taucorp.com"
 
-            # Guarantee username uniqueness (excluding the current user)
-            for u in users.values():
+            # Ensure username uniqueness (excluding current user)
+            for u in users:
                 if u.get("user_id") == user_id:
                     continue
                 if str(u.get("username", "")).strip().lower() == new_username:
-                    payload = {"error": f"username {new_username} already exists"}
-                    out = json.dumps(payload)
-                    return out
+                    return json.dumps({"error": f"username {new_username} already exists"})
 
             updated_user["username"] = new_username
             updated_user["email"] = new_email
 
         data["users"][user_index] = updated_user
-        payload = {"ok": True, "user": updated_user}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"ok": True, "user": updated_user})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateUser",
+                "name": "update_user",
                 "description": "Update user information like department, status, or name.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "user_id": {
-                            "type": "string",
-                            "description": "User identifier (e.g., U-001).",
-                        },
-                        "department": {
-                            "type": "string",
-                            "description": "New department for the user.",
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "New status for the user.",
-                        },
-                        "mfa_enabled": {
-                            "type": "boolean",
-                            "description": "Enable/disable MFA for user.",
-                        },
-                        "first_name": {
-                            "type": "string",
-                            "description": "New legal first name (can be provided independently to update username/email).",
-                        },
-                        "last_name": {
-                            "type": "string",
-                            "description": "New legal last name (can be provided independently to update username/email).",
-                        },
+                        "user_id": {"type": "string", "description": "User identifier (e.g., U-001)."},
+                        "department": {"type": "string", "description": "New department for the user."},
+                        "status": {"type": "string", "description": "New status for the user."},
+                        "mfa_enabled": {"type": "boolean", "description": "Enable/disable MFA for user."},
+                        "first_name": {"type": "string", "description": "New legal first name (can be provided independently to update username/email)."},
+                        "last_name": {"type": "string", "description": "New legal last name (can be provided independently to update username/email)."}
                     },
                     "required": ["user_id"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
 
 
-#USER SEARCHES
+# USER LOOKUPS
 class GetUser(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        user_id: str = None,
-        username: str = None,
-        first_name: str = None,
-        last_name: str = None,
-        department: str = None,
-        status: str = None,
-        mfa_enabled: bool = None,
-        role_id: str = None,
-        allow_missing: bool = False
-    ) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        username = kwargs.get("username")
+        first_name = kwargs.get("first_name")
+        last_name = kwargs.get("last_name")
+        department = kwargs.get("department")
+        status = kwargs.get("status")
+        mfa_enabled = kwargs.get("mfa_enabled")
+        role_id = kwargs.get("role_id")
+        allow_missing = kwargs.get("allow_missing", False)
 
         def _not_found(msg: str) -> str:
-            pass
             if allow_missing:
-                payload = {"ok": True, "message": "User not found"}
-                out = json.dumps(payload)
-                return out
-            payload = {"error": msg}
-            out = json.dumps(payload)
-            return out
+                return json.dumps({"ok": True, "message": "User not found"})
+            return json.dumps({"error": msg})
 
-        # If user_id is given, perform a search using user_id
+        # If user_id is provided, search by user_id
         if user_id:
-            user = _find_by_id(data.get("users", {}).values(), "user_id", user_id)
-            return (
-                json.dumps(user) if user else _not_found(f"user_id {user_id} not found")
-            )
+            user = _find_by_id(data.get("users", []), "user_id", user_id)
+            return json.dumps(user) if user else _not_found(f"user_id {user_id} not found")
 
-        # If a username is supplied, conduct a search using the username
+        # If username is provided, search by username
         if username:
             username_lower = username.strip().lower()
-            for u in data.get("users", {}).values():
+            for u in data.get("users", []):
                 if u.get("username", "").lower() == username_lower:
-                    payload = u
-                    out = json.dumps(payload)
-                    return out
+                    return json.dumps(u)
             return _not_found(f"username {username} not found")
 
-        # If both first_name and last_name are given, create a username and search
+        # If first_name and last_name are provided, construct username and search
         if first_name and last_name:
             first_name_clean = first_name.strip().lower()
             last_name_clean = last_name.strip().lower()
             username_to_search = first_name_clean[0] + last_name_clean
-            for u in data.get("users", {}).values():
+            for u in data.get("users", []):
                 if u.get("username", "").lower() == username_to_search:
-                    payload = u
-                    out = json.dumps(payload)
-                    return out
+                    return json.dumps(u)
             return _not_found("User not found")
 
-        # If department or status is supplied (without a specific identifier), return a filtered list
+
+        # If department or status is provided (and no specific identifier), return filtered list
         if department or status or mfa_enabled is not None:
-            users = data.get("users", {}).values()
-            filtered: list[dict[str, Any]] = []
-            for u in users.values():
+            users = data.get("users", [])
+            filtered: List[Dict[str, Any]] = []
+            for u in users:
                 if department and u.get("department") != department:
                     continue
                 if status and u.get("status") != status:
@@ -385,192 +295,130 @@ class GetUser(Tool):
                     continue
                 filtered.append(u)
             if role_id:
-                user_roles = data.get("user_roles", {}).values()
-                user_ids_with_role = {
-                    ur.get("user_id")
-                    for ur in user_roles.values() if ur.get("role_id") == role_id
-                }
-                filtered = [
-                    u for u in filtered if u.get("user_id") in user_ids_with_role
-                ]
-            payload = {"ok": True, "users": filtered}
-            out = json.dumps(payload)
-            return out
+                user_roles = data.get("user_roles", [])
+                user_ids_with_role = {ur.get("user_id") for ur in user_roles if ur.get("role_id") == role_id}
+                filtered = [u for u in filtered if u.get("user_id") in user_ids_with_role]
+            return json.dumps({"ok": True, "users": filtered})
         if role_id:
-            user_roles = data.get("user_roles", {}).values()
-            user_ids_with_role = {
-                ur.get("user_id") for ur in user_roles.values() if ur.get("role_id") == role_id
-            }
-            users = [
-                u
-                for u in data.get("users", {}).values()
-                if u.get("user_id") in user_ids_with_role
-            ]
-            payload = {"ok": True, "users": users}
-            out = json.dumps(payload)
-            return out
-        payload = {
-            "error": "Must provide user_id, username, both first_name and last_name, role_id, or department/status filter"
-        }
-        out = json.dumps(payload)
-        return out
+            user_roles = data.get("user_roles", [])
+            user_ids_with_role = {ur.get("user_id") for ur in user_roles if ur.get("role_id") == role_id}
+            users = [u for u in data.get("users", []) if u.get("user_id") in user_ids_with_role]
+            return json.dumps({"ok": True, "users": users})
+        return json.dumps({"error": "Must provide user_id, username, both first_name and last_name, role_id, or department/status filter"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetUser",
+                "name": "get_user",
                 "description": "Fetch a single user by id/username/full name, or list users filtered by department, status, MFA, or role_id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "user_id": {
-                            "type": "string",
-                            "description": "User identifier (e.g., U-001).",
-                        },
-                        "username": {
-                            "type": "string",
-                            "description": "Username to search for.",
-                        },
-                        "first_name": {
-                            "type": "string",
-                            "description": "User first name (used with last_name).",
-                        },
-                        "last_name": {
-                            "type": "string",
-                            "description": "User last name (used with first_name).",
-                        },
-                        "department": {
-                            "type": "string",
-                            "description": "Filter by department (exact match).",
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "Filter by status (e.g., ACTIVE, SUSPENDED).",
-                        },
-                        "mfa_enabled": {
-                            "type": "boolean",
-                            "description": "Filter by MFA status (enabled/disabled).",
-                        },
-                        "role_id": {
-                            "type": "string",
-                            "description": "Filter users by having this role_id.",
-                        },
-                        "allow_missing": {
-                            "type": "boolean",
-                            "description": "If true, return {ok: True, message: 'User not found'} instead of an error when the user is not found.",
-                            "default": False,
-                        },
+                        "user_id": {"type": "string", "description": "User identifier (e.g., U-001)."},
+                        "username": {"type": "string", "description": "Username to search for."},
+                        "first_name": {"type": "string", "description": "User first name (used with last_name)."},
+                        "last_name": {"type": "string", "description": "User last name (used with first_name)."},
+                        "department": {"type": "string", "description": "Filter by department (exact match)."},
+                        "status": {"type": "string", "description": "Filter by status (e.g., ACTIVE, SUSPENDED)."},
+                        "mfa_enabled": {"type": "boolean", "description": "Filter by MFA status (enabled/disabled)."},
+                        "role_id": {"type": "string", "description": "Filter users by having this role_id."},
+                        "allow_missing": {"type": "boolean", "description": "If true, return {ok: True, message: 'User not found'} instead of an error when the user is not found.", "default": False}
                     },
                     "required": [],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
-
 
 class GetRole(Tool):
     """
-    Retrieve a role using role_id or role_name.
+    Fetch a role by role_id or role_name.
 
     kwargs:
-      role_id: str (optional) - Identifier for the role (e.g., ROL-001)
-      role_name: str (optional) - Readable name of the role (case-insensitive)
+      role_id: str (optional) - Role identifier (e.g., ROL-001)
+      role_name: str (optional) - Human-readable role name (case-insensitive)
 
-    Note: Supply either role_id OR role_name, not both.
+    Note: Provide either role_id OR role_name, not both.
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], role_id: str = None, role_name: str = None) -> str:
-        # Confirm that only one parameter is supplied
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        role_id = kwargs.get("role_id")
+        role_name = kwargs.get("role_name")
+
+        # Validate that exactly one parameter is provided
         if not role_id and not role_name:
-            payload = {"error": "Must provide either role_id or role_name"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Must provide either role_id or role_name"})
 
         if role_id and role_name:
-            payload = {"error": "Provide either role_id OR role_name, not both"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Provide either role_id OR role_name, not both"})
 
-        roles = data.get("roles", {}).values()
+        roles = data.get("roles", [])
 
-        # Perform a search using role_id
+        # Search by role_id
         if role_id:
             role = _find_by_id(roles, "role_id", role_id)
-            payload = role or {"error": f"role_id {role_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(role or {"error": f"role_id {role_id} not found"})
 
-        # Conduct a search using role_name (case-insensitive)
+        # Search by role_name (case-insensitive)
         if role_name:
             name_lower = role_name.strip().lower()
-            for r in roles.values():
+            for r in roles:
                 if str(r.get("role_name", "")).strip().lower() == name_lower:
-                    payload = r
-                    out = json.dumps(payload)
-                    return out
-            payload = {"error": f"role_name '{role_name}' not found"}
-            out = json.dumps(payload)
-            return out
-        payload = {"error": "Invalid parameters"}
-        out = json.dumps(payload)
-        return out
+                    return json.dumps(r)
+            return json.dumps({"error": f"role_name '{role_name}' not found"})
+
+        return json.dumps({"error": "Invalid parameters"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetRole",
+                "name": "get_role",
                 "description": "Fetch a role by role_id or role_name (case-insensitive match). Provide exactly one parameter.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "role_id": {
-                            "type": "string",
-                            "description": "Role identifier (e.g., ROL-001).",
-                        },
-                        "role_name": {
-                            "type": "string",
-                            "description": "Human-readable role name (case-insensitive).",
-                        },
+                        "role_id": {"type": "string", "description": "Role identifier (e.g., ROL-001)."},
+                        "role_name": {"type": "string", "description": "Human-readable role name (case-insensitive)."}
                     },
                     "required": [],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
-
 
 class UpdateRole(Tool):
     """
-    Modify any aspect of a role in roles.json.
+    Update any detail of a role in roles.json.
 
     kwargs:
-      role_id: str (mandatory)
+      role_id: str (required)
       role_name: str (optional)
       description: str (optional)
       is_temporary: bool (optional)
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], role_id: str = "", role_name: str = None, description: str = None, is_temporary: bool = None) -> str:
-        if not role_id:
-            payload = {"error": "role_id is required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        role_id = kwargs.get("role_id", "")
+        role_name = kwargs.get("role_name")
+        description = kwargs.get("description")
+        is_temporary = kwargs.get("is_temporary")
 
-        roles = data.get("roles", {}).values()
+        if not role_id:
+            return json.dumps({"error": "role_id is required"})
+
+        roles = data.get("roles", [])
         role_index = None
-        for i, role in enumerate(roles.values()):
+        for i, role in enumerate(roles):
             if role.get("role_id") == role_id:
                 role_index = i
                 break
 
         if role_index is None:
-            payload = {"error": f"role_id {role_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"role_id {role_id} not found"})
 
         updated_role = dict(roles[role_index])
         if role_name is not None:
@@ -581,167 +429,124 @@ class UpdateRole(Tool):
             updated_role["is_temporary"] = is_temporary
 
         data["roles"][role_index] = updated_role
-        payload = {"ok": True, "role": updated_role}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"ok": True, "role": updated_role})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateRole",
+                "name": "update_role",
                 "description": "Update any detail of a role in roles.json.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "role_id": {
-                            "type": "string",
-                            "description": "Role identifier (e.g., ROL-001).",
-                        },
-                        "role_name": {
-                            "type": "string",
-                            "description": "New role name (optional).",
-                        },
-                        "description": {
-                            "type": "string",
-                            "description": "New description (optional).",
-                        },
-                        "is_temporary": {
-                            "type": "boolean",
-                            "description": "Set if role is temporary (optional).",
-                        },
+                        "role_id": {"type": "string", "description": "Role identifier (e.g., ROL-001)."},
+                        "role_name": {"type": "string", "description": "New role name (optional)."},
+                        "description": {"type": "string", "description": "New description (optional)."},
+                        "is_temporary": {"type": "boolean", "description": "Set if role is temporary (optional)."}
                     },
                     "required": ["role_id"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
-
 
 class GetUserRoles(Tool):
     """
-    Provides the user's role assignments with optional extensions and filtering.
+    Returns the user's role assignments with optional expansion and filtering.
 
     kwargs:
-      user_id: str (mandatory)
+      user_id: str (required)
       only_active: bool = True (exclude expired assignments)
-      on_date: str ISO-8601 (defaults to now)
+      on_date: str ISO-8601 (defaults now)
       include_role_details: bool = False
       include_permissions: bool = False
-      flatten_permissions: bool = False (if True, returns a list of permissions in a set-like format)
+      flatten_permissions: bool = False (if True, returns a set-like list of permissions)
     """
-
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        user_id: str = "",
-        only_active: bool = False,
-        on_date: str = None,
-        include_role_details: bool = False
-    ) -> str:
-        on_date_iso = on_date or get_current_timestamp()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id", "")
+        only_active = kwargs.get("only_active", False)
+        on_date_iso = kwargs.get("on_date") or get_current_timestamp()
         on_dt = _parse_iso(on_date_iso) or datetime.now(tz=timezone.utc)
 
-        assignments = [
-            ur for ur in data.get("user_roles", {}).values() if ur.get("user_id") == user_id
-        ]
+        include_role_details = kwargs.get("include_role_details", False)
 
-        def is_active(ur: dict[str, Any]) -> bool:
+        assignments = [ur for ur in data.get("user_roles", []) if ur.get("user_id") == user_id]
+
+        def is_active(ur: Dict[str, Any]) -> bool:
             exp = _parse_iso(ur.get("expires_on"))
             return (exp is None) or (exp > on_dt)
 
         if only_active:
-            assignments = [ur for ur in assignments.values() if is_active(ur)]
+            assignments = [ur for ur in assignments if is_active(ur)]
 
-        # Construct a role mapping
-        role_map = {r["role_id"]: r for r in data.get("roles", {}).values() if "role_id" in r}
+        # Build role map
+        role_map = {r["role_id"]: r for r in data.get("roles", []) if "role_id" in r}
         out = []
 
-        for ur in assignments.values():
+        for ur in assignments:
             entry = {"role_id": ur.get("role_id")}
             if include_role_details:
-                entry["role_name"] = role_map.get(ur.get("role_id"), {}).values().get(
-                    "role_name"
-                )
-                entry["description"] = role_map.get(ur.get("role_id"), {}).values().get(
-                    "description"
-                )
+                entry["role_name"] = role_map.get(ur.get("role_id"), {}).get("role_name")
+                entry["description"] = role_map.get(ur.get("role_id"), {}).get("description")
 
             out.append(entry)
 
-        payload = {"user_id": user_id, "assignments": out}
-        out = json.dumps(payload)
-        return out
+        if include_role_details:
+            return json.dumps({"user_id": user_id, "assignments": out})
+
+        return json.dumps({"user_id": user_id, "assignments": out})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetUserRoles",
+                "name": "get_user_roles",
                 "description": "List a user's role assignments with optional role and permission expansion.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "user_id": {
-                            "type": "string",
-                            "description": "Target user_id (e.g., U-001).",
-                        },
-                        "only_active": {
-                            "type": "boolean",
-                            "description": "Exclude expired assignments.",
-                            "default": False,
-                        },
-                        "on_date": {
-                            "type": "string",
-                            "description": "ISO-8601 timestamp to evaluate expiry against.",
-                        },
-                        "include_role_details": {
-                            "type": "boolean",
-                            "description": "Include role records in output.",
-                        },
-                        "include_permissions": {
-                            "type": "boolean",
-                            "description": "Include permissions per role.",
-                        },
-                        "flatten_permissions": {
-                            "type": "boolean",
-                            "description": "Return de-duplicated effective permissions.",
-                        },
+                        "user_id": {"type": "string", "description": "Target user_id (e.g., U-001)."},
+                        "only_active": {"type": "boolean", "description": "Exclude expired assignments.", "default": False},
+                        "on_date": {"type": "string", "description": "ISO-8601 timestamp to evaluate expiry against."},
+                        "include_role_details": {"type": "boolean", "description": "Include role records in output."},
+                        "include_permissions": {"type": "boolean", "description": "Include permissions per role."},
+                        "flatten_permissions": {"type": "boolean", "description": "Return de-duplicated effective permissions."}
                     },
                     "required": ["user_id"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
 
 
-#ROLE ESTABLISHMENT
+# ROLE CREATION
 class CreateRole(Tool):
     """
-    Establish a new role with consistent ID generation.
+    Create a new role with deterministic ID generation.
 
     kwargs:
-      role_name: str (mandatory)
-      description: str (mandatory)
+      role_name: str (required)
+      description: str (required)
       is_temporary: bool = False (optional)
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], role_name: str = "", description: str = "", is_temporary: bool = False) -> str:
-        role_name = role_name.strip()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        role_name = (kwargs.get("role_name", "") or "").strip()
+        description = kwargs.get("description", "")
+        is_temporary = kwargs.get("is_temporary", False)
 
         if not role_name or not description:
-            payload = {"error": "role_name and description are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "role_name and description are required"})
 
-        # Ensure uniqueness based on role_name (case-insensitive)
-        existing_roles = data.get("roles", {}).values()
-        for r in existing_roles.values():
+        # Enforce uniqueness by role_name (case-insensitive)
+        existing_roles = data.get("roles", [])
+        for r in existing_roles:
             if str(r.get("role_name", "")).strip().lower() == role_name.lower():
-                payload = {"error": f"role_name '{role_name}' already exists"}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"error": f"role_name '{role_name}' already exists"})
 
         new_role = {
             "role_id": _next_id(data, "roles", "ROL"),
@@ -750,218 +555,168 @@ class CreateRole(Tool):
             "is_temporary": bool(is_temporary),
         }
 
-        table = data.setdefault("roles", {})
-        key = f"{len(table)}"
-        table[key] = new_role
-        payload = {"ok": True, "role": new_role}
-        out = json.dumps(payload)
-        return out
+        data.setdefault("roles", []).append(new_role)
+        return json.dumps({"ok": True, "role": new_role})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateRole",
+                "name": "create_role",
                 "description": "Create a new role with deterministic ID generation.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "role_name": {
-                            "type": "string",
-                            "description": "Unique role name (case-insensitive).",
-                        },
-                        "description": {
-                            "type": "string",
-                            "description": "Role description.",
-                        },
-                        "is_temporary": {
-                            "type": "boolean",
-                            "description": "Whether the role is temporary.",
-                            "default": False,
-                        },
+                        "role_name": {"type": "string", "description": "Unique role name (case-insensitive)."},
+                        "description": {"type": "string", "description": "Role description."},
+                        "is_temporary": {"type": "boolean", "description": "Whether the role is temporary.", "default": False}
                     },
                     "required": ["role_name", "description"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
 
 
 class IsAdmin(Tool):
     """
-    Assess if a user possesses administrator privileges based on their active roles.
+    Determine if a user has administrator privileges based on active roles.
 
-    Administrator roles are those whose role_name concludes with 'admin' or 'lead' (case-insensitive).
+    Admin roles are those whose role_name ends with 'admin' or 'lead' (case-insensitive).
 
     kwargs:
-      user_id: str (mandatory)
+      user_id: str (required)
       on_date: str ISO (optional; defaults to now)
       include_role_details: bool = False (optional)
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = "", on_date: str = None, include_role_details: bool = False) -> str:
-        on_date_iso = on_date or get_current_timestamp()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id", "")
+        on_date_iso = kwargs.get("on_date") or get_current_timestamp()
+        include_role_details = kwargs.get("include_role_details", False)
 
         if not user_id:
-            payload = {"error": "user_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "user_id is required"})
 
-        # Confirm the existence of the user
-        if not _find_by_id(data.get("users", {}).values(), "user_id", user_id):
-            payload = {"error": f"user_id {user_id} not found"}
-            out = json.dumps(payload)
-            return out
+        # Validate user exists
+        if not _find_by_id(data.get("users", []), "user_id", user_id):
+            return json.dumps({"error": f"user_id {user_id} not found"})
 
         if user_id == "U-031" or user_id == "U-032" or user_id == "U-033":
-            payload = {"ok": True, "user_id": user_id, "IsAdmin": True, "admin_roles": []}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({
+                "ok": True,
+                "user_id": user_id,
+                "is_admin": True,
+                "admin_roles": []
+            })
 
         on_dt = _parse_iso(on_date_iso) or datetime.now(tz=timezone.utc)
 
-        def is_active(ur: dict[str, Any]) -> bool:
+        def is_active(ur: Dict[str, Any]) -> bool:
             exp = _parse_iso(ur.get("expires_on"))
             return (exp is None) or (exp > on_dt)
 
-        # Current assignments for the user
+        # Active assignments for user
         assignments = [
-            ur
-            for ur in data.get("user_roles", {}).values()
+            ur for ur in data.get("user_roles", [])
             if ur.get("user_id") == user_id and is_active(ur)
         ]
 
-        role_map = {r.get("role_id"): r for r in data.get("roles", {}).values()}
+        role_map = {r.get("role_id"): r for r in data.get("roles", [])}
 
-        admin_role_ids: list[str] = []
-        for ur in assignments.values():
+        admin_role_ids: List[str] = []
+        for ur in assignments:
             rid = ur.get("role_id")
             role = role_map.get(rid) or {}
             name = str(role.get("role_name", "")).strip().lower()
             if name.endswith("admin") or name.endswith("lead"):
-                admin_role_ids[rid] = rid
+                admin_role_ids.append(rid)
 
         if include_role_details:
-            admin_roles_out: list[dict[str, Any]] = []
+            admin_roles_out: List[Dict[str, Any]] = []
             for rid in admin_role_ids:
-                r = role_map.get(rid, {}).values()
-                admin_roles_out.append(
-                    {
-                        "role_id": rid,
-                        "role_name": r.get("role_name"),
-                        "description": r.get("description"),
-                    }
-                )
-            payload = {
+                r = role_map.get(rid, {})
+                admin_roles_out.append({
+                    "role_id": rid,
+                    "role_name": r.get("role_name"),
+                    "description": r.get("description")
+                })
+            return json.dumps({
                 "ok": True,
                 "user_id": user_id,
-                "IsAdmin": len(admin_roles_out) > 0,
-                "admin_roles": admin_roles_out,
-            }
-            out = json.dumps(payload)
-            return out
-        payload = {
+                "is_admin": len(admin_roles_out) > 0,
+                "admin_roles": admin_roles_out
+            })
+
+        return json.dumps({
             "ok": True,
             "user_id": user_id,
-            "IsAdmin": len(admin_role_ids) > 0,
-            "admin_roles": admin_role_ids,
-        }
-        out = json.dumps(payload)
-        return out
+            "is_admin": len(admin_role_ids) > 0,
+            "admin_roles": admin_role_ids
+        })
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "IsAdmin",
+                "name": "is_admin",
                 "description": "Determine if a user has admin privileges (roles ending with 'admin' or 'lead') based on active roles.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "user_id": {
-                            "type": "string",
-                            "description": "Target user_id (e.g., U-001).",
-                        },
-                        "on_date": {
-                            "type": "string",
-                            "description": "ISO timestamp to evaluate expiry against (optional).",
-                        },
-                        "include_role_details": {
-                            "type": "boolean",
-                            "description": "Include role_name and description for admin roles.",
-                            "default": False,
-                        },
+                        "user_id": {"type": "string", "description": "Target user_id (e.g., U-001)."},
+                        "on_date": {"type": "string", "description": "ISO timestamp to evaluate expiry against (optional)."},
+                        "include_role_details": {"type": "boolean", "description": "Include role_name and description for admin roles.", "default": False}
                     },
                     "required": ["user_id"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
 
-
-#ASSETS
+# RESOURCES
 class CreateResource(Tool):
     """
-    Establish a new resource with consistent ID generation.
+    Create a new resource with deterministic ID generation.
 
     kwargs:
-      name: str (mandatory)
-      owner_id: str (mandatory)
-      criticality: str (mandatory) - CRITICAL, HIGH, MEDIUM, LOW
+      name: str (required)
+      owner_id: str (required)
+      criticality: str (required) - CRITICAL, HIGH, MEDIUM, LOW
       compliance_scope: str (optional) - ISO-27001, GDPR, SOX, PCI-DSS, ALL, or null
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], name: str = "", owner_id: str = "", criticality: str = "", compliance_scope: str = None) -> str:
-        name = name.strip()
-        owner_id = owner_id.strip()
-        criticality = criticality.strip().upper()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name = (kwargs.get("name", "") or "").strip()
+        owner_id = (kwargs.get("owner_id", "") or "").strip()
+        criticality = (kwargs.get("criticality", "") or "").strip().upper()
+        compliance_scope = kwargs.get("compliance_scope")
 
         if not name or not owner_id or not criticality:
-            payload = {"error": "name, owner_id, and criticality are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "name, owner_id, and criticality are required"})
 
-        # Confirm criticality
+        # Validate criticality
         valid_criticalities = ["CRITICAL", "HIGH", "MEDIUM", "LOW"]
         if criticality not in valid_criticalities:
-            payload = {
-                "error": f"criticality must be one of: {', '.join(valid_criticalities)}"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"criticality must be one of: {', '.join(valid_criticalities)}"})
 
-        # Check compliance_scope if it is supplied
+        # Validate compliance_scope if provided
         if compliance_scope is not None:
-            valid_compliance_scopes = [
-                "ISO-27001",
-                "GDPR",
-                "SOX",
-                "PCI-DSS",
-                "ALL",
-                "All",
-            ]
+            valid_compliance_scopes = ["ISO-27001", "GDPR", "SOX", "PCI-DSS", "ALL", "All"]
             if compliance_scope not in valid_compliance_scopes:
-                payload = {
-                    "error": f"compliance_scope must be one of: {', '.join(valid_compliance_scopes)} or null"
-                }
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"error": f"compliance_scope must be one of: {', '.join(valid_compliance_scopes)} or null"})
 
-        # Confirm the existence of the owner
-        if not _find_by_id(data.get("users", {}).values(), "user_id", owner_id):
-            payload = {"error": f"owner_id {owner_id} not found"}
-            out = json.dumps(payload)
-            return out
+        # Validate owner exists
+        if not _find_by_id(data.get("users", []), "user_id", owner_id):
+            return json.dumps({"error": f"owner_id {owner_id} not found"})
 
-        # Ensure uniqueness based on name (case-insensitive)
-        existing_resources = data.get("resources", {}).values()
-        for r in existing_resources.values():
+        # Enforce uniqueness by name (case-insensitive)
+        existing_resources = data.get("resources", [])
+        for r in existing_resources:
             if str(r.get("name", "")).strip().lower() == name.lower():
-                payload = {"error": f"resource name '{name}' already exists"}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"error": f"resource name '{name}' already exists"})
 
         new_resource = {
             "resource_id": _next_id(data, "resources", "RES"),
@@ -971,59 +726,33 @@ class CreateResource(Tool):
             "compliance_scope": compliance_scope,
         }
 
-        table = data.setdefault("resources", {})
-        key = f"{len(table)}"
-        table[key] = new_resource
-        payload = {"ok": True, "resource": new_resource}
-        out = json.dumps(payload)
-        return out
+        data.setdefault("resources", []).append(new_resource)
+        return json.dumps({"ok": True, "resource": new_resource})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateResource",
+                "name": "create_resource",
                 "description": "Create a new resource with deterministic ID generation.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "name": {
-                            "type": "string",
-                            "description": "Unique resource name (case-insensitive).",
-                        },
-                        "owner_id": {
-                            "type": "string",
-                            "description": "User ID of the resource owner.",
-                        },
-                        "criticality": {
-                            "type": "string",
-                            "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW"],
-                            "description": "Resource criticality level.",
-                        },
-                        "compliance_scope": {
-                            "type": ["string", "null"],
-                            "description": "Compliance scope (ISO-27001, GDPR, SOX, PCI-DSS, ALL) or null.",
-                            "enum": [
-                                "ISO-27001",
-                                "GDPR",
-                                "SOX",
-                                "PCI-DSS",
-                                "ALL",
-                                "All",
-                                None,
-                            ],
-                        },
+                        "name": {"type": "string", "description": "Unique resource name (case-insensitive)."},
+                        "owner_id": {"type": "string", "description": "User ID of the resource owner."},
+                        "criticality": {"type": "string", "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW"], "description": "Resource criticality level."},
+                        "compliance_scope": {"type": ["string", "null"], "description": "Compliance scope (ISO-27001, GDPR, SOX, PCI-DSS, ALL) or null.", "enum": ["ISO-27001", "GDPR", "SOX", "PCI-DSS", "ALL", "All", None]}
                     },
                     "required": ["name", "owner_id", "criticality"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
-
 
 class GetResource(Tool):
     """
-    Retrieve resources based on ID, name, owner, criticality, or compliance scope.
+    Retrieve resources by ID, name, owner, criticality, or compliance scope.
 
     kwargs:
       resource_id: str (optional) - Specific resource ID to retrieve
@@ -1032,129 +761,102 @@ class GetResource(Tool):
       criticality: str (optional) - Filter by criticality (CRITICAL, HIGH, MEDIUM, LOW)
       compliance_scope: str (optional) - Filter by compliance scope (ISO-27001, GDPR, SOX, PCI-DSS, ALL)
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], resource_id: str = None, name: str = None, owner_id: str = None, criticality: str = None, compliance_scope: str = None) -> str:
-        resources = data.get("resources", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        resource_id = kwargs.get("resource_id")
+        name = kwargs.get("name")
+        owner_id = kwargs.get("owner_id")
+        criticality = kwargs.get("criticality")
+        compliance_scope = kwargs.get("compliance_scope")
 
-        # If resource_id is given, return the specific resource
+        resources = data.get("resources", [])
+
+        # If resource_id is provided, return single resource
         if resource_id:
             resource = _find_by_id(resources, "resource_id", resource_id)
             if not resource:
-                payload = {"error": f"resource_id {resource_id} not found"}
-                out = json.dumps(payload)
-                return out
-            payload = {"ok": True, "resource": resource}
-            out = json.dumps(payload)
-            return out
+                return json.dumps({"error": f"resource_id {resource_id} not found"})
+            return json.dumps({"ok": True, "resource": resource})
 
-        # Narrow down resources according to the supplied criteria
+        # Filter resources based on provided criteria
         filtered_resources = []
-        for resource in resources.values():
-            # Narrow down by name
+        for resource in resources:
+            # Filter by name
             if name and name not in resource.get("name", ""):
                 continue
-            # Narrow down by owner_id if supplied
+            # Filter by owner_id if provided
             if owner_id and resource.get("owner_id") != owner_id:
                 continue
-            # Narrow down by criticality if supplied
+            # Filter by criticality if provided
             if criticality and resource.get("criticality") != criticality:
                 continue
-            # Narrow down by compliance_scope if supplied (manage null values)
+            # Filter by compliance_scope if provided (handle null values)
             if compliance_scope:
                 resource_scope = resource.get("compliance_scope")
                 if resource_scope != compliance_scope:
                     continue
-            filtered_data["resources"][resource_id] = resource
-        payload = {"ok": True, "resources": filtered_resources}
-        out = json.dumps(payload)
-        return out
+            filtered_resources.append(resource)
+
+        return json.dumps({"ok": True, "resources": filtered_resources})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetResource",
+                "name": "get_resource",
                 "description": "Retrieve resources by ID, name, owner, criticality, or compliance scope.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "resource_id": {
-                            "type": "string",
-                            "description": "Specific resource ID to retrieve.",
-                        },
-                        "name": {
-                            "type": "string",
-                            "description": "Filter by resource name (partial match).",
-                        },
-                        "owner_id": {
-                            "type": "string",
-                            "description": "Filter by resource owner ID.",
-                        },
-                        "criticality": {
-                            "type": "string",
-                            "description": "Filter by criticality (CRITICAL, HIGH, MEDIUM, LOW).",
-                        },
-                        "compliance_scope": {
-                            "type": "string",
-                            "description": "Filter by compliance scope (ISO-27001, GDPR, SOX, PCI-DSS, ALL).",
-                        },
+                        "resource_id": {"type": "string", "description": "Specific resource ID to retrieve."},
+                        "name": {"type": "string", "description": "Filter by resource name (partial match)."},
+                        "owner_id": {"type": "string", "description": "Filter by resource owner ID."},
+                        "criticality": {"type": "string", "description": "Filter by criticality (CRITICAL, HIGH, MEDIUM, LOW)."},
+                        "compliance_scope": {"type": "string", "description": "Filter by compliance scope (ISO-27001, GDPR, SOX, PCI-DSS, ALL)."}
                     },
                     "required": [],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
-
 
 class ListUsersWithAccessToResource(Tool):
     """
-    Identify users who effectively possess any permission on a specified resource_id through their role assignments.
+    Compute users who effectively have any permission on a given resource_id via their role assignments.
 
     kwargs:
-      resource_id: str (mandatory)
+      resource_id: str (required)
       only_active: bool = True
-      on_date: str ISO (defaults to now)
+      on_date: str ISO (defaults now)
       include_user_details: bool = False
       include_role_details: bool = False
     """
-
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        resource_id: str = "",
-        only_active: bool = True,
-        on_date: str = None,
-        include_user_details: bool = False,
-        include_role_details: bool = False
-    ) -> str:
-        on_date_iso = on_date or get_current_timestamp()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        resource_id = kwargs.get("resource_id", "")
+        only_active = kwargs.get("only_active", True)
+        on_date_iso = kwargs.get("on_date") or get_current_timestamp()
         on_dt = _parse_iso(on_date_iso) or datetime.now(tz=timezone.utc)
+        include_user_details = kwargs.get("include_user_details", False)
+        include_role_details = kwargs.get("include_role_details", False)
 
-        # Construct mappings for permissions and roles
-        perms = [
-            p
-            for p in data.get("permissions", {}).values()
-            if p.get("resource_id") == resource_id
-        ]
+        # Build permission and role mappings
+        perms = [p for p in data.get("permissions", []) if p.get("resource_id") == resource_id]
         perm_ids = {p.get("permission_id") for p in perms if p.get("permission_id")}
-        role_ids = {
-            rp.get("role_id")
-            for rp in data.get("role_permissions", {}).values()
-            if rp.get("permission_id") in perm_ids
-        }
+        role_ids = {rp.get("role_id") for rp in data.get("role_permissions", []) if rp.get("permission_id") in perm_ids}
 
-        # Create utility functions
-        user_map = {u.get("user_id"): u for u in data.get("users", {}).values()}
-        role_map = {r.get("role_id"): r for r in data.get("roles", {}).values()}
+        # Build helpers
+        user_map = {u.get("user_id"): u for u in data.get("users", [])}
+        role_map = {r.get("role_id"): r for r in data.get("roles", [])}
 
-        def is_active(ur: dict[str, Any]) -> bool:
+        def is_active(ur: Dict[str, Any]) -> bool:
             exp = _parse_iso(ur.get("expires_on"))
             return (exp is None) or (exp > on_dt)
 
-        # Collect users with corresponding roles
-        acc: dict[str, dict[str, Any]] = {}
-        for ur in data.get("user_roles", {}).values():
+        # Aggregate users with matching roles
+        acc: Dict[str, Dict[str, Any]] = {}
+        for ur in data.get("user_roles", []):
             if ur.get("role_id") in role_ids and (not only_active or is_active(ur)):
                 uid = ur.get("user_id")
                 if uid not in acc:
@@ -1163,156 +865,120 @@ class ListUsersWithAccessToResource(Tool):
                         u = user_map.get(uid)
                         if u:
                             acc[uid]["user"] = u
-                rinfo: dict[str, Any] = {"role_id": ur.get("role_id")}
+                rinfo: Dict[str, Any] = {"role_id": ur.get("role_id")}
                 if include_role_details:
                     r = role_map.get(ur.get("role_id"))
                     if r:
                         rinfo["role_name"] = r.get("role_name")
                         rinfo["description"] = r.get("description")
                 acc[uid]["roles"].append(rinfo)
-        payload = {"resource_id": resource_id, "users": list(acc.values())}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"resource_id": resource_id, "users": list(acc.values())})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListUsersWithAccessToResource",
+                "name": "list_users_with_access_to_resource",
                 "description": "List users who have any permissions on the given resource via role assignments.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "resource_id": {
-                            "type": "string",
-                            "description": "Resource id (e.g., RES-006).",
-                        },
-                        "only_active": {
-                            "type": "boolean",
-                            "description": "Exclude expired assignments.",
-                            "default": True,
-                        },
-                        "on_date": {
-                            "type": "string",
-                            "description": "ISO timestamp to evaluate expiry against.",
-                        },
-                        "include_user_details": {
-                            "type": "boolean",
-                            "description": "Include user records.",
-                        },
-                        "include_role_details": {
-                            "type": "boolean",
-                            "description": "Include role records for each user's roles.",
-                        },
+                        "resource_id": {"type": "string", "description": "Resource id (e.g., RES-006)."},
+                        "only_active": {"type": "boolean", "description": "Exclude expired assignments.", "default": True},
+                        "on_date": {"type": "string", "description": "ISO timestamp to evaluate expiry against."},
+                        "include_user_details": {"type": "boolean", "description": "Include user records."},
+                        "include_role_details": {"type": "boolean", "description": "Include role records for each user's roles."}
                     },
                     "required": ["resource_id"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
-
 
 class CanAccessResource(Tool):
     """
-    Verify if a user can access a specific resource by tracing the permission chain:
-    1. Retrieve all permissions for the resource
-    2. Retrieve all roles that possess those permissions
-    3. Confirm if the user holds any of those roles (considering expiration)
+    Check if a user can access a specific resource by following the permission chain:
+    1. Get all permissions for the resource
+    2. Get all roles that have those permissions
+    3. Check if the user has any of those roles (considering expiry)
 
     kwargs:
-      user_id: str (mandatory)
-      resource_id: str (mandatory)
+      user_id: str (required)
+      resource_id: str (required)
       on_date: str ISO (optional; defaults to now)
-      include_details: bool = False (include which permissions/roles provide access)
+      include_details: bool = False (include which permissions/roles grant access)
     """
-
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        user_id: str = "",
-        resource_id: str = "",
-        on_date: str = None,
-        include_details: bool = False
-    ) -> str:
-        pass
-        on_date_iso = on_date or get_current_timestamp()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id", "")
+        resource_id = kwargs.get("resource_id", "")
+        on_date_iso = kwargs.get("on_date") or get_current_timestamp()
+        include_details = kwargs.get("include_details", False)
 
         if not user_id or not resource_id:
-            payload = {"error": "user_id and resource_id are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "user_id and resource_id are required"})
 
-        # Confirm the user is present
-        if not _find_by_id(data.get("users", {}).values(), "user_id", user_id):
-            payload = {"error": f"user_id {user_id} not found"}
-            out = json.dumps(payload)
-            return out
+        # Validate user exists
+        if not _find_by_id(data.get("users", []), "user_id", user_id):
+            return json.dumps({"error": f"user_id {user_id} not found"})
 
-        # Confirm the resource is present
-        if not _find_by_id(data.get("resources", {}).values(), "resource_id", resource_id):
-            payload = {"error": f"resource_id {resource_id} not found"}
-            out = json.dumps(payload)
-            return out
+        # Validate resource exists
+        if not _find_by_id(data.get("resources", []), "resource_id", resource_id):
+            return json.dumps({"error": f"resource_id {resource_id} not found"})
 
         on_dt = _parse_iso(on_date_iso) or datetime.now(tz=timezone.utc)
 
-        def is_active(ur: dict[str, Any]) -> bool:
-            pass
+        def is_active(ur: Dict[str, Any]) -> bool:
             exp = _parse_iso(ur.get("expires_on"))
             return (exp is None) or (exp > on_dt)
 
-        # Step 1: Retrieve all permissions associated with the resource
+        # Step 1: Get all permissions for the resource
         resource_permissions = [
-            p
-            for p in data.get("permissions", {}).values()
+            p for p in data.get("permissions", [])
             if p.get("resource_id") == resource_id
         ]
 
         if not resource_permissions:
-            payload = {
+            return json.dumps({
                 "ok": True,
                 "user_id": user_id,
                 "resource_id": resource_id,
                 "can_access": False,
                 "reason": "No permissions defined for this resource",
-                "checked_on": on_date_iso,
-            }
-            out = json.dumps(payload)
-            return out
+                "checked_on": on_date_iso
+            })
 
         resource_permission_ids = {p.get("permission_id") for p in resource_permissions}
 
-        # Step 2: Retrieve all roles that possess those permissions
+        # Step 2: Get all roles that have those permissions
         roles_with_permissions = [
-            rp
-            for rp in data.get("role_permissions", {}).values()
+            rp for rp in data.get("role_permissions", [])
             if rp.get("permission_id") in resource_permission_ids
         ]
 
         if not roles_with_permissions:
-            payload = {
+            return json.dumps({
                 "ok": True,
                 "user_id": user_id,
                 "resource_id": resource_id,
                 "can_access": False,
                 "reason": "No roles have permissions for this resource",
-                "checked_on": on_date_iso,
-            }
-            out = json.dumps(payload)
-            return out
+                "checked_on": on_date_iso
+            })
 
         role_ids_with_access = {rp.get("role_id") for rp in roles_with_permissions}
 
-        # Step 3: Verify if the user holds any of those roles (and they are active)
+        # Step 3: Check if user has any of those roles (and they're active)
         user_assignments = [
-            ur
-            for ur in data.get("user_roles", {}).values()
+            ur for ur in data.get("user_roles", [])
             if ur.get("user_id") == user_id and is_active(ur)
         ]
 
         active_user_role_ids = {ur.get("role_id") for ur in user_assignments}
 
-        # Identify the overlap - roles that provide access AND that the user possesses
+        # Find intersection - roles that grant access AND user has
         granting_role_ids = role_ids_with_access.intersection(active_user_role_ids)
 
         can_access = len(granting_role_ids) > 0
@@ -1322,566 +988,412 @@ class CanAccessResource(Tool):
             "user_id": user_id,
             "resource_id": resource_id,
             "can_access": can_access,
-            "checked_on": on_date_iso,
+            "checked_on": on_date_iso
         }
 
         if include_details:
-            # Create a comprehensive breakdown
-            role_map = {r.get("role_id"): r for r in data.get("roles", {}).values()}
-            permission_map = {
-                p.get("permission_id"): p for p in data.get("permissions", {}).values()
-            }
+            # Build detailed breakdown
+            role_map = {r.get("role_id"): r for r in data.get("roles", [])}
+            permission_map = {p.get("permission_id"): p for p in data.get("permissions", [])}
 
-            # Identify which permissions are assigned by the roles held by the user
+            # Map which permissions are granted by which roles the user has
             granting_details = []
             for role_id in granting_role_ids:
-                role = role_map.get(role_id, {}).values()
+                role = role_map.get(role_id, {})
 
-                # Determine which permissions this role grants for the specified resource
+                # Find which permissions this role provides for this resource
                 role_permissions_for_resource = [
-                    rp.get("permission_id")
-                    for rp in roles_with_permissions
+                    rp.get("permission_id") for rp in roles_with_permissions
                     if rp.get("role_id") == role_id
                 ]
 
                 permissions_detail = []
                 for perm_id in role_permissions_for_resource:
-                    perm = permission_map.get(perm_id, {}).values()
-                    permissions_detail.append(
-                        {
-                            "permission_id": perm_id,
-                            "action": perm.get("action"),
-                            "description": perm.get("description"),
-                        }
-                    )
+                    perm = permission_map.get(perm_id, {})
+                    permissions_detail.append({
+                        "permission_id": perm_id,
+                        "action": perm.get("action"),
+                        "description": perm.get("description")
+                    })
 
-                granting_details.append(
-                    {
-                        "role_id": role_id,
-                        "role_name": role.get("role_name"),
-                        "role_description": role.get("description"),
-                        "permissions": permissions_detail,
-                    }
-                )
+                granting_details.append({
+                    "role_id": role_id,
+                    "role_name": role.get("role_name"),
+                    "role_description": role.get("description"),
+                    "permissions": permissions_detail
+                })
 
             result["access_details"] = {
                 "granting_roles_count": len(granting_role_ids),
                 "total_resource_permissions": len(resource_permissions),
                 "total_roles_with_access": len(role_ids_with_access),
                 "user_active_roles": len(active_user_role_ids),
-                "granting_roles": granting_details,
+                "granting_roles": granting_details
             }
 
         if not can_access:
-            result["reason"] = (
-                "User does not have any active roles that grant access to this resource"
-            )
-        payload = result
-        out = json.dumps(payload)
-        return out
+            result["reason"] = "User does not have any active roles that grant access to this resource"
+
+        return json.dumps(result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CanAccessResource",
+                "name": "can_access_resource",
                 "description": "Check if a user can access a specific resource by following the permission → role → user assignment chain.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "user_id": {
-                            "type": "string",
-                            "description": "Target user_id (e.g., U-001).",
-                        },
-                        "resource_id": {
-                            "type": "string",
-                            "description": "Target resource_id (e.g., RES-020).",
-                        },
-                        "on_date": {
-                            "type": "string",
-                            "description": "ISO timestamp to evaluate role assignments against (optional).",
-                        },
-                        "include_details": {
-                            "type": "boolean",
-                            "description": "Include detailed breakdown of which roles/permissions grant access.",
-                            "default": False,
-                        },
+                        "user_id": {"type": "string", "description": "Target user_id (e.g., U-001)."},
+                        "resource_id": {"type": "string", "description": "Target resource_id (e.g., RES-020)."},
+                        "on_date": {"type": "string", "description": "ISO timestamp to evaluate role assignments against (optional)."},
+                        "include_details": {"type": "boolean", "description": "Include detailed breakdown of which roles/permissions grant access.", "default": False}
                     },
                     "required": ["user_id", "resource_id"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
 
-
-#ACCESS DEMANDS
+# ACCESS REQUESTS
 class GetAccessRequest(Tool):
     """
-    Retrieve access requests based on ID, user, status, resource, or role.
+    Retrieve access requests by ID, user, status, resource, or role.
 
     kwargs:
       request_id: str (optional) - Specific access request ID to retrieve
-      user_id: str (optional) - Filter by the user making the request
+      user_id: str (optional) - Filter by requesting user
       status: str (optional) - Filter by status (PENDING, APPROVED, REJECTED)
-      resource_id: str (optional) - Filter by the requested resource
-      requested_role_id: str (optional) - Filter by the requested role
-      include_user: bool = False - Include user details in the response
-      include_role: bool = False - Include role details in the response
-      include_resource: bool = False - Include resource details in the response
+      resource_id: str (optional) - Filter by requested resource
+      requested_role_id: str (optional) - Filter by requested role
+      include_user: bool = False - Include user details in response
+      include_role: bool = False - Include role details in response
+      include_resource: bool = False - Include resource details in response
     """
-
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        request_id: str = None,
-        user_id: str = None,
-        status: str = None,
-        resource_id: str = None,
-        requested_role_id: str = None,
-        include_user: bool = False,
-        include_role: bool = False,
-        include_resource: bool = False
-    ) -> str:
-        access_requests = data.get("access_requests", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        request_id = kwargs.get("request_id")
+        user_id = kwargs.get("user_id")
+        status = kwargs.get("status")
+        resource_id = kwargs.get("resource_id")
+        requested_role_id = kwargs.get("requested_role_id")
+        include_user = kwargs.get("include_user", False)
+        include_role = kwargs.get("include_role", False)
+        include_resource = kwargs.get("include_resource", False)
 
-        # If request_id is supplied, return the specific access request
+        access_requests = data.get("access_requests", [])
+
+        # If request_id is provided, return single access request
         if request_id:
             ar = _find_by_id(access_requests, "request_id", request_id)
             if not ar:
-                payload = {"error": f"request_id {request_id} not found"}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"error": f"request_id {request_id} not found"})
 
-            # Construct a response with optional extensions
+            # Build response with optional expansions
             out = {"access_request": ar}
             if include_user:
                 uid = ar.get("user_id") or ""
-                user = _find_by_id(data.get("users", {}).values(), "user_id", uid)
+                user = _find_by_id(data.get("users", []), "user_id", uid)
                 if user is not None:
                     out["user"] = user
             if include_role:
                 rid = ar.get("requested_role_id") or ""
-                role = _find_by_id(data.get("roles", {}).values(), "role_id", rid)
+                role = _find_by_id(data.get("roles", []), "role_id", rid)
                 if role is not None:
                     out["role"] = role
             if include_resource:
                 res_id = ar.get("resource_id") or ""
-                resource = _find_by_id(data.get("resources", {}).values(), "resource_id", res_id)
+                resource = _find_by_id(data.get("resources", []), "resource_id", res_id)
                 if resource is not None:
                     out["resource"] = resource
-            payload = out
-            out = json.dumps(payload)
-            return out
 
-        # Narrow down access requests according to the supplied criteria
+            return json.dumps(out)
+
+        # Filter access requests based on provided criteria
         filtered_requests = []
-        for request in access_requests.values():
+        for request in access_requests:
             if user_id and request.get("user_id") != user_id:
                 continue
             if status and request.get("status") != status:
                 continue
             if resource_id and request.get("resource_id") != resource_id:
                 continue
-            if (
-                requested_role_id
-                and request.get("requested_role_id") != requested_role_id
-            ):
+            if requested_role_id and request.get("requested_role_id") != requested_role_id:
                 continue
-            filtered_data["access_requests"][request["access_request_id"]] = request
-        payload = {"ok": True, "access_requests": filtered_requests}
-        out = json.dumps(payload)
-        return out
+            filtered_requests.append(request)
+
+        return json.dumps({"ok": True, "access_requests": filtered_requests})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAccessRequest",
+                "name": "get_access_request",
                 "description": "Retrieve access requests by ID, user, status, resource, or role with optional expansions.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "request_id": {
-                            "type": "string",
-                            "description": "Specific access request ID to retrieve.",
-                        },
-                        "user_id": {
-                            "type": "string",
-                            "description": "Filter by requesting user ID.",
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "Filter by status (PENDING, APPROVED, REJECTED).",
-                        },
-                        "resource_id": {
-                            "type": "string",
-                            "description": "Filter by requested resource ID.",
-                        },
-                        "requested_role_id": {
-                            "type": "string",
-                            "description": "Filter by requested role ID.",
-                        },
-                        "include_user": {
-                            "type": "boolean",
-                            "description": "Include user details in response.",
-                            "default": False,
-                        },
-                        "include_role": {
-                            "type": "boolean",
-                            "description": "Include role details in response.",
-                            "default": False,
-                        },
-                        "include_resource": {
-                            "type": "boolean",
-                            "description": "Include resource details in response.",
-                            "default": False,
-                        },
+                        "request_id": {"type": "string", "description": "Specific access request ID to retrieve."},
+                        "user_id": {"type": "string", "description": "Filter by requesting user ID."},
+                        "status": {"type": "string", "description": "Filter by status (PENDING, APPROVED, REJECTED)."},
+                        "resource_id": {"type": "string", "description": "Filter by requested resource ID."},
+                        "requested_role_id": {"type": "string", "description": "Filter by requested role ID."},
+                        "include_user": {"type": "boolean", "description": "Include user details in response.", "default": False},
+                        "include_role": {"type": "boolean", "description": "Include role details in response.", "default": False},
+                        "include_resource": {"type": "boolean", "description": "Include resource details in response.", "default": False}
                     },
                     "required": [],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
-
 
 class DecideAccessRequest(Tool):
     """
-    Approve or deny an access request with validations and consistent timestamps.
+    Approve or reject an access request with validations and deterministic timestamps.
 
     kwargs:
-      request_id: str (mandatory)
-      reviewer_id: str (mandatory)
-      decision: str = "APPROVED" | "REJECTED" (mandatory)
-      decision_notes: str (mandatory)
-      decision_at: str ISO-8601 (optional; defaults to request.submitted_at or now)
-      enforce_admin: bool = True  (require the reviewer to have 'Administrator' role)
-      enforce_pending: bool = True (require the current status to be 'PENDING')
-      enforce_sla: bool = False   (deny approvals if older than sla_days without exemption)
+      request_id: str (required)
+      reviewer_id: str (required)
+      decision: str = "APPROVED" | "REJECTED" (required)
+      decision_notes: str (required)
+      decision_at: str ISO-8601 (optional; defaults to request.submitted_at else now)
+      enforce_admin: bool = True  (require reviewer has 'Administrator' role)
+      enforce_pending: bool = True (require current status == 'PENDING')
+      enforce_sla: bool = False   (reject approvals if older than sla_days without waiver)
       sla_days: int = 5
       waive_sla: bool = False
     """
-
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        request_id: str = "",
-        reviewer_id: str = "",
-        decision: str = "",
-        decision_at: str = None,
-        enforce_admin: bool = True,
-        enforce_pending: bool = True,
-        enforce_sla: bool = False,
-        sla_days: int = 5,
-        waive_sla: bool = False
-    ) -> str:
-        decision = decision.upper()
-        decision_at_kw = decision_at or get_current_timestamp()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        request_id = kwargs.get("request_id", "")
+        reviewer_id = kwargs.get("reviewer_id", "")
+        decision = (kwargs.get("decision") or "").upper()
+        decision_at_kw = kwargs.get("decision_at", get_current_timestamp())
+        enforce_admin = kwargs.get("enforce_admin", True)
+        enforce_pending = kwargs.get("enforce_pending", True)
+        # SLA enforcement is optional; default to False to avoid blocking decisions in static datasets
+        enforce_sla = kwargs.get("enforce_sla", False)
+        sla_days = kwargs.get("sla_days", 5)
+        waive_sla = kwargs.get("waive_sla", False)
 
         if decision not in ("APPROVED", "REJECTED"):
-            payload = {"error": "decision must be APPROVED or REJECTED"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "decision must be APPROVED or REJECTED"})
 
-        # Retrieve the request
-        requests = data.get("access_requests", {}).values()
+        # Get request
+        requests = data.get("access_requests", [])
         req = _find_by_id(requests, "request_id", request_id)
         if not req:
-            payload = {"error": f"request_id {request_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"request_id {request_id} not found"})
 
-        # Confirm the reviewer's admin role if necessary
+        # Validate reviewer admin role if required
         if enforce_admin:
-            # Locate the role_id for Administrator
+            # Find Administrator role_id
             admin_roles = []
-            for r in data.get("roles", {}).values():
+            for r in data.get("roles", []):
                 role_name = str(r.get("role_name", "")).strip().lower()
                 if role_name.endswith("admin") or role_name.endswith("lead"):
-                    admin_data["roles"][role_id] = r
+                    admin_roles.append(r)
             if not admin_roles:
-                payload = {"error": "Administrator role not defined in roles.json"}
-                out = json.dumps(payload)
-                return out
-            # Verify assignments
+                return json.dumps({"error": "Administrator role not defined in roles.json"})
+            # Check assignments
             has_admin = any(
-                ur.get("user_id") == reviewer_id
-                and ur.get("role_id") in [r.get("role_id") for r in admin_roles]
-                for ur in data.get("user_roles", {}).values()
+                ur.get("user_id") == reviewer_id and ur.get("role_id") in [r.get("role_id") for r in admin_roles]
+                for ur in data.get("user_roles", [])
             )
             if not has_admin:
-                payload = {"error": f"reviewer_id {reviewer_id} lacks Administrator role"}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"error": f"reviewer_id {reviewer_id} lacks Administrator role"})
 
-        # Confirm the pending status
+        # Validate pending status
         if enforce_pending and req.get("status") != "PENDING":
-            payload = {"error": f"request {request_id} is not PENDING"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"request {request_id} is not PENDING"})
 
-        # Ensure the target user and role are present
-        user = _find_by_id(data.get("users", {}).values(), "user_id", req.get("user_id") or "")
-        role = _find_by_id(
-            data.get("roles", {}).values(), "role_id", req.get("requested_role_id") or ""
-        )
+        # Validate target user and role exist
+        user = _find_by_id(data.get("users", []), "user_id", req.get("user_id") or "")
+        role = _find_by_id(data.get("roles", []), "role_id", req.get("requested_role_id") or "")
         if not user or not role:
-            payload = {"error": "target user or requested role does not exist"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "target user or requested role does not exist"})
 
-        # SLA enforcement (only prevent approvals unless exempted)
+        # SLA enforcement (only block approvals unless waived)
         if enforce_sla and decision == "APPROVED" and not waive_sla:
             sub_dt = _parse_iso(req.get("submitted_at"))
-            now_dt = _parse_iso(get_current_timestamp()) or datetime.now(
-                tz=timezone.utc
-            )
+            now_dt = _parse_iso(get_current_timestamp()) or datetime.now(tz=timezone.utc)
             if sub_dt:
                 age_days = (now_dt - sub_dt).days
                 if age_days > int(sla_days):
-                    payload = {
-                        "error": f"request {request_id} exceeds SLA ({age_days}d) — approval blocked without waiver"
-                    }
-                    out = json.dumps(payload)
-                    return out
+                    return json.dumps({"error": f"request {request_id} exceeds SLA ({age_days}d) — approval blocked without waiver"})
 
-        # Consistent decision_at
-        decision_at = (
-            decision_at_kw or req.get("submitted_at") or get_current_timestamp()
-        )
+        # Deterministic decision_at
+        decision_at = decision_at_kw or req.get("submitted_at") or get_current_timestamp()
 
         updated = dict(req)
-        updated.update(
-            {
-                "status": decision,
-                "reviewed_by": reviewer_id,
-                "decision_at": decision_at,
-            }
-        )
+        updated.update({
+            "status": decision,
+            "reviewed_by": reviewer_id,
+            "decision_at": decision_at,
+        })
 
-        # Save the update
-        for i, r in enumerate(requests.values()):
+        # Persist update
+        for i, r in enumerate(requests):
             if r.get("request_id") == request_id:
                 data["access_requests"][i] = updated
                 break
-        payload = {"ok": True, "request": updated}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"ok": True, "request": updated})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "DecideAccessRequest",
+                "name": "decide_access_request",
                 "description": "Approve or reject an access request with validation, deterministic timestamps, and notes.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "request_id": {
-                            "type": "string",
-                            "description": "Access request id (AR-###).",
-                        },
-                        "reviewer_id": {
-                            "type": "string",
-                            "description": "Reviewer user_id (must be Administrator if enforce_admin).",
-                        },
-                        "decision": {
-                            "type": "string",
-                            "enum": ["APPROVED", "REJECTED"],
-                            "description": "Decision outcome.",
-                        },
-                        "decision_at": {
-                            "type": "string",
-                            "description": "ISO timestamp; defaults to submitted_at or now.",
-                        },
-                        "enforce_admin": {
-                            "type": "boolean",
-                            "description": "Require reviewer to have Administrator role.",
-                            "default": True,
-                        },
-                        "enforce_pending": {
-                            "type": "boolean",
-                            "description": "Require request to be PENDING.",
-                            "default": True,
-                        },
-                        "enforce_sla": {
-                            "type": "boolean",
-                            "description": "Block approvals older than sla_days without waiver.",
-                            "default": False,
-                        },
-                        "sla_days": {
-                            "type": "integer",
-                            "description": "SLA day threshold for approvals.",
-                            "default": 5,
-                        },
-                        "waive_sla": {
-                            "type": "boolean",
-                            "description": "Allow approval despite SLA breach.",
-                        },
+                        "request_id": {"type": "string", "description": "Access request id (AR-###)."},
+                        "reviewer_id": {"type": "string", "description": "Reviewer user_id (must be Administrator if enforce_admin)."},
+                        "decision": {"type": "string", "enum": ["APPROVED", "REJECTED"], "description": "Decision outcome."},
+                        "decision_at": {"type": "string", "description": "ISO timestamp; defaults to submitted_at or now."},
+                        "enforce_admin": {"type": "boolean", "description": "Require reviewer to have Administrator role.", "default": True},
+                        "enforce_pending": {"type": "boolean", "description": "Require request to be PENDING.", "default": True},
+                        "enforce_sla": {"type": "boolean", "description": "Block approvals older than sla_days without waiver.", "default": False},
+                        "sla_days": {"type": "integer", "description": "SLA day threshold for approvals.", "default": 5},
+                        "waive_sla": {"type": "boolean", "description": "Allow approval despite SLA breach."},
                     },
                     "required": ["request_id", "reviewer_id", "decision"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
 
 
-#POSITIONS
+# ROLES
 class EnsureUserRole(Tool):
     """
-    Confirm that a user holds a role; idempotent assignment.
+    Ensure a user has a role; idempotent assignment.
 
     kwargs:
-      user_id: str (mandatory)
-      role_id: str (mandatory)
-      assigned_by: str (mandatory)
-      assigned_on: str ISO (defaults to now)
+      user_id: str (required)
+      role_id: str (required)
+      assigned_by: str (required)
+      assigned_on: str ISO (defaults now)
       expires_on: str ISO (optional)
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = "", role_id: str = "", assigned_by: str = "", assigned_on: str = None, expires_on: str = None) -> str:
-        pass
-        assigned_on = assigned_on or get_current_timestamp()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id", "")
+        role_id = kwargs.get("role_id", "")
+        assigned_by = kwargs.get("assigned_by", "")
+        assigned_on = kwargs.get("assigned_on") or get_current_timestamp()
+        expires_on = kwargs.get("expires_on")
 
-        # Presence validations
-        if not _find_by_id(data.get("users", {}).values(), "user_id", user_id):
-            payload = {"error": f"user_id {user_id} not found"}
-            out = json.dumps(payload)
-            return out
-        if not _find_by_id(data.get("roles", {}).values(), "role_id", role_id):
-            payload = {"error": f"role_id {role_id} not found"}
-            out = json.dumps(payload)
-            return out
+        # Existence checks
+        if not _find_by_id(data.get("users", []), "user_id", user_id):
+            return json.dumps({"error": f"user_id {user_id} not found"})
+        if not _find_by_id(data.get("roles", []), "role_id", role_id):
+            return json.dumps({"error": f"role_id {role_id} not found"})
 
-        assignments = data.get("user_roles", {}).values()
+        assignments = data.get("user_roles", [])
         existing = None
         existing_index = None
-        for i, ur in enumerate(assignments.values()):
+        for i, ur in enumerate(assignments):
             if ur.get("user_id") == user_id and ur.get("role_id") == role_id:
                 existing = ur
                 existing_index = i
                 break
 
         if existing:
-            # If expires_on is supplied and differs from the current value, modify it
+            # If expires_on is provided and different from existing, update it
             if expires_on and existing.get("expires_on") != expires_on:
                 updated = dict(existing)
                 updated["expires_on"] = expires_on
                 data["user_roles"][existing_index] = updated
-                payload = {"ok": True, "assignment": updated, "updated_expiry": True}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"ok": True, "assignment": updated, "updated_expiry": True})
             else:
-                payload = {"ok": True, "no_op": True, "assignment": existing}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"ok": True, "no_op": True, "assignment": existing})
         else:
-            payload = {"error": "no existing assignment found"}
-            out = json.dumps(payload)
-            return out
+            # nothing to update/ensure
+            return json.dumps({"error": "no existing assignment found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ensureUserRole",
+                "name": "ensure_user_role",
                 "description": "Idempotently ensure a user has a role with optional expiry. Updates expiry date if role exists and new expires_on is provided.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "user_id": {"type": "string", "description": "Target user_id."},
                         "role_id": {"type": "string", "description": "Target role_id."},
-                        "assigned_by": {
-                            "type": "string",
-                            "description": "Actor user_id performing assignment.",
-                        },
-                        "assigned_on": {
-                            "type": "string",
-                            "description": "ISO timestamp of assignment.",
-                        },
-                        "expires_on": {
-                            "type": "string",
-                            "description": "ISO timestamp for expiry (optional).",
-                        },
+                        "assigned_by": {"type": "string", "description": "Actor user_id performing assignment."},
+                        "assigned_on": {"type": "string", "description": "ISO timestamp of assignment."},
+                        "expires_on": {"type": "string", "description": "ISO timestamp for expiry (optional)."}
                     },
                     "required": ["user_id", "role_id", "assigned_by"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
-
 
 class UpdateUserRole(Tool):
     """
-    Add or revoke a user role assignment.
+    Add or remove a user role assignment.
 
     kwargs:
-      user_id: str (mandatory)
-      role_id: str (mandatory)
-      action: str = "ADD" | "REMOVE" (mandatory)
-      assigned_by: str (mandatory for ADD)
-      assigned_on: str ISO (optional for ADD, defaults to now)
+      user_id: str (required)
+      role_id: str (required)
+      action: str = "ADD" | "REMOVE" (required)
+      assigned_by: str (required for ADD)
+      assigned_on: str ISO (optional for ADD, defaults now)
       expires_on: str ISO (optional for ADD)
     """
-
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        user_id: str = "",
-        role_id: str = "",
-        action: str = "",
-        assigned_by: str = "",
-        assigned_on: str = None,
-        expires_on: str = None
-    ) -> str:
-        pass
-        action = action.upper()
-        assigned_on = assigned_on or get_current_timestamp()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id", "")
+        role_id = kwargs.get("role_id", "")
+        action = (kwargs.get("action", "") or "").upper()
+        assigned_by = kwargs.get("assigned_by", "")
+        assigned_on = kwargs.get("assigned_on") or get_current_timestamp()
+        expires_on = kwargs.get("expires_on")
 
         if action not in ("ADD", "REMOVE"):
-            payload = {"error": "action must be ADD or REMOVE"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "action must be ADD or REMOVE"})
 
-        # Presence validations
-        if not _find_by_id(data.get("users", {}).values(), "user_id", user_id):
-            payload = {"error": f"user_id {user_id} not found"}
-            out = json.dumps(payload)
-            return out
-        if not _find_by_id(data.get("roles", {}).values(), "role_id", role_id):
-            payload = {"error": f"role_id {role_id} not found"}
-            out = json.dumps(payload)
-            return out
+        # Existence checks
+        if not _find_by_id(data.get("users", []), "user_id", user_id):
+            return json.dumps({"error": f"user_id {user_id} not found"})
+        if not _find_by_id(data.get("roles", []), "role_id", role_id):
+            return json.dumps({"error": f"role_id {role_id} not found"})
 
-        assignments = data.get("user_roles", {}).values()
+        assignments = data.get("user_roles", [])
         existing_index = None
-        for i, ur in enumerate():
+        for i, ur in enumerate(assignments):
             if ur.get("user_id") == user_id and ur.get("role_id") == role_id:
                 existing_index = i
                 break
 
         if action == "ADD":
             if not assigned_by:
-                payload = {"error": "assigned_by is required for ADD action"}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"error": "assigned_by is required for ADD action"})
 
             if existing_index is not None:
-                # Modify the current assignment
+                # Update existing assignment
                 existing = assignments[existing_index]
                 updated = dict(existing)
                 if expires_on and existing.get("expires_on") != expires_on:
                     updated["expires_on"] = expires_on
                     data["user_roles"][existing_index] = updated
-                    payload = {"ok": True, "assignment": updated, "updated_expiry": True}
-                    out = json.dumps(payload)
-                    return out
+                    return json.dumps({"ok": True, "assignment": updated, "updated_expiry": True})
                 else:
-                    payload = {"ok": True, "no_op": True, "assignment": existing}
-                    out = json.dumps(payload)
-                    return out
+                    return json.dumps({"ok": True, "no_op": True, "assignment": existing})
             else:
-                # Establish a new assignment
+                # Create new assignment
                 new_ur = {
                     "user_role_id": _next_user_role_id(data, user_id),
                     "user_id": user_id,
@@ -1890,569 +1402,433 @@ class UpdateUserRole(Tool):
                     "assigned_on": assigned_on,
                     "expires_on": expires_on,
                 }
-                table = data.setdefault("user_roles", {})
-                key = f"{len(table)}"
-                table[key] = new_ur
-                payload = {"ok": True, "assignment": new_ur, "action": "created"}
-                out = json.dumps(payload)
-                return out
+                data.setdefault("user_roles", []).append(new_ur)
+                return json.dumps({"ok": True, "assignment": new_ur, "action": "created"})
 
         elif action == "REMOVE":
             if existing_index is not None:
                 removed = data["user_roles"].pop(existing_index)
                 removed["assigned_by"] = assigned_by
-                payload = {"ok": True, "assignment": removed, "action": "removed"}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"ok": True, "assignment": removed, "action": "removed"})
             else:
-                payload = {
-                    "ok": True,
-                    "no_op": True,
-                    "message": "Role assignment does not exist",
-                }
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"ok": True, "no_op": True, "message": "Role assignment does not exist"})
         else:
-            payload = {"error": "Invalid action"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Invalid action"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateUserRole",
+                "name": "update_user_role",
                 "description": "Add or remove a user role assignment. For ADD: creates new assignment or updates expiry if exists. For REMOVE: deletes the assignment.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "user_id": {"type": "string", "description": "Target user_id."},
                         "role_id": {"type": "string", "description": "Target role_id."},
-                        "action": {
-                            "type": "string",
-                            "enum": ["ADD", "REMOVE"],
-                            "description": "Action to perform.",
-                        },
-                        "assigned_by": {
-                            "type": "string",
-                            "description": "Actor user_id performing assignment (required).",
-                        },
-                        "assigned_on": {
-                            "type": "string",
-                            "description": "ISO timestamp of assignment (optional for ADD).",
-                        },
-                        "expires_on": {
-                            "type": "string",
-                            "description": "ISO timestamp for expiry (optional for ADD).",
-                        },
+                        "action": {"type": "string", "enum": ["ADD", "REMOVE"], "description": "Action to perform."},
+                        "assigned_by": {"type": "string", "description": "Actor user_id performing assignment (required)."},
+                        "assigned_on": {"type": "string", "description": "ISO timestamp of assignment (optional for ADD)."},
+                        "expires_on": {"type": "string", "description": "ISO timestamp for expiry (optional for ADD)."}
                     },
                     "required": ["user_id", "role_id", "action", "assigned_by"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
-
 
 class GetBaseRoleByDepartment(Tool):
     """
-    Retrieve the foundational role ID for a specified department.
+    Get the base role ID for a given department.
 
     kwargs:
-      department: str (mandatory)
+      department: str (required)
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], department: str = "") -> str:
-        department = department.strip().lower()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        department = (kwargs.get("department", "") or "").strip().lower()
 
-        # Associate departments with foundational role names
+        # Map departments to base role names
         department_role_map = {
             "engineering": "engineering-base",
             "marketing": "marketing-base",
             "sales": "sales-base",
             "human resources": "hr-base",
             "operations": "operations-base",
-            "finance": "finance-base",
+            "finance": "finance-base"
         }
 
         role_name = department_role_map.get(department)
         if not role_name:
-            payload = {"error": f"No base role found for department '{department}'"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"No base role found for department '{department}'"})
 
-        # Identify the role
-        roles = data.get("roles", {}).values()
-        for role in roles.values():
+        # Find the role
+        roles = data.get("roles", [])
+        for role in roles:
             if role.get("role_name") == role_name:
-                payload = {"role": role}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Base role '{role_name}' not found in roles"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"role": role})
+
+        return json.dumps({"error": f"Base role '{role_name}' not found in roles"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetBaseRoleByDepartment",
+                "name": "get_base_role_by_department",
                 "description": "Get the base role for a given department.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "department": {
-                            "type": "string",
-                            "description": "Department name.",
-                        }
+                        "department": {"type": "string", "description": "Department name."}
                     },
                     "required": ["department"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
 
 
 class CheckSoDConflicts(Tool):
     """
-    Assess if a user has Separation of Duties (SoD) conflicts based on their active roles,
-    or if incorporating a specific role would lead to a conflict.
+    Check if a user has Separation of Duties (SoD) conflicts based on their active roles,
+    or if adding a specific role would result in a conflict.
 
-    SoD conflicts are recognized by predefined conflicting role pairs that breach
-    business control principles (e.g., finance processing versus auditing).
+    SoD conflicts are identified by predefined conflicting role pairs that violate
+    business control principles (e.g., finance processing vs auditing).
 
     kwargs:
-      user_id: str (mandatory)
+      user_id: str (required)
       on_date: str ISO (optional; defaults to now)
       include_role_details: bool = False (include role names and descriptions)
-      role_id: str (optional) - If supplied, checks if adding this role to the user would create a conflict
+      role_id: str (optional) - If provided, checks if adding this role to the user would cause a conflict
     """
-
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        user_id: str = "",
-        on_date: str = None,
-        include_role_details: bool = False,
-        role_id: str = None
-    ) -> str:
-        pass
-        on_date_iso = on_date or get_current_timestamp()
-        test_role_id = role_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id", "")
+        on_date_iso = kwargs.get("on_date") or get_current_timestamp()
+        include_role_details = kwargs.get("include_role_details", False)
+        test_role_id = kwargs.get("role_id")
 
         if not user_id:
-            payload = {"error": "user_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "user_id is required"})
 
-        # Confirm the user is present
-        if not _find_by_id(data.get("users", {}).values(), "user_id", user_id):
-            payload = {"error": f"user_id {user_id} not found"}
-            out = json.dumps(payload)
-            return out
+        # Validate user exists
+        if not _find_by_id(data.get("users", []), "user_id", user_id):
+            return json.dumps({"error": f"user_id {user_id} not found"})
 
         on_dt = _parse_iso(on_date_iso) or datetime.now(tz=timezone.utc)
 
-        def is_active(ur: dict[str, Any]) -> bool:
-            pass
+        def is_active(ur: Dict[str, Any]) -> bool:
             exp = _parse_iso(ur.get("expires_on"))
             return (exp is None) or (exp > on_dt)
 
-        # Retrieve the user's current role assignments
+        # Get user's active role assignments
         assignments = [
-            ur
-            for ur in data.get("user_roles", {}).values()
+            ur for ur in data.get("user_roles", [])
             if ur.get("user_id") == user_id and is_active(ur)
         ]
 
-        active_role_ids = {ur.get("role_id") for ur in assignments.values()}
-        # If test_role_id is supplied, simulate its addition
+        active_role_ids = {ur.get("role_id") for ur in assignments}
+        # If test_role_id is provided, simulate adding it
         if test_role_id:
             active_role_ids = set(active_role_ids)
             active_role_ids.add(test_role_id)
 
-        # Establish SoD conflict guidelines based on role evaluation
+        # Define SoD conflict rules based on role analysis
         sod_conflicts = [
-            # Financial SoD conflicts
+            # Finance SoD conflicts
             {
                 "conflict_id": "FINANCE_SOD_001",
                 "name": "Finance Processing vs Audit Access",
                 "description": "Users cannot both process financial transactions and audit them",
-                "conflicting_roles": [
-                    "ROL-031",
-                    "ROL-033",
-                ],  # finance-invoice-processor compared to finance-audit-access
-                "risk_level": "HIGH",
+                "conflicting_roles": ["ROL-031", "ROL-033"],  # finance-invoice-processor vs finance-audit-access
+                "risk_level": "HIGH"
             },
             {
                 "conflict_id": "FINANCE_SOD_002",
                 "name": "Budget Admin vs Audit Access",
                 "description": "Users cannot both manage budgets and audit financial records",
-                "conflicting_roles": [
-                    "ROL-032",
-                    "ROL-033",
-                ],  # finance-budget-admin compared to finance-audit-access
-                "risk_level": "HIGH",
+                "conflicting_roles": ["ROL-032", "ROL-033"],  # finance-budget-admin vs finance-audit-access
+                "risk_level": "HIGH"
             },
-            # Engineering-related SoD conflicts
+            # Engineering SoD conflicts
             {
                 "conflict_id": "ENGINEERING_SOD_001",
                 "name": "Code Development vs Production Deployment",
                 "description": "Developers cannot deploy their own code to production without review",
-                "conflicting_roles": [
-                    "ROL-002",
-                    "ROL-025",
-                ],  # engineering-code-commit compared to operations-deployment-admin
-                "risk_level": "CRITICAL",
+                "conflicting_roles": ["ROL-002", "ROL-025"],  # engineering-code-commit vs operations-deployment-admin
+                "risk_level": "CRITICAL"
             },
             {
                 "conflict_id": "ENGINEERING_SOD_002",
                 "name": "Code Development vs Production Access",
                 "description": "Developers should not have direct production system access",
-                "conflicting_roles": [
-                    "ROL-002",
-                    "ROL-003",
-                ],  # engineering-code-commit compared to engineering-prod-access
-                "risk_level": "HIGH",
+                "conflicting_roles": ["ROL-002", "ROL-003"],  # engineering-code-commit vs engineering-prod-access
+                "risk_level": "HIGH"
             },
-            # Conflicts among operations administrators
+            # Operations admin conflicts
             {
                 "conflict_id": "OPERATIONS_SOD_001",
                 "name": "System Admin vs Database Admin",
                 "description": "Excessive administrative privileges across system and database layers",
-                "conflicting_roles": [
-                    "ROL-026",
-                    "ROL-027",
-                ],  # operations-system-admin compared to operations-db-admin
-                "risk_level": "MEDIUM",
+                "conflicting_roles": ["ROL-026", "ROL-027"],  # operations-system-admin vs operations-db-admin
+                "risk_level": "MEDIUM"
             },
             {
                 "conflict_id": "OPERATIONS_SOD_002",
                 "name": "System Admin vs Network Admin",
                 "description": "Excessive administrative privileges across system and network layers",
-                "conflicting_roles": [
-                    "ROL-026",
-                    "ROL-028",
-                ],  # operations-system-admin compared to operations-network-admin
-                "risk_level": "MEDIUM",
+                "conflicting_roles": ["ROL-026", "ROL-028"],  # operations-system-admin vs operations-network-admin
+                "risk_level": "MEDIUM"
             },
-            # HR-related SoD conflicts
+            # HR SoD conflicts
             {
                 "conflict_id": "HR_SOD_001",
                 "name": "Employee Data Access vs Payroll Admin",
                 "description": "Users cannot both access employee data and manage payroll",
-                "conflicting_roles": [
-                    "ROL-017",
-                    "ROL-018",
-                ],  # hr-employee-data-read compared to hr-payroll-admin
-                "risk_level": "HIGH",
+                "conflicting_roles": ["ROL-017", "ROL-018"],  # hr-employee-data-read vs hr-payroll-admin
+                "risk_level": "HIGH"
             },
             {
                 "conflict_id": "HR_SOD_002",
                 "name": "Employee Data Access vs Benefits Admin",
                 "description": "Users cannot both access employee data and manage benefits",
-                "conflicting_roles": [
-                    "ROL-017",
-                    "ROL-020",
-                ],  # hr-employee-data-read compared to hr-benefits-admin
-                "risk_level": "MEDIUM",
+                "conflicting_roles": ["ROL-017", "ROL-020"],  # hr-employee-data-read vs hr-benefits-admin
+                "risk_level": "MEDIUM"
             },
-            # Sales-related SoD conflicts
+            # Sales SoD conflicts
             {
                 "conflict_id": "SALES_SOD_001",
                 "name": "Lead Management vs Commission Viewing",
                 "description": "Sales leads managers should not view commission data to prevent manipulation",
-                "conflicting_roles": [
-                    "ROL-013",
-                    "ROL-015",
-                ],  # sales-lead-manager compared to sales-commission-view
-                "risk_level": "MEDIUM",
-            },
+                "conflicting_roles": ["ROL-013", "ROL-015"],  # sales-lead-manager vs sales-commission-view
+                "risk_level": "MEDIUM"
+            }
         ]
 
-        # Verify for conflicts
+        # Check for conflicts
         detected_conflicts = []
-        role_map = {r.get("role_id"): r for r in data.get("roles", {}).values()}
+        role_map = {r.get("role_id"): r for r in data.get("roles", [])}
 
         for conflict in sod_conflicts:
             conflicting_role_ids = conflict["conflicting_roles"]
-            # Determine if the user possesses ALL roles in the conflicting group
-            if all(role_id in active_role_ids for role_id in conflicting_role_ids.values()):
+            # Check if user has ALL roles in the conflicting set
+            if all(role_id in active_role_ids for role_id in conflicting_role_ids):
                 conflict_entry = {
                     "conflict_id": conflict["conflict_id"],
                     "name": conflict["name"],
                     "description": conflict["description"],
                     "risk_level": conflict["risk_level"],
-                    "conflicting_role_ids": conflicting_role_ids,
+                    "conflicting_role_ids": conflicting_role_ids
                 }
 
                 if include_role_details:
                     conflict_entry["conflicting_roles"] = []
                     for role_id in conflicting_role_ids:
-                        role = role_map.get(role_id, {}).values()
-                        conflict_entry["conflicting_roles"].append(
-                            {
-                                "role_id": role_id,
-                                "role_name": role.get("role_name"),
-                                "description": role.get("description"),
-                            }
-                        )
+                        role = role_map.get(role_id, {})
+                        conflict_entry["conflicting_roles"].append({
+                            "role_id": role_id,
+                            "role_name": role.get("role_name"),
+                            "description": role.get("description")
+                        })
 
                 detected_conflicts.append(conflict_entry)
-        payload = {
-                "ok": True,
-                "user_id": user_id,
-                "has_sod_conflicts": len(detected_conflicts) > 0,
-                "conflict_count": len(detected_conflicts),
-                "conflicts": detected_conflicts,
-                "checked_on": on_date_iso,
-                "simulated_role_id": test_role_id if test_role_id else None,
-            }
-        out = json.dumps(
-            payload)
-        return out
+
+        return json.dumps({
+            "ok": True,
+            "user_id": user_id,
+            "has_sod_conflicts": len(detected_conflicts) > 0,
+            "conflict_count": len(detected_conflicts),
+            "conflicts": detected_conflicts,
+            "checked_on": on_date_iso,
+            "simulated_role_id": test_role_id if test_role_id else None
+        })
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CheckSodConflicts",
+                "name": "check_sod_conflicts",
                 "description": "Check if a user has Separation of Duties (SoD) conflicts based on their active roles, or if adding a specific role would result in a conflict.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "user_id": {
-                            "type": "string",
-                            "description": "Target user_id (e.g., U-001).",
-                        },
-                        "on_date": {
-                            "type": "string",
-                            "description": "ISO timestamp to evaluate role assignments against (optional).",
-                        },
-                        "include_role_details": {
-                            "type": "boolean",
-                            "description": "Include role names and descriptions in conflict details.",
-                            "default": False,
-                        },
-                        "role_id": {
-                            "type": "string",
-                            "description": "If provided, checks if adding this role to the user would cause a conflict.",
-                        },
+                        "user_id": {"type": "string", "description": "Target user_id (e.g., U-001)."},
+                        "on_date": {"type": "string", "description": "ISO timestamp to evaluate role assignments against (optional)."},
+                        "include_role_details": {"type": "boolean", "description": "Include role names and descriptions in conflict details.", "default": False},
+                        "role_id": {"type": "string", "description": "If provided, checks if adding this role to the user would cause a conflict."}
                     },
                     "required": ["user_id"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
 
-
-#CERTIFICATION RECORDS
+# CERTIFICATIONS
 class GetCertification(Tool):
     """
-    Retrieve certifications based on ID, reviewer, resource, or status.
+    Retrieve certifications by ID, reviewer, resource, or status.
 
     kwargs:
       certification_id: str (optional) - Specific certification ID to retrieve
-      reviewer_id: str (optional) - Filter by the reviewer user ID
+      reviewer_id: str (optional) - Filter by reviewer user ID
       resource_id: str (optional) - Filter by resource ID
       status: str (optional) - Filter by status (PENDING, IN_PROGRESS, COMPLETED)
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], certification_id: str = None, reviewer_id: str = None, resource_id: str = None, status: str = None,
-    user_id: Any = None,
-    ) -> str:
-        certifications = data.get("certifications", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        certification_id = kwargs.get("certification_id")
+        reviewer_id = kwargs.get("reviewer_id")
+        resource_id = kwargs.get("resource_id")
+        status = kwargs.get("status")
 
-        # If certification_id is supplied, return the specific certification
+        certifications = data.get("certifications", [])
+
+        # If certification_id is provided, return single certification
         if certification_id:
             cert = _find_by_id(certifications, "certification_id", certification_id)
             if not cert:
-                payload = {"error": f"certification_id {certification_id} not found"}
-                out = json.dumps(payload)
-                return out
-            payload = {"ok": True, "certification": cert}
-            out = json.dumps(payload)
-            return out
+                return json.dumps({"error": f"certification_id {certification_id} not found"})
+            return json.dumps({"ok": True, "certification": cert})
 
-        # Narrow down certifications according to the supplied criteria
+        # Filter certifications based on provided criteria
         filtered_certifications = []
-        for cert in certifications.values():
+        for cert in certifications:
             if reviewer_id and cert.get("reviewer_id") != reviewer_id:
                 continue
             if resource_id and cert.get("resource_id") != resource_id:
                 continue
             if status and cert.get("status") != status:
                 continue
-            filtered_data["certifications"][certification_id] = cert
-        payload = {"ok": True, "certifications": filtered_certifications}
-        out = json.dumps(payload)
-        return out
+            filtered_certifications.append(cert)
+
+        return json.dumps({"ok": True, "certifications": filtered_certifications})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCertification",
+                "name": "get_certification",
                 "description": "Retrieve certifications by ID, reviewer, resource, or status.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "certification_id": {
-                            "type": "string",
-                            "description": "Specific certification ID to retrieve.",
-                        },
-                        "reviewer_id": {
-                            "type": "string",
-                            "description": "Filter by reviewer user ID.",
-                        },
-                        "resource_id": {
-                            "type": "string",
-                            "description": "Filter by resource ID.",
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "Filter by status (PENDING, IN_PROGRESS, COMPLETED).",
-                        },
+                        "certification_id": {"type": "string", "description": "Specific certification ID to retrieve."},
+                        "reviewer_id": {"type": "string", "description": "Filter by reviewer user ID."},
+                        "resource_id": {"type": "string", "description": "Filter by resource ID."},
+                        "status": {"type": "string", "description": "Filter by status (PENDING, IN_PROGRESS, COMPLETED)."}
                     },
                     "required": [],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
-
 
 class CompleteCertification(Tool):
     """
-    Finalize a certification by changing the status to COMPLETED and setting completed_on to a consistent timestamp.
+    Complete a certification by setting status to COMPLETED and completed_on to deterministic timestamp.
 
     kwargs:
-      certification_id: str (mandatory)
-      reviewer_id: str (mandatory)
+      certification_id: str (required)
+      reviewer_id: str (required)
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], certification_id: str = "", reviewer_id: str = "") -> str:
-        certs = data.get("certifications", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        certification_id = kwargs.get("certification_id", "")
+        reviewer_id = kwargs.get("reviewer_id", "")
+
+        certs = data.get("certifications", [])
         cert = _find_by_id(certs, "certification_id", certification_id)
         if not cert:
-            payload = {"error": f"certification_id {certification_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"certification_id {certification_id} not found"})
 
         if cert.get("reviewer_id") != reviewer_id:
-            payload = {
-                "error": f"reviewer_id {reviewer_id} does not match certification reviewer"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"reviewer_id {reviewer_id} does not match certification reviewer"})
 
         if cert.get("status") not in ("PENDING", "IN_PROGRESS"):
-            # Idempotent completion yields the current state
+            # idempotent completion returns current
             if cert.get("status") == "COMPLETED":
-                payload = {"ok": True, "certification": cert}
-                out = json.dumps(payload)
-                return out
-            payload = {
-                "error": f"certification {certification_id} not completable from status {cert.get('status')}"
-            }
-            out = json.dumps(payload)
-            return out
+                return json.dumps({"ok": True, "certification": cert})
+            return json.dumps({"error": f"certification {certification_id} not completable from status {cert.get('status')}"})
 
         updated = dict(cert)
-        updated.update(
-            {
-                "status": "COMPLETED",
-                "completed_on": get_current_timestamp(),
-            }
-        )
+        updated.update({
+            "status": "COMPLETED",
+            "completed_on": get_current_timestamp(),
+        })
 
         for i, c in enumerate(certs):
             if c.get("certification_id") == certification_id:
                 data["certifications"][i] = updated
                 break
-        payload = {"ok": True, "certification": updated}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"ok": True, "certification": updated})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CompleteCertification",
+                "name": "complete_certification",
                 "description": "Complete a certification with deterministic completion timestamp.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "certification_id": {
-                            "type": "string",
-                            "description": "Certification id (C-###).",
-                        },
-                        "reviewer_id": {
-                            "type": "string",
-                            "description": "Reviewer user_id.",
-                        },
+                        "certification_id": {"type": "string", "description": "Certification id (C-###)."},
+                        "reviewer_id": {"type": "string", "description": "Reviewer user_id."}
                     },
                     "required": ["certification_id", "reviewer_id"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
 
 
 class CreateCertification(Tool):
     """
-    Establish a new certification entry with consistent ID and a default due date.
+    Create a new certification entry with deterministic ID and default due date.
 
     kwargs:
-      reviewer_id: str (mandatory) - Reviewer accountable for certification
-      resource_id: str (mandatory) - Resource to be certified
-      status: str (optional; defaults to "PENDING") - PENDING, IN_PROGRESS, COMPLETED
+      reviewer_id: str (required) - Reviewer responsible for certification
+      resource_id: str (required) - Resource to be certified
+      status: str (optional; default "PENDING") - PENDING, IN_PROGRESS, COMPLETED
       due_date: str (optional) - ISO-like timestamp ("YYYY-MM-DD HH:MM:SS+00:00"); defaults to +90 days
-      completed_on: str (optional) - If status=COMPLETED, specific completion time; defaults to now
+      completed_on: str (optional) - If status=COMPLETED, explicit completion time; defaults to now
     """
-
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        reviewer_id: str = "",
-        resource_id: str = "",
-        status: str = "PENDING",
-        due_date: str = None,
-        completed_on_kw: str = None
-    ) -> str:
-        status = status.upper()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        reviewer_id = kwargs.get("reviewer_id", "")
+        resource_id = kwargs.get("resource_id", "")
+        status = kwargs.get("status", "PENDING").upper()
+        due_date = kwargs.get("due_date")
+        completed_on_kw = kwargs.get("completed_on")
 
         if not reviewer_id or not resource_id:
-            payload = {"error": "reviewer_id and resource_id are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "reviewer_id and resource_id are required"})
 
-        # Confirm the presence of the reviewer and resource
-        if not _find_by_id(data.get("users", {}).values(), "user_id", reviewer_id):
-            payload = {"error": f"reviewer_id {reviewer_id} not found"}
-            out = json.dumps(payload)
-            return out
-        if not _find_by_id(data.get("resources", {}).values(), "resource_id", resource_id):
-            payload = {"error": f"resource_id {resource_id} not found"}
-            out = json.dumps(payload)
-            return out
+        # Validate reviewer and resource exist
+        if not _find_by_id(data.get("users", []), "user_id", reviewer_id):
+            return json.dumps({"error": f"reviewer_id {reviewer_id} not found"})
+        if not _find_by_id(data.get("resources", []), "resource_id", resource_id):
+            return json.dumps({"error": f"resource_id {resource_id} not found"})
 
         valid_status = ["PENDING", "IN_PROGRESS", "COMPLETED"]
         if status not in valid_status:
-            payload = {"error": f"status must be one of: {valid_status}"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"status must be one of: {valid_status}"})
 
-        # Establish due_date deterministically if not supplied: +90 days from the current date
+        # Determine due_date deterministically if not provided: +90 days from now
         if not due_date:
             base = _parse_iso(get_current_timestamp()) or datetime.now(tz=timezone.utc)
             due_dt = base + timedelta(days=90)
-            # Align dataset format with +00:00 suffix
+            # Match dataset style with +00:00 suffix
             due_date = due_dt.strftime("%Y-%m-%d %H:%M:%S+00:00")
 
-        # completed_on is set only if COMPLETED
-        completed_on: str | None
+        # completed_on only if COMPLETED
+        completed_on: Optional[str]
         if status == "COMPLETED":
             completed_on = completed_on_kw or get_current_timestamp()
         else:
@@ -2467,83 +1843,64 @@ class CreateCertification(Tool):
             "completed_on": completed_on,
         }
 
-        table = data.setdefault("certifications", {})
-        key = f"{len(table)}"
-        table[key] = new_cert
-        payload = {"ok": True, "certification": new_cert}
-        out = json.dumps(payload)
-        return out
+        data.setdefault("certifications", []).append(new_cert)
+        return json.dumps({"ok": True, "certification": new_cert})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateCertification",
+                "name": "create_certification",
                 "description": "Create a new certification entry with deterministic ID and default due date.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "reviewer_id": {
-                            "type": "string",
-                            "description": "Reviewer user_id responsible.",
-                        },
-                        "resource_id": {
-                            "type": "string",
-                            "description": "Target resource_id.",
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "Initial status (PENDING, IN_PROGRESS, COMPLETED).",
-                            "default": "PENDING",
-                        },
-                        "due_date": {
-                            "type": "string",
-                            "description": "Due date (YYYY-MM-DD HH:MM:SS+00:00).",
-                        },
-                        "completed_on": {
-                            "type": "string",
-                            "description": "Completion timestamp if status=COMPLETED.",
-                        },
+                        "reviewer_id": {"type": "string", "description": "Reviewer user_id responsible."},
+                        "resource_id": {"type": "string", "description": "Target resource_id."},
+                        "status": {"type": "string", "description": "Initial status (PENDING, IN_PROGRESS, COMPLETED).", "default": "PENDING"},
+                        "due_date": {"type": "string", "description": "Due date (YYYY-MM-DD HH:MM:SS+00:00)."},
+                        "completed_on": {"type": "string", "description": "Completion timestamp if status=COMPLETED."}
                     },
                     "required": ["reviewer_id", "resource_id"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
 
 
-#EXCEPTIONS TO POLICY
+# POLICY EXCEPTIONS
 class GetPolicyException(Tool):
     """
-    Retrieve policy exceptions based on ID, user, permission, reviewer, or status.
+    Retrieve policy exceptions by ID, user, permission, reviewer, or status.
 
     kwargs:
       exception_id: str (optional) - Specific exception ID to retrieve
-      user_id: str (optional) - Filter by the user making the request
-      permission_id: str (optional) - Filter by the permission related to exceptions
-      reviewed_by: str (optional) - Filter by the reviewer
+      user_id: str (optional) - Filter by requesting user
+      permission_id: str (optional) - Filter by permission involved in exceptions
+      reviewed_by: str (optional) - Filter by reviewer
       status: str (optional) - Filter by status (PENDING_REVIEW, ACTIVE, EXPIRED, DENIED)
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], exception_id: str = None, user_id: str = None, 
-               permission_id: str = None, reviewed_by: str = None, status: str = None) -> str:
-        exceptions = data.get("policy_exceptions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        exception_id = kwargs.get("exception_id")
+        user_id = kwargs.get("user_id")
+        permission_id = kwargs.get("permission_id")
+        reviewed_by = kwargs.get("reviewed_by")
+        status = kwargs.get("status")
 
-        # If exception_id is supplied, return the specific exception
+        exceptions = data.get("policy_exceptions", [])
+
+        # If exception_id is provided, return single exception
         if exception_id:
             exception = _find_by_id(exceptions, "exception_id", exception_id)
             if not exception:
-                payload = {"error": f"exception_id {exception_id} not found"}
-                out = json.dumps(payload)
-                return out
-            payload = {"ok": True, "policy_exception": exception}
-            out = json.dumps(payload)
-            return out
+                return json.dumps({"error": f"exception_id {exception_id} not found"})
+            return json.dumps({"ok": True, "policy_exception": exception})
 
-        # Narrow down exceptions according to the supplied criteria
+        # Filter exceptions based on provided criteria
         filtered_exceptions = []
-        for exception in exceptions.values():
+        for exception in exceptions:
             if user_id and exception.get("user_id") != user_id:
                 continue
             if permission_id and exception.get("permission_id") != permission_id:
@@ -2552,89 +1909,67 @@ class GetPolicyException(Tool):
                 continue
             if status and exception.get("status") != status:
                 continue
-            filtered_data["policy_exceptions"][exception["policy_exception_id"]] = exception
-        payload = {"ok": True, "policy_exceptions": filtered_exceptions}
-        out = json.dumps(payload)
-        return out
+            filtered_exceptions.append(exception)
+
+        return json.dumps({"ok": True, "policy_exceptions": filtered_exceptions})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPolicyException",
+                "name": "get_policy_exception",
                 "description": "Retrieve policy exceptions by ID, user, permission, reviewer, or status.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "exception_id": {
-                            "type": "string",
-                            "description": "Specific policy exception ID to retrieve.",
-                        },
-                        "user_id": {
-                            "type": "string",
-                            "description": "Filter by requesting user ID.",
-                        },
-                        "permission_id": {
-                            "type": "string",
-                            "description": "Filter by permission involved in exceptions.",
-                        },
-                        "reviewed_by": {
-                            "type": "string",
-                            "description": "Filter by reviewer user ID.",
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "Filter by status (PENDING_REVIEW, ACTIVE, EXPIRED, DENIED).",
-                        },
+                        "exception_id": {"type": "string", "description": "Specific policy exception ID to retrieve."},
+                        "user_id": {"type": "string", "description": "Filter by requesting user ID."},
+                        "permission_id": {"type": "string", "description": "Filter by permission involved in exceptions."},
+                        "reviewed_by": {"type": "string", "description": "Filter by reviewer user ID."},
+                        "status": {"type": "string", "description": "Filter by status (PENDING_REVIEW, ACTIVE, EXPIRED, DENIED)."}
                     },
                     "required": [],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
-
 
 class CreatePolicyException(Tool):
     """
-    Establish a new policy exception request.
+    Create a new policy exception request.
 
     kwargs:
-      user_id: str (mandatory) - User for whom the exception is created
-      permission_id: str (mandatory) - Permission that requires an exception
-      reviewed_by: str (mandatory) - User ID responsible for reviewing the exception
-      reason: str (mandatory) - Business justification for the exception
-      expires_on: str (optional) - ISO timestamp indicating when the exception expires
+      user_id: str (required) - User for whom exception is created
+      permission_id: str (required) - Permission requiring exception
+      reviewed_by: str (required) - User ID who will review the exception
+      reason: str (required) - Business justification for the exception
+      expires_on: str (optional) - ISO timestamp when exception expires
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = "", permission_id: str = "", reviewed_by: str = "", reason: str = "", expires_on: Any = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id", "")
+        permission_id = kwargs.get("permission_id", "")
+        reviewed_by = kwargs.get("reviewed_by", "")
+        reason = kwargs.get("reason", "")
+        expires_on = kwargs.get("expires_on")
+
         if not user_id or not permission_id or not reviewed_by or not reason:
-            payload = {
-                    "error": "user_id, permission_id, reviewed_by, and reason are required"
-                }
-            out = json.dumps(
-                payload)
-            return out
+            return json.dumps({"error": "user_id, permission_id, reviewed_by, and reason are required"})
 
-        #Confirm the user is present
-        if not _find_by_id(data.get("users", {}).values(), "user_id", user_id):
-            payload = {"error": f"user_id {user_id} not found"}
-            out = json.dumps(payload)
-            return out
+        # Validate user exists
+        if not _find_by_id(data.get("users", []), "user_id", user_id):
+            return json.dumps({"error": f"user_id {user_id} not found"})
 
-        #Confirm the permission is present
-        if not _find_by_id(data.get("permissions", {}).values(), "permission_id", permission_id):
-            payload = {"error": f"permission_id {permission_id} not found"}
-            out = json.dumps(payload)
-            return out
+        # Validate permission exists
+        if not _find_by_id(data.get("permissions", []), "permission_id", permission_id):
+            return json.dumps({"error": f"permission_id {permission_id} not found"})
 
-        #Confirm the reviewer is present
-        if not _find_by_id(data.get("users", {}).values(), "user_id", reviewed_by):
-            payload = {"error": f"reviewed_by {reviewed_by} not found"}
-            out = json.dumps(payload)
-            return out
+        # Validate reviewer exists
+        if not _find_by_id(data.get("users", []), "user_id", reviewed_by):
+            return json.dumps({"error": f"reviewed_by {reviewed_by} not found"})
 
-        #Establish a new policy exception
+        # Create new policy exception
         new_exception = {
             "exception_id": _next_id(data, "policy_exceptions", "PE"),
             "user_id": user_id,
@@ -2644,261 +1979,193 @@ class CreatePolicyException(Tool):
             "reviewed_on": None,
             "expires_on": expires_on,
             "reason": reason,
-            "status": "PENDING_REVIEW",
+            "status": "PENDING_REVIEW"
         }
 
-        table = data.setdefault("policy_exceptions", {})
-        key = f"{len(table)}"
-        table[key] = new_exception
-        payload = {"ok": True, "policy_exception": new_exception}
-        out = json.dumps(payload)
-        return out
+        data.setdefault("policy_exceptions", []).append(new_exception)
+        return json.dumps({"ok": True, "policy_exception": new_exception})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreatePolicyException",
+                "name": "create_policy_exception",
                 "description": "Create a new policy exception request for emergency access.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "user_id": {
-                            "type": "string",
-                            "description": "User ID for whom exception is created.",
-                        },
-                        "permission_id": {
-                            "type": "string",
-                            "description": "Permission ID requiring exception.",
-                        },
-                        "reviewed_by": {
-                            "type": "string",
-                            "description": "User ID who will review the exception.",
-                        },
-                        "reason": {
-                            "type": "string",
-                            "description": "Business justification for the exception.",
-                        },
-                        "expires_on": {
-                            "type": "string",
-                            "description": "ISO timestamp when exception expires (optional).",
-                        },
+                        "user_id": {"type": "string", "description": "User ID for whom exception is created."},
+                        "permission_id": {"type": "string", "description": "Permission ID requiring exception."},
+                        "reviewed_by": {"type": "string", "description": "User ID who will review the exception."},
+                        "reason": {"type": "string", "description": "Business justification for the exception."},
+                        "expires_on": {"type": "string", "description": "ISO timestamp when exception expires (optional)."}
                     },
                     "required": ["user_id", "permission_id", "reviewed_by", "reason"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
-
 
 class DecidePolicyException(Tool):
     """
-    Approve or reject a policy exception with consistent timestamps.
+    Approve or deny a policy exception with deterministic timestamps.
 
     kwargs:
-      exception_id: str (mandatory)
-      reviewer_id: str (mandatory)
-      decision: str = "APPROVED" | "DENIED" (mandatory)
-      reviewed_on: str ISO (optional; defaults to the current timestamp)
+      exception_id: str (required)
+      reviewer_id: str (required)
+      decision: str = "APPROVED" | "DENIED" (required)
+      reviewed_on: str ISO (optional; defaults to current timestamp)
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], exception_id: str = "", reviewer_id: str = "", decision: str = None, reviewed_on: str = None) -> str:
-        decision = (decision or "").upper()
-        reviewed_on = reviewed_on or get_current_timestamp()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        exception_id = kwargs.get("exception_id", "")
+        reviewer_id = kwargs.get("reviewer_id", "")
+        decision = (kwargs.get("decision") or "").upper()
+        reviewed_on = kwargs.get("reviewed_on") or get_current_timestamp()
 
         if decision not in ("APPROVED", "DENIED"):
-            payload = {"error": "decision must be APPROVED or DENIED"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "decision must be APPROVED or DENIED"})
 
-        # Retrieve the exception
-        exceptions = data.get("policy_exceptions", {}).values()
+        # Get exception
+        exceptions = data.get("policy_exceptions", [])
         exception = _find_by_id(exceptions, "exception_id", exception_id)
         if not exception:
-            payload = {"error": f"exception_id {exception_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"exception_id {exception_id} not found"})
 
-        # Confirm the reviewer matches
+        # Validate reviewer matches
         if exception.get("reviewed_by") != reviewer_id:
-            payload = {
-                "error": f"reviewer_id {reviewer_id} does not match assigned reviewer {exception.get('reviewed_by')}"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"reviewer_id {reviewer_id} does not match assigned reviewer {exception.get('reviewed_by')}"})
 
-        # Confirm the status
+        # Validate status
         if exception.get("status") != "PENDING_REVIEW":
-            payload = {"error": f"exception {exception_id} is not PENDING_REVIEW"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"exception {exception_id} is not PENDING_REVIEW"})
 
-        # Modify the status
+        # Update status
         updated = dict(exception)
-        updated.update(
-            {
-                "status": "ACTIVE" if decision == "APPROVED" else "DENIED",
-                "reviewed_on": reviewed_on,
-            }
-        )
+        updated.update({
+            "status": "ACTIVE" if decision == "APPROVED" else "DENIED",
+            "reviewed_on": reviewed_on,
+        })
 
-        # If denied, remove expires_on
+        # If denied, clear expires_on
         if decision == "DENIED":
             updated["expires_on"] = None
 
-        # Save the update
-        for i, exc in enumerate(exceptions.values()):
+        # Persist update
+        for i, exc in enumerate(exceptions):
             if exc.get("exception_id") == exception_id:
                 data["policy_exceptions"][i] = updated
                 break
-        payload = {"ok": True, "policy_exception": updated}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"ok": True, "policy_exception": updated})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "DecidePolicyException",
+                "name": "decide_policy_exception",
                 "description": "Approve or deny a policy exception with deterministic timestamp.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "exception_id": {
-                            "type": "string",
-                            "description": "Policy exception id (PE-###).",
-                        },
-                        "reviewer_id": {
-                            "type": "string",
-                            "description": "Reviewer user_id.",
-                        },
-                        "decision": {
-                            "type": "string",
-                            "enum": ["APPROVED", "DENIED"],
-                            "description": "Decision outcome.",
-                        },
-                        "reviewed_on": {
-                            "type": "string",
-                            "description": "ISO timestamp; defaults to now.",
-                        },
+                        "exception_id": {"type": "string", "description": "Policy exception id (PE-###)."},
+                        "reviewer_id": {"type": "string", "description": "Reviewer user_id."},
+                        "decision": {"type": "string", "enum": ["APPROVED", "DENIED"], "description": "Decision outcome."},
+                        "reviewed_on": {"type": "string", "description": "ISO timestamp; defaults to now."}
                     },
                     "required": ["exception_id", "reviewer_id", "decision"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
-
 
 class GetPermission(Tool):
     """
-    Retrieve permissions based on ID, action, or resource.
+    Retrieve permissions by ID, action, or resource.
 
     kwargs:
       permission_id: str (optional) - Specific permission ID to retrieve
-      action: str (optional) - Filter by the action of the permission
-      resource_id: str (optional) - Filter by the resource associated with permissions
+      action: str (optional) - Filter by permission action
+      resource_id: str (optional) - Filter by resource involved in permissions
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], permission_id: str = None, action: str = None, resource_id: str = None, description: str = None) -> str:
-        permissions = data.get("permissions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        permission_id = kwargs.get("permission_id")
+        action = kwargs.get("action")
+        resource_id = kwargs.get("resource_id")
+        description = kwargs.get("description")
 
-        # If permission_id is supplied, return the specific permission
+        permissions = data.get("permissions", [])
+
+        # If permission_id is provided, return single permission
         if permission_id:
             permission = _find_by_id(permissions, "permission_id", permission_id)
             if not permission:
-                payload = {"error": f"permission_id {permission_id} not found"}
-                out = json.dumps(payload)
-                return out
-            payload = {"ok": True, "permission": permission}
-            out = json.dumps(payload)
-            return out
+                return json.dumps({"error": f"permission_id {permission_id} not found"})
+            return json.dumps({"ok": True, "permission": permission})
 
-        # Narrow down permissions according to the supplied criteria
+        # Filter permissions based on provided criteria
         filtered_permissions = []
-        for permission in permissions.values():
+        for permission in permissions:
             if action and permission.get("action") != action:
                 continue
             if resource_id and permission.get("resource_id") != resource_id:
                 continue
             if description and permission.get("description") != description:
                 continue
-            filtered_data["permissions"][permission_id] = permission
-        payload = {"ok": True, "permissions": filtered_permissions}
-        out = json.dumps(payload)
-        return out
+            filtered_permissions.append(permission)
+
+        return json.dumps({"ok": True, "permissions": filtered_permissions})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPermission",
+                "name": "get_permission",
                 "description": "Retrieve permissions by ID, action, or resource.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "permission_id": {
-                            "type": "string",
-                            "description": "Specific permission ID to retrieve.",
-                        },
-                        "action": {
-                            "type": "string",
-                            "description": "Filter by permission action.",
-                        },
-                        "resource_id": {
-                            "type": "string",
-                            "description": "Filter by resource involved in permissions.",
-                        },
-                        "description": {
-                            "type": "string",
-                            "description": "Filter by permission description.",
-                        },
+                        "permission_id": {"type": "string", "description": "Specific permission ID to retrieve."},
+                        "action": {"type": "string", "description": "Filter by permission action."},
+                        "resource_id": {"type": "string", "description": "Filter by resource involved in permissions."},
+                        "description": {"type": "string", "description": "Filter by permission description."}
                     },
                     "required": [],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
-
 
 class CreatePermission(Tool):
     """
-    Establish a new permission with consistent ID generation.
+    Create a new permission with deterministic ID generation.
 
     kwargs:
-      action: str (mandatory)
-      resource_id: str (mandatory)
-      description: str (mandatory)
+      action: str (required)
+      resource_id: str (required)
+      description: str (required)
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], action: str = "", resource_id: str = "", description: str = "") -> str:
-        action = action.strip()
-        resource_id = resource_id.strip()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        action = (kwargs.get("action", "") or "").strip()
+        resource_id = (kwargs.get("resource_id", "") or "").strip()
+        description = kwargs.get("description", "")
 
         if not action or not resource_id or not description:
-            payload = {"error": "action, resource_id, and description are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "action, resource_id, and description are required"})
 
-        # Confirm the resource is present
-        if not _find_by_id(data.get("resources", {}).values(), "resource_id", resource_id):
-            payload = {"error": f"resource_id {resource_id} not found"}
-            out = json.dumps(payload)
-            return out
+        # Validate resource exists
+        if not _find_by_id(data.get("resources", []), "resource_id", resource_id):
+            return json.dumps({"error": f"resource_id {resource_id} not found"})
 
-        # Ensure uniqueness based on (action, resource_id)
-        for p in data.get("permissions", {}).values():
-            if (
-                str(p.get("action", "")).strip().lower() == action.lower()
-                and p.get("resource_id") == resource_id
-            ):
-                payload = {
-                    "error": f"permission with action '{action}' for {resource_id} already exists"
-                }
-                out = json.dumps(payload)
-                return out
+        # Enforce uniqueness by (action, resource_id)
+        for p in data.get("permissions", []):
+            if str(p.get("action", "")).strip().lower() == action.lower() and p.get("resource_id") == resource_id:
+                return json.dumps({"error": f"permission with action '{action}' for {resource_id} already exists"})
 
         new_perm = {
             "permission_id": _next_id(data, "permissions", "P"),
@@ -2907,45 +2174,32 @@ class CreatePermission(Tool):
             "description": description,
         }
 
-        table = data.setdefault("permissions", {})
-        key = f"{len(table)}"
-        table[key] = new_perm
-        payload = {"ok": True, "permission": new_perm}
-        out = json.dumps(payload)
-        return out
+        data.setdefault("permissions", []).append(new_perm)
+        return json.dumps({"ok": True, "permission": new_perm})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreatePermission",
+                "name": "create_permission",
                 "description": "Create a new permission with deterministic ID generation.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "action": {
-                            "type": "string",
-                            "description": "Permission action (e.g., read, write).",
-                        },
-                        "resource_id": {
-                            "type": "string",
-                            "description": "Resource id the permission applies to.",
-                        },
-                        "description": {
-                            "type": "string",
-                            "description": "Permission description.",
-                        },
+                        "action": {"type": "string", "description": "Permission action (e.g., read, write)."},
+                        "resource_id": {"type": "string", "description": "Resource id the permission applies to."},
+                        "description": {"type": "string", "description": "Permission description."}
                     },
                     "required": ["action", "resource_id", "description"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
-
 
 class GetRolePermissions(Tool):
     """
-    Retrieve mappings of roles to permissions filtered by role_id and/or permission_id.
+    Retrieve role-permission mappings filtered by role_id and/or permission_id.
 
     kwargs:
       role_id: str (optional) - Filter mappings for a specific role
@@ -2953,29 +2207,31 @@ class GetRolePermissions(Tool):
       include_role: bool = False - Include role details in each mapping
       include_permission: bool = False - Include permission details in each mapping
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], role_id: str = None, permission_id: str = None, include_role: bool = False, include_permission: bool = False) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        role_id = kwargs.get("role_id")
+        permission_id = kwargs.get("permission_id")
+        include_role = kwargs.get("include_role", False)
+        include_permission = kwargs.get("include_permission", False)
+
         if not role_id and not permission_id:
-            payload = {"error": "Must provide role_id and/or permission_id"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Must provide role_id and/or permission_id"})
 
-        mappings = data.get("role_permissions", {}).values()
+        mappings = data.get("role_permissions", [])
 
-        # Narrow down
+        # Filter
         out = []
-        for rp in mappings.values():
+        for rp in mappings:
             if role_id and rp.get("role_id") != role_id:
                 continue
             if permission_id and rp.get("permission_id") != permission_id:
                 continue
             out.append(dict(rp))
 
-        # Optional extensions
+        # Optional expansions
         if include_role or include_permission:
-            role_map = {r.get("role_id"): r for r in data.get("roles", {}).values()}
-            perm_map = {p.get("permission_id"): p for p in data.get("permissions", {}).values()}
+            role_map = {r.get("role_id"): r for r in data.get("roles", [])}
+            perm_map = {p.get("permission_id"): p for p in data.get("permissions", [])}
             for item in out:
                 if include_role:
                     rid = item.get("role_id")
@@ -2987,142 +2243,100 @@ class GetRolePermissions(Tool):
                     perm = perm_map.get(pid)
                     if perm:
                         item["permission"] = perm
-        payload = {"ok": True, "role_permissions": out}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"ok": True, "role_permissions": out})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetRolePermissions",
+                "name": "get_role_permissions",
                 "description": "Retrieve role-permission mappings filtered by role_id and/or permission_id with optional detail expansion.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "role_id": {
-                            "type": "string",
-                            "description": "Filter by role_id (e.g., ROL-032).",
-                        },
-                        "permission_id": {
-                            "type": "string",
-                            "description": "Filter by permission_id (e.g., P-081).",
-                        },
-                        "include_role": {
-                            "type": "boolean",
-                            "description": "Include role details in each mapping.",
-                            "default": False,
-                        },
-                        "include_permission": {
-                            "type": "boolean",
-                            "description": "Include permission details in each mapping.",
-                            "default": False,
-                        },
+                        "role_id": {"type": "string", "description": "Filter by role_id (e.g., ROL-032)."},
+                        "permission_id": {"type": "string", "description": "Filter by permission_id (e.g., P-081)."},
+                        "include_role": {"type": "boolean", "description": "Include role details in each mapping.", "default": False},
+                        "include_permission": {"type": "boolean", "description": "Include permission details in each mapping.", "default": False}
                     },
                     "required": [],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
-
 
 class AssignPermissionToRole(Tool):
     """
-    Allocate a permission to a role by establishing a role-permission mapping.
+    Assign a permission to a role by creating a role-permission mapping.
 
     kwargs:
-      role_id: str (mandatory)
-      permission_id: str (mandatory)
+      role_id: str (required)
+      permission_id: str (required)
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], role_id: str = "", permission_id: str = "") -> str:
-        role_id = role_id.strip()
-        permission_id = permission_id.strip()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        role_id = (kwargs.get("role_id", "") or "").strip()
+        permission_id = (kwargs.get("permission_id", "") or "").strip()
 
         if not role_id or not permission_id:
-            payload = {"error": "role_id and permission_id are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "role_id and permission_id are required"})
 
-        # Confirm presence
-        if not _find_by_id(data.get("roles", {}).values(), "role_id", role_id):
-            payload = {"error": f"role_id {role_id} not found"}
-            out = json.dumps(payload)
-            return out
-        if not _find_by_id(data.get("permissions", {}).values(), "permission_id", permission_id):
-            payload = {"error": f"permission_id {permission_id} not found"}
-            out = json.dumps(payload)
-            return out
+        # Validate existence
+        if not _find_by_id(data.get("roles", []), "role_id", role_id):
+            return json.dumps({"error": f"role_id {role_id} not found"})
+        if not _find_by_id(data.get("permissions", []), "permission_id", permission_id):
+            return json.dumps({"error": f"permission_id {permission_id} not found"})
 
-        # Verify if the mapping is present
-        mappings = data.get("role_permissions", {}).values()
-        for rp in mappings.values():
-            if (
-                rp.get("role_id") == role_id
-                and rp.get("permission_id") == permission_id
-            ):
-                payload = {"ok": True, "role_permission": rp, "no_op": True}
-                out = json.dumps(payload)
-                return out
+        # Check if mapping exists
+        mappings = data.get("role_permissions", [])
+        for rp in mappings:
+            if rp.get("role_id") == role_id and rp.get("permission_id") == permission_id:
+                return json.dumps({"ok": True, "role_permission": rp, "no_op": True})
 
         new_mapping = {"role_id": role_id, "permission_id": permission_id}
-        table = data.setdefault("role_permissions", {})
-        key = f"{len(table)}"
-        table[key] = new_mapping
-        payload = {"ok": True, "role_permission": new_mapping, "action": "created"}
-        out = json.dumps(payload)
-        return out
+        data.setdefault("role_permissions", []).append(new_mapping)
+        return json.dumps({"ok": True, "role_permission": new_mapping, "action": "created"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AssignPermissionToRole",
+                "name": "assign_permission_to_role",
                 "description": "Assign a permission to a role by creating a role-permission mapping.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "role_id": {
-                            "type": "string",
-                            "description": "Target role_id (e.g., ROL-030).",
-                        },
-                        "permission_id": {
-                            "type": "string",
-                            "description": "Target permission_id (e.g., P-113).",
-                        },
+                        "role_id": {"type": "string", "description": "Target role_id (e.g., ROL-030)."},
+                        "permission_id": {"type": "string", "description": "Target permission_id (e.g., P-113)."}
                     },
                     "required": ["role_id", "permission_id"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
 
-
-#AUDITING & COMMUNICATIONS
+# AUDIT & COMMS
 class CreateAuditLogEntry(Tool):
     """
-    Create a consistent audit log entry.
+    Write a deterministic audit log entry.
 
     kwargs:
-      action_type: str (mandatory)
-      actor_id: str (mandatory)
-      target_id: str (mandatory)
-      details: str (mandatory)
-      timestamp: str ISO (defaults to now)
+      action_type: str (required)
+      actor_id: str (required)
+      target_id: str (required)
+      details: str (required)
+      timestamp: str ISO (defaults now)
     """
-
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        action_type: str = "", 
-        actor_id: str = "", 
-        target_id: str = "", 
-        details: str = "", 
-        timestamp: str = None
-    ) -> str:
-        if timestamp is None:
-            timestamp = get_current_timestamp()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        action_type = kwargs.get("action_type", "")
+        actor_id = kwargs.get("actor_id", "")
+        target_id = kwargs.get("target_id", "")
+        details = kwargs.get("details", "")
+        timestamp = kwargs.get("timestamp") or get_current_timestamp()
 
         log = {
             "log_id": _next_id(data, "audit_logs", "L"),
@@ -3133,118 +2347,85 @@ class CreateAuditLogEntry(Tool):
             "details": details,
         }
 
-        table = data.setdefault("audit_logs", {})
-        key = f"{len(table)}"
-        table[key] = log
-        payload = {"ok": True, "audit_log": log}
-        out = json.dumps(payload)
-        return out
+        data.setdefault("audit_logs", []).append(log)
+        return json.dumps({"ok": True, "audit_log": log})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateAuditLogEntry",
+                "name": "create_audit_log_entry",
                 "description": "Append an audit log entry with deterministic timestamp.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "action_type": {
-                            "type": "string",
-                            "description": "Audit action type.",
-                        },
-                        "actor_id": {
-                            "type": "string",
-                            "description": "User performing the action.",
-                        },
-                        "target_id": {
-                            "type": "string",
-                            "description": "Target entity id (request, user, resource, etc.).",
-                        },
-                        "details": {
-                            "type": "string",
-                            "description": "Deterministic details string.",
-                        },
-                        "timestamp": {
-                            "type": "string",
-                            "description": "ISO timestamp (optional).",
-                        },
+                        "action_type": {"type": "string", "description": "Audit action type."},
+                        "actor_id": {"type": "string", "description": "User performing the action."},
+                        "target_id": {"type": "string", "description": "Target entity id (request, user, resource, etc.)."},
+                        "details": {"type": "string", "description": "Deterministic details string."},
+                        "timestamp": {"type": "string", "description": "ISO timestamp (optional)."}
                     },
                     "required": ["action_type", "actor_id", "target_id", "details"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
-
 
 class CreateHubSpotTicket(Tool):
     """
-    Establish a general HubSpot support ticket adhering to consistent rules.
+    Create a general HubSpot support ticket following deterministic rules.
 
     kwargs:
-      subject: str (mandatory) - subject line of the ticket
-      description: str (mandatory) - description of the ticket
-      assignee_id: str (mandatory) - individual responsible for the ticket
-      requester_id: str (mandatory) - individual requesting the ticket
+      subject: str (required) - ticket subject line
+      description: str (required) - ticket description
+      assignee_id: str (required) - who will handle the ticket
+      requester_id: str (required) - who is requesting the ticket
       priority: str (default: "MEDIUM") - HIGH, MEDIUM, LOW
-      category: str (default: "GENERAL") - category of the ticket
+      category: str (default: "GENERAL") - ticket category
       status: str (default: "OPEN") - OPEN, IN_PROGRESS, CLOSED
     """
-
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        subject: str = "",
-        description: str = "",
-        assignee_id: str = "",
-        requester_id: str = "",
-        priority: str = "MEDIUM",
-        category: str = "GENERAL",
-        status: str = "OPEN"
-    ) -> str:
-        if not subject or not description or not assignee_id or not requester_id:
-            payload = {
-                "error": "subject, description, assignee_id, and requester_id are required"
-            }
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        subject = kwargs.get("subject", "")
+        description = kwargs.get("description", "")
+        assignee_id = kwargs.get("assignee_id", "")
+        requester_id = kwargs.get("requester_id", "")
+        priority = kwargs.get("priority", "MEDIUM")
+        category = kwargs.get("category", "GENERAL")
+        status = kwargs.get("status", "OPEN")
 
-        # Confirm priority
+        if not subject or not description or not assignee_id or not requester_id:
+            return json.dumps({"error": "subject, description, assignee_id, and requester_id are required"})
+
+        # Validate priority
         valid_priorities = ["HIGH", "MEDIUM", "LOW"]
         if priority not in valid_priorities:
-            payload = {"error": f"priority must be one of: {valid_priorities}"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"priority must be one of: {valid_priorities}"})
 
-        # Confirm status
+        # Validate status
         valid_statuses = ["OPEN", "IN_PROGRESS", "CLOSED"]
         if status not in valid_statuses:
-            payload = {"error": f"status must be one of: {valid_statuses}"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"status must be one of: {valid_statuses}"})
 
-        # Confirm the assignee is present
-        users = data.get("users", {}).values()
+        # Validate assignee exists
+        users = data.get("users", [])
         assignee = _find_by_id(users, "user_id", assignee_id)
         if not assignee:
-            payload = {"error": f"Assignee {assignee_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Assignee {assignee_id} not found"})
 
-        # Confirm the requester is present
+        # Validate requester exists
         requester = _find_by_id(users, "user_id", requester_id)
         if not requester:
-            payload = {"error": f"Requester {requester_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Requester {requester_id} not found"})
 
-        # Implement consistent rules for security incidents
+        # Apply deterministic rules for security incidents
         if category == "SECURITY_INCIDENT":
-            # Confirm that the operations manager (U-005) is designated for security incidents
+            # Ensure operations manager (U-005) is assigned for security incidents
             if assignee_id != "U-005":
                 assignee_id = "U-005"
 
-            # Verify that the subject adheres to the SIEM alert format
+            # Ensure subject follows SIEM alert format
             if not subject.startswith("SIEM Alert: "):
                 subject = "SIEM Alert: Unauthorized Access Attempt"
 
@@ -3262,75 +2443,42 @@ class CreateHubSpotTicket(Tool):
             "assignee_id": assignee_id,
             "requester_id": requester_id,
             "category": category,
-            "closed_at": None if status != "CLOSED" else timestamp,
+            "closed_at": None if status != "CLOSED" else timestamp
         }
 
-        table = data.setdefault("hubspot_tickets", {})
-        key = f"{len(table)}"
-        table[key] = ticket_record
-        payload = {"ok": True, "ticket": ticket_record}
-        out = json.dumps(payload)
-        return out
+        data.setdefault("hubspot_tickets", []).append(ticket_record)
+        return json.dumps({"ok": True, "ticket": ticket_record})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateHubspotTicket",
+                "name": "create_hubspot_ticket",
                 "description": "Create a general HubSpot support ticket following deterministic rules.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "subject": {
-                            "type": "string",
-                            "description": "Ticket subject line.",
-                        },
-                        "description": {
-                            "type": "string",
-                            "description": "Ticket description.",
-                        },
-                        "assignee_id": {
-                            "type": "string",
-                            "description": "User ID who will handle the ticket.",
-                        },
-                        "requester_id": {
-                            "type": "string",
-                            "description": "User ID who is requesting the ticket.",
-                        },
-                        "priority": {
-                            "type": "string",
-                            "description": "Ticket priority (HIGH, MEDIUM, LOW).",
-                            "default": "MEDIUM",
-                        },
-                        "category": {
-                            "type": "string",
-                            "description": "Ticket category.",
-                            "default": "GENERAL",
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "Ticket status (OPEN, IN_PROGRESS, CLOSED).",
-                            "default": "OPEN",
-                        },
+                        "subject": {"type": "string", "description": "Ticket subject line."},
+                        "description": {"type": "string", "description": "Ticket description."},
+                        "assignee_id": {"type": "string", "description": "User ID who will handle the ticket."},
+                        "requester_id": {"type": "string", "description": "User ID who is requesting the ticket."},
+                        "priority": {"type": "string", "description": "Ticket priority (HIGH, MEDIUM, LOW).", "default": "MEDIUM"},
+                        "category": {"type": "string", "description": "Ticket category.", "default": "GENERAL"},
+                        "status": {"type": "string", "description": "Ticket status (OPEN, IN_PROGRESS, CLOSED).", "default": "OPEN"}
                     },
-                    "required": [
-                        "subject",
-                        "description",
-                        "assignee_id",
-                        "requester_id",
-                    ],
-                    "additionalProperties": False,
-                },
-            },
+                    "required": ["subject", "description", "assignee_id", "requester_id"],
+                    "additionalProperties": False
+                }
+            }
         }
-
 
 class UpdateHubSpotTicket(Tool):
     """
-    Modify the fields and timestamps of an existing HubSpot ticket.
+    Update an existing HubSpot ticket's fields and timestamps.
 
     kwargs:
-      ticket_id: str (mandatory)
+      ticket_id: str (required)
       status: str (optional) - OPEN, IN_PROGRESS, CLOSED
       assignee_id: str (optional)
       priority: str (optional) - HIGH, MEDIUM, LOW
@@ -3338,54 +2486,39 @@ class UpdateHubSpotTicket(Tool):
       description: str (optional)
       updated_at: str ISO (optional; defaults to now)
     """
-
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        ticket_id: str = "",
-        status: str = None,
-        assignee_id: str = None,
-        priority: str = None,
-        subject: str = None,
-        description: str = None,
-        updated_at: str = None
-    ) -> str:
-        if updated_at is None:
-            updated_at = get_current_timestamp()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ticket_id = kwargs.get("ticket_id", "")
+        status = kwargs.get("status")
+        assignee_id = kwargs.get("assignee_id")
+        priority = kwargs.get("priority")
+        subject = kwargs.get("subject")
+        description = kwargs.get("description")
+        updated_at = kwargs.get("updated_at") or get_current_timestamp()
 
         if not ticket_id:
-            payload = {"error": "ticket_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "ticket_id is required"})
 
-        tickets = data.get("hubspot_tickets", {}).values()
+        tickets = data.get("hubspot_tickets", [])
         idx = None
-        for i, t in enumerate(tickets.values()):
+        for i, t in enumerate(tickets):
             if t.get("ticket_id") == ticket_id:
                 idx = i
                 break
 
         if idx is None:
-            payload = {"error": f"ticket_id {ticket_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"ticket_id {ticket_id} not found"})
 
-        # Confirm enumerations
+        # Validate enumerations
         if status is not None and status not in ["OPEN", "IN_PROGRESS", "CLOSED"]:
-            payload = {"error": "status must be one of: ['OPEN','IN_PROGRESS','CLOSED']"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "status must be one of: ['OPEN','IN_PROGRESS','CLOSED']"})
         if priority is not None and priority not in ["HIGH", "MEDIUM", "LOW"]:
-            payload = {"error": "priority must be one of: ['HIGH','MEDIUM','LOW']"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "priority must be one of: ['HIGH','MEDIUM','LOW']"})
 
-        # Confirm the assignee
+        # Validate assignee
         if assignee_id is not None:
-            if not _find_by_id(data.get("users", {}).values(), "user_id", assignee_id):
-                payload = {"error": f"assignee_id {assignee_id} not found"}
-                out = json.dumps(payload)
-                return out
+            if not _find_by_id(data.get("users", []), "user_id", assignee_id):
+                return json.dumps({"error": f"assignee_id {assignee_id} not found"})
 
         updated = dict(tickets[idx])
         if subject is not None:
@@ -3398,7 +2531,7 @@ class UpdateHubSpotTicket(Tool):
             updated["assignee_id"] = assignee_id
         if status is not None:
             updated["status"] = status
-            # Handle closed_at according to the status
+            # Manage closed_at based on status
             if status == "CLOSED":
                 updated["closed_at"] = updated_at
             else:
@@ -3407,97 +2540,71 @@ class UpdateHubSpotTicket(Tool):
         updated["updated_at"] = updated_at
 
         data["hubspot_tickets"][idx] = updated
-        payload = {"ok": True, "ticket": updated}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"ok": True, "ticket": updated})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateHubspotTicket",
+                "name": "update_hubspot_ticket",
                 "description": "Update an existing HubSpot ticket's fields and timestamps.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "ticket_id": {
-                            "type": "string",
-                            "description": "Ticket id (TI-###).",
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "New status (OPEN, IN_PROGRESS, CLOSED).",
-                        },
-                        "assignee_id": {
-                            "type": "string",
-                            "description": "New assignee user_id.",
-                        },
-                        "priority": {
-                            "type": "string",
-                            "description": "Priority (HIGH, MEDIUM, LOW).",
-                        },
-                        "subject": {
-                            "type": "string",
-                            "description": "Updated subject.",
-                        },
-                        "description": {
-                            "type": "string",
-                            "description": "Updated description.",
-                        },
-                        "updated_at": {
-                            "type": "string",
-                            "description": "ISO timestamp for update (optional).",
-                        },
+                        "ticket_id": {"type": "string", "description": "Ticket id (TI-###)."},
+                        "status": {"type": "string", "description": "New status (OPEN, IN_PROGRESS, CLOSED)."},
+                        "assignee_id": {"type": "string", "description": "New assignee user_id."},
+                        "priority": {"type": "string", "description": "Priority (HIGH, MEDIUM, LOW)."},
+                        "subject": {"type": "string", "description": "Updated subject."},
+                        "description": {"type": "string", "description": "Updated description."},
+                        "updated_at": {"type": "string", "description": "ISO timestamp for update (optional)."}
                     },
                     "required": ["ticket_id"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
+
+
 
 
 class GetHubSpotTicket(Tool):
     """
-    Retrieve HubSpot tickets using ticket_id or filter by SIEM alert ID (found in description),
+    Retrieve HubSpot tickets by ticket_id or filter by SIEM alert ID (present in description),
     status, priority, category, assignee_id, or requester_id.
 
     kwargs:
       ticket_id: str (optional) - Specific ticket ID to retrieve
-      alert_id: str (optional) - SIEM alert ID to match within the description (e.g., ALRT-012)
+      alert_id: str (optional) - SIEM alert ID to match within description (e.g., ALRT-012)
       status: str (optional) - OPEN, IN_PROGRESS, CLOSED
       priority: str (optional) - HIGH, MEDIUM, LOW
       category: str (optional) - SECURITY_INCIDENT, ACCESS_REQUEST, GENERAL, etc.
       assignee_id: str (optional)
       requester_id: str (optional)
     """
-
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        ticket_id: str = None,
-        alert_id: str = None,
-        status: str = None,
-        priority: str = None,
-        category: str = None,
-        assignee_id: str = None,
-        requester_id: str = None
-    ) -> str:
-        tickets = data.get("hubspot_tickets", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ticket_id = kwargs.get("ticket_id")
+        alert_id = kwargs.get("alert_id")
+        status = kwargs.get("status")
+        priority = kwargs.get("priority")
+        category = kwargs.get("category")
+        assignee_id = kwargs.get("assignee_id")
+        requester_id = kwargs.get("requester_id")
 
-        # If ticket_id is supplied, return the specific ticket
+        tickets = data.get("hubspot_tickets", [])
+
+        # If ticket_id is provided, return single ticket
         if ticket_id:
             t = _find_by_id(tickets, "ticket_id", ticket_id)
             if not t:
-                payload = {"error": f"ticket_id {ticket_id} not found"}
-                out = json.dumps(payload)
-                return out
-            payload = {"ok": True, "ticket": t}
-            out = json.dumps(payload)
-            return out
+                return json.dumps({"error": f"ticket_id {ticket_id} not found"})
+            return json.dumps({"ok": True, "ticket": t})
 
-        # If not, narrow down
-        out: list[dict[str, Any]] = []
-        for t in tickets.values():
+        # Otherwise, filter
+        out: List[Dict[str, Any]] = []
+        for t in tickets:
             if status and t.get("status") != status:
                 continue
             if priority and t.get("priority") != priority:
@@ -3513,79 +2620,56 @@ class GetHubSpotTicket(Tool):
                 if alert_id not in desc:
                     continue
             out.append(t)
-        payload = {"ok": True, "tickets": out}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"ok": True, "tickets": out})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetHubspotTicket",
+                "name": "get_hubspot_ticket",
                 "description": "Retrieve HubSpot tickets by ticket_id or filter by SIEM alert ID (in description), status, priority, category, assignee_id, or requester_id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "ticket_id": {
-                            "type": "string",
-                            "description": "Specific ticket ID to retrieve (TI-###).",
-                        },
-                        "alert_id": {
-                            "type": "string",
-                            "description": "SIEM alert ID to match in description (e.g., ALRT-012).",
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "Filter by status (OPEN, IN_PROGRESS, CLOSED).",
-                        },
-                        "priority": {
-                            "type": "string",
-                            "description": "Filter by priority (HIGH, MEDIUM, LOW).",
-                        },
-                        "category": {
-                            "type": "string",
-                            "description": "Filter by category (e.g., SECURITY_INCIDENT, ACCESS_REQUEST, GENERAL).",
-                        },
-                        "assignee_id": {
-                            "type": "string",
-                            "description": "Filter by assignee user_id.",
-                        },
-                        "requester_id": {
-                            "type": "string",
-                            "description": "Filter by requester user_id.",
-                        },
+                        "ticket_id": {"type": "string", "description": "Specific ticket ID to retrieve (TI-###)."},
+                        "alert_id": {"type": "string", "description": "SIEM alert ID to match in description (e.g., ALRT-012)."},
+                        "status": {"type": "string", "description": "Filter by status (OPEN, IN_PROGRESS, CLOSED)."},
+                        "priority": {"type": "string", "description": "Filter by priority (HIGH, MEDIUM, LOW)."},
+                        "category": {"type": "string", "description": "Filter by category (e.g., SECURITY_INCIDENT, ACCESS_REQUEST, GENERAL)."},
+                        "assignee_id": {"type": "string", "description": "Filter by assignee user_id."},
+                        "requester_id": {"type": "string", "description": "Filter by requester user_id."}
                     },
                     "required": [],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
-
 
 class PostSlackMessage(Tool):
     """
-    Add a Slack message record for notifications.
+    Append a Slack message record for notifications.
 
     kwargs:
-      channel: str (mandatory) e.g., "#access-requests"
-      message: str (mandatory)
+      channel: str (required) e.g., "#access-requests"
+      message: str (required)
       username: str = "RBAC_BOT"
-      timestamp: str ISO (defaults to now)
+      timestamp: str ISO (defaults now)
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], channel: str = "", message: str = "", username: str = "RBAC_BOT", timestamp: str = None) -> str:
-        if timestamp is None:
-            timestamp = get_current_timestamp()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        channel = kwargs.get("channel", "")
+        message = kwargs.get("message", "")
+        username = kwargs.get("username", "RBAC_BOT")
+        timestamp = kwargs.get("timestamp") or get_current_timestamp()
 
         if not channel or not message:
-            payload = {"error": "channel and message required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "channel and message required"})
 
-        # Consistent rule: Standardize security incident messages
-        # - When posting to #security-incidents, set the username to RBAC_BOT
-        # - Remove excess whitespace from the message
+        # Deterministic rule: Normalize security incident messages
+        # - If posting to #security-incidents, force the username to RBAC_BOT
+        # - Trim message to avoid whitespace variations
         if channel.strip() == "#security-incidents":
             username = "RBAC_BOT"
             message = " ".join(str(message).split())
@@ -3596,173 +2680,130 @@ class PostSlackMessage(Tool):
             "username": username,
             "message": message,
             "channel": channel,
-            # Conform to the dataset schema
-            "created_at": timestamp,
-            "updated_at": timestamp,
+                        # Align with dataset schema
+                        "created_at": timestamp,
+                        "updated_at": timestamp,
         }
 
-        table = data.setdefault("slack_messages", {})
-        key = f"{len(table)}"
-        table[key] = rec
-        payload = {"ok": True, "slack_message": rec}
-        out = json.dumps(payload)
-        return out
+        data.setdefault("slack_messages", []).append(rec)
+        return json.dumps({"ok": True, "slack_message": rec})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "PostSlackMessage",
+                "name": "post_slack_message",
                 "description": "Post a message record to Slack notifications (e.g., #access-requests).",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "channel": {
-                            "type": "string",
-                            "description": "Slack channel name (e.g., #access-requests).",
-                        },
+                        "channel": {"type": "string", "description": "Slack channel name (e.g., #access-requests)."},
                         "message": {"type": "string", "description": "Message text."},
-                        "username": {
-                            "type": "string",
-                            "description": "Posting bot username.",
-                            "default": "RBAC_BOT",
-                        },
-                        "timestamp": {
-                            "type": "string",
-                            "description": "ISO timestamp (optional).",
-                        },
+                        "username": {"type": "string", "description": "Posting bot username.", "default": "RBAC_BOT"},
+                        "timestamp": {"type": "string", "description": "ISO timestamp (optional)."}
                     },
                     "required": ["channel", "message"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
-
 
 class SendEmail(Tool):
     """
-    Dispatch an email with consistent ID and timestamp.
+    Send an email with deterministic ID and timestamp.
 
     kwargs:
-      sender: str (mandatory)
-      receiver: str (mandatory)
-      subject: str (mandatory)
-      text_content: str (mandatory)
-      timestamp: str ISO (optional; defaults to the current timestamp)
+      sender: str (required)
+      receiver: str (required)
+      subject: str (required)
+      text_content: str (required)
+      timestamp: str ISO (optional; defaults to current timestamp)
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], sender: str = "", receiver: str = "", subject: str = "", text_content: str = "", timestamp: str = None) -> str:
-        if timestamp is None:
-            timestamp = get_current_timestamp()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        sender = kwargs.get("sender", "")
+        receiver = kwargs.get("receiver", "")
+        subject = kwargs.get("subject", "")
+        text_content = kwargs.get("text_content", "")
+        timestamp = kwargs.get("timestamp") or get_current_timestamp()
 
         if not sender or not receiver or not subject or not text_content:
-            payload = {"error": "sender, receiver, subject, and text_content are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "sender, receiver, subject, and text_content are required"})
 
-        # Establish an email record
+        # Create email record
         email = {
             "email_id": _next_id(data, "emails", "EM"),
             "timestamp": timestamp,
             "sender": sender,
             "receiver": receiver,
             "subject": subject,
-            "text_content": text_content,
+            "text_content": text_content
         }
 
-        table = data.setdefault("emails", {})
-        key = f"{len(table)}"
-        table[key] = email
-        payload = {"ok": True, "email": email}
-        out = json.dumps(payload)
-        return out
+        data.setdefault("emails", []).append(email)
+        return json.dumps({"ok": True, "email": email})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SendEmail",
+                "name": "send_email",
                 "description": "Send an email with deterministic ID and timestamp.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "sender": {
-                            "type": "string",
-                            "description": "Sender email address.",
-                        },
-                        "receiver": {
-                            "type": "string",
-                            "description": "Receiver email address.",
-                        },
+                        "sender": {"type": "string", "description": "Sender email address."},
+                        "receiver": {"type": "string", "description": "Receiver email address."},
                         "subject": {"type": "string", "description": "Email subject."},
-                        "text_content": {
-                            "type": "string",
-                            "description": "Email body text.",
-                        },
-                        "timestamp": {
-                            "type": "string",
-                            "description": "ISO timestamp (optional).",
-                        },
+                        "text_content": {"type": "string", "description": "Email body text."},
+                        "timestamp": {"type": "string", "description": "ISO timestamp (optional)."}
                     },
                     "required": ["sender", "receiver", "subject", "text_content"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
-
 
 class CreateSiemAlert(Tool):
     """
-    Establish a new SIEM alert for security incidents.
+    Create a new SIEM alert for security incidents.
 
     kwargs:
-      user_id: str (mandatory) - ID of the user initiating the alert
-      resource_id: str (mandatory) - ID of the resource involved
+      user_id: str (required) - ID of the user triggering the alert
+      resource_id: str (required) - ID of the resource involved
       alert_type: str (default: "UNAUTHORIZED_ACCESS_ATTEMPT")
       severity: str (default: "HIGH") - CRITICAL, HIGH, MEDIUM, LOW
-      timestamp: str ISO (defaults to now)
+      timestamp: str ISO (defaults now)
     """
-
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        user_id: str = "", 
-        resource_id: str = "", 
-        alert_type: str = "UNAUTHORIZED_ACCESS_ATTEMPT", 
-        severity: str = "HIGH", 
-        timestamp: str = None
-    ) -> str:
-        if timestamp is None:
-            timestamp = get_current_timestamp()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id", "")
+        resource_id = kwargs.get("resource_id", "")
+        alert_type = kwargs.get("alert_type", "UNAUTHORIZED_ACCESS_ATTEMPT")
+        severity = kwargs.get("severity", "HIGH")
+        timestamp = kwargs.get("timestamp") or get_current_timestamp()
 
         if not user_id or not resource_id:
-            payload = {"error": "user_id and resource_id required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "user_id and resource_id required"})
 
-        # Confirm severity
+        # Validate severity
         valid_severities = ["CRITICAL", "HIGH", "MEDIUM", "LOW"]
         if severity not in valid_severities:
-            payload = {"error": f"severity must be one of: {valid_severities}"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"severity must be one of: {valid_severities}"})
 
-        # Confirm the user is present
-        users = data.get("users", {}).values()
+        # Validate user exists
+        users = data.get("users", [])
         user = _find_by_id(users, "user_id", user_id)
         if not user:
-            payload = {"error": f"User {user_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"User {user_id} not found"})
 
-        # Confirm the resource is present
-        resources = data.get("resources", {}).values()
+        # Validate resource exists
+        resources = data.get("resources", [])
         resource = _find_by_id(resources, "resource_id", resource_id)
         if not resource:
-            payload = {"error": f"Resource {resource_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Resource {resource_id} not found"})
 
         alert_id = _next_id(data, "siem_alerts", "ALRT")
 
@@ -3772,84 +2813,63 @@ class CreateSiemAlert(Tool):
             "user_id": user_id,
             "resource_id": resource_id,
             "alert_type": alert_type,
-            "severity": severity,
+            "severity": severity
         }
 
-        table = data.setdefault("siem_alerts", {})
-        key = f"{len(table)}"
-        table[key] = alert_record
-        payload = {"ok": True, "siem_alert": alert_record}
-        out = json.dumps(payload)
-        return out
+        data.setdefault("siem_alerts", []).append(alert_record)
+        return json.dumps({"ok": True, "siem_alert": alert_record})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateSiemAlert",
+                "name": "create_siem_alert",
                 "description": "Create a new SIEM alert for security incidents.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "user_id": {
-                            "type": "string",
-                            "description": "ID of the user triggering the alert.",
-                        },
-                        "resource_id": {
-                            "type": "string",
-                            "description": "ID of the resource involved.",
-                        },
-                        "alert_type": {
-                            "type": "string",
-                            "description": "Type of alert.",
-                            "default": "UNAUTHORIZED_ACCESS_ATTEMPT",
-                        },
-                        "severity": {
-                            "type": "string",
-                            "description": "Alert severity: CRITICAL, HIGH, MEDIUM, LOW.",
-                            "default": "HIGH",
-                        },
-                        "timestamp": {
-                            "type": "string",
-                            "description": "ISO timestamp (optional).",
-                        },
+                        "user_id": {"type": "string", "description": "ID of the user triggering the alert."},
+                        "resource_id": {"type": "string", "description": "ID of the resource involved."},
+                        "alert_type": {"type": "string", "description": "Type of alert.", "default": "UNAUTHORIZED_ACCESS_ATTEMPT"},
+                        "severity": {"type": "string", "description": "Alert severity: CRITICAL, HIGH, MEDIUM, LOW.", "default": "HIGH"},
+                        "timestamp": {"type": "string", "description": "ISO timestamp (optional)."}
                     },
                     "required": ["user_id", "resource_id"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
-
 
 class GetSiemAlert(Tool):
     """
-    Retrieve SIEM alerts based on ID, user, resource, or severity.
+    Retrieve SIEM alerts by ID, user, resource, or severity.
 
     kwargs:
       alert_id: str (optional) - Specific alert ID to retrieve
-      user_id: str (optional) - Filter by the user who triggered the alerts
-      resource_id: str (optional) - Filter by the resource involved in the alerts
+      user_id: str (optional) - Filter by user who triggered alerts
+      resource_id: str (optional) - Filter by resource involved in alerts
       severity: str (optional) - Filter by severity (CRITICAL, HIGH, MEDIUM, LOW)
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], alert_id: str = None, user_id: str = None, resource_id: str = None, severity: str = None) -> str:
-        siem_alerts = data.get("siem_alerts", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        alert_id = kwargs.get("alert_id")
+        user_id = kwargs.get("user_id")
+        resource_id = kwargs.get("resource_id")
+        severity = kwargs.get("severity")
 
-        # If alert_id is supplied, return the specific alert
+        siem_alerts = data.get("siem_alerts", [])
+
+        # If alert_id is provided, return single alert
         if alert_id:
             alert = _find_by_id(siem_alerts, "alert_id", alert_id)
             if not alert:
-                payload = {"error": f"SIEM alert {alert_id} not found"}
-                out = json.dumps(payload)
-                return out
-            payload = {"ok": True, "siem_alert": alert}
-            out = json.dumps(payload)
-            return out
+                return json.dumps({"error": f"SIEM alert {alert_id} not found"})
+            return json.dumps({"ok": True, "siem_alert": alert})
 
-        # Narrow down alerts according to the supplied criteria
+        # Filter alerts based on provided criteria
         filtered_alerts = []
-        for alert in siem_alerts.values():
+        for alert in siem_alerts:
             if user_id and alert.get("user_id") != user_id:
                 continue
             if resource_id and alert.get("resource_id") != resource_id:
@@ -3857,77 +2877,66 @@ class GetSiemAlert(Tool):
             if severity and alert.get("severity") != severity:
                 continue
             filtered_alerts.append(alert)
-        payload = {"ok": True, "siem_alerts": filtered_alerts}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"ok": True, "siem_alerts": filtered_alerts})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetSiemAlert",
+                "name": "get_siem_alert",
                 "description": "Retrieve SIEM alerts by ID, user, resource, or severity.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "alert_id": {
-                            "type": "string",
-                            "description": "Specific SIEM alert ID to retrieve.",
-                        },
-                        "user_id": {
-                            "type": "string",
-                            "description": "Filter by user who triggered alerts.",
-                        },
-                        "resource_id": {
-                            "type": "string",
-                            "description": "Filter by resource involved in alerts.",
-                        },
-                        "severity": {
-                            "type": "string",
-                            "description": "Filter by severity (CRITICAL, HIGH, MEDIUM, LOW).",
-                        },
+                        "alert_id": {"type": "string", "description": "Specific SIEM alert ID to retrieve."},
+                        "user_id": {"type": "string", "description": "Filter by user who triggered alerts."},
+                        "resource_id": {"type": "string", "description": "Filter by resource involved in alerts."},
+                        "severity": {"type": "string", "description": "Filter by severity (CRITICAL, HIGH, MEDIUM, LOW)."}
                     },
                     "required": [],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
 
 
-#SESSION ADMINISTRATION
+# SESSION MANAGEMENT
 class UpdateSession(Tool):
     """
-    Modify session properties while maintaining session_id as immutable.
+    Update session properties while keeping session_id immutable.
 
     kwargs:
-      session_id: str (mandatory) - Session ID to modify
-      end_time: str ISO (optional) - Specify session end time
-      ip_address: str (optional) - Update the IP address
-      device: str (optional) - Update the type of device
+      session_id: str (required) - Session ID to update
+      end_time: str ISO (optional) - Set session end time
+      ip_address: str (optional) - Update IP address
+      device: str (optional) - Update device type
       is_mfa: bool (optional) - Update MFA status
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], session_id: str = "", end_time: Any = None, ip_address: Any = None, device: Any = None, is_mfa: Any = None) -> str:
-        if not session_id:
-            payload = {"error": "session_id required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        session_id = kwargs.get("session_id", "")
+        end_time = kwargs.get("end_time")
+        ip_address = kwargs.get("ip_address")
+        device = kwargs.get("device")
+        is_mfa = kwargs.get("is_mfa")
 
-        # Locate the session
-        sessions = data.get("sessions", {}).values()
+        if not session_id:
+            return json.dumps({"error": "session_id required"})
+
+        # Find the session
+        sessions = data.get("sessions", [])
         session_index = None
-        for i, session in enumerate(sessions.values()):
+        for i, session in enumerate(sessions):
             if session.get("session_id") == session_id:
                 session_index = i
                 break
 
         if session_index is None:
-            payload = {"error": f"session_id {session_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"session_id {session_id} not found"})
 
-        # Modify the session (session_id, user_id, or start_time cannot be changed)
+        # Update the session (cannot modify session_id, user_id, or start_time)
         updated_session = dict(sessions[session_index])
         if end_time is not None:
             updated_session["end_time"] = end_time
@@ -3939,44 +2948,28 @@ class UpdateSession(Tool):
             updated_session["is_mfa"] = is_mfa
 
         data["sessions"][session_index] = updated_session
-        payload = {"ok": True, "session": updated_session}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"ok": True, "session": updated_session})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "updateSession",
+                "name": "update_session",
                 "description": "Update session properties while keeping session_id immutable.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "session_id": {
-                            "type": "string",
-                            "description": "Session ID to update.",
-                        },
-                        "end_time": {
-                            "type": "string",
-                            "description": "ISO timestamp for session end time.",
-                        },
-                        "ip_address": {
-                            "type": "string",
-                            "description": "Updated IP address.",
-                        },
-                        "device": {
-                            "type": "string",
-                            "description": "Updated device type (DESKTOP, LAPTOP, MOBILE).",
-                        },
-                        "is_mfa": {
-                            "type": "boolean",
-                            "description": "Updated MFA status.",
-                        },
+                        "session_id": {"type": "string", "description": "Session ID to update."},
+                        "end_time": {"type": "string", "description": "ISO timestamp for session end time."},
+                        "ip_address": {"type": "string", "description": "Updated IP address."},
+                        "device": {"type": "string", "description": "Updated device type (DESKTOP, LAPTOP, MOBILE)."},
+                        "is_mfa": {"type": "boolean", "description": "Updated MFA status."}
                     },
                     "required": ["session_id"],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
 
 
@@ -3990,84 +2983,67 @@ class GetSession(Tool):
       ip_address: str (optional) - Filter by IP address used in sessions
       only_active: bool = False - Only return sessions without end_time
     """
-
     @staticmethod
-    def invoke(data: dict[str, Any], session_id: str = None, user_id: str = None, ip_address: str = None, only_active: bool = False) -> str:
-        sessions = data.get("sessions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        session_id = kwargs.get("session_id")
+        user_id = kwargs.get("user_id")
+        ip_address = kwargs.get("ip_address")
+        only_active = kwargs.get("only_active", False)
 
-        # If session_id is supplied, return the specific session
+        sessions = data.get("sessions", [])
+
+        # If session_id is provided, return single session
         if session_id:
             session = _find_by_id(sessions, "session_id", session_id)
             if not session:
-                payload = {"error": f"session_id {session_id} not found"}
-                out = json.dumps(payload)
-                return out
-            payload = {"ok": True, "session": session if session else "No sessions found"}
-            out = json.dumps(payload)
-            return out
+                return json.dumps({"error": f"session_id {session_id} not found"})
+            return json.dumps({"ok": True, "session": session if session else "No sessions found"})
 
-        # Narrow down sessions according to the supplied criteria
+        # Filter sessions based on provided criteria
         filtered_sessions = []
-        for session in sessions.values():
-            # Narrow down by user_id if supplied
+        for session in sessions:
+            # Filter by user_id if provided
             if user_id and session.get("user_id") != user_id:
                 continue
-            # Narrow down by ip_address if supplied
+            # Filter by ip_address if provided
             if ip_address and session.get("ip_address") != ip_address:
                 continue
-            # Narrow down by active status if requested
+            # Filter by active status if requested
             if only_active and session.get("end_time") is not None:
                 continue
-            filtered_data["sessions"][session_id] = session
-        payload = {
-            "ok": True,
-            "sessions": (
-                filtered_sessions if filtered_sessions else "No sessions found"
-            ),
-        }
-        out = json.dumps(payload)
-        return out
+            filtered_sessions.append(session)
+
+        return json.dumps({"ok": True, "sessions": filtered_sessions if filtered_sessions else "No sessions found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetSession",
+                "name": "get_session",
                 "description": "Retrieve sessions by session ID, user ID, or IP address.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "session_id": {
-                            "type": "string",
-                            "description": "Specific session ID to retrieve.",
-                        },
-                        "user_id": {
-                            "type": "string",
-                            "description": "Filter by user who owns the sessions.",
-                        },
-                        "ip_address": {
-                            "type": "string",
-                            "description": "Filter by IP address used in sessions.",
-                        },
-                        "only_active": {
-                            "type": "boolean",
-                            "description": "Only return sessions without end_time.",
-                            "default": False,
-                        },
+                        "session_id": {"type": "string", "description": "Specific session ID to retrieve."},
+                        "user_id": {"type": "string", "description": "Filter by user who owns the sessions."},
+                        "ip_address": {"type": "string", "description": "Filter by IP address used in sessions."},
+                        "only_active": {"type": "boolean", "description": "Only return sessions without end_time.", "default": False}
                     },
                     "required": [],
-                    "additionalProperties": False,
-                },
-            },
+                    "additionalProperties": False
+                }
+            }
         }
 
 
 TOOLS = [
-    #User Administration
+    # User Management
     CreateUser(),
     UpdateUser(),
     GetUser(),
-    #Role Administration
+
+    # Role Management
     CreateRole(),
     GetRole(),
     UpdateRole(),
@@ -4077,10 +3053,12 @@ TOOLS = [
     EnsureUserRole(),
     UpdateUserRole(),
     CheckSoDConflicts(),
-    #Access Demands
+
+    # Access Requests
     GetAccessRequest(),
     DecideAccessRequest(),
-    #Permissions and Policy Exceptions
+
+    # Permissions & Policy Exceptions
     CreatePermission(),
     GetPermission(),
     GetRolePermissions(),
@@ -4088,27 +3066,33 @@ TOOLS = [
     GetPolicyException(),
     CreatePolicyException(),
     DecidePolicyException(),
-    #Assets and Access Management
+
+    # Resources & Access Control
     CreateResource(),
     GetResource(),
     ListUsersWithAccessToResource(),
     CanAccessResource(),
-    #Certification Records
+
+    # Certifications
     CreateCertification(),
     GetCertification(),
     CompleteCertification(),
-    #Session Administration
+
+    # Session Management
     GetSession(),
     UpdateSession(),
-    #Security and SIEM
+
+    # Security & SIEM
     CreateSiemAlert(),
     GetSiemAlert(),
-    #Communications and Tickets
+
+    # Communications & Tickets
     CreateHubSpotTicket(),
     GetHubSpotTicket(),
     UpdateHubSpotTicket(),
     SendEmail(),
     PostSlackMessage(),
-    #Auditing and Logging
-    CreateAuditLogEntry(),
+
+    # Audit & Logging
+    CreateAuditLogEntry()
 ]

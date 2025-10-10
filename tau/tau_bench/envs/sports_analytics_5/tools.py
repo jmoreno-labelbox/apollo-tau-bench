@@ -1,55 +1,35 @@
 import json
 import re
-from typing import Any
+from typing import Dict, Any, List, Optional, Union
+from datetime import datetime
+from domains.dto import Tool
 
-from tau_bench.envs.tool import Tool
+def _today_iso() -> str:
+    return "2025-08-14"
 
+def _now_utc_iso() -> str:
+    return _today_iso() + "T00:00:00Z"
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-
-def _check_required(kwargs: dict[str, Any], required: list[str]) -> str | None:
-    pass
-    missing = [k for k in required.values() if kwargs.get(k) is None]
-    if missing:
-        return f"Missing required argument(s): {', '.join(missing)}"
-    return None
-
-
-def _require_tables(data: dict[str, Any], required: list[str]) -> str | None:
-    pass
-    missing = [t for t in required.values() if t not in data or data.get(t) is None]
-    if missing:
-        return f"Missing required table(s): {', '.join(missing)}"
-    return None
-
-
-def _next_id(rows: list[dict[str, Any]], key: str) -> int:
-    pass
+def _next_id(rows: List[Dict[str, Any]], key: str) -> int:
     max_id = 0
-    for r in rows.values():
+    for r in rows:
         try:
             max_id = max(max_id, int(r.get(key, 0)))
         except Exception:
             pass
     return max_id + 1
 
+def _require_tables(data: Dict[str, Any], required: List[str]) -> Optional[str]:
+    missing = [t for t in required if t not in data or data.get(t) is None]
+    if missing:
+        return f"Missing required table(s): {', '.join(missing)}"
+    return None
 
-def _now_utc_iso() -> str:
-    pass
-    return _today_iso() + "T00:00:00Z"
-
-
-def _today_iso() -> str:
-    pass
-    return "2025-08-14"
-
+def _check_required(kwargs: Dict[str, Any], required: List[str]) -> Optional[str]:
+    missing = [k for k in required if kwargs.get(k) is None]
+    if missing:
+        return f"Missing required argument(s): {', '.join(missing)}"
+    return None
 
 PITCH_MAP = {
     "Four-Seam Fastball": "FF",
@@ -66,9 +46,7 @@ PITCH_MAP = {
     "Knuckleball": "KN",
 }
 
-
-def _grade_execution(miss_distance_inches: float | None) -> str:
-    pass
+def _grade_execution(miss_distance_inches: Optional[float]) -> str:
     if miss_distance_inches is None:
         return "Major miss"
     if miss_distance_inches <= 3.0:
@@ -77,548 +55,270 @@ def _grade_execution(miss_distance_inches: float | None) -> str:
         return "Minor miss"
     return "Major miss"
 
-
-#——————— READS & LISTS ———————
-
+# ———————————————————————— READS & LISTS ————————————————————————
 
 class GetGameDetails(Tool):
-    """Retrieve complete game row using game_pk."""
-
+    """Get full game row by game_pk."""
     @staticmethod
-    def invoke(data: dict[str, Any], game_pk: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         err = _require_tables(data, ["games"])
         if err:
-            payload = {"error": err}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": err}, indent=2)
+        game_pk = kwargs.get("game_pk")
         if not game_pk:
-            payload = {"error": "game_pk is required."}
-            out = json.dumps(payload, indent=2)
-            return out
-        row = next((g for g in data["games"].values() if g.get("game_pk") == game_pk), None)
-        payload = row or {"error": f"Game '{game_pk}' not found."}
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetGameDetails",
-                "description": "Returns the games row for a given game_pk.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"game_pk": {"type": "integer"}},
-                    "required": ["game_pk"],
-                },
-            },
-        }
+            return json.dumps({"error": "game_pk is required."}, indent=2)
+        row = next((g for g in data["games"] if g.get("game_pk") == game_pk), None)
+        return json.dumps(row or {"error": f"Game '{game_pk}' not found."}, indent=2)
 
+    @staticmethod
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{"name":"get_game_details","description":"Returns the games row for a given game_pk.","parameters":{"type":"object","properties":{"game_pk":{"type":"integer"}},"required":["game_pk"]}}}
 
 class ListGamesByStatus(Tool):
-    """Retrieve games based on game_status filter."""
-
+    """List games filtered by game_status."""
     @staticmethod
-    def invoke(data, game_status: str = None) -> str:
+    def invoke(data, **kwargs) -> str:
         err = _require_tables(data, ["games"])
         if err:
-            payload = {"error": err}
-            out = json.dumps(payload, indent=2)
-            return out
-        if not game_status:
-            payload = {"error": "game_status is required."}
-            out = json.dumps(payload, indent=2)
-            return out
-        rows = [g for g in data["games"].values() if (g.get("game_status") == game_status)]
-        payload = rows
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": err}, indent=2)
+        status = kwargs.get("game_status")
+        if not status:
+            return json.dumps({"error": "game_status is required."}, indent=2)
+        rows = [g for g in data["games"] if (g.get("game_status") == status)]
+        return json.dumps(rows, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "listGamesByStatus",
-                "description": "Lists games by exact game_status (e.g., 'Scheduled','Final','Cancelled').",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"game_status": {"type": "string"}},
-                    "required": ["game_status"],
-                },
-            },
-        }
-
+        return {"type":"function","function":{"name":"list_games_by_status","description":"Lists games by exact game_status (e.g., 'Scheduled','Final','Cancelled').","parameters":{"type":"object","properties":{"game_status":{"type":"string"}},"required":["game_status"]}}}
 
 class GetPlayerDetails(Tool):
-    """Retrieve a player using player_id or full_name."""
-
+    """Get a player by player_id or full_name."""
     @staticmethod
-    def invoke(data, player_id: str = None, full_name: str = None) -> str:
+    def invoke(data, **kwargs)->str:
         err = _require_tables(data, ["players"])
         if err:
-            payload = {"error": err}
-            out = json.dumps(payload, indent=2)
-            return out
-        pid = player_id
-        name = full_name
+            return json.dumps({"error": err}, indent=2)
+        pid = kwargs.get("player_id")
+        name = kwargs.get("full_name")
         row = None
         if pid is not None:
-            row = next((p for p in data["players"].values() if p.get("player_id") == pid), None)
+            row = next((p for p in data["players"] if p.get("player_id")==pid), None)
         elif name:
-            row = next((p for p in data["players"].values() if p.get("full_name") == name), None)
+            row = next((p for p in data["players"] if p.get("full_name")==name), None)
         else:
-            payload = {"error": "Provide player_id or full_name."}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = row or {"error": "Player not found."}
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error":"Provide player_id or full_name."}, indent=2)
+        return json.dumps(row or {"error":"Player not found."}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetPlayerDetails",
-                "description": "Fetch player by ID or exact full name.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "player_id": {"type": "integer"},
-                        "full_name": {"type": "string"},
-                    },
-                    "required": [],
-                },
-            },
-        }
-
+        return {"type":"function","function":{"name":"get_player_details","description":"Fetch player by ID or exact full name.","parameters":{"type":"object","properties":{"player_id":{"type":"integer"},"full_name":{"type":"string"}},"required":[]}}}
 
 class ListPlayersByRosterStatus(Tool):
-    """Retrieve players based on specified roster_status (e.g., 'Active', 'IL-15')."""
-
+    """List players with a given roster_status (e.g., 'Active', 'IL-15')."""
     @staticmethod
-    def invoke(data, roster_status: str = None) -> str:
-        pass
+    def invoke(data, **kwargs)->str:
         err = _require_tables(data, ["players"])
         if err:
-            payload = {"error": err}
-            out = json.dumps(payload, indent=2)
-            return out
-        if not roster_status:
-            payload = {"error": "roster_status is required."}
-            out = json.dumps(payload, indent=2)
-            return out
-        rows = [p for p in data["players"].values() if p.get("roster_status") == roster_status]
-        payload = rows
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": err}, indent=2)
+        status = kwargs.get("roster_status")
+        if not status:
+            return json.dumps({"error":"roster_status is required."}, indent=2)
+        rows = [p for p in data["players"] if p.get("roster_status")==status]
+        return json.dumps(rows, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "listPlayersByRosterStatus",
-                "description": "Returns players matching a specific roster_status.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"roster_status": {"type": "string"}},
-                    "required": ["roster_status"],
-                },
-            },
-        }
-
+        return {"type":"function","function":{"name":"list_players_by_roster_status","description":"Returns players matching a specific roster_status.","parameters":{"type":"object","properties":{"roster_status":{"type":"string"}},"required":["roster_status"]}}}
 
 class GetActiveRoster(Tool):
-    """Snapshot of the active roster for a team, omitting IL/Taxi unless include_il=True."""
-
+    """Active roster snapshot for a team, excluding IL/Taxi unless include_il=True."""
     @staticmethod
-    def invoke(data, team_id, include_il=False) -> str:
-        pass
+    def invoke(data, **kwargs)->str:
         err = _require_tables(data, ["players"])
         if err:
-            payload = {"error": err}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": err}, indent=2)
+        team_id = kwargs.get("team_id")
+        include_il = kwargs.get("include_il", False)
         if team_id is None:
-            payload = {"error": "team_id is required."}
-            out = json.dumps(payload, indent=2)
-            return out
-
+            return json.dumps({"error":"team_id is required."}, indent=2)
         def _eligible(p):
-            pass
             rs = (p.get("roster_status") or "").upper()
             if include_il:
                 return True
-            return rs == "ACTIVE"
+            return (rs == "ACTIVE")
+        rows = [p for p in data["players"] if p.get("current_team_id")==team_id and _eligible(p)]
+        return json.dumps(rows, indent=2)
 
-        rows = [
-            p
-            for p in data["players"].values()
-            if p.get("current_team_id") == team_id and _eligible(p)
-        ]
-        payload = rows
-        out = json.dumps(payload, indent=2)
-        return out
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetActiveRoster",
-                "description": "Returns active roster for a team_id. Excludes IL/Taxi by default.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "team_id": {"type": "integer"},
-                        "include_il": {"type": "boolean"},
-                    },
-                    "required": ["team_id"],
-                },
-            },
-        }
+        return {"type":"function","function":{"name":"get_active_roster","description":"Returns active roster for a team_id. Excludes IL/Taxi by default.","parameters":{"type":"object","properties":{"team_id":{"type":"integer"},"include_il":{"type":"boolean"}},"required":["team_id"]}}}
 
-
-#——————— GAME DAY EVENTS ———————
-
+# ———————————————————————— GAME DAY EVENTS ————————————————————————
 
 class ListGameDayEvents(Tool):
-    """Retrieves events for a game with optional filters. Note: min_leverage serves as a general ≥ filter; 'high leverage' according to policy applies strict > 1.5."""
+    """Lists events for a game with optional filters. Note: min_leverage is a generic ≥ filter; 'high leverage' per policy uses strict > 1.5."""
     @staticmethod
-    def invoke(data, game_pk: int, min_leverage: float = None, is_manual_alert: bool = None, draft_status: str = None) -> str:
+    def invoke(data, **kwargs)->str:
         err = _require_tables(data, ["game_day_events"])
         if err:
-            payload = {"error": err}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": err}, indent=2)
+        game_pk = kwargs.get("game_pk")
         if game_pk is None:
-            payload = {"error": "game_pk is required."}
-            out = json.dumps(payload, indent=2)
-            return out
-        rows = [e for e in data["game_day_events"].values() if e.get("game_pk") == game_pk]
-        if min_leverage is not None:
-            rows = [e for e in rows.values() if (e.get("leverage_index") or 0) >= float(min_leverage)]
-        if is_manual_alert is not None:
-            rows = [
-                e for e in rows if bool(e.get("is_manual_alert")) == bool(is_manual_alert)
-            ]
-        if draft_status:
-            rows = [e for e in rows.values() if e.get("draft_status") == draft_status]
-        payload = rows
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error":"game_pk is required."}, indent=2)
+        min_lev = kwargs.get("min_leverage")
+        is_manual = kwargs.get("is_manual_alert")
+        status = kwargs.get("draft_status")
+        rows = [e for e in data["game_day_events"] if e.get("game_pk")==game_pk]
+        if min_lev is not None:
+            rows = [e for e in rows if (e.get("leverage_index") or 0) >= float(min_lev)]
+        if is_manual is not None:
+            rows = [e for e in rows if bool(e.get("is_manual_alert")) == bool(is_manual)]
+        if status:
+            rows = [e for e in rows if e.get("draft_status")==status]
+        return json.dumps(rows, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "ListGameDayEvents",
-                "description": "Lists game_day_events for a game with optional filters.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "game_pk": {"type": "integer"},
-                        "min_leverage": {"type": "number"},
-                        "is_manual_alert": {"type": "boolean"},
-                        "draft_status": {"type": "string"},
-                    },
-                    "required": ["game_pk"],
-                },
-            },
-        }
-
+        return {"type":"function","function":{"name":"list_game_day_events","description":"Lists game_day_events for a game with optional filters.","parameters":{"type":"object","properties":{"game_pk":{"type":"integer"},"min_leverage":{"type":"number"},"is_manual_alert":{"type":"boolean"},"draft_status":{"type":"string"}},"required":["game_pk"]}}}
 
 class CreateManualAlertEvent(Tool):
-    """Generate a manual in-game alert (is_manual_alert=true)."""
-
+    """Create a manual in-game alert (is_manual_alert=true)."""
     @staticmethod
-    def invoke(data, game_pk, suggestion_text, pitch_id=None, leverage_index=0.0, draft_status="draft", is_manual_alert: Any = None, timestamp_utc: str = None, title: str = None, message: str = None, operator_note: str = None, coach_visible: Any = None) -> str:
-        pass
+    def invoke(data, **kwargs)->str:
         err = _require_tables(data, ["game_day_events"])
         if err:
-            payload = {"error": err}
-            out = json.dumps(payload, indent=2)
-            return out
-        need = _check_required({"game_pk": game_pk, "suggestion_text": suggestion_text}, ["game_pk", "suggestion_text"])
+            return json.dumps({"error": err}, indent=2)
+        need = _check_required(kwargs, ["game_pk","suggestion_text"])
         if need:
-            payload = {"error": need}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": need}, indent=2)
         events = data["game_day_events"]
         new_id = _next_id(events, "event_id")
         row = {
             "event_id": new_id,
-            "game_pk": game_pk,
-            "pitch_id": pitch_id,
+            "game_pk": kwargs.get("game_pk"),
+            "pitch_id": kwargs.get("pitch_id"),
             "timestamp_utc": _now_utc_iso(),
-            "leverage_index": leverage_index,
+            "leverage_index": kwargs.get("leverage_index", 0.0),
             "is_manual_alert": True,
-            "suggestion_text": suggestion_text,
-            "draft_status": draft_status,
+            "suggestion_text": kwargs.get("suggestion_text"),
+            "draft_status": kwargs.get("draft_status","draft")
         }
         events.append(row)
-        payload = {"event_id": new_id}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"event_id": new_id}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "CreateManualAlertEvent",
-                "description": "Creates a manual alert event with draft_status default 'draft'.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "game_pk": {"type": "integer"},
-                        "pitch_id": {"type": "integer"},
-                        "leverage_index": {"type": "number"},
-                        "suggestion_text": {"type": "string"},
-                        "draft_status": {"type": "string"},
-                    },
-                    "required": ["game_pk", "suggestion_text"],
-                },
-            },
-        }
-
+        return {"type":"function","function":{"name":"create_manual_alert_event","description":"Creates a manual alert event with draft_status default 'draft'.","parameters":{"type":"object","properties":{"game_pk":{"type":"integer"},"pitch_id":{"type":"integer"},"leverage_index":{"type":"number"},"suggestion_text":{"type":"string"},"draft_status":{"type":"string"}},"required":["game_pk","suggestion_text"]}}}
 
 class CreateAutoBookmarkEvent(Tool):
-    """Establish an automatic high-leverage bookmark (is_manual_alert=false). Requires leverage_index > 1.5."""
-
+    """Create an automatic high-leverage bookmark (is_manual_alert=false). Enforces leverage_index > 1.5."""
     @staticmethod
-    def invoke(data, game_pk, pitch_id, leverage_index, narration, timestamp_utc: Any = None, is_manual_alert: Any = None, coach_visible: Any = None, draft_status: str = None) -> str:
+    def invoke(data, **kwargs)->str:
         err = _require_tables(data, ["game_day_events"])
         if err:
-            payload = {"error": err}
-            out = json.dumps(payload, indent=2)
-            return out
-        need = _check_required(
-            {"game_pk": game_pk, "pitch_id": pitch_id, "leverage_index": leverage_index, "narration": narration},
-            ["game_pk", "pitch_id", "leverage_index", "narration"]
-        )
+            return json.dumps({"error": err}, indent=2)
+        need = _check_required(kwargs, ["game_pk","pitch_id","leverage_index","narration"])
         if need:
-            payload = {"error": need}
-            out = json.dumps(payload, indent=2)
-            return out
-        if float(leverage_index) <= 1.5:
-            payload = {"error": "auto-bookmarks require leverage_index > 1.5"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": need}, indent=2)
+        if float(kwargs["leverage_index"]) <= 1.5:
+            return json.dumps({"error":"auto-bookmarks require leverage_index > 1.5"}, indent=2)
         events = data["game_day_events"]
         new_id = _next_id(events, "event_id")
         row = {
             "event_id": new_id,
-            "game_pk": game_pk,
-            "pitch_id": pitch_id,
+            "game_pk": kwargs["game_pk"],
+            "pitch_id": kwargs["pitch_id"],
             "timestamp_utc": _now_utc_iso(),
-            "leverage_index": leverage_index,
+            "leverage_index": kwargs["leverage_index"],
             "is_manual_alert": False,
-            "suggestion_text": narration,
-            "draft_status": "draft",
+            "suggestion_text": kwargs["narration"],
+            "draft_status": "draft"
         }
         events.append(row)
-        payload = {"event_id": new_id}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"event_id": new_id}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "CreateAutoBookmarkEvent",
-                "description": "Creates an automatic high-leverage bookmark (is_manual_alert=false).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "game_pk": {"type": "integer"},
-                        "pitch_id": {"type": "integer"},
-                        "leverage_index": {"type": "number"},
-                        "narration": {"type": "string"},
-                    },
-                    "required": ["game_pk", "pitch_id", "leverage_index", "narration"],
-                },
-            },
-        }
-
+        return {"type":"function","function":{
+            "name":"create_auto_bookmark_event",
+            "description":"Creates an automatic high-leverage bookmark (is_manual_alert=false).",
+            "parameters":{"type":"object","properties":{
+                "game_pk":{"type":"integer"},
+                "pitch_id":{"type":"integer"},
+                "leverage_index":{"type":"number"},
+                "narration":{"type":"string"}}, "required":["game_pk","pitch_id","leverage_index","narration"]}
+        }}
 
 class UpdateEventStatus(Tool):
-    """Modify draft_status for a game_day_event to either: draft|published|archived, and log the transition."""
-
+    """Update draft_status for a game_day_event to one of: draft|published|archived, and audit the transition."""
     @staticmethod
-    def invoke(data, event_id: str = None, draft_status: str = None, changed_at_utc: str = None) -> str:
+    def invoke(data, **kwargs)->str:
         err = _require_tables(data, ["game_day_events"])
         if err:
-            payload = {"error": err}
-            out = json.dumps(payload, indent=2)
-            return out
-        if event_id is None or draft_status is None:
-            payload = {"error": "event_id and draft_status are required."}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        if draft_status not in ("draft", "published", "archived"):
-            payload = {"error": "draft_status must be one of draft|published|archived."}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
-        row = next(
-            (e for e in data["game_day_events"].values() if e.get("event_id") == event_id), None
-        )
+            return json.dumps({"error": err}, indent=2)
+        event_id = kwargs.get("event_id")
+        new_status = kwargs.get("draft_status")
+        if event_id is None or new_status is None:
+            return json.dumps({"error":"event_id and draft_status are required."}, indent=2)
+        if new_status not in ("draft","published","archived"):
+            return json.dumps({"error":"draft_status must be one of draft|published|archived."}, indent=2)
+        row = next((e for e in data["game_day_events"] if e.get("event_id")==event_id), None)
         if not row:
-            payload = {"error": f"Event '{event_id}' not found."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"Event '{event_id}' not found."}, indent=2)
         previous = row.get("draft_status")
-        row["draft_status"] = draft_status
+        row["draft_status"]=new_status
         audits = data.setdefault("event_status_audits", [])
-        audits.append(
-            {
-                "event_id": event_id,
-                "previous_status": previous,
-                "new_status": draft_status,
-                "changed_at_utc": changed_at_utc if changed_at_utc is not None else _now_utc_iso(),
-            }
-        )
-        payload = row
-        out = json.dumps(payload, indent=2)
-        return out
+        audits.append({
+            "event_id": event_id,
+            "previous_status": previous,
+            "new_status": new_status,
+            "changed_at_utc": _now_utc_iso()
+        })
+        return json.dumps(row, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "UpdateEventStatus",
-                "description": "Sets draft_status on a game_day_event and audits the transition.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "event_id": {"type": "integer"},
-                        "draft_status": {"type": "string"},
-                    },
-                    "required": ["event_id", "draft_status"],
-                },
-            },
-        }
-
+        return {"type":"function","function":{"name":"update_event_status","description":"Sets draft_status on a game_day_event and audits the transition.","parameters":{"type":"object","properties":{"event_id":{"type":"integer"},"draft_status":{"type":"string"}},"required":["event_id","draft_status"]}}}
 
 class ComputeGameLeverageSummary(Tool):
-    """Summarize the number of events exceeding the high-leverage threshold (strict > threshold; default 1.5)."""
-
+    """Summarize counts of events above the high-leverage threshold (strict > threshold; default 1.5)."""
     @staticmethod
-    def invoke(data, game_pk: int = None, threshold: float = 1.5, leverage_threshold: float = None) -> str:
-        # Use leverage_threshold if provided, otherwise use threshold
-        if leverage_threshold is not None:
-            threshold = leverage_threshold
+    def invoke(data, **kwargs)->str:
         err = _require_tables(data, ["game_day_events"])
         if err:
-            payload = {"error": err}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": err}, indent=2)
+        game_pk = kwargs.get("game_pk")
+        threshold = kwargs.get("threshold", 1.5)
         if game_pk is None:
-            payload = {"error": "game_pk is required."}
-            out = json.dumps(payload, indent=2)
-            return out
-        rows = [e for e in data["game_day_events"].values() if e.get("game_pk") == game_pk]
+            return json.dumps({"error":"game_pk is required."}, indent=2)
+        rows = [e for e in data["game_day_events"] if e.get("game_pk")==game_pk]
         total = len(rows)
-        high = len(
-            [e for e in rows.values() if (e.get("leverage_index") or 0) > float(threshold)]
-        )
-        manual = len([e for e in rows.values() if e.get("is_manual_alert") is True])
-        payload = {
-                "game_pk": game_pk,
-                "events_total": total,
-                "events_high_leverage": high,
-                "events_manual": manual,
-                "threshold_used": threshold,
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        high = len([e for e in rows if (e.get("leverage_index") or 0) > float(threshold)])
+        manual = len([e for e in rows if e.get("is_manual_alert") is True])
+        return json.dumps({"game_pk":game_pk,"events_total":total,"events_high_leverage":high,"events_manual":manual,"threshold_used":threshold}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "ComputeGameLeverageSummary",
-                "description": "Returns counts of events and those above leverage threshold.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "game_pk": {"type": "integer"},
-                        "threshold": {"type": "number"},
-                    },
-                    "required": ["game_pk"],
-                },
-            },
-        }
+        return {"type":"function","function":{"name":"compute_game_leverage_summary","description":"Returns counts of events and those above leverage threshold.","parameters":{"type":"object","properties":{"game_pk":{"type":"integer"},"threshold":{"type":"number"}},"required":["game_pk"]}}}
 
-
-#——————— REPORTS / INSIGHTS / DEV ———————
-
+# ———————————————————————— REPORTS / INSIGHTS / DEV ————————————————————————
 
 class CreateScoutingReport(Tool):
-    """Add a new entry to scouting_reports with consistent links; enforces post-game restrictions for report_type='post-game'."""
-
+    """Insert a new row into scouting_reports with deterministic links; enforces post-game gate for report_type='post-game'."""
     @staticmethod
-    def invoke(
-        data, 
-        report_type: str = None, 
-        game_pk: int = None, 
-        core_narrative_text: str = None, 
-        gslides_link: str = None, 
-        s3_pdf_path: str = None,
-        draft_status: str = None,
-        label: str = None
-    ) -> str:
+    def invoke(data, **kwargs)->str:
         err = _require_tables(data, ["scouting_reports", "games"])
         if err:
-            payload = {"error": err}
-            out = json.dumps(payload, indent=2)
-            return out
-        need = _check_required(
-            {
-                "report_type": report_type,
-                "game_pk": game_pk,
-                "core_narrative_text": core_narrative_text,
-                "gslides_link": gslides_link,
-                "s3_pdf_path": s3_pdf_path,
-            },
-            [
-                "report_type",
-                "game_pk",
-                "core_narrative_text",
-                "gslides_link",
-                "s3_pdf_path",
-            ],
-        )
+            return json.dumps({"error": err}, indent=2)
+        need = _check_required(kwargs, ["report_type","game_pk","core_narrative_text","gslides_link","s3_pdf_path"])
         if need:
-            payload = {"error": need}
-            out = json.dumps(payload, indent=2)
-            return out
-        rtype = report_type
-        gpk = game_pk
+            return json.dumps({"error": need}, indent=2)
+        rtype = kwargs.get("report_type")
+        gpk = kwargs.get("game_pk")
         if rtype == "post-game":
-            g = next((g for g in data["games"].values() if g.get("game_pk") == gpk), None)
+            g = next((g for g in data["games"] if g.get("game_pk") == gpk), None)
             if not g or g.get("game_status") != "Final":
-                payload = {
-                        "error": "post-game reports require games.game_status == 'Final'."
-                    }
-                out = json.dumps(
-                    payload, indent=2,
-                )
-                return out
+                return json.dumps({"error": "post-game reports require games.game_status == 'Final'."}, indent=2)
         rows = data["scouting_reports"]
         new_id = _next_id(rows, "report_id")
         row = {
@@ -626,1168 +326,506 @@ class CreateScoutingReport(Tool):
             "report_type": rtype,
             "game_pk": gpk,
             "created_at": _now_utc_iso(),
-            "s3_pdf_path": s3_pdf_path,
-            "gslides_link": gslides_link,
-            "core_narrative_text": core_narrative_text,
+            "s3_pdf_path": kwargs.get("s3_pdf_path"),
+            "gslides_link": kwargs.get("gslides_link"),
+            "core_narrative_text": kwargs.get("core_narrative_text"),
         }
         rows.append(row)
-        payload = {"report_id": new_id}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"report_id": new_id}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "CreateScoutingReport",
-                "description": "Creates a scouting_reports row with deterministic links and post-game gate enforcement.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "report_type": {"type": "string"},
-                        "game_pk": {"type": "integer"},
-                        "core_narrative_text": {"type": "string"},
-                        "gslides_link": {"type": "string"},
-                        "s3_pdf_path": {"type": "string"},
-                    },
-                    "required": [
-                        "report_type",
-                        "game_pk",
-                        "core_narrative_text",
-                        "gslides_link",
-                        "s3_pdf_path",
-                    ],
-                },
-            },
-        }
-
+        return {"type":"function","function":{"name":"create_scouting_report","description":"Creates a scouting_reports row with deterministic links and post-game gate enforcement.","parameters":{"type":"object","properties":{"report_type":{"type":"string"},"game_pk":{"type":"integer"},"core_narrative_text":{"type":"string"},"gslides_link":{"type":"string"},"s3_pdf_path":{"type":"string"}},"required":["report_type","game_pk","core_narrative_text","gslides_link","s3_pdf_path"]}}}
 
 class AddCuratedInsight(Tool):
-    """Insert a curated_insights entry associated with a report and player. Enforces structured insight_text and permitted insight_type."""
-
+    """Add a curated_insights row linked to a report and player. Enforces templated insight_text and allowed insight_type."""
     @staticmethod
-    def invoke(
-        data,
-        report_id: str = None,
-        player_id: str = None,
-        insight_text: str = None,
-        insight_type: str = None,
-        supporting_stat_value: float = None,
-    ) -> str:
+    def invoke(data, **kwargs)->str:
         err = _require_tables(data, ["curated_insights"])
         if err:
-            payload = {"error": err}
-            out = json.dumps(payload, indent=2)
-            return out
-        need = _check_required(
-            {
-                "report_id": report_id,
-                "player_id": player_id,
-                "insight_text": insight_text,
-                "insight_type": insight_type,
-                "supporting_stat_value": supporting_stat_value,
-            },
-            [
-                "report_id",
-                "player_id",
-                "insight_text",
-                "insight_type",
-                "supporting_stat_value",
-            ],
-        )
+            return json.dumps({"error": err}, indent=2)
+        need = _check_required(kwargs, ["report_id","player_id","insight_text","insight_type","supporting_stat_value"])
         if need:
-            payload = {"error": need}
-            out = json.dumps(payload, indent=2)
-            return out
-        # Ensure a consistent template and permitted types
-        allowed_types = {
-            "tendency",
-            "execution",
-            "stamina",
-            "situational",
-            "predictability",
-        }
-        if insight_type not in allowed_types:
-            payload = {"error": f"insight_type must be one of {sorted(list(allowed_types))}"}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({"error": need}, indent=2)
+        # Enforce deterministic template and allowed types
+        allowed_types = {"tendency","execution","stamina","situational","predictability"}
+        t = kwargs.get("insight_type")
+        if t not in allowed_types:
+            return json.dumps({"error": f"insight_type must be one of {sorted(list(allowed_types))}"}, indent=2)
         pattern = r"^(tendency|execution|stamina|situational|predictability)_[a-z0-9]+_[a-z0-9]+$"
-        if not re.match(pattern, insight_text):
-            payload = {
-                "error": "insight_text must match '{category}_{metric}_{bucket}' using lowercase letters/digits."
-            }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+        if not re.match(pattern, kwargs.get("insight_text")):
+            return json.dumps({"error":"insight_text must match '{category}_{metric}_{bucket}' using lowercase letters/digits."}, indent=2)
 
         rows = data["curated_insights"]
         new_id = _next_id(rows, "insight_id")
         row = {
             "insight_id": new_id,
-            "report_id": report_id,
-            "player_id": player_id,
-            "insight_text": insight_text,
-            "insight_type": insight_type,
-            "supporting_stat_value": supporting_stat_value,
+            "report_id": kwargs.get("report_id"),
+            "player_id": kwargs.get("player_id"),
+            "insight_text": kwargs.get("insight_text"),
+            "insight_type": kwargs.get("insight_type"),
+            "supporting_stat_value": kwargs.get("supporting_stat_value")
         }
         rows.append(row)
-        payload = {"insight_id": new_id}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"insight_id": new_id}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "AddCuratedInsight",
-                "description": "Inserts a curated insight row (templated text enforced).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "report_id": {"type": "integer"},
-                        "player_id": {"type": "integer"},
-                        "insight_text": {"type": "string"},
-                        "insight_type": {"type": "string"},
-                        "supporting_stat_value": {"type": "number"},
-                    },
-                    "required": [
-                        "report_id",
-                        "player_id",
-                        "insight_text",
-                        "insight_type",
-                        "supporting_stat_value",
-                    ],
-                },
-            },
-        }
-
+        return {"type":"function","function":{"name":"add_curated_insight","description":"Inserts a curated insight row (templated text enforced).","parameters":{"type":"object","properties":{"report_id":{"type":"integer"},"player_id":{"type":"integer"},"insight_text":{"type":"string"},"insight_type":{"type":"string"},"supporting_stat_value":{"type":"number"}},"required":["report_id","player_id","insight_text","insight_type","supporting_stat_value"]}}}
 
 class ListCuratedInsights(Tool):
-    """Retrieve curated_insights by player_id and/or report_id, with an optional minimum supporting_stat_value. Sorted by value in descending order, player_id in ascending order."""
-
+    """List curated_insights by player_id and/or report_id, optional min supporting_stat_value. Sorted by value desc, player_id asc."""
     @staticmethod
-    def invoke(data, player_id=None, report_id=None, min_supporting_stat_value=None) -> str:
+    def invoke(data, **kwargs)->str:
         err = _require_tables(data, ["curated_insights"])
         if err:
-            payload = {"error": err}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": err}, indent=2)
+        pid = kwargs.get("player_id")
+        rid = kwargs.get("report_id")
+        min_val = kwargs.get("min_supporting_stat_value")
         rows = data["curated_insights"]
-        if player_id is not None:
-            rows = [r for r in rows.values() if r.get("player_id") == player_id]
-        if report_id is not None:
-            rows = [r for r in rows.values() if r.get("report_id") == report_id]
-        if min_supporting_stat_value is not None:
-            rows = [
-                r
-                for r in rows
-                if (r.get("supporting_stat_value") or 0) >= float(min_supporting_stat_value)
-            ]
-        rows = sorted(
-            rows,
-            key=lambda r: (
-                -float(r.get("supporting_stat_value") or 0),
-                int(r.get("player_id") or 0),
-            ),
-        )
-        payload = rows
-        out = json.dumps(payload, indent=2)
-        return out
+        if pid is not None:
+            rows = [r for r in rows if r.get("player_id")==pid]
+        if rid is not None:
+            rows = [r for r in rows if r.get("report_id")==rid]
+        if min_val is not None:
+            rows = [r for r in rows if (r.get("supporting_stat_value") or 0) >= float(min_val)]
+        rows = sorted(rows, key=lambda r: (-float(r.get("supporting_stat_value") or 0), int(r.get("player_id") or 0)))
+        return json.dumps(rows, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "ListCuratedInsights",
-                "description": "Lists curated insights filtered by player/report and threshold.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "player_id": {"type": "integer"},
-                        "report_id": {"type": "integer"},
-                        "min_supporting_stat_value": {"type": "number"},
-                    },
-                    "required": [],
-                },
-            },
-        }
-
+        return {"type":"function","function":{"name":"list_curated_insights","description":"Lists curated insights filtered by player/report and threshold.","parameters":{"type":"object","properties":{"player_id":{"type":"integer"},"report_id":{"type":"integer"},"min_supporting_stat_value":{"type":"number"}},"required":[]}}}
 
 class CreatePlayerDevReport(Tool):
-    """Generate a player_dev_reports entry with a consistent s3 path if one is not given."""
-
+    """Create a player_dev_reports row with deterministic s3 path if not provided."""
     @staticmethod
-    def invoke(data, player_id: str, week_of_date: str, s3_pdf_path: str = None) -> str:
+    def invoke(data, **kwargs)->str:
         err = _require_tables(data, ["player_dev_reports"])
         if err:
-            payload = {"error": err}
-            out = json.dumps(payload, indent=2)
-            return out
-        need = _check_required({"player_id": player_id, "week_of_date": week_of_date}, ["player_id", "week_of_date"])
+            return json.dumps({"error": err}, indent=2)
+        need = _check_required(kwargs, ["player_id","week_of_date"])
         if need:
-            payload = {"error": need}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": need}, indent=2)
         rows = data["player_dev_reports"]
         new_id = _next_id(rows, "dev_report_id")
-        path = s3_pdf_path or f"s3://reports/player_dev/{player_id}/{week_of_date}.pdf"
+        path = kwargs.get("s3_pdf_path", f"s3://reports/player_dev/{kwargs.get('player_id')}/{kwargs.get('week_of_date')}.pdf")
         row = {
             "dev_report_id": new_id,
-            "player_id": player_id,
-            "week_of_date": week_of_date,
+            "player_id": kwargs.get("player_id"),
+            "week_of_date": kwargs.get("week_of_date"),
             "created_at": _now_utc_iso(),
-            "s3_pdf_path": path,
+            "s3_pdf_path": path
         }
         rows.append(row)
-        payload = {"dev_report_id": new_id}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"dev_report_id": new_id}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "CreatePlayerDevReport",
-                "description": "Creates a player_dev_reports row.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "player_id": {"type": "integer"},
-                        "week_of_date": {"type": "string"},
-                        "s3_pdf_path": {"type": "string"},
-                    },
-                    "required": ["player_id", "week_of_date"],
-                },
-            },
-        }
-
+        return {"type":"function","function":{"name":"create_player_dev_report","description":"Creates a player_dev_reports row.","parameters":{"type":"object","properties":{"player_id":{"type":"integer"},"week_of_date":{"type":"string"},"s3_pdf_path":{"type":"string"}},"required":["player_id","week_of_date"]}}}
 
 class CreatePlayerDevGoal(Tool):
-    """Add a player_dev_goals entry (status defaults to 'Proposed')."""
-
+    """Insert player_dev_goals row (status defaults to 'Proposed')."""
     @staticmethod
-    def invoke(
-        data, 
-        dev_report_id: int, 
-        player_id: int, 
-        goal_text: str, 
-        coach_id: int, 
-        target_review_date: str,
-        goal_status: str = None
-    ) -> str:
+    def invoke(data, **kwargs)->str:
         err = _require_tables(data, ["player_dev_goals"])
         if err:
-            payload = {"error": err}
-            out = json.dumps(payload, indent=2)
-            return out
-        need = _check_required(
-            {
-                "dev_report_id": dev_report_id,
-                "player_id": player_id,
-                "goal_text": goal_text,
-                "coach_id": coach_id,
-                "target_review_date": target_review_date,
-            },
-            [
-                "dev_report_id",
-                "player_id",
-                "goal_text",
-                "coach_id",
-                "target_review_date",
-            ],
-        )
+            return json.dumps({"error": err}, indent=2)
+        need = _check_required(kwargs, ["dev_report_id","player_id","goal_text","coach_id","target_review_date"])
         if need:
-            payload = {"error": need}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": need}, indent=2)
         rows = data["player_dev_goals"]
         new_id = _next_id(rows, "goal_id")
         row = {
             "goal_id": new_id,
-            "dev_report_id": dev_report_id,
-            "player_id": player_id,
-            "goal_text": goal_text,
-            "goal_status": goal_status if goal_status is not None else "Proposed",
-            "coach_id": coach_id,
-            "target_review_date": target_review_date,
+            "dev_report_id": kwargs.get("dev_report_id"),
+            "player_id": kwargs.get("player_id"),
+            "goal_text": kwargs.get("goal_text"),
+            "goal_status": "Proposed",
+            "coach_id": kwargs.get("coach_id"),
+            "target_review_date": kwargs.get("target_review_date")
         }
         rows.append(row)
-        payload = {"goal_id": new_id}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"goal_id": new_id}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "CreatePlayerDevGoal",
-                "description": "Creates a 'Proposed' goal linked to a dev report.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "dev_report_id": {"type": "integer"},
-                        "player_id": {"type": "integer"},
-                        "goal_text": {"type": "string"},
-                        "coach_id": {"type": "integer"},
-                        "target_review_date": {"type": "string"},
-                    },
-                    "required": [
-                        "dev_report_id",
-                        "player_id",
-                        "goal_text",
-                        "coach_id",
-                        "target_review_date",
-                    ],
-                },
-            },
-        }
-
+        return {"type":"function","function":{"name":"create_player_dev_goal","description":"Creates a 'Proposed' goal linked to a dev report.","parameters":{"type":"object","properties":{"dev_report_id":{"type":"integer"},"player_id":{"type":"integer"},"goal_text":{"type":"string"},"coach_id":{"type":"integer"},"target_review_date":{"type":"string"}},"required":["dev_report_id","player_id","goal_text","coach_id","target_review_date"]}}}
 
 class ApprovePlayerDevGoal(Tool):
-    """Authorize a goal (goal_status='Approved')."""
-
+    """Approve a goal (goal_status='Approved')."""
     @staticmethod
-    def invoke(data, goal_id: str = None) -> str:
+    def invoke(data, **kwargs)->str:
         err = _require_tables(data, ["player_dev_goals"])
         if err:
-            payload = {"error": err}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": err}, indent=2)
+        goal_id = kwargs.get("goal_id")
         if goal_id is None:
-            payload = {"error": "goal_id is required."}
-            out = json.dumps(payload, indent=2)
-            return out
-        row = next(
-            (g for g in data["player_dev_goals"].values() if g.get("goal_id") == goal_id), None
-        )
+            return json.dumps({"error":"goal_id is required."}, indent=2)
+        row = next((g for g in data["player_dev_goals"] if g.get("goal_id")==goal_id), None)
         if not row:
-            payload = {"error": f"Goal '{goal_id}' not found."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"Goal '{goal_id}' not found."}, indent=2)
         row["goal_status"] = "Approved"
-        payload = row
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(row, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "ApprovePlayerDevGoal",
-                "description": "Sets goal_status='Approved' for a goal.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"goal_id": {"type": "integer"}},
-                    "required": ["goal_id"],
-                },
-            },
-        }
-
+        return {"type":"function","function":{"name":"approve_player_dev_goal","description":"Sets goal_status='Approved' for a goal.","parameters":{"type":"object","properties":{"goal_id":{"type":"integer"}},"required":["goal_id"]}}}
 
 class CreateVideoPlaylist(Tool):
-    """Generate a video_playlists entry for a report. Requires non-negative counts; when utilizing dev categories, enforces clip ranges."""
-
+    """Create a video_playlists row for a report. Enforces non-negative counts; when using dev categories, enforces clip ranges."""
     @staticmethod
-    def invoke(data, report_id: str = None, playlist_name: str = None, clip_count: int = None, internal_portal_link: str = None) -> str:
+    def invoke(data, **kwargs)->str:
         err = _require_tables(data, ["video_playlists"])
         if err:
-            payload = {"error": err}
-            out = json.dumps(payload, indent=2)
-            return out
-        need = _check_required({"report_id": report_id, "playlist_name": playlist_name, "clip_count": clip_count}, ["report_id", "playlist_name", "clip_count"])
+            return json.dumps({"error": err}, indent=2)
+        need = _check_required(kwargs, ["report_id","playlist_name","clip_count"])
         if need:
-            payload = {"error": need}
-            out = json.dumps(payload, indent=2)
-            return out
-        name = playlist_name
-        cc = clip_count
+            return json.dumps({"error": need}, indent=2)
+        name = kwargs.get("playlist_name")
+        cc = kwargs.get("clip_count")
         try:
             cc_int = int(cc)
         except Exception:
-            payload = {"error": "clip_count must be an integer."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error":"clip_count must be an integer."}, indent=2)
         if cc_int < 0:
-            payload = {"error": "clip_count must be a non-negative integer."}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        if name in ("Positive Reinforcement", "Teaching Moments"):
-            rng = (3, 5) if name == "Positive Reinforcement" else (2, 3)
+            return json.dumps({"error":"clip_count must be a non-negative integer."}, indent=2)
+        if name in ("Positive Reinforcement","Teaching Moments"):
+            rng = (3,5) if name=="Positive Reinforcement" else (2,3)
             if not (rng[0] <= cc_int <= rng[1]):
-                payload = {"error": f"{name} requires clip_count in {rng}."}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
+                return json.dumps({"error":f"{name} requires clip_count in {rng}."}, indent=2)
 
         rows = data["video_playlists"]
         new_id = _next_id(rows, "playlist_id")
-        link = internal_portal_link or f"https://portal.internal/videos/report/{report_id}/playlist/{new_id}"
+        link = kwargs.get("internal_portal_link", f"https://portal.internal/videos/report/{kwargs.get('report_id')}/playlist/{new_id}")
         row = {
             "playlist_id": new_id,
-            "report_id": report_id,
+            "report_id": kwargs.get("report_id"),
             "playlist_name": name,
             "internal_portal_link": link,
-            "clip_count": cc_int,
+            "clip_count": cc_int
         }
         rows.append(row)
-        payload = {"playlist_id": new_id}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"playlist_id": new_id}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "CreateVideoPlaylist",
-                "description": "Creates a video_playlists row for a report with validation.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "report_id": {"type": "integer"},
-                        "playlist_name": {"type": "string"},
-                        "clip_count": {"type": "integer"},
-                        "internal_portal_link": {"type": "string"},
-                    },
-                    "required": ["report_id", "playlist_name", "clip_count"],
-                },
-            },
-        }
-
+        return {"type":"function","function":{"name":"create_video_playlist","description":"Creates a video_playlists row for a report with validation.","parameters":{"type":"object","properties":{"report_id":{"type":"integer"},"playlist_name":{"type":"string"},"clip_count":{"type":"integer"},"internal_portal_link":{"type":"string"}},"required":["report_id","playlist_name","clip_count"]}}}
 
 class ListVideoPlaylists(Tool):
-    """Retrieve playlists associated with a specific report_id."""
-
+    """List playlists for a given report_id."""
     @staticmethod
-    def invoke(data, report_id: str = None) -> str:
+    def invoke(data, **kwargs)->str:
         err = _require_tables(data, ["video_playlists"])
         if err:
-            payload = {"error": err}
-            out = json.dumps(payload, indent=2)
-            return out
-        if report_id is None:
-            payload = {"error": "report_id is required."}
-            out = json.dumps(payload, indent=2)
-            return out
-        rows = [v for v in data["video_playlists"].values() if v.get("report_id") == report_id]
-        payload = rows
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": err}, indent=2)
+        rid = kwargs.get("report_id")
+        if rid is None:
+            return json.dumps({"error":"report_id is required."}, indent=2)
+        rows = [v for v in data["video_playlists"] if v.get("report_id")==rid]
+        return json.dumps(rows, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "ListVideoPlaylists",
-                "description": "Lists video_playlists rows for a report.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"report_id": {"type": "integer"}},
-                    "required": ["report_id"],
-                },
-            },
-        }
+        return {"type":"function","function":{"name":"list_video_playlists","description":"Lists video_playlists rows for a report.","parameters":{"type":"object","properties":{"report_id":{"type":"integer"}},"required":["report_id"]}}}
 
-
-#——————— LOGGING ———————
-
+# ———————————————————————— LOGGING ————————————————————————
 
 class LogWorkflowRun(Tool):
-    """Add a workflow_runs entry with a consistent log_s3_path and defined timestamps."""
-
+    """Insert workflow_runs row with deterministic log_s3_path and explicit timestamps."""
     @staticmethod
-    def invoke(
-        data, 
-        dag_name: str, 
-        status: str, 
-        start_time_utc: str, 
-        end_time_utc: str, 
-        log_s3_path: str, 
-        game_pk: str = None,
-        workflow_name: str = None,
-        timestamp_utc: str = None
-    ) -> str:
+    def invoke(data, **kwargs)->str:
         err = _require_tables(data, ["workflow_runs"])
         if err:
-            payload = {"error": err}
-            out = json.dumps(payload, indent=2)
-            return out
-        need = _check_required(
-            {
-                "dag_name": dag_name,
-                "status": status,
-                "start_time_utc": start_time_utc,
-                "end_time_utc": end_time_utc,
-                "log_s3_path": log_s3_path,
-            },
-            ["dag_name", "status", "start_time_utc", "end_time_utc", "log_s3_path"],
-        )
+            return json.dumps({"error": err}, indent=2)
+        need = _check_required(kwargs, ["dag_name","status","start_time_utc","end_time_utc","log_s3_path"])
         if need:
-            payload = {"error": need}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": need}, indent=2)
         rows = data["workflow_runs"]
         new_id = _next_id(rows, "run_id")
         row = {
             "run_id": new_id,
-            "dag_name": dag_name,
-            "game_pk": game_pk,
-            "status": status,
-            "start_time_utc": start_time_utc,
-            "end_time_utc": end_time_utc,
-            "log_s3_path": log_s3_path,
+            "dag_name": kwargs.get("dag_name"),
+            "game_pk": kwargs.get("game_pk"),
+            "status": kwargs.get("status"),
+            "start_time_utc": kwargs.get("start_time_utc"),
+            "end_time_utc": kwargs.get("end_time_utc"),
+            "log_s3_path": kwargs.get("log_s3_path")
         }
         rows.append(row)
-        payload = {"run_id": new_id}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"run_id": new_id}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "LogWorkflowRun",
-                "description": "Creates workflow_runs row with explicit timestamps and log path.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "dag_name": {"type": "string"},
-                        "game_pk": {"type": "integer"},
-                        "status": {"type": "string"},
-                        "start_time_utc": {"type": "string"},
-                        "end_time_utc": {"type": "string"},
-                        "log_s3_path": {"type": "string"},
-                    },
-                    "required": [
-                        "dag_name",
-                        "status",
-                        "start_time_utc",
-                        "end_time_utc",
-                        "log_s3_path",
-                    ],
-                },
-            },
-        }
-
+        return {"type":"function","function":{"name":"log_workflow_run","description":"Creates workflow_runs row with explicit timestamps and log path.","parameters":{"type":"object","properties":{"dag_name":{"type":"string"},"game_pk":{"type":"integer"},"status":{"type":"string"},"start_time_utc":{"type":"string"},"end_time_utc":{"type":"string"},"log_s3_path":{"type":"string"}},"required":["dag_name","status","start_time_utc","end_time_utc","log_s3_path"]}}}
 
 class LogIngestionEvent(Tool):
-    """Add an entry to ingestion_logs."""
-
+    """Append ingestion_logs row."""
     @staticmethod
-    def invoke(data, source_name: str, status_code: int, records_ingested: int, request_timestamp_utc: str = None, ingested_at_utc: str = None, timestamp_utc: str = None, message: str = None, game_pk: Any = None) -> str:
+    def invoke(data, **kwargs)->str:
         err = _require_tables(data, ["ingestion_logs"])
         if err:
-            payload = {"error": err}
-            out = json.dumps(payload, indent=2)
-            return out
-        need = _check_required(
-            {"source_name": source_name, "status_code": status_code, "records_ingested": records_ingested},
-            ["source_name", "status_code", "records_ingested"]
-        )
+            return json.dumps({"error": err}, indent=2)
+        need = _check_required(kwargs, ["source_name","status_code","records_ingested"])
         if need:
-            payload = {"error": need}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": need}, indent=2)
         rows = data["ingestion_logs"]
         new_id = _next_id(rows, "ingestion_id")
-        # Use ingested_at_utc if provided, otherwise request_timestamp_utc, otherwise current time
-        timestamp = ingested_at_utc or request_timestamp_utc or _now_utc_iso()
         row = {
             "ingestion_id": new_id,
-            "source_name": source_name,
-            "request_timestamp_utc": timestamp,
-            "status_code": status_code,
-            "records_ingested": records_ingested,
+            "source_name": kwargs.get("source_name"),
+            "request_timestamp_utc": kwargs.get("request_timestamp_utc", _now_utc_iso()),
+            "status_code": kwargs.get("status_code"),
+            "records_ingested": kwargs.get("records_ingested")
         }
         rows.append(row)
-        payload = {"ingestion_id": new_id}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"ingestion_id": new_id}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "LogIngestionEvent",
-                "description": "Creates ingestion_logs row for observability.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "source_name": {"type": "string"},
-                        "status_code": {"type": "integer"},
-                        "records_ingested": {"type": "integer"},
-                        "request_timestamp_utc": {"type": "string"},
-                    },
-                    "required": ["source_name", "status_code", "records_ingested"],
-                },
-            },
-        }
+        return {"type":"function","function":{"name":"log_ingestion_event","description":"Creates ingestion_logs row for observability.","parameters":{"type":"object","properties":{"source_name":{"type":"string"},"status_code":{"type":"integer"},"records_ingested":{"type":"integer"},"request_timestamp_utc":{"type":"string"}},"required":["source_name","status_code","records_ingested"]}}}
 
-
-#——————— CANONICALIZATION & SPATIAL ———————
-
+# ———————————————————————— CANONICALIZATION & SPATIAL ————————————————————————
 
 class CanonicalizePitchTypes(Tool):
-    """Assign pitch_type_canonical for pitches missing it by utilizing PITCH_MAP."""
-
+    """Write pitch_type_canonical for pitches lacking it using PITCH_MAP."""
     @staticmethod
-    def invoke(data: dict[str, Any], ingested_at_utc: Any = None, game_pk: Any = None, scope: str = None) -> str:
+    def invoke(data, **kwargs)->str:
         if "pitches" not in data:
-            payload = {"error": "Missing required table(s): pitches"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error":"Missing required table(s): pitches"}, indent=2)
         updated = 0
-        for p in data["pitches"].values():
+        for p in data["pitches"]:
             raw = p.get("pitch_type_raw")
             if raw and not p.get("pitch_type_canonical"):
                 p["pitch_type_canonical"] = PITCH_MAP.get(raw, raw)
                 updated += 1
-        payload = {"updated_rows": updated}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"updated_rows": updated}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "CanonicalizePitchTypes",
-                "description": "Maps pitch_type_raw to canonical labels in pitches.",
-                "parameters": {"type": "object", "properties": {}, "required": []},
-            },
-        }
-
+        return {"type":"function","function":{"name":"canonicalize_pitch_types","description":"Maps pitch_type_raw to canonical labels in pitches.","parameters":{"type":"object","properties":{},"required":[]}}}
 
 class GridEncodePitchLocations(Tool):
-    """Calculate a 12x12 zone cell for each pitch (requires defined zone bounds). Optional persist=True will return data to pitches."""
-
+    """Compute 12x12 zone cell for each pitch (requires explicit zone bounds). Optional persist=True writes back to pitches."""
     @staticmethod
-    def invoke(data, min_x: float, max_x: float, min_z: float, max_z: float, persist: bool = False, game_pk: Any = None, scope: Any = None, cells_x: int = None, cells_z: int = None, return_rows: bool = None) -> str:
-        pass
+    def invoke(data, **kwargs)->str:
         if "pitches" not in data:
-            payload = {"error": "Missing required table(s): pitches"}
-            out = json.dumps(payload, indent=2)
-            return out
-        need = _check_required({"min_x": min_x, "max_x": max_x, "min_z": min_z, "max_z": max_z}, ["min_x", "max_x", "min_z", "max_z"])
+            return json.dumps({"error":"Missing required table(s): pitches"}, indent=2)
+        need = _check_required(kwargs, ["min_x","max_x","min_z","max_z"])
         if need:
-            payload = {"error": need}
-            out = json.dumps(payload, indent=2)
-            return out
-        mnx, mxx, mnz, mxz = map(float, (min_x, max_x, min_z, max_z))
+            return json.dumps({"error": need}, indent=2)
+        mnx, mxx, mnz, mxz = map(float, (kwargs["min_x"], kwargs["max_x"], kwargs["min_z"], kwargs["max_z"]))
         if not (mxx > mnx and mxz > mnz):
-            payload = {"error": "Invalid bounds: require max_x>min_x and max_z>min_z"}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({"error":"Invalid bounds: require max_x>min_x and max_z>min_z"}, indent=2)
 
         def _cell(x, z):
-            pass
             if x is None or z is None:
                 return None
-            x = max(mnx, min(mxx, float(x)))
-            z = max(mnz, min(mxz, float(z)))
+            x = max(mnx, min(mxx, float(x))); z = max(mnz, min(mxz, float(z)))
             cx = int(((x - mnx) / (mxx - mnx)) * 12.0) + 1
             cz = int(((z - mnz) / (mxz - mnz)) * 12.0) + 1
             return f"{cx if cx<=12 else 12}-{cz if cz<=12 else 12}"
-
         out = []
-        for p in data["pitches"].values():
-            out.append(
-                {
-                    "pitch_id": p.get("pitch_id"),
-                    "zone_cell_12x12": _cell(p.get("plate_x"), p.get("plate_z")),
-                }
-            )
+        for p in data["pitches"]:
+            out.append({"pitch_id": p.get("pitch_id"), "zone_cell_12x12": _cell(p.get("plate_x"), p.get("plate_z"))})
 
-        if persist:
-            #return data to the source table
+        if kwargs.get("persist"):
+            # write back to source table
             for p, rec in zip(data["pitches"], out):
                 p["zone_cell_12x12"] = rec["zone_cell_12x12"]
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(out, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "GridEncodePitchLocations",
-                "description": "Adds 12x12 zone cell labels for pitches given explicit bounds; optional persist=True writes back.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "min_x": {"type": "number"},
-                        "max_x": {"type": "number"},
-                        "min_z": {"type": "number"},
-                        "max_z": {"type": "number"},
-                        "persist": {"type": "boolean"},
-                    },
-                    "required": ["min_x", "max_x", "min_z", "max_z"],
-                },
-            },
-        }
-
+        return {"type":"function","function":{"name":"grid_encode_pitch_locations","description":"Adds 12x12 zone cell labels for pitches given explicit bounds; optional persist=True writes back.","parameters":{"type":"object","properties":{"min_x":{"type":"number"},"max_x":{"type":"number"},"min_z":{"type":"number"},"max_z":{"type":"number"},"persist":{"type":"boolean"}},"required":["min_x","max_x","min_z","max_z"]}}}
 
 class WritePitchExecutionGrade(Tool):
-    """Add pitch_execution_grades based on miss_distance and (optional) model fields."""
-
+    """Insert pitch_execution_grades based on miss_distance and (optional) model fields."""
     @staticmethod
-    def invoke(
-        data,
-        pitch_id: int,
-        game_pk: int,
-        intended_quadrant_model: str,
-        actual_quadrant: str,
-        miss_distance_inches: float,
-        grade: str = None
-    ) -> str:
+    def invoke(data, **kwargs)->str:
         err = _require_tables(data, ["pitch_execution_grades"])
         if err:
-            payload = {"error": err}
-            out = json.dumps(payload, indent=2)
-            return out
-        need = _check_required(
-            {
-                "pitch_id": pitch_id,
-                "game_pk": game_pk,
-                "intended_quadrant_model": intended_quadrant_model,
-                "actual_quadrant": actual_quadrant,
-                "miss_distance_inches": miss_distance_inches,
-            },
-            [
-                "pitch_id",
-                "game_pk",
-                "intended_quadrant_model",
-                "actual_quadrant",
-                "miss_distance_inches",
-            ],
-        )
+            return json.dumps({"error": err}, indent=2)
+        need = _check_required(kwargs, ["pitch_id","game_pk","intended_quadrant_model","actual_quadrant","miss_distance_inches"])
         if need:
-            payload = {"error": need}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": need}, indent=2)
         rows = data["pitch_execution_grades"]
         new_id = _next_id(rows, "grade_id")
-        # Use provided grade if given, otherwise compute it
-        exec_grade = grade if grade is not None else _grade_execution(miss_distance_inches)
+        grade = _grade_execution(kwargs.get("miss_distance_inches"))
         row = {
             "grade_id": new_id,
-            "pitch_id": pitch_id,
-            "game_pk": game_pk,
-            "intended_quadrant_model": intended_quadrant_model,
-            "actual_quadrant": actual_quadrant,
-            "miss_distance_inches": miss_distance_inches,
-            "execution_grade": exec_grade,
+            "pitch_id": kwargs.get("pitch_id"),
+            "game_pk": kwargs.get("game_pk"),
+            "intended_quadrant_model": kwargs.get("intended_quadrant_model"),
+            "actual_quadrant": kwargs.get("actual_quadrant"),
+            "miss_distance_inches": kwargs.get("miss_distance_inches"),
+            "execution_grade": grade
         }
         rows.append(row)
-        payload = {"grade_id": new_id, "execution_grade": exec_grade}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"grade_id": new_id, "execution_grade": grade}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "WritePitchExecutionGrade",
-                "description": "Creates a pitch_execution_grades row with deterministic grade policy.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "pitch_id": {"type": "integer"},
-                        "game_pk": {"type": "integer"},
-                        "intended_quadrant_model": {"type": "string"},
-                        "actual_quadrant": {"type": "string"},
-                        "miss_distance_inches": {"type": "number"},
-                    },
-                    "required": [
-                        "pitch_id",
-                        "game_pk",
-                        "intended_quadrant_model",
-                        "actual_quadrant",
-                        "miss_distance_inches",
-                    ],
-                },
-            },
-        }
+        return {"type":"function","function":{"name":"write_pitch_execution_grade","description":"Creates a pitch_execution_grades row with deterministic grade policy.","parameters":{"type":"object","properties":{"pitch_id":{"type":"integer"},"game_pk":{"type":"integer"},"intended_quadrant_model":{"type":"string"},"actual_quadrant":{"type":"string"},"miss_distance_inches":{"type":"number"}},"required":["pitch_id","game_pk","intended_quadrant_model","actual_quadrant","miss_distance_inches"]}}}
 
-
-#——————— UMPIRE ———————
-
+# ———————————————————————— UMPIRE ————————————————————————
 
 class WriteUmpireGameModel(Tool):
-    """Add an entry for umpire_game_models."""
-
+    """Insert an umpire_game_models row."""
     @staticmethod
-    def invoke(
-        data,
-        game_pk=None,
-        umpire_id=None,
-        zone_shift_x=None,
-        zone_shift_z=None,
-        calibration_error_pct=None,
-        confidence_interval=None,
-    ) -> str:
+    def invoke(data, **kwargs)->str:
         err = _require_tables(data, ["umpire_game_models"])
         if err:
-            payload = {"error": err}
-            out = json.dumps(payload, indent=2)
-            return out
-        need = _check_required(
-            {
-                "game_pk": game_pk,
-                "umpire_id": umpire_id,
-                "zone_shift_x": zone_shift_x,
-                "zone_shift_z": zone_shift_z,
-                "calibration_error_pct": calibration_error_pct,
-                "confidence_interval": confidence_interval,
-            },
-            [
-                "game_pk",
-                "umpire_id",
-                "zone_shift_x",
-                "zone_shift_z",
-                "calibration_error_pct",
-                "confidence_interval",
-            ],
-        )
+            return json.dumps({"error": err}, indent=2)
+        need = _check_required(kwargs, ["game_pk","umpire_id","zone_shift_x","zone_shift_z","calibration_error_pct","confidence_interval"])
         if need:
-            payload = {"error": need}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": need}, indent=2)
         rows = data["umpire_game_models"]
         new_id = _next_id(rows, "umpire_game_id")
         row = {
             "umpire_game_id": new_id,
-            "game_pk": game_pk,
-            "umpire_id": umpire_id,
-            "zone_shift_x": zone_shift_x,
-            "zone_shift_z": zone_shift_z,
-            "calibration_error_pct": calibration_error_pct,
-            "confidence_interval": confidence_interval,
+            "game_pk": kwargs.get("game_pk"),
+            "umpire_id": kwargs.get("umpire_id"),
+            "zone_shift_x": kwargs.get("zone_shift_x"),
+            "zone_shift_z": kwargs.get("zone_shift_z"),
+            "calibration_error_pct": kwargs.get("calibration_error_pct"),
+            "confidence_interval": kwargs.get("confidence_interval")
         }
         rows.append(row)
-        payload = {"umpire_game_id": new_id}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"umpire_game_id": new_id}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "WriteUmpireGameModel",
-                "description": "Creates umpire_game_models row for a game.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "game_pk": {"type": "integer"},
-                        "umpire_id": {"type": "integer"},
-                        "zone_shift_x": {"type": "number"},
-                        "zone_shift_z": {"type": "number"},
-                        "calibration_error_pct": {"type": "number"},
-                        "confidence_interval": {"type": "number"},
-                    },
-                    "required": [
-                        "game_pk",
-                        "umpire_id",
-                        "zone_shift_x",
-                        "zone_shift_z",
-                        "calibration_error_pct",
-                        "confidence_interval",
-                    ],
-                },
-            },
-        }
-
+        return {"type":"function","function":{"name":"write_umpire_game_model","description":"Creates umpire_game_models row for a game.","parameters":{"type":"object","properties":{"game_pk":{"type":"integer"},"umpire_id":{"type":"integer"},"zone_shift_x":{"type":"number"},"zone_shift_z":{"type":"number"},"calibration_error_pct":{"type":"number"},"confidence_interval":{"type":"number"}},"required":["game_pk","umpire_id","zone_shift_x","zone_shift_z","calibration_error_pct","confidence_interval"]}}}
 
 class GetUmpireGameModel(Tool):
-    """Retrieve the umpire_game_models entry for a game."""
-
+    """Fetch umpire_game_models row for a game."""
     @staticmethod
-    def invoke(data, game_pk=None) -> str:
+    def invoke(data, **kwargs)->str:
         err = _require_tables(data, ["umpire_game_models"])
         if err:
-            payload = {"error": err}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": err}, indent=2)
+        game_pk = kwargs.get("game_pk")
         if game_pk is None:
-            payload = {"error": "game_pk is required."}
-            out = json.dumps(payload, indent=2)
-            return out
-        row = next(
-            (u for u in data["umpire_game_models"].values() if u.get("game_pk") == game_pk), None
-        )
-        payload = row or {"error": "Not found."}
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error":"game_pk is required."}, indent=2)
+        row = next((u for u in data["umpire_game_models"] if u.get("game_pk")==game_pk), None)
+        return json.dumps(row or {"error":"Not found."}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "getUmpireGameModel",
-                "description": "Returns the umpire model row for a game.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"game_pk": {"type": "integer"}},
-                    "required": ["game_pk"],
-                },
-            },
-        }
+        return {"type":"function","function":{"name":"get_umpire_game_model","description":"Returns the umpire model row for a game.","parameters":{"type":"object","properties":{"game_pk":{"type":"integer"}},"required":["game_pk"]}}}
 
-
-#——————— GAME SELECTION & OPPONENT ———————
-
+# ———————————————————————— GAME SELECTION & OPPONENT ————————————————————————
 
 class FindNextScheduledGame(Tool):
-    """Locate the next scheduled game on or after current_date; resolve ties using the smallest game_pk."""
-
+    """Find the next scheduled game on/after current_date; tie-break on smallest game_pk."""
     @staticmethod
-    def invoke(data, current_date: str = None, team_id: Any = None) -> str:
+    def invoke(data, **kwargs)->str:
         err = _require_tables(data, ["games"])
         if err:
-            payload = {"error": err}
-            out = json.dumps(payload, indent=2)
-            return out
-        if not current_date:
-            payload = {"error": "current_date is required (YYYY-MM-DD)."}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        candidates = [
-            g
-            for g in data["games"].values()
-            if g.get("game_status") == "Scheduled"
-            and str(g.get("game_date")) >= str(current_date)
-        ]
+            return json.dumps({"error": err}, indent=2)
+        if "current_date" not in kwargs or not kwargs["current_date"]:
+            return json.dumps({"error":"current_date is required (YYYY-MM-DD)."}, indent=2)
+        current_date = kwargs.get("current_date")
+        candidates = [g for g in data["games"] if g.get("game_status")=="Scheduled" and str(g.get("game_date")) >= str(current_date)]
         if not candidates:
-            payload = {"error": "No scheduled games on or after current_date."}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        earliest = min(
-            candidates,
-            key=lambda g: (str(g.get("game_date")), int(g.get("game_pk") or 0)),
-        )
-        payload = {
-                "next_game_pk": earliest.get("game_pk"),
-                "home_team_id": earliest.get("home_team_id"),
-                "away_team_id": earliest.get("away_team_id"),
-                "game_date": earliest.get("game_date"),
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+            return json.dumps({"error":"No scheduled games on or after current_date."}, indent=2)
+        earliest = min(candidates, key=lambda g: (str(g.get("game_date")), int(g.get("game_pk") or 0)))
+        return json.dumps({"next_game_pk":earliest.get("game_pk"),"home_team_id":earliest.get("home_team_id"),"away_team_id":earliest.get("away_team_id"),"game_date":earliest.get("game_date")}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "FindNextScheduledGame",
-                "description": "Returns earliest Scheduled game on/after a date.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"current_date": {"type": "string"}},
-                    "required": ["current_date"],
-                },
-            },
-        }
-
+        return {"type":"function","function":{"name":"find_next_scheduled_game","description":"Returns earliest Scheduled game on/after a date.","parameters":{"type":"object","properties":{"current_date":{"type":"string"}},"required":["current_date"]}}}
 
 class GetOpponentForTeamInGame(Tool):
-    """Using a team_id and a game_pk, return the opposing team_id."""
-
+    """Given a team_id and a game_pk, return the opponent team_id."""
     @staticmethod
-    def invoke(data, game_pk, team_id: Any = None) -> str:
+    def invoke(data, **kwargs)->str:
         err = _require_tables(data, ["games"])
         if err:
-            payload = {"error": err}
-            out = json.dumps(payload, indent=2)
-            return out
-        need = _check_required({"game_pk": game_pk, "team_id": team_id}, ["game_pk", "team_id"])
+            return json.dumps({"error": err}, indent=2)
+        need = _check_required(kwargs, ["game_pk","team_id"])
         if need:
-            payload = {"error": need}
-            out = json.dumps(payload, indent=2)
-            return out
-        g = next(
-            (g for g in data["games"].values() if g.get("game_pk") == game_pk), None
-        )
+            return json.dumps({"error": need}, indent=2)
+        g = next((g for g in data["games"] if g.get("game_pk")==kwargs["game_pk"]), None)
         if not g:
-            payload = {"error": "Game not found."}
-            out = json.dumps(payload, indent=2)
-            return out
-        team = team_id
-        if g.get("home_team_id") == team:
+            return json.dumps({"error":"Game not found."}, indent=2)
+        team = kwargs["team_id"]
+        if g.get("home_team_id")==team:
             opp = g.get("away_team_id")
-        elif g.get("away_team_id") == team:
+        elif g.get("away_team_id")==team:
             opp = g.get("home_team_id")
         else:
-            payload = {"error": "team_id not in specified game."}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"opponent_team_id": opp}
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error":"team_id not in specified game."}, indent=2)
+        return json.dumps({"opponent_team_id": opp}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetOpponentForTeamInGame",
-                "description": "Finds the opponent team_id for a team in a given game.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "game_pk": {"type": "integer"},
-                        "team_id": {"type": "integer"},
-                    },
-                    "required": ["game_pk", "team_id"],
-                },
-            },
-        }
+        return {"type":"function","function":{"name":"get_opponent_for_team_in_game","description":"Finds the opponent team_id for a team in a given game.","parameters":{"type":"object","properties":{"game_pk":{"type":"integer"},"team_id":{"type":"integer"}},"required":["game_pk","team_id"]}}}
 
-
-#——————— TRENDS / PROBABLES ———————
-
+# ———————————————————————— TRENDS / PROBABLES ————————————————————————
 
 class FilterTrends(Tool):
-    """Utilizes minimum samples + EB shrinkage + FDR to generate consistent trend flags (stub retains parameters for validation)."""
-
+    """Applies min samples + EB shrinkage + FDR to produce deterministic trend flags (stub persists parameters for verification)."""
     @staticmethod
-    def invoke(data, min_pitches, min_swings, min_bbe, fdr_threshold, use_eb_shrinkage: Any = None, control: str = None, min_effect_size: Any = None, game_pk: Any = None) -> str:
+    def invoke(data, **kwargs)->str:
         err = _require_tables(data, ["pitches"])
         if err:
-            payload = {"error": err}
-            out = json.dumps(payload, indent=2)
-            return out
-        need = _check_required(
-            {"min_pitches": min_pitches, "min_swings": min_swings, "min_bbe": min_bbe, "fdr_threshold": fdr_threshold},
-            ["min_pitches", "min_swings", "min_bbe", "fdr_threshold"]
-        )
+            return json.dumps({"error": err}, indent=2)
+        need = _check_required(kwargs, ["min_pitches","min_swings","min_bbe","fdr_threshold"])
         if need:
-            payload = {"error": need}
-            out = json.dumps(payload, indent=2)
-            return out
-        table_name = (
-            f"trend_flags_p{min_pitches}_s{min_swings}"
-            f"_b{min_bbe}_fdr{fdr_threshold}"
-        )
+            return json.dumps({"error": need}, indent=2)
+        table_name = (f"trend_flags_p{kwargs['min_pitches']}_s{kwargs['min_swings']}"
+                      f"_b{kwargs['min_bbe']}_fdr{kwargs['fdr_threshold']}")
         data.setdefault("trend_flags", []).append({"table_name": table_name})
-        payload = {"flags_table": table_name}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"flags_table": table_name}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "FilterTrends",
-                "description": "Applies min samples + EB shrinkage + FDR to produce trend flags (deterministic).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "min_pitches": {"type": "integer"},
-                        "min_swings": {"type": "integer"},
-                        "min_bbe": {"type": "integer"},
-                        "fdr_threshold": {"type": "number"},
-                    },
-                    "required": [
-                        "min_pitches",
-                        "min_swings",
-                        "min_bbe",
-                        "fdr_threshold",
-                    ],
-                },
-            },
-        }
-
+        return {"type":"function","function":{
+            "name":"filter_trends",
+            "description":"Applies min samples + EB shrinkage + FDR to produce trend flags (deterministic).",
+            "parameters":{"type":"object","properties":{
+                "min_pitches":{"type":"integer"},
+                "min_swings":{"type":"integer"},
+                "min_bbe":{"type":"integer"},
+                "fdr_threshold":{"type":"number"}}, "required":["min_pitches","min_swings","min_bbe","fdr_threshold"]}
+        }}
 
 class ListProbablePitchers(Tool):
-    """Provides probable pitchers for a team: consistent sample from players table (position 'P' if available), sorted by full_name in ascending order."""
-
+    """Returns probable pitchers for a team: deterministic sample from players table (position 'P' if present), sorted by full_name ASC."""
     @staticmethod
-    def invoke(data, team_id, limit=2, use_eb_shrinkage: Any = None, order_by: str = None) -> str:
-        pass
+    def invoke(data, **kwargs)->str:
         err = _require_tables(data, ["players"])
         if err:
-            payload = {"error": err}
-            out = json.dumps(payload, indent=2)
-            return out
-        need = _check_required({"team_id": team_id}, ["team_id"])
+            return json.dumps({"error": err}, indent=2)
+        need = _check_required(kwargs, ["team_id"])
         if need:
-            payload = {"error": need}
-            out = json.dumps(payload, indent=2)
-            return out
-
-        # Take into account variations in position fields
+            return json.dumps({"error": need}, indent=2)
+        team_id = kwargs.get("team_id")
+        limit = kwargs.get("limit", 2)
+        # Consider position field variations
         def _is_pitcher(p):
-            pass
             pos = (p.get("position") or p.get("primary_position") or "").upper()
-            return pos in ("P", "RP", "SP", "PITCHER")
+            return pos in ("P","RP","SP","PITCHER")
+        candidates = [p for p in data["players"] if p.get("current_team_id")==team_id and _is_pitcher(p)]
+        # Deterministic sort
+        candidates = sorted(candidates, key=lambda p: (str(p.get("full_name") or ""), int(p.get("player_id") or 0)))
+        out = [{"player_id": p.get("player_id"), "full_name": p.get("full_name")} for p in candidates[:int(limit)]]
+        return json.dumps({"probable_pitchers": out}, indent=2)
 
-        candidates = [
-            p
-            for p in data["players"].values()
-            if p.get("current_team_id") == team_id and _is_pitcher(p)
-        ]
-        # Consistent sorting
-        candidates = sorted(
-            candidates,
-            key=lambda p: (str(p.get("full_name") or ""), int(p.get("player_id") or 0)),
-        )
-        out = [
-            {"player_id": p.get("player_id"), "full_name": p.get("full_name")}
-            for p in candidates[: int(limit)]
-        ]
-        payload = {"probable_pitchers": out}
-        out = json.dumps(payload, indent=2)
-        return out
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "ListProbablePitchers",
-                "description": "Lists probable pitchers for a team, sorted by full_name ASC (deterministic sample from roster).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "team_id": {"type": "integer"},
-                        "limit": {"type": "integer"},
-                    },
-                    "required": ["team_id"],
-                },
-            },
-        }
+        return {"type":"function","function":{
+            "name":"list_probable_pitchers",
+            "description":"Lists probable pitchers for a team, sorted by full_name ASC (deterministic sample from roster).",
+            "parameters":{"type":"object","properties":{
+                "team_id":{"type":"integer"},
+                "limit":{"type":"integer"}}, "required":["team_id"]}
+        }}
 
 
-TOOLS: list[Tool] = [
+TOOLS: List[Tool] = [
     GetGameDetails(),
     ListGamesByStatus(),
     GetPlayerDetails(),

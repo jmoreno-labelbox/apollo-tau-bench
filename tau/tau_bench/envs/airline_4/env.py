@@ -1,9 +1,9 @@
 # Copyright Sierra
 
 from tau_bench.envs.base import Env
-from tau_bench.envs.airline_4.data import load_data
-from tau_bench.envs.airline_4.wiki import WIKI
-from tau_bench.envs.airline_4.tools import TOOLS
+from tau_bench.envs.airline_5.data import load_data
+from tau_bench.envs.airline_5.wiki import WIKI
+from tau_bench.envs.airline_5.tools import TOOLS
 from typing import Optional, Union
 from tau_bench.envs.user import UserStrategy
 
@@ -19,7 +19,7 @@ class MockAirlineDomainEnv(Env):
     ):
         match task_split:
             case "test":
-                from tau_bench.envs.airline_4.tasks_test import TASKS as tasks
+                from tau_bench.envs.airline_5.tasks_test import TASKS as tasks
             case _:
                 raise ValueError(f"Unknown task split: {task_split}")
         super().__init__(

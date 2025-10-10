@@ -1,47 +1,17 @@
+from typing import Dict, Any, List, Optional
 import json
-from typing import Any
 
-from tau_bench.envs.tool import Tool
-
+from domains.dto import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db.values())
-    return db
-
-
-def _get_table(data: dict[str, Any], name: str) -> list[dict[str, Any]]:
-    """Get table from data and convert from dict to list if needed."""
-    table = data.get(name, [])
-    return _convert_db_to_list(table)
-
-
-def _append_row(table: list[dict[str, Any]], row: dict[str, Any]) -> None:
-    pass
-    table.append(row)
-
-
-def _find_one(
-    collection: list[dict[str, Any]], **filters: Any
-) -> dict[str, Any] | None:
-    pass
+def _find_one(collection: List[Dict[str, Any]], **filters: Any) -> Optional[Dict[str, Any]]:
     for row in collection:
         if all(row.get(k) == v for k, v in filters.items()):
             return row
     return None
 
 
-def _update_row(row: dict[str, Any], updates: dict[str, Any]) -> None:
-    pass
-    for k, v in updates.items():
-        row[k] = v
-
-
-def _find_all(collection: list[dict[str, Any]], **filters: Any) -> list[dict[str, Any]]:
-    pass
+def _find_all(collection: List[Dict[str, Any]], **filters: Any) -> List[Dict[str, Any]]:
     results = []
     for row in collection:
         ok = True
@@ -61,21 +31,27 @@ def _find_all(collection: list[dict[str, Any]], **filters: Any) -> list[dict[str
     return results
 
 
+def _append_row(table: List[Dict[str, Any]], row: Dict[str, Any]) -> None:
+    table.append(row)
+
+
+def _update_row(row: Dict[str, Any], updates: Dict[str, Any]) -> None:
+    for k, v in updates.items():
+        row[k] = v
+
+
 class GetEmployeeById(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str) -> str:
-        pass
-        emp = _find_one(_get_table(data, "employees"), employee_id=employee_id)
-        payload = {"status": "ok", "employee": emp}
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], employee_id: str) -> str:
+        emp = _find_one(data["employees"], employee_id=employee_id)
+        return json.dumps({"status": "ok", "employee": emp})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetEmployeeById",
+                "name": "get_employee_by_id",
                 "description": "Retrieve a single employee record by employee_id.",
                 "parameters": {
                     "type": "object",
@@ -89,30 +65,27 @@ class GetEmployeeById(Tool):
 class FindEmployees(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
-        department: str | None = None,
-        job_title: str | None = None,
-        status: str | None = None,
-        manager_id: str | None = None,
+        data: Dict[str, Any],
+        department: Optional[str] = None,
+        job_title: Optional[str] = None,
+        status: Optional[str] = None,
+        manager_id: Optional[str] = None,
     ) -> str:
-        pass
         results = _find_all(
-            _get_table(data, "employees"),
+            data["employees"],
             department=department,
             job_title=job_title,
             status=status,
             manager_id=manager_id,
         )
-        payload = {"status": "ok", "employees": results}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "employees": results})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindEmployees",
+                "name": "find_employees",
                 "description": "Find employees filtered by department, job_title, status, and/or manager_id.",
                 "parameters": {
                     "type": "object",
@@ -130,27 +103,20 @@ class FindEmployees(Tool):
 
 class GetDirectoryAccount(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        employee_id: str | None = None,
-        account_id: str | None = None,
-    ) -> str:
-        pass
+    def invoke(data: Dict[str, Any], employee_id: Optional[str] = None, account_id: Optional[str] = None) -> str:
         acct = None
         if account_id:
-            acct = _find_one(_get_table(data, "directory_accounts"), account_id=account_id)
+            acct = _find_one(data["directory_accounts"], account_id=account_id)
         elif employee_id:
-            acct = _find_one(_get_table(data, "directory_accounts"), employee_id=employee_id)
-        payload = {"status": "ok", "account": acct}
-        out = json.dumps(payload)
-        return out
+            acct = _find_one(data["directory_accounts"], employee_id=employee_id)
+        return json.dumps({"status": "ok", "account": acct})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetDirectoryAccount",
+                "name": "get_directory_account",
                 "description": "Get a directory account by employee_id or account_id.",
                 "parameters": {
                     "type": "object",
@@ -167,21 +133,18 @@ class GetDirectoryAccount(Tool):
 class CreateDirectoryAccount(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         account_id: str,
         employee_id: str,
         username: str,
         created_at: str,
         status: str = "enabled",
-        group_ids: list[str] | None = None,
-        department: Any = None,
-        job_title: Any = None,
+        group_ids: Optional[List[str]] = None,
     ) -> str:
-        pass
-        #Check if the employee is present
-        if not _find_one(_get_table(data, "employees"), employee_id=employee_id):
+        # Validate employee exists
+        if not _find_one(data["employees"], employee_id=employee_id):
             _append_row(
-                _get_table(data, "validation_issues"),
+                data["validation_issues"],
                 {
                     "issue_id": f"vi_{account_id}",
                     "entity": "directory_accounts",
@@ -192,9 +155,7 @@ class CreateDirectoryAccount(Tool):
                     "created_at": created_at,
                 },
             )
-            payload = {"status": "error", "reason": "employee_not_found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "employee_not_found"})
 
         row = {
             "account_id": account_id,
@@ -205,17 +166,15 @@ class CreateDirectoryAccount(Tool):
             "created_at": created_at,
             "disabled_at": None,
         }
-        _append_row(_get_table(data, "directory_accounts"), row)
-        payload = {"status": "ok", "account": row}
-        out = json.dumps(payload)
-        return out
+        _append_row(data["directory_accounts"], row)
+        return json.dumps({"status": "ok", "account": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createDirectoryAccount",
+                "name": "create_directory_account",
                 "description": "Create a new directory account for an employee (deterministic IDs/timestamps provided by caller).",
                 "parameters": {
                     "type": "object",
@@ -235,34 +194,22 @@ class CreateDirectoryAccount(Tool):
 
 class UpdateDirectoryAccountStatus(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        account_id: str,
-        status: str,
-        disabled_at: str | None = None,
-    ) -> str:
-        pass
-        acct = _find_one(_get_table(data, "directory_accounts"), account_id=account_id)
+    def invoke(data: Dict[str, Any], account_id: str, status: str, disabled_at: Optional[str] = None) -> str:
+        acct = _find_one(data["directory_accounts"], account_id=account_id)
         if not acct:
-            payload = {"status": "error", "reason": "account_not_found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "account_not_found"})
         if status not in {"enabled", "disabled"}:
-            payload = {"status": "error", "reason": "invalid_status"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "invalid_status"})
         acct["status"] = status
         acct["disabled_at"] = disabled_at
-        payload = {"status": "ok", "account": acct}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "account": acct})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateDirectoryAccountStatus",
+                "name": "update_directory_account_status",
                 "description": "Set a directory account status to 'enabled' or 'disabled'.",
                 "parameters": {
                     "type": "object",
@@ -280,28 +227,21 @@ class UpdateDirectoryAccountStatus(Tool):
 class SetAccountGroups(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
-        account_id: str,
-        group_ids: list[str],
-        actor: str,
-        timestamp: str,
+        data: Dict[str, Any], account_id: str, group_ids: List[str], actor: str, timestamp: str
     ) -> str:
-        pass
-        acct = _find_one(_get_table(data, "directory_accounts"), account_id=account_id)
+        acct = _find_one(data["directory_accounts"], account_id=account_id)
         if not acct:
-            payload = {"status": "error", "reason": "account_not_found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "account_not_found"})
         old = set(acct.get("group_ids", []))
         new = set(group_ids)
-        #calculate differences for auditing purposes
+        # compute diffs for audit
         to_add = sorted(list(new - old))
         to_remove = sorted(list(old - new))
         acct["group_ids"] = sorted(group_ids)
         if not to_add and not to_remove:
-            #Regardless of changes, the policy requires an audit record to be generated for the action.
+            # Even if no changes, policy implies an audit entry should be created for the action.
             _append_row(
-                _get_table(data, "group_membership_audit"),
+                data["group_membership_audit"],
                 {
                     "audit_id": f"gma_{account_id}_nochange_{timestamp}",
                     "account_id": account_id,
@@ -313,7 +253,7 @@ class SetAccountGroups(Tool):
             )
         for gid in to_add:
             _append_row(
-                _get_table(data, "group_membership_audit"),
+                data["group_membership_audit"],
                 {
                     "audit_id": f"gma_{account_id}_{gid}_add_{timestamp}",
                     "account_id": account_id,
@@ -325,7 +265,7 @@ class SetAccountGroups(Tool):
             )
         for gid in to_remove:
             _append_row(
-                _get_table(data, "group_membership_audit"),
+                data["group_membership_audit"],
                 {
                     "audit_id": f"gma_{account_id}_{gid}_remove_{timestamp}",
                     "account_id": account_id,
@@ -335,17 +275,14 @@ class SetAccountGroups(Tool):
                     "timestamp": timestamp,
                 },
             )
-        payload = {"status": "ok", "account": acct, "added": to_add, "removed": to_remove}
-        out = json.dumps(
-            payload)
-        return out
+        return json.dumps({"status": "ok", "account": acct, "added": to_add, "removed": to_remove})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SetAccountGroups",
+                "name": "set_account_groups",
                 "description": "Replace an account's groups and write add/remove entries to group_membership_audit.",
                 "parameters": {
                     "type": "object",
@@ -363,25 +300,16 @@ class SetAccountGroups(Tool):
 
 class AddAccountGroups(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        account_id: str,
-        group_ids: list[str],
-        actor: str,
-        timestamp: str,
-    ) -> str:
-        pass
-        acct = _find_one(_get_table(data, "directory_accounts"), account_id=account_id)
+    def invoke(data: Dict[str, Any], account_id: str, group_ids: List[str], actor: str, timestamp: str) -> str:
+        acct = _find_one(data["directory_accounts"], account_id=account_id)
         if not acct:
-            payload = {"status": "error", "reason": "account_not_found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "account_not_found"})
         current = set(acct.get("group_ids", []))
         for gid in group_ids:
             if gid not in current:
                 current.add(gid)
                 _append_row(
-                    _get_table(data, "group_membership_audit"),
+                    data["group_membership_audit"],
                     {
                         "audit_id": f"gma_{account_id}_{gid}_add",
                         "account_id": account_id,
@@ -392,16 +320,14 @@ class AddAccountGroups(Tool):
                     },
                 )
         acct["group_ids"] = sorted(current)
-        payload = {"status": "ok", "account": acct}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "account": acct})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "addAccountGroups",
+                "name": "add_account_groups",
                 "description": "Add groups to an account and append audit entries.",
                 "parameters": {
                     "type": "object",
@@ -419,25 +345,16 @@ class AddAccountGroups(Tool):
 
 class RemoveAccountGroups(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        account_id: str,
-        group_ids: list[str],
-        actor: str,
-        timestamp: str,
-    ) -> str:
-        pass
-        acct = _find_one(_get_table(data, "directory_accounts"), account_id=account_id)
+    def invoke(data: Dict[str, Any], account_id: str, group_ids: List[str], actor: str, timestamp: str) -> str:
+        acct = _find_one(data["directory_accounts"], account_id=account_id)
         if not acct:
-            payload = {"status": "error", "reason": "account_not_found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "account_not_found"})
         current = set(acct.get("group_ids", []))
         for gid in group_ids:
             if gid in current:
                 current.remove(gid)
                 _append_row(
-                    _get_table(data, "group_membership_audit"),
+                    data["group_membership_audit"],
                     {
                         "audit_id": f"gma_{account_id}_{gid}_remove",
                         "account_id": account_id,
@@ -448,16 +365,14 @@ class RemoveAccountGroups(Tool):
                     },
                 )
         acct["group_ids"] = sorted(current)
-        payload = {"status": "ok", "account": acct}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "account": acct})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RemoveAccountGroups",
+                "name": "remove_account_groups",
                 "description": "Remove groups from an account and append audit entries.",
                 "parameters": {
                     "type": "object",
@@ -475,37 +390,28 @@ class RemoveAccountGroups(Tool):
 
 class GetBaselineForRole(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], department: str, job_title: str) -> str:
-        pass
-        row = _find_one(
-            _get_table(data, "rbac_group_map"), department=department, job_title=job_title
-        )
+    def invoke(data: Dict[str, Any], department: str, job_title: str) -> str:
+        row = _find_one(data["rbac_group_map"], department=department, job_title=job_title)
         if not row:
-            payload = {"status": "error", "reason": "rbac_baseline_not_found"}
-            out = json.dumps(payload)
-            return out
-        payload = {
+            return json.dumps({"status": "error", "reason": "rbac_baseline_not_found"})
+        return json.dumps(
+            {
                 "status": "ok",
                 "group_ids": row.get("group_ids", []),
                 "default_license_bundle": row.get("default_license_bundle", []),
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetBaselineForRole",
+                "name": "get_baseline_for_role",
                 "description": "Return RBAC baseline group_ids and default license bundle for department/job_title.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "department": {"type": "string"},
-                        "job_title": {"type": "string"},
-                    },
+                    "properties": {"department": {"type": "string"}, "job_title": {"type": "string"}},
                     "required": ["department", "job_title"],
                 },
             },
@@ -515,7 +421,7 @@ class GetBaselineForRole(Tool):
 class CreateMailbox(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         mailbox_id: str,
         employee_id: str,
         address: str,
@@ -523,11 +429,8 @@ class CreateMailbox(Tool):
         created_at: str,
         status: str = "active",
     ) -> str:
-        pass
         if retention_policy not in {"std_2y", "finance_7y"}:
-            payload = {"status": "error", "reason": "invalid_retention"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "invalid_retention"})
         row = {
             "mailbox_id": mailbox_id,
             "employee_id": employee_id,
@@ -536,17 +439,15 @@ class CreateMailbox(Tool):
             "retention_policy": retention_policy,
             "created_at": created_at,
         }
-        _append_row(_get_table(data, "mailboxes"), row)
-        payload = {"status": "ok", "mailbox": row}
-        out = json.dumps(payload)
-        return out
+        _append_row(data["mailboxes"], row)
+        return json.dumps({"status": "ok", "mailbox": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateMailbox",
+                "name": "create_mailbox",
                 "description": "Create a mailbox with a fixed retention policy and status.",
                 "parameters": {
                     "type": "object",
@@ -558,13 +459,7 @@ class CreateMailbox(Tool):
                         "created_at": {"type": "string"},
                         "status": {"type": "string"},
                     },
-                    "required": [
-                        "mailbox_id",
-                        "employee_id",
-                        "address",
-                        "retention_policy",
-                        "created_at",
-                    ],
+                    "required": ["mailbox_id", "employee_id", "address", "retention_policy", "created_at"],
                 },
             },
         }
@@ -572,35 +467,25 @@ class CreateMailbox(Tool):
 
 class UpdateMailboxStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], mailbox_id: str, status: str) -> str:
-        pass
-        mbx = _find_one(_get_table(data, "mailboxes"), mailbox_id=mailbox_id)
+    def invoke(data: Dict[str, Any], mailbox_id: str, status: str) -> str:
+        mbx = _find_one(data["mailboxes"], mailbox_id=mailbox_id)
         if not mbx:
-            payload = {"status": "error", "reason": "mailbox_not_found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "mailbox_not_found"})
         if status not in {"active", "inactive"}:
-            payload = {"status": "error", "reason": "invalid_status"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "invalid_status"})
         mbx["status"] = status
-        payload = {"status": "ok", "mailbox": mbx}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "mailbox": mbx})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "updateMailboxStatus",
+                "name": "update_mailbox_status",
                 "description": "Set mailbox status to active or inactive.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "mailbox_id": {"type": "string"},
-                        "status": {"type": "string"},
-                    },
+                    "properties": {"mailbox_id": {"type": "string"}, "status": {"type": "string"}},
                     "required": ["mailbox_id", "status"],
                 },
             },
@@ -610,7 +495,7 @@ class UpdateMailboxStatus(Tool):
 class ArchiveMailbox(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         archive_id: str,
         mailbox_id: str,
         employee_id: str,
@@ -618,7 +503,6 @@ class ArchiveMailbox(Tool):
         retention_policy: str,
         created_at: str,
     ) -> str:
-        pass
         row = {
             "archive_id": archive_id,
             "employee_id": employee_id,
@@ -627,17 +511,15 @@ class ArchiveMailbox(Tool):
             "retention_policy": retention_policy,
             "created_at": created_at,
         }
-        _append_row(_get_table(data, "data_archives"), row)
-        payload = {"status": "ok", "archive": row}
-        out = json.dumps(payload)
-        return out
+        _append_row(data["data_archives"], row)
+        return json.dumps({"status": "ok", "archive": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ArchiveMailbox",
+                "name": "archive_mailbox",
                 "description": "Archive a mailbox to a storage path with retention policy.",
                 "parameters": {
                     "type": "object",
@@ -649,14 +531,7 @@ class ArchiveMailbox(Tool):
                         "retention_policy": {"type": "string"},
                         "created_at": {"type": "string"},
                     },
-                    "required": [
-                        "archive_id",
-                        "mailbox_id",
-                        "employee_id",
-                        "archive_path",
-                        "retention_policy",
-                        "created_at",
-                    ],
+                    "required": ["archive_id", "mailbox_id", "employee_id", "archive_path", "retention_policy", "created_at"],
                 },
             },
         }
@@ -664,34 +539,24 @@ class ArchiveMailbox(Tool):
 
 class GetMailbox(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        employee_id: str | None = None,
-        mailbox_id: str | None = None,
-    ) -> str:
-        pass
+    def invoke(data: Dict[str, Any], employee_id: Optional[str] = None, mailbox_id: Optional[str] = None) -> str:
         mbx = None
         if mailbox_id:
-            mbx = _find_one(_get_table(data, "mailboxes"), mailbox_id=mailbox_id)
+            mbx = _find_one(data["mailboxes"], mailbox_id=mailbox_id)
         elif employee_id:
-            mbx = _find_one(_get_table(data, "mailboxes"), employee_id=employee_id)
-        payload = {"status": "ok", "mailbox": mbx}
-        out = json.dumps(payload)
-        return out
+            mbx = _find_one(data["mailboxes"], employee_id=employee_id)
+        return json.dumps({"status": "ok", "mailbox": mbx})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetMailbox",
+                "name": "get_mailbox",
                 "description": "Get a mailbox by employee_id or mailbox_id.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "employee_id": {"type": "string"},
-                        "mailbox_id": {"type": "string"},
-                    },
+                    "properties": {"employee_id": {"type": "string"}, "mailbox_id": {"type": "string"}},
                     "required": [],
                 },
             },
@@ -700,23 +565,18 @@ class GetMailbox(Tool):
 
 class GetLicenseInventory(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], license_id: str | None = None) -> str:
-        pass
+    def invoke(data: Dict[str, Any], license_id: Optional[str] = None) -> str:
         if license_id:
-            row = _find_one(_get_table(data, "license_inventory"), license_id=license_id)
-            payload = {"status": "ok", "inventory": row}
-            out = json.dumps(payload)
-            return out
-        payload = {"status": "ok", "inventory": _get_table(data, "license_inventory")}
-        out = json.dumps(payload)
-        return out
+            row = _find_one(data["license_inventory"], license_id=license_id)
+            return json.dumps({"status": "ok", "inventory": row})
+        return json.dumps({"status": "ok", "inventory": data["license_inventory"]})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetLicenseInventory",
+                "name": "get_license_inventory",
                 "description": "Read license inventory optionally filtered by license_id.",
                 "parameters": {
                     "type": "object",
@@ -730,26 +590,21 @@ class GetLicenseInventory(Tool):
 class AssignLicense(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         assignment_id: str,
         account_id: str,
         employee_id: str,
         license_id: str,
         assigned_at: str,
     ) -> str:
-        pass
-        inv = _find_one(_get_table(data, "license_inventory"), license_id=license_id)
+        inv = _find_one(data["license_inventory"], license_id=license_id)
         if not inv:
-            payload = {"status": "error", "reason": "license_not_found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "license_not_found"})
         if inv["used_seats"] + inv["reserved_seats"] + 1 > inv["total_seats"]:
-            payload = {"status": "error", "reason": "no_capacity"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "no_capacity"})
 
-        #Alter the dictionary within the list directly
-        for item in _get_table(data, "license_inventory").values():
+        # Directly modify the dictionary in the list
+        for item in data["license_inventory"]:
             if item["license_id"] == license_id:
                 item["used_seats"] += 1
                 break
@@ -762,17 +617,15 @@ class AssignLicense(Tool):
             "status": "active",
             "assigned_at": assigned_at,
         }
-        _append_row(_get_table(data, "license_assignments"), row)
-        payload = {"status": "ok", "assignment": row, "inventory": inv}
-        out = json.dumps(payload)
-        return out
+        _append_row(data["license_assignments"], row)
+        return json.dumps({"status": "ok", "assignment": row, "inventory": inv})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AssignLicense",
+                "name": "assign_license",
                 "description": "Assign a license and increment used seats deterministically.",
                 "parameters": {
                     "type": "object",
@@ -783,13 +636,7 @@ class AssignLicense(Tool):
                         "license_id": {"type": "string"},
                         "assigned_at": {"type": "string"},
                     },
-                    "required": [
-                        "assignment_id",
-                        "account_id",
-                        "employee_id",
-                        "license_id",
-                        "assigned_at",
-                    ],
+                    "required": ["assignment_id", "account_id", "employee_id", "license_id", "assigned_at"],
                 },
             },
         }
@@ -797,22 +644,13 @@ class AssignLicense(Tool):
 
 class RevokeLicense(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        account_id: str,
-        employee_id: str,
-        license_id: str,
-        revoked_at: str,
-    ) -> str:
-        pass
-        inv = _find_one(_get_table(data, "license_inventory"), license_id=license_id)
+    def invoke(data: Dict[str, Any], account_id: str, employee_id: str, license_id: str, revoked_at: str) -> str:
+        inv = _find_one(data["license_inventory"], license_id=license_id)
         if not inv:
-            payload = {"status": "error", "reason": "license_not_found"}
-            out = json.dumps(payload)
-            return out
-        #locate the current assignment
+            return json.dumps({"status": "error", "reason": "license_not_found"})
+        # find active assignment
         row = None
-        for a in _get_table(data, "license_assignments").values():
+        for a in data["license_assignments"]:
             if (
                 a["account_id"] == account_id
                 and a["employee_id"] == employee_id
@@ -822,23 +660,19 @@ class RevokeLicense(Tool):
                 row = a
                 break
         if not row:
-            payload = {"status": "error", "reason": "assignment_not_found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "assignment_not_found"})
         row["status"] = "revoked"
         row["revoked_at"] = revoked_at
         if inv["used_seats"] > 0:
             inv["used_seats"] -= 1
-        payload = {"status": "ok", "assignment": row, "inventory": inv}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "assignment": row, "inventory": inv})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RevokeLicense",
+                "name": "revoke_license",
                 "description": "Revoke an active license and decrement used seats.",
                 "parameters": {
                     "type": "object",
@@ -848,12 +682,7 @@ class RevokeLicense(Tool):
                         "license_id": {"type": "string"},
                         "revoked_at": {"type": "string"},
                     },
-                    "required": [
-                        "account_id",
-                        "employee_id",
-                        "license_id",
-                        "revoked_at",
-                    ],
+                    "required": ["account_id", "employee_id", "license_id", "revoked_at"],
                 },
             },
         }
@@ -861,36 +690,25 @@ class RevokeLicense(Tool):
 
 class ReserveLicense(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], license_id: str, count: int, reason: str) -> str:
-        pass
-        inv = _find_one(_get_table(data, "license_inventory"), license_id=license_id)
+    def invoke(data: Dict[str, Any], license_id: str, count: int, reason: str) -> str:
+        inv = _find_one(data["license_inventory"], license_id=license_id)
         if not inv:
-            payload = {"status": "error", "reason": "license_not_found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "license_not_found"})
         if inv["used_seats"] + inv["reserved_seats"] + count > inv["total_seats"]:
-            payload = {"status": "error", "reason": "no_capacity"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "no_capacity"})
         inv["reserved_seats"] += count
-        payload = {"status": "ok", "inventory": inv, "reason": reason}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "inventory": inv, "reason": reason})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ReserveLicense",
+                "name": "reserve_license",
                 "description": "Reserve seats for a license (inventory reserved_seats).",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "license_id": {"type": "string"},
-                        "count": {"type": "integer"},
-                        "reason": {"type": "string"},
-                    },
+                    "properties": {"license_id": {"type": "string"}, "count": {"type": "integer"}, "reason": {"type": "string"}},
                     "required": ["license_id", "count", "reason"],
                 },
             },
@@ -899,31 +717,23 @@ class ReserveLicense(Tool):
 
 class ReleaseLicenseReservation(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], license_id: str, count: int) -> str:
-        pass
-        inv = _find_one(_get_table(data, "license_inventory"), license_id=license_id)
+    def invoke(data: Dict[str, Any], license_id: str, count: int) -> str:
+        inv = _find_one(data["license_inventory"], license_id=license_id)
         if not inv:
-            payload = {"status": "error", "reason": "license_not_found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "license_not_found"})
         inv["reserved_seats"] = max(0, inv["reserved_seats"] - count)
-        payload = {"status": "ok", "inventory": inv}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "inventory": inv})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ReleaseLicenseReservation",
+                "name": "release_license_reservation",
                 "description": "Release previously reserved license seats.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "license_id": {"type": "string"},
-                        "count": {"type": "integer"},
-                    },
+                    "properties": {"license_id": {"type": "string"}, "count": {"type": "integer"}},
                     "required": ["license_id", "count"],
                 },
             },
@@ -933,27 +743,19 @@ class ReleaseLicenseReservation(Tool):
 class EnsureLicenseCapacityOrOpenJira(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         license_id: str,
         needed_count: int,
         jira_id: str,
         priority: str,
         created_at: str,
     ) -> str:
-        pass
-        inv = _find_one(_get_table(data, "license_inventory"), license_id=license_id)
+        inv = _find_one(data["license_inventory"], license_id=license_id)
         if not inv:
-            payload = {"status": "error", "reason": "license_not_found"}
-            out = json.dumps(payload)
-            return out
-        if (
-            inv["used_seats"] + inv["reserved_seats"] + needed_count
-            <= inv["total_seats"]
-        ):
-            payload = {"status": "ok", "capacity": True}
-            out = json.dumps(payload)
-            return out
-        #access Jira and mark the block
+            return json.dumps({"status": "error", "reason": "license_not_found"})
+        if inv["used_seats"] + inv["reserved_seats"] + needed_count <= inv["total_seats"]:
+            return json.dumps({"status": "ok", "capacity": True})
+        # open jira and indicate block
         jira = {
             "jira_id": jira_id,
             "issue_type": "License Shortage",
@@ -963,18 +765,16 @@ class EnsureLicenseCapacityOrOpenJira(Tool):
             "created_at": created_at,
             "updated_at": created_at,
         }
-        _append_row(_get_table(data, "jira_tickets"), jira)
-        payload = {"status": "ok", "capacity": False, "jira": jira}
-        out = json.dumps(payload)
-        return out
+        _append_row(data["jira_tickets"], jira)
+        return json.dumps({"status": "ok", "capacity": False, "jira": jira})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "EnsureLicenseCapacityOrOpenTaskTrack",
-                "description": "Check capacity for a license; otherwise create a TaskTrack 'License Shortage'.",
+                "name": "ensure_license_capacity_or_open_jira",
+                "description": "Check capacity for a license; otherwise create a Jira 'License Shortage'.",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -984,13 +784,7 @@ class EnsureLicenseCapacityOrOpenJira(Tool):
                         "priority": {"type": "string"},
                         "created_at": {"type": "string"},
                     },
-                    "required": [
-                        "license_id",
-                        "needed_count",
-                        "jira_id",
-                        "priority",
-                        "created_at",
-                    ],
+                    "required": ["license_id", "needed_count", "jira_id", "priority", "created_at"],
                 },
             },
         }
@@ -998,36 +792,26 @@ class EnsureLicenseCapacityOrOpenJira(Tool):
 
 class GetLicenseAssignments(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        employee_id: str | None = None,
-        account_id: str | None = None,
-    ) -> str:
-        pass
-        results: list[dict[str, Any]] = []
-        for a in _get_table(data, "license_assignments").values():
+    def invoke(data: Dict[str, Any], employee_id: Optional[str] = None, account_id: Optional[str] = None) -> str:
+        results: List[Dict[str, Any]] = []
+        for a in data["license_assignments"]:
             if employee_id and a["employee_id"] != employee_id:
                 continue
             if account_id and a["account_id"] != account_id:
                 continue
             results.append(a)
-        payload = {"status": "ok", "assignments": results}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "assignments": results})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetLicenseAssignments",
+                "name": "get_license_assignments",
                 "description": "List license assignments filtered by employee_id or account_id.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "employee_id": {"type": "string"},
-                        "account_id": {"type": "string"},
-                    },
+                    "properties": {"employee_id": {"type": "string"}, "account_id": {"type": "string"}},
                     "required": [],
                 },
             },
@@ -1037,16 +821,15 @@ class GetLicenseAssignments(Tool):
 class FindAssets(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
-        asset_type: str | None = None,
-        status: str | None = None,
-        model: str | None = None,
-        assigned_to: str | None = None,
-        mdm_enrolled: bool | None = None,
+        data: Dict[str, Any],
+        asset_type: Optional[str] = None,
+        status: Optional[str] = None,
+        model: Optional[str] = None,
+        assigned_to: Optional[str] = None,
+        mdm_enrolled: Optional[bool] = None,
     ) -> str:
-        pass
         results = []
-        for a in _get_table(data, "it_assets").values():
+        for a in data["it_assets"]:
             if asset_type and a["asset_type"] != asset_type:
                 continue
             if status and a["status"] != status:
@@ -1058,16 +841,14 @@ class FindAssets(Tool):
             if mdm_enrolled is not None and a.get("mdm_enrolled") != mdm_enrolled:
                 continue
             results.append(a)
-        payload = {"status": "ok", "assets": results}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "assets": results})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindAssets",
+                "name": "find_assets",
                 "description": "Find assets filtered by type, status, model, owner, or MDM enrolled flag.",
                 "parameters": {
                     "type": "object",
@@ -1086,32 +867,24 @@ class FindAssets(Tool):
 
 class AssignAsset(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], asset_id: str, employee_id: str) -> str:
-        pass
-        asset = _find_one(_get_table(data, "it_assets"), asset_id=asset_id)
+    def invoke(data: Dict[str, Any], asset_id: str, employee_id: str) -> str:
+        asset = _find_one(data["it_assets"], asset_id=asset_id)
         if not asset:
-            payload = {"status": "error", "reason": "asset_not_found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "asset_not_found"})
         asset["assigned_to"] = employee_id
         asset["status"] = "assigned"
-        payload = {"status": "ok", "asset": asset}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "asset": asset})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AssignAsset",
+                "name": "assign_asset",
                 "description": "Assign an asset to an employee and set status to 'assigned'.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "asset_id": {"type": "string"},
-                        "employee_id": {"type": "string"},
-                    },
+                    "properties": {"asset_id": {"type": "string"}, "employee_id": {"type": "string"}},
                     "required": ["asset_id", "employee_id"],
                 },
             },
@@ -1120,31 +893,21 @@ class AssignAsset(Tool):
 
 class UpdateAssetStatus(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        asset_id: str,
-        status: str,
-        mdm_enrolled: bool | None = None,
-    ) -> str:
-        pass
-        asset = _find_one(_get_table(data, "it_assets"), asset_id=asset_id)
+    def invoke(data: Dict[str, Any], asset_id: str, status: str, mdm_enrolled: Optional[bool] = None) -> str:
+        asset = _find_one(data["it_assets"], asset_id=asset_id)
         if not asset:
-            payload = {"status": "error", "reason": "asset_not_found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "asset_not_found"})
         asset["status"] = status
         if mdm_enrolled is not None:
             asset["mdm_enrolled"] = mdm_enrolled
-        payload = {"status": "ok", "asset": asset}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "asset": asset})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "updateAssetStatus",
+                "name": "update_asset_status",
                 "description": "Update asset status and optionally its mdm_enrolled flag.",
                 "parameters": {
                     "type": "object",
@@ -1162,17 +925,16 @@ class UpdateAssetStatus(Tool):
 class CreateDeviceWorkflow(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         workflow_id: str,
         employee_id: str,
         asset_id: str,
         process: str,
         status: str,
-        pickup_code: str | None = None,
-        created_at: str = None,
-        completed_at: str | None = None,
+        pickup_code: Optional[str],
+        created_at: str,
+        completed_at: Optional[str] = None,
     ) -> str:
-        pass
         row = {
             "workflow_id": workflow_id,
             "employee_id": employee_id,
@@ -1183,17 +945,15 @@ class CreateDeviceWorkflow(Tool):
             "created_at": created_at,
             "completed_at": completed_at,
         }
-        _append_row(_get_table(data, "device_workflow"), row)
-        payload = {"status": "ok", "workflow": row}
-        out = json.dumps(payload)
-        return out
+        _append_row(data["device_workflow"], row)
+        return json.dumps({"status": "ok", "workflow": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateDeviceWorkflow",
+                "name": "create_device_workflow",
                 "description": "Create a device workflow record (e.g., provisioning or return).",
                 "parameters": {
                     "type": "object",
@@ -1207,14 +967,7 @@ class CreateDeviceWorkflow(Tool):
                         "created_at": {"type": "string"},
                         "completed_at": {"type": "string"},
                     },
-                    "required": [
-                        "workflow_id",
-                        "employee_id",
-                        "asset_id",
-                        "process",
-                        "status",
-                        "created_at",
-                    ],
+                    "required": ["workflow_id", "employee_id", "asset_id", "process", "status", "created_at"],
                 },
             },
         }
@@ -1222,10 +975,7 @@ class CreateDeviceWorkflow(Tool):
 
 class ScheduleMdmAction(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], asset_id: str, when: str, action: str, workflow_id: str
-    ) -> str:
-        pass
+    def invoke(data: Dict[str, Any], asset_id: str, when: str, action: str, workflow_id: str) -> str:
         row = {
             "workflow_id": workflow_id,
             "employee_id": None,
@@ -1236,17 +986,15 @@ class ScheduleMdmAction(Tool):
             "created_at": when,
             "completed_at": None,
         }
-        _append_row(_get_table(data, "device_workflow"), row)
-        payload = {"status": "ok", "workflow": row}
-        out = json.dumps(payload)
-        return out
+        _append_row(data["device_workflow"], row)
+        return json.dumps({"status": "ok", "workflow": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ScheduleMdmAction",
+                "name": "schedule_mdm_action",
                 "description": "Schedule an MDM action for an asset (stored as a workflow entry).",
                 "parameters": {
                     "type": "object",
@@ -1264,14 +1012,7 @@ class ScheduleMdmAction(Tool):
 
 class RequestAssetReturn(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        asset_id: str,
-        employee_id: str,
-        due_ts: str,
-        workflow_id: str,
-    ) -> str:
-        pass
+    def invoke(data: Dict[str, Any], asset_id: str, employee_id: str, due_ts: str, workflow_id: str) -> str:
         row = {
             "workflow_id": workflow_id,
             "employee_id": employee_id,
@@ -1282,17 +1023,15 @@ class RequestAssetReturn(Tool):
             "created_at": due_ts,
             "completed_at": None,
         }
-        _append_row(_get_table(data, "device_workflow"), row)
-        payload = {"status": "ok", "workflow": row}
-        out = json.dumps(payload)
-        return out
+        _append_row(data["device_workflow"], row)
+        return json.dumps({"status": "ok", "workflow": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RequestAssetReturn",
+                "name": "request_asset_return",
                 "description": "Create a device return request workflow entry with due timestamp.",
                 "parameters": {
                     "type": "object",
@@ -1311,7 +1050,7 @@ class RequestAssetReturn(Tool):
 class CreateTicket(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         ticket_id: str,
         employee_id: str,
         category: str,
@@ -1319,9 +1058,8 @@ class CreateTicket(Tool):
         status: str,
         subject: str,
         opened_at: str,
-        related_asset_id: str | None = None,
+        related_asset_id: Optional[str] = None,
     ) -> str:
-        pass
         row = {
             "ticket_id": ticket_id,
             "employee_id": employee_id,
@@ -1333,17 +1071,15 @@ class CreateTicket(Tool):
             "closed_at": None,
             "related_asset_id": related_asset_id,
         }
-        _append_row(_get_table(data, "tickets"), row)
-        payload = {"status": "ok", "ticket": row}
-        out = json.dumps(payload)
-        return out
+        _append_row(data["tickets"], row)
+        return json.dumps({"status": "ok", "ticket": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateTicket",
+                "name": "create_ticket",
                 "description": "Create a service desk ticket.",
                 "parameters": {
                     "type": "object",
@@ -1357,15 +1093,7 @@ class CreateTicket(Tool):
                         "opened_at": {"type": "string"},
                         "related_asset_id": {"type": "string"},
                     },
-                    "required": [
-                        "ticket_id",
-                        "employee_id",
-                        "category",
-                        "priority",
-                        "status",
-                        "subject",
-                        "opened_at",
-                    ],
+                    "required": ["ticket_id", "employee_id", "category", "priority", "status", "subject", "opened_at"],
                 },
             },
         }
@@ -1373,41 +1101,28 @@ class CreateTicket(Tool):
 
 class UpdateTicketStatus(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], ticket_id: str, status: str, closed_at: str | None = None
-    ) -> str:
-        pass
-        t = _find_one(_get_table(data, "tickets"), ticket_id=ticket_id)
+    def invoke(data: Dict[str, Any], ticket_id: str, status: str, closed_at: Optional[str] = None) -> str:
+        t = _find_one(data["tickets"], ticket_id=ticket_id)
         if not t:
-            payload = {"status": "error", "reason": "ticket_not_found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "ticket_not_found"})
         valid = {"New", "Open", "In Progress", "On Hold", "Resolved", "Closed"}
         if status not in valid:
-            payload = {"status": "error", "reason": "invalid_status"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "invalid_status"})
         t["status"] = status
         if closed_at is not None:
             t["closed_at"] = closed_at
-        payload = {"status": "ok", "ticket": t}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "ticket": t})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateTicketStatus",
+                "name": "update_ticket_status",
                 "description": "Update a ticket's status and optional closed_at timestamp.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "ticket_id": {"type": "string"},
-                        "status": {"type": "string"},
-                        "closed_at": {"type": "string"},
-                    },
+                    "properties": {"ticket_id": {"type": "string"}, "status": {"type": "string"}, "closed_at": {"type": "string"}},
                     "required": ["ticket_id", "status"],
                 },
             },
@@ -1417,15 +1132,14 @@ class UpdateTicketStatus(Tool):
 class FindTickets(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
-        status: str | None = None,
-        priority: str | None = None,
-        category: str | None = None,
-        employee_id: str | None = None,
+        data: Dict[str, Any],
+        status: Optional[str] = None,
+        priority: Optional[str] = None,
+        category: Optional[str] = None,
+        employee_id: Optional[str] = None,
     ) -> str:
-        pass
         results = []
-        for t in _get_table(data, "tickets").values():
+        for t in data["tickets"]:
             if status and t["status"] != status:
                 continue
             if priority and t["priority"] != priority:
@@ -1435,16 +1149,14 @@ class FindTickets(Tool):
             if employee_id and t["employee_id"] != employee_id:
                 continue
             results.append(t)
-        payload = {"status": "ok", "tickets": results}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "tickets": results})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindTickets",
+                "name": "find_tickets",
                 "description": "Find tickets filtered by status, priority, category, and/or employee_id.",
                 "parameters": {
                     "type": "object",
@@ -1463,41 +1175,33 @@ class FindTickets(Tool):
 class TakeBacklogSnapshot(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         snapshot_id: str,
         taken_at: str,
-        statuses_in_scope: list[str],
+        statuses_in_scope: List[str],
     ) -> str:
-        pass
-        open_ids = [
-            t["ticket_id"] for t in _get_table(data, "tickets").values() if t["status"] in statuses_in_scope
-        ]
+        open_ids = [t["ticket_id"] for t in data["tickets"] if t["status"] in statuses_in_scope]
         row = {
             "snapshot_id": snapshot_id,
             "taken_at": taken_at,
             "open_ticket_ids": open_ids,
         }
-        _append_row(_get_table(data, "backlog_snapshot_open"), row)
-        payload = {"status": "ok", "snapshot": row}
-        out = json.dumps(payload)
-        return out
+        _append_row(data["backlog_snapshot_open"], row)
+        return json.dumps({"status": "ok", "snapshot": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "TakeBacklogSnapshot",
+                "name": "take_backlog_snapshot",
                 "description": "Write a backlog snapshot of ticket IDs for the given statuses.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "snapshot_id": {"type": "string"},
                         "taken_at": {"type": "string"},
-                        "statuses_in_scope": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                        },
+                        "statuses_in_scope": {"type": "array", "items": {"type": "string"}},
                     },
                     "required": ["snapshot_id", "taken_at", "statuses_in_scope"],
                 },
@@ -1507,24 +1211,13 @@ class TakeBacklogSnapshot(Tool):
 
 class RecomputeDailyMetrics(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], date: str) -> str:
-        pass
-        opened = len([t for t in _get_table(data, "tickets").values() if t["opened_at"].startswith(date)])
-        closed = len(
-            [
-                t
-                for t in _get_table(data, "tickets").values()
-                if t.get("closed_at") and t["closed_at"].startswith(date)
-            ]
-        )
+    def invoke(data: Dict[str, Any], date: str) -> str:
+        opened = len([t for t in data["tickets"] if t["opened_at"].startswith(date)])
+        closed = len([t for t in data["tickets"] if t.get("closed_at") and t["closed_at"].startswith(date)])
         closed_24 = 0
-        #Estimate: consider any closures on the same date as occurring within 24 hours
-        for t in _get_table(data, "tickets").values():
-            if (
-                t.get("closed_at")
-                and t["closed_at"].startswith(date)
-                and t["opened_at"][:10] == date
-            ):
+        # Approximate: treat any closed on same date as within 24h
+        for t in data["tickets"]:
+            if t.get("closed_at") and t["closed_at"].startswith(date) and t["opened_at"][:10] == date:
                 closed_24 += 1
         avg_age_open_hours = 0
         row = {
@@ -1534,17 +1227,15 @@ class RecomputeDailyMetrics(Tool):
             "closed_within_24h": closed_24,
             "avg_open_age_hours": avg_age_open_hours,
         }
-        _append_row(_get_table(data, "daily_metrics"), row)
-        payload = {"status": "ok", "metrics": row}
-        out = json.dumps(payload)
-        return out
+        _append_row(data["daily_metrics"], row)
+        return json.dumps({"status": "ok", "metrics": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RecomputeDailyMetrics",
+                "name": "recompute_daily_metrics",
                 "description": "Recompute and append daily ticket metrics for a given date.",
                 "parameters": {
                     "type": "object",
@@ -1558,16 +1249,15 @@ class RecomputeDailyMetrics(Tool):
 class CreateJiraTicket(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         jira_id: str,
         issue_type: str,
         summary: str,
         priority: str,
         status: str,
         created_at: str,
-        updated_at: str | None = None,
+        updated_at: Optional[str] = None,
     ) -> str:
-        pass
         row = {
             "jira_id": jira_id,
             "issue_type": issue_type,
@@ -1577,18 +1267,16 @@ class CreateJiraTicket(Tool):
             "created_at": created_at,
             "updated_at": updated_at or created_at,
         }
-        _append_row(_get_table(data, "jira_tickets"), row)
-        payload = {"status": "ok", "jira": row}
-        out = json.dumps(payload)
-        return out
+        _append_row(data["jira_tickets"], row)
+        return json.dumps({"status": "ok", "jira": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateJiraTicket",
-                "description": "Create a TaskTrack ticket (e.g., License Shortage, Hardware Shortage, Incident).",
+                "name": "create_jira_ticket",
+                "description": "Create a Jira ticket (e.g., License Shortage, Hardware Shortage, Incident).",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -1600,14 +1288,7 @@ class CreateJiraTicket(Tool):
                         "created_at": {"type": "string"},
                         "updated_at": {"type": "string"},
                     },
-                    "required": [
-                        "jira_id",
-                        "issue_type",
-                        "summary",
-                        "priority",
-                        "status",
-                        "created_at",
-                    ],
+                    "required": ["jira_id", "issue_type", "summary", "priority", "status", "created_at"],
                 },
             },
         }
@@ -1615,33 +1296,24 @@ class CreateJiraTicket(Tool):
 
 class UpdateJiraStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], jira_id: str, status: str, updated_at: str) -> str:
-        pass
-        row = _find_one(_get_table(data, "jira_tickets"), jira_id=jira_id)
+    def invoke(data: Dict[str, Any], jira_id: str, status: str, updated_at: str) -> str:
+        row = _find_one(data["jira_tickets"], jira_id=jira_id)
         if not row:
-            payload = {"status": "error", "reason": "jira_not_found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "jira_not_found"})
         row["status"] = status
         row["updated_at"] = updated_at
-        payload = {"status": "ok", "jira": row}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "jira": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateJiraStatus",
-                "description": "Update the status of a TaskTrack ticket.",
+                "name": "update_jira_status",
+                "description": "Update the status of a Jira ticket.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "jira_id": {"type": "string"},
-                        "status": {"type": "string"},
-                        "updated_at": {"type": "string"},
-                    },
+                    "properties": {"jira_id": {"type": "string"}, "status": {"type": "string"}, "updated_at": {"type": "string"}},
                     "required": ["jira_id", "status", "updated_at"],
                 },
             },
@@ -1651,15 +1323,14 @@ class UpdateJiraStatus(Tool):
 class FindJiraTickets(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
-        issue_type: str | None = None,
-        status: str | None = None,
-        priority: str | None = None,
-        summary: str | None = None,
+        data: Dict[str, Any],
+        issue_type: Optional[str] = None,
+        status: Optional[str] = None,
+        priority: Optional[str] = None,
+        summary: Optional[str] = None,
     ) -> str:
-        pass
         results = []
-        for j in _get_table(data, "jira_tickets").values():
+        for j in data["jira_tickets"]:
             if issue_type and j["issue_type"] != issue_type:
                 continue
             if status and j["status"] != status:
@@ -1669,17 +1340,15 @@ class FindJiraTickets(Tool):
             if summary and summary not in j["summary"]:
                 continue
             results.append(j)
-        payload = {"status": "ok", "jira_tickets": results}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "jira_tickets": results})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindJiraTickets",
-                "description": "Find TaskTrack tickets filtered by type, status, priority, or summary substring.",
+                "name": "find_jira_tickets",
+                "description": "Find Jira tickets filtered by type, status, priority, or summary substring.",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -1696,27 +1365,21 @@ class FindJiraTickets(Tool):
 
 class IngestHrMemo(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], memo_id: str, memo_json: dict[str, Any]) -> str:
-        pass
+    def invoke(data: Dict[str, Any], memo_id: str, memo_json: Dict[str, Any]) -> str:
         row = {"memo_id": memo_id, **memo_json}
-        _append_row(_get_table(data, "hr_memos"), row)
-        payload = {"status": "ok", "memo": row}
-        out = json.dumps(payload)
-        return out
+        _append_row(data["hr_memos"], row)
+        return json.dumps({"status": "ok", "memo": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ingestHrMemo",
+                "name": "ingest_hr_memo",
                 "description": "Insert an HR memo into the hr_memos table.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "memo_id": {"type": "string"},
-                        "memo_json": {"type": "object"},
-                    },
+                    "properties": {"memo_id": {"type": "string"}, "memo_json": {"type": "object"}},
                     "required": ["memo_id", "memo_json"],
                 },
             },
@@ -1726,15 +1389,8 @@ class IngestHrMemo(Tool):
 class EnqueueLifecycleEvent(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
-        lifecycle_id: str,
-        memo_id: str,
-        employee_ref: str,
-        event: str,
-        status: str,
-        created_at: str,
+        data: Dict[str, Any], lifecycle_id: str, memo_id: str, employee_ref: str, event: str, status: str, created_at: str
     ) -> str:
-        pass
         row = {
             "lifecycle_id": lifecycle_id,
             "memo_id": memo_id,
@@ -1743,9 +1399,9 @@ class EnqueueLifecycleEvent(Tool):
             "status": status,
             "created_at": created_at,
         }
-        _append_row(_get_table(data, "lifecycle_queue"), row)
+        _append_row(data["lifecycle_queue"], row)
         _append_row(
-            _get_table(data, "lifecycle_audit"),
+            data["lifecycle_audit"],
             {
                 "audit_id": f"lcaud_{lifecycle_id}_created",
                 "lifecycle_id": lifecycle_id,
@@ -1754,16 +1410,14 @@ class EnqueueLifecycleEvent(Tool):
                 "actor": "system_policy",
             },
         )
-        payload = {"status": "ok", "lifecycle": row}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "lifecycle": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "EnqueueLifecycleEvent",
+                "name": "enqueue_lifecycle_event",
                 "description": "Append a lifecycle_queue entry and a created audit record.",
                 "parameters": {
                     "type": "object",
@@ -1775,14 +1429,7 @@ class EnqueueLifecycleEvent(Tool):
                         "status": {"type": "string"},
                         "created_at": {"type": "string"},
                     },
-                    "required": [
-                        "lifecycle_id",
-                        "memo_id",
-                        "employee_ref",
-                        "event",
-                        "status",
-                        "created_at",
-                    ],
+                    "required": ["lifecycle_id", "memo_id", "employee_ref", "event", "status", "created_at"],
                 },
             },
         }
@@ -1790,18 +1437,13 @@ class EnqueueLifecycleEvent(Tool):
 
 class UpdateLifecycleStatus(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], lifecycle_id: str, status: str, timestamp: str, actor: str
-    ) -> str:
-        pass
-        row = _find_one(_get_table(data, "lifecycle_queue"), lifecycle_id=lifecycle_id)
+    def invoke(data: Dict[str, Any], lifecycle_id: str, status: str, timestamp: str, actor: str) -> str:
+        row = _find_one(data["lifecycle_queue"], lifecycle_id=lifecycle_id)
         if not row:
-            payload = {"status": "error", "reason": "lifecycle_not_found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "lifecycle_not_found"})
         row["status"] = status
         _append_row(
-            _get_table(data, "lifecycle_audit"),
+            data["lifecycle_audit"],
             {
                 "audit_id": f"lcaud_{lifecycle_id}_{status}",
                 "lifecycle_id": lifecycle_id,
@@ -1810,16 +1452,14 @@ class UpdateLifecycleStatus(Tool):
                 "actor": actor,
             },
         )
-        payload = {"status": "ok", "lifecycle": row}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "lifecycle": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateLifecycleStatus",
+                "name": "update_lifecycle_status",
                 "description": "Update lifecycle_queue status and append an audit row.",
                 "parameters": {
                     "type": "object",
@@ -1837,10 +1477,7 @@ class UpdateLifecycleStatus(Tool):
 
 class RecordLifecycleAudit(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], lifecycle_id: str, event: str, timestamp: str, actor: str
-    ) -> str:
-        pass
+    def invoke(data: Dict[str, Any], lifecycle_id: str, event: str, timestamp: str, actor: str) -> str:
         row = {
             "audit_id": f"lcaud_{lifecycle_id}_{event}",
             "lifecycle_id": lifecycle_id,
@@ -1848,17 +1485,15 @@ class RecordLifecycleAudit(Tool):
             "timestamp": timestamp,
             "actor": actor,
         }
-        _append_row(_get_table(data, "lifecycle_audit"), row)
-        payload = {"status": "ok", "audit": row}
-        out = json.dumps(payload)
-        return out
+        _append_row(data["lifecycle_audit"], row)
+        return json.dumps({"status": "ok", "audit": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RecordLifecycleAudit",
+                "name": "record_lifecycle_audit",
                 "description": "Append a lifecycle_audit record.",
                 "parameters": {
                     "type": "object",
@@ -1876,34 +1511,26 @@ class RecordLifecycleAudit(Tool):
 
 class GetAppAccounts(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], employee_id: str, app_id: str | None = None
-    ) -> str:
-        pass
+    def invoke(data: Dict[str, Any], employee_id: str, app_id: Optional[str] = None) -> str:
         results = []
-        for a in _get_table(data, "app_accounts").values():
+        for a in data["app_accounts"]:
             if a["employee_id"] != employee_id:
                 continue
             if app_id and a["app_id"] != app_id:
                 continue
             results.append(a)
-        payload = {"status": "ok", "app_accounts": results}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "app_accounts": results})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAppAccounts",
+                "name": "get_app_accounts",
                 "description": "Get app accounts for an employee, optionally filtered by app_id.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "employee_id": {"type": "string"},
-                        "app_id": {"type": "string"},
-                    },
+                    "properties": {"employee_id": {"type": "string"}, "app_id": {"type": "string"}},
                     "required": ["employee_id"],
                 },
             },
@@ -1913,15 +1540,9 @@ class GetAppAccounts(Tool):
 class UpsertAppAccount(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
-        app_account_id: str,
-        employee_id: str,
-        app_id: str,
-        status: str,
-        created_at: str,
+        data: Dict[str, Any], app_account_id: str, employee_id: str, app_id: str, status: str, created_at: str
     ) -> str:
-        pass
-        row = _find_one(_get_table(data, "app_accounts"), app_account_id=app_account_id)
+        row = _find_one(data["app_accounts"], app_account_id=app_account_id)
         if row:
             _update_row(row, {"status": status})
         else:
@@ -1932,17 +1553,15 @@ class UpsertAppAccount(Tool):
                 "status": status,
                 "created_at": created_at,
             }
-            _append_row(_get_table(data, "app_accounts"), row)
-        payload = {"status": "ok", "app_account": row}
-        out = json.dumps(payload)
-        return out
+            _append_row(data["app_accounts"], row)
+        return json.dumps({"status": "ok", "app_account": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpsertAppAccount",
+                "name": "upsert_app_account",
                 "description": "Create or update an app account for an employee.",
                 "parameters": {
                     "type": "object",
@@ -1953,13 +1572,7 @@ class UpsertAppAccount(Tool):
                         "status": {"type": "string"},
                         "created_at": {"type": "string"},
                     },
-                    "required": [
-                        "app_account_id",
-                        "employee_id",
-                        "app_id",
-                        "status",
-                        "created_at",
-                    ],
+                    "required": ["app_account_id", "employee_id", "app_id", "status", "created_at"],
                 },
             },
         }
@@ -1967,32 +1580,24 @@ class UpsertAppAccount(Tool):
 
 class DisableAppAccount(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], app_account_id: str, disabled_at: str) -> str:
-        pass
-        row = _find_one(_get_table(data, "app_accounts"), app_account_id=app_account_id)
+    def invoke(data: Dict[str, Any], app_account_id: str, disabled_at: str) -> str:
+        row = _find_one(data["app_accounts"], app_account_id=app_account_id)
         if not row:
-            payload = {"status": "error", "reason": "app_account_not_found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "error", "reason": "app_account_not_found"})
         row["status"] = "disabled"
         row["disabled_at"] = disabled_at
-        payload = {"status": "ok", "app_account": row}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "ok", "app_account": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "DisableAppAccount",
+                "name": "disable_app_account",
                 "description": "Disable an app account and record disabled_at.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "app_account_id": {"type": "string"},
-                        "disabled_at": {"type": "string"},
-                    },
+                    "properties": {"app_account_id": {"type": "string"}, "disabled_at": {"type": "string"}},
                     "required": ["app_account_id", "disabled_at"],
                 },
             },
@@ -2002,14 +1607,13 @@ class DisableAppAccount(Tool):
 class GenerateServiceDeskHealthReport(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         run_id: str,
         started_at: str,
         completed_at: str,
         source_ticket_window_days: int,
         output_path_pdf: str,
     ) -> str:
-        pass
         row = {
             "run_id": run_id,
             "report_type": "service_desk_health",
@@ -2018,17 +1622,15 @@ class GenerateServiceDeskHealthReport(Tool):
             "output_path_pdf": output_path_pdf,
             "source_ticket_window_days": source_ticket_window_days,
         }
-        _append_row(_get_table(data, "report_runs"), row)
-        payload = {"status": "ok", "report": row}
-        out = json.dumps(payload)
-        return out
+        _append_row(data["report_runs"], row)
+        return json.dumps({"status": "ok", "report": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GenerateServiceDeskHealthReport",
+                "name": "generate_service_desk_health_report",
                 "description": "Record a service desk health report generation run.",
                 "parameters": {
                     "type": "object",
@@ -2039,13 +1641,7 @@ class GenerateServiceDeskHealthReport(Tool):
                         "source_ticket_window_days": {"type": "integer"},
                         "output_path_pdf": {"type": "string"},
                     },
-                    "required": [
-                        "run_id",
-                        "started_at",
-                        "completed_at",
-                        "source_ticket_window_days",
-                        "output_path_pdf",
-                    ],
+                    "required": ["run_id", "started_at", "completed_at", "source_ticket_window_days", "output_path_pdf"],
                 },
             },
         }
@@ -2054,16 +1650,8 @@ class GenerateServiceDeskHealthReport(Tool):
 class RecordValidationIssue(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
-        issue_id: str,
-        entity: str,
-        entity_id: str,
-        field: str,
-        rule: str,
-        details: str,
-        created_at: str,
+        data: Dict[str, Any], issue_id: str, entity: str, entity_id: str, field: str, rule: str, details: str, created_at: str
     ) -> str:
-        pass
         row = {
             "issue_id": issue_id,
             "entity": entity,
@@ -2073,17 +1661,15 @@ class RecordValidationIssue(Tool):
             "details": details,
             "created_at": created_at,
         }
-        _append_row(_get_table(data, "validation_issues"), row)
-        payload = {"status": "ok", "validation_issue": row}
-        out = json.dumps(payload)
-        return out
+        _append_row(data["validation_issues"], row)
+        return json.dumps({"status": "ok", "validation_issue": row})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RecordValidationIssue",
+                "name": "record_validation_issue",
                 "description": "Append a validation issue entry describing an input or data inconsistency.",
                 "parameters": {
                     "type": "object",
@@ -2096,15 +1682,7 @@ class RecordValidationIssue(Tool):
                         "details": {"type": "string"},
                         "created_at": {"type": "string"},
                     },
-                    "required": [
-                        "issue_id",
-                        "entity",
-                        "entity_id",
-                        "field",
-                        "rule",
-                        "details",
-                        "created_at",
-                    ],
+                    "required": ["issue_id", "entity", "entity_id", "field", "rule", "details", "created_at"],
                 },
             },
         }

@@ -1,33 +1,25 @@
 import json
 from datetime import datetime
-from typing import Any
-
-from tau_bench.envs.tool import Tool
-
-
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db.values())
-    return db
+from typing import Any, Dict, List
+from domains.dto import Tool
 
 
 class GetJobPosting(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], job_id: str = None) -> str:
-        postings = data.get("job_postings", {}).values()
-        for post in postings.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        job_id = kwargs.get("job_id")
+        postings = data.get("job_postings", [])
+        for post in postings:
             if post.get("job_id") == job_id:
                 return str(post)
         return f"Job posting with ID {job_id} not found."
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetJobPosting",
+                "name": "get_job_posting",
                 "description": "Retrieve details of a specific job posting by job ID.",
                 "parameters": {
                     "type": "object",
@@ -45,36 +37,34 @@ class GetJobPosting(Tool):
 
 class GetRoleSkills(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], role: str = None) -> str:
-        catalog = data.get("role_skill_catalog", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        role = kwargs.get("role")
+        catalog = data.get("role_skill_catalog", [])
 
-        # Debug: Verify if the catalog is loaded
+        # Debug: Check if catalog is loaded
         if not catalog:
-            payload = {"error": "Role catalog not loaded"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Role catalog not loaded"}, indent=2)
 
-        # Attempt an exact match initially
-        for entry in catalog.values():
+        # Try exact match first
+        for entry in catalog:
             if entry.get("role") == role:
                 skills = entry.get("required_skills", [])
                 if not skills:
-                    payload = {"error": f"No skills found for role '{role}'"}
-                    out = json.dumps(payload, indent=2)
-                    return out
+                    return json.dumps(
+                        {"error": f"No skills found for role '{role}'"}, indent=2
+                    )
 
-                # Make sure to return a list of strings instead of dictionaries
+                # Ensure we return a list of strings, not dictionaries
                 skill_names = []
                 for skill in skills:
                     if isinstance(skill, str):
                         skill_names.append(skill)
                     elif isinstance(skill, dict) and skill.get("skill"):
                         skill_names.append(skill.get("skill"))
-                payload = skill_names
-                out = json.dumps(payload, indent=2)
-                return out
 
-        # Attempt a partial match for typical role variations
+                return json.dumps(skill_names, indent=2)
+
+                # Try partial match for common role variations
         role_mapping = {
             "AI Researcher": "Senior Data Scientist",
             "Security Analyst": "Cloud Security Specialist",
@@ -90,38 +80,40 @@ class GetRoleSkills(Tool):
 
         mapped_role = role_mapping.get(role)
         if mapped_role:
-            for entry in catalog.values():
+            for entry in catalog:
                 if entry.get("role") == mapped_role:
                     skills = entry.get("required_skills", [])
                     if not skills:
-                        payload = {
-                            "error": f"No skills found for mapped role '{mapped_role}'"
-                        }
-                        out = json.dumps(payload, indent=2)
-                        return out
+                        return json.dumps(
+                            {
+                                "error": f"No skills found for mapped role '{mapped_role}'"
+                            },
+                            indent=2,
+                        )
 
-                    # Confirm that we return a list of strings rather than dictionaries
+                    # Ensure we return a list of strings, not dictionaries
                     skill_names = []
                     for skill in skills:
                         if isinstance(skill, str):
                             skill_names.append(skill)
                         elif isinstance(skill, dict) and skill.get("skill"):
                             skill_names.append(skill.get("skill"))
-                    payload = skill_names
-                    out = json.dumps(payload, indent=2)
-                    return out
 
-        # Display available roles for debugging purposes
-        available_roles = [entry.get("role") for entry in catalog.values()]
-        payload = {"error": f"Role '{role}' not found", "available_roles": available_roles}
-        out = json.dumps(payload, indent=2)
-        return out
+                    return json.dumps(skill_names, indent=2)
+
+        # List available roles for debugging
+        available_roles = [entry.get("role") for entry in catalog]
+        return json.dumps(
+            {"error": f"Role '{role}' not found", "available_roles": available_roles},
+            indent=2,
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetRoleSkills",
+                "name": "get_role_skills",
                 "description": "Get required skills for a specific role.",
                 "parameters": {
                     "type": "object",
@@ -139,10 +131,10 @@ class GetRoleSkills(Tool):
 
 class SearchExternalCandidatesBySkills(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], required_skills: list = None) -> str:
-        required_skills_raw = required_skills if required_skills is not None else []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        required_skills_raw = kwargs.get("required_skills", [])
 
-        # Carefully extract skill names from possibly mixed data
+        # Safely extract skill names from potentially mixed data
         required = set()
         for skill_item in required_skills_raw:
             if isinstance(skill_item, str):
@@ -150,19 +142,17 @@ class SearchExternalCandidatesBySkills(Tool):
             elif isinstance(skill_item, dict) and skill_item.get("skill"):
                 required.add(skill_item.get("skill"))
 
-        talent_network = data.get("talent_network", {}).values()
+        talent_network = data.get("talent_network", [])
 
-        # Debug: Confirm if the talent network is loaded
+        # Debug: Check if talent network is loaded
         if not talent_network:
-            payload = {"error": "Talent network not loaded", "matches": []}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": "Talent network not loaded", "matches": []}, indent=2
             )
-            return out
 
         matches = []
-        for c in talent_network.values():
-            # Retrieve skill names from candidate skills - accommodate both formats
+        for c in talent_network:
+            # Extract skill names from candidate skills - handle both formats
             candidate_skills = set()
             cand_skills = c.get("skills", [])
 
@@ -173,19 +163,19 @@ class SearchExternalCandidatesBySkills(Tool):
                     elif isinstance(skill, dict) and skill.get("skill"):
                         candidate_skills.add(skill.get("skill"))
 
-            # Verify matches - manage both direct matches and hierarchical skills
+            # Check for matches - handle both direct matches and hierarchical skills
             has_match = False
 
-            # Initially check for direct intersection
+            # First check direct intersection
             if required.intersection(candidate_skills):
                 has_match = True
             else:
-                # Examine hierarchical matches by broadening required skills
+                # Check hierarchical matches by expanding required skills
                 expanded_required = set()
                 for req_skill in required:
                     expanded_required.add(req_skill)
-                    # Locate this skill in the role catalog to obtain specific skills
-                    for role_entry in data.get("role_skill_catalog", {}).values():
+                    # Find this skill in the role catalog to get specific skills
+                    for role_entry in data.get("role_skill_catalog", []):
                         for skill_category in role_entry.get("required_skills", []):
                             if (
                                 isinstance(skill_category, dict)
@@ -201,15 +191,16 @@ class SearchExternalCandidatesBySkills(Tool):
 
             if has_match:
                 matches.append(c)
-        payload = matches
-        out = json.dumps(payload, indent=2)
-        return out
+
+        # Return just the matches for compatibility
+        return json.dumps(matches, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchExternalCandidatesBySkills",
+                "name": "search_external_candidates_by_skills",
                 "description": "Search talent network candidates by skill match.",
                 "parameters": {
                     "type": "object",
@@ -228,8 +219,12 @@ class SearchExternalCandidatesBySkills(Tool):
 
 class ShortlistExternalCandidate(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str = None, job_id: str = None, recruiter_id: str = None) -> str:
-        # Assign a recruiter in a deterministic manner if not specified
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
+        job_id = kwargs.get("job_id")
+        recruiter_id = kwargs.get("recruiter_id")
+
+        # Assign recruiter deterministically if not provided
         if not recruiter_id:
             if job_id in ["J001", "J002"]:
                 recruiter_id = "U301"
@@ -238,7 +233,7 @@ class ShortlistExternalCandidate(Tool):
             else:
                 recruiter_id = "U312"
 
-        # Generate a shortlist entry containing only necessary data
+        # Create shortlist entry with only essential data
         entry = {
             "candidate_id": candidate_id,
             "recruiter_id": recruiter_id,
@@ -250,12 +245,13 @@ class ShortlistExternalCandidate(Tool):
             data["shortlisted_candidates"] = []
         data["shortlisted_candidates"].append(entry)
         return f"External candidate {candidate_id} shortlisted for job {job_id}."
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ShortlistExternalCandidate",
+                "name": "shortlist_external_candidate",
                 "description": "Add external candidate to shortlist for a given job. Recruiter is assigned deterministically based on job_id.",
                 "parameters": {
                     "type": "object",
@@ -277,21 +273,21 @@ class ShortlistExternalCandidate(Tool):
 
 class GetJobApplications(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], job_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        job_id = kwargs.get("job_id")
         apps = [
             app
-            for app in data.get("job_applications", {}).values()
+            for app in data.get("job_applications", [])
             if app.get("job_id") == job_id
         ]
-        payload = apps
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(apps, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetJobApplications",
+                "name": "get_job_applications",
                 "description": "Returns all applications for a given job ID.",
                 "parameters": {
                     "type": "object",
@@ -309,21 +305,24 @@ class GetJobApplications(Tool):
 
 class AnalyzeApplicantSkillFit(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], applicant_id: str = None, role: str = None) -> str:
-        # Retrieve user skills - manage the actual data structure
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        uid = kwargs.get("applicant_id")
+        role = kwargs.get("role")
+
+        # Get user skills - handle actual data structure
         user_skill_names = set()
 
-        # Locate the user within the users data
-        user = next((u for u in data.get("users", {}).values() if u.get("user_id") == applicant_id), {}).values()
+        # Find the user in the users data
+        user = next((u for u in data.get("users", []) if u.get("user_id") == uid), {})
         if user:
-            # Examine the skills_current field (actual data structure)
+            # Check skills_current field (actual data structure)
             user_skills = user.get("skills_current", [])
             if isinstance(user_skills, list):
                 for skill_obj in user_skills:
                     if isinstance(skill_obj, dict) and skill_obj.get("skill"):
                         user_skill_names.add(skill_obj.get("skill"))
 
-            # Additionally verify if a legacy "skills" field exists
+            # Also check if there's a legacy "skills" field
             if not user_skill_names:
                 user_skills = user.get("skills", [])
                 if isinstance(user_skills, list):
@@ -333,10 +332,10 @@ class AnalyzeApplicantSkillFit(Tool):
                         elif isinstance(skill, dict) and skill.get("skill"):
                             user_skill_names.add(skill.get("skill"))
 
-        # Attempt to use the user_skills table as a backup
+        # Try user_skills table as fallback
         if not user_skill_names:
             user_skills_entry = next(
-                (u for u in data.get("user_skills", {}).values() if u.get("user_id") == applicant_id), {}
+                (u for u in data.get("user_skills", []) if u.get("user_id") == uid), {}
             )
             if user_skills_entry:
                 skills = user_skills_entry.get("skills", [])
@@ -347,11 +346,11 @@ class AnalyzeApplicantSkillFit(Tool):
                         elif isinstance(skill, dict) and skill.get("skill"):
                             user_skill_names.add(skill.get("skill"))
 
-        # Debug: Verify if the user was located
+        # Debug: Check if user was found
         if not user_skill_names:
-            return f"Error: No skills found for user {applicant_id}"
+            return f"Error: No skills found for user {uid}"
 
-        # Retrieve role skills with mapping assistance
+        # Get role skills with mapping support
         role_mapping = {
             "AI Researcher": "Senior Data Scientist",
             "Security Analyst": "Cloud Security Specialist",
@@ -369,14 +368,14 @@ class AnalyzeApplicantSkillFit(Tool):
         role_rec = next(
             (
                 r
-                for r in data.get("role_skill_catalog", {}).values()
+                for r in data.get("role_skill_catalog", [])
                 if r.get("role") == target_role
             ),
             {},
         )
         role_skills_raw = role_rec.get("required_skills", [])
 
-        # Carefully extract skill names from possibly mixed data
+        # Safely extract skill names from potentially mixed data
         role_skill_names = set()
         for skill_item in role_skills_raw:
             if isinstance(skill_item, str):
@@ -384,24 +383,24 @@ class AnalyzeApplicantSkillFit(Tool):
             elif isinstance(skill_item, dict) and skill_item.get("skill"):
                 role_skill_names.add(skill_item.get("skill"))
 
-        # Identify matches - manage both direct matches and hierarchical skills
+        # Find matches - handle both direct matches and hierarchical skills
         matched = []
         missing = []
 
-        # Examine each skill requirement for the role
+        # Check each role skill requirement
         for role_skill in role_skill_names:
-            # Verify for a direct match initially
+            # Check for direct match first
             if role_skill in user_skill_names:
                 matched.append(role_skill)
             else:
-                # Determine if any user skill aligns with this role requirement
+                # Check if any user skill matches this role requirement
                 skill_matched = False
 
-                # Retrieve the specific skills for this role requirement from the catalog
+                # Get the specific skills for this role requirement from catalog
                 role_rec = next(
                     (
                         r
-                        for r in data.get("role_skill_catalog", {}).values()
+                        for r in data.get("role_skill_catalog", [])
                         if r.get("role") == target_role
                     ),
                     {},
@@ -412,7 +411,7 @@ class AnalyzeApplicantSkillFit(Tool):
                         and skill_category.get("skill") == role_skill
                     ):
                         specific_skills = skill_category.get("specific_skills", [])
-                        # Verify if the user possesses any of the specific skills in this category
+                        # Check if user has any of the specific skills in this category
                         for user_skill in user_skill_names:
                             if user_skill in specific_skills:
                                 matched.append(role_skill)
@@ -424,7 +423,7 @@ class AnalyzeApplicantSkillFit(Tool):
                 if not skill_matched:
                     missing.append(role_skill)
 
-        # Structure the response
+        # Format response
         match_count = len(matched)
         skill_percentage = (
             round((match_count / len(role_skill_names)) * 100)
@@ -433,12 +432,13 @@ class AnalyzeApplicantSkillFit(Tool):
         )
 
         return f"Skills match: {match_count}/{len(role_skill_names)} ({skill_percentage}%)\nMatched: {matched}\nMissing: {missing}"
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AnalyzeApplicantSkillFit",
+                "name": "analyze_applicant_skill_fit",
                 "description": "Analyze how well an internal applicant's skills match a target role.",
                 "parameters": {
                     "type": "object",
@@ -457,19 +457,22 @@ class AnalyzeApplicantSkillFit(Tool):
 
 class UpdateApplicationStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], application_id: str = None, new_status: str = None) -> str:
-        for app in data.get("job_applications", {}).values():
-            if app["application_id"] == application_id:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        app_id = kwargs.get("application_id")
+        new_status = kwargs.get("new_status")
+        for app in data.get("job_applications", []):
+            if app["application_id"] == app_id:
                 app["status"] = new_status
                 app["last_updated"] = datetime.now().isoformat()
-                return f"{application_id} {new_status}"
+                return f"{app_id} {new_status}"
         return "Application not found"
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateApplicationStatus",
+                "name": "update_application_status",
                 "description": "Updates the status of a job application.",
                 "parameters": {
                     "type": "object",
@@ -491,8 +494,10 @@ class UpdateApplicationStatus(Tool):
 
 class ScheduleTechnicalInterview(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], application_id: str) -> str:
-        # Generate an interview record containing only vital data
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        application_id = kwargs.get("application_id")
+
+        # Create interview record with only essential data
         interview = {
             "application_id": application_id,
             "status": "scheduled",
@@ -503,12 +508,13 @@ class ScheduleTechnicalInterview(Tool):
             data["technical_interviews"] = []
         data["technical_interviews"].append(interview)
         return f"Technical interview scheduled for application {application_id}."
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ScheduleTechnicalInterview",
+                "name": "schedule_technical_interview",
                 "description": "Schedules a technical interview for a job application.",
                 "parameters": {
                     "type": "object",
@@ -526,12 +532,15 @@ class ScheduleTechnicalInterview(Tool):
 
 class AnalyzeExternalCandidateSkillFit(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str = None, role: str = None) -> str:
-        # Collect candidate skills - accommodate both formats
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
+        role = kwargs.get("role")
+
+        # gather candidate skills - handle both formats
         cand = next(
             (
                 c
-                for c in data.get("talent_network", {}).values()
+                for c in data.get("talent_network", [])
                 if c.get("candidate_id") == candidate_id
             ),
             {},
@@ -547,11 +556,11 @@ class AnalyzeExternalCandidateSkillFit(Tool):
                     elif isinstance(skill, dict) and skill.get("skill"):
                         cand_skill_names.add(skill.get("skill"))
 
-        # Debug: Confirm if the candidate was located
+        # Debug: Check if candidate was found
         if not cand_skill_names:
             return f"Error: No skills found for candidate {candidate_id}"
 
-        # Collect role skills with mapping assistance
+        # gather role skills with mapping support
         role_mapping = {
             "AI Researcher": "Senior Data Scientist",
             "Security Analyst": "Cloud Security Specialist",
@@ -569,14 +578,14 @@ class AnalyzeExternalCandidateSkillFit(Tool):
         role_rec = next(
             (
                 r
-                for r in data.get("role_skill_catalog", {}).values()
+                for r in data.get("role_skill_catalog", [])
                 if r.get("role") == target_role
             ),
             {},
         )
         role_skills_raw = role_rec.get("required_skills", [])
 
-        # Carefully extract skill names from possibly mixed data
+        # Safely extract skill names from potentially mixed data
         role_skill_names = set()
         for skill_item in role_skills_raw:
             if isinstance(skill_item, str):
@@ -584,24 +593,24 @@ class AnalyzeExternalCandidateSkillFit(Tool):
             elif isinstance(skill_item, dict) and skill_item.get("skill"):
                 role_skill_names.add(skill_item.get("skill"))
 
-        # Calculate matches - manage both direct matches and hierarchical skills
+        # compute matches - handle both direct matches and hierarchical skills
         matched = []
         missing = []
 
-        # Examine each skill requirement for the role
+        # Check each role skill requirement
         for role_skill in role_skill_names:
-            # Verify for a direct match initially
+            # Check for direct match first
             if role_skill in cand_skill_names:
                 matched.append(role_skill)
             else:
-                # Determine if any candidate skill aligns with this role requirement
+                # Check if any candidate skill matches this role requirement
                 skill_matched = False
 
-                # Retrieve the specific skills for this role requirement from the catalog
+                # Get the specific skills for this role requirement from catalog
                 role_rec = next(
                     (
                         r
-                        for r in data.get("role_skill_catalog", {}).values()
+                        for r in data.get("role_skill_catalog", [])
                         if r.get("role") == target_role
                     ),
                     {},
@@ -612,7 +621,7 @@ class AnalyzeExternalCandidateSkillFit(Tool):
                         and skill_category.get("skill") == role_skill
                     ):
                         specific_skills = skill_category.get("specific_skills", [])
-                        # Verify if the candidate possesses any of the specific skills in this category
+                        # Check if candidate has any of the specific skills in this category
                         for cand_skill in cand_skill_names:
                             if cand_skill in specific_skills:
                                 matched.append(role_skill)
@@ -624,7 +633,7 @@ class AnalyzeExternalCandidateSkillFit(Tool):
                 if not skill_matched:
                     missing.append(role_skill)
 
-        # structure the response
+        # format response
         match_count = len(matched)
         skill_percentage = (
             round((match_count / len(role_skill_names)) * 100)
@@ -633,12 +642,13 @@ class AnalyzeExternalCandidateSkillFit(Tool):
         )
 
         return f"Skills match: {match_count}/{len(role_skill_names)} ({skill_percentage}%)\nMatched: {matched}\nMissing: {missing}"
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AnalyzeExternalCandidateSkillFit",
+                "name": "analyze_external_candidate_skill_fit",
                 "description": "Compare external candidate skills to target role requirements.",
                 "parameters": {
                     "type": "object",
@@ -660,10 +670,13 @@ class AnalyzeExternalCandidateSkillFit(Tool):
 
 class RecommendSkillTraining(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, skill: str = None) -> str:
-        # Confirm that the skill is pertinent to available roles
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        skill = kwargs.get("skill")
+
+        # Validate that the skill is relevant for available roles
         valid_skills = set()
-        for role_entry in data.get("role_skill_catalog", {}).values():
+        for role_entry in data.get("role_skill_catalog", []):
             skills = role_entry.get("required_skills", [])
             if isinstance(skills, list):
                 for skill_item in skills:
@@ -672,26 +685,25 @@ class RecommendSkillTraining(Tool):
                     elif isinstance(skill_item, dict) and skill_item.get("skill"):
                         valid_skills.add(skill_item.get("skill"))
 
-        # If the skill is absent from the catalog, omit the recommendation
+        # If skill not in catalog, skip recommendation
         if skill not in valid_skills:
             return f"Skill '{skill}' not found in catalog - no training recommendation made"
 
-        # Generate a training recommendation containing only necessary data
+        # Create training recommendation with only essential data
         recommendation = {
             "user_id": user_id,
             "skill": skill,
             "timestamp": datetime.now().isoformat(),
         }
-        table = data.setdefault("training_recommendations", {})
-        key = f"{len(table)}"
-        table[key] = recommendation
+        data.setdefault("training_recommendations", []).append(recommendation)
         return f"{user_id} needs {skill} training"
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RecommendSkillTraining",
+                "name": "recommend_skill_training",
                 "description": "Adds a training recommendation for a user on a specific skill.",
                 "parameters": {
                     "type": "object",
@@ -710,24 +722,20 @@ class RecommendSkillTraining(Tool):
 
 class GetUserIdFromName(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], first_name: str, last_name: str) -> str:
-        users = data.get("users", {}).values()
+    def invoke(data: Dict[str, Any], first_name: str, last_name: str) -> str:
+        users = data.get("users", [])
         full_name = f"{first_name} {last_name}"
-        for user in users.values():
+        for user in users:
             if user.get("name") == full_name:
-                payload = {"user_id": user["user_id"]}
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": "User not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps({"user_id": user["user_id"]}, indent=2)
+        return json.dumps({"error": "User not found"}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GetUserIdFromName",
+                "name": "get_user_id_from_name",
                 "description": "Get user ID from first and last name",
                 "parameters": {
                     "type": "object",
@@ -743,31 +751,26 @@ class GetUserIdFromName(Tool):
 
 class GetCourseIdByName(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], course_name: str) -> str:
-        _course_nameL = course_name or ''.lower()
-        pass
-        courses = data.get("course_catalog", {}).values()
-        # Locate a course whose name includes the provided string (case-insensitive)
+    def invoke(data: Dict[str, Any], course_name: str) -> str:
+        courses = data.get("course_catalog", [])
+        # Find a course where the name contains the provided string (case-insensitive)
         course = next(
-            (c for c in courses.values() if course_name.lower() in c.get("name", "").lower()),
+            (c for c in courses if course_name.lower() in c.get("name", "").lower()),
             None,
         )
         if course:
-            payload = {"course_id": course["course_id"]}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"error": f"Course with name containing '{course_name}' not found"}
-        out = json.dumps(
-            payload, indent=2,
+            return json.dumps({"course_id": course["course_id"]}, indent=2)
+        return json.dumps(
+            {"error": f"Course with name containing '{course_name}' not found"},
+            indent=2,
         )
-        return out
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GetCourseIdByName",
+                "name": "get_course_id_by_name",
                 "description": "Find a course ID by its name.",
                 "parameters": {
                     "type": "object",
@@ -785,17 +788,15 @@ class GetCourseIdByName(Tool):
 
 class GetTodayDate(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        payload = {"today": "2025-10-02"}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any]) -> str:
+        return json.dumps({"today": "2025-10-02"}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GetTodayDate",
+                "name": "get_today_date",
                 "description": "Get today's date",
                 "parameters": {"type": "object", "properties": {}, "required": []},
             },
@@ -804,20 +805,18 @@ class GetTodayDate(Tool):
 
 class ListUserGoals(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str) -> str:
-        goals_data = data.get("goals", {}).values()
-        user_goals = next((g for g in goals_data.values() if g.get("user_id") == user_id), {}).values()
+    def invoke(data: Dict[str, Any], user_id: str) -> str:
+        goals_data = data.get("goals", [])
+        user_goals = next((g for g in goals_data if g.get("user_id") == user_id), {})
         goals = user_goals.get("goals", [])
-        payload = {"user_id": user_id, "goals": goals}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"user_id": user_id, "goals": goals}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "ListUserGoals",
+                "name": "list_user_goals",
                 "description": "List all goals for a user",
                 "parameters": {
                     "type": "object",
@@ -831,7 +830,7 @@ class ListUserGoals(Tool):
 class UpdateGoal(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         user_id: str,
         goal_id: str,
         last_updated_date: str,
@@ -839,16 +838,14 @@ class UpdateGoal(Tool):
         progress_percent: int = None,
         notes_to_append: str = None,
     ) -> str:
-        goals_data = data.get("goals", {}).values()
+        goals_data = data.get("goals", [])
         user_goals_obj = next(
-            (g for g in goals_data.values() if g.get("user_id") == user_id), None
+            (g for g in goals_data if g.get("user_id") == user_id), None
         )
         if not user_goals_obj:
-            payload = {"error": f"User {user_id} not found in goals data"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": f"User {user_id} not found in goals data"}, indent=2
             )
-            return out
 
         goal_to_update = next(
             (g for g in user_goals_obj.get("goals", []) if g.get("goal_id") == goal_id),
@@ -856,13 +853,11 @@ class UpdateGoal(Tool):
         )
 
         if not goal_to_update:
-            payload = {"error": f"Goal {goal_id} not found for user {user_id}"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": f"Goal {goal_id} not found for user {user_id}"}, indent=2
             )
-            return out
 
-        # Implement updates if supplied
+        # Apply updates if provided
         if status is not None:
             goal_to_update["status"] = status
         if progress_percent is not None:
@@ -874,22 +869,19 @@ class UpdateGoal(Tool):
             else:
                 goal_to_update["notes"] = notes_to_append.strip()
 
-        # Assign the last_updated date based on the supplied parameter
+        # Set the last_updated date from the provided parameter
         goal_to_update["last_updated"] = last_updated_date
-        payload = {"success": f"Goal {goal_id} updated for user {user_id}"}
-        out = json.dumps(
-            payload, indent=2
+
+        return json.dumps(
+            {"success": f"Goal {goal_id} updated for user {user_id}"}, indent=2
         )
-        return out
-            
 
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "UpdateGoal",
+                "name": "update_goal",
                 "description": "Update specific fields of a user's goal. The last_updated date must be provided.",
                 "parameters": {
                     "type": "object",
@@ -927,21 +919,21 @@ class UpdateGoal(Tool):
 
 class GetTeam(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], team_id: str) -> str:
-        teams = data.get("teams", {}).values()
-        team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
+    def invoke(data: Dict[str, Any], team_id: str) -> str:
+        teams = data.get("teams", [])
+        team = next((t for t in teams if t.get("team_id") == team_id), None)
         return (
             json.dumps(team, indent=2)
             if team
             else json.dumps({"error": "Team not found"}, indent=2)
         )
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GetTeam",
+                "name": "get_team",
                 "description": "Get team details by team ID",
                 "parameters": {
                     "type": "object",
@@ -954,34 +946,28 @@ class GetTeam(Tool):
 
 class AddTeamMember(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], team_id: str, user_id: str) -> str:
-        teams = data.get("teams", {}).values()
-        team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
+    def invoke(data: Dict[str, Any], team_id: str, user_id: str) -> str:
+        teams = data.get("teams", [])
+        team = next((t for t in teams if t.get("team_id") == team_id), None)
         if team:
             team_members = team.setdefault("team_members", [])
             if user_id not in team_members:
                 team_members.append(user_id)
-                payload = {"success": f"User {user_id} added to team {team_id}"}
-                out = json.dumps(
-                    payload, indent=2
+                return json.dumps(
+                    {"success": f"User {user_id} added to team {team_id}"}, indent=2
                 )
-                return out
             else:
-                payload = {"success": f"User {user_id} already in team {team_id}"}
-                out = json.dumps(
-                    payload, indent=2
+                return json.dumps(
+                    {"success": f"User {user_id} already in team {team_id}"}, indent=2
                 )
-                return out
-        payload = {"error": "Team not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"error": "Team not found"}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "addTeamMember",
+                "name": "add_team_member",
                 "description": "Add a team member to a team",
                 "parameters": {
                     "type": "object",
@@ -998,7 +984,7 @@ class AddTeamMember(Tool):
 class EnrollInCourse(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any], user_id: str, course_id: str, enroll_date: str
+        data: Dict[str, Any], user_id: str, course_id: str, enroll_date: str
     ) -> str:
         enrollment = {
             "user_id": user_id,
@@ -1008,23 +994,17 @@ class EnrollInCourse(Tool):
             "completion_date": None,
             "current_progress_percent": 0,
         }
-        table = data.setdefault("user_course_progress", {})
-        key = f"{len(table)}"
-        table[key] = enrollment
-        payload = {"success": f"User {user_id} enrolled in course {course_id}"}
-        out = json.dumps(
-            payload, indent=2
+        data.setdefault("user_course_progress", []).append(enrollment)
+        return json.dumps(
+            {"success": f"User {user_id} enrolled in course {course_id}"}, indent=2
         )
-        return out
-        return out
 
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "EnrollInCourse",
+                "name": "enroll_in_course",
                 "description": "Enroll a user in a course",
                 "parameters": {
                     "type": "object",
@@ -1041,22 +1021,20 @@ class EnrollInCourse(Tool):
 
 class ListUserCourses(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str) -> str:
+    def invoke(data: Dict[str, Any], user_id: str) -> str:
         courses = [
             c
-            for c in data.get("user_course_progress", {}).values()
+            for c in data.get("user_course_progress", [])
             if c.get("user_id") == user_id
         ]
-        payload = {"courses": courses}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"courses": courses}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "ListUserCourses",
+                "name": "list_user_courses",
                 "description": "List all courses for a user",
                 "parameters": {
                     "type": "object",
@@ -1070,33 +1048,27 @@ class ListUserCourses(Tool):
 class UpdateUserCourseProgress(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any], user_id: str, course_id: str, updates: dict[str, Any]
+        data: Dict[str, Any], user_id: str, course_id: str, updates: Dict[str, Any]
     ) -> str:
         rec = next(
             (
                 r
-                for r in data.get("user_course_progress", {}).values()
+                for r in data.get("user_course_progress", [])
                 if r["user_id"] == user_id and r["course_id"] == course_id
             ),
             None,
         )
         if rec:
             rec.update(updates)
-            payload = {"success": "course progress updated"}
-            out = json.dumps(payload)
-            return out
-        payload = {"error": "course enrollment not found"}
-        out = json.dumps(payload)
-        return out
-    
+            return json.dumps({"success": "course progress updated"})
+        return json.dumps({"error": "course enrollment not found"})
 
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "updateUserCourseProgress",
+                "name": "update_user_course_progress",
                 "description": "Update an existing course-progress record for a user.",
                 "parameters": {
                     "type": "object",
@@ -1114,31 +1086,31 @@ class UpdateUserCourseProgress(Tool):
 class AddMentorshipRelationship(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         mentor_id: str,
         mentee_id: str,
         start_date: str,
         status: str,
-        focus_areas: list[str],
+        focus_areas: List[str],
     ) -> str:
         relationships = data.setdefault("user_mentorship_relationships", [])
 
-        #--- Logic for auto-generating relationship_id ---
+        # --- Auto-generation logic for relationship_id ---
         if not relationships:
             new_id_num = 1
         else:
-            #Identify the highest existing ID number to prevent collisions
+            # Find the highest existing ID number to avoid collisions
             max_id = 0
             for rel in relationships:
                 try:
-                    num = int(rel["relationship_id"][2:])  #Presumes the format MR###
+                    num = int(rel["relationship_id"][2:])  # Assumes format MR###
                     if num > max_id:
                         max_id = num
                 except (ValueError, IndexError):
-                    continue  #Ignore incorrectly formatted IDs
+                    continue  # Skip malformed IDs
             new_id_num = max_id + 1
 
-        new_relationship_id = f"MR{new_id_num:03d}"  #Formats as MR001, MR015, and so on.
+        new_relationship_id = f"MR{new_id_num:03d}"  # Formats as MR001, MR015, etc.
 
         new_relationship = {
             "relationship_id": new_relationship_id,
@@ -1150,23 +1122,21 @@ class AddMentorshipRelationship(Tool):
         }
 
         relationships.append(new_relationship)
-        payload = {
+
+        return json.dumps(
+            {
                 "success": f"Mentorship relationship {new_relationship_id} created",
                 "relationship_id": new_relationship_id,
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
-
 
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "AddMentorshipRelationship",
+                "name": "add_mentorship_relationship",
                 "description": "Create a new mentorship relationship with an auto-generated ID.",
                 "parameters": {
                     "type": "object",
@@ -1192,43 +1162,32 @@ class AddMentorshipRelationship(Tool):
 class UpdateMentorshipRelationship(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any], relationship_id: str, updates: dict[str, Any]
+        data: Dict[str, Any], relationship_id: str, updates: Dict[str, Any]
     ) -> str:
         rel = next(
             (
                 r
-                for r in data.get("user_mentorship_relationships", {}).values()
+                for r in data.get("user_mentorship_relationships", [])
                 if r["relationship_id"] == relationship_id
             ),
             None,
         )
         if not rel:
-            payload = {"error": "relationship not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "relationship not found"})
 
-        #--- SIMPLIFIED LOGIC ---
-        #The tool now solely executes a direct update.
+        # --- SIMPLIFIED LOGIC ---
+        # The tool now only performs a direct update.
         rel.update(updates)
-        payload = {"success": f"relationship {relationship_id} updated"}
-        out = json.dumps(payload)
-        return out
+        # --- END OF SIMPLIFICATION ---
 
-
-        #--- SIMPLIFIED LOGIC ---
-        #The tool now solely executes a direct update.
-        rel.update(updates)
-        payload = {"success": f"relationship {relationship_id} updated"}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"success": f"relationship {relationship_id} updated"})
 
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "UpdateMentorshipRelationship",
+                "name": "update_mentorship_relationship",
                 "description": "Modify attributes of an existing mentorship relationship by overwriting them with new values.",
                 "parameters": {
                     "type": "object",
@@ -1244,23 +1203,20 @@ class UpdateMentorshipRelationship(Tool):
 
 class ListUserMentorships(Tool):
     @staticmethod
-    def invoke(data, user_id: str, user_mentorship_relationships: list = None) -> str:
-        if user_mentorship_relationships is None:
-            user_mentorship_relationships = data.get("user_mentorship_relationships", {}).values()
+    def invoke(data, user_id: str) -> str:
         rels = [
             rel
-            for rel in user_mentorship_relationships.values() if rel.get("mentee_id") == user_id
+            for rel in data.get("user_mentorship_relationships", [])
+            if rel.get("mentee_id") == user_id
         ]
-        payload = {"mentorships": rels}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"mentorships": rels}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "ListUserMentorships",
+                "name": "list_user_mentorships",
                 "description": "List all mentorship relationships for a specific user.",
                 "parameters": {
                     "type": "object",
@@ -1273,7 +1229,7 @@ class ListUserMentorships(Tool):
 
 class ScheduleMentorshipSession(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], relationship_id: str, session_date: str) -> str:
+    def invoke(data: Dict[str, Any], relationship_id: str, session_date: str) -> str:
         sessions = data.setdefault("scheduled_mentorship_sessions", [])
         sessions.append(
             {
@@ -1282,16 +1238,14 @@ class ScheduleMentorshipSession(Tool):
                 "status": "Scheduled",
             }
         )
-        payload = {"scheduled_for": session_date}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"scheduled_for": session_date})
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "ScheduleMentorshipSession",
+                "name": "schedule_mentorship_session",
                 "description": "Schedule a mentorship session for an existing relationship.",
                 "parameters": {
                     "type": "object",
@@ -1307,31 +1261,26 @@ class ScheduleMentorshipSession(Tool):
 
 class GetJobIdByTitle(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], job_title: str) -> str:
-        _job_titleL = job_title or ''.lower()
-        pass
-        postings = data.get("job_postings", {}).values()
-        # Utilize a case-insensitive partial match for reliability
+    def invoke(data: Dict[str, Any], job_title: str) -> str:
+        postings = data.get("job_postings", [])
+        # Use a case-insensitive partial match for robustness
         posting = next(
-            (p for p in postings.values() if job_title.lower() in p.get("title", "").lower()),
+            (p for p in postings if job_title.lower() in p.get("title", "").lower()),
             None,
         )
         if posting:
-            payload = {"job_id": posting["job_id"]}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"error": f"Job posting with title containing '{job_title}' not found"}
-        out = json.dumps(
-            payload, indent=2,
+            return json.dumps({"job_id": posting["job_id"]}, indent=2)
+        return json.dumps(
+            {"error": f"Job posting with title containing '{job_title}' not found"},
+            indent=2,
         )
-        return out
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GetJobIdByTitle",
+                "name": "get_job_id_by_title",
                 "description": "Find a job ID by its title.",
                 "parameters": {
                     "type": "object",
@@ -1349,23 +1298,22 @@ class GetJobIdByTitle(Tool):
 
 class AddGoal(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str, goal: dict[str, Any]) -> str:
-        """Add a new goal to a user's record."""
-        for entry in data.get("goals", {}).values():
+    def invoke(data: Dict[str, Any], user_id: str, goal: Dict[str, Any]) -> str:
+        """Append a new goal to a user's record."""
+        for entry in data.get("goals", []):
             if entry["user_id"] == user_id:
                 entry["goals"].append(goal)
                 break
-        else:  # no current goal list for this user
+        else:  # no existing goal list for this user
             data.setdefault("goals", []).append({"user_id": user_id, "goals": [goal]})
-        payload = {"success": f"goal {goal['goal_id']} added for {user_id}"}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"success": f"goal {goal['goal_id']} added for {user_id}"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddGoal",
+                "name": "add_goal",
                 "description": "Add a new goal object to the specified user.",
                 "parameters": {
                     "type": "object",
@@ -1381,30 +1329,28 @@ class AddGoal(Tool):
 
 class FindMentors(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], mentee_id: str, focus_areas: list[str]) -> str:
-        pass
-        mentors = data.get("user_mentorship", {}).values()
+    def invoke(data: Dict[str, Any], mentee_id: str, focus_areas: List[str]) -> str:
+        mentors = data.get("user_mentorship", [])
 
-        # Adopt a wider definition of expertise, encompassing roles and general knowledge
+        # Use a broader definition of expertise, including roles and general expertise
         def get_mentor_expertise_set(mentor):
-            pass
             expertise = set(mentor.get("expertise", []))
             roles = set(mentor.get("mentoring_roles", []))
             return expertise.union(roles)
 
-        # Identify mentors whose expertise/roles intersect with the focus areas
-        # and who are clearly suitable for the mentee.
+        # Find mentors whose expertise/roles overlap with the focus areas
+        # and who are explicitly compatible with the mentee.
         matches = []
         focus_set = set(focus_areas)
-        for mentor in mentors.values():
+        for mentor in mentors:
             if mentor.get("availability") == "Full":
                 continue
 
-            # Verify compatibility
+            # Check for compatibility
             if mentee_id not in mentor.get("compatible_user_ids", []):
                 continue
 
-            # Examine for overlap in expertise
+            # Check for expertise overlap
             mentor_expertise = get_mentor_expertise_set(mentor)
             if focus_set.intersection(mentor_expertise):
                 matches.append(
@@ -1414,16 +1360,15 @@ class FindMentors(Tool):
                         "expertise": list(mentor_expertise),
                     }
                 )
-        payload = {"mentors": matches}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"mentors": matches}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "FindMentors",
+                "name": "find_mentors",
                 "description": "Finds suitable and available mentors for a mentee based on required focus areas and compatibility.",
                 "parameters": {
                     "type": "object",
@@ -1446,26 +1391,22 @@ class FindMentors(Tool):
 
 class GetUserProfile(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str) -> str:
-        """Fetch the complete profile for a specified user ID."""
-        users = data.get("users", {}).values()
-        user_profile = next((u for u in users.values() if u.get("user_id") == user_id), None)
+    def invoke(data: Dict[str, Any], user_id: str) -> str:
+        """Retrieve the full profile for a given user ID."""
+        users = data.get("users", [])
+        user_profile = next((u for u in users if u.get("user_id") == user_id), None)
 
         if user_profile:
-            payload = user_profile
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps(user_profile, indent=2)
         else:
-            payload = {"error": f"User with ID {user_id} not found."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"User with ID {user_id} not found."}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GetUserProfile",
+                "name": "get_user_profile",
                 "description": "Retrieve the full profile of a user by their user ID, including their team ID, role, and manager.",
                 "parameters": {
                     "type": "object",

@@ -1,65 +1,39 @@
 import json
 from itertools import islice
-from typing import Any
+from typing import Dict, Any, List, Optional, Union
+from domains.dto import Tool
 
-from tau_bench.envs.tool import Tool
-
-
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db.values())
-    return db
-
-
-def _get_table(data: dict[str, Any], name: str) -> list[dict[str, Any]]:
-    """Get table from data and convert from dict to list if needed."""
-    table = data.get(name, [])
-    return _convert_db_to_list(table)
-
-
-def _by_key(items: list[dict[str, Any]], key: str) -> dict[Any, dict[str, Any]]:
-    pass
-    return {i.get(key): i for i in (items or [])}
-
-#---- Utility Functions --------------------------
-
+# ---- Helpers ---------------------------------
 
 def _now_iso_fixed() -> str:
-    pass
     return "2025-08-20T00:00:00Z"
 
 
-def _next_auto_id(rows: list[dict[str, Any]], key: str) -> int:
-    pass
-    return max((int(r.get(key, 0)) for r in rows.values()), default=0) + 1
+def _next_auto_id(rows: List[Dict[str, Any]], key: str) -> int:
+    return max((int(r.get(key, 0)) for r in rows), default=0) + 1
 
 
-#---- Equipment ---------------------------------
+def _by_key(items: List[Dict[str, Any]], key: str) -> Dict[Any, Dict[str, Any]]:
+    return {i.get(key): i for i in (items or [])}
 
+
+# ---- Tools ------------------------------------
 
 class ValidateDriveTimeHops(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], property_ids: list = None, max_minutes: int = 30) -> str:
-        stops = property_ids or []
-        hops = [
-            {"from": stops[i], "to": stops[i + 1], "minutes": 20}
-            for i in range(max(0, len(stops) - 1))
-        ]
-        ok = all(h["minutes"] <= max_minutes for h in hops.values())
-        payload = {"ok": ok, "hops": hops, "max_minutes": max_minutes}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        stops = kwargs.get("property_ids") or []
+        max_minutes = kwargs.get("max_minutes", 30)
+        hops = [{"from": stops[i], "to": stops[i + 1], "minutes": 20} for i in range(max(0, len(stops) - 1))]
+        ok = all(h["minutes"] <= max_minutes for h in hops)
+        return json.dumps({"ok": ok, "hops": hops, "max_minutes": max_minutes}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ValidateDriveTimeHops",
+                "name": "validate_drive_time_hops",
                 "description": "Compute if sequential hops fit within max drive minutes.",
                 "parameters": {
                     "type": "object",
@@ -75,34 +49,21 @@ class ValidateDriveTimeHops(Tool):
 
 class FetchClientPrefs(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], client_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        client_id = kwargs.get("client_id")
         if client_id is None:
-            payload = {"error": "client_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
-        prefs = next(
-            (
-                p
-                for p in _get_table(data, "client_preferences")
-                if p.get("client_id") == client_id
-            ),
-            None,
-        )
+            return json.dumps({"error": "client_id is required"}, indent=2)
+        prefs = next((p for p in data.get("client_preferences", []) if p.get("client_id") == client_id), None)
         if not prefs:
-            payload = {"error": f"No preferences found for client_id={client_id}"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        payload = prefs
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": f"No preferences found for client_id={client_id}"}, indent=2)
+        return json.dumps(prefs, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FetchClientPrefs",
+                "name": "fetch_client_prefs",
                 "description": "Get preferences for a specific client.",
                 "parameters": {
                     "type": "object",
@@ -115,26 +76,20 @@ class FetchClientPrefs(Tool):
 
 class RetrieveMortgageProfile(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], client_id: str = None) -> str:
-        profiles = (
-            data.get("mortgage_profiles") or data.get("mortage_profiles") or []
-        )  # error tolerance
-        prof = next((m for m in profiles.values() if m.get("client_id") == client_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        client_id = kwargs.get("client_id")
+        profiles = data.get("mortgage_profiles") or data.get("mortage_profiles") or []  # typo tolerance
+        prof = next((m for m in profiles if m.get("client_id") == client_id), None)
         if not prof:
-            payload = {"error": f"No mortgage profile for client_id={client_id}"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        payload = prof
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": f"No mortgage profile for client_id={client_id}"}, indent=2)
+        return json.dumps(prof, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RetrieveMortgageProfile",
+                "name": "retrieve_mortgage_profile",
                 "description": "Fetch the mortgage profile for a client.",
                 "parameters": {
                     "type": "object",
@@ -147,43 +102,25 @@ class RetrieveMortgageProfile(Tool):
 
 class LookupPropertyWithLatestListing(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], property_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        property_id = kwargs.get("property_id")
         if not property_id:
-            payload = {"error": "property_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
-        prop = next(
-            (
-                p
-                for p in _get_table(data, "properties")
-                if p.get("property_id") == property_id
-            ),
-            None,
-        )
+            return json.dumps({"error": "property_id is required"}, indent=2)
+        prop = next((p for p in data.get("properties", []) if p.get("property_id") == property_id), None)
         if not prop:
-            payload = {"error": f"Property '{property_id}' not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        listings = [
-            l for l in _get_table(data, "listings") if l.get("property_id") == property_id
-        ]
+            return json.dumps({"error": f"Property '{property_id}' not found"}, indent=2)
+        listings = [l for l in data.get("listings", []) if l.get("property_id") == property_id]
         listing = None
         if listings:
-            listing = max(
-                listings,
-                key=lambda x: ((x.get("updated_at") or ""), x.get("listing_id", 0)),
-            )
-        payload = {"property": prop, "listing": listing}
-        out = json.dumps(payload, indent=2)
-        return out
+            listing = max(listings, key=lambda x: ((x.get("updated_at") or ""), x.get("listing_id", 0)))
+        return json.dumps({"property": prop, "listing": listing}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "lookupPropertyWithLatestListing",
+                "name": "lookup_property_with_latest_listing",
                 "description": "Get a property's details and its most recent listing (if available).",
                 "parameters": {
                     "type": "object",
@@ -195,31 +132,29 @@ class LookupPropertyWithLatestListing(Tool):
 
 
 class QueryActiveListings(Tool):
-    """Select and provide active listings based on specified criteria."""
+    """Filter and return active listings by given constraints."""
 
     @staticmethod
-    def _by_key(rows: list[dict[str, Any]], key: str) -> dict[Any, dict[str, Any]]:
-        pass
+    def _by_key(rows: List[Dict[str, Any]], key: str) -> Dict[Any, Dict[str, Any]]:
         return {r.get(key): r for r in rows or []}
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        neighborhood_ids: list[int] = None,
-        price_min: float = None,
-        price_max: float = None,
-        beds: int = None,
-        baths: int = None,
-        sqft_min: int = None,
-        sqft_max: int = None,
-        property_type: str = None,
-        limit: int = 15
-    ) -> str:
-        neighborhoods = set(neighborhood_ids or [])
-        props = QueryActiveListings._by_key(_get_table(data, "properties"), "property_id")
-        listings = data.get("listings") or []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        neighborhood_ids = kwargs.get("neighborhood_ids")
+        price_min: Optional[float] = kwargs.get("price_min")
+        price_max: Optional[float] = kwargs.get("price_max")
+        beds: Optional[int] = kwargs.get("beds")
+        baths: Optional[int] = kwargs.get("baths")
+        sqft_min: Optional[int] = kwargs.get("sqft_min")
+        sqft_max: Optional[int] = kwargs.get("sqft_max")
+        property_type: Optional[str] = kwargs.get("property_type")
+        limit: int = kwargs.get("limit", 15)
 
-        def within(val: float | None, lo: float | None, hi: float | None) -> bool:
+        neighborhoods = set(neighborhood_ids or [])
+        props = QueryActiveListings._by_key(data.get("properties", []), "property_id")
+        listings = (data.get("listings") or [])
+
+        def within(val: Optional[float], lo: Optional[float], hi: Optional[float]) -> bool:
             v = 0 if val is None else val
             if lo is not None and v < lo:
                 return False
@@ -227,7 +162,7 @@ class QueryActiveListings(Tool):
                 return False
             return True
 
-        def matches(pr: dict[str, Any], lst: dict[str, Any]) -> bool:
+        def matches(pr: Dict[str, Any], lst: Dict[str, Any]) -> bool:
             return (
                 lst.get("status") == "active"
                 and (not neighborhoods or pr.get("neighborhood_id") in neighborhoods)
@@ -251,28 +186,24 @@ class QueryActiveListings(Tool):
                 "listing_url": lst.get("listing_url"),
                 "street_view_url": lst.get("street_view_url"),
             }
-            for lst in listings.values() if (pr := props.get(lst.get("property_id"))) is not None
-            and matches(pr, lst)
+            for lst in listings
+            if (pr := props.get(lst.get("property_id"))) is not None and matches(pr, lst)
         )
 
         results = list(islice(result_iter, limit))
-        payload = {"results": results}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"results": results}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "QueryActiveListings",
+                "name": "query_active_listings",
                 "description": "Search active listings by neighborhood(s) and criteria.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "neighborhood_ids": {
-                            "type": "array",
-                            "items": {"type": "integer"},
-                        },
+                        "neighborhood_ids": {"type": "array", "items": {"type": "integer"}},
                         "price_min": {"type": "integer"},
                         "price_max": {"type": "integer"},
                         "beds": {"type": "integer"},
@@ -290,33 +221,21 @@ class QueryActiveListings(Tool):
 
 class QueryListingsByNeighborhoods(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], neighborhood_ids: list = None,
-        price_min: Any = None,
-        property_type: Any = None,
-        beds: Any = None,
-        baths: Any = None,
-        price_max: Any = None,
-        limit: Any = None,
-        sqft_min: Any = None,
-        sqft_max: Any = None
-    ) -> str:
-        neighborhood_ids = neighborhood_ids or []
-        return QueryActiveListings.invoke(data, neighborhood_ids=neighborhood_ids)
-    
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        kwargs["neighborhood_ids"] = kwargs.get("neighborhood_ids") or []
+        return QueryActiveListings.invoke(data, **kwargs)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "QueryListingsByNeighborhoods",
+                "name": "query_listings_by_neighborhoods",
                 "description": "Search listings within the provided neighborhoods.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "neighborhood_ids": {
-                            "type": "array",
-                            "items": {"type": "integer"},
-                        },
+                        "neighborhood_ids": {"type": "array", "items": {"type": "integer"}},
                         "price_min": {"type": "integer"},
                         "price_max": {"type": "integer"},
                         "beds": {"type": "integer"},
@@ -331,30 +250,19 @@ class QueryListingsByNeighborhoods(Tool):
 
 class FetchNeighborhood(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], neighborhood_id: str = None, price_min: Any = None, property_type: Any = None, beds: Any = None) -> str:
-        n = next(
-            (
-                n
-                for n in _get_table(data, "neighborhoods")
-                if n.get("neighborhood_id") == neighborhood_id
-            ),
-            None,
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        neighborhood_id = kwargs.get("neighborhood_id")
+        n = next((n for n in data.get("neighborhoods", []) if n.get("neighborhood_id") == neighborhood_id), None)
         if not n:
-            payload = {"error": f"Neighborhood {neighborhood_id} not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        payload = n
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": f"Neighborhood {neighborhood_id} not found"}, indent=2)
+        return json.dumps(n, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FetchNeighborhood",
+                "name": "fetch_neighborhood",
                 "description": "Return a neighborhood row including bordering_ids_json.",
                 "parameters": {
                     "type": "object",
@@ -367,31 +275,19 @@ class FetchNeighborhood(Tool):
 
 class ListAdjacentNeighborhoods(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], neighborhood_id: str = None) -> str:
-        nid = neighborhood_id
-        n = next(
-            (
-                n
-                for n in _get_table(data, "neighborhoods")
-                if n.get("neighborhood_id") == nid
-            ),
-            None,
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        nid = kwargs.get("neighborhood_id")
+        n = next((n for n in data.get("neighborhoods", []) if n.get("neighborhood_id") == nid), None)
         if not n:
-            payload = {"error": f"Neighborhood {nid} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"neighborhood_id": nid, "bordering": n.get("bordering_ids_json") or []}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+            return json.dumps({"error": f"Neighborhood {nid} not found"}, indent=2)
+        return json.dumps({"neighborhood_id": nid, "bordering": n.get("bordering_ids_json") or []}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListAdjacentNeighborhoods",
+                "name": "list_adjacent_neighborhoods",
                 "description": "List bordering neighborhood IDs for a given neighborhood.",
                 "parameters": {
                     "type": "object",
@@ -404,24 +300,19 @@ class ListAdjacentNeighborhoods(Tool):
 
 class FetchBrokerProfile(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], broker_id: str = None) -> str:
-        br = next(
-            (b for b in _get_table(data, "brokers") if b.get("broker_id") == broker_id),
-            None,
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        broker_id = kwargs.get("broker_id")
+        br = next((b for b in data.get("brokers", []) if b.get("broker_id") == broker_id), None)
         if not br:
-            payload = {"error": f"Broker {broker_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = br
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": f"Broker {broker_id} not found"}, indent=2)
+        return json.dumps(br, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "fetchBrokerProfile",
+                "name": "fetch_broker_profile",
                 "description": "Fetch a broker profile.",
                 "parameters": {
                     "type": "object",
@@ -434,26 +325,21 @@ class FetchBrokerProfile(Tool):
 
 class EstimateMortgagePayment(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        client_id: str,
-        list_price: float,
-        term_years: int = 30,
-        region_override: str = None
-,
-    region: Any = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        client_id = kwargs.get("client_id")
+        list_price = kwargs.get("list_price")
+        term_years = kwargs.get("term_years", 30)
+        region_override = kwargs.get("region")
+
         profiles = data.get("mortgage_profiles") or data.get("mortage_profiles") or []
-        profile = next((m for m in profiles.values() if m.get("client_id") == client_id), {}).values()
+        profile = next((m for m in profiles if m.get("client_id") == client_id), {})
         credit_score = profile.get("credit_score", 720)
         down_payment = profile.get("down_payment", int(0.2 * (list_price or 0)))
-        loan_amount = profile.get(
-            "desired_loan_amount", (list_price or 0) - down_payment
-        )
+        loan_amount = profile.get("desired_loan_amount", (list_price or 0) - down_payment)
         region = region_override or profile.get("region")
 
         best = None
-        for r in _get_table(data, "mortgage_rates") or []:
+        for r in (data.get("mortgage_rates", []) or []):
             if region and r.get("region") != region:
                 continue
             if r.get("term_years") != term_years:
@@ -468,29 +354,26 @@ class EstimateMortgagePayment(Tool):
         if monthly_rate == 0 or n == 0:
             monthly_payment = loan_amount / max(1, n)
         else:
-            monthly_payment = (
-                loan_amount
-                * (monthly_rate * (1 + monthly_rate) ** n)
-                / ((1 + monthly_rate) ** n - 1)
-            )
-        payload = {
+            monthly_payment = loan_amount * (monthly_rate * (1 + monthly_rate) ** n) / ((1 + monthly_rate) ** n - 1)
+
+        return json.dumps(
+            {
                 "client_id": client_id,
                 "loan_amount": round(loan_amount, 2),
                 "apr_percent": round(apr * 100, 3),
                 "term_years": term_years,
                 "estimated_monthly_payment": round(monthly_payment, 2),
                 "lender_rate_used": best,
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "EstimateMortgagePayment",
+                "name": "estimate_mortgage_payment",
                 "description": "Estimate monthly payment for a client given list_price (prefers client profile + lender rates).",
                 "parameters": {
                     "type": "object",
@@ -508,29 +391,23 @@ class EstimateMortgagePayment(Tool):
 
 class RecentSalesForProperty(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], property_id: str, limit: int = 3) -> str:
-        sales = [
-            s for s in _get_table(data, "sales") if s.get("property_id") == property_id
-        ]
-        sales = sorted(sales, key=lambda s: s.get("sale_date") or "", reverse=True)[
-            :limit
-        ]
-        payload = {"property_id": property_id, "sales": sales}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        property_id = kwargs.get("property_id")
+        limit = int(kwargs.get("limit", 3))
+        sales = [s for s in data.get("sales", []) if s.get("property_id") == property_id]
+        sales = sorted(sales, key=lambda s: s.get("sale_date") or "", reverse=True)[:limit]
+        return json.dumps({"property_id": property_id, "sales": sales}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RecentSalesForProperty",
+                "name": "recent_sales_for_property",
                 "description": "Return up to N recent sales rows for a property.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "property_id": {"type": "string"},
-                        "limit": {"type": "integer"},
-                    },
+                    "properties": {"property_id": {"type": "string"}, "limit": {"type": "integer"}},
                     "required": ["property_id"],
                 },
             },
@@ -539,14 +416,13 @@ class RecentSalesForProperty(Tool):
 
 class CreateOrUpdateCompReport(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        client_id: str,
-        subject_property_id: str,
-        created_by_broker_id: str,
-        final_status: str = "draft"
-    ) -> str:
-        reports = _get_table(data, "comp_reports")
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        client_id = kwargs.get("client_id")
+        subject_property_id = kwargs.get("subject_property_id")
+        created_by_broker_id = kwargs.get("created_by_broker_id")
+        final_status = kwargs.get("final_status", "draft")
+
+        reports = data.get("comp_reports", [])
         new_report_id = _next_auto_id(reports, "report_id")
         doc_uri = f"https://test.storage.com/reports/comp_{new_report_id:03d}.pdf"
         rpt = {
@@ -558,18 +434,18 @@ class CreateOrUpdateCompReport(Tool):
             "doc_uri": doc_uri,
             "status": final_status,
         }
-        _get_table(data, "comp_reports")[rpt["comp_report_id"]] = rpt
+        reports.append(rpt)
 
-        comps_table = _get_table(data, "comparables")
-        props = _by_key(_get_table(data, "properties"), "property_id")
+        comps_table = data.get("comparables", [])
+        props = _by_key(data.get("properties", []), "property_id")
         candidates = []
-        for lst in _get_table(data, "listings") or []:
+        for lst in (data.get("listings", []) or []):
             if lst.get("status") != "active":
                 continue
             pid = lst.get("property_id")
             if pid == subject_property_id:
                 continue
-            props.get(pid, {}).values()
+            pr = props.get(pid, {})
             candidates.append(
                 {
                     "comp_property_id": pid,
@@ -582,7 +458,7 @@ class CreateOrUpdateCompReport(Tool):
             comp_id = _next_auto_id(comps_table, "comp_id")
             comps_table.append({"comp_id": comp_id, "report_id": new_report_id, **comp})
 
-        documents = _get_table(data, "documents")
+        documents = data.get("documents", [])
         new_doc_id = _next_auto_id(documents, "document_id")
         documents.append(
             {
@@ -596,37 +472,28 @@ class CreateOrUpdateCompReport(Tool):
             }
         )
 
-        audits = _get_table(data, "audit_events")
+        audits = data.get("audit_events", [])
         new_audit_id = _next_auto_id(audits, "event_id")
         audits.append(
             {
                 "event_id": new_audit_id,
                 "actor_id": created_by_broker_id,
-                "action": (
-                    "comp_report_saved"
-                    if final_status != "sent_to_client"
-                    else "comp_report_sent"
-                ),
+                "action": "comp_report_saved" if final_status != "sent_to_client" else "comp_report_sent",
                 "entity_type": "comp_reports",
                 "entity_id": new_report_id,
                 "occurred_at": _now_iso_fixed(),
-                "metadata_json": {
-                    "comps_count": min(3, len(candidates)),
-                    "search_tiers": "neighborhood_first_with_borders",
-                },
+                "metadata_json": {"comps_count": min(3, len(candidates)), "search_tiers": "neighborhood_first_with_borders"},
             }
         )
-        payload = {"report_id": new_report_id, "doc_uri": doc_uri, "status": final_status}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+
+        return json.dumps({"report_id": new_report_id, "doc_uri": doc_uri, "status": final_status}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateOrUpdateCompReport",
+                "name": "create_or_update_comp_report",
                 "description": "Create/update a comp report; writes comp_reports, comparables, documents, audit_events.",
                 "parameters": {
                     "type": "object",
@@ -636,11 +503,7 @@ class CreateOrUpdateCompReport(Tool):
                         "created_by_broker_id": {"type": "integer"},
                         "final_status": {"type": "string"},
                     },
-                    "required": [
-                        "client_id",
-                        "subject_property_id",
-                        "created_by_broker_id",
-                    ],
+                    "required": ["client_id", "subject_property_id", "created_by_broker_id"],
                 },
             },
         }
@@ -648,41 +511,21 @@ class CreateOrUpdateCompReport(Tool):
 
 class ReadCompReportBundle(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], report_id: int) -> str:
-        rpt = next(
-            (
-                r
-                for r in _get_table(data, "comp_reports")
-                if r.get("report_id") == report_id
-            ),
-            None,
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        report_id = kwargs.get("report_id")
+        rpt = next((r for r in data.get("comp_reports", []) if r.get("report_id") == int(report_id)), None)
         if not rpt:
-            payload = {"error": f"Report {report_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        comps = [
-            c
-            for c in _get_table(data, "comparables")
-            if c.get("report_id") == report_id
-        ]
-        docs = [
-            d
-            for d in _get_table(data, "documents")
-            if d.get("entity_type") == "comp_report"
-            and d.get("entity_id") == report_id
-        ]
-        payload = {"report": rpt, "comparables": comps, "documents": docs}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+            return json.dumps({"error": f"Report {report_id} not found"}, indent=2)
+        comps = [c for c in data.get("comparables", []) if c.get("report_id") == int(report_id)]
+        docs = [d for d in data.get("documents", []) if d.get("entity_type") == "comp_report" and d.get("entity_id") == int(report_id)]
+        return json.dumps({"report": rpt, "comparables": comps, "documents": docs}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ReadCompReportBundle",
+                "name": "read_comp_report_bundle",
                 "description": "Fetch a comp report with its comparables and attached document(s).",
                 "parameters": {
                     "type": "object",
@@ -695,36 +538,25 @@ class ReadCompReportBundle(Tool):
 
 class SetCompReportStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], report_id: int, status: str) -> str:
-        rpt = next(
-            (
-                r
-                for r in _get_table(data, "comp_reports")
-                if r.get("report_id") == int(report_id)
-            ),
-            None,
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        report_id = kwargs.get("report_id")
+        new_status = kwargs.get("status")
+        rpt = next((r for r in data.get("comp_reports", []) if r.get("report_id") == int(report_id)), None)
         if not rpt:
-            payload = {"error": f"Report {report_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        rpt["status"] = status
-        payload = {"report_id": report_id, "status": status}
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": f"Report {report_id} not found"}, indent=2)
+        rpt["status"] = new_status
+        return json.dumps({"report_id": report_id, "status": new_status}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SetCompReportStatus",
+                "name": "set_comp_report_status",
                 "description": "Update the status of a comp report.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "report_id": {"type": "integer"},
-                        "status": {"type": "string"},
-                    },
+                    "properties": {"report_id": {"type": "integer"}, "status": {"type": "string"}},
                     "required": ["report_id", "status"],
                 },
             },
@@ -733,28 +565,20 @@ class SetCompReportStatus(Tool):
 
 class NewCampaignCreator(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], name: str = None, ctype: str = None, created_by: str = None,
-    type: Any = None,
-    ) -> str:
-        c = _get_table(data, "campaigns")
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name, ctype, created_by = kwargs.get("name"), kwargs.get("type"), kwargs.get("created_by")
+        c = data.get("campaigns", [])
         new_id = _next_auto_id(c, "campaign_id")
-        row = {
-            "campaign_id": new_id,
-            "name": name,
-            "type": ctype,
-            "created_by": created_by,
-            "created_at": _now_iso_fixed(),
-        }
-        _get_table(data, "campaigns")[campaign_id] = row
-        payload = row
-        out = json.dumps(payload, indent=2)
-        return out
+        row = {"campaign_id": new_id, "name": name, "type": ctype, "created_by": created_by, "created_at": _now_iso_fixed()}
+        c.append(row)
+        return json.dumps(row, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "NewCampaignCreator",
+                "name": "new_campaign_creator",
                 "description": "Create a new campaign row.",
                 "parameters": {
                     "type": "object",
@@ -771,24 +595,19 @@ class NewCampaignCreator(Tool):
 
 class ReadCampaign(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], campaign_id: str = None, type: Any = None) -> str:
-        cid = campaign_id
-        c = next(
-            (x for x in _get_table(data, "campaigns") if x.get("campaign_id") == cid), None
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cid = kwargs.get("campaign_id")
+        c = next((x for x in data.get("campaigns", []) if x.get("campaign_id") == cid), None)
         if not c:
-            payload = {"error": f"campaign_id {cid} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = c
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": f"campaign_id {cid} not found"}, indent=2)
+        return json.dumps(c, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ReadCampaign",
+                "name": "read_campaign",
                 "description": "Fetch a campaign row by ID.",
                 "parameters": {
                     "type": "object",
@@ -801,26 +620,20 @@ class ReadCampaign(Tool):
 
 class ComposeClientEmail(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], template_code: str = None, client_id: str = None, subject: str = None, slug: str = None) -> str:
-        subject = subject or template_code
-        slug = (slug or f"{template_code}_{client_id}").lower().replace(" ", "_")
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        template_code = kwargs.get("template_code")
+        client_id = kwargs.get("client_id")
+        subject = (kwargs.get("subject") or template_code)
+        slug = (kwargs.get("slug") or f"{template_code}_{client_id}").lower().replace(" ", "_")
         body_uri = f"https://test.storage.com/emails/{slug}.html"
-        payload = {
-            "client_id": client_id,
-            "subject": subject,
-            "body_uri": body_uri,
-            "template_code": template_code,
-        }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        return json.dumps({"client_id": client_id, "subject": subject, "body_uri": body_uri, "template_code": template_code}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ComposeClientEmail",
+                "name": "compose_client_email",
                 "description": "Render email body and return body_uri for a template + client.",
                 "parameters": {
                     "type": "object",
@@ -839,8 +652,14 @@ class ComposeClientEmail(Tool):
 
 class PersistOutboundEmail(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], client_id: str = None, broker_id: str = None, subject: str = None, body_uri: str = None, template_code: str = None, campaign_id: str = None) -> str:
-        emails = _get_table(data, "emails")
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        client_id = kwargs.get("client_id")
+        broker_id = kwargs.get("broker_id")
+        subject = kwargs.get("subject")
+        body_uri = kwargs.get("body_uri")
+        template_code = kwargs.get("template_code")
+        campaign_id = kwargs.get("campaign_id")
+        emails = data.get("emails", [])
         new_email_id = _next_auto_id(emails, "email_id")
         row = {
             "email_id": new_email_id,
@@ -852,16 +671,15 @@ class PersistOutboundEmail(Tool):
             "sent_at": _now_iso_fixed(),
             "campaign_id": campaign_id,
         }
-        _get_table(data, "emails")[email_id] = row
-        payload = row
-        out = json.dumps(payload, indent=2)
-        return out
+        emails.append(row)
+        return json.dumps(row, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "PersistOutboundEmail",
+                "name": "persist_outbound_email",
                 "description": "Persist an outbound email.",
                 "parameters": {
                     "type": "object",
@@ -873,13 +691,7 @@ class PersistOutboundEmail(Tool):
                         "template_code": {"type": "string"},
                         "campaign_id": {"type": ["integer", "null"]},
                     },
-                    "required": [
-                        "client_id",
-                        "broker_id",
-                        "subject",
-                        "body_uri",
-                        "template_code",
-                    ],
+                    "required": ["client_id", "broker_id", "subject", "body_uri", "template_code"],
                 },
             },
         }
@@ -887,17 +699,17 @@ class PersistOutboundEmail(Tool):
 
 class ListClientEmails(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], client_id: str = None) -> str:
-        rows = [e for e in _get_table(data, "emails") if e.get("client_id") == client_id]
-        payload = {"client_id": client_id, "emails": rows}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cid = kwargs.get("client_id")
+        rows = [e for e in (data.get("emails") or []) if e.get("client_id") == cid]
+        return json.dumps({"client_id": cid, "emails": rows}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListClientEmails",
+                "name": "list_client_emails",
                 "description": "List all emails for a client.",
                 "parameters": {
                     "type": "object",
@@ -910,40 +722,29 @@ class ListClientEmails(Tool):
 
 class InsertCalendarEvent(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        broker_id: str = None,
-        client_id: str = None,
-        title: str = None,
-        start_at: str = None,
-        end_at: str = None,
-        location: str = None,
-        notes: str = None,
-        source: str = None
-    ) -> str:
-        events = _get_table(data, "calendar_events")
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        events = data.get("calendar_events", [])
         new_id = _next_auto_id(events, "event_id")
         row = {
             "event_id": new_id,
-            "broker_id": broker_id,
-            "client_id": client_id,
-            "title": title,
-            "start_at": start_at,
-            "end_at": end_at,
-            "location": location,
-            "notes": notes,
-            "source": source,
+            "broker_id": kwargs.get("broker_id"),
+            "client_id": kwargs.get("client_id"),
+            "title": kwargs.get("title"),
+            "start_at": kwargs.get("start_at"),
+            "end_at": kwargs.get("end_at"),
+            "location": kwargs.get("location"),
+            "notes": kwargs.get("notes"),
+            "source": kwargs.get("source"),
         }
-        _get_table(data, "calendar_events")[row["calendar_event_id"]] = row
-        payload = row
-        out = json.dumps(payload, indent=2)
-        return out
+        events.append(row)
+        return json.dumps(row, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "InsertCalendarEvent",
+                "name": "insert_calendar_event",
                 "description": "Create a calendar event.",
                 "parameters": {
                     "type": "object",
@@ -957,15 +758,7 @@ class InsertCalendarEvent(Tool):
                         "notes": {"type": "string"},
                         "source": {"type": "string"},
                     },
-                    "required": [
-                        "broker_id",
-                        "client_id",
-                        "title",
-                        "start_at",
-                        "end_at",
-                        "location",
-                        "source",
-                    ],
+                    "required": ["broker_id", "client_id", "title", "start_at", "end_at", "location", "source"],
                 },
             },
         }
@@ -973,17 +766,17 @@ class InsertCalendarEvent(Tool):
 
 class ListClientCalendarEvents(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], client_id: str = None) -> str:
-        rows = [e for e in _get_table(data, "calendar_events") if e.get("client_id") == client_id]
-        payload = {"client_id": client_id, "events": rows}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cid = kwargs.get("client_id")
+        rows = [e for e in data.get("calendar_events", []) if e.get("client_id") == cid]
+        return json.dumps({"client_id": cid, "events": rows}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListClientCalendarEvents",
+                "name": "list_client_calendar_events",
                 "description": "List calendar events for a client.",
                 "parameters": {
                     "type": "object",
@@ -996,10 +789,12 @@ class ListClientCalendarEvents(Tool):
 
 class OpenHousesForProperties(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], property_ids: list[int] = None, date_from: str = None, date_to: str = None) -> str:
-        pids = set(property_ids or [])
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        pids = set(kwargs.get("property_ids") or [])
+        date_from = kwargs.get("date_from")
+        date_to = kwargs.get("date_to")
         rows = []
-        for oh in _get_table(data, "open_houses") or []:
+        for oh in (data.get("open_houses", []) or []):
             if pids and oh.get("property_id") not in pids:
                 continue
             dt = oh.get("start_at", "")
@@ -1008,15 +803,14 @@ class OpenHousesForProperties(Tool):
             if date_to and dt > f"{date_to}T23:59:59Z":
                 continue
             rows.append(oh)
-        payload = {"matches": rows}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"matches": rows}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "OpenHousesForProperties",
+                "name": "open_houses_for_properties",
                 "description": "Fetch open house windows for specific properties within a date range.",
                 "parameters": {
                     "type": "object",
@@ -1033,54 +827,38 @@ class OpenHousesForProperties(Tool):
 
 class PersistViewingRoute(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        client_id: str = None, 
-        date: str = None, 
-        stops_ordered_json: str = None, 
-        map_url: str = None, 
-        created_by_broker_id: str = None
-    ) -> str:
-        routes = _get_table(data, "routes")
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        routes = data.get("routes", [])
         new_id = _next_auto_id(routes, "route_id")
         row = {
             "route_id": new_id,
-            "client_id": client_id,
-            "date": date,
-            "stops_ordered_json": stops_ordered_json,
-            "map_url": map_url or f"https://maps.google.com/route/route_{new_id:03d}",
-            "created_by_broker_id": created_by_broker_id,
+            "client_id": kwargs.get("client_id"),
+            "date": kwargs.get("date"),
+            "stops_ordered_json": kwargs.get("stops_ordered_json"),
+            "map_url": kwargs.get("map_url") or f"https://maps.google.com/route/route_{new_id:03d}",
+            "created_by_broker_id": kwargs.get("created_by_broker_id"),
             "created_at": _now_iso_fixed(),
         }
-        _get_table(data, "routes")[route_id] = row
-        payload = row
-        out = json.dumps(payload, indent=2)
-        return out
+        routes.append(row)
+        return json.dumps(row, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "PersistViewingRoute",
+                "name": "persist_viewing_route",
                 "description": "Persist a route with ordered stops and a map link.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "client_id": {"type": "integer"},
                         "date": {"type": "string"},
-                        "stops_ordered_json": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                        },
+                        "stops_ordered_json": {"type": "array", "items": {"type": "string"}},
                         "map_url": {"type": "string"},
                         "created_by_broker_id": {"type": "integer"},
                     },
-                    "required": [
-                        "client_id",
-                        "date",
-                        "stops_ordered_json",
-                        "created_by_broker_id",
-                    ],
+                    "required": ["client_id", "date", "stops_ordered_json", "created_by_broker_id"],
                 },
             },
         }
@@ -1088,22 +866,19 @@ class PersistViewingRoute(Tool):
 
 class ReadRoute(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], route_id: str = None) -> str:
-        rid = route_id
-        r = next((x for x in _get_table(data, "routes") if x.get("route_id") == rid), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        rid = kwargs.get("route_id")
+        r = next((x for x in data.get("routes", []) if x.get("route_id") == rid), None)
         if not r:
-            payload = {"error": f"route_id {rid} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = r
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"error": f"route_id {rid} not found"}, indent=2)
+        return json.dumps(r, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ReadRoute",
+                "name": "read_route",
                 "description": "Fetch a route by ID.",
                 "parameters": {
                     "type": "object",
@@ -1116,22 +891,18 @@ class ReadRoute(Tool):
 
 class DraftSellerBrokerBatch(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], client_id: str = None, property_ids: list = None) -> str:
-        props = property_ids or []
-        drafts_uri = (
-            f"https://test.storage.com/drafts/client_{client_id}_props_{len(props)}.pdf"
-        )
-        payload = {"client_id": client_id, "property_ids": props, "drafts_uri": drafts_uri}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        props = kwargs.get("property_ids") or []
+        client_id = kwargs.get("client_id")
+        drafts_uri = f"https://test.storage.com/drafts/client_{client_id}_props_{len(props)}.pdf"
+        return json.dumps({"client_id": client_id, "property_ids": props, "drafts_uri": drafts_uri}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "DraftSellerBrokerBatch",
+                "name": "draft_seller_broker_batch",
                 "description": "Generate a drafts bundle for seller broker emails.",
                 "parameters": {
                     "type": "object",
@@ -1144,31 +915,29 @@ class DraftSellerBrokerBatch(Tool):
             },
         }
 
-
 class AppendAuditEvent(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], actor_id: str = None, action: str = None, entity_type: str = None, entity_id: str = None, metadata_json: dict = None) -> str:
-        audits = _get_table(data, "audit_events")
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        audits = data.get("audit_events", [])
         new_id = _next_auto_id(audits, "event_id")
         row = {
             "event_id": new_id,
-            "actor_id": actor_id,
-            "action": action,
-            "entity_type": entity_type,
-            "entity_id": entity_id,
+            "actor_id": kwargs.get("actor_id"),
+            "action": kwargs.get("action"),
+            "entity_type": kwargs.get("entity_type"),
+            "entity_id": kwargs.get("entity_id"),
             "occurred_at": _now_iso_fixed(),
-            "metadata_json": metadata_json or {},
+            "metadata_json": kwargs.get("metadata_json") or {},
         }
-        _get_table(data, "audit_events")[row["audit_event_id"]] = row
-        payload = row
-        out = json.dumps(payload, indent=2)
-        return out
+        audits.append(row)
+        return json.dumps(row, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AppendAuditEvent",
+                "name": "append_audit_event",
                 "description": "Append an audit_events row.",
                 "parameters": {
                     "type": "object",
@@ -1187,30 +956,27 @@ class AppendAuditEvent(Tool):
 
 class GatherListingsWithProperties(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], listing_ids: list[int] = None) -> str:
-        ids = set(listing_ids or [])
-        props = _by_key(_get_table(data, "properties"), "property_id")
-        out: list[dict[str, Any]] = []
-        for lst in _get_table(data, "listings") or []:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ids = set(kwargs.get("listing_ids") or [])
+        props = _by_key(data.get("properties", []), "property_id")
+        out: List[Dict[str, Any]] = []
+        for lst in (data.get("listings", []) or []):
             if ids and lst.get("listing_id") not in ids:
                 continue
             pr = props.get(lst.get("property_id")) or {}
             out.append({"listing": lst, "property": pr})
-        payload = {"items": out}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"items": out}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GatherListingsWithProperties",
+                "name": "gather_listings_with_properties",
                 "description": "Return listing + property for listing_ids.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "listing_ids": {"type": "array", "items": {"type": "integer"}}
-                    },
+                    "properties": {"listing_ids": {"type": "array", "items": {"type": "integer"}}},
                     "required": ["listing_ids"],
                 },
             },
@@ -1219,37 +985,23 @@ class GatherListingsWithProperties(Tool):
 
 class OpenHouseWindowsByNeighborhoods(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], neighborhood_ids: list[int] = None) -> str:
-        nids = set(neighborhood_ids or [])
-        props = [
-            p for p in _get_table(data, "properties") if p.get("neighborhood_id") in nids
-        ]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        nids = set(kwargs.get("neighborhood_ids") or [])
+        props = [p for p in data.get("properties", []) if p.get("neighborhood_id") in nids]
         prop_ids = {p.get("property_id") for p in props}
-        rows = [
-            oh
-            for oh in _get_table(data, "open_houses")
-            if oh.get("property_id") in prop_ids
-        ]
-        payload = {"neighborhood_ids": list(nids), "open_houses": rows}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        rows = [oh for oh in data.get("open_houses", []) if oh.get("property_id") in prop_ids]
+        return json.dumps({"neighborhood_ids": list(nids), "open_houses": rows}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "OpenHouseWindowsByNeighborhoods",
+                "name": "open_house_windows_by_neighborhoods",
                 "description": "Fetch open house windows for neighborhoods.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "neighborhood_ids": {
-                            "type": "array",
-                            "items": {"type": "integer"},
-                        }
-                    },
+                    "properties": {"neighborhood_ids": {"type": "array", "items": {"type": "integer"}}},
                     "required": ["neighborhood_ids"],
                 },
             },
@@ -1258,8 +1010,11 @@ class OpenHouseWindowsByNeighborhoods(Tool):
 
 class CreateBriefingDoc(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], client_id: int, broker_id: int, version_tag: str = "v1") -> str:
-        documents = _get_table(data, "documents")
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        client_id = kwargs.get("client_id")
+        broker_id = kwargs.get("broker_id")
+        version_tag = kwargs.get("version_tag", "v1")
+        documents = data.get("documents", [])
         new_id = _next_auto_id(documents, "document_id")
         file_uri = f"https://test.storage.com/details/client_briefing_{client_id:03d}_{version_tag}.pdf"
         row = {
@@ -1271,16 +1026,15 @@ class CreateBriefingDoc(Tool):
             "created_by": broker_id,
             "created_at": _now_iso_fixed(),
         }
-        _get_table(data, "documents")[document_id] = row
-        payload = {"document_id": new_id, "file_uri": file_uri}
-        out = json.dumps(payload, indent=2)
-        return out
+        documents.append(row)
+        return json.dumps({"document_id": new_id, "file_uri": file_uri}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateBriefingDoc",
+                "name": "create_briefing_doc",
                 "description": "Create a client briefing document and persist it.",
                 "parameters": {
                     "type": "object",
@@ -1297,30 +1051,27 @@ class CreateBriefingDoc(Tool):
 
 class LinkDocumentToClient(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], client_id: str, doc_type: str = "briefing_doc", file_uri: str = None, created_by: str = None,
-    document_id: Any = None,
-    ) -> str:
-        documents = _get_table(data, "documents")
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        documents = data.get("documents", [])
         new_id = _next_auto_id(documents, "document_id")
         row = {
             "document_id": new_id,
             "entity_type": "client",
-            "entity_id": client_id,
-            "doc_type": doc_type,
-            "file_uri": file_uri,
-            "created_by": created_by,
+            "entity_id": kwargs.get("client_id"),
+            "doc_type": kwargs.get("doc_type") or "briefing_doc",
+            "file_uri": kwargs.get("file_uri"),
+            "created_by": kwargs.get("created_by"),
             "created_at": _now_iso_fixed(),
         }
-        _get_table(data, "documents")[document_id] = row
-        payload = row
-        out = json.dumps(payload, indent=2)
-        return out
+        documents.append(row)
+        return json.dumps(row, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "LinkDocumentToClient",
+                "name": "link_document_to_client",
                 "description": "Attach a provided file_uri to a client as a document.",
                 "parameters": {
                     "type": "object",
@@ -1336,7 +1087,10 @@ class LinkDocumentToClient(Tool):
         }
 
 
-#---- List of Tools ----------------------------------------------
+
+
+
+# ---- Tools List ------------------------------------------------
 TOOLS = [
     ValidateDriveTimeHops(),
     FetchClientPrefs(),

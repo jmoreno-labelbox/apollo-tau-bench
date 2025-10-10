@@ -1,86 +1,70 @@
 import json
 import os
 from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
 
-from tau_bench.envs.tool import Tool
+from domains.dto import Tool
 
-DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
-
-
+DATA_DIR = os.path.join(os.path.dirname(__file__), "../../data")
 
 
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-
-def _gen_order_id(seed: int | None = None) -> str:
-    """
-    Create a synthetic order ID that aligns with dataset flavor.
-
-    Note: Collisions are rare but possible; this is acceptable for simulation.
-    """
-    pass
-    base = seed if isinstance(seed, int) else int(datetime.utcnow().timestamp())
-    return f"#W{base % 10_000_000:07d}"
-
-
-def _gen_supply_order_id(seed: int | None = None) -> str:
-    """
-    Create a synthetic supply order ID (#SOxxxx) for simulation purposes.
-    """
-    pass
-    base = seed if isinstance(seed, int) else int(datetime.utcnow().timestamp())
-    return f"#SO{base % 10_000:04d}"
-
-
-def _now_iso() -> str:
-    """Provide the current UTC timestamp in ISO format (with seconds precision)."""
-    pass
-    return datetime.utcnow().isoformat(timespec="seconds") + "Z"
-
-
-def _recalculate_financials(order: dict[str, Any]):
-    """Reassesses financial totals for an order according to its items."""
-    pass
-    items_total = sum(item.get("price", 0) for item in order.get("items", []))
-    #Make sure to address floating point precision problems
-    order["items_total"] = round(items_total, 2)
-
-    #Revise the initial payment in the history to show the updated total
-    if order.get("payment_history"):
-        order["payment_history"][0]["amount"] = order["items_total"]
-
-
-def _adjust_stock(
-    data: dict[str, Any], product_id: str, item_id: str, quantity_change: int
-):
-    pass
-    products = data.get("products", {}).values()
-    for p in products.values():
+def _adjust_stock(data: Dict[str, Any], product_id: str, item_id: str, quantity_change: int):
+    products = data.get("products", [])
+    for p in products:
         if p.get("product_id") == product_id:
             variant = (p.get("variants") or {}).get(item_id)
             if variant:
-                stock_info = variant.get("stock", {}).values()
+                stock_info = variant.get("stock", {})
                 current_stock = stock_info.get("quantity", 0)
                 stock_info["quantity"] = current_stock + quantity_change
                 variant["stock"] = stock_info
                 break
 
 
+def _recalculate_financials(order: Dict[str, Any]):
+    """Recalculates financial totals for an order based on its items."""
+    items_total = sum(item.get("price", 0) for item in order.get("items", []))
+    # Ensure floating point precision issues are handled
+    order["items_total"] = round(items_total, 2)
+
+    # Update the first payment in the history to reflect the new total
+    if order.get("payment_history"):
+        order["payment_history"][0]["amount"] = order["items_total"]
+
+
+def _now_iso() -> str:
+    """Return current UTC timestamp in ISO format (seconds precision)."""
+    return datetime.utcnow().isoformat(timespec="seconds") + "Z"
+
+
+def _gen_supply_order_id(seed: Optional[int] = None) -> str:
+    """
+    Generate a synthetic supply order identifier (#SOxxxx) for simulations.
+    """
+    base = seed if isinstance(seed, int) else int(datetime.utcnow().timestamp())
+    return f"#SO{base % 10_000:04d}"
+
+
+def _gen_order_id(seed: Optional[int] = None) -> str:
+    """
+    Generate a synthetic order identifier matching dataset flavor.
+
+    Note: Collisions are unlikely but not impossible; this is OK for simulation.
+    """
+    base = seed if isinstance(seed, int) else int(datetime.utcnow().timestamp())
+    return f"#W{base % 10_000_000:07d}"
+
+
 class CreateOrderTool(Tool):
     """
-    Generate a new retail order by resolving variants from products.json and
-    utilizing the customer's default address from users.json (unless specified otherwise).
+    Create a new retail order by resolving variants from products.json and
+    using the customer's default address from users.json (unless overridden).
 
     Behavior:
-    - Confirms that the user exists (users.json).
-    - Checks items: each must contain product_id, item_id, and an optional quantity>=1.
-    - Resolves each (product_id, item_id) in products.json; expands according to quantity.
-    - Adds a new order entry in orders.json:
+    - Validates that user exists (users.json).
+    - Validates items: each must include product_id, item_id, optional quantity>=1.
+    - Resolves each (product_id, item_id) in products.json; expands by quantity.
+    - Appends a new order entry in orders.json:
         {
           "order_id": "#Wxxxxxxx",
           "user_id": "...",
@@ -102,38 +86,33 @@ class CreateOrderTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, items: list = None) -> str:
-        if not user_id or not isinstance(items, list) or not items:
-            payload = {"error": "user_id and non-empty items are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        supplier_id = kwargs.get("supplier_id")
+        items_spec = kwargs.get("items")
 
-        users = data.get("users", {}).values()
-        if not any(u.get("user_id") == user_id for u in users.values()):
-            payload = {"error": f"user_id '{user_id}' not found in users"}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+        if not supplier_id or not isinstance(items_spec, list) or not items_spec:
+            return json.dumps({"error": "supplier_id and non-empty items are required"}, indent=2)
 
-        resolved_items: list[dict[str, Any]] = []
-        products = data.get("products", {}).values()
-        for line in items:
+        suppliers = data.get("suppliers", [])
+        if not any(s.get("supplier_id") == supplier_id for s in suppliers):
+            return json.dumps(
+                {"error": f"supplier_id '{supplier_id}' not found in suppliers"},
+                indent=2,
+            )
+
+        resolved_items: List[Dict[str, Any]] = []
+        products = data.get("products", [])
+        for line in items_spec:
             pid = line.get("product_id")
             iid = line.get("item_id")
             qty = int(line.get("quantity", 1) or 1)
             if not pid or not iid or qty < 1:
-                payload = {
-                        "error": "Each item must include product_id, item_id, and quantity>=1"
-                    }
-                out = json.dumps(
-                    payload, indent=2,
+                return json.dumps(
+                    {"error": "Each item must include product_id, item_id, and quantity>=1"},
+                    indent=2,
                 )
-                return out
             variant = None
-            for p in products.values():
+            for p in products:
                 if p.get("product_id") == pid:
                     variant_data = (p.get("variants") or {}).get(iid)
                     if variant_data:
@@ -146,13 +125,10 @@ class CreateOrderTool(Tool):
                         }
                         break
             if not variant:
-                payload = {
-                        "error": f"Variant not found for product_id='{pid}', item_id='{iid}'"
-                    }
-                out = json.dumps(
-                    payload, indent=2,
+                return json.dumps(
+                    {"error": f"Variant not found for product_id='{pid}', item_id='{iid}'"},
+                    indent=2,
                 )
-                return out
             enriched = dict(variant)
             enriched["quantity"] = qty
             resolved_items.append(enriched)
@@ -166,22 +142,23 @@ class CreateOrderTool(Tool):
             "created_at": _now_iso(),
             "events": [],
         }
-        supply_data["orders"][order_id] = new_so
-        payload = {
+        supply_orders.append(new_so)
+
+        return json.dumps(
+            {
                 "message": "supply_order_created",
                 "supply_order_id": new_so["supply_order_id"],
                 "items_count": len(resolved_items),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createOrder",
+                "name": "create_order",
                 "description": "Create a new retail order by resolving product variants and writing into orders.json.",
                 "parameters": {
                     "type": "object",
@@ -228,18 +205,18 @@ class CreateOrderTool(Tool):
 
 class AppendPaymentTool(Tool):
     """
-    Add a payment or refund entry to an order's payment_history in orders.json.
+    Append a payment or refund entry to an order's payment_history in orders.json.
 
     Behavior:
-    - Confirms the target order exists.
-    - Adds an entry with fields:
+    - Validates the target order exists.
+    - Appends an entry with fields:
         {
           "transaction_type": "payment" | "refund",
           "amount": float,
           "payment_method_id": str,
           "timestamp": "UTC ISO"
         }
-    - No automatic reconciliation occurs; the caller manages amounts.
+    - No automatic reconciliation is performed; caller controls amounts.
 
     Input (kwargs):
         order_id (str, required)
@@ -252,56 +229,53 @@ class AppendPaymentTool(Tool):
     """
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        order_id: str = None, 
-        transaction_type: str = None, 
-        amount: float = None, 
-        payment_method_id: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get("order_id")
+        txn_type = kwargs.get("transaction_type")
+        amount = kwargs.get("amount")
+        pm_id = kwargs.get("payment_method_id")
+
         if (
             not order_id
-            or transaction_type not in {"payment", "refund"}
+            or txn_type not in {"payment", "refund"}
             or not isinstance(amount, (int, float))
             or amount <= 0
-            or not payment_method_id
+            or not pm_id
         ):
-            payload = {
+            return json.dumps(
+                {
                     "error": "order_id, transaction_type('payment'|'refund'), positive amount, payment_method_id required"
-                }
-            out = json.dumps(
-                payload, indent=2,
+                },
+                indent=2,
             )
-            return out
 
-        orders = data.get("orders", {}).values()
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
+        orders = data.get("orders", [])
+        order = next((o for o in orders if o.get("order_id") == order_id), None)
         if not order:
-            payload = {"error": f"order_id '{order_id}' not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"order_id '{order_id}' not found"}, indent=2)
 
         entry = {
-            "transaction_type": transaction_type,
+            "transaction_type": txn_type,
             "amount": float(amount),
-            "payment_method_id": payment_method_id,
+            "payment_method_id": pm_id,
             "timestamp": _now_iso(),
         }
         (order.setdefault("payment_history", [])).append(entry)
-        payload = {
+
+        return json.dumps(
+            {
                 "order_id": order_id,
                 "payment_history_len": len(order["payment_history"]),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AppendPayment",
+                "name": "append_payment",
                 "description": "Append a payment or refund entry to an order's payment_history in orders.json.",
                 "parameters": {
                     "type": "object",
@@ -327,19 +301,19 @@ class AppendPaymentTool(Tool):
 
 class AssignCourierAndCreateTrackingTool(Tool):
     """
-    Assign a courier to an order and generate a tracking entry in tracking.json.
+    Assign a courier to an order and create a tracking entry in tracking.json.
 
     Behavior:
-    - Retrieves the order (orders.json) and the user's country (users.json) to select a courier from couriers.json.
-    - Chooses the first available tracking_id from the selected courier's tracking_ids.
-    - Creates a new entry in tracking.json:
+    - Reads the order (orders.json) and user's country (users.json) to choose a courier from couriers.json.
+    - Picks the first unused tracking_id from the chosen courier's tracking_ids.
+    - Writes a new entry to tracking.json:
         {
           "tracking_id": [ "<id>" ],
           "order_id": "...",
           "courier_name": "...",
           "status_history": [{ "status": "label_created", "timestamp": "UTC ISO" }]
         }
-    - Additionally, adds a fulfillment snippet to the order in orders.json:
+    - Also appends a fulfillment snippet to the order in orders.json:
         {
           "status": "label_created",
           "tracking_id": "<id>",
@@ -355,64 +329,43 @@ class AssignCourierAndCreateTrackingTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get("order_id")
         if not order_id:
-            payload = {"error": "order_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "order_id is required"}, indent=2)
 
-        orders = data.get("orders", {}).values()
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
+        orders = data.get("orders", [])
+        order = next((o for o in orders if o.get("order_id") == order_id), None)
         if not order:
-            payload = {"error": f"order_id '{order_id}' not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"order_id '{order_id}' not found"}, indent=2)
 
-        users = data.get("users", {}).values()
-        user = next(
-            (u for u in users.values() if u.get("user_id") == order.get("user_id")), None
-        )
+        users = data.get("users", [])
+        user = next((u for u in users if u.get("user_id") == order.get("user_id")), None)
         if not user:
-            payload = {"error": f"user '{order.get('user_id')}' not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"user '{order.get('user_id')}' not found"}, indent=2)
 
         country = ((user.get("address") or {}).get("country")) or "USA"
-        couriers = data.get("couriers", {}).values()
+        couriers = data.get("couriers", [])
         courier = next(
-            (c for c in couriers.values() if country in (c.get("coverage_area") or [])),
+            (c for c in couriers if country in (c.get("coverage_area") or [])),
             couriers[0] if couriers else None,
         )
         if not courier:
-            payload = {"error": f"No courier covers '{country}'"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"No courier covers '{country}'"}, indent=2)
 
-        used = {
-            tid for t in data.get("tracking", {}).values() for tid in t.get("tracking_id", [])
-        }
-        tid = next(
-            (tid for tid in courier.get("tracking_ids", []) if tid not in used), None
-        )
+        used = {tid for t in data.get("tracking", []) for tid in t.get("tracking_id", [])}
+        tid = next((tid for tid in courier.get("tracking_ids", []) if tid not in used), None)
         if not tid:
-            payload = {
-                    "error": f"No available tracking_id for courier '{courier.get('name')}'"
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"No available tracking_id for courier '{courier.get('name')}'"}, indent=2
             )
-            return out
 
         data.setdefault("tracking", []).append(
             {
                 "tracking_id": [tid],
                 "order_id": order_id,
                 "courier_name": courier.get("name"),
-                "status_history": [
-                    {"status": "label_created", "timestamp": _now_iso()}
-                ],
+                "status_history": [{"status": "label_created", "timestamp": _now_iso()}],
             }
         )
 
@@ -424,21 +377,22 @@ class AssignCourierAndCreateTrackingTool(Tool):
                 "timestamp": _now_iso(),
             }
         )
-        payload = {
+
+        return json.dumps(
+            {
                 "order_id": order_id,
                 "tracking_id": tid,
                 "courier_name": courier.get("name"),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "assignCourierAndCreateTracking",
+                "name": "assign_courier_and_create_tracking",
                 "description": "Assign a courier based on user's country and create a new tracking record.",
                 "parameters": {
                     "type": "object",
@@ -456,14 +410,14 @@ class AssignCourierAndCreateTrackingTool(Tool):
 
 class AdvanceTrackingStatusTool(Tool):
     """
-    Update the tracking status for an order in tracking.json and reflect the change in orders.json.
+    Advance tracking status for an order in tracking.json and mirror the change to orders.json.
 
     Behavior:
-    - Confirms that the specified tracking_id exists in tracking.json.
-    - Adds a new status entry to status_history.
-    - If order_status is provided, also adds a fulfillment update to the order.
-      Suggested status progression: label_created -> shipped -> in_transit -> out_for_delivery -> delivered.
-    - If status == "delivered", optionally set order.status = "completed".
+    - Validates that the given tracking_id exists in tracking.json.
+    - Appends a new status entry into status_history.
+    - If provided with order_status, also appends a fulfillment update on the order.
+      Suggested status flow: label_created -> shipped -> in_transit -> out_for_delivery -> delivered.
+    - If status == "delivered", optionally mark order.status = "completed".
 
     Input (kwargs):
         tracking_id (str, required)
@@ -475,36 +429,31 @@ class AdvanceTrackingStatusTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], tracking_id: str = None, status: str = None, order_status: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        tracking_id = kwargs.get("tracking_id")
+        status = kwargs.get("status")
+        order_status = kwargs.get("order_status")
+
         if not tracking_id or not status:
-            payload = {"error": "tracking_id and status are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "tracking_id and status are required"}, indent=2)
 
-        tracking = data.get("tracking", {}).values()
-        tr = next(
-            (t for t in tracking.values() if tracking_id in (t.get("tracking_id") or [])), None
-        )
+        tracking = data.get("tracking", [])
+        tr = next((t for t in tracking if tracking_id in (t.get("tracking_id") or [])), None)
         if not tr:
-            payload = {"error": f"tracking_id '{tracking_id}' not found in tracking.json"}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"tracking_id '{tracking_id}' not found in tracking.json"},
+                indent=2,
             )
-            return out
 
-        # Verify that tracking_history is present prior to adding
+        # Ensure tracking_history exists before appending
         if "tracking_history" not in tr:
             tr["tracking_history"] = {}
 
         tr["tracking_history"][status] = _now_iso()
 
-        # Replicate into orders.json if relevant
-        orders = data.get("orders", {}).values()
-        order = next(
-            (o for o in orders.values() if o.get("order_id") == tr.get("order_id")), None
-        )
+        # Mirror into orders.json if applicable
+        orders = data.get("orders", [])
+        order = next((o for o in orders if o.get("order_id") == tr.get("order_id")), None)
         if order:
             if "fulfillments" not in order:
                 order["fulfillments"] = []
@@ -520,21 +469,22 @@ class AdvanceTrackingStatusTool(Tool):
                 order["status"] = "completed"
             if order_status:
                 order["status"] = order_status
-        payload = {
+
+        return json.dumps(
+            {
                 "tracking_id": tracking_id,
                 "new_status": status,
                 "history_len": len(tr["tracking_history"]),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AdvanceTrackingStatus",
+                "name": "advance_tracking_status",
                 "description": "Append a new tracking status and optionally update the order status.",
                 "parameters": {
                     "type": "object",
@@ -554,13 +504,13 @@ class AdvanceTrackingStatusTool(Tool):
 
 class CancelOrderAndRefundTool(Tool):
     """
-    Cancel an order and optionally generate an automatic refund entry.
+    Cancel an order and optionally create an automatic refund entry.
 
     Behavior:
-    - Confirms the order exists and is not already completed or cancelled.
-    - Changes order.status to "cancelled".
-    - If refund_amount > 0, adds a refund entry to payment_history.
-    - Does NOT modify tracking.json; callers must manage carrier processes independently.
+    - Validates the order exists and is not already completed/cancelled.
+    - Sets order.status = "cancelled".
+    - If refund_amount > 0, appends a refund entry to payment_history.
+    - Does NOT touch tracking.json; callers should handle carrier processes separately.
 
     Input (kwargs):
         order_id (str, required)
@@ -572,31 +522,26 @@ class CancelOrderAndRefundTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str = None, refund_amount: float = 0, payment_method_id: str = None) -> str:
-        if not order_id:
-            payload = {"error": "order_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
-        if refund_amount > 0 and not payment_method_id:
-            payload = {"error": "payment_method_id is required when refund_amount > 0"}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get("order_id")
+        refund_amount = float(kwargs.get("refund_amount", 0) or 0)
+        payment_method_id = kwargs.get("payment_method_id")
 
-        orders = data.get("orders", {}).values()
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
+        if not order_id:
+            return json.dumps({"error": "order_id is required"}, indent=2)
+        if refund_amount > 0 and not payment_method_id:
+            return json.dumps(
+                {"error": "payment_method_id is required when refund_amount > 0"},
+                indent=2,
+            )
+
+        orders = data.get("orders", [])
+        order = next((o for o in orders if o.get("order_id") == order_id), None)
         if not order:
-            payload = {"error": f"order_id '{order_id}' not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"order_id '{order_id}' not found"}, indent=2)
 
         if order.get("status") in {"completed", "cancelled"}:
-            payload = {"error": f"order already {order.get('status')}"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"order already {order.get('status')}"}, indent=2)
 
         items_to_return = order.get("items", [])
 
@@ -619,21 +564,22 @@ class CancelOrderAndRefundTool(Tool):
                 }
             )
             refund_created = True
-        payload = {
+
+        return json.dumps(
+            {
                 "order_id": order_id,
                 "status": "cancelled",
                 "refund_created": refund_created,
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CancelOrderAndRefund",
+                "name": "cancel_order_and_refund",
                 "description": "Cancel an existing order and optionally append a refund entry in orders.json.",
                 "parameters": {
                     "type": "object",
@@ -656,10 +602,10 @@ class AddItemsToOrderTool(Tool):
     Add one or more items to an existing order by resolving variants from products.json.
 
     Behavior:
-    - Confirms the order exists.
+    - Validates the order exists.
     - For each {product_id, item_id, quantity}, resolves the variant from products.json.
-    - Adds one entry per unit to order["items"] (consistent with dataset structure).
-    - Does not recalculate totals; this function only modifies the item list.
+    - Appends one entry per unit to order["items"] (consistent with dataset structure).
+    - Does not recalculate totals; this tool only amends the item list.
 
     Input (kwargs):
         order_id (str, required)
@@ -670,49 +616,40 @@ class AddItemsToOrderTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str = None, items: list = None) -> str:
-        if not order_id or not isinstance(items, list) or not items:
-            payload = {"error": "order_id and non-empty items are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get("order_id")
+        items_spec = kwargs.get("items")
 
-        orders = data.get("orders", {}).values()
-        products = data.get("products", {}).values()
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
+        if not order_id or not isinstance(items_spec, list) or not items_spec:
+            return json.dumps({"error": "order_id and non-empty items are required"}, indent=2)
+
+        orders = data.get("orders", [])
+        products = data.get("products", [])
+        order = next((o for o in orders if o.get("order_id") == order_id), None)
 
         if not order:
-            payload = {"error": f"order_id '{order_id}' not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"order_id '{order_id}' not found"}, indent=2)
 
         added = 0
-        for line in items:
+        for line in items_spec:
             pid = line.get("product_id")
             iid = line.get("item_id")
             qty = int(line.get("quantity", 1) or 1)
 
             if not pid or not iid or qty < 1:
-                payload = {
-                        "error": "Each item must include product_id, item_id, and quantity>=1"
-                    }
-                out = json.dumps(
-                    payload, indent=2,
+                return json.dumps(
+                    {"error": "Each item must include product_id, item_id, and quantity>=1"},
+                    indent=2,
                 )
-                return out
 
-            product = next((p for p in products.values() if p.get("product_id") == pid), None)
+            product = next((p for p in products if p.get("product_id") == pid), None)
             variant = (product.get("variants") or {}).get(iid) if product else None
 
             if not variant:
-                payload = {
-                        "error": f"Variant not found for product_id='{pid}', item_id='{iid}'"
-                    }
-                out = json.dumps(
-                    payload, indent=2,
+                return json.dumps(
+                    {"error": f"Variant not found for product_id='{pid}', item_id='{iid}'"},
+                    indent=2,
                 )
-                return out
 
             resolved_item = {
                 "name": product.get("name"),
@@ -727,21 +664,22 @@ class AddItemsToOrderTool(Tool):
                 added += 1
 
             _adjust_stock(data, pid, iid, -qty)
-        payload = {
+
+        return json.dumps(
+            {
                 "order_id": order_id,
                 "added_count": added,
                 "items_len": len(order.get("items", [])),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddItemsToOrder",
+                "name": "add_items_to_order",
                 "description": "Add one or more resolved product variants into an existing order (orders.json).",
                 "parameters": {
                     "type": "object",
@@ -772,12 +710,12 @@ class AddItemsToOrderTool(Tool):
 
 class RemoveItemsByIndexTool(Tool):
     """
-    Remove items from an order based on index positions within order['items'].
+    Remove items from an order by index positions within order['items'].
 
     Behavior:
-    - Confirms the order exists and 'indices' is a list of unique integers.
-    - Deletes items at the specified indices (0-based) that are present in the current list.
-    - Silently ignores out-of-range indices to ensure robustness.
+    - Validates the order exists and 'indices' is a list of distinct integers.
+    - Removes items at the provided indices (0-based) present in the current list.
+    - Ignores out-of-range indices silently to be robust.
 
     Input (kwargs):
         order_id (str, required)
@@ -788,29 +726,22 @@ class RemoveItemsByIndexTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str = None, indices: list = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get("order_id")
+        indices = kwargs.get("indices")
+
         if not order_id or not isinstance(indices, list) or not indices:
-            payload = {"error": "order_id and non-empty indices are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "order_id and non-empty indices are required"}, indent=2)
 
         try:
             idxs = sorted({int(i) for i in indices if int(i) >= 0}, reverse=True)
         except Exception:
-            payload = {"error": "indices must be a list of integers >= 0"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "indices must be a list of integers >= 0"}, indent=2)
 
-        orders = data.get("orders", {}).values()
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
+        orders = data.get("orders", [])
+        order = next((o for o in orders if o.get("order_id") == order_id), None)
         if not order:
-            payload = {"error": f"order_id '{order_id}' not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"order_id '{order_id}' not found"}, indent=2)
 
         items = order.get("items", [])
         removed_count = 0
@@ -827,21 +758,17 @@ class RemoveItemsByIndexTool(Tool):
                 removed_count += 1
 
         order["items"] = items
-        payload = {
-                "order_id": order_id,
-                "removed_count": removed_count,
-                "items_len": len(items),
-            }
-        out = json.dumps(
-            payload, indent=2,
+        return json.dumps(
+            {"order_id": order_id, "removed_count": removed_count, "items_len": len(items)},
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RemoveItemsByIndex",
+                "name": "remove_items_by_index",
                 "description": "Remove items from an order by zero-based indices within order['items'].",
                 "parameters": {
                     "type": "object",
@@ -860,12 +787,12 @@ class RemoveItemsByIndexTool(Tool):
 
 class SetOrderStatusTool(Tool):
     """
-    Set or change an order's status in orders.json.
+    Set or override an order's status in orders.json.
 
     Behavior:
-    - Confirms the order exists.
-    - Updates order['status'] to the provided value.
-    - Does not alter fulfillments or payment_history.
+    - Validates the order exists.
+    - Sets order['status'] = provided value.
+    - Does not modify fulfillments or payment_history.
 
     Input (kwargs):
         order_id (str, required)
@@ -876,31 +803,27 @@ class SetOrderStatusTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str = None, status: str = None) -> str:
-        if not order_id or not isinstance(status, str) or not status:
-            payload = {"error": "order_id and non-empty status are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get("order_id")
+        status = kwargs.get("status")
 
-        orders = data.get("orders", {}).values()
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
+        if not order_id or not isinstance(status, str) or not status:
+            return json.dumps({"error": "order_id and non-empty status are required"}, indent=2)
+
+        orders = data.get("orders", [])
+        order = next((o for o in orders if o.get("order_id") == order_id), None)
         if not order:
-            payload = {"error": f"order_id '{order_id}' not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"order_id '{order_id}' not found"}, indent=2)
 
         order["status"] = status
-        payload = {"order_id": order_id, "status": status}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"order_id": order_id, "status": status}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SetOrderStatus",
+                "name": "set_order_status",
                 "description": "Set or override the 'status' field of an existing order (orders.json).",
                 "parameters": {
                     "type": "object",
@@ -916,14 +839,14 @@ class SetOrderStatusTool(Tool):
 
 class LinkExistingTrackingToOrderTool(Tool):
     """
-    Associate an existing tracking record with an order by creating a fulfillment entry.
+    Link an existing tracking record to an order by creating a fulfillment entry.
 
     Behavior:
-    - Confirms the order exists.
-    - Checks that the tracking_id is present in tracking.json (within any record's 'tracking_id' list).
-    - Adds a fulfillment entry to the order containing at least:
+    - Validates the order exists.
+    - Validates that the tracking_id exists in tracking.json (under any record's 'tracking_id' list).
+    - Appends a fulfillment entry on the order containing at least:
         { "status": "linked", "tracking_id": "<id>", "timestamp": "UTC ISO" }
-      Optionally includes 'courier' if available in the tracking record.
+      Optionally includes 'courier' if found on the tracking record.
 
     Input (kwargs):
         order_id (str, required)
@@ -934,31 +857,22 @@ class LinkExistingTrackingToOrderTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str = None, tracking_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get("order_id")
+        tracking_id = kwargs.get("tracking_id")
+
         if not order_id or not tracking_id:
-            payload = {"error": "order_id and tracking_id are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "order_id and tracking_id are required"}, indent=2)
 
-        orders = data.get("orders", {}).values()
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
+        orders = data.get("orders", [])
+        order = next((o for o in orders if o.get("order_id") == order_id), None)
         if not order:
-            payload = {"error": f"order_id '{order_id}' not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"order_id '{order_id}' not found"}, indent=2)
 
-        tracking = data.get("tracking", {}).values()
-        tr = next(
-            (t for t in tracking.values() if tracking_id in (t.get("tracking_id") or [])), None
-        )
+        tracking = data.get("tracking", [])
+        tr = next((t for t in tracking if tracking_id in (t.get("tracking_id") or [])), None)
         if not tr:
-            payload = {"error": f"tracking_id '{tracking_id}' not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"tracking_id '{tracking_id}' not found"}, indent=2)
 
         fulfillment = {
             "status": "linked",
@@ -969,21 +883,22 @@ class LinkExistingTrackingToOrderTool(Tool):
             fulfillment["courier"] = tr["courier_name"]
 
         order.setdefault("fulfillments", []).append(fulfillment)
-        payload = {
+
+        return json.dumps(
+            {
                 "order_id": order_id,
                 "tracking_id": tracking_id,
                 "fulfillments_len": len(order.get("fulfillments", [])),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "LinkExistingTrackingToOrder",
+                "name": "link_existing_tracking_to_order",
                 "description": "Link an existing tracking_id from tracking.json to an order by appending a fulfillment entry.",
                 "parameters": {
                     "type": "object",
@@ -999,12 +914,12 @@ class LinkExistingTrackingToOrderTool(Tool):
 
 class CreateSupplyOrderTool(Tool):
     """
-    Generate a new supply order in supply_orders.json for restocking needs.
+    Create a new supply order in supply_orders.json for restocking purposes.
 
     Behavior:
     - Accepts a supplier_id and a list of items {product_id, item_id, quantity}.
-    - Resolves each variant from products.json to retain name/price/options.
-    - Creates a new entry in supply_orders.json with:
+    - Resolves each variant from products.json to carry forward name/price/options.
+    - Writes a new entry to supply_orders.json with:
         {
           "supply_order_id": "#SOxxxx",
           "supplier_id": "...",
@@ -1023,40 +938,35 @@ class CreateSupplyOrderTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], supplier_id: str = None, items: list = None) -> str:
-        if not supplier_id or not isinstance(items, list) or not items:
-            payload = {"error": "supplier_id and non-empty items are required"}
-            out = json.dumps(
-                payload, indent=2
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        supplier_id = kwargs.get("supplier_id")
+        items_spec = kwargs.get("items")
+
+        if not supplier_id or not isinstance(items_spec, list) or not items_spec:
+            return json.dumps({"error": "supplier_id and non-empty items are required"}, indent=2)
+
+        suppliers = data.get("suppliers", [])
+        if not any(s.get("supplier_id") == supplier_id for s in suppliers):
+            return json.dumps(
+                {"error": f"supplier_id '{supplier_id}' not found in suppliers"},
+                indent=2,
             )
-            return out
 
-        suppliers = data.get("suppliers", {}).values()
-        if not any(s.get("supplier_id") == supplier_id for s in suppliers.values()):
-            payload = {"error": f"supplier_id '{supplier_id}' not found in suppliers"}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+        products = data.get("products", [])
+        resolved_items: List[Dict[str, Any]] = []
 
-        products = data.get("products", {}).values()
-        resolved_items: list[dict[str, Any]] = []
-
-        for line in items:
+        for line in items_spec:
             pid = line.get("product_id")
             iid = line.get("item_id")
             qty = int(line.get("quantity", 1) or 1)
             if not pid or not iid or qty < 1:
-                payload = {
-                        "error": "Each item must include product_id, item_id, and quantity>=1"
-                    }
-                out = json.dumps(
-                    payload, indent=2,
+                return json.dumps(
+                    {"error": "Each item must include product_id, item_id, and quantity>=1"},
+                    indent=2,
                 )
-                return out
 
             variant = None
-            for p in products.values():
+            for p in products:
                 if p.get("product_id") == pid:
                     variant_data = (p.get("variants") or {}).get(iid)
                     if variant_data:
@@ -1070,13 +980,10 @@ class CreateSupplyOrderTool(Tool):
                         break
 
             if not variant:
-                payload = {
-                        "error": f"Variant not found for product_id='{pid}', item_id='{iid}'"
-                    }
-                out = json.dumps(
-                    payload, indent=2,
+                return json.dumps(
+                    {"error": f"Variant not found for product_id='{pid}', item_id='{iid}'"},
+                    indent=2,
                 )
-                return out
 
             enriched = dict(variant)
             enriched["quantity"] = qty
@@ -1091,22 +998,23 @@ class CreateSupplyOrderTool(Tool):
             "created_at": _now_iso(),
             "events": [],
         }
-        supply_data["orders"][order_id] = new_so
-        payload = {
+        supply_orders.append(new_so)
+
+        return json.dumps(
+            {
                 "message": "supply_order_created",
                 "supply_order_id": new_so["supply_order_id"],
                 "items_count": len(resolved_items),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createSupplyOrder",
+                "name": "create_supply_order",
                 "description": "Create a new supply order with resolved product variants and write to supply_orders.json.",
                 "parameters": {
                     "type": "object",
@@ -1137,12 +1045,12 @@ class CreateSupplyOrderTool(Tool):
 
 class SetSupplyOrderStatusTool(Tool):
     """
-    Set or change the status of a supply order in supply_orders.json.
+    Set or override the status of a supply order in supply_orders.json.
 
     Behavior:
-    - Confirms that the supply_order_id exists.
-    - Updates entry['status'] to the provided value.
-    - If status == "received", sets 'received_at' timestamp (UTC ISO) if not already present.
+    - Validates that the supply_order_id exists.
+    - Sets entry['status'] = provided value.
+    - If status == "received", sets 'received_at' timestamp (UTC ISO) when not present.
 
     Input (kwargs):
         supply_order_id (str, required)
@@ -1153,37 +1061,32 @@ class SetSupplyOrderStatusTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], supply_order_id: str = None, status: str = None) -> str:
-        so_id = supply_order_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        so_id = kwargs.get("supply_order_id")
+        status = kwargs.get("status")
 
         if not so_id or not isinstance(status, str) or not status:
-            payload = {"error": "supply_order_id and non-empty status are required"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": "supply_order_id and non-empty status are required"}, indent=2
             )
-            return out
 
-        supply_orders = data.get("supply_orders", {}).values()
-        so = next((s for s in supply_orders.values() if s.get("supply_order_id") == so_id), None)
+        supply_orders = data.get("supply_orders", [])
+        so = next((s for s in supply_orders if s.get("supply_order_id") == so_id), None)
         if not so:
-            payload = {"error": f"supply_order_id '{so_id}' not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"supply_order_id '{so_id}' not found"}, indent=2)
 
         so["status"] = status
         if status == "received" and not so.get("received_at"):
             so["received_at"] = _now_iso()
-        payload = {"supply_order_id": so_id, "status": status}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"supply_order_id": so_id, "status": status}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SetSupplyOrderStatus",
+                "name": "set_supply_order_status",
                 "description": "Set or override the 'status' of an existing supply order (supply_orders.json).",
                 "parameters": {
                     "type": "object",
@@ -1199,17 +1102,17 @@ class SetSupplyOrderStatusTool(Tool):
 
 class AppendSupplyOrderEventTool(Tool):
     """
-    Add an event note to a supply order's 'events' list in supply_orders.json.
+    Append an event note to a supply order's 'events' list in supply_orders.json.
 
     Behavior:
-    - Confirms that the supply_order_id exists.
-    - Adds an event object:
+    - Validates that the supply_order_id exists.
+    - Appends an event object:
         {
           "type": "<string>",
           "message": "<string>",
           "timestamp": "UTC ISO"
         }
-    - Creates the 'events' list if it is not already present.
+    - Creates the 'events' list if it does not exist.
 
     Input (kwargs):
         supply_order_id (str, required)
@@ -1221,26 +1124,21 @@ class AppendSupplyOrderEventTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], supply_order_id: str = None, event_type: str = None, message: str = None) -> str:
-        so_id = supply_order_id
-        event_type = event_type
-        message = message
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        so_id = kwargs.get("supply_order_id")
+        event_type = kwargs.get("event_type")
+        message = kwargs.get("message")
 
         if not so_id or not event_type or not message:
-            payload = {"error": "supply_order_id, event_type, and message are required"}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": "supply_order_id, event_type, and message are required"},
+                indent=2,
             )
-            return out
 
-        supply_orders = data.get("supply_orders", {}).values()
-        so = next((s for s in supply_orders.values() if s.get("supply_order_id") == so_id), None)
+        supply_orders = data.get("supply_orders", [])
+        so = next((s for s in supply_orders if s.get("supply_order_id") == so_id), None)
         if not so:
-            payload = {"error": f"supply_order_id '{so_id}' not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"supply_order_id '{so_id}' not found"}, indent=2)
 
         event = {
             "type": str(event_type),
@@ -1248,17 +1146,18 @@ class AppendSupplyOrderEventTool(Tool):
             "timestamp": _now_iso(),
         }
         so.setdefault("events", []).append(event)
-        payload = {"supply_order_id": so_id, "events_len": len(so.get("events", []))}
-        out = json.dumps(
-            payload, indent=2,
+
+        return json.dumps(
+            {"supply_order_id": so_id, "events_len": len(so.get("events", []))},
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AppendSupplyOrderEvent",
+                "name": "append_supply_order_event",
                 "description": "Append a typed event with message to a supply order's events array (supply_orders.json).",
                 "parameters": {
                     "type": "object",
@@ -1274,31 +1173,31 @@ class AppendSupplyOrderEventTool(Tool):
 
 
 class GetOrderFinancialsTool(Tool):
-    """Retrieves financial information for an order from the shared in-memory state."""
+    """Gets financial data for an order from the shared in-memory state."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str = None) -> str:
-        # Fetches the 'orders' object from the in-memory state, which could have been altered.
-        orders = data.get("orders", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get("order_id")
+        # Reads the 'orders' object from the in-memory state, which may have been modified.
+        orders = data.get("orders", [])
 
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
+        order = next((o for o in orders if o.get("order_id") == order_id), None)
         if not order:
-            payload = {"error": f"Order '{order_id}' not found in the current state"}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"Order '{order_id}' not found in the current state"}, indent=2
             )
-            return out
-        payload = {"order_id": order_id, "items_total": order.get("items_total", 0)}
-        out = json.dumps(
-            payload, indent=2
+
+        # This will now reflect any changes made by previous tools
+        return json.dumps(
+            {"order_id": order_id, "items_total": order.get("items_total", 0)}, indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetOrderFinancials",
+                "name": "get_order_financials",
                 "description": "Retrieves financial totals for a given order from the current state.",
                 "parameters": {
                     "type": "object",
@@ -1311,11 +1210,11 @@ class GetOrderFinancialsTool(Tool):
 
 class FindOrdersByUserAndStatusTool(Tool):
     """
-    Locate orders filtered by user_id and optional status.
+    Find orders filtered by user_id and optional status.
 
     Behavior:
-    - If status is provided, filters orders for an exact match.
-    - Returns a concise listing: order_id, status, items_len, timestamp.
+    - If status is provided, filters orders with exact match.
+    - Returns a compact listing: order_id, status, items_len, timestamp.
 
     Input (kwargs):
         user_id (str, required)
@@ -1326,15 +1225,16 @@ class FindOrdersByUserAndStatusTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, status: str = None) -> str:
-        if not user_id:
-            payload = {"error": "user_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        status = kwargs.get("status")
 
-        orders = data.get("orders", {}).values()
+        if not user_id:
+            return json.dumps({"error": "user_id is required"}, indent=2)
+
+        orders = data.get("orders", [])
         filtered = []
-        for o in orders.values():
+        for o in orders:
             if o.get("user_id") != user_id:
                 continue
             if status and o.get("status") != status:
@@ -1347,17 +1247,17 @@ class FindOrdersByUserAndStatusTool(Tool):
                     "timestamp": o.get("timestamp"),
                 }
             )
-        payload = {"user_id": user_id, "count": len(filtered), "orders": filtered}
-        out = json.dumps(
-            payload, indent=2
+
+        return json.dumps(
+            {"user_id": user_id, "count": len(filtered), "orders": filtered}, indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindOrdersByUserAndStatus",
+                "name": "find_orders_by_user_and_status",
                 "description": "Return orders for a given user_id, optionally filtered by status.",
                 "parameters": {
                     "type": "object",
@@ -1373,13 +1273,13 @@ class FindOrdersByUserAndStatusTool(Tool):
 
 class AttachCourierByNameTool(Tool):
     """
-    Assign a specific courier (by name) to an order and generate a tracking entry.
+    Attach a specific courier (by name) to an order and create a tracking entry.
 
     Behavior:
-    - Confirms the order exists (orders.json).
-    - Confirms the courier exists (couriers.json).
-    - Selects the first available tracking_id from the courier.
-    - Creates a new record in tracking.json and adds a fulfillment entry to the order.
+    - Validates order exists (orders.json).
+    - Validates courier exists (couriers.json).
+    - Picks first unused tracking_id from the courier.
+    - Writes a new record to tracking.json and appends a fulfillment entry to the order.
 
     Input (kwargs):
         order_id (str, required)
@@ -1390,42 +1290,32 @@ class AttachCourierByNameTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str = None, courier_name: str = None, tracking_id: str = None) -> str:
-        if not order_id or not courier_name or not tracking_id:
-            payload = {"error": "order_id, courier_name and tracking_id are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get("order_id")
+        courier_name = kwargs.get("courier_name")
 
-        orders = data.get("orders", {}).values()
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
+        if not order_id or not courier_name:
+            return json.dumps({"error": "order_id and courier_name are required"}, indent=2)
+
+        orders = data.get("orders", [])
+        order = next((o for o in orders if o.get("order_id") == order_id), None)
         if not order:
-            payload = {"error": f"order_id '{order_id}' not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"order_id '{order_id}' not found"}, indent=2)
 
-        couriers = data.get("couriers", {}).values()
-        courier = next((c for c in couriers.values() if c.get("name") == courier_name), None)
+        couriers = data.get("couriers", [])
+        courier = next((c for c in couriers if c.get("name") == courier_name), None)
         if not courier:
-            payload = {"error": f"courier '{courier_name}' not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"courier '{courier_name}' not found"}, indent=2)
 
-        used_ids = {
-            tid for t in data.get("tracking", {}).values() for tid in t.get("tracking_id", [])
-        }
+        used_ids = {tid for t in data.get("tracking", []) for tid in t.get("tracking_id", [])}
         candidate_ids = courier.get("tracking_ids", [])
         tid = next((tid for tid in candidate_ids if tid not in used_ids), None)
 
         if not tid:
-            payload = {"error": f"No available tracking_id for courier '{courier_name}'"}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"No available tracking_id for courier '{courier_name}'"},
+                indent=2,
             )
-            return out
 
         tracking = data.setdefault("tracking", [])
         tracking.append(
@@ -1433,9 +1323,7 @@ class AttachCourierByNameTool(Tool):
                 "tracking_id": [tid],
                 "order_id": order_id,
                 "courier_name": courier_name,
-                "status_history": [
-                    {"status": "label_created", "timestamp": _now_iso()}
-                ],
+                "status_history": [{"status": "label_created", "timestamp": _now_iso()}],
             }
         )
 
@@ -1447,17 +1335,18 @@ class AttachCourierByNameTool(Tool):
                 "timestamp": _now_iso(),
             }
         )
-        payload = {"order_id": order_id, "tracking_id": tid, "courier_name": courier_name}
-        out = json.dumps(
-            payload, indent=2,
+
+        return json.dumps(
+            {"order_id": order_id, "tracking_id": tid, "courier_name": courier_name},
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "attachCourierByName",
+                "name": "attach_courier_by_name",
                 "description": "Attach a specific courier by name to an order and create a new tracking record.",
                 "parameters": {
                     "type": "object",
@@ -1474,12 +1363,12 @@ class AttachCourierByNameTool(Tool):
 
 class UpdateTrackingCourierTool(Tool):
     """
-    Modify the courier_name of an existing tracking record in tracking.json.
+    Update the courier_name of an existing tracking record in tracking.json.
 
     Behavior:
-    - Confirms that tracking_id exists in tracking.json (found within each record's tracking_id list).
-    - Replaces 'courier_name' with the provided value.
-    - Adds a status_history note 'courier_updated'.
+    - Validates tracking_id exists in tracking.json (present inside each record's tracking_id list).
+    - Overwrites 'courier_name' with the provided value.
+    - Appends a status_history note 'courier_updated'.
 
     Input (kwargs):
         tracking_id (str, required)
@@ -1490,40 +1379,37 @@ class UpdateTrackingCourierTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], tracking_id: str = None, courier_name: str = None) -> str:
-        if not tracking_id or not courier_name:
-            payload = {"error": "tracking_id and courier_name are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        tracking_id = kwargs.get("tracking_id")
+        courier_name = kwargs.get("courier_name")
 
-        tracking = data.get("tracking", {}).values()
-        rec = next(
-            (t for t in tracking.values() if tracking_id in (t.get("tracking_id") or [])), None
-        )
+        if not tracking_id or not courier_name:
+            return json.dumps({"error": "tracking_id and courier_name are required"}, indent=2)
+
+        tracking = data.get("tracking", [])
+        rec = next((t for t in tracking if tracking_id in (t.get("tracking_id") or [])), None)
         if not rec:
-            payload = {"error": f"tracking_id '{tracking_id}' not found in tracking records"}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"tracking_id '{tracking_id}' not found in tracking records"},
+                indent=2,
             )
-            return out
 
         rec["courier_name"] = courier_name
         rec.setdefault("status_history", []).append(
             {"status": "courier_updated", "timestamp": _now_iso()}
         )
-        payload = {"tracking_id": tracking_id, "courier_name": courier_name}
-        out = json.dumps(
-            payload, indent=2,
+
+        return json.dumps(
+            {"tracking_id": tracking_id, "courier_name": courier_name},
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateTrackingCourier",
+                "name": "update_tracking_courier",
                 "description": "Update the courier_name field for an existing tracking record (tracking.json).",
                 "parameters": {
                     "type": "object",
@@ -1539,12 +1425,12 @@ class UpdateTrackingCourierTool(Tool):
 
 class AddTrackingCustomEventTool(Tool):
     """
-    Add a custom event to the status_history of a tracking record.
+    Append a custom event to the status_history of a tracking record.
 
     Behavior:
-    - Confirms that tracking_id exists in tracking.json.
-    - Adds {"status": <event_status>, "timestamp": UTC ISO, "note": <optional str>}.
-    - Does not alter orders.json (pure tracking enhancement).
+    - Validates tracking_id exists in tracking.json.
+    - Appends {"status": <event_status>, "timestamp": UTC ISO, "note": <optional str>}.
+    - Does not modify orders.json (pure tracking enrichment).
 
     Input (kwargs):
         tracking_id (str, required)
@@ -1556,45 +1442,43 @@ class AddTrackingCustomEventTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], tracking_id: str = None, event_status: str = None, note: str = None) -> str:
-        if not tracking_id or not event_status:
-            payload = {"error": "tracking_id and event_status are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        tracking_id = kwargs.get("tracking_id")
+        event_status = kwargs.get("event_status")
+        note = kwargs.get("note")
 
-        tracking = data.get("tracking", {}).values()
-        rec = next(
-            (t for t in tracking.values() if tracking_id in (t.get("tracking_id") or [])), None
-        )
+        if not tracking_id or not event_status:
+            return json.dumps({"error": "tracking_id and event_status are required"}, indent=2)
+
+        tracking = data.get("tracking", [])
+        rec = next((t for t in tracking if tracking_id in (t.get("tracking_id") or [])), None)
         if not rec:
-            payload = {"error": f"tracking_id '{tracking_id}' not found in tracking records"}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"tracking_id '{tracking_id}' not found in tracking records"},
+                indent=2,
             )
-            return out
 
         event = {"status": str(event_status), "timestamp": _now_iso()}
         if note:
             event["note"] = str(note)
 
         rec.setdefault("status_history", []).append(event)
-        payload = {
+
+        return json.dumps(
+            {
                 "tracking_id": tracking_id,
                 "new_status": event_status,
                 "history_len": len(rec.get("status_history", [])),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddTrackingCustomEvent",
+                "name": "add_tracking_custom_event",
                 "description": "Append a custom status event (with optional note) to a tracking record's status_history.",
                 "parameters": {
                     "type": "object",
@@ -1610,31 +1494,30 @@ class AddTrackingCustomEventTool(Tool):
 
 
 class FindTrackingByOrderTool(Tool):
-    """Locates tracking information for an order from the shared in-memory state."""
+    """Finds tracking data for an order from the shared in-memory state."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str = None) -> str:
-        # Retrieves the tracking information from the in-memory state.
-        tracking_data = data.get("tracking", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get("order_id")
+        # Reads the tracking data from the in-memory state.
+        tracking_data = data.get("tracking", [])
 
-        tr = next((t for t in tracking_data.values() if t.get("order_id") == order_id), None)
+        tr = next((t for t in tracking_data if t.get("order_id") == order_id), None)
         if not tr:
-            payload = {
-                "error": f"Tracking for order '{order_id}' not found in the current state"
-            }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"Tracking for order '{order_id}' not found in the current state"},
+                indent=2,
             )
-            return out
-        payload = tr
-        out = json.dumps(payload, indent=2)
-        return out
+
+        # The 'item_ids' field will now reflect any changes made previously.
+        return json.dumps(tr, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindTrackingByOrder",
+                "name": "find_tracking_by_order",
                 "description": "Finds the tracking record for a given order_id from the current state.",
                 "parameters": {
                     "type": "object",
@@ -1647,12 +1530,12 @@ class FindTrackingByOrderTool(Tool):
 
 class FindSupplyOrdersTool(Tool):
     """
-    Locate supply orders filtered by optional supplier_id and/or status.
+    Find supply orders filtered by optional supplier_id and/or status.
 
     Behavior:
-    - If supplier_id is provided, only returns matching entries.
-    - If status is provided, only returns entries with an exact match.
-    - Returns a concise view: supply_order_id, supplier_id, status, items_count, created_at.
+    - If supplier_id is provided, only returns matching records.
+    - If status is provided, only returns records with exact status.
+    - Returns a compact view: supply_order_id, supplier_id, status, items_count, created_at.
 
     Input (kwargs):
         supplier_id (str, optional)
@@ -1663,10 +1546,13 @@ class FindSupplyOrdersTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], supplier_id: str = None, status: str = None) -> str:
-        supply_orders = data.get("supply_orders", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        supplier_id = kwargs.get("supplier_id")
+        status = kwargs.get("status")
+
+        supply_orders = data.get("supply_orders", [])
         filtered = []
-        for so in supply_orders.values():
+        for so in supply_orders:
             if supplier_id and so.get("supplier_id") != supplier_id:
                 continue
             if status and so.get("status") != status:
@@ -1680,15 +1566,15 @@ class FindSupplyOrdersTool(Tool):
                     "created_at": so.get("created_at"),
                 }
             )
-        payload = {"count": len(filtered), "supply_orders": filtered}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"count": len(filtered), "supply_orders": filtered}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindSupplyOrders",
+                "name": "find_supply_orders",
                 "description": "Find supply orders filtered by optional supplier_id and/or status from supply_orders.json.",
                 "parameters": {
                     "type": "object",
@@ -1703,14 +1589,14 @@ class FindSupplyOrdersTool(Tool):
 
 class SplitOrderIntoShipmentsTool(Tool):
     """
-    Divide an order's items into several shipments, generating tracking and fulfillments.
+    Split an order's items into multiple shipments, creating tracking and fulfillments.
 
     Behavior:
-    - Confirms the order exists.
+    - Validates order exists.
     - For each shipment entry, requires 'indices' (0-based positions in order.items)
-      and a 'courier_name' to generate a tracking record.
-    - Creates one tracking record for each shipment and adds corresponding fulfillment
-      entries to the order. Items are not deleted; this function only generates logistics records.
+      and a 'courier_name' to create a tracking record.
+    - Creates one tracking record per shipment and appends corresponding fulfillment
+      entries to the order. Items are not removed; this tool only creates logistics records.
 
     Input (kwargs):
         order_id (str, required)
@@ -1723,95 +1609,75 @@ class SplitOrderIntoShipmentsTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str = None, shipments: list = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get("order_id")
+        shipments = kwargs.get("shipments")
+
         if not order_id or not isinstance(shipments, list) or not shipments:
-            payload = {"error": "order_id and non-empty shipments are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "order_id and non-empty shipments are required"}, indent=2)
 
-        orders = data.get("orders", {}).values()
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
+        orders = data.get("orders", [])
+        order = next((o for o in orders if o.get("order_id") == order_id), None)
         if not order:
-            payload = {"error": f"order_id '{order_id}' not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"order_id '{order_id}' not found"}, indent=2)
 
-        couriers = data.get("couriers", {}).values()
-        tracking_db = _convert_db_to_list(data.get("tracking", {}).values())
+        couriers = data.get("couriers", [])
+        tracking_db = data.get("tracking", [])
         items_len = len(order.get("items", []))
         created = []
 
-        used_tracking_ids = {
-            tid for t in tracking_db for tid in t.get("tracking_id", [])
-        }
+        used_tracking_ids = {tid for t in tracking_db for tid in t.get("tracking_id", [])}
 
         for sh in shipments:
             idxs = sh.get("indices")
             courier_name = sh.get("courier_name")
             if not isinstance(idxs, list) or not idxs or not courier_name:
-                payload = {
-                        "error": "each shipment requires 'indices' (list) and 'courier_name'"
-                    }
-                out = json.dumps(
-                    payload, indent=2,
+                return json.dumps(
+                    {"error": "each shipment requires 'indices' (list) and 'courier_name'"},
+                    indent=2,
                 )
-                return out
 
-            #check that indices are within the valid range
+            # validate indices exist within range
             valid = [
                 i
-                for i in {int(i) for i in idxs if isinstance(i, (int, float))}
+                for i in set(int(i) for i in idxs if isinstance(i, (int, float)))
                 if 0 <= i < items_len
             ]
             if not valid:
-                payload = {"error": f"shipment has no valid indices within 0..{items_len-1}"}
-                out = json.dumps(
-                    payload, indent=2,
+                return json.dumps(
+                    {"error": f"shipment has no valid indices within 0..{items_len-1}"},
+                    indent=2,
                 )
-                return out
 
-            #locate courier
-            courier = next((c for c in couriers.values() if c.get("name") == courier_name), None)
+            # find courier
+            courier = next((c for c in couriers if c.get("name") == courier_name), None)
             if not courier:
-                payload = {"error": f"courier '{courier_name}' not found"}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
+                return json.dumps({"error": f"courier '{courier_name}' not found"}, indent=2)
 
-            #select the first available tracking id
+            # pick first unused tracking id
             tid = next(
-                (
-                    tid
-                    for tid in courier.get("tracking_ids", [])
-                    if tid not in used_tracking_ids
-                ),
+                (tid for tid in courier.get("tracking_ids", []) if tid not in used_tracking_ids),
                 None,
             )
             if not tid:
-                payload = {"error": f"No available tracking_id for courier '{courier_name}'"}
-                out = json.dumps(
-                    payload, indent=2,
+                return json.dumps(
+                    {"error": f"No available tracking_id for courier '{courier_name}'"},
+                    indent=2,
                 )
-                return out
 
             used_tracking_ids.add(tid)
 
-            #generate tracking record
+            # create tracking entry
             tracking_db.append(
                 {
                     "tracking_id": [tid],
                     "order_id": order_id,
                     "courier_name": courier_name,
-                    "status_history": [
-                        {"status": "label_created", "timestamp": _now_iso()}
-                    ],
+                    "status_history": [{"status": "label_created", "timestamp": _now_iso()}],
                 }
             )
 
-            #add fulfillment to the order
+            # append fulfillment to order
             (order.setdefault("fulfillments", [])).append(
                 {
                     "status": "label_created",
@@ -1822,24 +1688,23 @@ class SplitOrderIntoShipmentsTool(Tool):
                 }
             )
 
-            created.append(
-                {"courier_name": courier_name, "tracking_id": tid, "count": len(valid)}
-            )
-        payload = {
+            created.append({"courier_name": courier_name, "tracking_id": tid, "count": len(valid)})
+
+        return json.dumps(
+            {
                 "order_id": order_id,
                 "created_trackings": created,
                 "shipments_count": len(created),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "splitOrderIntoShipments",
+                "name": "split_order_into_shipments",
                 "description": "Create multiple shipments for an order by indices and courier, generating tracking and fulfillment entries.",
                 "parameters": {
                     "type": "object",
@@ -1868,14 +1733,14 @@ class SplitOrderIntoShipmentsTool(Tool):
 
 class MergeOrdersForSameUserTool(Tool):
     """
-    Combine items from a source order into a target order when both are associated with the same user.
+    Merge items from a source order into a target order when both belong to the same user.
 
     Behavior:
-    - Confirms both orders exist and are linked to the same user_id.
-    - Adds all items from the source to the target's 'items'.
-    - Optionally transfers payment_history as well (flag include_payments).
-    - Changes the source order status to "cancelled" after the merge.
-    - Does not merge fulfillments; logistics remain tied to the original order_id.
+    - Validates both orders exist and belong to the same user_id.
+    - Appends all items from source into target's 'items'.
+    - Optionally moves payment_history too (flag include_payments).
+    - Sets source order status to "cancelled" after merge.
+    - Does not merge fulfillments; logistics remain bound to the original order_id.
 
     Input (kwargs):
         target_order_id (str, required)
@@ -1887,55 +1752,51 @@ class MergeOrdersForSameUserTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], target_order_id: str = None, source_order_id: str = None, include_payments: bool = False) -> str:
-        if not target_order_id or not source_order_id or target_order_id == source_order_id:
-            payload = {
-                    "error": "target_order_id and source_order_id must be provided and different"
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        target_id = kwargs.get("target_order_id")
+        source_id = kwargs.get("source_order_id")
+        include_payments = bool(kwargs.get("include_payments", False))
 
-        orders = data.get("orders", {}).values()
-        target = next((o for o in orders.values() if o.get("order_id") == target_order_id), None)
-        source = next((o for o in orders.values() if o.get("order_id") == source_order_id), None)
+        if not target_id or not source_id or target_id == source_id:
+            return json.dumps(
+                {"error": "target_order_id and source_order_id must be provided and different"},
+                indent=2,
+            )
+
+        orders = data.get("orders", [])
+        target = next((o for o in orders if o.get("order_id") == target_id), None)
+        source = next((o for o in orders if o.get("order_id") == source_id), None)
         if not target or not source:
-            payload = {"error": "target or source order not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "target or source order not found"}, indent=2)
 
         if target.get("user_id") != source.get("user_id"):
-            payload = {"error": "orders belong to different users"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "orders belong to different users"}, indent=2)
 
         moved_items = len(source.get("items", []))
         (target.setdefault("items", [])).extend(source.get("items", []))
 
         if include_payments and source.get("payment_history"):
-            (target.setdefault("payment_history", [])).extend(
-                source.get("payment_history", [])
-            )
+            (target.setdefault("payment_history", [])).extend(source.get("payment_history", []))
 
         source["status"] = "cancelled"
-        payload = {
-                "target_order_id": target_order_id,
-                "source_order_id": source_order_id,
+
+        return json.dumps(
+            {
+                "target_order_id": target_id,
+                "source_order_id": source_id,
                 "moved_items": moved_items,
                 "target_items_len": len(target.get("items", [])),
                 "source_status": source.get("status"),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "MergeOrdersForSameUser",
+                "name": "merge_orders_for_same_user",
                 "description": "Merge items (and optionally payments) from a source order into a target order for the same user; cancel the source.",
                 "parameters": {
                     "type": "object",
@@ -1952,12 +1813,12 @@ class MergeOrdersForSameUserTool(Tool):
 
 class ReopenCancelledOrderTool(Tool):
     """
-    Reopen an order that was previously cancelled by changing its status back to 'pending'.
+    Reopen a previously cancelled order by setting status back to 'pending'.
 
     Behavior:
-    - Confirms the order exists and is currently 'cancelled'.
-    - Updates order['status'] to 'pending'.
-    - Does not alter items, payment_history, or fulfillments.
+    - Validates order exists and is currently 'cancelled'.
+    - Sets order['status'] = 'pending'.
+    - Does not modify items, payment_history, or fulfillments.
 
     Input (kwargs):
         order_id (str, required)
@@ -1967,38 +1828,32 @@ class ReopenCancelledOrderTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get("order_id")
         if not order_id:
-            payload = {"error": "order_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "order_id is required"}, indent=2)
 
-        orders = data.get("orders", {}).values()
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
+        orders = data.get("orders", [])
+        order = next((o for o in orders if o.get("order_id") == order_id), None)
         if not order:
-            payload = {"error": f"order_id '{order_id}' not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"order_id '{order_id}' not found"}, indent=2)
 
         if order.get("status") != "cancelled":
-            payload = {
-                    "error": f"order status must be 'cancelled', found '{order.get('status')}'"
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"order status must be 'cancelled', found '{order.get('status')}'"},
+                indent=2,
             )
-            return out
 
         order["status"] = "pending"
-        payload = {"order_id": order_id, "status": "pending"}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"order_id": order_id, "status": "pending"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ReopenCancelledOrder",
+                "name": "reopen_cancelled_order",
                 "description": "Reopen a cancelled order by setting its status back to 'pending'.",
                 "parameters": {
                     "type": "object",
@@ -2013,51 +1868,49 @@ class ReopenCancelledOrderTool(Tool):
 
 class ReplaceItemVariantInOrderTool(Tool):
     """
-    Substitutes an item in an order, recalculates financials, and refreshes tracking,
-    with all modifications taking place in the shared in-memory state.
+    Replaces an item in an order, recalculates financials, and updates tracking,
+    with all changes occurring in the shared in-memory state.
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str, index: int, product_id: str, item_id: str) -> str:
-        orders = data.get("orders", {}).values()
-        products = data.get("products", {}).values()
-        tracking_data = data.get("tracking", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get("order_id")
+        index = kwargs.get("index")
+        product_id = kwargs.get("product_id")
+        item_id = kwargs.get("item_id")
 
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
+        orders = data.get("orders", [])
+        products = data.get("products", [])
+        tracking_data = data.get("tracking", [])
+
+        order = next((o for o in orders if o.get("order_id") == order_id), None)
         if not order:
-            payload = {"error": f"Order '{order_id}' not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"Order '{order_id}' not found"}, indent=2)
 
         new_variant = None
-        for p in products.values():
+        for p in products:
             if p.get("product_id") == product_id:
-                variant_details = p.get("variants", {}).values().get(item_id)
+                variant_details = p.get("variants", {}).get(item_id)
                 if variant_details:
                     new_variant = {
                         "name": p.get("name"),
                         "product_id": product_id,
                         "item_id": item_id,
                         "price": variant_details.get("price"),
-                        "options": variant_details.get("options", {}).values(),
+                        "options": variant_details.get("options", {}),
                     }
                     break
         if not new_variant:
-            payload = {"error": f"Variant '{item_id}' for product '{product_id}' not found"}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"Variant '{item_id}' for product '{product_id}' not found"}, indent=2
             )
-            return out
 
         items = order.get("items", [])
         if not 0 <= index < len(items):
-            payload = {
-                    "error": f"Index {index} is out of bounds for the items in order '{order_id}'"
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"Index {index} is out of bounds for the items in order '{order_id}'"},
+                indent=2,
             )
-            return out
 
         old_item = items[index]
         old_product_id = old_item.get("product_id")
@@ -2072,27 +1925,28 @@ class ReplaceItemVariantInOrderTool(Tool):
 
         _recalculate_financials(order)
 
-        tr = next((t for t in tracking_data.values() if t.get("order_id") == order_id), None)
+        tr = next((t for t in tracking_data if t.get("order_id") == order_id), None)
         if tr and old_item_id and "item_ids" in tr:
             try:
                 id_index = tr["item_ids"].index(old_item_id)
                 tr["item_ids"][id_index] = item_id
             except ValueError:
                 pass
-        payload = {
+
+        return json.dumps(
+            {
                 "status": "success",
                 "message": f"Order {order_id} was successfully modified in memory.",
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ReplaceItemVariantInOrder",
+                "name": "replace_item_variant_in_order",
                 "description": "Replaces an item in an order with a new variant and updates financials and tracking in memory.",
                 "parameters": {
                     "type": "object",
@@ -2110,12 +1964,12 @@ class ReplaceItemVariantInOrderTool(Tool):
 
 class AutoApproveSupplyOrderTool(Tool):
     """
-    Automatically authorize a pending supply order and log an approval event.
+    Automatically approve a pending supply order and register an approval event.
 
     Behavior:
-    - Confirms that the supply order exists and is in 'pending' status.
-    - Changes status to 'approved'.
-    - Adds an event {type: "approved", message: <optional reason>, timestamp: UTC ISO}.
+    - Validates that the supply order exists and is in 'pending' status.
+    - Sets status to 'approved'.
+    - Appends an event {type: "approved", message: <optional reason>, timestamp: UTC ISO}.
 
     Input (kwargs):
         supply_order_id (str, required)
@@ -2126,31 +1980,23 @@ class AutoApproveSupplyOrderTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], supply_order_id: str = None, reason: str = None) -> str:
-        so_id = supply_order_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        so_id = kwargs.get("supply_order_id")
+        reason = kwargs.get("reason")
 
         if not so_id:
-            payload = {"error": "supply_order_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "supply_order_id is required"}, indent=2)
 
-        supply_orders = data.get("supply_orders", {}).values()
-        so = next((s for s in supply_orders.values() if s.get("supply_order_id") == so_id), None)
+        supply_orders = data.get("supply_orders", [])
+        so = next((s for s in supply_orders if s.get("supply_order_id") == so_id), None)
         if not so:
-            payload = {"error": f"supply_order_id '{so_id}' not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"supply_order_id '{so_id}' not found"}, indent=2)
 
         if so.get("status") != "pending":
-            payload = {
-                    "error": f"status must be 'pending' to auto-approve (found '{so.get('status')}')"
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"status must be 'pending' to auto-approve (found '{so.get('status')}')"},
+                indent=2,
             )
-            return out
 
         so["status"] = "approved"
         event = {
@@ -2159,21 +2005,22 @@ class AutoApproveSupplyOrderTool(Tool):
             "timestamp": _now_iso(),
         }
         (so.setdefault("events", [])).append(event)
-        payload = {
+
+        return json.dumps(
+            {
                 "supply_order_id": so_id,
                 "status": "approved",
                 "events_len": len(so.get("events", [])),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AutoApproveSupplyOrder",
+                "name": "auto_approve_supply_order",
                 "description": "Approve a pending supply order and append an 'approved' event to its events array.",
                 "parameters": {
                     "type": "object",
@@ -2189,13 +2036,13 @@ class AutoApproveSupplyOrderTool(Tool):
 
 class DuplicateOrderTool(Tool):
     """
-    Create a duplicate of an existing order as a new one for the same user.
+    Duplicate an existing order into a new one for the same user.
 
     Behavior:
-    - Confirms the source order exists.
-    - Copies user_id, address, items; resets fulfillments to [] and payment_history to [].
-    - Changes status to "pending" and generates a new order_id and timestamp.
-    - Adds the new order to orders.json.
+    - Validates the source order exists.
+    - Clones user_id, address, items; resets fulfillments to [] and payment_history to [].
+    - Sets status to "pending" and generates a new order_id and timestamp.
+    - Appends the new order to orders.json.
 
     Input (kwargs):
         source_order_id (str, required)
@@ -2205,21 +2052,15 @@ class DuplicateOrderTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], source_order_id: str = None) -> str:
-        src_id = source_order_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        src_id = kwargs.get("source_order_id")
         if not src_id:
-            payload = {"error": "source_order_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "source_order_id is required"}, indent=2)
 
-        orders = data.get("orders", {}).values()
-        src = next((o for o in orders.values() if o.get("order_id") == src_id), None)
+        orders = data.get("orders", [])
+        src = next((o for o in orders if o.get("order_id") == src_id), None)
         if not src:
-            payload = {"error": f"source_order_id '{src_id}' not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"source_order_id '{src_id}' not found"}, indent=2)
 
         new_order = {
             "order_id": _gen_order_id(),
@@ -2231,22 +2072,23 @@ class DuplicateOrderTool(Tool):
             "payment_history": [],
             "timestamp": _now_iso(),
         }
-        data["orders"][order_id] = new_order
-        payload = {
+        orders.append(new_order)
+
+        return json.dumps(
+            {
                 "source_order_id": src_id,
                 "new_order_id": new_order["order_id"],
                 "items_count": len(new_order.get("items", [])),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "duplicateOrder",
+                "name": "duplicate_order",
                 "description": "Duplicate an existing order (same user/address/items) with a fresh id, pending status, and no payments/fulfillments.",
                 "parameters": {
                     "type": "object",
@@ -2261,11 +2103,11 @@ class DuplicateOrderTool(Tool):
 
 class RemovePaymentByIndexTool(Tool):
     """
-    Delete a payment/refund entry from an order's payment_history by index.
+    Remove a payment/refund entry from an order's payment_history by index.
 
     Behavior:
-    - Confirms the order exists and the index is within range.
-    - Deletes payment_history[index].
+    - Validates the order exists and index is within range.
+    - Removes payment_history[index].
 
     Input (kwargs):
         order_id (str, required)
@@ -2276,51 +2118,47 @@ class RemovePaymentByIndexTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str = None, index: int = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        order_id = kwargs.get("order_id")
+        index = kwargs.get("index")
+
         if not order_id or index is None:
-            payload = {"error": "order_id and index are required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "order_id and index are required"}, indent=2)
 
         try:
             idx = int(index)
         except Exception:
-            payload = {"error": "index must be an integer"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "index must be an integer"}, indent=2)
 
-        orders = data.get("orders", {}).values()
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
+        orders = data.get("orders", [])
+        order = next((o for o in orders if o.get("order_id") == order_id), None)
         if not order:
-            payload = {"error": f"order_id '{order_id}' not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"order_id '{order_id}' not found"}, indent=2)
 
         history = order.get("payment_history", [])
         if not (0 <= idx < len(history)):
-            payload = {"error": f"index out of range 0..{max(0, len(history)-1)}"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": f"index out of range 0..{max(0, len(history)-1)}"}, indent=2
             )
-            return out
 
         history.pop(idx)
         order["payment_history"] = history
-        payload = {
+
+        return json.dumps(
+            {
                 "order_id": order_id,
                 "removed": True,
                 "payment_history_len": len(history),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RemovePaymentByIndex",
+                "name": "remove_payment_by_index",
                 "description": "Remove a payment/refund entry at a given index from an order's payment_history.",
                 "parameters": {
                     "type": "object",
@@ -2336,83 +2174,71 @@ class RemovePaymentByIndexTool(Tool):
 
 class AppendAlternateTrackingIdTool(Tool):
     """
-    Add an alternate tracking_id to an existing tracking record.
+    Append an alternate tracking_id to an existing tracking record.
 
     Behavior:
-    - Confirms that tracking_id exists in tracking data.
-    - Retrieves courier_name from the record.
-    - Obtains an unused tracking_id from the same courier.
-    - Adds the new tracking_id and records 'alt_tracking_added' in status_history.
+    - Validates tracking_id exists in tracking data.
+    - Reads courier_name from record.
+    - Pulls an unused tracking_id from the same courier.
+    - Appends the new tracking_id and logs 'alt_tracking_added' in status_history.
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], tracking_id: str = None) -> str:
-        original_tid = tracking_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        original_tid = kwargs.get("tracking_id")
         if not original_tid:
-            payload = {"error": "tracking_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "tracking_id is required"}, indent=2)
 
-        tracking = data.get("tracking", {}).values()
-        rec = next(
-            (t for t in tracking.values() if original_tid in (t.get("tracking_id") or [])), None
-        )
+        tracking = data.get("tracking", [])
+        rec = next((t for t in tracking if original_tid in (t.get("tracking_id") or [])), None)
         if not rec:
-            payload = {
-                    "error": f"tracking_id '{original_tid}' not found in tracking records"
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"tracking_id '{original_tid}' not found in tracking records"},
+                indent=2,
             )
-            return out
 
         courier_name = rec.get("courier_name")
         if not courier_name:
-            payload = {"error": "courier_name is missing on the tracking record"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "courier_name is missing on the tracking record"}, indent=2)
 
-        couriers = data.get("couriers", {}).values()
-        courier = next((c for c in couriers.values() if c.get("name") == courier_name), None)
+        couriers = data.get("couriers", [])
+        courier = next((c for c in couriers if c.get("name") == courier_name), None)
         if not courier:
-            payload = {"error": f"courier '{courier_name}' not found in couriers data"}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"courier '{courier_name}' not found in couriers data"},
+                indent=2,
             )
-            return out
 
-        used_ids = {tid for t in tracking.values() for tid in t.get("tracking_id", [])}
+        used_ids = {tid for t in tracking for tid in t.get("tracking_id", [])}
         candidate_ids = courier.get("tracking_ids", [])
         new_tid = next((tid for tid in candidate_ids if tid not in used_ids), None)
 
         if not new_tid:
-            payload = {"error": f"No available tracking_id for courier '{courier_name}'"}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"No available tracking_id for courier '{courier_name}'"},
+                indent=2,
             )
-            return out
 
         rec.setdefault("tracking_id", []).append(new_tid)
         rec.setdefault("status_history", []).append(
             {"status": "alt_tracking_added", "timestamp": _now_iso()}
         )
-        payload = {
+
+        return json.dumps(
+            {
                 "original_tracking_id": original_tid,
                 "added_tracking_id": new_tid,
                 "all_tracking_ids": rec.get("tracking_id", []),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "appendAlternateTrackingId",
+                "name": "append_alternate_tracking_id",
                 "description": (
                     "Append an alternate tracking_id to an existing tracking record. "
                     "Selects an unused ID from the same courier and appends it to the tracking_id list."
@@ -2433,14 +2259,14 @@ class AppendAlternateTrackingIdTool(Tool):
 
 class ReassignTrackingToNewCourierTool(Tool):
     """
-    Reassign an existing tracking record to a different courier, creating a new tracking id.
+    Reassign an existing tracking record to a different courier, generating a fresh tracking id.
 
     Behavior:
-    - Confirms the tracking record exists.
-    - Confirms the new courier exists and provides an unused tracking id.
-    - Updates tracking.courier_name, adds the new id to tracking.tracking_id (maintains history),
-      and records 'reassigned_to_<courier>'.
-    - Adds a fulfillment update to the corresponding order indicating the reassignment and new tracking id.
+    - Validates the tracking record exists.
+    - Validates the new courier exists and provides an unused tracking id.
+    - Updates tracking.courier_name, appends the new id to tracking.tracking_id (keeps history),
+      and logs 'reassigned_to_<courier>'.
+    - Appends a fulfillment update into the corresponding order noting the reassignment and new tracking id.
 
     Input (kwargs):
         tracking_id (str, required)     # any id currently on the record
@@ -2451,48 +2277,32 @@ class ReassignTrackingToNewCourierTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], tracking_id: str = None, new_courier_name: str = None) -> str:
-        if not tracking_id or not new_courier_name:
-            payload = {"error": "tracking_id and new_courier_name are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        tid = kwargs.get("tracking_id")
+        new_courier_name = kwargs.get("new_courier_name")
 
-        tracking_db = _convert_db_to_list(data.get("tracking", {}).values())
-        rec = next(
-            (t for t in tracking_db if tracking_id in (t.get("tracking_id") or [])), None
-        )
+        if not tid or not new_courier_name:
+            return json.dumps({"error": "tracking_id and new_courier_name are required"}, indent=2)
+
+        tracking_db = data.get("tracking", [])
+        rec = next((t for t in tracking_db if tid in (t.get("tracking_id") or [])), None)
         if not rec:
-            payload = {"error": f"tracking_id '{tracking_id}' not found in tracking"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"tracking_id '{tid}' not found in tracking"}, indent=2)
 
         old_courier = rec.get("courier_name")
 
-        couriers = data.get("couriers", {}).values()
-        new_courier = next(
-            (c for c in couriers.values() if c.get("name") == new_courier_name), None
-        )
+        couriers = data.get("couriers", [])
+        new_courier = next((c for c in couriers if c.get("name") == new_courier_name), None)
         if not new_courier:
-            payload = {"error": f"courier '{new_courier_name}' not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"courier '{new_courier_name}' not found"}, indent=2)
 
         used_tids = {tid for t in tracking_db for tid in (t.get("tracking_id") or [])}
-        new_tid = next(
-            (t for t in new_courier.get("tracking_ids", []) if t not in used_tids), None
-        )
+        new_tid = next((t for t in new_courier.get("tracking_ids", []) if t not in used_tids), None)
         if not new_tid:
-            payload = {"error": f"No available tracking_id for courier '{new_courier_name}'"}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"No available tracking_id for courier '{new_courier_name}'"},
+                indent=2,
             )
-            return out
 
         rec["courier_name"] = new_courier_name
         rec.setdefault("tracking_id", []).append(new_tid)
@@ -2502,8 +2312,8 @@ class ReassignTrackingToNewCourierTool(Tool):
 
         order_id = rec.get("order_id")
         if order_id:
-            orders = data.get("orders", {}).values()
-            order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
+            orders = data.get("orders", [])
+            order = next((o for o in orders if o.get("order_id") == order_id), None)
             if order:
                 order.setdefault("fulfillments", []).append(
                     {
@@ -2513,22 +2323,23 @@ class ReassignTrackingToNewCourierTool(Tool):
                         "timestamp": _now_iso(),
                     }
                 )
-        payload = {
+
+        return json.dumps(
+            {
                 "order_id": order_id,
                 "old_courier": old_courier,
                 "new_courier": new_courier_name,
                 "new_tracking_id": new_tid,
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "reassignTrackingToNewCourier",
+                "name": "reassign_tracking_to_new_courier",
                 "description": "Reassign a tracking record to a different courier and append the new tracking id; mirror change to order fulfillments.",
                 "parameters": {
                     "type": "object",
@@ -2544,14 +2355,14 @@ class ReassignTrackingToNewCourierTool(Tool):
 
 class ReceiveSupplyOrderAndCloseTool(Tool):
     """
-    Designate a supply order as 'received' and finalize it with a terminal timestamp.
+    Mark a supply order as 'received' and close it with a terminal timestamp.
 
     Behavior:
-    - Confirms the supply order exists.
-    - Changes status to 'received' and records 'received_at' with UTC ISO (if not already present).
-    - Adds an event {type: "received", message: <optional note>, timestamp: UTC ISO} to events.
-    - Updates inventory of received items.
-    - Changes status to 'closed' and records 'closed_at' with UTC ISO.
+    - Validates the supply order exists.
+    - Sets status to 'received' and stamps 'received_at' with UTC ISO (if not present).
+    - Appends an event {type: "received", message: <optional note>, timestamp: UTC ISO} to events.
+    - Updates stock of received items.
+    - Sets status to 'closed' and stamps 'closed_at' with UTC ISO.
 
     Input (kwargs):
         supply_order_id (str, required)
@@ -2562,31 +2373,26 @@ class ReceiveSupplyOrderAndCloseTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], supply_order_id: str = None, note: str = None) -> str:
-        so_id = supply_order_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        so_id = kwargs.get("supply_order_id")
+        note = kwargs.get("note")
 
         if not so_id:
-            payload = {"error": "supply_order_id is required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "supply_order_id is required"}, indent=2)
 
-        supply_orders = data.get("supply_orders", {}).values()
-        products = data.get("products", {}).values()
+        supply_orders = data.get("supply_orders", [])
+        products = data.get("products", [])
 
-        so = next((s for s in supply_orders.values() if s.get("supply_order_id") == so_id), None)
+        so = next((s for s in supply_orders if s.get("supply_order_id") == so_id), None)
         if not so:
-            payload = {"error": f"supply_order_id '{so_id}' not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"supply_order_id '{so_id}' not found"}, indent=2)
 
-        #1. Change status to 'received' and include received_at timestamp
+        # 1. Update status to 'received' and add received_at timestamp
         so["status"] = "received"
         if not so.get("received_at"):
             so["received_at"] = _now_iso()
 
-        #Add 'received' event
+        # Append 'received' event
         event = {
             "type": "received",
             "message": (note or "supply order received"),
@@ -2594,40 +2400,37 @@ class ReceiveSupplyOrderAndCloseTool(Tool):
         }
         (so.setdefault("events", [])).append(event)
 
-        #2. Adjust product inventory for every item in the supply order
+        # 2. Update product stock for each item in the supply order
         for so_item in so.get("items", []):
             product_id = so_item.get("product_id")
             quantity = so_item.get("quantity", 0)
 
-            product = next(
-                (p for p in products.values() if p.get("product_id") == product_id), None
-            )
+            product = next((p for p in products if p.get("product_id") == product_id), None)
             if product:
                 product["quantity"] = product.get("quantity", 0) + quantity
-                product["reserved_quantity"] = (
-                    product.get("reserved_quantity", 0) + quantity
-                )
+                product["reserved_quantity"] = product.get("reserved_quantity", 0) + quantity
 
-        #3. Change final status to 'closed' and include closed_at timestamp
+        # 3. Set final status to 'closed' and add closed_at timestamp
         so["status"] = "closed"
         so["closed_at"] = _now_iso()
-        payload = {
+
+        return json.dumps(
+            {
                 "supply_order_id": so_id,
                 "status": so["status"],
                 "received_at": so["received_at"],
                 "closed_at": so["closed_at"],
                 "events_len": len(so.get("events", [])),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ReceiveSupplyOrderAndClose",
+                "name": "receive_supply_order_and_close",
                 "description": "Set a supply order to 'received' and 'closed', update product stock, and append events.",
                 "parameters": {
                     "type": "object",
@@ -2643,13 +2446,13 @@ class ReceiveSupplyOrderAndCloseTool(Tool):
 
 class UpdateProductVariantPriceTool(Tool):
     """
-    Modify the price of an existing product variant in products.json.
+    Update the price of an existing product variant in products.json.
 
     Behavior:
-    - Confirms that the specified product_id exists in products.json.
-    - Confirms that the specified item_id exists within product['variants'].
-    - Replaces the 'price' field with the new positive numeric value.
-    - Does NOT create new products or variants; strictly updates the price of an existing variant.
+    - Validates that the provided product_id exists in products.json.
+    - Validates that the provided item_id exists within product['variants'].
+    - Overwrites the 'price' field with the new positive numeric value.
+    - Does NOT create new products or variants; strictly updates an existing variant's price.
 
     Input (kwargs):
         product_id (str, required)
@@ -2661,66 +2464,56 @@ class UpdateProductVariantPriceTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], product_id: str = None, item_id: str = None, new_price: Any = None) -> str:
-        # Basic validation
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        product_id = kwargs.get("product_id")
+        item_id = kwargs.get("item_id")
+        new_price = kwargs.get("new_price")
+
+        # Validação básica
         if not product_id or not item_id or new_price is None:
-            payload = {"error": "product_id, item_id and new_price are required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "product_id, item_id and new_price are required"}, indent=2)
         try:
             price_val = float(new_price)
             if price_val <= 0:
-                payload = {"error": "new_price must be a positive number"}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
+                return json.dumps({"error": "new_price must be a positive number"}, indent=2)
         except Exception:
-            payload = {"error": "new_price must be numeric"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "new_price must be numeric"}, indent=2)
 
-        products = data.get("products", {}).values()
-        product = next((p for p in products.values() if p.get("product_id") == product_id), None)
+        products = data.get("products", [])
+        product = next((p for p in products if p.get("product_id") == product_id), None)
         if not product:
-            payload = {"error": f"product_id '{product_id}' not found in products"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": f"product_id '{product_id}' not found in products"}, indent=2
             )
-            return out
 
         variants = product.get("variants") or {}
         variant = variants.get(item_id)
         if not variant:
-            payload = {
-                    "error": f"item_id '{item_id}' not found under product_id '{product_id}'"
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"item_id '{item_id}' not found under product_id '{product_id}'"},
+                indent=2,
             )
-            return out
 
         old_price = variant.get("price")
         variant["price"] = price_val
-        product["variants"][item_id] = variant  # redundant, but maintains symmetry
-        payload = {
+        product["variants"][item_id] = variant  # redundante, mas mantém simetria
+
+        return json.dumps(
+            {
                 "product_id": product_id,
                 "item_id": item_id,
                 "old_price": old_price,
                 "new_price": price_val,
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateProductVariantPrice",
+                "name": "update_product_variant_price",
                 "description": "Update the 'price' field of an existing product variant in products.json.",
                 "parameters": {
                     "type": "object",

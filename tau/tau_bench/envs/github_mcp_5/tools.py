@@ -1,57 +1,36 @@
-import calendar
 import json
 import os
-import random
 import uuid
-from datetime import datetime, timezone
-from typing import Any
-
-from tau_bench.envs.tool import Tool
+from datetime import datetime, timezone, date, timedelta
+import calendar
+from typing import Any, Dict
+from domains.dto import Tool
+import random
 
 random.seed(42)
 
-DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
-
-
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-
-def get_data(elements_list, element_name):
-    pass
-    return next((c for c in elements_list if c["username"] == element_name), None)
-
+DATA_DIR = os.path.join(os.path.dirname(__file__), "../../data")
 
 def load_json(filename):
-    pass
-    with open(os.path.join(DATA_DIR, filename), encoding="utf-8") as f:
+    with open(os.path.join(DATA_DIR, filename), "r", encoding="utf-8") as f:
         return json.load(f)
-
-
-def get_repo_with_owner(repositories, repo, owner):
-    pass
-    return next(
-        (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
-        None,
-    )
-
 
 def add_months(orig_date: datetime, months: int) -> datetime:
     """Return a new datetime that is `months` after `orig_date`, capping the day to month's length."""
-    pass
     month = orig_date.month - 1 + months
     year = orig_date.year + month // 12
     month = month % 12 + 1
     day = min(orig_date.day, calendar.monthrange(year, month)[1])
     return orig_date.replace(year=year, month=month, day=day)
 
+def get_data(elements_list, element_name):
+    return next((c for c in elements_list if c["username"] == element_name), None)
 
-# 
+def get_repo_with_owner(repositories, repo, owner):
+    return next((r for r in repositories if r['repo_name'] == repo and r['owner'] == owner), None)
+
+
+############################################################################################################
 class AuthenticateUserTool(Tool):
     """
     Tool to verify a customer's identity based on their official ID document.
@@ -68,64 +47,52 @@ class AuthenticateUserTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], username: str = None, email: str = None, auth_key: str = None) -> str:
-        user_name = username
-        user_email = email
-        auth_key = auth_key
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_name = kwargs.get("username")
+        user_email = kwargs.get("email")
+        auth_key = kwargs.get("auth_key")
 
         if not user_name or not user_email:
-            payload = {
+            return json.dumps(
+                {
                     "status": "error",
                     "message": "Missing required parameters: 'user_name' and/or 'user_email'.",
                     "required": ["user_name", "user_email"],
-                }
-            out = json.dumps(
-                payload, indent=2,
+                },
+                indent=2,
             )
-            return out
 
-        users = data.get("authentication", {}).values()
-        user = next((c for c in users.values() if c["username"] == user_name), None)
-        #user = get_data(users, user_name)
+        users = data.get('authentication', [])
+        user = next((c for c in users if c["username"] == user_name), None)
+        # user = get_data(users, user_name)
 
         if not user:
-            payload = {"status": "fail", "verified": False, "reason": "User Name not found"}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"status": "fail", "verified": False, "reason": "User Name not found"},
+                indent=2,
             )
-            return out
-        elif user_email != user["email"]:
-            payload = {
-                    "status": "fail",
-                    "verified": False,
-                    "reason": "Incorrect user email ID",
-                }
-            out = json.dumps(
-                payload, indent=2,
+        elif user_email != user['email']:
+            return json.dumps(
+                {"status": "fail", "verified": False, "reason": "Incorrect user email ID"},
+                indent=2,
             )
-            return out
-        elif auth_key != user["auth_key"]:
-            payload = {
-                    "status": "fail",
-                    "verified": False,
-                    "reason": "Incorrect user authentication key",
-                }
-            out = json.dumps(
-                payload, indent=2,
+        elif auth_key != user['auth_key']:
+            return json.dumps(
+                {"status": "fail", "verified": False, "reason": "Incorrect user authentication key"},
+                indent=2,
             )
-            return out
         else:
-            payload = {"status": "success", "verified": True, "confidence": 0.97}
-            out = json.dumps(
-                payload, indent=2
+            # Simulate document verification logic
+            return json.dumps(
+                {"status": "success", "verified": True, "confidence": 0.97}, indent=2
             )
-            return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "authenticateUser",
+                "name": "authenticate_user",
                 "description": "Authenticate user using user name, email, and auth key.",
                 "parameters": {
                     "type": "object",
@@ -145,7 +112,7 @@ class AuthenticateUserTool(Tool):
         }
 
 
-# 
+############################################################################################################
 class SearchRepositoriesTool(Tool):
     """
     Tool to verify a customer's identity based on their official ID document.
@@ -162,44 +129,40 @@ class SearchRepositoriesTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], query: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        query = kwargs.get("query")
+
         if not query:
-            payload = {
+            return json.dumps(
+                {
                     "status": "error",
                     "message": "Missing required parameters: 'query'.",
                     "required": ["query"],
-                }
-            out = json.dumps(
-                payload, indent=2,
+                },
+                indent=2,
             )
-            return out
 
-        repos = data.get("repositories", {}).values()
-        repo = next((c for c in repos.values() if c["repo_name"] == query), None)
-        #repo = get_data(repos, query)
+        repos = data.get('repositories', [])
+        repo = next((c for c in repos if c["repo_name"] == query), None)
+        # repo = get_data(repos, query)
 
         if not repo:
-            payload = {
-                    "status": "success",
-                    "exists": False,
-                    "message": "Target repo not found",
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"status": "success", "exists": False, "message": "Target repo not found"},
+                indent=2,
             )
-            return out
         else:
-            payload = {"status": "success", "exists": True, "message": "Target repo found"}
-            out = json.dumps(
-                payload, indent=2,
+            # Simulate document verification logic
+            return json.dumps(
+                {"status": "success", "exists": True, "message": "Target repo found"}, indent=2
             )
-            return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "searchRepositories",
+                "name": "search_repositories",
                 "description": "Search if the target repository already exists in the database.",
                 "parameters": {
                     "type": "object",
@@ -215,63 +178,53 @@ class SearchRepositoriesTool(Tool):
         }
 
 
-# 
+############################################################################################################
 class UpdateRepositoryNameTool(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], target_name: str = None, repo_already_exists: bool = False) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        target_name = kwargs.get("target_name")
+        repo_already_exists = kwargs.get("repo_already_exists")
+
         if not target_name:
-            payload = {
+            return json.dumps(
+                {
                     "status": "error",
                     "message": "Missing required parameters: 'target_name'.",
                     "required": ["target_name"],
-                }
-            out = json.dumps(
-                payload, indent=2,
+                },
+                indent=2,
             )
-            return out
 
         if repo_already_exists:
             new_target_name = target_name + "_v2"
-            repos = data.get("repositories", {}).values()
-            repo = next((c for c in repos.values() if c["repo_name"] == new_target_name), None)
-            #repo = get_data(repos, new_target_name)
+            repos = data.get('repositories', [])
+            repo = next((c for c in repos if c["repo_name"] == new_target_name), None)
+            # repo = get_data(repos, new_target_name)
 
             if not repo:
-                payload = {
-                        "status": "success",
-                        "target_name": new_target_name,
-                        "message": "Target repo name updated",
-                    }
-                out = json.dumps(
-                    payload, indent=2,
+                return json.dumps(
+                    {"status": "success", "target_name": new_target_name, "message": "Target repo name updated"},
+                    indent=2,
                 )
-                return out
             else:
-                payload = {
-                        "status": "error",
-                        "message": f"New Target repo name {new_target_name} already exists in the database.",
-                    }
-                out = json.dumps(
-                    payload, indent=2,
+                # Simulate document verification logic
+                return json.dumps(
+                    {"status": "error", "message": f"New Target repo name {new_target_name} already exists in the database."}, indent=2
                 )
-                return out
         else:
-            payload = {
-                    "status": "success",
-                    "target_name": target_name,
-                    "message": "Target repo name unchanged",
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"status": "success", "target_name": target_name, "message": "Target repo name unchanged"},
+                indent=2,
             )
-            return out
+
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
 
         return {
             "type": "function",
             "function": {
-                "name": "updateRepositoryName",
+                "name": "update_repository_name",
                 "description": "Updates the name of the target repository.",
                 "parameters": {
                     "type": "object",
@@ -291,484 +244,351 @@ class UpdateRepositoryNameTool(Tool):
         }
 
 
-# 
+############################################################################################################
 class CreateRepositoryTool(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], target_name: str = None, description: str = None, private_flag: bool = None, auto_init_flag: bool = None) -> str:
-        repos = data.get("repositories", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        target_name = kwargs.get('target_name')
+        description = kwargs.get('description')
+        private_flag = kwargs.get('private_flag')
+        auto_init_flag = kwargs.get('auto_init')
+
+        repos = data.get('repositories', [])
 
         new_repo = {
-            "owner": "maya-w",
+            "owner": "alice-w",
             "repo_name": target_name,
             "description_nullable": description,
             "private_flag": private_flag,
             "auto_init_flag": auto_init_flag,
             "default_branch": "main",
             "file_paths": [],
-            "file_contents": [],
+            "file_contents": []
         }
 
-        data["repositories"][new_repo["repositorie_id"]] = new_repo
-        payload = {"repo_name": target_name, "status": "Created"}
-        out = json.dumps(payload, indent=2)
-        return out
+        repos.append(new_repo)
+
+        return json.dumps({
+            "repo_name": target_name,
+            "status": "Created"
+        }, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateRepository",
+                "name": "create_repository",
                 "description": "Create a new repository in the database",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "target_name": {
-                            "type": "string",
-                            "description": "Created repository name",
-                        },
-                        "description": {
-                            "type": "string",
-                            "description": "Detailed issue description",
-                        },
-                        "private_flag": {
-                            "type": "boolean",
-                            "description": "Is it private repository",
-                        },
-                        "auto_init": {
-                            "type": "boolean",
-                            "description": "Should the repository be auto-initialized with a README?",
-                        },
+                        "target_name": {"type": "string", "description": "Created repository name"},
+                        "description": {"type": "string", "description": "Detailed issue description"},
+                        "private_flag": {"type": "boolean", "description": "Is it private repository"},
+                        "auto_init": {"type": "boolean", "description": "Should the repository be auto-initialized with a README?"}
                     },
-                    "required": [
-                        "target_name",
-                        "description",
-                        "private_flag",
-                        "auto_init",
-                    ],
-                },
-            },
+                    "required": ["target_name", "description", "private_flag", "auto_init"]
+                }
+            }
         }
 
 
-# 
+############################################################################################################
 class CreateOrUpdateFileTool(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        owner: str = None,
-        repo: str = None,
-        path: str = None,
-        content: str = None,
-        message: str = None,
-        branch: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner = kwargs.get('owner')
+        repo = kwargs.get('repo')
+        path = kwargs.get('path')
+        content = kwargs.get('content')
+        message = kwargs.get('message')
+        branch = kwargs.get('branch')
+
+
         if not all([owner, repo, path, content, message, branch]):
-            payload = {
+            return json.dumps({
                 "status": "error",
                 "message": "Missing required parameters for create_or_update_file.",
-                "required": [
-                    "owner",
-                    "repo",
-                    "path",
-                    "content",
-                    "message",
-                    "branch",
-                ],
-            }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+                "required": ["owner", "repo", "path", "content", "message", "branch"]
+            }, indent=2)
 
-        repositories = data.get("repositories", {}).values()
-        repository = next(
-            (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
-            None,
-        )
-        #repository = get_repo_with_owner(repositories, repo, owner)
+        repositories = data.get('repositories', [])
+        repository = next((r for r in repositories if r['repo_name'] == repo and r['owner'] == owner), None)
+        # repository = get_repo_with_owner(repositories, repo, owner)
 
         if not repository:
-            payload = {
+            return json.dumps({
                 "status": "error",
                 "message": f"Repository '{repo}' not found for owner '{owner}'.",
-            }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            }, indent=2)
 
-        #Check if file already exists
+
+        # Check if file already exists
         file_index = None
         try:
-            file_index = repository.get("file_paths", []).index(path)
+            file_index = repository.get('file_paths', []).index(path)
         except ValueError:
             print(f"File {path} does not exist. Creating new file!")
 
-        if file_index is None:
-            repository.setdefault("file_paths", []).append(path)
-            repository.setdefault("file_contents", []).append(content)
-        else:
-            repository["file_contents"][file_index] = content
 
-        #Simulate adding a commit
-        repository.setdefault("commits", []).append(
-            {
-                "commit_shas": [str(uuid.uuid4())[:6]],  #Short SHA
-                "commit_messages": [message],
-                "commit_authors": [[owner]],
-                "commit_timestamps": [[datetime.now(timezone.utc).isoformat()]],
-                "branch_names": [branch],
-            }
-        )
-        payload = {
+        if file_index is None:
+            repository.setdefault('file_paths', []).append(path)
+            repository.setdefault('file_contents', {}).append(content)
+        else:
+            repository['file_contents'][file_index] = content
+
+        # Simulate adding a commit
+        repository.setdefault('commits', []).append({
+            "commit_shas": [str(uuid.uuid4())[:6]],  # Short SHA
+            "commit_messages": [message],
+            "commit_authors": [[owner]],
+            "commit_timestamps": [[datetime.now(timezone.utc).isoformat()]],
+            "branch_names": [branch]
+        })
+
+        return json.dumps({
             "status": "success",
             "message": f"File '{path}' created/updated successfully in repository '{repo}'.",
-            "commit_sha": repository["commits"][-1]["commit_shas"][0],
-        }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+            "commit_sha": repository['commits'][-1]['commit_shas'][0]
+        }, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createOrUpdateFile",
+                "name": "create_or_update_file",
                 "description": "Creates or updates a file in a repository.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "owner": {
-                            "type": "string",
-                            "description": "The owner of the repository.",
-                        },
-                        "repo": {
-                            "type": "string",
-                            "description": "The name of the repository.",
-                        },
-                        "path": {
-                            "type": "string",
-                            "description": "The path of the file to create/update.",
-                        },
-                        "content": {
-                            "type": "string",
-                            "description": "The content of the file.",
-                        },
-                        "message": {
-                            "type": "string",
-                            "description": "The commit message for the change.",
-                        },
-                        "branch": {
-                            "type": "string",
-                            "description": "The branch to commit to.",
-                        },
+                        "owner": {"type": "string", "description": "The owner of the repository."},
+                        "repo": {"type": "string", "description": "The name of the repository."},
+                        "path": {"type": "string", "description": "The path of the file to create/update."},
+                        "content": {"type": "string", "description": "The content of the file."},
+                        "message": {"type": "string", "description": "The commit message for the change."},
+                        "branch": {"type": "string", "description": "The branch to commit to."}
                     },
-                    "required": [
-                        "owner",
-                        "repo",
-                        "path",
-                        "content",
-                        "message",
-                        "branch",
-                    ],
+                    "required": ["owner", "repo", "path", "content", "message", "branch"],
                 },
             },
         }
 
-
-# 
+############################################################################################################
 class GetFileContentsTool(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], owner: str = None, repo: str = None, path: str = None, ref: str = "main") -> str:
-        if not all([owner, repo, path]):
-            payload = {
-                    "status": "error",
-                    "message": "Missing required parameters for get_file_contents.",
-                    "required": ["owner", "repo", "path"],
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner = kwargs.get('owner')
+        repo = kwargs.get('repo')
+        path = kwargs.get('path')
+        ref = kwargs.get('ref', 'main') # Default to main branch
 
-        repositories = data.get("repositories", {}).values()
-        repository = next(
-            (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
-            None,
-        )
+        if not all([owner, repo, path]):
+            return json.dumps({
+                "status": "error",
+                "message": "Missing required parameters for get_file_contents.",
+                "required": ["owner", "repo", "path"]
+            }, indent=2)
+
+        repositories = data.get('repositories', [])
+        repository = next((r for r in repositories if r['repo_name'] == repo and r['owner'] == owner), None)
 
         if not repository:
-            payload = {
-                    "status": "error",
-                    "message": f"Repository '{repo}' not found for owner '{owner}'.",
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({
+                "status": "error",
+                "message": f"Repository '{repo}' not found for owner '{owner}'.",
+            }, indent=2)
 
-        if path in repository.get("file_contents", {}).values():
-            payload = {
-                    "status": "success",
-                    "content": repository["file_contents"][path],
-                    "path": path,
-                    "commit_sha": (
-                        repository.get("commits", [{}])[-1].get("commit_shas", [""])[0]
-                        if repository.get("commits")
-                        else ""
-                    ),
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+        if path in repository.get('file_contents', {}):
+            return json.dumps({
+                "status": "success",
+                "content": repository['file_contents'][path],
+                "path": path,
+                "commit_sha": repository.get('commits', [{}])[-1].get('commit_shas', [''])[0] if repository.get('commits') else ''
+            }, indent=2)
         else:
-            payload = {
-                    "status": "error",
-                    "message": f"File '{path}' not found in repository '{repo}'.",
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({
+                "status": "error",
+                "message": f"File '{path}' not found in repository '{repo}'.",
+            }, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getFileContents",
+                "name": "get_file_contents",
                 "description": "Gets the content of a file in a repository.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "owner": {
-                            "type": "string",
-                            "description": "The owner of the repository.",
-                        },
-                        "repo": {
-                            "type": "string",
-                            "description": "The name of the repository.",
-                        },
-                        "path": {
-                            "type": "string",
-                            "description": "The path of the file.",
-                        },
-                        "ref": {
-                            "type": "string",
-                            "description": "The branch or commit SHA to get the file from.",
-                        },
+                        "owner": {"type": "string", "description": "The owner of the repository."},
+                        "repo": {"type": "string", "description": "The name of the repository."},
+                        "path": {"type": "string", "description": "The path of the file."},
+                        "ref": {"type": "string", "description": "The branch or commit SHA to get the file from."}
                     },
                     "required": ["owner", "repo", "path"],
                 },
             },
         }
 
-
-# 
+############################################################################################################
 class ListCommitsTool(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], owner: str = None, repo: str = None, path: str = None) -> str:
-        # This parameter seems unused in the provided data structure for commits, but kept for consistency if needed later.
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner = kwargs.get('owner')
+        repo = kwargs.get('repo')
+        path = kwargs.get('path') # This parameter seems unused in the provided data structure for commits, but kept for consistency if needed later.
 
         if not all([owner, repo]):
-            payload = {
-                    "status": "error",
-                    "message": "Missing required parameters for list_commits.",
-                    "required": ["owner", "repo"],
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({
+                "status": "error",
+                "message": "Missing required parameters for list_commits.",
+                "required": ["owner", "repo"]
+            }, indent=2)
 
-        repositories = data.get("repositories", {}).values()
-        repository = next(
-            (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
-            None,
-        )
+        repositories = data.get('repositories', [])
+        repository = next((r for r in repositories if r['repo_name'] == repo and r['owner'] == owner), None)
 
         if not repository:
-            payload = {
-                    "status": "error",
-                    "message": f"Repository '{repo}' not found for owner '{owner}'.",
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({
+                "status": "error",
+                "message": f"Repository '{repo}' not found for owner '{owner}'.",
+            }, indent=2)
 
-        commits_data = repository.get("commits", [])
-        payload = {"status": "success", "commits": commits_data}
-        out = json.dumps(payload, indent=2)
-        return out
+        commits_data = repository.get('commits', [])
+        # In a real scenario, you might filter commits by branch, path, etc.
+        # For this simulation, we return all commits associated with the repository.
+        return json.dumps({
+            "status": "success",
+            "commits": commits_data
+        }, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "listCommits",
+                "name": "list_commits",
                 "description": "Lists the commits in a repository.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "owner": {
-                            "type": "string",
-                            "description": "The owner of the repository.",
-                        },
-                        "repo": {
-                            "type": "string",
-                            "description": "The name of the repository.",
-                        },
-                        "path": {
-                            "type": "string",
-                            "description": "The path to filter commits by (optional).",
-                        },
+                        "owner": {"type": "string", "description": "The owner of the repository."},
+                        "repo": {"type": "string", "description": "The name of the repository."},
+                        "path": {"type": "string", "description": "The path to filter commits by (optional)."}
                     },
                     "required": ["owner", "repo"],
                 },
             },
         }
 
-
-# 
+############################################################################################################
 class SearchCodeTool(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], owner: str = None, repo: str = None, query: str = None) -> str:
-        if not all([owner, repo, query]):
-            payload = {
-                    "status": "error",
-                    "message": "Missing required parameters for search_code.",
-                    "required": ["owner", "repo", "query"],
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner = kwargs.get('owner')
+        repo = kwargs.get('repo')
+        query = kwargs.get('query')
 
-        repositories = data.get("repositories", {}).values()
-        repository = next(
-            (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
-            None,
-        )
+        if not all([owner, repo, query]):
+            return json.dumps({
+                "status": "error",
+                "message": "Missing required parameters for search_code.",
+                "required": ["owner", "repo", "query"]
+            }, indent=2)
+
+        repositories = data.get('repositories', [])
+        repository = next((r for r in repositories if r['repo_name'] == repo and r['owner'] == owner), None)
 
         if not repository:
-            payload = {
-                    "status": "error",
-                    "message": f"Repository '{repo}' not found for owner '{owner}'.",
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({
+                "status": "error",
+                "message": f"Repository '{repo}' not found for owner '{owner}'.",
+            }, indent=2)
 
         # Search code based on file contents
         found_occurrences = []
-        for file_path, file_content in zip(
-            repository.get("file_paths", {}).values(), repository.get("file_contents", {}).values()
-        ):
+        for file_path, file_content in zip(repository.get('file_paths', {}), repository.get('file_contents', {})):
             if query in file_content:
                 # Code snippet contains the keyword
-                found_occurrences.append(
-                    {
-                        "path": file_path,
-                        "line": file_content.count(
-                            query
-                        ),  # A simplistic way to indicate presence
-                        "match": query,
-                    }
-                )
-        payload = {"status": "success", "query": query, "occurrences": found_occurrences}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+                found_occurrences.append({
+                    "path": file_path,
+                    "line": file_content.count(query), # A simplistic way to indicate presence
+                    "match": query
+                })
+
+        return json.dumps({
+            "status": "success",
+            "query": query,
+            "occurrences": found_occurrences
+        }, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "searchCode",
+                "name": "search_code",
                 "description": "Searches for code patterns within the files of a repository.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "owner": {
-                            "type": "string",
-                            "description": "The owner of the repository.",
-                        },
-                        "repo": {
-                            "type": "string",
-                            "description": "The name of the repository.",
-                        },
-                        "query": {
-                            "type": "string",
-                            "description": "The code pattern to search for.",
-                        },
+                        "owner": {"type": "string", "description": "The owner of the repository."},
+                        "repo": {"type": "string", "description": "The name of the repository."},
+                        "query": {"type": "string", "description": "The code pattern to search for."}
                     },
                     "required": ["owner", "repo", "query"],
                 },
             },
         }
 
-
-# 
+############################################################################################################
 class ListCodeScanningAlertsTool(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], owner: str = None, repo: str = None) -> str:
-        if not all([owner, repo]):
-            payload = {
-                    "status": "error",
-                    "message": "Missing required parameters for list_code_scanning_alerts.",
-                    "required": ["owner", "repo"],
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner = kwargs.get('owner')
+        repo = kwargs.get('repo')
 
-        repositories = data.get("repositories", {}).values()
-        repository = next(
-            (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
-            None,
-        )
+        if not all([owner, repo]):
+            return json.dumps({
+                "status": "error",
+                "message": "Missing required parameters for list_code_scanning_alerts.",
+                "required": ["owner", "repo"]
+            }, indent=2)
+
+        repositories = data.get('repositories', [])
+        repository = next((r for r in repositories if r['repo_name'] == repo and r['owner'] == owner), None)
 
         if not repository:
-            payload = {
-                    "status": "error",
-                    "message": f"Repository '{repo}' not found for owner '{owner}'.",
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({
+                "status": "error",
+                "message": f"Repository '{repo}' not found for owner '{owner}'.",
+            }, indent=2)
 
-        alerts = data.get("code_scanning_alerts", {}).values()
-        repo_alerts = [
-            alert
-            for alert in alerts.values() if alert["owner"] == owner and alert["repo_name"] == repo
-        ]
-        payload = {"status": "success", "alerts": repo_alerts}
-        out = json.dumps(payload, indent=2)
-        return out
+        alerts = data.get('code_scanning_alerts', [])
+        repo_alerts = [alert for alert in alerts if alert['owner'] == owner and alert['repo_name'] == repo]
+
+        return json.dumps({
+            "status": "success",
+            "alerts": repo_alerts
+        }, indent=2)
+
+
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "listCodeScanningAlerts",
+                "name": "list_code_scanning_alerts",
                 "description": "Lists code scanning alerts for a repository.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "owner": {
-                            "type": "string",
-                            "description": "The owner of the repository.",
-                        },
-                        "repo": {
-                            "type": "string",
-                            "description": "The name of the repository.",
-                        },
+                        "owner": {"type": "string", "description": "The owner of the repository."},
+                        "repo": {"type": "string", "description": "The name of the repository."}
                     },
                     "required": ["owner", "repo"],
                 },
@@ -776,528 +596,387 @@ class ListCodeScanningAlertsTool(Tool):
         }
 
 
-#--- New tools for Task 2 ---
-# 
+
+
+# --- New tools for Task 2 ---
+############################################################################################################
 class CreateBranchTool(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], owner: str = None, repo: str = None, branch_name: str = None, sha: str = None) -> str:
-        if not all([owner, repo, branch_name, sha]):
-            payload = {
-                    "status": "error",
-                    "message": "Missing required parameters for create_branch.",
-                    "required": ["owner", "repo", "branch_name", "sha"],
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner = kwargs.get('owner')
+        repo = kwargs.get('repo')
+        new_branch_name = kwargs.get('branch_name')
+        sha = kwargs.get('sha')
 
-        repositories = data.get("repositories", {}).values()
-        repository = next(
-            (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
-            None,
-        )
+        if not all([owner, repo, new_branch_name, sha]):
+            return json.dumps({
+                "status": "error",
+                "message": "Missing required parameters for create_branch.",
+                "required": ["owner", "repo", "branch_name", "sha"]
+            }, indent=2)
+
+        repositories = data.get('repositories', [])
+        repository = next((r for r in repositories if r['repo_name'] == repo and r['owner'] == owner), None)
 
         if not repository:
-            payload = {
-                    "status": "error",
-                    "message": f"Repository '{repo}' not found for owner '{owner}'.",
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({
+                "status": "error",
+                "message": f"Repository '{repo}' not found for owner '{owner}'.",
+            }, indent=2)
 
         # Simulate creating a branch
-        repository.setdefault("branches", []).append(
-            {"name": branch_name, "commit_sha": sha}
-        )
-        repository.setdefault("branch_files", []).append(
-            []
-        )  # Add empty file list for new branch
-        repository.setdefault("branch_contents", []).append(
-            []
-        )  # Add empty contents list
-        payload = {
-                "status": "success",
-                "message": f"Branch '{branch_name}' created successfully.",
-                "ref": f"refs/heads/{branch_name}",
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        repository.setdefault('branches', []).append({
+            "name": new_branch_name,
+            "commit_sha": sha
+        })
+        repository.setdefault('branch_files', []).append([]) # Add empty file list for new branch
+        repository.setdefault('branch_contents', []).append([]) # Add empty contents list
+
+        return json.dumps({
+            "status": "success",
+            "message": f"Branch '{new_branch_name}' created successfully.",
+            "ref": f"refs/heads/{new_branch_name}"
+        }, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createBranch",
+                "name": "create_branch",
                 "description": "Creates a new branch in a repository.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "owner": {
-                            "type": "string",
-                            "description": "The owner of the repository.",
-                        },
-                        "repo": {
-                            "type": "string",
-                            "description": "The name of the repository.",
-                        },
-                        "branch_name": {
-                            "type": "string",
-                            "description": "The name of the new branch.",
-                        },
-                        "sha": {
-                            "type": "string",
-                            "description": "The SHA of the commit to branch from.",
-                        },
+                        "owner": {"type": "string", "description": "The owner of the repository."},
+                        "repo": {"type": "string", "description": "The name of the repository."},
+                        "branch_name": {"type": "string", "description": "The name of the new branch."},
+                        "sha": {"type": "string", "description": "The SHA of the commit to branch from."}
                     },
                     "required": ["owner", "repo", "branch_name", "sha"],
                 },
             },
         }
 
-
-# 
+############################################################################################################
 class CreatePullRequestTool(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        owner: str = None,
-        repo: str = None,
-        title: str = None,
-        body: str = None,
-        head: str = None,
-        base: str = "main"
-    ) -> str:
-        if not all([owner, repo, title, body, head, base]):
-            payload = {
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner = kwargs.get('owner')
+        repo = kwargs.get('repo')
+        title = kwargs.get('title')
+        body = kwargs.get('body')
+        head_branch = kwargs.get('head')
+        base_branch = kwargs.get('base', 'main') # Default base branch to 'main'
+
+        if not all([owner, repo, title, body, head_branch, base_branch]):
+            return json.dumps({
                 "status": "error",
                 "message": "Missing required parameters for create_pull_request.",
-                "required": ["owner", "repo", "title", "body", "head", "base"],
-            }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+                "required": ["owner", "repo", "title", "body", "head", "base"]
+            }, indent=2)
 
-        repositories = data.get("repositories", {}).values()
-        repository = next(
-            (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
-            None,
-        )
+        repositories = data.get('repositories', [])
+        repository = next((r for r in repositories if r['repo_name'] == repo and r['owner'] == owner), None)
 
         if not repository:
-            payload = {
+            return json.dumps({
                 "status": "error",
                 "message": f"Repository '{repo}' not found for owner '{owner}'.",
-            }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            }, indent=2)
 
         # Simulate creating a pull request
-        pr_number = len(repository.get("pull_requests", [])) + 1
-        repository.setdefault("pull_requests", []).append(
-            {
-                "pr_number": pr_number,
-                "owner": owner,
-                "repo_name": repo,
-                "pr_titles": [title],
-                "pr_bodies": [body],
-                "pr_states": ["open"],
-                "head_branches": [head],
-                "base_branches": [base],
-                "head_shas": [""],  # Placeholder for SHA
-                "mergeable_flags": [True],
-                "merged_flags": [False],
-                "pr_files": [],  # This will be populated by get_pull_request_files later
-                "pr_comments": [],
-                "pr_comment_users": [],
-                "reviewers": [],
-                "review_states": [],
-                "review_events": [],
-                "created_ts": [datetime.now(timezone.utc).isoformat()],
-                "updated_ts": [datetime.now(timezone.utc).isoformat()],
-            }
-        )
-        payload = {
+        pr_number = len(repository.get('pull_requests', [])) + 1
+        repository.setdefault('pull_requests', []).append({
+            "pr_number": pr_number,
+            "owner": owner,
+            "repo_name": repo,
+            "pr_titles": [title],
+            "pr_bodies": [body],
+            "pr_states": ["open"],
+            "head_branches": [head_branch],
+            "base_branches": [base_branch],
+            "head_shas": [""], # Placeholder for SHA
+            "mergeable_flags": [True],
+            "merged_flags": [False],
+            "pr_files": [], # This will be populated by get_pull_request_files later
+            "pr_comments": [],
+            "pr_comment_users": [],
+            "reviewers": [],
+            "review_states": [],
+            "review_events": [],
+            "created_ts": [datetime.now(timezone.utc).isoformat()],
+            "updated_ts": [datetime.now(timezone.utc).isoformat()]
+        })
+
+        return json.dumps({
             "status": "success",
             "message": f"Pull request #{pr_number} created successfully.",
-            "pr_number": pr_number,
-        }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+            "pr_number": pr_number
+        }, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createPullRequest",
+                "name": "create_pull_request",
                 "description": "Creates a pull request from a head branch to a base branch.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "owner": {
-                            "type": "string",
-                            "description": "The owner of the repository.",
-                        },
-                        "repo": {
-                            "type": "string",
-                            "description": "The name of the repository.",
-                        },
-                        "title": {
-                            "type": "string",
-                            "description": "The title of the pull request.",
-                        },
-                        "body": {
-                            "type": "string",
-                            "description": "The body/description of the pull request.",
-                        },
-                        "head": {
-                            "type": "string",
-                            "description": "The name of the branch where your changes are implemented.",
-                        },
-                        "base": {
-                            "type": "string",
-                            "description": "The name of the branch you want your changes pulled into.",
-                        },
+                        "owner": {"type": "string", "description": "The owner of the repository."},
+                        "repo": {"type": "string", "description": "The name of the repository."},
+                        "title": {"type": "string", "description": "The title of the pull request."},
+                        "body": {"type": "string", "description": "The body/description of the pull request."},
+                        "head": {"type": "string", "description": "The name of the branch where your changes are implemented."},
+                        "base": {"type": "string", "description": "The name of the branch you want your changes pulled into."}
                     },
                     "required": ["owner", "repo", "title", "body", "head", "base"],
                 },
             },
         }
 
-
-# 
+############################################################################################################
 class GetPullRequestTool(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], owner: str = None, repo: str = None, pr_number: int = None) -> str:
-        if not all([owner, repo, pr_number]):
-            payload = {
-                    "status": "error",
-                    "message": "Missing required parameters for get_pull_request.",
-                    "required": ["owner", "repo", "pr_number"],
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner = kwargs.get('owner')
+        repo = kwargs.get('repo')
+        pr_number = kwargs.get('pr_number')
 
-        repositories = data.get("repositories", {}).values()
-        repository = next(
-            (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
-            None,
-        )
+        if not all([owner, repo, pr_number]):
+            return json.dumps({
+                "status": "error",
+                "message": "Missing required parameters for get_pull_request.",
+                "required": ["owner", "repo", "pr_number"]
+            }, indent=2)
+
+        repositories = data.get('repositories', [])
+        repository = next((r for r in repositories if r['repo_name'] == repo and r['owner'] == owner), None)
 
         if not repository:
-            payload = {
-                    "status": "error",
-                    "message": f"Repository '{repo}' not found for owner '{owner}'.",
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({
+                "status": "error",
+                "message": f"Repository '{repo}' not found for owner '{owner}'.",
+            }, indent=2)
 
-        pull_requests = repository.get("pull_requests", [])
-        pull_request = next(
-            (pr for pr in pull_requests if pr["pr_number"] == pr_number), None
-        )
+        pull_requests = repository.get('pull_requests', [])
+        pull_request = next((pr for pr in pull_requests if pr['pr_number'] == pr_number), None)
 
         if not pull_request:
-            payload = {
-                    "status": "error",
-                    "message": f"Pull request #{pr_number} not found in repository '{repo}'.",
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
-        payload = {"status": "success", "pull_request": pull_request}
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({
+                "status": "error",
+                "message": f"Pull request #{pr_number} not found in repository '{repo}'.",
+            }, indent=2)
+
+        return json.dumps({
+            "status": "success",
+            "pull_request": pull_request
+        }, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getPullRequest",
+                "name": "get_pull_request",
                 "description": "Retrieves a specific pull request.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "owner": {
-                            "type": "string",
-                            "description": "The owner of the repository.",
-                        },
-                        "repo": {
-                            "type": "string",
-                            "description": "The name of the repository.",
-                        },
-                        "pr_number": {
-                            "type": "integer",
-                            "description": "The number of the pull request.",
-                        },
+                        "owner": {"type": "string", "description": "The owner of the repository."},
+                        "repo": {"type": "string", "description": "The name of the repository."},
+                        "pr_number": {"type": "integer", "description": "The number of the pull request."}
                     },
                     "required": ["owner", "repo", "pr_number"],
                 },
             },
         }
 
-
-# 
+############################################################################################################
 class GetPullRequestFilesTool(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], owner: str = None, repo: str = None, pr_number: int = None) -> str:
-        if not all([owner, repo, pr_number]):
-            payload = {
-                    "status": "error",
-                    "message": "Missing required parameters for get_pull_request_files.",
-                    "required": ["owner", "repo", "pr_number"],
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner = kwargs.get('owner')
+        repo = kwargs.get('repo')
+        pr_number = kwargs.get('pr_number')
 
-        repositories = data.get("repositories", {}).values()
-        repository = next(
-            (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
-            None,
-        )
+        if not all([owner, repo, pr_number]):
+            return json.dumps({
+                "status": "error",
+                "message": "Missing required parameters for get_pull_request_files.",
+                "required": ["owner", "repo", "pr_number"]
+            }, indent=2)
+
+        repositories = data.get('repositories', [])
+        repository = next((r for r in repositories if r['repo_name'] == repo and r['owner'] == owner), None)
 
         if not repository:
-            payload = {
-                    "status": "error",
-                    "message": f"Repository '{repo}' not found for owner '{owner}'.",
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({
+                "status": "error",
+                "message": f"Repository '{repo}' not found for owner '{owner}'.",
+            }, indent=2)
 
-        pull_requests = repository.get("pull_requests", [])
-        pull_request = next(
-            (pr for pr in pull_requests if pr["pr_number"] == pr_number), None
-        )
+        pull_requests = repository.get('pull_requests', [])
+        pull_request = next((pr for pr in pull_requests if pr['pr_number'] == pr_number), None)
 
         if not pull_request:
-            payload = {
-                    "status": "error",
-                    "message": f"Pull request #{pr_number} not found in repository '{repo}'.",
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({
+                "status": "error",
+                "message": f"Pull request #{pr_number} not found in repository '{repo}'.",
+            }, indent=2)
 
         # In a real scenario, you would fetch the files associated with the PR's commits.
         # For simulation, we'll return the file_paths from the repository's current state
         # that were likely involved in the PR's HEAD branch.
-        head_branch = pull_request.get("head_branches", [""])[0]
+        head_branch = pull_request.get('head_branches', [''])[0]
         if head_branch:
-            branch_index = next(
-                (
-                    i
-                    for i, branch in enumerate(repository.get("branches", []))
-                    if branch["name"] == head_branch
-                ),
-                -1,
-            )
+            branch_index = next((i for i, branch in enumerate(repository.get('branches', [])) if branch['name'] == head_branch), -1)
             if branch_index != -1:
-                pr_files = repository.get("branch_files", [[]])[branch_index]
+                pr_files = repository.get('branch_files', [[]])[branch_index]
             else:
-                pr_files = []  # Default if branch not found
+                pr_files = [] # Default if branch not found
         else:
-            pr_files = []  # Default if no head branch specified
+            pr_files = [] # Default if no head branch specified
 
         # Update the PR object with the simulated files
-        pull_request["pr_files"] = [{"filename": f} for f in pr_files]
-        payload = {"status": "success", "files": [{"filename": f} for f in pr_files]}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        pull_request['pr_files'] = [{"filename": f} for f in pr_files]
+
+        return json.dumps({
+            "status": "success",
+            "files": [{"filename": f} for f in pr_files]
+        }, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getPullRequestFiles",
+                "name": "get_pull_request_files",
                 "description": "Retrieves the list of files changed in a pull request.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "owner": {
-                            "type": "string",
-                            "description": "The owner of the repository.",
-                        },
-                        "repo": {
-                            "type": "string",
-                            "description": "The name of the repository.",
-                        },
-                        "pr_number": {
-                            "type": "integer",
-                            "description": "The number of the pull request.",
-                        },
+                        "owner": {"type": "string", "description": "The owner of the repository."},
+                        "repo": {"type": "string", "description": "The name of the repository."},
+                        "pr_number": {"type": "integer", "description": "The number of the pull request."}
                     },
                     "required": ["owner", "repo", "pr_number"],
                 },
             },
         }
 
-
-# 
+############################################################################################################
 class ListPullRequestsTool(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], owner: str = None, repo: str = None) -> str:
-        if not all([owner, repo]):
-            payload = {
-                    "status": "error",
-                    "message": "Missing required parameters for list_pull_requests.",
-                    "required": ["owner", "repo"],
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner = kwargs.get('owner')
+        repo = kwargs.get('repo')
 
-        repositories = data.get("repositories", {}).values()
-        repository = next(
-            (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
-            None,
-        )
+        if not all([owner, repo]):
+            return json.dumps({
+                "status": "error",
+                "message": "Missing required parameters for list_pull_requests.",
+                "required": ["owner", "repo"]
+            }, indent=2)
+
+        repositories = data.get('repositories', [])
+        repository = next((r for r in repositories if r['repo_name'] == repo and r['owner'] == owner), None)
 
         if not repository:
-            payload = {
-                    "status": "error",
-                    "message": f"Repository '{repo}' not found for owner '{owner}'.",
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({
+                "status": "error",
+                "message": f"Repository '{repo}' not found for owner '{owner}'.",
+            }, indent=2)
 
-        pull_requests = repository.get("pull_requests", [])
-        payload = {"status": "success", "pull_requests": pull_requests}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        pull_requests = repository.get('pull_requests', [])
+
+        return json.dumps({
+            "status": "success",
+            "pull_requests": pull_requests
+        }, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListPullRequests",
+                "name": "list_pull_requests",
                 "description": "Lists all pull requests for a repository.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "owner": {
-                            "type": "string",
-                            "description": "The owner of the repository.",
-                        },
-                        "repo": {
-                            "type": "string",
-                            "description": "The name of the repository.",
-                        },
+                        "owner": {"type": "string", "description": "The owner of the repository."},
+                        "repo": {"type": "string", "description": "The name of the repository."}
                     },
                     "required": ["owner", "repo"],
                 },
             },
         }
 
-
-# 
+############################################################################################################
 class GetPullRequestStatusTool(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], owner: str = None, repo: str = None, pr_number: int = None) -> str:
-        if not all([owner, repo, pr_number]):
-            payload = {
-                    "status": "error",
-                    "message": "Missing required parameters for get_pull_request_status.",
-                    "required": ["owner", "repo", "pr_number"],
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        owner = kwargs.get('owner')
+        repo = kwargs.get('repo')
+        pr_number = kwargs.get('pr_number')
 
-        repositories = data.get("repositories", {}).values()
-        repository = next(
-            (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
-            None,
-        )
+        if not all([owner, repo, pr_number]):
+            return json.dumps({
+                "status": "error",
+                "message": "Missing required parameters for get_pull_request_status.",
+                "required": ["owner", "repo", "pr_number"]
+            }, indent=2)
+
+        repositories = data.get('repositories', [])
+        repository = next((r for r in repositories if r['repo_name'] == repo and r['owner'] == owner), None)
 
         if not repository:
-            payload = {
-                    "status": "error",
-                    "message": f"Repository '{repo}' not found for owner '{owner}'.",
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({
+                "status": "error",
+                "message": f"Repository '{repo}' not found for owner '{owner}'.",
+            }, indent=2)
 
-        pull_requests = repository.get("pull_requests", [])
-        pull_request = next(
-            (pr for pr in pull_requests if pr["pr_number"] == pr_number), None
-        )
+        pull_requests = repository.get('pull_requests', [])
+        pull_request = next((pr for pr in pull_requests if pr['pr_number'] == pr_number), None)
 
         if not pull_request:
-            payload = {
-                    "status": "error",
-                    "message": f"Pull request #{pr_number} not found in repository '{repo}'.",
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({
+                "status": "error",
+                "message": f"Pull request #{pr_number} not found in repository '{repo}'.",
+            }, indent=2)
 
-        #Simulate getting status, e.g., checks and mergeability
-        #In a real API, this would be more detailed.
+        # Simulate getting status, e.g., checks and mergeability
+        # In a real API, this would be more detailed.
         status = {
             "checks": [
                 {"name": "CI Check", "status": "success"},
-                {"name": "Code Style", "status": "success"},
+                {"name": "Code Style", "status": "success"}
             ],
             "mergeable": pull_request.get("mergeable_flags", [False])[0],
-            "state": pull_request.get("pr_states", ["open"])[0],
+            "state": pull_request.get("pr_states", ["open"])[0]
         }
-        payload = {"status": "success", "pull_request_status": status}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+
+        return json.dumps({
+            "status": "success",
+            "pull_request_status": status
+        }, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getPullRequestStatus",
+                "name": "get_pull_request_status",
                 "description": "Retrieves the status of a pull request, including checks and mergeability.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "owner": {
-                            "type": "string",
-                            "description": "The owner of the repository.",
-                        },
-                        "repo": {
-                            "type": "string",
-                            "description": "The name of the repository.",
-                        },
-                        "pr_number": {
-                            "type": "integer",
-                            "description": "The number of the pull request.",
-                        },
+                        "owner": {"type": "string", "description": "The owner of the repository."},
+                        "repo": {"type": "string", "description": "The name of the repository."},
+                        "pr_number": {"type": "integer", "description": "The number of the pull request."}
                     },
                     "required": ["owner", "repo", "pr_number"],
                 },
@@ -1305,8 +984,10 @@ class GetPullRequestStatusTool(Tool):
         }
 
 
+
+
 TOOLS = [
-    #Task 1
+    # Task 1
     AuthenticateUserTool(),
     SearchRepositoriesTool(),
     UpdateRepositoryNameTool(),
@@ -1316,13 +997,13 @@ TOOLS = [
     ListCommitsTool(),
     SearchCodeTool(),
     ListCodeScanningAlertsTool(),
-    #Task 2
+    # Task 2
     CreateBranchTool(),
     CreatePullRequestTool(),
     GetPullRequestTool(),
     GetPullRequestFilesTool(),
     ListPullRequestsTool(),
-    GetPullRequestStatusTool(),
+    GetPullRequestStatusTool()
 ]
 """
 DevSecOps Tools
@@ -1339,10 +1020,12 @@ Notes:
 """
 
 import hashlib
+import json
+from typing import Any, Dict, List
 from datetime import datetime
-from typing import Any
 
-from tau_bench.envs.tool import Tool
+
+from domains.dto import Tool
 
 CURRENT_DATE = "2025-08-26"
 
@@ -1353,69 +1036,6 @@ ERROR_MESSAGES = {
     "ALREADY_EXISTS": "{entity} with id '{entity_id}' already exists.",
     "NO_DATA_FOUND": "No data found for {entity}.",
 }
-
-
-def _safe_id(
-    obj: dict[str, Any],
-    explicit_id: str,
-    fallback_prefix: str,
-    fallback_fields: list[str],
-) -> str:
-    """
-    Generate a deterministic ID for an object, with robust fallback.
-
-    Args:
-        obj (Dict[str, Any]): The dictionary representing the entity.
-        explicit_id (str): Key name for an existing ID in the object (e.g., "issue_id").
-        fallback_prefix (str): Prefix for the ID (e.g., "ISSUE_", "PR_", "ALERT_").
-        fallback_fields (List[str]): List of fields to build the ID seed (used in order).
-
-    Returns:
-        str: Deterministic ID string derived from existing ID, selected fields,
-             or the full object JSON as fallback.
-    """
-    pass
-    if obj.get(explicit_id):
-        return obj[explicit_id]
-
-    seed_parts = [str(obj.get(f, "")) for f in fallback_fields if obj.get(f)]
-    seed = "_".join(seed_parts)
-
-    if not seed:
-        seed = json.dumps(obj, sort_keys=True)
-
-    return f"{fallback_prefix}{hashlib.sha1(seed.encode()).hexdigest()[:8]}"
-
-
-def _normalize_user(user: Any) -> str:
-    """
-    Normalize user identifiers for deterministic outputs.
-
-    Args:
-        user (Any): Raw user field (string, int, or None).
-
-    Returns:
-        str: Stringified user identifier, or "unknown" if empty/None.
-    """
-    pass
-    return str(user) if user else "unknown"
-
-
-def _generate_commit_sha(repo: str, branch: str, seq: int) -> str:
-    """
-    Generate a deterministic 12-character hexadecimal SHA for commits.
-
-    Args:
-        repo (str): Repository name.
-        branch (str): Branch name.
-        seq (int): Sequential number of the commit.
-
-    Returns:
-        str: Deterministic 12-character hexadecimal SHA.
-    """
-    pass
-    seed = f"{repo}_{branch}_{seq}"
-    return hashlib.sha1(seed.encode()).hexdigest()[:12]
 
 
 def _response(status: str, data_or_message: Any, error_code: str = None) -> str:
@@ -1433,57 +1053,24 @@ def _response(status: str, data_or_message: Any, error_code: str = None) -> str:
              or {"status": "error", "error_code": ..., "message": ...},
              indented for readability.
     """
-    pass
     if status == "ok":
-        payload = {"status": "ok", "data": data_or_message}
-        out = json.dumps(payload, indent=2)
-        return out
-    payload = {
+        return json.dumps({"status": "ok", "data": data_or_message}, indent=2)
+    return json.dumps(
+        {
             "status": "error",
             "error_code": error_code or "UNKNOWN_ERROR",
             "message": data_or_message,
-        }
-    out = json.dumps(
-        payload, indent=2,
+        },
+        indent=2,
     )
-    return out
-
-
-def _days_between(start: str, end: str) -> int:
-    """
-    Calculate the absolute number of days between two date strings.
-
-    Supports flexible parsing (YYYY-MM-DD, YYYY/MM/DD).
-    Returns 0 if parsing fails.
-
-    Args:
-        start (str): Start date string.
-        end (str): End date string.
-
-    Returns:
-        int: Absolute difference in days, or 0 on error.
-    """
-    pass
-    if not isinstance(start, str) or not isinstance(end, str):
-        return 0
-
-    formats = ["%Y-%m-%d", "%Y/%m/%d"]
-    for fmt in formats:
-        try:
-            start_dt = datetime.strptime(start, fmt)
-            end_dt = datetime.strptime(end, fmt)
-            return abs((end_dt - start_dt).days)
-        except ValueError:
-            continue
-    return 0
 
 
 def _validate_param(
-    kwargs: dict[str, Any],
+    kwargs: Dict[str, Any],
     param: str,
     expected_type: type,
     required: bool = True,
-    subtype: type = None,
+    subtype: type = None
 ) -> Any:
     """
     Validate and retrieve a parameter from keyword arguments.
@@ -1503,20 +1090,21 @@ def _validate_param(
         Any: The validated parameter value if present and valid, or None if not required.
              On validation failure, returns a standardized error response.
     """
-    pass
     value = kwargs.get(param)
 
     if required and value is None:
         return _response(
-            "error", ERROR_MESSAGES["REQUIRED_PARAMETER"].format(param=param)
+            "error",
+            ERROR_MESSAGES["REQUIRED_PARAMETER"].format(param=param)
         )
 
     if value is not None and not isinstance(value, expected_type):
         return _response(
             "error",
             ERROR_MESSAGES["INVALID_PARAMETER_TYPE"].format(
-                param=param, expected_type=expected_type.__name__
-            ),
+                param=param,
+                expected_type=expected_type.__name__
+            )
         )
 
     if subtype and isinstance(value, list):
@@ -1524,15 +1112,98 @@ def _validate_param(
             if not isinstance(item, subtype):
                 return _response(
                     "error",
-                    f"Parameter '{param}' must be a list of {subtype.__name__}.",
+                    f"Parameter '{param}' must be a list of {subtype.__name__}."
                 )
 
     return value
 
 
-#================================================================
-#Repositories Tools
-#================================================================
+def _days_between(start: str, end: str) -> int:
+    """
+    Calculate the absolute number of days between two date strings.
+
+    Supports flexible parsing (YYYY-MM-DD, YYYY/MM/DD).
+    Returns 0 if parsing fails.
+
+    Args:
+        start (str): Start date string.
+        end (str): End date string.
+
+    Returns:
+        int: Absolute difference in days, or 0 on error.
+    """
+    if not isinstance(start, str) or not isinstance(end, str):
+        return 0
+
+    formats = ["%Y-%m-%d", "%Y/%m/%d"]
+    for fmt in formats:
+        try:
+            start_dt = datetime.strptime(start, fmt)
+            end_dt = datetime.strptime(end, fmt)
+            return abs((end_dt - start_dt).days)
+        except ValueError:
+            continue
+    return 0
+
+
+def _normalize_user(user: Any) -> str:
+    """
+    Normalize user identifiers for deterministic outputs.
+
+    Args:
+        user (Any): Raw user field (string, int, or None).
+
+    Returns:
+        str: Stringified user identifier, or "unknown" if empty/None.
+    """
+    return str(user) if user else "unknown"
+
+
+def _safe_id(obj: Dict[str, Any], explicit_id: str, fallback_prefix: str, fallback_fields: List[str]) -> str:
+    """
+    Generate a deterministic ID for an object, with robust fallback.
+
+    Args:
+        obj (Dict[str, Any]): The dictionary representing the entity.
+        explicit_id (str): Key name for an existing ID in the object (e.g., "issue_id").
+        fallback_prefix (str): Prefix for the ID (e.g., "ISSUE_", "PR_", "ALERT_").
+        fallback_fields (List[str]): List of fields to build the ID seed (used in order).
+
+    Returns:
+        str: Deterministic ID string derived from existing ID, selected fields,
+             or the full object JSON as fallback.
+    """
+    if obj.get(explicit_id):
+        return obj[explicit_id]
+
+    seed_parts = [str(obj.get(f, "")) for f in fallback_fields if obj.get(f)]
+    seed = "_".join(seed_parts)
+
+    if not seed:
+        seed = json.dumps(obj, sort_keys=True)
+
+    return f"{fallback_prefix}{hashlib.sha1(seed.encode()).hexdigest()[:8]}"
+
+
+def _generate_commit_sha(repo: str, branch: str, seq: int) -> str:
+    """
+    Generate a deterministic 12-character hexadecimal SHA for commits.
+
+    Args:
+        repo (str): Repository name.
+        branch (str): Branch name.
+        seq (int): Sequential number of the commit.
+
+    Returns:
+        str: Deterministic 12-character hexadecimal SHA.
+    """
+    seed = f"{repo}_{branch}_{seq}"
+    return hashlib.sha1(seed.encode()).hexdigest()[:12]
+
+
+# ================================================================
+# Repositories Tools
+# ================================================================
 
 
 class GetRepositoryMetadataTool(Tool):
@@ -1560,36 +1231,30 @@ class GetRepositoryMetadataTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        repos = data.get("repositories", {}).values()
-        repo_info = next((r for r in repos.values() if r.get("name") == repo_name), None)
+        repos = data.get("repositories", [])
+        repo_info = next((r for r in repos if r.get("name") == repo_name), None)
 
         if not repo_info:
-            return _response(
-                "error",
-                ERROR_MESSAGES["NOT_FOUND"].format(
-                    entity="Repository", entity_id=repo_name
-                ),
-                "NOT_FOUND",
-            )
+            return _response("error", ERROR_MESSAGES["NOT_FOUND"].format(entity="Repository", entity_id=repo_name), "NOT_FOUND")
 
         result = {
             **repo_info,
             "report_date": CURRENT_DATE,
         }
         return _response("ok", result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getRepositoryMetadata",
+                "name": "get_repository_metadata",
                 "description": "Get deterministic metadata for a repository by its name.",
                 "parameters": {
                     "type": "object",
@@ -1622,16 +1287,17 @@ class ListRepositoriesTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        repos = data.get("repositories", {}).values()
-        result = [{**r, "report_date": CURRENT_DATE} for r in repos.values()]
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
+        repos = data.get("repositories", [])
+        result = [{**r, "report_date": CURRENT_DATE} for r in repos]
         return _response("ok", result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "listRepositories",
+                "name": "list_repositories",
                 "description": "List all repositories with deterministic metadata.",
                 "parameters": {"type": "object", "properties": {}},
             },
@@ -1667,23 +1333,18 @@ class CreateRepositoryTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str, description: str = None, private: bool = False) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            description = _validate_param({"description": description}, "description", str, required=False)
-            private = _validate_param({"private": private}, "private", bool)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            description = _validate_param(kwargs, "description", str, required=False)
+            private = _validate_param(kwargs, "private", bool)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        repos = data.get("repositories", {}).values()
-        if any(r.get("name") == repo_name for r in repos.values()):
-            return _response(
-                "error",
-                ERROR_MESSAGES["ALREADY_EXISTS"].format(
-                    entity="Repository", entity_id=repo_name
-                ),
-                "ALREADY_EXISTS",
-            )
+        repos = data.get("repositories", [])
+        if any(r.get("name") == repo_name for r in repos):
+            return _response("error", ERROR_MESSAGES["ALREADY_EXISTS"].format(entity="Repository", entity_id=repo_name), "ALREADY_EXISTS")
+
 
         new_repo = {
             "name": repo_name,
@@ -1694,15 +1355,16 @@ class CreateRepositoryTool(Tool):
             "default_branch": "main",
         }
         new_repo["repo_id"] = _safe_id(new_repo, "repo_id", "REPO_", ["name"])
-        data["repositories"][new_repo["repositorie_id"]] = new_repo
+        repos.append(new_repo)
 
         return _response("ok", new_repo)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateRepository",
+                "name": "create_repository",
                 "description": "Create a new repository deterministically (in-memory only).",
                 "parameters": {
                     "type": "object",
@@ -1744,33 +1406,29 @@ class UpdateRepositoryDescriptionTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str = None, description: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            description = _validate_param({"description": description}, "description", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            description = _validate_param(kwargs, "description", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        repos = data.get("repositories", {}).values()
-        repo = next((r for r in repos.values() if r.get("name") == repo_name), None)
+        repos = data.get("repositories", [])
+        repo = next((r for r in repos if r.get("name") == repo_name), None)
 
         if not repo:
-            return _response(
-                "error",
-                ERROR_MESSAGES["NOT_FOUND"].format(
-                    entity="Repository", entity_id=repo_name
-                ),
-            )
+            return _response("error", ERROR_MESSAGES["NOT_FOUND"].format(entity="Repository", entity_id=repo_name))
 
         repo["description"] = description
         repo["updated_at"] = CURRENT_DATE
         return _response("ok", repo)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateRepositoryDescription",
+                "name": "update_repository_description",
                 "description": "Update a repository description deterministically (in-memory only).",
                 "parameters": {
                     "type": "object",
@@ -1815,39 +1473,31 @@ class GetRepositoryHealthSummaryTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        issues = data.get("issues", {}).values()
-        prs = data.get("pull_requests", {}).values()
-        alerts = data.get("code_scanning_alerts", {}).values()
+        issues = data.get("issues", [])
+        prs = data.get("pull_requests", [])
+        alerts = data.get("code_scanning_alerts", [])
 
         result = {
             "repo": repo_name,
-            "open_issues": sum(
-                1
-                for i in issues.values() if i.get("repo") == repo_name and i.get("state") == "open"
-            ),
-            "open_prs": sum(
-                1
-                for p in prs.values() if p.get("repo") == repo_name and p.get("state") == "open"
-            ),
-            "open_alerts": sum(
-                1
-                for a in alerts.values() if a.get("repo") == repo_name and a.get("state") == "open"
-            ),
+            "open_issues": sum(1 for i in issues if i.get("repo") == repo_name and i.get("state") == "open"),
+            "open_prs": sum(1 for p in prs if p.get("repo") == repo_name and p.get("state") == "open"),
+            "open_alerts": sum(1 for a in alerts if a.get("repo") == repo_name and a.get("state") == "open"),
             "report_date": CURRENT_DATE,
         }
         return _response("ok", result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetRepositoryHealthSummary",
+                "name": "get_repository_health_summary",
                 "description": "Get a deterministic repository health summary (issues, PRs, alerts).",
                 "parameters": {
                     "type": "object",
@@ -1857,10 +1507,9 @@ class GetRepositoryHealthSummaryTool(Tool):
             },
         }
 
-
-#================================================================
-#Commits Tools
-#================================================================
+# ================================================================
+# Commits Tools
+# ================================================================
 
 
 class ListCommitsByBranchTool(Tool):
@@ -1896,15 +1545,14 @@ class ListCommitsByBranchTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str = None, branch: str = None) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            branch = _validate_param({"branch": branch}, "branch", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            branch = _validate_param(kwargs, "branch", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        commits = data.get("commits", {}).values()
+        commits = data.get("commits", [])
         branch_commits = [
             {
                 "commit_id": c.get("sha"),
@@ -1915,15 +1563,17 @@ class ListCommitsByBranchTool(Tool):
                 "timestamp": c.get("timestamp"),
                 "report_date": CURRENT_DATE,
             }
-            for c in commits.values() if c.get("repo") == repo_name and c.get("branch") == branch
+            for c in commits
+            if c.get("repo") == repo_name and c.get("branch") == branch
         ]
         return _response("ok", branch_commits)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListCommitsByBranch",
+                "name": "list_commits_by_branch",
                 "description": "List commits for a repository branch deterministically.",
                 "parameters": {
                     "type": "object",
@@ -1971,40 +1621,29 @@ class GetCommitMetadataTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str, commit_sha: str) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            commit_sha = _validate_param({"commit_sha": commit_sha}, "commit_sha", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            commit_sha = _validate_param(kwargs, "commit_sha", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        commits = data.get("commits", {}).values()
-        commit = next(
-            (
-                c
-                for c in commits.values() if c.get("repo") == repo_name and c.get("sha") == commit_sha
-            ),
-            None,
-        )
+        commits = data.get("commits", [])
+        commit = next((c for c in commits if c.get("repo") == repo_name and c.get("sha") == commit_sha), None)
 
         if not commit:
-            return _response(
-                "error",
-                ERROR_MESSAGES["NOT_FOUND"].format(
-                    entity="Commit", entity_id=commit_sha
-                ),
-                "NOT_FOUND",
-            )
+            return _response("error", ERROR_MESSAGES["NOT_FOUND"].format(entity="Commit", entity_id=commit_sha), "NOT_FOUND")
+
 
         result = {**commit, "report_date": CURRENT_DATE}
         return _response("ok", result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getCommitMetadata",
+                "name": "get_commit_metadata",
                 "description": "Retrieve deterministic metadata for a commit by SHA.",
                 "parameters": {
                     "type": "object",
@@ -2057,29 +1696,18 @@ class AddCommitToBranchTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str, branch: str, message: str, author: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            branch = _validate_param({"branch": branch}, "branch", str)
-            message = _validate_param({"message": message}, "message", str)
-            author = _validate_param({"author": author}, "author", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            branch = _validate_param(kwargs, "branch", str)
+            message = _validate_param(kwargs, "message", str)
+            author = _validate_param(kwargs, "author", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        commits = data.get("commits", {}).values()
-        if any(
-            c.get("repo") == repo_name
-            and c.get("message") == message
-            and c.get("branch") == branch
-            for c in commits.values()
-        ):
-            return _response(
-                "error",
-                ERROR_MESSAGES["ALREADY_EXISTS"].format(
-                    entity="Commit", entity_id=message
-                ),
-                "ALREADY_EXISTS",
-            )
+        commits = data.get("commits", [])
+        if any(c.get("repo") == repo_name and c.get("message") == message and c.get("branch") == branch for c in commits):
+            return _response("error", ERROR_MESSAGES["ALREADY_EXISTS"].format(entity="Commit", entity_id=message), "ALREADY_EXISTS")
 
         new_commit = {
             "sha": _generate_commit_sha(repo_name, branch, len(commits) + 1),
@@ -2091,14 +1719,15 @@ class AddCommitToBranchTool(Tool):
             "created_at": CURRENT_DATE,
             "updated_at": CURRENT_DATE,
         }
-        data["commits"][commit_id] = new_commit
+        commits.append(new_commit)
         return _response("ok", new_commit)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddCommitToBranch",
+                "name": "add_commit_to_branch",
                 "description": "Add a deterministic commit to a branch (in-memory only).",
                 "parameters": {
                     "type": "object",
@@ -2142,15 +1771,15 @@ class CountCommitsByAuthorTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        commits = data.get("commits", {}).values()
+        commits = data.get("commits", [])
         author_counts = {}
-        for c in commits.values():
+        for c in commits:
             if c.get("repo") == repo_name:
                 author = _normalize_user(c.get("author"))
                 author_counts[author] = author_counts.get(author, 0) + 1
@@ -2161,12 +1790,13 @@ class CountCommitsByAuthorTool(Tool):
             "report_date": CURRENT_DATE,
         }
         return _response("ok", result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CountCommitsByAuthor",
+                "name": "count_commits_by_author",
                 "description": "Count commits per author for a repository.",
                 "parameters": {
                     "type": "object",
@@ -2212,15 +1842,15 @@ class ListCommitsByDateRangeTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str, start_date: str, end_date: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            start_date = _validate_param({"start_date": start_date}, "start_date", str)
-            end_date = _validate_param({"end_date": end_date}, "end_date", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            start_date = _validate_param(kwargs, "start_date", str)
+            end_date = _validate_param(kwargs, "end_date", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        commits = data.get("commits", {}).values()
+        commits = data.get("commits", [])
         filtered = [
             {
                 "commit_id": c.get("sha"),
@@ -2230,16 +1860,17 @@ class ListCommitsByDateRangeTool(Tool):
                 "timestamp": c.get("timestamp"),
                 "report_date": CURRENT_DATE,
             }
-            for c in commits.values() if c.get("repo") == repo_name
-            and start_date <= c.get("timestamp", "") <= end_date
+            for c in commits
+            if c.get("repo") == repo_name and start_date <= c.get("timestamp", "") <= end_date
         ]
         return _response("ok", filtered)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListCommitsByDateRange",
+                "name": "list_commits_by_date_range",
                 "description": "List commits for a repository between a start and end date (deterministic).",
                 "parameters": {
                     "type": "object",
@@ -2253,10 +1884,9 @@ class ListCommitsByDateRangeTool(Tool):
             },
         }
 
-
-#================================================================
-#Issues Tools
-#================================================================
+# ================================================================
+# Issues Tools
+# ================================================================
 
 
 class GetOpenIssuesTool(Tool):
@@ -2287,18 +1917,16 @@ class GetOpenIssuesTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        issues = data.get("issues", {}).values()
+        issues = data.get("issues", [])
         open_issues = [
             {
-                "issue_id": _safe_id(
-                    i, "issue_id", f"ISSUE_{repo_name}_", ["title", "body"]
-                ),
+                "issue_id": _safe_id(i, "issue_id", f"ISSUE_{repo_name}_", ["title", "body"]),
                 "title": i.get("title"),
                 "state": i.get("state"),
                 "assignees": i.get("assignees", []),
@@ -2306,15 +1934,17 @@ class GetOpenIssuesTool(Tool):
                 "created_at": i.get("created_at"),
                 "report_date": CURRENT_DATE,
             }
-            for i in issues.values() if i.get("repo") == repo_name and i.get("state") == "open"
+            for i in issues
+            if i.get("repo") == repo_name and i.get("state") == "open"
         ]
         return _response("ok", open_issues)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetOpenIssues",
+                "name": "get_open_issues",
                 "description": "List all open issues for a repository deterministically.",
                 "parameters": {
                     "type": "object",
@@ -2354,33 +1984,33 @@ class GetClosedIssuesTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        issues = data.get("issues", {}).values()
+        issues = data.get("issues", [])
         closed_issues = [
             {
-                "issue_id": _safe_id(
-                    i, "issue_id", f"ISSUE_{repo_name}_", ["title", "body"]
-                ),
+                "issue_id": _safe_id(i, "issue_id", f"ISSUE_{repo_name}_", ["title", "body"]),
                 "title": i.get("title"),
                 "labels": [lbl.lower() for lbl in i.get("labels", [])],
                 "state": i.get("state"),
                 "closed_at": i.get("closed_at") or CURRENT_DATE,
                 "report_date": CURRENT_DATE,
             }
-            for i in issues.values() if i.get("repo") == repo_name and i.get("state") == "closed"
+            for i in issues
+            if i.get("repo") == repo_name and i.get("state") == "closed"
         ]
         return _response("ok", closed_issues)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetClosedIssues",
+                "name": "get_closed_issues",
                 "description": "List all closed issues for a repository deterministically.",
                 "parameters": {
                     "type": "object",
@@ -2417,38 +2047,19 @@ class CreateIssueTool(Tool):
     """
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        repo_name: str,
-        title: str,
-        body: str,
-        labels: list[str] = None,
-        assignees: list[str] = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            title = _validate_param({"title": title}, "title", str)
-            body = _validate_param({"body": body}, "body", str)
-            labels = (
-                _validate_param({"labels": labels}, "labels", list, required=False, subtype=str)
-                or []
-            )
-            assignees = (
-                _validate_param({"assignees": assignees}, "assignees", list, required=False, subtype=str)
-                or []
-            )
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            title = _validate_param(kwargs, "title", str)
+            body = _validate_param(kwargs, "body", str)
+            labels = _validate_param(kwargs, "labels", list, required=False, subtype=str) or []
+            assignees = _validate_param(kwargs, "assignees", list, required=False, subtype=str) or []
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        issues = data.get("issues", {}).values()
-        if any(i.get("repo") == repo_name and i.get("title") == title for i in issues.values()):
-            return _response(
-                "error",
-                ERROR_MESSAGES["ALREADY_EXISTS"].format(
-                    entity="Issue", entity_id=title
-                ),
-                "ALREADY_EXISTS",
-            )
+        issues = data.get("issues", [])
+        if any(i.get("repo") == repo_name and i.get("title") == title for i in issues):
+            return _response("error", ERROR_MESSAGES["ALREADY_EXISTS"].format(entity="Issue", entity_id=title), "ALREADY_EXISTS")
 
         new_number = len(issues) + 1
         new_issue = {
@@ -2462,17 +2073,16 @@ class CreateIssueTool(Tool):
             "created_at": CURRENT_DATE,
             "updated_at": CURRENT_DATE,
         }
-        new_issue["issue_id"] = _safe_id(
-            new_issue, "issue_id", f"ISSUE_{repo_name}_", ["title", "body"]
-        )
-        data["issues"][issue_id] = new_issue
+        new_issue["issue_id"] = _safe_id(new_issue, "issue_id", f"ISSUE_{repo_name}_", ["title", "body"])
+        issues.append(new_issue)
         return _response("ok", new_issue)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateIssue",
+                "name": "create_issue",
                 "description": "Create a deterministic issue (in-memory only).",
                 "parameters": {
                     "type": "object",
@@ -2511,41 +2121,30 @@ class CloseIssueTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str, issue_number: int) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            issue_number = _validate_param({"issue_number": issue_number}, "issue_number", int)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            issue_number = _validate_param(kwargs, "issue_number", int)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        issues = data.get("issues", {}).values()
-        issue = next(
-            (
-                i
-                for i in issues.values() if i.get("repo") == repo_name and i.get("number") == issue_number
-            ),
-            None,
-        )
+        issues = data.get("issues", [])
+        issue = next((i for i in issues if i.get("repo") == repo_name and i.get("number") == issue_number), None)
 
         if not issue:
-            return _response(
-                "error",
-                ERROR_MESSAGES["NOT_FOUND"].format(
-                    entity="Issue", entity_id=issue_number
-                ),
-                "NOT_FOUND",
-            )
+            return _response("error", ERROR_MESSAGES["NOT_FOUND"].format(entity="Issue", entity_id=issue_number), "NOT_FOUND")
 
         issue["state"] = "closed"
         issue["closed_at"] = CURRENT_DATE
         issue["updated_at"] = CURRENT_DATE
         return _response("ok", issue)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CloseIssue",
+                "name": "close_issue",
                 "description": "Close an existing issue deterministically (in-memory only).",
                 "parameters": {
                     "type": "object",
@@ -2583,46 +2182,30 @@ class AssignIssueTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str, issue_number: int, assignees: list[str] = None) -> str:
-        if assignees is None:
-            assignees = []
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            issue_number = _validate_param({"issue_number": issue_number}, "issue_number", int)
-            assignees = (
-                _validate_param({"assignees": assignees}, "assignees", list, required=False, subtype=str)
-                or []
-            )
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            issue_number = _validate_param(kwargs, "issue_number", int)
+            assignees = _validate_param(kwargs, "assignees", list, required=False, subtype=str) or []
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        issues = data.get("issues", {}).values()
-        issue = next(
-            (
-                i
-                for i in issues.values() if i.get("repo") == repo_name and i.get("number") == issue_number
-            ),
-            None,
-        )
+        issues = data.get("issues", [])
+        issue = next((i for i in issues if i.get("repo") == repo_name and i.get("number") == issue_number), None)
 
         if not issue:
-            return _response(
-                "error",
-                ERROR_MESSAGES["NOT_FOUND"].format(
-                    entity="Issue", entity_id=issue_number
-                ),
-                "NOT_FOUND",
-            )
+            return _response("error", ERROR_MESSAGES["NOT_FOUND"].format(entity="Issue", entity_id=issue_number), "NOT_FOUND")
 
         issue["assignees"] = [_normalize_user(a) for a in assignees]
         issue["updated_at"] = CURRENT_DATE
         return _response("ok", issue)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AssignIssue",
+                "name": "assign_issue",
                 "description": "Assign users to an issue deterministically.",
                 "parameters": {
                     "type": "object",
@@ -2665,34 +2248,33 @@ class ListIssuesByLabelTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str, label: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            label = _validate_param({"label": label}, "label", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            label = _validate_param(kwargs, "label", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        issues = data.get("issues", {}).values()
+        issues = data.get("issues", [])
         labeled = [
             {
-                "issue_id": _safe_id(
-                    i, "issue_id", f"ISSUE_{repo_name}_", ["title", "body"]
-                ),
+                "issue_id": _safe_id(i, "issue_id", f"ISSUE_{repo_name}_", ["title", "body"]),
                 "title": i.get("title"),
                 "labels": [lbl.lower() for lbl in i.get("labels", [])],
                 "state": i.get("state"),
                 "report_date": CURRENT_DATE,
             }
-            for i in issues.values() if i.get("repo") == repo_name
-            and label.lower() in [lbl.lower() for lbl in i.get("labels", [])]
+            for i in issues
+            if i.get("repo") == repo_name and label.lower() in [lbl.lower() for lbl in i.get("labels", [])]
         ]
         return _response("ok", labeled)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListIssuesByLabel",
+                "name": "list_issues_by_label",
                 "description": "Retrieve issues by label for a repository deterministically.",
                 "parameters": {
                     "type": "object",
@@ -2733,37 +2315,33 @@ class GetIssueAgingReportTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        issues = data.get("issues", {}).values()
+        issues = data.get("issues", [])
         aging = [
             {
-                "issue_id": _safe_id(
-                    i, "issue_id", f"ISSUE_{repo_name}_", ["title", "body"]
-                ),
+                "issue_id": _safe_id(i, "issue_id", f"ISSUE_{repo_name}_", ["title", "body"]),
                 "title": i.get("title"),
                 "state": i.get("state"),
                 "created_at": i.get("created_at"),
-                "days_open": (
-                    _days_between(i.get("created_at", CURRENT_DATE), CURRENT_DATE)
-                    if i.get("state") == "open"
-                    else 0
-                ),
+                "days_open": _days_between(i.get("created_at", CURRENT_DATE), CURRENT_DATE)
+                if i.get("state") == "open" else 0,
                 "report_date": CURRENT_DATE,
             }
-            for i in issues.values() if i.get("repo") == repo_name
+            for i in issues if i.get("repo") == repo_name
         ]
         return _response("ok", aging)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetIssueAgingReport",
+                "name": "get_issue_aging_report",
                 "description": "Generate deterministic report of how long issues have been open.",
                 "parameters": {
                     "type": "object",
@@ -2773,10 +2351,9 @@ class GetIssueAgingReportTool(Tool):
             },
         }
 
-
-#================================================================
-#Pull Requests Tools
-#================================================================
+# ================================================================
+# Pull Requests Tools
+# ================================================================
 
 
 class ListPullRequestsTool(Tool):
@@ -2806,37 +2383,33 @@ class ListPullRequestsTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str, state: str = None) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            state = kwargs.get("state")  # optional
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        prs = data.get("pull_requests", {}).values()
+        prs = data.get("pull_requests", [])
         repo_prs = [
             {
-                "pr_id": _safe_id(
-                    pr,
-                    "pr_id",
-                    f"PR_{repo_name}_",
-                    ["title", "head_branch", "base_branch"],
-                ),
+                "pr_id": _safe_id(pr, "pr_id", f"PR_{repo_name}_", ["title", "head_branch", "base_branch"]),
                 "title": pr.get("title"),
                 "state": pr.get("state"),
                 "created_at": pr.get("created_at"),
                 "report_date": CURRENT_DATE,
             }
-            for pr in prs.values() if pr.get("repo") == repo_name
-            and (state is None or pr.get("state") == state)
+            for pr in prs
+            if pr.get("repo") == repo_name and (state is None or pr.get("state") == state)
         ]
         return _response("ok", repo_prs)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListPullRequests",
+                "name": "list_pull_requests",
                 "description": "List pull requests for a repository (optionally filter by state).",
                 "parameters": {
                     "type": "object",
@@ -2872,52 +2445,37 @@ class GetPullRequestMetadataTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str, pr_number: int) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            pr_number = _validate_param({"pr_number": pr_number}, "pr_number", int)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            pr_number = _validate_param(kwargs, "pr_number", int)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        prs = data.get("pull_requests", {}).values()
-        pr = next(
-            (
-                p
-                for p in prs.values() if p.get("repo") == repo_name and p.get("number") == pr_number
-            ),
-            None,
-        )
+        prs = data.get("pull_requests", [])
+        pr = next((p for p in prs if p.get("repo") == repo_name and p.get("number") == pr_number), None)
 
         if not pr:
-            return _response(
-                "error",
-                ERROR_MESSAGES["NOT_FOUND"].format(
-                    entity="Pull Request", entity_id=pr_number
-                ),
-                "NOT_FOUND",
-            )
+            return _response("error", ERROR_MESSAGES["NOT_FOUND"].format(entity="Pull Request", entity_id=pr_number), "NOT_FOUND")
 
         result = {
             **pr,
-            "pr_id": _safe_id(
-                pr, "pr_id", f"PR_{repo_name}_", ["title", "head_branch", "base_branch"]
-            ),
-            "report_date": CURRENT_DATE,
+            "pr_id": _safe_id(pr, "pr_id", f"PR_{repo_name}_", ["title", "head_branch", "base_branch"]),
+            "report_date": CURRENT_DATE
         }
         if "author" in result:
             result["author"] = _normalize_user(result["author"])
         if "reviewers" in result:
-            result["reviewers"] = [
-                _normalize_user(r) for r in result.get("reviewers", [])
-            ]
+            result["reviewers"] = [_normalize_user(r) for r in result.get("reviewers", [])]
 
         return _response("ok", result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPullRequestMetadata",
+                "name": "get_pull_request_metadata",
                 "description": "Retrieve deterministic metadata for a pull request by number.",
                 "parameters": {
                     "type": "object",
@@ -2957,27 +2515,17 @@ class OpenPullRequestTool(Tool):
     """
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        repo_name: str,
-        title: str,
-        body: str,
-        head_branch: str,
-        base_branch: str
-,
-    author: Any = None,
-    ) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            title = _validate_param({"title": title}, "title", str)
-            body = _validate_param({"body": body}, "body", str)
-            head_branch = _validate_param({"head_branch": head_branch}, "head_branch", str)
-            base_branch = _validate_param({"base_branch": base_branch}, "base_branch", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            title = _validate_param(kwargs, "title", str)
+            body = _validate_param(kwargs, "body", str)
+            head_branch = _validate_param(kwargs, "head_branch", str)
+            base_branch = _validate_param(kwargs, "base_branch", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        prs = data.get("pull_requests", {}).values()
+        prs = data.get("pull_requests", [])
         new_number = len(prs) + 1
         new_pr = {
             "repo": repo_name,
@@ -2989,17 +2537,16 @@ class OpenPullRequestTool(Tool):
             "state": "open",
             "created_at": CURRENT_DATE,
         }
-        new_pr["pr_id"] = _safe_id(
-            new_pr, "pr_id", f"PR_{repo_name}_", ["title", "head_branch", "base_branch"]
-        )
-        data["pull_requests"][new_pr["pull_request_id"]] = new_pr
+        new_pr["pr_id"] = _safe_id(new_pr, "pr_id", f"PR_{repo_name}_", ["title", "head_branch", "base_branch"])
+        prs.append(new_pr)
         return _response("ok", new_pr)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "OpenPullRequest",
+                "name": "open_pull_request",
                 "description": "Open a new pull request deterministically (in-memory only).",
                 "parameters": {
                     "type": "object",
@@ -3010,13 +2557,7 @@ class OpenPullRequestTool(Tool):
                         "head_branch": {"type": "string"},
                         "base_branch": {"type": "string"},
                     },
-                    "required": [
-                        "repo_name",
-                        "title",
-                        "body",
-                        "head_branch",
-                        "base_branch",
-                    ],
+                    "required": ["repo_name", "title", "body", "head_branch", "base_branch"],
                 },
             },
         }
@@ -3045,47 +2586,29 @@ class ClosePullRequestTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str, pr_id: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            pr_id = _validate_param({"pr_id": pr_id}, "pr_id", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            pr_id = _validate_param(kwargs, "pr_id", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        prs = data.get("pull_requests", {}).values()
-        pr = next(
-            (
-                p
-                for p in prs.values() if p.get("repo") == repo_name
-                and _safe_id(
-                    p,
-                    "pr_id",
-                    f"PR_{repo_name}_",
-                    ["title", "head_branch", "base_branch"],
-                )
-                == pr_id
-            ),
-            None,
-        )
+        prs = data.get("pull_requests", [])
+        pr = next((p for p in prs if p.get("repo") == repo_name and _safe_id(p, "pr_id", f"PR_{repo_name}_", ["title", "head_branch", "base_branch"]) == pr_id), None)
 
         if not pr:
-            return _response(
-                "error",
-                ERROR_MESSAGES["NOT_FOUND"].format(
-                    entity="Pull Request", entity_id=pr_id
-                ),
-                "NOT_FOUND",
-            )
+            return _response("error", ERROR_MESSAGES["NOT_FOUND"].format(entity="Pull Request", entity_id=pr_id), "NOT_FOUND")
 
         pr["state"] = "closed"
         pr["updated_at"] = CURRENT_DATE
         return _response("ok", pr)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "closePullRequest",
+                "name": "close_pull_request",
                 "description": "Close a pull request deterministically (in-memory only).",
                 "parameters": {
                     "type": "object",
@@ -3121,41 +2644,30 @@ class MergePullRequestTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str, pr_number: int) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            pr_number = _validate_param({"pr_number": pr_number}, "pr_number", int)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            pr_number = _validate_param(kwargs, "pr_number", int)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        prs = data.get("pull_requests", {}).values()
-        pr = next(
-            (
-                p
-                for p in prs.values() if p.get("repo") == repo_name and p.get("number") == pr_number
-            ),
-            None,
-        )
+        prs = data.get("pull_requests", [])
+        pr = next((p for p in prs if p.get("repo") == repo_name and p.get("number") == pr_number), None)
 
         if not pr:
-            return _response(
-                "error",
-                ERROR_MESSAGES["NOT_FOUND"].format(
-                    entity="Pull Request", entity_id=pr_number
-                ),
-                "NOT_FOUND",
-            )
+            return _response("error", ERROR_MESSAGES["NOT_FOUND"].format(entity="Pull Request", entity_id=pr_number), "NOT_FOUND")
 
         pr["state"] = "merged"
         pr["merged_at"] = CURRENT_DATE
         pr["updated_at"] = CURRENT_DATE
         return _response("ok", pr)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "MergePullRequest",
+                "name": "merge_pull_request",
                 "description": "Merge a pull request deterministically (in-memory only).",
                 "parameters": {
                     "type": "object",
@@ -3193,46 +2705,30 @@ class RequestPullRequestReviewTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str, pr_number: int, reviewers: list[str] = None) -> str:
-        if reviewers is None:
-            reviewers = []
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            pr_number = _validate_param({"pr_number": pr_number}, "pr_number", int)
-            reviewers = (
-                _validate_param({"reviewers": reviewers}, "reviewers", list, required=False, subtype=str)
-                or []
-            )
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            pr_number = _validate_param(kwargs, "pr_number", int)
+            reviewers = _validate_param(kwargs, "reviewers", list, required=False, subtype=str) or []
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        prs = data.get("pull_requests", {}).values()
-        pr = next(
-            (
-                p
-                for p in prs.values() if p.get("repo") == repo_name and p.get("number") == pr_number
-            ),
-            None,
-        )
+        prs = data.get("pull_requests", [])
+        pr = next((p for p in prs if p.get("repo") == repo_name and p.get("number") == pr_number), None)
 
         if not pr:
-            return _response(
-                "error",
-                ERROR_MESSAGES["NOT_FOUND"].format(
-                    entity="Pull Request", entity_id=pr_number
-                ),
-                "NOT_FOUND",
-            )
+            return _response("error", ERROR_MESSAGES["NOT_FOUND"].format(entity="Pull Request", entity_id=pr_number), "NOT_FOUND")
 
         pr["reviewers"] = [_normalize_user(r) for r in reviewers]
         pr["updated_at"] = CURRENT_DATE
         return _response("ok", pr)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RequestPullRequestReview",
+                "name": "request_pull_request_review",
                 "description": "Assign reviewers to a pull request deterministically.",
                 "parameters": {
                     "type": "object",
@@ -3271,42 +2767,30 @@ class LinkPullRequestToIssueTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str, pr_number: int, issue_number: int) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            pr_number = _validate_param({"pr_number": pr_number}, "pr_number", int)
-            issue_number = _validate_param({"issue_number": issue_number}, "issue_number", int)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            pr_number = _validate_param(kwargs, "pr_number", int)
+            issue_number = _validate_param(kwargs, "issue_number", int)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        prs = data.get("pull_requests", {}).values()
-        pr = next(
-            (
-                p
-                for p in prs.values() if p.get("repo") == repo_name and p.get("number") == pr_number
-            ),
-            None,
-        )
+        prs = data.get("pull_requests", [])
+        pr = next((p for p in prs if p.get("repo") == repo_name and p.get("number") == pr_number), None)
 
         if not pr:
-            return _response(
-                "error",
-                ERROR_MESSAGES["NOT_FOUND"].format(
-                    entity="Pull Request", entity_id=pr_number
-                ),
-                "NOT_FOUND",
-            )
+            return _response("error", ERROR_MESSAGES["NOT_FOUND"].format(entity="Pull Request", entity_id=pr_number), "NOT_FOUND")
 
         pr.setdefault("linked_issues", []).append(issue_number)
         pr["updated_at"] = CURRENT_DATE
         return _response("ok", pr)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "LinkPullRequestToIssue",
+                "name": "link_pull_request_to_issue",
                 "description": "Link a pull request to an issue deterministically.",
                 "parameters": {
                     "type": "object",
@@ -3349,16 +2833,14 @@ class GetPullRequestMergeTimeReportTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        prs = data.get("pull_requests", {}).values()
-        merged_prs = [
-            p for p in prs.values() if p.get("repo") == repo_name and p.get("state") == "merged"
-        ]
+        prs = data.get("pull_requests", [])
+        merged_prs = [p for p in prs if p.get("repo") == repo_name and p.get("state") == "merged"]
 
         merge_times = []
         for pr in merged_prs:
@@ -3367,9 +2849,7 @@ class GetPullRequestMergeTimeReportTool(Tool):
             if created and merged:
                 merge_times.append(_days_between(created, merged))
 
-        average_merge_time = (
-            int(sum(merge_times) / len(merge_times)) if merge_times else 0
-        )
+        average_merge_time = int(sum(merge_times) / len(merge_times)) if merge_times else 0
 
         report = {
             "repo": repo_name,
@@ -3379,12 +2859,13 @@ class GetPullRequestMergeTimeReportTool(Tool):
         }
 
         return _response("ok", report)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPullRequestMergeTimeReport",
+                "name": "get_pull_request_merge_time_report",
                 "description": "Calculate deterministic average time-to-merge for pull requests.",
                 "parameters": {
                     "type": "object",
@@ -3394,10 +2875,9 @@ class GetPullRequestMergeTimeReportTool(Tool):
             },
         }
 
-
-#================================================================
-#Security Alerts Tools
-#================================================================
+# ================================================================
+# Security Alerts Tools
+# ================================================================
 
 
 class GetOpenSecurityAlertsTool(Tool):
@@ -3428,18 +2908,16 @@ class GetOpenSecurityAlertsTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        alerts = data.get("code_scanning_alerts", {}).values()
+        alerts = data.get("code_scanning_alerts", [])
         repo_alerts = [
             {
-                "alert_id": _safe_id(
-                    a, "alert_id", f"ALERT_{repo_name}_", ["description", "file"]
-                ),
+                "alert_id": _safe_id(a, "alert_id", f"ALERT_{repo_name}_", ["description", "file"]),
                 "severity": (a.get("severity") or "unknown").lower(),
                 "state": a.get("state"),
                 "description": a.get("description"),
@@ -3447,15 +2925,17 @@ class GetOpenSecurityAlertsTool(Tool):
                 "branch": a.get("branch"),
                 "report_date": CURRENT_DATE,
             }
-            for a in alerts.values() if a.get("repo") == repo_name and a.get("state") == "open"
+            for a in alerts
+            if a.get("repo") == repo_name and a.get("state") == "open"
         ]
         return _response("ok", repo_alerts)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetOpenSecurityAlerts",
+                "name": "get_open_security_alerts",
                 "description": "List all open security alerts for a repository deterministically.",
                 "parameters": {
                     "type": "object",
@@ -3496,33 +2976,32 @@ class GetResolvedSecurityAlertsTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        alerts = data.get("code_scanning_alerts", {}).values()
+        alerts = data.get("code_scanning_alerts", [])
         resolved = [
             {
-                "alert_id": _safe_id(
-                    a, "alert_id", f"ALERT_{repo_name}_", ["description", "file"]
-                ),
+                "alert_id": _safe_id(a, "alert_id", f"ALERT_{repo_name}_", ["description", "file"]),
                 "severity": (a.get("severity") or "unknown").lower(),
                 "state": a.get("state"),
                 "resolved_at": a.get("resolved_at") or CURRENT_DATE,
                 "description": a.get("description"),
             }
-            for a in alerts.values() if a.get("repo") == repo_name and a.get("state") in ["fixed", "dismissed"]
+            for a in alerts
+            if a.get("repo") == repo_name and a.get("state") in ["fixed", "dismissed"]
         ]
         return _response("ok", resolved)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetResolvedSecurityAlerts",
+                "name": "get_resolved_security_alerts",
                 "description": "List all resolved security alerts for a repository deterministically.",
                 "parameters": {
                     "type": "object",
@@ -3559,36 +3038,19 @@ class CreateSecurityAlertTool(Tool):
     """
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        repo_name: str,
-        severity: str,
-        description: str,
-        file: str,
-        branch: str
-    ) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            severity = _validate_param({"severity": severity}, "severity", str)
-            description = _validate_param({"description": description}, "description", str)
-            file = _validate_param({"file": file}, "file", str)
-            branch = _validate_param({"branch": branch}, "branch", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            severity = _validate_param(kwargs, "severity", str)
+            description = _validate_param(kwargs, "description", str)
+            file = _validate_param(kwargs, "file", str)
+            branch = _validate_param(kwargs, "branch", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        alerts = data.get("code_scanning_alerts", {}).values()
-        if any(
-            a.get("repo") == repo_name and a.get("description") == description
-            for a in alerts.values()
-        ):
-            return _response(
-                "error",
-                ERROR_MESSAGES["ALREADY_EXISTS"].format(
-                    entity="SecurityAlert", entity_id=description
-                ),
-                "ALREADY_EXISTS",
-            )
+        alerts = data.get("code_scanning_alerts", [])
+        if any(a.get("repo") == repo_name and a.get("description") == description for a in alerts):
+            return _response("error", ERROR_MESSAGES["ALREADY_EXISTS"].format(entity="SecurityAlert", entity_id=description), "ALREADY_EXISTS")
 
         new_number = len(alerts) + 1
         new_alert = {
@@ -3602,17 +3064,16 @@ class CreateSecurityAlertTool(Tool):
             "created_at": CURRENT_DATE,
             "updated_at": CURRENT_DATE,
         }
-        new_alert["alert_id"] = _safe_id(
-            new_alert, "alert_id", f"ALERT_{repo_name}_", ["description", "file"]
-        )
-        data["code_scanning_alerts"][new_alert["code_scanning_alert_id"]] = new_alert
+        new_alert["alert_id"] = _safe_id(new_alert, "alert_id", f"ALERT_{repo_name}_", ["description", "file"])
+        alerts.append(new_alert)
         return _response("ok", new_alert)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateSecurityAlert",
+                "name": "create_security_alert",
                 "description": "Create a new deterministic security alert (in-memory only).",
                 "parameters": {
                     "type": "object",
@@ -3623,13 +3084,7 @@ class CreateSecurityAlertTool(Tool):
                         "file": {"type": "string"},
                         "branch": {"type": "string"},
                     },
-                    "required": [
-                        "repo_name",
-                        "severity",
-                        "description",
-                        "file",
-                        "branch",
-                    ],
+                    "required": ["repo_name", "severity", "description", "file", "branch"],
                 },
             },
         }
@@ -3658,42 +3113,30 @@ class FixSecurityAlertTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str = None, alert_number: int = None) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            alert_number = _validate_param({"alert_number": alert_number}, "alert_number", int)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            alert_number = _validate_param(kwargs, "alert_number", int)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        alerts = data.get("code_scanning_alerts", {}).values()
-        alert = next(
-            (
-                a
-                for a in alerts.values() if a.get("repo") == repo_name and a.get("number") == alert_number
-            ),
-            None,
-        )
+        alerts = data.get("code_scanning_alerts", [])
+        alert = next((a for a in alerts if a.get("repo") == repo_name and a.get("number") == alert_number), None)
 
         if not alert:
-            return _response(
-                "error",
-                ERROR_MESSAGES["NOT_FOUND"].format(
-                    entity="Alert", entity_id=alert_number
-                ),
-                "NOT_FOUND",
-            )
+            return _response("error", ERROR_MESSAGES["NOT_FOUND"].format(entity="Alert", entity_id=alert_number), "NOT_FOUND")
 
         alert["state"] = "fixed"
         alert["resolved_at"] = CURRENT_DATE
         alert["updated_at"] = CURRENT_DATE
         return _response("ok", alert)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FixSecurityAlert",
+                "name": "fix_security_alert",
                 "description": "Mark a security alert as fixed deterministically.",
                 "parameters": {
                     "type": "object",
@@ -3736,34 +3179,33 @@ class ListAlertsBySeverityTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str, severity: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            severity = _validate_param({"severity": severity}, "severity", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            severity = _validate_param(kwargs, "severity", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        alerts = data.get("code_scanning_alerts", {}).values()
+        alerts = data.get("code_scanning_alerts", [])
         filtered = [
             {
-                "alert_id": _safe_id(
-                    a, "alert_id", f"ALERT_{repo_name}_", ["description", "file"]
-                ),
+                "alert_id": _safe_id(a, "alert_id", f"ALERT_{repo_name}_", ["description", "file"]),
                 "severity": (a.get("severity") or "unknown").lower(),
                 "state": a.get("state"),
                 "description": a.get("description"),
                 "report_date": CURRENT_DATE,
             }
-            for a in alerts.values() if a.get("repo") == repo_name
-            and (a.get("severity") or "").lower() == severity.lower()
+            for a in alerts
+            if a.get("repo") == repo_name and (a.get("severity") or "").lower() == severity.lower()
         ]
         return _response("ok", filtered)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListAlertsBySeverity",
+                "name": "list_alerts_by_severity",
                 "description": "List security alerts for a repository filtered by severity.",
                 "parameters": {
                     "type": "object",
@@ -3803,21 +3245,17 @@ class GetRepositoryRiskScoreTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        alerts = data.get("code_scanning_alerts", {}).values()
-        open_alerts = [
-            a for a in alerts.values() if a.get("repo") == repo_name and a.get("state") == "open"
-        ]
+        alerts = data.get("code_scanning_alerts", [])
+        open_alerts = [a for a in alerts if a.get("repo") == repo_name and a.get("state") == "open"]
 
         score = sum(
-            {"critical": 5, "high": 3, "medium": 2, "low": 1}.get(
-                a.get("severity", "low"), 1
-            )
+            {"critical": 5, "high": 3, "medium": 2, "low": 1}.get(a.get("severity", "low"), 1)
             for a in open_alerts
         )
 
@@ -3828,12 +3266,13 @@ class GetRepositoryRiskScoreTool(Tool):
             "report_date": CURRENT_DATE,
         }
         return _response("ok", result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetRepositoryRiskScore",
+                "name": "get_repository_risk_score",
                 "description": "Calculate deterministic risk score for a repository based on open alerts.",
                 "parameters": {
                     "type": "object",
@@ -3843,10 +3282,9 @@ class GetRepositoryRiskScoreTool(Tool):
             },
         }
 
-
-#================================================================
-#Terminal Events & Releases Tools
-#================================================================
+# ================================================================
+# Terminal Events & Releases Tools
+# ================================================================
 
 
 class GetDeploymentStatusTool(Tool):
@@ -3872,29 +3310,28 @@ class GetDeploymentStatusTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str) -> str:
-        repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-        deploys = data.get("deployments", {}).values()
-        repo_deploys = [d for d in deploys.values() if d.get("repo") == repo_name]
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
+        repo_name = _validate_param(kwargs, "repo_name", str)
+        deploys = data.get("deployments", [])
+        repo_deploys = [d for d in deploys if d.get("repo") == repo_name]
 
         if not repo_deploys:
             return _response(
                 "error",
-                ERROR_MESSAGES["NO_DATA_FOUND"].format(
-                    entity=f"Deployments for {repo_name}"
-                ),
-                "NOT_FOUND",
+                ERROR_MESSAGES["NO_DATA_FOUND"].format(entity=f"Deployments for {repo_name}"),
+                "NOT_FOUND"
             )
 
         latest = max(repo_deploys, key=lambda d: d.get("deployment_date", ""))
         result = {**latest, "report_date": CURRENT_DATE}
         return _response("ok", result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getDeploymentStatus",
+                "name": "get_deployment_status",
                 "description": "Get latest deterministic deployment status for a repository.",
                 "parameters": {
                     "type": "object",
@@ -3926,16 +3363,17 @@ class ListTerminalLogsTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        events = data.get("terminal", {}).values()
-        deterministic_events = [{**e, "report_date": CURRENT_DATE} for e in events.values()]
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
+        events = data.get("terminal", [])
+        deterministic_events = [{**e, "report_date": CURRENT_DATE} for e in events]
         return _response("ok", deterministic_events)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "listTerminalEvents",
+                "name": "list_terminal_events",
                 "description": "List timeline events from terminal logs deterministically.",
                 "parameters": {"type": "object", "properties": {}},
             },
@@ -3970,14 +3408,13 @@ class GetReleasesByRepositoryTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        releases = data.get("releases", {}).values()
+        releases = data.get("releases", [])
         filtered = [
             {
                 "release_id": _safe_id(r, "release_id", "REL_", ["repo", "version"]),
@@ -3987,15 +3424,16 @@ class GetReleasesByRepositoryTool(Tool):
                 "created_at": r.get("created_at"),
                 "report_date": CURRENT_DATE,
             }
-            for r in releases.values() if r.get("repo") == repo_name
+            for r in releases if r.get("repo") == repo_name
         ]
         return _response("ok", filtered)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetReleasesByRepository",
+                "name": "get_releases_by_repository",
                 "description": "List all releases for a repository deterministically.",
                 "parameters": {
                     "type": "object",
@@ -4030,27 +3468,17 @@ class CreateReleaseTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str, version: str, description: str,
-    name: Any = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            version = _validate_param({"version": version}, "version", str)
-            description = _validate_param({"description": description}, "description", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            version = _validate_param(kwargs, "version", str)
+            description = _validate_param(kwargs, "description", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        releases = data.get("releases", {}).values()
-        if any(
-            r.get("repo") == repo_name and r.get("version") == version for r in releases.values()
-        ):
-            return _response(
-                "error",
-                ERROR_MESSAGES["ALREADY_EXISTS"].format(
-                    entity="Release", entity_id=version
-                ),
-                "ALREADY_EXISTS",
-            )
+        releases = data.get("releases", [])
+        if any(r.get("repo") == repo_name and r.get("version") == version for r in releases):
+            return _response("error", ERROR_MESSAGES["ALREADY_EXISTS"].format(entity="Release", entity_id=version), "ALREADY_EXISTS")
 
         new_release = {
             "repo": repo_name,
@@ -4059,17 +3487,16 @@ class CreateReleaseTool(Tool):
             "created_at": CURRENT_DATE,
             "updated_at": CURRENT_DATE,
         }
-        new_release["release_id"] = _safe_id(
-            new_release, "release_id", "REL_", ["repo", "version"]
-        )
-        data["releases"][release_id] = new_release
+        new_release["release_id"] = _safe_id(new_release, "release_id", "REL_", ["repo", "version"])
+        releases.append(new_release)
         return _response("ok", new_release)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateRelease",
+                "name": "create_release",
                 "description": "Create a new deterministic release (in-memory only).",
                 "parameters": {
                     "type": "object",
@@ -4106,15 +3533,14 @@ class RegisterDeployEventTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str = None, environment: str = None) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-            environment = _validate_param({"environment": environment}, "environment", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
+            environment = _validate_param(kwargs, "environment", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        events = data.get("terminal", {}).values()
+        events = data.get("terminal", [])
 
         new_event = {
             "repo": repo_name,
@@ -4122,17 +3548,16 @@ class RegisterDeployEventTool(Tool):
             "type": "deploy",
             "date": CURRENT_DATE,
         }
-        new_event["event_id"] = _safe_id(
-            new_event, "event_id", "DEPLOY_", ["repo", "environment", "date"]
-        )
-        data["terminal"][new_event["terminal_id"]] = new_event
+        new_event["event_id"] = _safe_id(new_event, "event_id", "DEPLOY_", ["repo", "environment", "date"])
+        events.append(new_event)
         return _response("ok", new_event)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RegisterDeployEvent",
+                "name": "register_deploy_event",
                 "description": "Register a deterministic deploy event (in-memory only).",
                 "parameters": {
                     "type": "object",
@@ -4173,21 +3598,18 @@ class GetDeploymentFrequencyReportTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        events = data.get("terminal", {}).values()
-        deploys = [
-            d
-            for d in events.values() if d.get("repo") == repo_name and d.get("type") == "deploy"
-        ]
+        events = data.get("terminal", [])
+        deploys = [d for d in events if d.get("repo") == repo_name and d.get("type") == "deploy"]
         deploys = sorted(deploys, key=lambda d: (d.get("date"), d.get("event_id")))
 
-        deploy_dates = sorted([d.get("date") for d in deploys.values() if d.get("date")])
+
+        deploy_dates = sorted([d.get("date") for d in deploys if d.get("date")])
 
         intervals = []
         for i in range(1, len(deploy_dates)):
@@ -4200,22 +3622,19 @@ class GetDeploymentFrequencyReportTool(Tool):
             "deploy_count": len(deploys),
             "average_interval_days": average_interval,
             "deploy_events": [
-                {
-                    "event_id": d["event_id"],
-                    "date": d["date"],
-                    "environment": d["environment"],
-                }
-                for d in deploys.values()
+                {"event_id": d["event_id"], "date": d["date"], "environment": d["environment"]}
+                for d in deploys
             ],
             "report_date": CURRENT_DATE,
         }
         return _response("ok", report)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetDeploymentFrequencyReport",
+                "name": "get_deployment_frequency_report",
                 "description": "Get deterministic deployment frequency stats for a repository.",
                 "parameters": {
                     "type": "object",
@@ -4225,10 +3644,9 @@ class GetDeploymentFrequencyReportTool(Tool):
             },
         }
 
-
-#================================================================
-#Cross-Entity / Analytics Tools
-#================================================================
+# ================================================================
+# Cross-Entity / Analytics Tools
+# ================================================================
 
 
 class GetCrossEntityReportTool(Tool):
@@ -4255,48 +3673,35 @@ class GetCrossEntityReportTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str) -> str:
-        issues = data.get("issues", {}).values()
-        prs = data.get("pull_requests", {}).values()
-        commits = data.get("commits", {}).values()
-        alerts = data.get("code_scanning_alerts", {}).values()
-        deploys = data.get("deployments", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
+        repo_name = _validate_param(kwargs, "repo_name", str)
+
+        issues = data.get("issues", [])
+        prs = data.get("pull_requests", [])
+        commits = data.get("commits", [])
+        alerts = data.get("code_scanning_alerts", [])
+        deploys = data.get("deployments", [])
 
         result = {
             "repo": repo_name,
-            "open_issues": sum(
-                1
-                for i in issues.values() if i.get("repo") == repo_name and i.get("state") == "open"
-            ),
-            "merged_prs": sum(
-                1
-                for p in prs.values() if p.get("repo") == repo_name and p.get("state") == "merged"
-            ),
-            "recent_commits": sum(
-                1
-                for c in commits.values() if c.get("repo") == repo_name
-                and _days_between(c.get("timestamp", CURRENT_DATE), CURRENT_DATE) <= 30
-            ),
-            "open_alerts": sum(
-                1
-                for a in alerts.values() if a.get("repo") == repo_name and a.get("state") == "open"
-            ),
+            "open_issues": sum(1 for i in issues if i.get("repo") == repo_name and i.get("state") == "open"),
+            "merged_prs": sum(1 for p in prs if p.get("repo") == repo_name and p.get("state") == "merged"),
+            "recent_commits": sum(1 for c in commits if c.get("repo") == repo_name and _days_between(c.get("timestamp", CURRENT_DATE), CURRENT_DATE) <= 30),
+            "open_alerts": sum(1 for a in alerts if a.get("repo") == repo_name and a.get("state") == "open"),
             "last_deployment": max(
-                (
-                    d.get("deployment_date")
-                    for d in deploys.values() if d.get("repo") == repo_name
-                ),
-                default="none",
+                (d.get("deployment_date") for d in deploys if d.get("repo") == repo_name),
+                default="none"
             ),
             "report_date": CURRENT_DATE,
         }
         return _response("ok", result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCrossEntityReport",
+                "name": "get_cross_entity_report",
                 "description": "Generate deterministic cross-entity report (issues, PRs, commits, alerts, deploys).",
                 "parameters": {
                     "type": "object",
@@ -4330,44 +3735,33 @@ class MapCommitsToPullRequestsTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        commits = data.get("commits", {}).values()
-        prs = data.get("pull_requests", {}).values()
+        commits = data.get("commits", [])
+        prs = data.get("pull_requests", [])
 
         mapping = []
-        for pr in prs.values():
+        for pr in prs:
             if pr.get("repo") == repo_name:
-                pr_commits = [
-                    c
-                    for c in commits.values() if c.get("repo") == repo_name
-                    and c.get("branch") == pr.get("head_branch")
-                ]
-                mapping.append(
-                    {
-                        "pr_id": _safe_id(
-                            pr,
-                            "pr_id",
-                            f"PR_{repo_name}_",
-                            ["title", "head_branch", "base_branch"],
-                        ),
-                        "commit_ids": [c.get("sha") for c in pr_commits],
-                        "report_date": CURRENT_DATE,
-                    }
-                )
+                pr_commits = [c for c in commits if c.get("repo") == repo_name and c.get("branch") == pr.get("head_branch")]
+                mapping.append({
+                    "pr_id": _safe_id(pr, "pr_id", f"PR_{repo_name}_", ["title", "head_branch", "base_branch"]),
+                    "commit_ids": [c.get("sha") for c in pr_commits],
+                    "report_date": CURRENT_DATE,
+                })
 
         return _response("ok", mapping)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "MapCommitsToPullRequests",
+                "name": "map_commits_to_pull_requests",
                 "description": "Map commits deterministically to their pull requests.",
                 "parameters": {
                     "type": "object",
@@ -4400,37 +3794,31 @@ class MapPullRequestsToIssuesTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        prs = data.get("pull_requests", {}).values()
+        prs = data.get("pull_requests", [])
 
         mapping = [
             {
-                "issue_id": _safe_id(
-                    pr, "issue_id", f"ISSUE_{repo_name}_", ["title", "body"]
-                ),
-                "pr_id": _safe_id(
-                    pr,
-                    "pr_id",
-                    f"PR_{repo_name}_",
-                    ["title", "head_branch", "base_branch"],
-                ),
+                "issue_id": _safe_id(pr, "issue_id", f"ISSUE_{repo_name}_", ["title", "body"]),
+                "pr_id": _safe_id(pr, "pr_id", f"PR_{repo_name}_", ["title", "head_branch", "base_branch"]),
                 "linked_issues": pr.get("linked_issues", []),
                 "report_date": CURRENT_DATE,
             }
-            for pr in prs.values() if pr.get("repo") == repo_name
+            for pr in prs if pr.get("repo") == repo_name
         ]
         return _response("ok", mapping)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "mapPullRequestsToIssues",
+                "name": "map_pull_requests_to_issues",
                 "description": "Map pull requests deterministically to their linked issues.",
                 "parameters": {
                     "type": "object",
@@ -4469,51 +3857,37 @@ class GetRepositoryActivityDashboardTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
-            repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
+            repo_name = _validate_param(kwargs, "repo_name", str)
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        commits = data.get("commits", {}).values()
-        issues = data.get("issues", {}).values()
-        prs = data.get("pull_requests", {}).values()
-        alerts = data.get("code_scanning_alerts", {}).values()
+        commits = data.get("commits", [])
+        issues = data.get("issues", [])
+        prs = data.get("pull_requests", [])
+        alerts = data.get("code_scanning_alerts", [])
 
         dashboard = {
             "repo": repo_name,
-            "commits_count": sum(1 for c in commits.values() if c.get("repo") == repo_name),
-            "open_issues": sum(
-                1
-                for i in issues.values() if i.get("repo") == repo_name and i.get("state") == "open"
-            ),
-            "open_prs": sum(
-                1
-                for p in prs.values() if p.get("repo") == repo_name and p.get("state") == "open"
-            ),
+            "commits_count": sum(1 for c in commits if c.get("repo") == repo_name),
+            "open_issues": sum(1 for i in issues if i.get("repo") == repo_name and i.get("state") == "open"),
+            "open_prs": sum(1 for p in prs if p.get("repo") == repo_name and p.get("state") == "open"),
             "open_alerts_by_severity": {
-                sev: sum(
-                    1
-                    for a in alerts.values() if a.get("repo") == repo_name
-                    and a.get("state") == "open"
-                    and (a.get("severity") or "unknown").lower() == sev
-                )
+                sev: sum(1 for a in alerts if a.get("repo") == repo_name and a.get("state") == "open" and (a.get("severity") or "unknown").lower() == sev)
                 for sev in ["critical", "high", "medium", "low", "unknown"]
             },
-            "open_alerts": sum(
-                1
-                for a in alerts.values() if a.get("repo") == repo_name and a.get("state") == "open"
-            ),
+            "open_alerts": sum(1 for a in alerts if a.get("repo") == repo_name and a.get("state") == "open"),
             "report_date": CURRENT_DATE,
         }
         return _response("ok", dashboard)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetRepositoryActivityDashboard",
+                "name": "get_repository_activity_dashboard",
                 "description": "Summarize repository activity (commits, issues, PRs, alerts).",
                 "parameters": {
                     "type": "object",
@@ -4549,23 +3923,25 @@ class GetTeamContributionStatsTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str) -> str:
-        commits = data.get("commits", {}).values()
-        prs = data.get("pull_requests", {}).values()
-        issues = data.get("issues", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
+        repo_name = _validate_param(kwargs, "repo_name", str)
+
+        commits = data.get("commits", [])
+        prs = data.get("pull_requests", [])
+        issues = data.get("issues", [])
 
         stats = {}
-        for c in commits.values():
+        for c in commits:
             if c.get("repo") == repo_name:
                 author = _normalize_user(c.get("author"))
                 stats.setdefault(author, {"commits": 0, "prs": 0, "issues": 0})
                 stats[author]["commits"] += 1
-        for p in prs.values():
+        for p in prs:
             if p.get("repo") == repo_name:
                 author = _normalize_user(p.get("author"))
                 stats.setdefault(author, {"commits": 0, "prs": 0, "issues": 0})
                 stats[author]["prs"] += 1
-        for i in issues.values():
+        for i in issues:
             if i.get("repo") == repo_name:
                 for a in [_normalize_user(a) for a in i.get("assignees", [])]:
                     stats.setdefault(a, {"commits": 0, "prs": 0, "issues": 0})
@@ -4573,12 +3949,13 @@ class GetTeamContributionStatsTool(Tool):
 
         result = {"repo": repo_name, "team_stats": stats, "report_date": CURRENT_DATE}
         return _response("ok", result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetTeamContributionStats",
+                "name": "get_team_contribution_stats",
                 "description": "Calculate contributions (commits, PRs, issues) per user deterministically.",
                 "parameters": {
                     "type": "object",
@@ -4613,29 +3990,27 @@ class GetHotspotRepositoriesTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        issues = data.get("issues", {}).values()
-        alerts = data.get("code_scanning_alerts", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
+        issues = data.get("issues", [])
+        alerts = data.get("code_scanning_alerts", [])
 
         repo_hotspots = {}
-        for i in issues.values():
+        for i in issues:
             if i.get("state") == "open":
                 repo_hotspots[i.get("repo")] = repo_hotspots.get(i.get("repo"), 0) + 1
-        for a in alerts.values():
+        for a in alerts:
             if a.get("state") == "open":
                 repo_hotspots[a.get("repo")] = repo_hotspots.get(a.get("repo"), 0) + 1
 
-        result = [
-            {"repo": r, "open_items": count, "report_date": CURRENT_DATE}
-            for r, count in repo_hotspots.items()
-        ]
+        result = [{"repo": r, "open_items": count, "report_date": CURRENT_DATE} for r, count in repo_hotspots.items()]
         return _response("ok", result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getHotspotRepositories",
+                "name": "get_hotspot_repositories",
                 "description": "Identify repositories with most open issues and alerts deterministically.",
                 "parameters": {"type": "object", "properties": {}},
             },
@@ -4672,39 +4047,32 @@ class GenerateEndToEndReportTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], repo_name: str) -> str:
-        pass
-        commits = data.get("commits", {}).values()
-        issues = data.get("issues", {}).values()
-        prs = data.get("pull_requests", {}).values()
-        alerts = data.get("code_scanning_alerts", {}).values()
-        releases = data.get("releases", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
+        repo_name = _validate_param(kwargs, "repo_name", str)
+
+        commits = data.get("commits", [])
+        issues = data.get("issues", [])
+        prs = data.get("pull_requests", [])
+        alerts = data.get("code_scanning_alerts", [])
+        releases = data.get("releases", [])
 
         report = {
             "repo": repo_name,
-            "commits_count": sum(1 for c in commits.values() if c.get("repo") == repo_name),
-            "open_issues": sum(
-                1
-                for i in issues.values() if i.get("repo") == repo_name and i.get("state") == "open"
-            ),
-            "merged_prs": sum(
-                1
-                for p in prs.values() if p.get("repo") == repo_name and p.get("state") == "merged"
-            ),
-            "open_alerts": sum(
-                1
-                for a in alerts.values() if a.get("repo") == repo_name and a.get("state") == "open"
-            ),
-            "releases_count": sum(1 for r in releases.values() if r.get("repo") == repo_name),
+            "commits_count": sum(1 for c in commits if c.get("repo") == repo_name),
+            "open_issues": sum(1 for i in issues if i.get("repo") == repo_name and i.get("state") == "open"),
+            "merged_prs": sum(1 for p in prs if p.get("repo") == repo_name and p.get("state") == "merged"),
+            "open_alerts": sum(1 for a in alerts if a.get("repo") == repo_name and a.get("state") == "open"),
+            "releases_count": sum(1 for r in releases if r.get("repo") == repo_name),
             "report_date": CURRENT_DATE,
         }
         return _response("ok", report)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GenerateEndToEndReport",
+                "name": "generate_end_to_end_report",
                 "description": "Generate deterministic end-to-end report (issues, PRs, commits, alerts, releases).",
                 "parameters": {
                     "type": "object",
@@ -4716,19 +4084,22 @@ class GenerateEndToEndReportTool(Tool):
 
 
 TOOLS = [
-    #Repositories
+
+    # Repositories
     GetRepositoryMetadataTool(),
     ListRepositoriesTool(),
     CreateRepositoryTool(),
     UpdateRepositoryDescriptionTool(),
     GetRepositoryHealthSummaryTool(),
-    #Commits
+
+    # Commits
     ListCommitsByBranchTool(),
     GetCommitMetadataTool(),
     AddCommitToBranchTool(),
     CountCommitsByAuthorTool(),
     ListCommitsByDateRangeTool(),
-    #Issues
+
+    # Issues
     GetOpenIssuesTool(),
     GetClosedIssuesTool(),
     CreateIssueTool(),
@@ -4736,7 +4107,8 @@ TOOLS = [
     AssignIssueTool(),
     ListIssuesByLabelTool(),
     GetIssueAgingReportTool(),
-    #Pull Requests
+
+    # Pull Requests
     ListPullRequestsTool(),
     GetPullRequestMetadataTool(),
     OpenPullRequestTool(),
@@ -4745,21 +4117,24 @@ TOOLS = [
     RequestPullRequestReviewTool(),
     LinkPullRequestToIssueTool(),
     GetPullRequestMergeTimeReportTool(),
-    #Security Alerts
+
+    # Security Alerts
     GetOpenSecurityAlertsTool(),
     GetResolvedSecurityAlertsTool(),
     CreateSecurityAlertTool(),
     FixSecurityAlertTool(),
     ListAlertsBySeverityTool(),
     GetRepositoryRiskScoreTool(),
-    #Terminal / Releases
+
+    # Terminal / Releases
     GetDeploymentStatusTool(),
     ListTerminalLogsTool(),
     GetReleasesByRepositoryTool(),
     CreateReleaseTool(),
     RegisterDeployEventTool(),
     GetDeploymentFrequencyReportTool(),
-    #Cross-Entity / Analytics
+
+    # Cross-Entity / Analytics
     GetCrossEntityReportTool(),
     MapCommitsToPullRequestsTool(),
     MapPullRequestsToIssuesTool(),

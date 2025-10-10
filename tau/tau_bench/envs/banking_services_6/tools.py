@@ -1,21 +1,12 @@
 import json
-from datetime import date, datetime, time, timedelta, timezone
+from datetime import date, datetime, time, timedelta, UTC
 from typing import Any, Dict, List
 
-from tau_bench.envs.tool import Tool
+from domains.dto import Tool
 
-NOW: datetime = datetime(2025, 7, 22, 16, 35, 15, tzinfo=timezone.utc)
+NOW: datetime = datetime(2025, 7, 22, 16, 35, 15, tzinfo=UTC)
 
 DT_STR_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
-
-
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db.values())
-    return db
 
 
 def _get_next_id(prefix: str, existing_ids: List[str]) -> str:
@@ -26,57 +17,60 @@ def _get_next_id(prefix: str, existing_ids: List[str]) -> str:
 
 
 def _get_next_transaction_id(data: Dict[str, Any]) -> str:
-    transaction_ids = [t['transaction_id'] for t in data.get("transactions", {}).values()]
+    transaction_ids = [t['transaction_id'] for t in data.get('transactions', [])]
     return _get_next_id('txn', transaction_ids)
 
 
 def _get_next_customer_id(data: Dict[str, Any]) -> str:
-    customer_ids = [c['customer_id'] for c in data.get("customers", {}).values()]
+    customer_ids = [c['customer_id'] for c in data.get('customers', [])]
     return _get_next_id('customer', customer_ids)
 
 
 def _get_next_loan_application_id(data: Dict[str, Any]) -> str:
-    app_ids = [app['application_id'] for app in data.get("loan_applications", {}).values()]
+    app_ids = [app['application_id'] for app in data.get('loan_applications', [])]
     return _get_next_id('app', app_ids)
 
 
 def _get_next_beneficiary_id(data: Dict[str, Any]) -> str:
-    bene_ids = [b['beneficiary_id'] for b in data.get("beneficiaries", {}).values()]
+    bene_ids = [b['beneficiary_id'] for b in data.get('beneficiaries', [])]
     return _get_next_id('bene', bene_ids)
 
 
 def _get_next_scheduled_payment_id(data: Dict[str, Any]) -> str:
-    payment_ids = [p['payment_id'] for p in data.get("scheduled_payments", {}).values()]
+    payment_ids = [p['payment_id'] for p in data.get('scheduled_payments', [])]
     return _get_next_id('sp', payment_ids)
 
 
 def _get_next_support_ticket_id(data: Dict[str, Any]) -> str:
-    ticket_ids = [t['ticket_id'] for t in data.get("support_tickets", {}).values()]
+    ticket_ids = [t['ticket_id'] for t in data.get('support_tickets', [])]
     return _get_next_id('tkt', ticket_ids)
 
 
 def _get_next_account_id(data: Dict[str, Any]) -> str:
-    account_ids = [a['account_id'] for a in data.get("accounts", {}).values()]
+    account_ids = [a['account_id'] for a in data.get('accounts', [])]
     return _get_next_id('acc', account_ids)
 
 
 class SearchCustomerByName(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], first_name: str = None, last_name: str = None) -> str:
-        customers = data.get("customers", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        first_name = kwargs.get("first_name")
+        last_name = kwargs.get("last_name")
+        customers = data.get("customers", [])
         results = []
-        for customer in customers.values():
-            pi = customer.get("personal_info", {}).values()
+        for customer in customers:
+            pi = customer.get("personal_info", {})
             if pi.get("first_name", "").lower().strip() == first_name.lower().strip() and \
                     pi.get("last_name", "").lower().strip() == last_name.lower().strip():
                 results.append(customer)
         return json.dumps(results)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "SearchCustomerByName",
+                        "name": "search_customer_by_name",
                         "description": "Searches for a customer by their first and last name.",
                         "parameters": {
                                 "type": "object",
@@ -92,16 +86,18 @@ class SearchCustomerByName(Tool):
 
 class GetCustomerAccounts(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
-        accounts = data.get("accounts", {}).values()
-        customer_accounts = [acc for acc in accounts.values() if acc.get("customer_id") == customer_id]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        accounts = data.get("accounts", [])
+        customer_accounts = [acc for acc in accounts if acc.get("customer_id") == customer_id]
         return json.dumps(customer_accounts)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "GetCustomerAccounts",
+                        "name": "get_customer_accounts",
                         "description": "Retrieves all accounts associated with a given customer ID.",
                         "parameters": {
                                 "type": "object",
@@ -116,18 +112,20 @@ class GetCustomerAccounts(Tool):
 
 class GetAccountBalance(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None) -> str:
-        accounts = data.get("accounts", {}).values()
-        for account in accounts.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get("account_id")
+        accounts = data.get("accounts", [])
+        for account in accounts:
             if account.get("account_id") == account_id:
                 return json.dumps({"account_id": account_id, "balance": account.get("balance"), "currency": account.get("currency")})
         return json.dumps({"error": "Account not found"})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "GetAccountBalance",
+                        "name": "get_account_balance",
                         "description": "Gets the current balance for a specific account.",
                         "parameters": {
                                 "type": "object",
@@ -142,23 +140,25 @@ class GetAccountBalance(Tool):
 
 class CalculateSum(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], values: list = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        val = kwargs.get("values")
         total = 0
-        if values:
-            total = sum([float(v) for v in values])
+        if val:
+            total = sum([float(v) for v in val])
 
         return json.dumps({"total": f"{total}"})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "CalculateSum",
+                        "name": "calculate_sum",
                         "description": "Calculate the total sum for a list of numerical values.",
                         "parameters": {
                                 "type": "object",
                                 "properties": {
-                                        "values": {"type": "array", "items": {"type": "string"}, "description": "The values to sum up."}
+                                        "values": {"type": "array", "description": "The values to sum up."}
                                 },
                                 "required": ["values"],
                         },
@@ -168,26 +168,28 @@ class CalculateSum(Tool):
 
 class UpdateCustomerAddress(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, street_address: str = None, city: str = None, state: str = None, postal_code: str = None, country: str = None) -> str:
-        for customer in data.get("customers", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        for customer in data.get("customers", []):
             if customer.get("customer_id") == customer_id:
                 new_address = {
-                    "street_address": street_address,
-                    "city": city,
-                    "state": state,
-                    "postal_code": postal_code,
-                    "country": country
+                        "street_address": kwargs.get("street_address"),
+                        "city": kwargs.get("city"),
+                        "state": kwargs.get("state"),
+                        "postal_code": kwargs.get("postal_code"),
+                        "country": kwargs.get("country")
                 }
                 customer["contact_info"]["mailing_address"] = new_address
                 customer["contact_info"]["residential_address"] = new_address
                 return json.dumps(customer)
         return json.dumps({"error": "Customer not found."})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "UpdateCustomerAddress",
+                        "name": "update_customer_address",
                         "description": "Updates the mailing and residential address for a customer.",
                         "parameters": {
                                 "type": "object",
@@ -207,22 +209,25 @@ class UpdateCustomerAddress(Tool):
 
 class UpdateCustomerPhone(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, new_phone_number: str = None) -> str:
-        for customer in data.get("customers", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        new_phone_number = kwargs.get("new_phone_number")
+        for customer in data.get("customers", []):
             if customer.get("customer_id") == customer_id:
-                for phone in customer.get("contact_info", {}).values().get("phone_numbers", []):
+                for phone in customer.get("contact_info", {}).get("phone_numbers", []):
                     if phone.get("is_primary"):
                         phone["number"] = new_phone_number
                         return json.dumps(customer)
                 customer["contact_info"]["phone_numbers"].append({"type": "Mobile", "number": new_phone_number, "is_primary": True})
                 return json.dumps(customer)
         return json.dumps({"error": "Customer not found."})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "UpdateCustomerPhone",
+                        "name": "update_customer_phone",
                         "description": "Updates the primary phone number for a customer.",
                         "parameters": {
                                 "type": "object",
@@ -238,17 +243,21 @@ class UpdateCustomerPhone(Tool):
 
 class CreateTransaction(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], source_account_id: str = None, destination_account_id: str = None, amount: float = 0.0, description: str = "") -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         transaction_id = _get_next_transaction_id(data)
+        source_account_id = kwargs.get("source_account_id")
+        destination_account_id = kwargs.get("destination_account_id")
+        amount = kwargs.get("amount")
+        description = kwargs.get("description")
 
-        source_account = next((acc for acc in data["accounts"].values() if acc["account_id"] == source_account_id), None)
+        source_account = next((acc for acc in data["accounts"] if acc["account_id"] == source_account_id), None)
         if not source_account:
             return json.dumps({"error": "Source account not found."})
 
         source_account["balance"] -= amount
 
         if destination_account_id:
-            dest_account = next((acc for acc in data["accounts"].values() if acc["account_id"] == destination_account_id), None)
+            dest_account = next((acc for acc in data["accounts"] if acc["account_id"] == destination_account_id), None)
             if dest_account:
                 dest_account["balance"] += amount
 
@@ -263,15 +272,16 @@ class CreateTransaction(Tool):
                 "status": "Completed",
                 "channel": "Online"
         }
-        data["transactions"][transaction_id] = new_transaction
+        data["transactions"].append(new_transaction)
 
         return json.dumps(new_transaction)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "CreateTransaction",
+                        "name": "create_transaction",
                         "description": "Creates a new transaction between accounts.",
                         "parameters": {
                                 "type": "object",
@@ -289,8 +299,11 @@ class CreateTransaction(Tool):
 
 class UpdateAccountStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, new_status: str = None) -> str:
-        account = next((acc for acc in data["accounts"].values() if acc["account_id"] == account_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get("account_id")
+        new_status = kwargs.get("new_status")
+
+        account = next((acc for acc in data["accounts"] if acc["account_id"] == account_id), None)
         if not account:
             return json.dumps({"error": "Account not found."})
 
@@ -299,12 +312,13 @@ class UpdateAccountStatus(Tool):
 
         account["status"] = new_status
         return json.dumps(account)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "UpdateAccountStatus",
+                        "name": "update_account_status",
                         "description": "Updates the status of an account (e.g., Active, Frozen, Closed).",
                         "parameters": {
                                 "type": "object",
@@ -321,42 +335,33 @@ class UpdateAccountStatus(Tool):
 
 class CreateCustomer(Tool):
     @staticmethod
-    def invoke(
-        data: Dict[str, Any],
-        first_name: str = None,
-        last_name: str = None,
-        dob: str = None,
-        email: str = None,
-        phone: str = None,
-        street: str = None,
-        city: str = None,
-        postal_code: str = None,
-        country: str = None,
-        annual_income: float = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         customer_id = _get_next_customer_id(data)
         new_customer = {
-            "customer_id": customer_id,
-            "personal_info": {"first_name": first_name, "last_name": last_name, "date_of_birth": dob},
-            "contact_info": {
-                "email_address": email,
-                "phone_numbers": [{"type": "Mobile", "number": phone, "is_primary": True}],
-                "mailing_address": {"street_address": street, "city": city, "postal_code": postal_code, "country": country},
-                "residential_address": {"street_address": street, "city": city, "postal_code": postal_code, "country": country}
-            },
-            "account_ids": [],
-            "financial_profile": {"annual_income": annual_income},
-            "bank_relationship": {"date_joined": NOW.strftime('%Y-%m-%d')},
-            "compliance": {"kyc_status": "Verified", "aml_risk_level": "Low"}
+                "customer_id": customer_id,
+                "personal_info": {"first_name": kwargs.get("first_name"), "last_name": kwargs.get("last_name"), "date_of_birth": kwargs.get("dob")},
+                "contact_info": {
+                        "email_address": kwargs.get("email"),
+                        "phone_numbers": [{"type": "Mobile", "number": kwargs.get("phone"), "is_primary": True}],
+                        "mailing_address": {"street_address": kwargs.get("street"), "city": kwargs.get("city"), "postal_code": kwargs.get("postal_code"),
+                                            "country": kwargs.get("country")},
+                        "residential_address": {"street_address": kwargs.get("street"), "city": kwargs.get("city"), "postal_code": kwargs.get("postal_code"),
+                                                "country": kwargs.get("country")}
+                },
+                "account_ids": [],
+                "financial_profile": {"annual_income": kwargs.get("annual_income")},
+                "bank_relationship": {"date_joined": NOW.strftime('%Y-%m-%d')},
+                "compliance": {"kyc_status": "Verified", "aml_risk_level": "Low"}
         }
         data['customers'].append(new_customer)
         return json.dumps(new_customer)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "CreateCustomer",
+                        "name": "create_customer",
                         "description": "Creates a new customer profile.",
                         "parameters": {
                                 "type": "object",
@@ -373,10 +378,10 @@ class CreateCustomer(Tool):
 
 class CreateLoanApplication(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str, loan_type: str = None, amount: float = None, 
-               term: int = None, purpose: str = None, annual_income: float = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         application_id = _get_next_loan_application_id(data)
-        customer = next((c for c in data['customers'].values() if c['customer_id'] == customer_id), None)
+        customer_id = kwargs.get("customer_id")
+        customer = next((c for c in data['customers'] if c['customer_id'] == customer_id), None)
         if not customer:
             return json.dumps({"error": "Customer not found"})
 
@@ -389,23 +394,24 @@ class CreateLoanApplication(Tool):
                         "last_name": customer['personal_info']['last_name'],
                 },
                 "loan_details": {
-                        "loan_type": loan_type,
-                        "requested_amount": amount,
-                        "requested_term_months": term,
-                        "purpose": purpose
+                        "loan_type": kwargs.get("loan_type"),
+                        "requested_amount": kwargs.get("amount"),
+                        "requested_term_months": kwargs.get("term"),
+                        "purpose": kwargs.get("purpose")
                 },
-                "financial_snapshot": {"annual_income": annual_income},
+                "financial_snapshot": {"annual_income": kwargs.get("annual_income")},
                 "application_status": "Submitted",
                 "submission_date": NOW.strftime(DT_STR_FORMAT)
         }
         data['loan_applications'].append(new_application)
         return json.dumps(new_application)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "CreateLoanApplication",
+                        "name": "create_loan_application",
                         "description": "Creates a new loan application for a customer.",
                         "parameters": {
                                 "type": "object",
@@ -421,31 +427,32 @@ class CreateLoanApplication(Tool):
 
 class AddBeneficiary(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, name: str = None, relationship: str = None, iban: str = None, account_number: str = None, sort_code: str = None, routing_number: str = None, bank_name: str = None, country: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         beneficiary_id = _get_next_beneficiary_id(data)
         new_beneficiary = {
                 "beneficiary_id": beneficiary_id,
-                "customer_id": customer_id,
-                "beneficiary_name": name,
-                "relationship": relationship,
+                "customer_id": kwargs.get("customer_id"),
+                "beneficiary_name": kwargs.get("name"),
+                "relationship": kwargs.get("relationship"),
                 "account_details": {
-                        "iban": iban,
-                        "account_number": account_number,
-                        "sort_code": sort_code,
-                        "routing_number": routing_number,
-                        "bank_name": bank_name,
-                        "country": country
+                        "iban": kwargs.get("iban"),
+                        "account_number": kwargs.get("account_number"),
+                        "sort_code": kwargs.get("sort_code"),
+                        "routing_number": kwargs.get("routing_number"),
+                        "bank_name": kwargs.get("bank_name"),
+                        "country": kwargs.get("country")
                 },
                 "date_added": NOW.strftime(DT_STR_FORMAT)
         }
         data['beneficiaries'].append(new_beneficiary)
         return json.dumps(new_beneficiary)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "AddBeneficiary",
+                        "name": "add_beneficiary",
                         "description": "Adds a new beneficiary to a customer's profile.",
                         "parameters": {
                                 "type": "object",
@@ -465,36 +472,30 @@ class AddBeneficiary(Tool):
 
 class CreateScheduledPayment(Tool):
     @staticmethod
-    def invoke(
-        data: Dict[str, Any], 
-        customer_id: str = None, 
-        source_account_id: str = None, 
-        beneficiary_id: str = None, 
-        amount: float = None, 
-        frequency: str = None, 
-        start_date: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         payment_id = _get_next_scheduled_payment_id(data)
+        source_account_id = kwargs.get("source_account_id")
         new_payment = {
                 "payment_id": payment_id,
-                "customer_id": customer_id,
+                "customer_id": kwargs.get("customer_id"),
                 "source_account_id": source_account_id,
-                "beneficiary_id": beneficiary_id,
-                "amount": amount,
-                "currency": next((a['currency'] for a in data['accounts'].values() if a['account_id'] == source_account_id), "EUR"),
-                "frequency": frequency,
-                "start_date": start_date,
-                "next_payment_date": start_date,
+                "beneficiary_id": kwargs.get("beneficiary_id"),
+                "amount": kwargs.get("amount"),
+                "currency": next((a['currency'] for a in data['accounts'] if a['account_id'] == source_account_id), "EUR"),
+                "frequency": kwargs.get("frequency"),
+                "start_date": kwargs.get("start_date"),
+                "next_payment_date": kwargs.get("start_date"),
                 "status": "Active"
         }
         data['scheduled_payments'].append(new_payment)
         return json.dumps(new_payment)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "CreateScheduledPayment",
+                        "name": "create_scheduled_payment",
                         "description": "Schedules a new recurring payment.",
                         "parameters": {
                                 "type": "object",
@@ -510,17 +511,19 @@ class CreateScheduledPayment(Tool):
 
 class GetTransactionDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], transaction_id: str = None) -> str:
-        transaction = next((t for t in data.get("transactions", {}).values() if t['transaction_id'] == transaction_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        transaction_id = kwargs.get("transaction_id")
+        transaction = next((t for t in data.get('transactions', []) if t['transaction_id'] == transaction_id), None)
         if transaction:
             return json.dumps(transaction)
         return json.dumps({"error": "Transaction not found."})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "GetTransactionDetails",
+                        "name": "get_transaction_details",
                         "description": "Retrieves the full details of a single transaction.",
                         "parameters": {
                                 "type": "object",
@@ -535,28 +538,29 @@ class GetTransactionDetails(Tool):
 
 class CreateSupportTicket(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, priority: str = None, category: str = None, details: str = None, target_entity: str = None, target_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         ticket_id = _get_next_support_ticket_id(data)
         new_ticket = {
                 "ticket_id": ticket_id,
-                "customer_id": customer_id,
+                "customer_id": kwargs.get("customer_id"),
                 "status": "Open",
-                "priority": priority,
-                "category": category,
+                "priority": kwargs.get("priority"),
+                "category": kwargs.get("category"),
                 "request_details": {
-                        "details": details,
-                        "target_entity": target_entity,
-                        "target_id": target_id,
+                        "details": kwargs.get("details"),
+                        "target_entity": kwargs.get("target_entity"),
+                        "target_id": kwargs.get("target_id"),
                 }
         }
         data['support_tickets'].append(new_ticket)
         return json.dumps(new_ticket)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "CreateSupportTicket",
+                        "name": "create_support_ticket",
                         "description": "Creates a new support ticket for a customer issue.",
                         "parameters": {
                                 "type": "object",
@@ -572,18 +576,21 @@ class CreateSupportTicket(Tool):
 
 class GetBeneficiaryByName(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, beneficiary_name: str = None) -> str:
-        beneficiary = next((b for b in data['beneficiaries'].values() if b['customer_id'] == customer_id and b['beneficiary_name'].lower().strip() == beneficiary_name.lower().strip()),
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        beneficiary_name = kwargs.get("beneficiary_name")
+        beneficiary = next((b for b in data['beneficiaries'] if b['customer_id'] == customer_id and b['beneficiary_name'].lower().strip() == beneficiary_name.lower().strip()),
                            None)
         if beneficiary:
             return json.dumps(beneficiary)
         return json.dumps({"error": "Beneficiary not found"})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "GetBeneficiaryByName",
+                        "name": "get_beneficiary_by_name",
                         "description": "Finds a beneficiary for a customer by their name.",
                         "parameters": {
                                 "type": "object",
@@ -598,18 +605,20 @@ class GetBeneficiaryByName(Tool):
 
 class GetBeneficiaryDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], beneficiary_id: str = None) -> str:
-        beneficiary = next((b for b in data.get("beneficiaries", {}).values() if b.get('beneficiary_id') == beneficiary_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        beneficiary_id = kwargs.get("beneficiary_id")
+        beneficiary = next((b for b in data.get('beneficiaries', []) if b.get('beneficiary_id') == beneficiary_id), None)
 
         if beneficiary:
             return json.dumps(beneficiary)
         return json.dumps({"error": "Beneficiary not found."})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "GetBeneficiaryDetails",
+                        "name": "get_beneficiary_details",
                         "description": "Looks up a beneficiary by their unique beneficiary ID and displays the details.",
                         "parameters": {
                                 "type": "object",
@@ -623,17 +632,19 @@ class GetBeneficiaryDetails(Tool):
 
 class GetCustomerFinancialProfile(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
-        customer = next((c for c in data['customers'].values() if c['customer_id'] == customer_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        customer = next((c for c in data['customers'] if c['customer_id'] == customer_id), None)
         if customer and "financial_profile" in customer:
             return json.dumps(customer['financial_profile'])
         return json.dumps({"error": "Customer or financial profile not found"})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "GetCustomerFinancialProfile",
+                        "name": "get_customer_financial_profile",
                         "description": "Retrieves the financial profile of a customer.",
                         "parameters": {
                                 "type": "object",
@@ -646,17 +657,19 @@ class GetCustomerFinancialProfile(Tool):
 
 class GetAccountDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None) -> str:
-        account = next((a for a in data['accounts'].values() if a['account_id'] == account_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get("account_id")
+        account = next((a for a in data['accounts'] if a['account_id'] == account_id), None)
         if account:
             return json.dumps(account)
         return json.dumps({"error": "Account not found"})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "GetAccountDetails",
+                        "name": "get_account_details",
                         "description": "Retrieves full details for a specific account.",
                         "parameters": {
                                 "type": "object",
@@ -669,17 +682,19 @@ class GetAccountDetails(Tool):
 
 class GetLoanDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], loan_id: str = None) -> str:
-        loan = next((l for l in data['loans'].values() if l['loan_id'] == loan_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        loan_id = kwargs.get("loan_id")
+        loan = next((l for l in data['loans'] if l['loan_id'] == loan_id), None)
         if loan:
             return json.dumps(loan)
         return json.dumps({"error": "Loan not found"})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "GetLoanDetails",
+                        "name": "get_loan_details",
                         "description": "Retrieves full details for a specific loan.",
                         "parameters": {
                                 "type": "object",
@@ -692,19 +707,24 @@ class GetLoanDetails(Tool):
 
 class CalculateNewLoanPayment(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], current_balance: float, new_interest_rate: float, remaining_term_months: int) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        current_balance = kwargs.get("current_balance")
+        new_interest_rate = kwargs.get("new_interest_rate")
+        remaining_term_months = kwargs.get("remaining_term_months")
+
         monthly_rate = (new_interest_rate / 100) / 12
         if monthly_rate == 0:
             payment = current_balance / remaining_term_months
         else:
             payment = current_balance * (monthly_rate * (1 + monthly_rate) ** remaining_term_months) / ((1 + monthly_rate) ** remaining_term_months - 1)
         return json.dumps({"new_monthly_payment": round(payment, 2)})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "CalculateNewLoanPayment",
+                        "name": "calculate_new_loan_payment",
                         "description": "Calculates a new monthly loan payment based on new terms.",
                         "parameters": {
                                 "type": "object",
@@ -721,7 +741,8 @@ class CalculateNewLoanPayment(Tool):
 
 class ListAccountTypesByCurrency(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], currency: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        currency = kwargs.get("currency")
         account_types = []
         if currency == "GBP":
             account_types = ["Checking", "Savings", "ISA"]
@@ -731,12 +752,13 @@ class ListAccountTypesByCurrency(Tool):
             account_types = ["Current Account", "Savings Account", "Credit"]
 
         return json.dumps({"currency": currency, "available_account_types": account_types})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "ListAccountTypesByCurrency",
+                        "name": "list_account_types_by_currency",
                         "description": "Lists the types of accounts available for a given currency.",
                         "parameters": {
                                 "type": "object",
@@ -749,17 +771,19 @@ class ListAccountTypesByCurrency(Tool):
 
 class GetLoanApplicationDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], application_id: str = None) -> str:
-        application = next((app for app in data.get("loan_applications", {}).values() if app['application_id'] == application_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        application_id = kwargs.get("application_id")
+        application = next((app for app in data.get('loan_applications', []) if app['application_id'] == application_id), None)
         if application:
             return json.dumps(application)
         return json.dumps({"error": "Loan application not found."})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "GetLoanApplicationDetails",
+                        "name": "get_loan_application_details",
                         "description": "Retrieves the full details of a single loan application.",
                         "parameters": {
                                 "type": "object",
@@ -774,18 +798,21 @@ class GetLoanApplicationDetails(Tool):
 
 class UpdateLoanBalance(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], loan_id: str = None, amount: float = None) -> str:
-        loan = next((l for l in data.get("loans", {}).values() if l['loan_id'] == loan_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        loan_id = kwargs.get("loan_id")
+        amount = kwargs.get("amount")
+        loan = next((l for l in data.get('loans', []) if l['loan_id'] == loan_id), None)
         if loan:
             loan['current_balance'] += amount
             return json.dumps(loan)
         return json.dumps({"error": "Loan not found."})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "UpdateLoanBalance",
+                        "name": "update_loan_balance",
                         "description": "Updates the current balance of a loan, typically after a payment.",
                         "parameters": {
                                 "type": "object",
@@ -801,10 +828,13 @@ class UpdateLoanBalance(Tool):
 
 class CreateAccount(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, account_type: str = None, currency: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         account_id = _get_next_account_id(data)
+        customer_id = kwargs.get("customer_id")
+        account_type = kwargs.get("account_type")
+        currency = kwargs.get("currency")
 
-        customer = next((c for c in data['customers'].values() if c['customer_id'] == customer_id), None)
+        customer = next((c for c in data['customers'] if c['customer_id'] == customer_id), None)
         if not customer:
             return json.dumps({"error": "Customer not found"})
 
@@ -829,12 +859,13 @@ class CreateAccount(Tool):
         customer['account_ids'].append(account_id)
 
         return json.dumps(new_account)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "CreateAccount",
+                        "name": "create_account",
                         "description": "Creates a new bank account for a customer.",
                         "parameters": {
                                 "type": "object",
@@ -851,21 +882,23 @@ class CreateAccount(Tool):
 
 class RemoveBeneficiary(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], beneficiary_id: str = None) -> str:
-        beneficiaries = data.get("beneficiaries", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        beneficiary_id = kwargs.get("beneficiary_id")
+        beneficiaries = data.get('beneficiaries', [])
 
         initial_len = len(beneficiaries)
-        data['beneficiaries'] = [b for b in beneficiaries.values() if b['beneficiary_id'] != beneficiary_id]
+        data['beneficiaries'] = [b for b in beneficiaries if b['beneficiary_id'] != beneficiary_id]
 
         if len(data['beneficiaries']) < initial_len:
             return json.dumps({"status": "Success", "beneficiary_id": beneficiary_id, "action": "removed"})
         return json.dumps({"error": "Beneficiary not found or could not be removed."})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "RemoveBeneficiary",
+                        "name": "remove_beneficiary",
                         "description": "Removes a beneficiary from the database.",
                         "parameters": {
                                 "type": "object",
@@ -880,27 +913,27 @@ class RemoveBeneficiary(Tool):
 
 class UpdateCustomerPersonalInfo(Tool):
     @staticmethod
-    def invoke(
-        data: Dict[str, Any],
-        customer_id: str = None,
-        field: str = None,
-        value: Any = None
-    ) -> str:
-        customer = next((c for c in data['customers'].values() if c['customer_id'] == customer_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        field_to_update = kwargs.get("field")
+        new_value = kwargs.get("value")
+
+        customer = next((c for c in data['customers'] if c['customer_id'] == customer_id), None)
         if not customer:
             return json.dumps({"error": "Customer not found"})
 
-        if "personal_info" in customer and field in customer["personal_info"]:
-            customer["personal_info"][field] = value
+        if "personal_info" in customer and field_to_update in customer["personal_info"]:
+            customer["personal_info"][field_to_update] = new_value
             return json.dumps(customer["personal_info"])
 
-        return json.dumps({"error": f"Field {field} not found in personal info."})
+        return json.dumps({"error": f"Field {field_to_update} not found in personal info."})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "UpdateCustomerPersonalInfo",
+                        "name": "update_customer_personal_info",
                         "description": "Updates a specific field in a customer's personal information.",
                         "parameters": {
                                 "type": "object",
@@ -917,15 +950,17 @@ class UpdateCustomerPersonalInfo(Tool):
 
 class ListBeneficiaries(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
-        customer_beneficiaries = [b for b in data['beneficiaries'].values() if b['customer_id'] == customer_id]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        customer_beneficiaries = [b for b in data['beneficiaries'] if b['customer_id'] == customer_id]
         return json.dumps(customer_beneficiaries)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "ListBeneficiaries",
+                        "name": "list_beneficiaries",
                         "description": "Lists all beneficiaries for a given customer.",
                         "parameters": {
                                 "type": "object",
@@ -938,8 +973,12 @@ class ListBeneficiaries(Tool):
 
 class UpdateCustomerPreferences(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, paperless_billing: bool = None, communication_channel: str = None) -> str:
-        customer = next((c for c in data['customers'].values() if c['customer_id'] == customer_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        paperless_billing = kwargs.get("paperless_billing")
+        communication_channel = kwargs.get("communication_channel")
+
+        customer = next((c for c in data['customers'] if c['customer_id'] == customer_id), None)
         if not customer:
             return json.dumps({"error": "Customer not found"})
 
@@ -952,12 +991,13 @@ class UpdateCustomerPreferences(Tool):
             customer["preferences"]["communication_channel"] = communication_channel
 
         return json.dumps(customer["preferences"])
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "UpdateCustomerPreferences",
+                        "name": "update_customer_preferences",
                         "description": "Updates a customer's communication preferences.",
                         "parameters": {
                                 "type": "object",
@@ -974,8 +1014,11 @@ class UpdateCustomerPreferences(Tool):
 
 class UpdateCustomerSecurityQuestion(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, security_question: str = None) -> str:
-        customer = next((c for c in data['customers'].values() if c['customer_id'] == customer_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        security_question = kwargs.get("security_question")
+
+        customer = next((c for c in data['customers'] if c['customer_id'] == customer_id), None)
         if not customer:
             return json.dumps({"error": "Customer not found"})
 
@@ -986,12 +1029,13 @@ class UpdateCustomerSecurityQuestion(Tool):
             customer["security"]["security_question"] = security_question
 
         return json.dumps(customer["security"])
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "UpdateCustomerSecurityQuestion",
+                        "name": "update_customer_security_question",
                         "description": "Updates a customer's security question.",
                         "parameters": {
                                 "type": "object",
@@ -1007,10 +1051,13 @@ class UpdateCustomerSecurityQuestion(Tool):
 
 class CreateDeposit(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, amount: float = None, description: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         transaction_id = _get_next_transaction_id(data)
+        account_id = kwargs.get("account_id")
+        amount = kwargs.get("amount")
+        description = kwargs.get("description")
 
-        account = next((acc for acc in data["accounts"].values() if acc["account_id"] == account_id), None)
+        account = next((acc for acc in data["accounts"] if acc["account_id"] == account_id), None)
         if not account:
             return json.dumps({"error": "Account not found."})
 
@@ -1027,15 +1074,16 @@ class CreateDeposit(Tool):
                 "status": "Completed",
                 "channel": "Online"
         }
-        data["transactions"][transaction_id] = new_transaction
+        data["transactions"].append(new_transaction)
 
         return json.dumps(new_transaction)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "CreateDeposit",
+                        "name": "create_deposit",
                         "description": "Records an external deposit into an account.",
                         "parameters": {
                                 "type": "object",
@@ -1052,25 +1100,29 @@ class CreateDeposit(Tool):
 
 class GetAccountTransactions(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str, days_history: int = 30, current_date: str = None) -> str:
-        current_dt = NOW if not current_date else datetime.combine(date=date.fromisoformat(current_date), time=time(hour=0, minute=0, second=0, tzinfo=timezone.utc))
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get("account_id")
+        days_history = kwargs.get("days_history", 30)
+        current_date = kwargs.get("current_date")
+        current_dt = NOW if not current_date else datetime.combine(date=date.fromisoformat(current_date), time=time(hour=0, minute=0, second=0, tzinfo=UTC))
 
-        transactions = data.get("transactions", {}).values()
-        account_transactions = [t for t in transactions.values() if t['account_id'] == account_id]
+        transactions = data.get('transactions', [])
+        account_transactions = [t for t in transactions if t['account_id'] == account_id]
         cutoff_date = current_dt - timedelta(days=days_history)
 
         recent_transactions = [
                 t for t in account_transactions
-                if datetime.fromisoformat(t['transaction_date'].replace('Z', '')).astimezone(timezone.utc) > cutoff_date
+                if datetime.fromisoformat(t['transaction_date'].replace('Z', '')).astimezone(UTC) > cutoff_date
         ]
 
         return json.dumps(recent_transactions)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "GetAccountTransactions",
+                        "name": "get_account_transactions",
                         "description": "Retrieves transaction history for a specific account for a given period.",
                         "parameters": {
                                 "type": "object",
@@ -1087,19 +1139,23 @@ class GetAccountTransactions(Tool):
 
 class UpdateScheduledPaymentStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], payment_id: str = None, new_status: str = None) -> str:
-        payment = next((p for p in data['scheduled_payments'].values() if p['payment_id'] == payment_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        payment_id = kwargs.get("payment_id")
+        new_status = kwargs.get("new_status")
+
+        payment = next((p for p in data['scheduled_payments'] if p['payment_id'] == payment_id), None)
         if not payment:
             return json.dumps({"error": "Scheduled payment not found."})
 
         payment['status'] = new_status
         return json.dumps(payment)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "UpdateScheduledPaymentStatus",
+                        "name": "update_scheduled_payment_status",
                         "description": "Updates the status of a scheduled payment (e.g., Active, Paused, Cancelled).",
                         "parameters": {
                                 "type": "object",
@@ -1115,17 +1171,19 @@ class UpdateScheduledPaymentStatus(Tool):
 
 class GetScheduledPaymentDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], payment_id: str = None) -> str:
-        payment = next((p for p in data['scheduled_payments'].values() if p['payment_id'] == payment_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        payment_id = kwargs.get("payment_id")
+        payment = next((p for p in data['scheduled_payments'] if p['payment_id'] == payment_id), None)
         if payment:
             return json.dumps(payment)
         return json.dumps({"error": "Scheduled payment not found."})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "GetScheduledPaymentDetails",
+                        "name": "get_scheduled_payment_details",
                         "description": "Retrieves the full details of a single scheduled payment.",
                         "parameters": {
                                 "type": "object",
@@ -1140,16 +1198,18 @@ class GetScheduledPaymentDetails(Tool):
 
 class GetScheduledPayments(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
-        scheduled_payments = data.get("scheduled_payments", {}).values()
-        customer_payments = [pay for pay in scheduled_payments.values() if pay.get("customer_id") == customer_id]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        scheduled_payments = data.get("scheduled_payments", [])
+        customer_payments = [pay for pay in scheduled_payments if pay.get("customer_id") == customer_id]
         return json.dumps(customer_payments)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "GetScheduledPayments",
+                        "name": "get_scheduled_payments",
                         "description": "Get all scheduled payments for a given customer.",
                         "parameters": {
                                 "type": "object",
@@ -1164,17 +1224,19 @@ class GetScheduledPayments(Tool):
 
 class GetCustomerDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
-        customer = next((c for c in data.get("customers", {}).values() if c['customer_id'] == customer_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        customer = next((c for c in data.get('customers', []) if c['customer_id'] == customer_id), None)
         if customer:
             return json.dumps(customer)
         return json.dumps({"error": "Customer not found."})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "GetCustomerDetails",
+                        "name": "get_customer_details",
                         "description": "Retrieves the full profile details for a single customer.",
                         "parameters": {
                                 "type": "object",
@@ -1189,18 +1251,21 @@ class GetCustomerDetails(Tool):
 
 class UpdateLoanStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], loan_id: str = None, new_status: str = None) -> str:
-        loan = next((l for l in data.get("loans", {}).values() if l['loan_id'] == loan_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        loan_id = kwargs.get("loan_id")
+        new_status = kwargs.get("new_status")
+        loan = next((l for l in data.get('loans', []) if l['loan_id'] == loan_id), None)
         if loan:
             loan['status'] = new_status
             return json.dumps(loan)
         return json.dumps({"error": "Loan not found."})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "UpdateLoanStatus",
+                        "name": "update_loan_status",
                         "description": "Updates the status of a loan (e.g., Active, Paid Off).",
                         "parameters": {
                                 "type": "object",
@@ -1216,16 +1281,18 @@ class UpdateLoanStatus(Tool):
 
 class GetCustomerLoanApplications(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
-        applications = data.get("loan_applications", {}).values()
-        customer_loans = [app for app in applications.values() if app.get("customer_id") == customer_id]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        applications = data.get("loan_applications", [])
+        customer_loans = [app for app in applications if app.get("customer_id") == customer_id]
         return json.dumps(customer_loans)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "GetCustomerLoanApplications",
+                        "name": "get_customer_loan_applications",
                         "description": "Retrieves all loan applications associated with a given customer ID.",
                         "parameters": {
                                 "type": "object",
@@ -1240,16 +1307,18 @@ class GetCustomerLoanApplications(Tool):
 
 class GetCustomerLoans(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
-        loans = data.get("loans", {}).values()
-        customer_loans = [loan for loan in loans.values() if loan.get("customer_id") == customer_id]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        loans = data.get("loans", [])
+        customer_loans = [loan for loan in loans if loan.get("customer_id") == customer_id]
         return json.dumps(customer_loans)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "GetCustomerLoans",
+                        "name": "get_customer_loans",
                         "description": "Retrieves all loans associated with a given customer ID.",
                         "parameters": {
                                 "type": "object",
@@ -1264,17 +1333,19 @@ class GetCustomerLoans(Tool):
 
 class GetSupportTicketDetails(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], ticket_id: str = None) -> str:
-        ticket = next((t for t in data.get("support_tickets", {}).values() if t['ticket_id'] == ticket_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ticket_id = kwargs.get("ticket_id")
+        ticket = next((t for t in data.get('support_tickets', []) if t['ticket_id'] == ticket_id), None)
         if ticket:
             return json.dumps(ticket)
         return json.dumps({"error": "Support ticket not found."})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "GetSupportTicketDetails",
+                        "name": "get_support_ticket_details",
                         "description": "Retrieves the full details of a single support ticket.",
                         "parameters": {
                                 "type": "object",
@@ -1289,8 +1360,11 @@ class GetSupportTicketDetails(Tool):
 
 class UpdateLoanApplicationStatus(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], application_id: str = None, new_status: str = None) -> str:
-        application = next((app for app in data.get("loan_applications", {}).values() if app['application_id'] == application_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        application_id = kwargs.get("application_id")
+        new_status = kwargs.get("new_status")
+
+        application = next((app for app in data.get('loan_applications', []) if app['application_id'] == application_id), None)
         if not application:
             return json.dumps({"error": "Loan application not found."})
 
@@ -1299,12 +1373,13 @@ class UpdateLoanApplicationStatus(Tool):
             application['decision'] = None
 
         return json.dumps(application)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "UpdateLoanApplicationStatus",
+                        "name": "update_loan_application_status",
                         "description": "Updates the status of a loan application (e.g., Under Review, Withdrawn).",
                         "parameters": {
                                 "type": "object",
@@ -1320,8 +1395,13 @@ class UpdateLoanApplicationStatus(Tool):
 
 class AddCustomerPhoneNumber(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str, phone_type: str, phone_number: str, is_primary: bool = False) -> str:
-        customer = next((c for c in data.get("customers", {}).values() if c['customer_id'] == customer_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get("customer_id")
+        phone_type = kwargs.get("phone_type")
+        phone_number = kwargs.get("phone_number")
+        is_primary = kwargs.get("is_primary", False)
+
+        customer = next((c for c in data.get('customers', []) if c['customer_id'] == customer_id), None)
         if not customer:
             return json.dumps({"error": "Customer not found."})
 
@@ -1341,12 +1421,13 @@ class AddCustomerPhoneNumber(Tool):
         })
 
         return json.dumps(customer["contact_info"]["phone_numbers"])
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "AddCustomerPhoneNumber",
+                        "name": "add_customer_phone_number",
                         "description": "Adds a new phone number to a customer's profile.",
                         "parameters": {
                                 "type": "object",
@@ -1364,13 +1445,17 @@ class AddCustomerPhoneNumber(Tool):
 
 class CreateScheduledInternalTransfer(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, source_account_id: str = None, 
-               destination_account_id: str = None, amount: float = None, frequency: str = None, 
-               start_date: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         payment_id = _get_next_scheduled_payment_id(data)
+        customer_id = kwargs.get("customer_id")
+        source_account_id = kwargs.get("source_account_id")
+        destination_account_id = kwargs.get("destination_account_id")
+        amount = kwargs.get("amount")
+        frequency = kwargs.get("frequency")
+        start_date = kwargs.get("start_date")
 
-        source_account = next((a for a in data['accounts'].values() if a['account_id'] == source_account_id and a['customer_id'] == customer_id), None)
-        dest_account = next((a for a in data['accounts'].values() if a['account_id'] == destination_account_id and a['customer_id'] == customer_id), None)
+        source_account = next((a for a in data['accounts'] if a['account_id'] == source_account_id and a['customer_id'] == customer_id), None)
+        dest_account = next((a for a in data['accounts'] if a['account_id'] == destination_account_id and a['customer_id'] == customer_id), None)
 
         if not source_account or not dest_account:
             return json.dumps({"error": "One or both accounts not found or do not belong to the customer."})
@@ -1390,12 +1475,13 @@ class CreateScheduledInternalTransfer(Tool):
         }
         data['scheduled_payments'].append(new_payment)
         return json.dumps(new_payment)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "CreateScheduledInternalTransfer",
+                        "name": "create_scheduled_internal_transfer",
                         "description": "Schedules a new recurring transfer between a customer's own accounts.",
                         "parameters": {
                                 "type": "object",
@@ -1414,15 +1500,17 @@ class CreateScheduledInternalTransfer(Tool):
 
 
 class GetTotalAccountsCount(Tool):
-    def invoke(data: Dict[str, Any], unexpected: Any = None) -> str:
-        count = len(data.get("accounts", {}))
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        count = len(data.get("accounts", []))
         return json.dumps({"total_accounts": count})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "getTotalAccountsCount",
+                        "name": "get_total_accounts_count",
                         "description": "Returns the current total number of accounts in the system.",
                         "parameters": {"type": "object", "properties": {}},
                 },
@@ -1430,15 +1518,17 @@ class GetTotalAccountsCount(Tool):
 
 
 class GetTotalBeneficiariesCount(Tool):
-    def invoke(data: Dict[str, Any], unexpected: Any = None) -> str:
-        count = len(data.get("beneficiaries", {}))
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        count = len(data.get("beneficiaries", []))
         return json.dumps({"total_beneficiaries": count})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "getTotalBeneficiariesCount",
+                        "name": "get_total_beneficiaries_count",
                         "description": "Returns the current total number of beneficiaries in the system.",
                         "parameters": {"type": "object", "properties": {}},
                 },
@@ -1446,15 +1536,17 @@ class GetTotalBeneficiariesCount(Tool):
 
 
 class GetTotalCustomersCount(Tool):
-    def invoke(data: Dict[str, Any], unexpected: Any = None) -> str:
-        count = len(data.get("customers", {}))
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        count = len(data.get("customers", []))
         return json.dumps({"total_customers": count})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "getTotalCustomersCount",
+                        "name": "get_total_customers_count",
                         "description": "Returns the current total number of customers in the system.",
                         "parameters": {"type": "object", "properties": {}},
                 },
@@ -1462,15 +1554,17 @@ class GetTotalCustomersCount(Tool):
 
 
 class GetTotalLoanApplicationsCount(Tool):
-    def invoke(data: Dict[str, Any], unexpected: Any = None) -> str:
-        count = len(data.get("loan_applications", {}))
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        count = len(data.get("loan_applications", []))
         return json.dumps({"total_loan_applications": count})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "getTotalLoanApplicationsCount",
+                        "name": "get_total_loan_applications_count",
                         "description": "Returns the current total number of loan applications in the system.",
                         "parameters": {"type": "object", "properties": {}},
                 },
@@ -1478,15 +1572,17 @@ class GetTotalLoanApplicationsCount(Tool):
 
 
 class GetTotalLoansCount(Tool):
-    def invoke(data: Dict[str, Any], unexpected: Any = None) -> str:
-        count = len(data.get("loans", {}))
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        count = len(data.get("loans", []))
         return json.dumps({"total_loans": count})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "getTotalLoansCount",
+                        "name": "get_total_loans_count",
                         "description": "Returns the current total number of loans in the system.",
                         "parameters": {"type": "object", "properties": {}},
                 },
@@ -1494,15 +1590,17 @@ class GetTotalLoansCount(Tool):
 
 
 class GetTotalScheduledPaymentsCount(Tool):
-    def invoke(data: Dict[str, Any], unexpected: Any = None) -> str:
-        count = len(data.get("scheduled_payments", {}))
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        count = len(data.get("scheduled_payments", []))
         return json.dumps({"total_scheduled_payments": count})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "getTotalScheduledPaymentsCount",
+                        "name": "get_total_scheduled_payments_count",
                         "description": "Returns the current total number of scheduled payments in the system.",
                         "parameters": {"type": "object", "properties": {}},
                 },
@@ -1510,15 +1608,17 @@ class GetTotalScheduledPaymentsCount(Tool):
 
 
 class GetTotalSupportTicketsCount(Tool):
-    def invoke(data: Dict[str, Any], unexpected: Any = None) -> str:
-        count = len(data.get("support_tickets", {}))
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        count = len(data.get("support_tickets", []))
         return json.dumps({"total_support_tickets": count})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "getTotalSupportTicketsCount",
+                        "name": "get_total_support_tickets_count",
                         "description": "Returns the current total number of support tickets in the system.",
                         "parameters": {"type": "object", "properties": {}},
                 },
@@ -1526,15 +1626,17 @@ class GetTotalSupportTicketsCount(Tool):
 
 
 class GetTotalTransactionsCount(Tool):
-    def invoke(data: Dict[str, Any], unexpected: Any = None) -> str:
-        count = len(data.get("transactions", {}))
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        count = len(data.get("transactions", []))
         return json.dumps({"total_transactions": count})
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
                 "type": "function",
                 "function": {
-                        "name": "getTotalTransactionsCount",
+                        "name": "get_total_transactions_count",
                         "description": "Returns the current total number of transactions in the system.",
                         "parameters": {"type": "object", "properties": {}},
                 },

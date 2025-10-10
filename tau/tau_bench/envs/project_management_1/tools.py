@@ -1,42 +1,33 @@
 import json
 import uuid
 from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List
 
-from tau_bench.envs.tool import Tool
-
-
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
+from domains.dto import Tool
 
 
 class SearchEmployees(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        name: str = None,
-        skills: list[str] = None,
-        min_skill_matches: int = 1,
-        department: str = None,
-        role: str = None,
-        role_contains: str = None,
-        role_disregard: str = None,
-        clearance: str = None,
-        utilization_below: float = None,
-        utilization_above: float = None,
-        min_proficiency: int = 0,
-        min_available_hours: float = None,
-        disregard_employee_ids: list[int] = []
-    ) -> str:
-        employees = data.get("employees", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name = kwargs.get("name")
+        required_skills = kwargs.get("skills")
+        min_skill_matches = kwargs.get("min_skill_matches", 1)
+        department = kwargs.get("department")
+        role = kwargs.get("role")
+        role_contains = kwargs.get("role_contains")
+        role_disregard = kwargs.get("role_disregard")
+        clearance = kwargs.get("clearance")
+        utilization_below = kwargs.get("utilization_below")
+        utilization_above = kwargs.get("utilization_above")
+        min_proficiency = kwargs.get("min_proficiency", 0)
+        min_available_hours = kwargs.get("min_available_hours")
+        disregard_employees = kwargs.get("disregard_employee_ids", [])
+
+
+        employees = data.get("employees", [])
         results = []
 
-        for employee in employees.values():
+        for employee in employees:
 
             if name and name.lower() not in employee.get("name", "").lower():
                 continue
@@ -47,7 +38,7 @@ class SearchEmployees(Tool):
             if role and employee.get("role") != role:
                 continue
 
-            if employee.get("employee_id") in disregard_employee_ids:
+            if employee.get("employee_id") in disregard_employees:
                 continue
 
             if (
@@ -65,13 +56,11 @@ class SearchEmployees(Tool):
             if clearance and employee.get("clearance") != clearance:
                 continue
 
-            if skills:
+            if required_skills:
                 employee_skills = employee.get("skills", [])
                 skills_matches = {
-                    info["skill"]
-                    for info in employee_skills
-                    if info["skill"] in skills
-                    and info.get("proficiency", 0) >= min_proficiency
+                    info["skill"] for info in employee_skills
+                    if info["skill"] in required_skills and info.get("proficiency", 0) >= min_proficiency
                 }
                 if len(skills_matches) < min_skill_matches:
                     continue
@@ -87,24 +76,21 @@ class SearchEmployees(Tool):
                     continue
 
             if min_available_hours:
-                available_hours = (
-                    employee.get("max_hours_per_week", 0)
-                    * (100 - employee.get("current_utilization", 0))
-                    / 100
-                )
+                available_hours = (employee.get("max_hours_per_week", 0) *
+                                   (100 - employee.get("current_utilization", 0)) / 100)
                 if available_hours < min_available_hours:
                     continue
 
             results.append(employee)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchEmployees",
+                "name": "search_employees",
                 "description": "Search for employees by name, skill, department, role, security clearance, or utilization levels",
                 "parameters": {
                     "type": "object",
@@ -153,27 +139,27 @@ class SearchEmployees(Tool):
 
 class GetEmployeeAllocations(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
         if not employee_id:
-            payload = {"error": "employee_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "employee_id is required"})
 
-        allocations = data.get("allocations", {}).values()
+        allocations = data.get("allocations", [])
         employee_allocations = [
             alloc
-            for alloc in allocations.values() if alloc.get("employee_id") == employee_id
+            for alloc in allocations
+            if alloc.get("employee_id") == employee_id
             and alloc.get("status") == "active"
         ]
-        payload = employee_allocations
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(employee_allocations, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetEmployeeAllocations",
+                "name": "get_employee_allocations",
                 "description": "Get all active allocations for a specific employee",
                 "parameters": {
                     "type": "object",
@@ -191,34 +177,30 @@ class GetEmployeeAllocations(Tool):
 
 class GetProjectDetails(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
         if not project_id:
-            payload = {"error": "project_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "project_id is required"})
 
-        projects = data.get("projects", {}).values()
-        allocations = data.get("allocations", {}).values()
+        projects = data.get("projects", [])
+        allocations = data.get("allocations", [])
         allocated_hours = sum(
-            allocation["hours_per_week"]
-            for allocation in allocations.values() if allocation["project_id"] == project_id
+            allocation["hours_per_week"] for allocation in allocations if allocation["project_id"] == project_id
         )
-        for project in projects.values():
+        for project in projects:
             if project.get("project_id") == project_id:
                 data = project.copy()
                 data["allocated_hours"] = allocated_hours
-                payload = data
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Project with ID '{project_id}' not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(data, indent=2)
+
+        return json.dumps({"error": f"Project with ID '{project_id}' not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetProjectDetails",
+                "name": "get_project_details",
                 "description": "Get details of a specific project",
                 "parameters": {
                     "type": "object",
@@ -236,31 +218,31 @@ class GetProjectDetails(Tool):
 
 class UpdateAllocation(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], allocation_id: str = None, hours_per_week: int = None, end_date: str = None) -> str:
-        if not allocation_id:
-            payload = {"error": "allocation_id is required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        allocation_id = kwargs.get("allocation_id")
+        hours_per_week = kwargs.get("hours_per_week")
+        end_date = kwargs.get("end_date")
 
-        allocations = data.get("allocations", {}).values()
-        for allocation in allocations.values():
+        if not allocation_id:
+            return json.dumps({"error": "allocation_id is required"})
+
+        allocations = data.get("allocations", [])
+        for allocation in allocations:
             if allocation.get("allocation_id") == allocation_id:
                 if hours_per_week is not None:
                     allocation["hours_per_week"] = hours_per_week
                 if end_date is not None:
                     allocation["end_date"] = end_date
-                payload = {"success": True, "allocation": allocation}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Allocation with ID '{allocation_id}' not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"success": True, "allocation": allocation})
+
+        return json.dumps({"error": f"Allocation with ID '{allocation_id}' not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateAllocation",
+                "name": "update_allocation",
                 "description": "Update an existing allocation's hours or end date",
                 "parameters": {
                     "type": "object",
@@ -283,16 +265,16 @@ class UpdateAllocation(Tool):
 
 class CalculateEmployeeUtilization(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
         if not employee_id:
-            payload = {"error": "employee_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "employee_id is required"})
 
-        allocations = data.get("allocations", {}).values()
+        allocations = data.get("allocations", [])
         employee_allocations = [
             alloc
-            for alloc in allocations.values() if alloc.get("employee_id") == employee_id
+            for alloc in allocations
+            if alloc.get("employee_id") == employee_id
             and alloc.get("status") == "active"
         ]
 
@@ -300,22 +282,23 @@ class CalculateEmployeeUtilization(Tool):
             alloc.get("hours_per_week", 0) for alloc in employee_allocations
         )
         utilization_percentage = (total_hours / 40) * 100
-        payload = {
+
+        return json.dumps(
+            {
                 "employee_id": employee_id,
                 "total_hours": total_hours,
                 "utilization_percentage": round(utilization_percentage, 1),
                 "allocations_count": len(employee_allocations),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateEmployeeUtilization",
+                "name": "calculate_employee_utilization",
                 "description": "Calculate the utilization percentage for an employee",
                 "parameters": {
                     "type": "object",
@@ -333,13 +316,14 @@ class CalculateEmployeeUtilization(Tool):
 
 class UpdateUtilizationLog(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None, new_utilization: float = None) -> str:
-        if not all([employee_id, new_utilization is not None]):
-            payload = {"error": "employee_id and new_utilization are required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        new_utilization = kwargs.get("new_utilization")
 
-        utilization_logs = data.get("utilization_logs", {}).values()
+        if not all([employee_id, new_utilization is not None]):
+            return json.dumps({"error": "employee_id and new_utilization are required"})
+
+        utilization_logs = data.get("utilization_logs", [])
 
         log_entry = {
             "log_id": f"log_{uuid.uuid4().hex[:8]}",
@@ -348,22 +332,22 @@ class UpdateUtilizationLog(Tool):
             "timestamp": datetime.now().isoformat(),
         }
 
-        data["utilization_logs"][log_entry["utilization_log_id"]] = log_entry
+        utilization_logs.append(log_entry)
 
-        employees = data.get("employees", {}).values()
-        for employee in employees.values():
+        employees = data.get("employees", [])
+        for employee in employees:
             if employee.get("employee_id") == employee_id:
                 employee["current_utilization"] = new_utilization
                 break
-        payload = {"success": True, "log_entry": log_entry}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"success": True, "log_entry": log_entry})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateUtilizationLog",
+                "name": "update_utilization_log",
                 "description": "Log utilization changes for an employee",
                 "parameters": {
                     "type": "object",
@@ -385,25 +369,23 @@ class UpdateUtilizationLog(Tool):
 
 class UpdateEmployeesUtilization(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_ids: list[str] = None) -> str:
-        if not employee_ids:
-            payload = {"error": "employee_ids is required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
 
-        employees = data.get("employees", {}).values()
+        employee_ids = kwargs.get("employee_ids", [])
+
+        if not employee_ids:
+            return json.dumps({"error": "employee_ids is required"})
+
+        employees = data.get("employees", [])
         employee_info = {
-            info["employee_id"]: {
-                "index": i,
-                "max_hours_per_week": info["max_hours_per_week"],
-            }
-            for i, info in enumerate(employees.values())
+            info["employee_id"]: {"index": i, "max_hours_per_week": info["max_hours_per_week"]}
+            for i, info in enumerate(employees)
         }
 
-        allocations = data.get("allocations", {}).values()
+        allocations = data.get("allocations", [])
 
         utilization_per_employee = {}
-        for allocation in allocations.values():
+        for allocation in allocations:
             employee_id = allocation.get("employee_id")
             if employee_id not in employee_ids:
                 continue
@@ -411,13 +393,15 @@ class UpdateEmployeesUtilization(Tool):
             hours = allocation.get("hours_per_week")
             if employee_id in utilization_per_employee:
                 utilization_per_employee[employee_id]["project_allocations"] += [
-                    {"project_id": project_id, "hours": hours},
+                    {
+                        "project_id": project_id,
+                        "hours": hours
+                    },
                 ]
                 utilization_per_employee[employee_id]["total_hours"] += hours
                 utilization_per_employee[employee_id]["utilization_percentage"] = int(
-                    utilization_per_employee[employee_id]["total_hours"]
-                    * 100
-                    / employee_info[employee_id]["max_hours_per_week"]
+                    utilization_per_employee[employee_id]["total_hours"] * 100 /
+                    employee_info[employee_id]["max_hours_per_week"]
                 )
             else:
                 utilization_per_employee[employee_id] = {
@@ -425,41 +409,41 @@ class UpdateEmployeesUtilization(Tool):
                     "employee_id": employee_id,
                     "week": "current",
                     "project_allocations": [
-                        {"project_id": project_id, "hours": hours},
+                        {
+                            "project_id": project_id,
+                            "hours": hours
+                        },
                     ],
                     "total_hours": hours,
-                    "utilization_percentage": int(
-                        hours * 100 / employee_info[employee_id]["max_hours_per_week"]
-                    ),
+                    "utilization_percentage": int(hours * 100/ employee_info[employee_id]["max_hours_per_week"]),
                 }
 
         new_utilization_logs = []
         for employee_id, utilization_info in utilization_per_employee.items():
             if employee_id not in employee_ids:
                 continue
-            new_data["utilization_logs"][utilization_info["utilization_log_id"]] = utilization_info
+            new_utilization_logs.append(utilization_info)
             employees[employee_info[employee_id]["index"]]["current_utilization"] = (
-                utilization_info
-            )["utilization_percentage"]
+                utilization_info)["utilization_percentage"]
 
         data["utilization_logs"] = new_utilization_logs
-        payload = {"success": True, "utilization_logs": new_utilization_logs}
-        out = json.dumps(payload)
-        return out
+
+
+        return json.dumps({"success": True, "utilization_logs": new_utilization_logs})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateEmployeesUtilization",
+                "name": "update_employees_utilization",
                 "description": "Update utilization log and employees current utilization with information "
-                "from allocations",
+                               "from allocations",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "employee_ids": {
-                            "type": "array",
-                            "items": {"type": "string"},
+                            "type": "list",
                             "description": "List of employee IDs",
                         }
                     },
@@ -471,11 +455,14 @@ class UpdateEmployeesUtilization(Tool):
 
 class SearchProjects(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], name: str = None, needs_resources: bool = None) -> str:
-        projects = data.get("projects", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name = kwargs.get("name")
+        needs_resources = kwargs.get("needs_resources")
+
+        projects = data.get("projects", [])
         results = []
 
-        for project in projects.values():
+        for project in projects:
             match = True
 
             if name and name.lower() not in project.get("name", "").lower():
@@ -489,15 +476,15 @@ class SearchProjects(Tool):
 
             if match:
                 results.append(project)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchProjects",
+                "name": "search_projects",
                 "description": "Search for projects by name or resource needs",
                 "parameters": {
                     "type": "object",
@@ -518,16 +505,16 @@ class SearchProjects(Tool):
 
 class CalculateEmployeeAvailability(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
         if not employee_id:
-            payload = {"error": "employee_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "employee_id is required"})
 
-        allocations = data.get("allocations", {}).values()
+        allocations = data.get("allocations", [])
         employee_allocations = [
             alloc
-            for alloc in allocations.values() if alloc.get("employee_id") == employee_id
+            for alloc in allocations
+            if alloc.get("employee_id") == employee_id
             and alloc.get("status") == "active"
         ]
 
@@ -535,22 +522,23 @@ class CalculateEmployeeAvailability(Tool):
             alloc.get("hours_per_week", 0) for alloc in employee_allocations
         )
         available_hours = max(0, 40 - total_allocated)
-        payload = {
+
+        return json.dumps(
+            {
                 "employee_id": employee_id,
                 "total_allocated_hours": total_allocated,
                 "available_hours": available_hours,
                 "availability_percentage": round((available_hours / 40) * 100, 1),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateEmployeeAvailability",
+                "name": "calculate_employee_availability",
                 "description": "Calculate available hours for an employee",
                 "parameters": {
                     "type": "object",
@@ -568,31 +556,29 @@ class CalculateEmployeeAvailability(Tool):
 
 class CreateResourceRequest(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_id: str,
-        skill_required: str,
-        hours_needed: int,
-        urgency: str = "normal",
-        department: str = None,
-        request_id: str = None
-    ) -> str:
-        if not all([project_id, skill_required, hours_needed]):
-            payload = {"error": "project_id, skill_required, and hours_needed are required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        skill_required = kwargs.get("skill_required")
+        hours_needed = kwargs.get("hours_needed")
+        urgency = kwargs.get("urgency", "normal")
+        department = kwargs.get("department")
 
-        resource_requests = data.get("resource_requests", {}).values()
-        allocations = data.get("allocations", {}).values()
-        employees = data.get("employees", {}).values()
+        if not all([project_id, skill_required, hours_needed]):
+            return json.dumps(
+                {"error": "project_id, skill_required, and hours_needed are required"}
+            )
+
+        resource_requests = data.get("resource_requests", [])
+        allocations = data.get("allocations", [])
+        employees = data.get("employees", [])
 
         qualified_employees = []
-        for emp in employees.values():
+        for emp in employees:
             if department and emp.get("department") != department:
                 continue
             for skill in emp.get("skills", []):
                 if skill.get("skill") == skill_required:
-                    qualified_data["employees"][employee_id] = emp
+                    qualified_employees.append(emp)
                     break
 
         total_available_hours = 0
@@ -600,7 +586,8 @@ class CreateResourceRequest(Tool):
             emp_id = emp.get("employee_id")
             emp_allocations = [
                 alloc
-                for alloc in allocations.values() if alloc.get("employee_id") == emp_id
+                for alloc in allocations
+                if alloc.get("employee_id") == emp_id
                 and alloc.get("status") == "active"
             ]
             allocated_hours = sum(
@@ -612,7 +599,7 @@ class CreateResourceRequest(Tool):
         skill_gap_identified = total_available_hours < hours_needed
         skill_gap_hours = max(0, hours_needed - total_available_hours)
 
-        request_id = request_id or f"req_{uuid.uuid4().hex[:8]}"
+        request_id = kwargs.get("request_id") or f"req_{uuid.uuid4().hex[:8]}"
 
         new_request = {
             "request_id": request_id,
@@ -627,21 +614,23 @@ class CreateResourceRequest(Tool):
             "allocated_hours": 0,
         }
 
-        data["resource_requests"][new_request["resource_request_id"]] = new_request
-        payload = {
-            "success": True,
-            "request": new_request,
-            "skill_gap_identified": skill_gap_identified,
-            "skill_gap_hours": skill_gap_hours,
-        }
-        out = json.dumps(payload)
-        return out
+        resource_requests.append(new_request)
+
+        return json.dumps(
+            {
+                "success": True,
+                "request": new_request,
+                "skill_gap_identified": skill_gap_identified,
+                "skill_gap_hours": skill_gap_hours,
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateResourceRequest",
+                "name": "create_resource_request",
                 "description": "Create a new resource request for a project",
                 "parameters": {
                     "type": "object",
@@ -679,52 +668,52 @@ class CreateResourceRequest(Tool):
 
 class CreateAllocation(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        employee_id: str,
-        project_id: str,
-        hours_per_week: int = 0,
-        role: str = None,
-        start_date: str = "",
-        end_date: str = "",
-        status: str = "active",
-        cross_department: bool = False,
-        allocation_id: str = None
-,
-    department: Any = None,
-    ) -> str:
-        if not all([employee_id, project_id, role]):
-            payload = {
-                "error": "employee_id, project_id, hours_per_week, and role are required"
-            }
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        project_id = kwargs.get("project_id")
+        hours_per_week = kwargs.get("hours_per_week", 0)
+        role = kwargs.get("role")
+        start_date = kwargs.get("start_date", "")
+        end_date = kwargs.get("end_date", "")
+        status = kwargs.get("status", "active")
+        cross_department = kwargs.get("cross_department", False)
 
-        allocations = data.get("allocations", {}).values()
-        projects = data.get("projects", {}).values()
-        skill_requirements = data.get("skill_requirements", {}).values()
+        if not all([employee_id, project_id, role]):
+            return json.dumps(
+                {
+                    "error": "employee_id, project_id, hours_per_week, and role are required"
+                }
+            )
+
+        allocations = data.get("allocations", [])
+        projects = data.get("projects", [])
+        skill_requirements = data.get("skill_requirements", [])
 
         is_temporary = any(
             term in role.lower()
             for term in ["consultant", "emergency", "temporary", "interim"]
         )
 
-        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
+        project = next((p for p in projects if p.get("project_id") == project_id), None)
 
         skill_gap_filled = 0
         if project:
+
             project_requirements = next(
                 (
                     req
-                    for req in skill_requirements.values() if req.get("project_id") == project_id
+                    for req in skill_requirements
+                    if req.get("project_id") == project_id
                 ),
                 None,
             )
 
             if project_requirements:
+
                 current_allocations = [
                     alloc
-                    for alloc in allocations.values() if alloc.get("project_id") == project_id
+                    for alloc in allocations
+                    if alloc.get("project_id") == project_id
                     and alloc.get("status") == "active"
                 ]
                 current_hours = sum(
@@ -740,7 +729,7 @@ class CreateAllocation(Tool):
                 new_gap = max(0, total_hours_needed - (current_hours + hours_per_week))
                 skill_gap_filled = previous_gap - new_gap
 
-        allocation_id = allocation_id or f"alloc_{uuid.uuid4().hex[:8]}"
+        allocation_id = kwargs.get("allocation_id") or f"alloc_{uuid.uuid4().hex[:8]}"
 
         new_allocation = {
             "allocation_id": allocation_id,
@@ -754,7 +743,7 @@ class CreateAllocation(Tool):
             "cross_department": cross_department,
         }
 
-        data["allocations"][allocation_id] = new_allocation
+        allocations.append(new_allocation)
 
         result = {
             "success": True,
@@ -767,15 +756,15 @@ class CreateAllocation(Tool):
 
         if skill_gap_filled > 0:
             result["skill_gap_filled"] = skill_gap_filled
-        payload = result
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateAllocation",
+                "name": "create_allocation",
                 "description": "Create a new resource allocation",
                 "parameters": {
                     "type": "object",
@@ -825,15 +814,18 @@ class CreateAllocation(Tool):
 
 class UpdateRequestStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], request_id: str, status: str, assigned_employees: list = [], allocated_hours: int = 0) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        request_id = kwargs.get("request_id")
+        status = kwargs.get("status")
+        assigned_employees = kwargs.get("assigned_employees", [])
+        allocated_hours = kwargs.get("allocated_hours", 0)
+
         if not all([request_id, status]):
-            payload = {"error": "request_id and status are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "request_id and status are required"})
 
-        resource_requests = data.get("resource_requests", {}).values()
+        resource_requests = data.get("resource_requests", [])
 
-        for request in resource_requests.values():
+        for request in resource_requests:
             if request.get("request_id") == request_id:
                 request["status"] = status
                 request["assigned_employees"] = assigned_employees
@@ -844,18 +836,17 @@ class UpdateRequestStatus(Tool):
                     hours_needed = request.get("hours_needed", 0)
                     skill_gap = hours_needed - allocated_hours
                     result["skill_gap"] = skill_gap
-                payload = result
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Request with ID '{request_id}' not found"}
-        out = json.dumps(payload)
-        return out
+
+                return json.dumps(result)
+
+        return json.dumps({"error": f"Request with ID '{request_id}' not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "updateRequestStatus",
+                "name": "update_request_status",
                 "description": "Update the status of a resource request",
                 "parameters": {
                     "type": "object",
@@ -886,15 +877,20 @@ class UpdateRequestStatus(Tool):
 
 class UpdateDepartmentCapacity(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], department: str = None, employee_id: str = None, hours_allocated: int = None, cross_department_project: bool = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        department = kwargs.get("department")
+        employee_id = kwargs.get("employee_id")
+        hours_allocated = kwargs.get("hours_allocated")
+        cross_department_project = kwargs.get("cross_department_project")
+
         if not all([department, employee_id, hours_allocated is not None]):
-            payload = {"error": "department, employee_id, and hours_allocated are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "department, employee_id, and hours_allocated are required"}
+            )
 
-        departments = data.get("departments", {}).values()
+        departments = data.get("departments", [])
 
-        for dept in departments.values():
+        for dept in departments:
             if dept.get("department_name") == department:
                 if "capacity_changes" not in dept:
                     dept["capacity_changes"] = []
@@ -907,18 +903,17 @@ class UpdateDepartmentCapacity(Tool):
                 }
 
                 dept["capacity_changes"].append(change_entry)
-                payload = {"success": True, "department": dept}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Department '{department}' not found"}
-        out = json.dumps(payload)
-        return out
+
+                return json.dumps({"success": True, "department": dept})
+
+        return json.dumps({"error": f"Department '{department}' not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateDepartmentCapacity",
+                "name": "update_department_capacity",
                 "description": "Update department capacity when allocations change",
                 "parameters": {
                     "type": "object",
@@ -945,17 +940,16 @@ class UpdateDepartmentCapacity(Tool):
 
 class GetDepartmentCapacity(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], department: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        department = kwargs.get("department")
         if not department:
-            payload = {"error": "department is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "department is required"})
 
-        employees = data.get("employees", {}).values()
-        allocations = data.get("allocations", {}).values()
+        employees = data.get("employees", [])
+        allocations = data.get("allocations", [])
 
         dept_employees = [
-            emp for emp in employees.values() if emp.get("department") == department
+            emp for emp in employees if emp.get("department") == department
         ]
 
         total_capacity = len(dept_employees) * 40
@@ -964,7 +958,8 @@ class GetDepartmentCapacity(Tool):
         for employee in dept_employees:
             emp_allocations = [
                 alloc
-                for alloc in allocations.values() if alloc.get("employee_id") == employee.get("employee_id")
+                for alloc in allocations
+                if alloc.get("employee_id") == employee.get("employee_id")
                 and alloc.get("status") == "active"
             ]
             total_allocated += sum(
@@ -975,24 +970,25 @@ class GetDepartmentCapacity(Tool):
         utilization_percentage = (
             (total_allocated / total_capacity * 100) if total_capacity > 0 else 0
         )
-        payload = {
+
+        return json.dumps(
+            {
                 "department": department,
                 "total_employees": len(dept_employees),
                 "total_capacity": total_capacity,
                 "total_allocated": total_allocated,
                 "available_capacity": available_capacity,
                 "utilization_percentage": round(utilization_percentage, 1),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getDepartmentCapacity",
+                "name": "get_department_capacity",
                 "description": "Get current capacity information for a department",
                 "parameters": {
                     "type": "object",
@@ -1010,30 +1006,29 @@ class GetDepartmentCapacity(Tool):
 
 class GetTeamDetails(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], team_name: str = None, team_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        team_name = kwargs.get("team_name")
+        team_id = kwargs.get("team_id")
+
         if not team_name and not team_id:
-            payload = {"error": "Either team_name or team_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Either team_name or team_id is required"})
 
-        teams = data.get("teams", {}).values()
+        teams = data.get("teams", [])
 
-        for team in teams.values():
+        for team in teams:
             if (team_id and team.get("team_id") == team_id) or (
                 team_name and team.get("team_name") == team_name
             ):
-                payload = team
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": "Team not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(team, indent=2)
+
+        return json.dumps({"error": f"Team not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetTeamDetails",
+                "name": "get_team_details",
                 "description": "Get details of a specific team",
                 "parameters": {
                     "type": "object",
@@ -1048,29 +1043,28 @@ class GetTeamDetails(Tool):
 
 class UpdateProjectStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: str = None, status: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        status = kwargs.get("status")
+
         if not all([project_id, status]):
-            payload = {"error": "project_id and status are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "project_id and status are required"})
 
-        projects = data.get("projects", {}).values()
+        projects = data.get("projects", [])
 
-        for project in projects.values():
+        for project in projects:
             if project.get("project_id") == project_id:
                 project["status"] = status
-                payload = {"success": True, "project": project}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Project with ID '{project_id}' not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"success": True, "project": project})
+
+        return json.dumps({"error": f"Project with ID '{project_id}' not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateProjectStatus",
+                "name": "update_project_status",
                 "description": "Update the status of a project",
                 "parameters": {
                     "type": "object",
@@ -1092,29 +1086,28 @@ class UpdateProjectStatus(Tool):
 
 class UpdateProjectRequiredHours(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: str = None, required_hours: int = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        required_hours = kwargs.get("required_hours")
+
         if not all([project_id, required_hours]):
-            payload = {"error": "project_id and required hours are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "project_id and required hours are required"})
 
-        projects = data.get("projects", {}).values()
+        projects = data.get("projects", [])
 
-        for project in projects.values():
+        for project in projects:
             if project.get("project_id") == project_id:
                 project["required_hours_per_week"] = required_hours
-                payload = {"success": True, "project": project}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Project with ID '{project_id}' not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"success": True, "project": project})
+
+        return json.dumps({"error": f"Project with ID '{project_id}' not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateProjectRequiredHours",
+                "name": "update_project_required_hours",
                 "description": "Update the hours per week required by a project",
                 "parameters": {
                     "type": "object",
@@ -1124,7 +1117,7 @@ class UpdateProjectRequiredHours(Tool):
                             "description": "The project ID",
                         },
                         "required_hours": {
-                            "type": "integer",
+                            "type": "int",
                             "description": "Hours per week required by the project",
                         },
                     },
@@ -1136,25 +1129,24 @@ class UpdateProjectRequiredHours(Tool):
 
 class GetProjectAllocations(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
         if not project_id:
-            payload = {"error": "project_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "project_id is required"})
 
-        allocations = data.get("allocations", {}).values()
+        allocations = data.get("allocations", [])
         project_allocations = [
-            alloc for alloc in allocations.values() if alloc.get("project_id") == project_id
+            alloc for alloc in allocations if alloc.get("project_id") == project_id
         ]
-        payload = project_allocations
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(project_allocations, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetProjectAllocations",
+                "name": "get_project_allocations",
                 "description": "Get all allocations for a specific project",
                 "parameters": {
                     "type": "object",
@@ -1172,27 +1164,24 @@ class GetProjectAllocations(Tool):
 
 class GetEmployeeDetails(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
         if not employee_id:
-            payload = {"error": "employee_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "employee_id is required"})
 
-        employees = data.get("employees", {}).values()
-        for employee in employees.values():
+        employees = data.get("employees", [])
+        for employee in employees:
             if employee.get("employee_id") == employee_id:
-                payload = employee
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Employee with ID '{employee_id}' not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(employee, indent=2)
+
+        return json.dumps({"error": f"Employee with ID '{employee_id}' not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetEmployeeDetails",
+                "name": "get_employee_details",
                 "description": "Get details of a specific employee",
                 "parameters": {
                     "type": "object",
@@ -1210,29 +1199,28 @@ class GetEmployeeDetails(Tool):
 
 class DeleteAllocation(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], allocation_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        allocation_id = kwargs.get("allocation_id")
         if not allocation_id:
-            payload = {"error": "allocation_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "allocation_id is required"})
 
-        allocations = data.get("allocations", {}).values()
+        allocations = data.get("allocations", [])
 
-        for i, allocation in enumerate():
+        for i, allocation in enumerate(allocations):
             if allocation.get("allocation_id") == allocation_id:
                 removed_allocation = allocations.pop(i)
-                payload = {"success": True, "removed_allocation": removed_allocation}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Allocation with ID '{allocation_id}' not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(
+                    {"success": True, "removed_allocation": removed_allocation}
+                )
+
+        return json.dumps({"error": f"Allocation with ID '{allocation_id}' not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "DeleteAllocation",
+                "name": "delete_allocation",
                 "description": "Remove an allocation",
                 "parameters": {
                     "type": "object",
@@ -1250,11 +1238,15 @@ class DeleteAllocation(Tool):
 
 class SearchAllocations(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], end_date_before: str = None, status: str = None, allocation_id: str = None) -> str:
-        allocations = data.get("allocations", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        end_date_before = kwargs.get("end_date_before")
+        status = kwargs.get("status")
+        allocation_id = kwargs.get("allocation_id")
+
+        allocations = data.get("allocations", [])
         results = []
 
-        for allocation in allocations.values():
+        for allocation in allocations:
             match = True
 
             if end_date_before and allocation.get("end_date"):
@@ -1269,15 +1261,15 @@ class SearchAllocations(Tool):
 
             if match:
                 results.append(allocation)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchAllocations",
+                "name": "search_allocations",
                 "description": "Search allocations by end date, status, or allocation_id",
                 "parameters": {
                     "type": "object",
@@ -1302,25 +1294,23 @@ class SearchAllocations(Tool):
 
 class CreateBenchAssignment(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        employee_id: str,
-        start_date: str,
-        skills: list = [],
-        availability: str = "immediate",
-        preferred_projects: list = []
-    ) -> str:
-        if not all([employee_id, start_date]):
-            payload = {"error": "employee_id and start_date are required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        start_date = kwargs.get("start_date")
+        skills = kwargs.get("skills", [])
+        availability = kwargs.get("availability", "immediate")
+        preferred_projects = kwargs.get("preferred_projects", [])
 
-        bench_resources = data.get("bench_resources", {}).values()
-        allocations = data.get("allocations", {}).values()
+        if not all([employee_id, start_date]):
+            return json.dumps({"error": "employee_id and start_date are required"})
+
+        bench_resources = data.get("bench_resources", [])
+        allocations = data.get("allocations", [])
 
         employee_allocations = [
             alloc
-            for alloc in allocations.values() if alloc.get("employee_id") == employee_id
+            for alloc in allocations
+            if alloc.get("employee_id") == employee_id
             and alloc.get("status") == "active"
         ]
 
@@ -1336,6 +1326,7 @@ class CreateBenchAssignment(Tool):
                 if alloc_end >= bench_start:
                     active_allocations_during_bench.append(alloc)
             else:
+
                 active_allocations_during_bench.append(alloc)
 
         total_allocated_hours = sum(
@@ -1357,36 +1348,40 @@ class CreateBenchAssignment(Tool):
             "fully_available": is_actually_available,
         }
 
-        data["bench_resources"][new_assignment["bench_resource_id"]] = new_assignment
+        bench_resources.append(new_assignment)
 
         available_resources = len(
             [
                 r
-                for r in bench_resources.values() if r.get("status") == "active" and r.get("fully_available", True)
+                for r in bench_resources
+                if r.get("status") == "active" and r.get("fully_available", True)
             ]
         )
 
         partially_available = len(
             [
                 r
-                for r in bench_resources.values() if r.get("status") == "active" and not r.get("fully_available", True)
+                for r in bench_resources
+                if r.get("status") == "active" and not r.get("fully_available", True)
             ]
         )
-        payload = {
-            "success": True,
-            "bench_assignment": "created",
-            "available_resources": available_resources,
-            "partially_available_resources": partially_available,
-            "assignment_details": new_assignment,
-        }
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(
+            {
+                "success": True,
+                "bench_assignment": "created",
+                "available_resources": available_resources,
+                "partially_available_resources": partially_available,
+                "assignment_details": new_assignment,
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateBenchAssignment",
+                "name": "create_bench_assignment",
                 "description": "Assign an employee to the bench",
                 "parameters": {
                     "type": "object",
@@ -1422,31 +1417,31 @@ class CreateBenchAssignment(Tool):
 
 class UpdateEmployeeStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None, status: str = None, available_from: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        status = kwargs.get("status")
+        available_from = kwargs.get("available_from")
+
         if not all([employee_id, status]):
-            payload = {"error": "employee_id and status are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "employee_id and status are required"})
 
-        employees = data.get("employees", {}).values()
+        employees = data.get("employees", [])
 
-        for employee in employees.values():
+        for employee in employees:
             if employee.get("employee_id") == employee_id:
                 employee["status"] = status
                 if available_from:
                     employee["available_from"] = available_from
-                payload = {"success": True, "employee": employee}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Employee with ID '{employee_id}' not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"success": True, "employee": employee})
+
+        return json.dumps({"error": f"Employee with ID '{employee_id}' not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateEmployeeStatus",
+                "name": "update_employee_status",
                 "description": "Update employee status",
                 "parameters": {
                     "type": "object",
@@ -1472,29 +1467,28 @@ class UpdateEmployeeStatus(Tool):
 
 class UpdateEmployeesDepartment(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None, department: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        department = kwargs.get("department")
+
         if not all([employee_id, department]):
-            payload = {"error": "employee_id and department are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "employee_id and department are required"})
 
-        employees = data.get("employees", {}).values()
+        employees = data.get("employees", [])
 
-        for employee in employees.values():
+        for employee in employees:
             if employee.get("employee_id") == employee_id:
                 employee["department"] = department
-                payload = {"success": True, "employee": employee}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Employee with ID '{employee_id}' not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"success": True, "employee": employee})
+
+        return json.dumps({"error": f"Employee with ID '{employee_id}' not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateEmployeesDepartment",
+                "name": "update_employees_department",
                 "description": "Update employee department",
                 "parameters": {
                     "type": "object",
@@ -1516,29 +1510,28 @@ class UpdateEmployeesDepartment(Tool):
 
 class UpdateTeamsDepartment(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], team_id: str = None, department: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        team_id = kwargs.get("team_id")
+        department = kwargs.get("department")
+
         if not all([team_id, department]):
-            payload = {"error": "team_id and department are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "team_id and department are required"})
 
-        teams = data.get("teams", {}).values()
+        teams = data.get("teams", [])
 
-        for team in teams.values():
+        for team in teams:
             if team.get("team_id") == team_id:
                 team["department"] = department
-                payload = {"success": True, "team": team}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Employee with ID '{team_id}' not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"success": True, "team": team})
+
+        return json.dumps({"error": f"Employee with ID '{team_id}' not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateTeamsDepartment",
+                "name": "update_teams_department",
                 "description": "Update team department",
                 "parameters": {
                     "type": "object",
@@ -1560,15 +1553,16 @@ class UpdateTeamsDepartment(Tool):
 
 class CheckAllocationDuration(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None, project_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        project_id = kwargs.get("project_id")
+
         if not all([employee_id, project_id]):
-            payload = {"error": "employee_id and project_id are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "employee_id and project_id are required"})
 
-        allocations = data.get("allocations", {}).values()
+        allocations = data.get("allocations", [])
 
-        for allocation in allocations.values():
+        for allocation in allocations:
             if (
                 allocation.get("employee_id") == employee_id
                 and allocation.get("project_id") == project_id
@@ -1576,24 +1570,25 @@ class CheckAllocationDuration(Tool):
                 start_date = datetime.fromisoformat(allocation.get("start_date"))
                 duration_days = (datetime.now() - start_date).days
                 duration_months = duration_days / 30
-                payload = {
-                    "employee_id": employee_id,
-                    "project_id": project_id,
-                    "start_date": allocation.get("start_date"),
-                    "duration_days": duration_days,
-                    "duration_months": round(duration_months, 1),
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Allocation not found"}
-        out = json.dumps(payload)
-        return out
+
+                return json.dumps(
+                    {
+                        "employee_id": employee_id,
+                        "project_id": project_id,
+                        "start_date": allocation.get("start_date"),
+                        "duration_days": duration_days,
+                        "duration_months": round(duration_months, 1),
+                    }
+                )
+
+        return json.dumps({"error": "Allocation not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CheckAllocationDuration",
+                "name": "check_allocation_duration",
                 "description": "Check how long an employee has been allocated to a project",
                 "parameters": {
                     "type": "object",
@@ -1615,32 +1610,28 @@ class CheckAllocationDuration(Tool):
 
 class CreateRotationSchedule(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        employee_id: str = None,
-        from_project: str = None,
-        to_project: str = None,
-        rotation_date: str = None,
-        hours_to_rotate: int = None,
-        holiday_coverage: str = "false",
-        skill_development_rotation: str = "false"
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        from_project = kwargs.get("from_project")
+        to_project = kwargs.get("to_project")
+        rotation_date = kwargs.get("rotation_date")
+        hours_to_rotate = kwargs.get("hours_to_rotate")
+        holiday_coverage = kwargs.get("holiday_coverage", "false")
+        skill_development_rotation = kwargs.get("skill_development_rotation", "false")
+
         if not all(
             [employee_id, from_project, to_project, rotation_date, hours_to_rotate]
         ):
-            payload = {
-                "error": "The fields employee_id, from_project, to_project, rotation_date, hours_to_rotate are required"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "The fields employee_id, from_project, to_project, rotation_date, hours_to_rotate are required"})
 
-        rotation_schedules = data.get("rotation_schedules", {}).values()
-        allocations = data.get("allocations", {}).values()
-        projects = data.get("projects", {}).values()
+        rotation_schedules = data.get("rotation_schedules", [])
+        allocations = data.get("allocations", [])
+        projects = data.get("projects", [])
 
         from_project_allocations = [
             alloc
-            for alloc in allocations.values() if alloc.get("project_id") == from_project
+            for alloc in allocations
+            if alloc.get("project_id") == from_project
             and alloc.get("status") == "active"
         ]
 
@@ -1654,12 +1645,12 @@ class CreateRotationSchedule(Tool):
         )
 
         if not employee_from_allocation:
-            payload = {"error": f"Employee {employee_id} not found on project {from_project}"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": f"Employee {employee_id} not found on project {from_project}"}
+            )
 
         from_project_data = next(
-            (p for p in projects.values() if p.get("project_id") == from_project), None
+            (p for p in projects if p.get("project_id") == from_project), None
         )
         if from_project_data:
             required_hours = from_project_data.get("required_hours_per_week", 0)
@@ -1676,6 +1667,7 @@ class CreateRotationSchedule(Tool):
             other_team_members = len(from_project_allocations) - 1
 
             if holiday_coverage.lower() == "true":
+
                 coverage_maintained = (
                     hours_after_rotation >= required_hours * 0.3
                     or other_team_members > 0
@@ -1687,6 +1679,7 @@ class CreateRotationSchedule(Tool):
                     and hours_after_rotation >= required_hours * 0.5
                 )
         else:
+
             if holiday_coverage.lower() == "true":
                 coverage_maintained = True
             else:
@@ -1708,43 +1701,44 @@ class CreateRotationSchedule(Tool):
             "status": "scheduled",
         }
 
-        data["rotation_schedules"][new_rotation["rotation_schedule_id"]] = new_rotation
+        rotation_schedules.append(new_rotation)
 
         existing_rotations = [
             rot
-            for rot in rotation_schedules.values() if rot.get("status") == "scheduled"
+            for rot in rotation_schedules
+            if rot.get("status") == "scheduled"
             and skill_development_rotation.lower() == "true"
         ]
 
         developers_in_rotation = len(existing_rotations)
         skill_development_hours = hours_to_rotate
-        payload = {
-            "success": True,
-            "rotation": new_rotation,
-            "rotation_created": True,
-            "coverage_maintained": coverage_maintained,
-            "developers_in_rotation": developers_in_rotation,
-            "skill_development_hours": skill_development_hours,
-            "coverage_details": {
-                "from_project_allocations": len(from_project_allocations),
-                "other_team_members": (
-                    other_team_members if "other_team_members" in locals() else 0
-                ),
-                "coverage_percentage": (
-                    round(coverage_percentage, 1)
+
+        return json.dumps(
+            {
+                "success": True,
+                "rotation": new_rotation,
+                "rotation_created": True,
+                "coverage_maintained": coverage_maintained,
+                "developers_in_rotation": developers_in_rotation,
+                "skill_development_hours": skill_development_hours,
+                "coverage_details": {
+                    "from_project_allocations": len(from_project_allocations),
+                    "other_team_members": other_team_members
+                    if "other_team_members" in locals()
+                    else 0,
+                    "coverage_percentage": round(coverage_percentage, 1)
                     if "coverage_percentage" in locals()
-                    else 0
-                ),
-            },
-        }
-        out = json.dumps(payload)
-        return out
+                    else 0,
+                },
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateRotationSchedule",
+                "name": "create_rotation_schedule",
                 "description": "Create a rotation schedule for an employee",
                 "parameters": {
                     "type": "object",
@@ -1770,11 +1764,11 @@ class CreateRotationSchedule(Tool):
                             "description": "Hours to rotate",
                         },
                         "holiday_coverage": {
-                            "type": "boolean",
+                            "type": "bool",
                             "description": "Flag if the rotation is holiday coverage",
                         },
                         "skill_development_rotation": {
-                            "type": "boolean",
+                            "type": "bool",
                             "description": "Flag if the rotation is skill development rotation",
                         },
                     },
@@ -1792,23 +1786,22 @@ class CreateRotationSchedule(Tool):
 
 class GetDepartmentTeams(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], department: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        department = kwargs.get("department")
         if not department:
-            payload = {"error": "department is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "department is required"})
 
-        teams = data.get("teams", {}).values()
-        dept_teams = [team for team in teams.values() if team.get("department") == department]
-        payload = dept_teams
-        out = json.dumps(payload, indent=2)
-        return out
+        teams = data.get("teams", [])
+        dept_teams = [team for team in teams if team.get("department") == department]
+
+        return json.dumps(dept_teams, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetDepartmentTeams",
+                "name": "get_department_teams",
                 "description": "Get all teams in a department",
                 "parameters": {
                     "type": "object",
@@ -1826,25 +1819,22 @@ class GetDepartmentTeams(Tool):
 
 class GetTeamUtilization(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], team_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        team_id = kwargs.get("team_id")
         if not team_id:
-            payload = {"error": "team_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "team_id is required"})
 
-        teams = data.get("teams", {}).values()
-        allocations = data.get("allocations", {}).values()
+        teams = data.get("teams", [])
+        allocations = data.get("allocations", [])
 
         team = None
-        for t in teams.values():
+        for t in teams:
             if t.get("team_id") == team_id:
                 team = t
                 break
 
         if not team:
-            payload = {"error": f"Team with ID '{team_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Team with ID '{team_id}' not found"})
 
         team_members = team.get("members", [])
         total_capacity = len(team_members) * 40
@@ -1854,7 +1844,8 @@ class GetTeamUtilization(Tool):
         for member_id in team_members:
             member_allocations = [
                 alloc
-                for alloc in allocations.values() if alloc.get("employee_id") == member_id
+                for alloc in allocations
+                if alloc.get("employee_id") == member_id
                 and alloc.get("status") == "active"
             ]
             member_hours = sum(
@@ -1872,24 +1863,25 @@ class GetTeamUtilization(Tool):
         team_utilization = (
             (total_allocated / total_capacity * 100) if total_capacity > 0 else 0
         )
-        payload = {
+
+        return json.dumps(
+            {
                 "team_id": team_id,
                 "team_name": team.get("team_name"),
                 "total_capacity": total_capacity,
                 "total_allocated": total_allocated,
                 "team_utilization": round(team_utilization, 1),
                 "member_utilizations": member_utilizations,
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getTeamUtilization",
+                "name": "get_team_utilization",
                 "description": "Get utilization metrics for a team",
                 "parameters": {
                     "type": "object",
@@ -1904,28 +1896,28 @@ class GetTeamUtilization(Tool):
 
 class CalculateDepartmentUtilization(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], department: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        department = kwargs.get("department")
         if not department:
-            payload = {"error": "department is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "department is required"})
 
         result = GetDepartmentCapacity.invoke(data, department=department)
         dept_data = json.loads(result)
-        payload = {
+
+        return json.dumps(
+            {
                 "department": department,
                 "dept_utilization": dept_data.get("utilization_percentage", 0),
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateDepartmentUtilization",
+                "name": "calculate_department_utilization",
                 "description": "Calculate overall department utilization",
                 "parameters": {
                     "type": "object",
@@ -1943,34 +1935,26 @@ class CalculateDepartmentUtilization(Tool):
 
 class CreateTeam(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        team_name: str = None,
-        project_id: str = None,
-        team_members: list = None,
-        team_id: str = None
-    ) -> str:
-        if team_members is None:
-            team_members = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        team_name = kwargs.get("team_name")
+        project_id = kwargs.get("project_id")
+        team_members = kwargs.get("team_members", [])
 
         if not all([team_name, project_id]):
-            payload = {"error": "team_name and project_id are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "team_name and project_id are required"})
 
-        teams = data.get("teams", {}).values()
-        projects = data.get("projects", {}).values()
-        allocations = data.get("allocations", {}).values()
+        teams = data.get("teams", [])
+        projects = data.get("projects", [])
+        allocations = data.get("allocations", [])
 
-        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
+        project = next((p for p in projects if p.get("project_id") == project_id), None)
         if not project:
-            payload = {"error": f"Project {project_id} not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Project {project_id} not found"})
 
         project_allocations = [
             alloc
-            for alloc in allocations.values() if alloc.get("project_id") == project_id and alloc.get("status") == "active"
+            for alloc in allocations
+            if alloc.get("project_id") == project_id and alloc.get("status") == "active"
         ]
 
         total_allocated_hours = sum(
@@ -1999,7 +1983,7 @@ class CreateTeam(Tool):
             else:
                 team_formed = False
 
-        team_id = team_id or f"team_{uuid.uuid4().hex[:8]}"
+        team_id = kwargs.get("team_id") or f"team_{uuid.uuid4().hex[:8]}"
 
         new_team = {
             "team_id": team_id,
@@ -2010,8 +1994,10 @@ class CreateTeam(Tool):
             "status": "active",
         }
 
-        data["teams"][team_id] = new_team
-        payload = {
+        teams.append(new_team)
+
+        return json.dumps(
+            {
                 "success": True,
                 "team": new_team,
                 "team_formed": team_formed,
@@ -2024,14 +2010,14 @@ class CreateTeam(Tool):
                     "total_members": len(team_members),
                 },
             }
-        out = json.dumps(payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateTeam",
+                "name": "create_team",
                 "description": "Create a new team",
                 "parameters": {
                     "type": "object",
@@ -2059,29 +2045,21 @@ class CreateTeam(Tool):
 
 class CreateProject(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_name: str = None,
-        department: str = None,
-        required_hours_per_week: int = None,
-        status: str = "active",
-        priority: str = "low",
-        need_resources: str = "true",
-        start_date: str = "to be defined",
-        end_date: str = "to be defined",
-        project_id: str = None
-    ) -> str:
-        if project_id is None:
-            project_id = f"project_{uuid.uuid4().hex[:8]}"
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_name = kwargs.get("project_name")
+        department = kwargs.get("department")
+        status = kwargs.get("status", "active")
+        priority = kwargs.get("priority", "low")
+        required_hours_per_week = kwargs.get("required_hours_per_week")
+        need_resources = kwargs.get("need_resources", "true")
+        start_date = kwargs.get("start_date", "to be defined")
+        end_date = kwargs.get("end_date", "to be defined")
+        project_id = kwargs.get("project_id", f"project_{uuid.uuid4().hex[:8]}")
 
         if not all([project_name, department, required_hours_per_week]):
-            payload = {
-                "error": "project_name, required_hours_per_week and department are required parameters"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "project_name, required_hours_per_week and department are required parameters"})
 
-        projects = data.get("projects", {}).values()
+        projects = data.get("projects", [])
 
         new_project = {
             "project_id": project_id,
@@ -2095,21 +2073,23 @@ class CreateProject(Tool):
             "end_date": end_date,
         }
 
-        data["projects"][project_id] = new_project
-        payload = {
-            "success": True,
-            "project_id": project_id,
-            "name": project_name,
-            "department": department,
-        }
-        out = json.dumps(payload)
-        return out
+        projects.append(new_project)
+
+        return json.dumps(
+            {
+                "success": True,
+                "project_id": project_id,
+                "name": project_name,
+                "department": department,
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateProject",
+                "name": "create_project",
                 "description": "Create a new project",
                 "parameters": {
                     "type": "object",
@@ -2120,7 +2100,7 @@ class CreateProject(Tool):
                             "description": "ID for the project",
                         },
                         "priority": {
-                            "type": "string",
+                            "type": "str",
                             "description": "Project's priority",
                         },
                         "status": {
@@ -2136,7 +2116,7 @@ class CreateProject(Tool):
                             "description": "Project's end date",
                         },
                         "required_hours_per_week": {
-                            "type": "integer",
+                            "type": "int",
                             "description": "Project's required allocation hours per week",
                         },
                         "department": {
@@ -2144,15 +2124,11 @@ class CreateProject(Tool):
                             "description": "Project's department",
                         },
                         "needs_resources": {
-                            "type": "boolean",
+                            "type": "bool",
                             "description": "Indicates if the project need more allocation",
                         },
                     },
-                    "required": [
-                        "project_name",
-                        "department",
-                        "required_hours_per_week",
-                    ],
+                    "required": ["project_name", "department", "required_hours_per_week"],
                 },
             },
         }
@@ -2160,17 +2136,15 @@ class CreateProject(Tool):
 
 class CreateDepartment(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], name: str = None, department_id: str = None, head_id: str = None) -> str:
-        department_name = name
-        department_id = department_id or f"conflict_{uuid.uuid4().hex[:8]}"
-        head_id = head_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        department_name = kwargs.get("name")
+        department_id = kwargs.get("department_id", f"conflict_{uuid.uuid4().hex[:8]}")
+        head_id = kwargs.get("head_id")
 
         if not all([department_name, head_id]):
-            payload = {"error": "department_name and head_id are required parameters"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "department_name and head_id are required parameters"})
 
-        departments = data.get("departments", {}).values()
+        departments = data.get("departments", [])
 
         new_department = {
             "department_id": department_id,
@@ -2180,24 +2154,26 @@ class CreateDepartment(Tool):
             "allocated_hours": 680,
             "available_hours": 120,
             "employee_count": 20,
-            "avg_utilization": 85,
+            "avg_utilization": 85
         }
 
-        data["departments"][department_id] = new_department
-        payload = {
-            "success": True,
-            "department_id": department_id,
-            "name": department_name,
-            "head_id": head_id,
-        }
-        out = json.dumps(payload)
-        return out
+        departments.append(new_department)
+
+        return json.dumps(
+            {
+                "success": True,
+                "department_id": department_id,
+                "name": department_name,
+                "head_id": head_id,
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateDepartment",
+                "name": "create_department",
                 "description": "Create a new department",
                 "parameters": {
                     "type": "object",
@@ -2220,73 +2196,53 @@ class CreateDepartment(Tool):
 
 class UpdateDepartmentsUtilization(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        departments = data.get("departments", {}).values()
-        employees = data.get("employees", {}).values()
-        allocations = data.get("allocations", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+
+        departments = data.get("departments", [])
+        employees = data.get("employees", [])
+        allocations = data.get("allocations", [])
         employee_info = {}
         department_info = {}
-        for employee in employees.values():
+        for employee in employees:
             department = employee["department"]
             employee_info[employee["employee_id"]] = department
             if department in department_info:
-                department_info[department]["total_capacity_hours"] += employee[
-                    "max_hours_per_week"
-                ]
+                department_info[department]["total_capacity_hours"] += employee["max_hours_per_week"]
                 department_info[department]["employee_count"] += 1
             else:
                 department_info[department] = {
                     "total_capacity_hours": employee["max_hours_per_week"],
-                    "employee_count": 1,
+                    "employee_count": 1
                 }
 
-        for allocation in allocations.values():
+        for allocation in allocations:
             employee_id = allocation["employee_id"]
             department = employee_info.get(employee_id)
             if department in department_info:
                 if "allocated_hours" in department_info[department]:
-                    department_info[department]["allocated_hours"] += allocation[
-                        "hours_per_week"
-                    ]
+                    department_info[department]["allocated_hours"] += allocation["hours_per_week"]
                 else:
-                    department_info[department]["allocated_hours"] = allocation[
-                        "hours_per_week"
-                    ]
+                    department_info[department]["allocated_hours"] = allocation["hours_per_week"]
             else:
-                department_info[department] = {
-                    "allocated_hours": allocation["hours_per_week"]
-                }
+                department_info[department] = {"allocated_hours": allocation["hours_per_week"]}
 
-        for department in departments.values():
+        for department in departments:
             department_name = department["department_name"]
             if department_name in department_info:
-                department["total_capacity_hours"] = department_info.get(
-                    department_name, {}
-                ).get("total_capacity_hours", 0)
-                department["allocated_hours"] = department_info.get(
-                    department_name, {}
-                ).get("allocated_hours", 0)
-                department["employee_count"] = department_info.get(
-                    department_name, {}
-                ).get("employee_count", 0)
-                department["available_hours"] = (
-                    department["total_capacity_hours"] - department["allocated_hours"]
-                )
-                department["avg_utilization"] = (
-                    department["allocated_hours"] / department["employee_count"]
-                )
-        payload = {
-                "success": True,
-            }
-        out = json.dumps(
-            payload)
-        return out
+                department["total_capacity_hours"] = department_info.get(department_name, {}).get("total_capacity_hours", 0)
+                department["allocated_hours"] = department_info.get(department_name, {}).get("allocated_hours", 0)
+                department["employee_count"] = department_info.get(department_name, {}).get("employee_count", 0)
+                department["available_hours"] = department["total_capacity_hours"] - department["allocated_hours"]
+                department["avg_utilization"] = department["allocated_hours"] / department["employee_count"]
+
+        return json.dumps({"success": True, })
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateDepartmentsUtilization",
+                "name": "update_departments_utilization",
                 "description": "Update departments main metrics",
                 "parameters": {},
             },
@@ -2295,34 +2251,31 @@ class UpdateDepartmentsUtilization(Tool):
 
 class DeleteDepartment(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], name: str = None) -> str:
-        department_name = name
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        department_name = kwargs.get("name")
 
         if not all([department_name]):
-            payload = {"error": "department_name is a required parameters"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "department_name is a required parameters"})
 
-        departments = data.get("departments", {}).values()
+        departments = data.get("departments", [])
 
-        for i, department in enumerate(departments.values()):
+        for i, department in enumerate(departments):
             if department.get("department_name") == department_name:
                 departments.pop(i)
-                payload = {"success": True}
-                out = json.dumps(payload)
-                return out
-        payload = {
-                "error": f"Department name '{department_name}' does not exist",
+                return json.dumps({"success": True})
+
+        return json.dumps(
+            {
+                "error": "Department name '{}' does not exist".format(department_name),
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "DeleteDepartment",
+                "name": "delete_department",
                 "description": "Delete a department",
                 "parameters": {
                     "type": "object",
@@ -2337,31 +2290,30 @@ class DeleteDepartment(Tool):
 
 class GetDepartmentDetails(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], name: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name = kwargs.get("name")
+
         if not name:
-            payload = {"error": "name is a required parameter"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "name is a required parameter"})
 
-        departments = data.get("departments", {}).values()
+        departments = data.get("departments", [])
 
-        for department in departments.values():
+        for department in departments:
             if department.get("department_name") == name:
-                payload = {"success": True, "details": department}
-                out = json.dumps(payload)
-                return out
-        payload = {
+                return json.dumps({"success": True, "details": department})
+
+        return json.dumps(
+            {
                 "error": "name or department is not found",
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetDepartmentDetails",
+                "name": "get_department_details",
                 "description": "Get department details",
                 "parameters": {
                     "type": "object",
@@ -2379,18 +2331,14 @@ class GetDepartmentDetails(Tool):
 
 class AnalyzeAllocationEfficiency(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        projects: list = None,
-        check_partial_allocations: bool = False,
-        check_skill_mismatch: bool = False
-    ) -> str:
-        if projects is None:
-            projects = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        projects = kwargs.get("projects", [])
+        check_partial_allocations = kwargs.get("check_partial_allocations", False)
+        check_skill_mismatch = kwargs.get("check_skill_mismatch", False)
 
-        allocations = data.get("allocations", {}).values()
-        employees = data.get("employees", {}).values()
-        projects_data = data.get("projects", {}).values()
+        allocations = data.get("allocations", [])
+        employees = data.get("employees", [])
+        projects_data = data.get("projects", [])
 
         partial_allocations_found = 0
         skill_mismatches_found = 0
@@ -2399,7 +2347,7 @@ class AnalyzeAllocationEfficiency(Tool):
         if check_partial_allocations:
 
             employee_allocations = {}
-            for alloc in allocations.values():
+            for alloc in allocations:
                 if (
                     alloc.get("project_id") in projects
                     and alloc.get("status") == "active"
@@ -2419,14 +2367,14 @@ class AnalyzeAllocationEfficiency(Tool):
 
         if check_skill_mismatch:
 
-            for alloc in allocations.values():
+            for alloc in allocations:
                 if (
                     alloc.get("project_id") in projects
                     and alloc.get("status") == "active"
                 ):
                     emp_id = alloc.get("employee_id")
                     employee = next(
-                        (e for e in employees.values() if e.get("employee_id") == emp_id), None
+                        (e for e in employees if e.get("employee_id") == emp_id), None
                     )
 
                     if employee:
@@ -2434,7 +2382,8 @@ class AnalyzeAllocationEfficiency(Tool):
                         project = next(
                             (
                                 p
-                                for p in projects_data.values() if p.get("project_id") == alloc.get("project_id")
+                                for p in projects_data
+                                if p.get("project_id") == alloc.get("project_id")
                             ),
                             None,
                         )
@@ -2448,21 +2397,22 @@ class AnalyzeAllocationEfficiency(Tool):
 
             if skill_mismatches_found > 0:
                 recommendations.append("Review skill assignments")
-        payload = {
+
+        return json.dumps(
+            {
                 "projects_analyzed": len(projects),
                 "partial_allocations_found": partial_allocations_found,
                 "skill_mismatches_found": skill_mismatches_found,
                 "recommendations": recommendations,
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "analyzeAllocationEfficiency",
+                "name": "analyze_allocation_efficiency",
                 "description": "Analyze allocation efficiency across projects",
                 "parameters": {
                     "type": "object",
@@ -2489,27 +2439,31 @@ class AnalyzeAllocationEfficiency(Tool):
 
 class ConsolidateAllocations(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None, from_projects: list = None, to_project: str = None, total_hours: int = None) -> str:
-        if from_projects is None:
-            from_projects = []
-        payload = {
-            "success": True,
-            "consolidation": {
-                "employee_id": employee_id,
-                "from_projects": from_projects,
-                "to_project": to_project,
-                "total_hours": total_hours,
-                "status": "completed",
-            },
-        }
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        from_projects = kwargs.get("from_projects", [])
+        to_project = kwargs.get("to_project")
+        total_hours = kwargs.get("total_hours")
+
+        return json.dumps(
+            {
+                "success": True,
+                "consolidation": {
+                    "employee_id": employee_id,
+                    "from_projects": from_projects,
+                    "to_project": to_project,
+                    "total_hours": total_hours,
+                    "status": "completed",
+                },
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "consolidateAllocations",
+                "name": "consolidate_allocations",
                 "description": "Consolidate multiple partial allocations into one",
                 "parameters": {
                     "type": "object",
@@ -2545,27 +2499,29 @@ class ConsolidateAllocations(Tool):
 
 class ReassignJuniorWork(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], from_employee: str = None, to_employee: str = None, project_id: str = None, hours: int = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        from_employee = kwargs.get("from_employee")
+        to_employee = kwargs.get("to_employee")
+        project_id = kwargs.get("project_id")
+        hours = kwargs.get("hours")
+
         params_and_keys = [
             ("from_employee", from_employee),
             ("to_employee", to_employee),
             ("project_id", project_id),
-            ("hours", hours),
+            ("hours", hours)
         ]
         missing_required_params = [key for key, value in params_and_keys if not value]
         if missing_required_params:
-            payload = {
-                    "error": f"Missing required parameters: {', '.join(missing_required_params)}"
-                }
-            out = json.dumps(
-                payload)
-            return out
+            return json.dumps(
+                {"error": f"Missing required parameters: {', '.join(missing_required_params)}"}
+            )
 
-        allocations: list[dict] = data.get("allocations", {}).values()
+        allocations: List[Dict] = data.get("allocations", [])
         from_employee_found = False
         to_employee_found = False
         new_allocation = {}
-        for i, allocation in enumerate():
+        for i, allocation in enumerate(allocations):
             allocation_employee_id = allocation.get("employee_id")
             allocation_project_id = allocation.get("project_id")
             allocation_info = allocation.get("hours_per_week", 0)
@@ -2573,48 +2529,42 @@ class ReassignJuniorWork(Tool):
                 if allocation_employee_id == from_employee:
                     from_employee_found = True
                     if allocation_info < hours:
-                        payload = {
+                        return json.dumps(
+                            {
                                 "error": f"The employee {allocation_employee_id} doesn't have enough hours allocated"
-                                f" to transfer for another employee. Hours allocated: {allocation_info}, "
-                                f"Hours to transfer: {hours}."
+                                         f" to transfer for another employee. Hours allocated: {allocation_info}, "
+                                         f"Hours to transfer: {hours}."
                             }
-                        out = json.dumps(
-                            payload)
-                        return out
-                    new_allocation[i] = {
-                        "hours": allocation["hours_per_week"] - hours,
-                        "employee_id": from_employee,
-                    }
+                        )
+                    new_allocation[i] = {"hours": allocation["hours_per_week"] - hours, "employee_id": from_employee}
 
                 if allocation_employee_id == to_employee:
                     to_employee_found = True
-                    new_allocation[i] = {
-                        "hours": allocation["hours_per_week"] + hours,
-                        "employee_id": to_employee,
-                    }
+                    new_allocation[i] = {"hours": allocation["hours_per_week"] + hours, "employee_id": to_employee}
+
 
         if not from_employee_found:
-            payload = {
+            return json.dumps(
+                {
                     "error": f"The employee {from_employee} doesn't have allocation register "
-                    f"in the project {project_id}"
+                             f"in the project {project_id}"
                 }
-            out = json.dumps(
-                payload)
-            return out
+            )
         if not to_employee_found:
-            payload = {
+            return json.dumps(
+                {
                     "error": f"The employee {to_employee} doesn't have allocation register"
-                    f" in the project {project_id}"
+                             f" in the project {project_id}"
                 }
-            out = json.dumps(
-                payload)
-            return out
+            )
 
         for i, allocation_info in new_allocation.items():
             allocations[i]["hours_per_week"] = allocation_info["hours"]
             if allocation_info["hours"] == 0:
                 allocations[i]["status"] = "inactive"
-        payload = {
+
+        return json.dumps(
+            {
                 "success": True,
                 "reassignment": {
                     "from_employee": from_employee,
@@ -2624,15 +2574,15 @@ class ReassignJuniorWork(Tool):
                     "status": "completed",
                 },
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
+
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "reassignJuniorWork",
+                "name": "reassign_junior_work",
                 "description": "Reassign work from senior to junior employees",
                 "parameters": {
                     "type": "object",
@@ -2656,10 +2606,13 @@ class ReassignJuniorWork(Tool):
 
 class CalculateOptimizationMetrics(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], projects: list = [], metric_type: str = "efficiency_gain") -> str:
-        allocations = data.get("allocations", {}).values()
-        employees = data.get("employees", {}).values()
-        projects_data = data.get("projects", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        projects = kwargs.get("projects", [])
+        metric_type = kwargs.get("metric_type", "efficiency_gain")
+
+        allocations = data.get("allocations", [])
+        employees = data.get("employees", [])
+        projects_data = data.get("projects", [])
 
         total_allocated_hours = 0
         total_required_hours = 0
@@ -2670,7 +2623,8 @@ class CalculateOptimizationMetrics(Tool):
 
         project_allocations = [
             alloc
-            for alloc in allocations.values() if alloc.get("project_id") in projects and alloc.get("status") == "active"
+            for alloc in allocations
+            if alloc.get("project_id") in projects and alloc.get("status") == "active"
         ]
 
         for alloc in project_allocations:
@@ -2679,15 +2633,15 @@ class CalculateOptimizationMetrics(Tool):
             if alloc.get("hours_per_week", 0) < 20:
                 partial_allocations += 1
 
-        for proj_id in projects.values():
+        for proj_id in projects:
             project = next(
-                (p for p in projects_data.values() if p.get("project_id") == proj_id), None
+                (p for p in projects_data if p.get("project_id") == proj_id), None
             )
             if project:
                 total_required_hours += project.get("required_hours_per_week", 0)
 
         employee_hours = {}
-        for alloc in allocations.values():
+        for alloc in allocations:
             if alloc.get("status") == "active":
                 emp_id = alloc.get("employee_id")
                 if emp_id not in employee_hours:
@@ -2704,12 +2658,13 @@ class CalculateOptimizationMetrics(Tool):
         for alloc in project_allocations:
             emp_id = alloc.get("employee_id")
             employee = next(
-                (e for e in employees.values() if e.get("employee_id") == emp_id), None
+                (e for e in employees if e.get("employee_id") == emp_id), None
             )
             project = next(
                 (
                     p
-                    for p in projects_data.values() if p.get("project_id") == alloc.get("project_id")
+                    for p in projects_data
+                    if p.get("project_id") == alloc.get("project_id")
                 ),
                 None,
             )
@@ -2737,7 +2692,9 @@ class CalculateOptimizationMetrics(Tool):
         efficiency_gain = min(potential_improvements, 30)
 
         optimization_complete = efficiency_gain < 5
-        payload = {
+
+        return json.dumps(
+            {
                 "projects_analyzed": len(projects),
                 "metric_type": metric_type,
                 "efficiency_gain": efficiency_gain,
@@ -2752,15 +2709,14 @@ class CalculateOptimizationMetrics(Tool):
                     "total_required_hours": total_required_hours,
                 },
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateOptimizationMetrics",
+                "name": "calculate_optimization_metrics",
                 "description": "Calculate optimization metrics for projects",
                 "parameters": {
                     "type": "object",
@@ -2783,13 +2739,18 @@ class CalculateOptimizationMetrics(Tool):
 
 class CreateResourceConflict(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str, competing_projects: list = [], conflict_type: str = "allocation", resolution: str = "") -> str:
-        if not all([employee_id, competing_projects]):
-            payload = {"error": "employee_id and competing_projects are required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        competing_projects = kwargs.get("competing_projects", [])
+        conflict_type = kwargs.get("conflict_type", "allocation")
+        resolution = kwargs.get("resolution", "")
 
-        resource_conflicts = data.get("resource_conflicts", {}).values()
+        if not all([employee_id, competing_projects]):
+            return json.dumps(
+                {"error": "employee_id and competing_projects are required"}
+            )
+
+        resource_conflicts = data.get("resource_conflicts", [])
 
         conflict_id = f"conflict_{uuid.uuid4().hex[:8]}"
 
@@ -2803,16 +2764,16 @@ class CreateResourceConflict(Tool):
             "status": "resolved" if resolution else "pending",
         }
 
-        data["resource_conflicts"][new_conflict["resource_conflict_id"]] = new_conflict
-        payload = {"success": True, "conflict": new_conflict}
-        out = json.dumps(payload)
-        return out
+        resource_conflicts.append(new_conflict)
+
+        return json.dumps({"success": True, "conflict": new_conflict})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateResourceConflict",
+                "name": "create_resource_conflict",
                 "description": "Create a record of resource conflict when multiple projects compete for the same employee",
                 "parameters": {
                     "type": "object",
@@ -2843,27 +2804,26 @@ class CreateResourceConflict(Tool):
 
 class CompareProjectPriorities(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], project_id_1: str = None, project_id_2: str = None) -> str:
-        if not all([project_id_1, project_id_2]):
-            payload = {"error": "project_id_1 and project_id_2 are required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id_1 = kwargs.get("project_id_1")
+        project_id_2 = kwargs.get("project_id_2")
 
-        projects = data.get("projects", {}).values()
+        if not all([project_id_1, project_id_2]):
+            return json.dumps({"error": "project_id_1 and project_id_2 are required"})
+
+        projects = data.get("projects", [])
 
         project_1 = None
         project_2 = None
 
-        for project in projects.values():
+        for project in projects:
             if project.get("project_id") == project_id_1:
                 project_1 = project
             elif project.get("project_id") == project_id_2:
                 project_2 = project
 
         if not project_1 or not project_2:
-            payload = {"error": "One or both projects not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "One or both projects not found"})
 
         priority_1 = project_1.get("priority", 3)
         priority_2 = project_2.get("priority", 3)
@@ -2877,20 +2837,21 @@ class CompareProjectPriorities(Tool):
         else:
             higher_priority = project_id_1
             lower_priority = project_id_2
-        payload = {
+
+        return json.dumps(
+            {
                 "higher_priority_project": higher_priority,
                 "lower_priority_project": lower_priority,
                 "priority_values": {project_id_1: priority_1, project_id_2: priority_2},
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CompareProjectPriorities",
+                "name": "compare_project_priorities",
                 "description": "Compare priorities of two projects to determine which has higher priority",
                 "parameters": {
                     "type": "object",
@@ -2912,29 +2873,35 @@ class CompareProjectPriorities(Tool):
 
 class SummarizeWorkloadRebalance(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], hours_transferred: int = 0, from_employee: str = None, to_employee: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        hours_transferred = kwargs.get("hours_transferred", 0)
+        from_employee = kwargs.get("from_employee")
+        to_employee = kwargs.get("to_employee")
+
         if not all([hours_transferred, from_employee, to_employee]):
-            payload = {
-                "error": "hours_transferred, from_employee, and to_employee are required"
+            return json.dumps(
+                {
+                    "error": "hours_transferred, from_employee, and to_employee are required"
+                }
+            )
+
+        return json.dumps(
+            {
+                "workload_balanced": True,
+                "rebalanced": True,
+                "hours_transferred": hours_transferred,
+                "from_employee": from_employee,
+                "to_employee": to_employee,
+                "status": "completed",
             }
-            out = json.dumps(payload)
-            return out
-        payload = {
-            "workload_balanced": True,
-            "rebalanced": True,
-            "hours_transferred": hours_transferred,
-            "from_employee": from_employee,
-            "to_employee": to_employee,
-            "status": "completed",
-        }
-        out = json.dumps(payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SummarizeWorkloadRebalance",
+                "name": "summarize_workload_rebalance",
                 "description": "Generate a summary of workload rebalancing operations",
                 "parameters": {
                     "type": "object",
@@ -2960,35 +2927,38 @@ class SummarizeWorkloadRebalance(Tool):
 
 class SummarizeReallocation(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], reallocated_employees: list = None, cancelled_project_id: str = None, new_projects: list = None) -> str:
-        reallocated_employees = reallocated_employees or []
-        new_projects = new_projects or []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        reallocated_employees = kwargs.get("reallocated_employees", [])
+        cancelled_project_id = kwargs.get("cancelled_project_id")
+        new_projects = kwargs.get("new_projects", [])
 
         if not all([reallocated_employees, cancelled_project_id]):
-            payload = {"error": "reallocated_employees and cancelled_project_id are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "reallocated_employees and cancelled_project_id are required"}
+            )
 
         reallocated_count = len(reallocated_employees)
 
         all_resources_assigned = len(new_projects) >= reallocated_count
-        payload = {
-            "reallocated_count": reallocated_count,
-            "all_resources_assigned": all_resources_assigned,
-            "cancelled_project": cancelled_project_id,
-            "reallocated_employees": reallocated_employees,
-            "new_projects": new_projects,
-            "summary": f"Successfully reallocated {reallocated_count} employees from cancelled project {cancelled_project_id}",
-            "status": "completed",
-        }
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(
+            {
+                "reallocated_count": reallocated_count,
+                "all_resources_assigned": all_resources_assigned,
+                "cancelled_project": cancelled_project_id,
+                "reallocated_employees": reallocated_employees,
+                "new_projects": new_projects,
+                "summary": f"Successfully reallocated {reallocated_count} employees from cancelled project {cancelled_project_id}",
+                "status": "completed",
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "summarizeReallocation",
+                "name": "summarize_reallocation",
                 "description": "Generate a summary of employee reallocation after project cancellation",
                 "parameters": {
                     "type": "object",
@@ -3016,38 +2986,35 @@ class SummarizeReallocation(Tool):
 
 class SummarizeOptimizationResults(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], optimization_actions: list = None, employees_optimized: list = None) -> str:
-        if optimization_actions is None:
-            optimization_actions = []
-        if employees_optimized is None:
-            employees_optimized = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        optimization_actions = kwargs.get("optimization_actions", [])
+        employees_optimized = kwargs.get("employees_optimized", [])
 
         utilization_optimized = (
             len(optimization_actions) > 0 or len(employees_optimized) > 0
         )
         resources_balanced = utilization_optimized
-        payload = {
+
+        return json.dumps(
+            {
                 "utilization_optimized": utilization_optimized,
                 "resources_balanced": resources_balanced,
                 "optimization_summary": {
                     "actions_performed": optimization_actions,
                     "employees_affected": employees_optimized,
-                    "status": (
-                        "completed"
-                        if utilization_optimized
-                        else "no_optimization_needed"
-                    ),
+                    "status": "completed"
+                    if utilization_optimized
+                    else "no_optimization_needed",
                 },
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "summarizeOptimizationResults",
+                "name": "summarize_optimization_results",
                 "description": "Generate a summary of resource utilization optimization results",
                 "parameters": {
                     "type": "object",
@@ -3070,17 +3037,23 @@ class SummarizeOptimizationResults(Tool):
 
 class SummarizeTeamExpansion(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: str, new_team_members: list = [], additional_hours: int = 0, existing_hours: int = 0) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        new_team_members = kwargs.get("new_team_members", [])
+        additional_hours = kwargs.get("additional_hours", 0)
+        existing_hours = kwargs.get("existing_hours", 0)
+
         if not all([project_id, new_team_members, additional_hours is not None]):
-            payload = {
+            return json.dumps(
+                {
                     "error": "project_id, new_team_members, and additional_hours are required"
                 }
-            out = json.dumps(
-                payload)
-            return out
+            )
 
         total_hours = existing_hours + additional_hours
-        payload = {
+
+        return json.dumps(
+            {
                 "project_id": project_id,
                 "new_team_members": new_team_members,
                 "additional_hours": additional_hours,
@@ -3092,15 +3065,14 @@ class SummarizeTeamExpansion(Tool):
                     "status": "completed",
                 },
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SummarizeTeamExpansion",
+                "name": "summarize_team_expansion",
                 "description": "Generate a summary of team expansion operations",
                 "parameters": {
                     "type": "object",
@@ -3131,35 +3103,38 @@ class SummarizeTeamExpansion(Tool):
 
 class SummarizeProjectConsolidation(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], consolidated_to: str = None, total_hours: int = None, team_size: int = None, consolidated_projects: list = None) -> str:
-        if consolidated_projects is None:
-            consolidated_projects = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        consolidated_to = kwargs.get("consolidated_to")
+        total_hours = kwargs.get("total_hours")
+        team_size = kwargs.get("team_size")
+        consolidated_projects = kwargs.get("consolidated_projects", [])
 
         if not all([consolidated_to, total_hours is not None, team_size is not None]):
-            payload = {"error": "consolidated_to, total_hours, and team_size are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "consolidated_to, total_hours, and team_size are required"}
+            )
 
-        payload = {
-            "consolidated_to": consolidated_to,
-            "total_hours": total_hours,
-            "team_size": team_size,
-            "consolidation_summary": {
-                "target_project": consolidated_to,
-                "final_team_size": team_size,
-                "total_allocated_hours": total_hours,
-                "consolidated_projects": consolidated_projects,
-                "status": "completed",
-            },
-        }
-        out = json.dumps(payload)
-        return out
+        return json.dumps(
+            {
+                "consolidated_to": consolidated_to,
+                "total_hours": total_hours,
+                "team_size": team_size,
+                "consolidation_summary": {
+                    "target_project": consolidated_to,
+                    "final_team_size": team_size,
+                    "total_allocated_hours": total_hours,
+                    "consolidated_projects": consolidated_projects,
+                    "status": "completed",
+                },
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SummarizeProjectConsolidation",
+                "name": "summarize_project_consolidation",
                 "description": "Generate a summary of project consolidation operations",
                 "parameters": {
                     "type": "object",
@@ -3190,18 +3165,20 @@ class SummarizeProjectConsolidation(Tool):
 
 class ValidateComplianceStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: str = None, required_clearance: str = "secret") -> str:
-        if not project_id:
-            payload = {"error": "project_id is required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        required_clearance = kwargs.get("required_clearance", "secret")
 
-        allocations = data.get("allocations", {}).values()
-        employees = data.get("employees", {}).values()
+        if not project_id:
+            return json.dumps({"error": "project_id is required"})
+
+        allocations = data.get("allocations", [])
+        employees = data.get("employees", [])
 
         project_allocations = [
             alloc
-            for alloc in allocations.values() if alloc.get("project_id") == project_id and alloc.get("status") == "active"
+            for alloc in allocations
+            if alloc.get("project_id") == project_id and alloc.get("status") == "active"
         ]
 
         cleared_resources = 0
@@ -3211,7 +3188,7 @@ class ValidateComplianceStatus(Tool):
             employee_id = allocation.get("employee_id")
 
             employee = None
-            for emp in employees.values():
+            for emp in employees:
                 if emp.get("employee_id") == employee_id:
                     employee = emp
                     break
@@ -3230,7 +3207,9 @@ class ValidateComplianceStatus(Tool):
                     )
 
         compliance_achieved = len(compliance_violations) == 0
-        payload = {
+
+        return json.dumps(
+            {
                 "project_id": project_id,
                 "required_clearance": required_clearance,
                 "compliance_achieved": compliance_achieved,
@@ -3243,14 +3222,14 @@ class ValidateComplianceStatus(Tool):
                     "violation_count": len(compliance_violations),
                 },
             }
-        out = json.dumps(payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ValidateComplianceStatus",
+                "name": "validate_compliance_status",
                 "description": "Validate security clearance compliance for a project and return compliance status",
                 "parameters": {
                     "type": "object",
@@ -3272,33 +3251,25 @@ class ValidateComplianceStatus(Tool):
 
 class SummarizeDepartmentMerger(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        merged_departments: list = None,
-        new_department_name: str = None,
-        teams_consolidated: list = None,
-        final_utilization: float = None,
-        employees_affected: list = None
-    ) -> str:
-        if merged_departments is None:
-            merged_departments = []
-        if teams_consolidated is None:
-            teams_consolidated = []
-        if employees_affected is None:
-            employees_affected = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        merged_departments = kwargs.get("merged_departments", [])
+        new_department_name = kwargs.get("new_department_name")
+        teams_consolidated = kwargs.get("teams_consolidated", [])
+        final_utilization = kwargs.get("final_utilization")
+        employees_affected = kwargs.get("employees_affected", [])
 
         if not all([merged_departments, new_department_name]):
-            payload = {"error": "merged_departments and new_department_name are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "merged_departments and new_department_name are required"}
+            )
 
         if final_utilization is None and employees_affected:
-            employees = data.get("employees", {}).values()
+            employees = data.get("employees", [])
             total_hours = 0
             total_capacity = 0
 
-            for emp_id in employees_affected.values():
-                for employee in employees.values():
+            for emp_id in employees_affected:
+                for employee in employees:
                     if employee.get("employee_id") == emp_id:
                         total_capacity += 40
                         total_hours += (
@@ -3309,25 +3280,26 @@ class SummarizeDepartmentMerger(Tool):
             if total_capacity > 0:
                 final_utilization = round((total_hours / total_capacity) * 100, 1)
 
-        payload = {
-            "merged_department_utilization": final_utilization,
-            "teams_consolidated": len(teams_consolidated),
-            "merger_summary": {
-                "departments_merged": merged_departments,
-                "new_department": new_department_name,
-                "teams_affected": teams_consolidated,
-                "employees_in_new_dept": len(employees_affected),
-                "status": "completed",
-            },
-        }
-        out = json.dumps(payload)
-        return out
+        return json.dumps(
+            {
+                "merged_department_utilization": final_utilization,
+                "teams_consolidated": len(teams_consolidated),
+                "merger_summary": {
+                    "departments_merged": merged_departments,
+                    "new_department": new_department_name,
+                    "teams_affected": teams_consolidated,
+                    "employees_in_new_dept": len(employees_affected),
+                    "status": "completed",
+                },
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "summarizeDepartmentMerger",
+                "name": "summarize_department_merger",
                 "description": "Generate a summary of department merger operations",
                 "parameters": {
                     "type": "object",
@@ -3364,18 +3336,19 @@ class SummarizeDepartmentMerger(Tool):
 
 class SummarizeProjectPhaseMetrics(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: str = None) -> str:
-        if not project_id:
-            payload = {"error": "project_id is required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
 
-        allocations = data.get("allocations", {}).values()
-        employees = data.get("employees", {}).values()
+        if not project_id:
+            return json.dumps({"error": "project_id is required"})
+
+        allocations = data.get("allocations", [])
+        employees = data.get("employees", [])
 
         project_allocations = [
             alloc
-            for alloc in allocations.values() if alloc.get("project_id") == project_id and alloc.get("status") == "active"
+            for alloc in allocations
+            if alloc.get("project_id") == project_id and alloc.get("status") == "active"
         ]
 
         dev_hours = 0
@@ -3397,7 +3370,7 @@ class SummarizeProjectPhaseMetrics(Tool):
             hours = allocation.get("hours_per_week", 0)
 
             employee = next(
-                (emp for emp in employees.values() if emp.get("employee_id") == employee_id),
+                (emp for emp in employees if emp.get("employee_id") == employee_id),
                 None,
             )
 
@@ -3441,7 +3414,9 @@ class SummarizeProjectPhaseMetrics(Tool):
                 dev_hours += hours
             elif is_qa_role:
                 qa_hours += hours
-        payload = {
+
+        return json.dumps(
+            {
                 "project_id": project_id,
                 "dev_hours": dev_hours,
                 "qa_hours": qa_hours,
@@ -3452,15 +3427,14 @@ class SummarizeProjectPhaseMetrics(Tool):
                     "status": "calculated",
                 },
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SummarizeProjectPhaseMetrics",
+                "name": "summarize_project_phase_metrics",
                 "description": "Calculate and summarize development and QA hours for a project phase transition",
                 "parameters": {
                     "type": "object",
@@ -3478,18 +3452,19 @@ class SummarizeProjectPhaseMetrics(Tool):
 
 class SummarizeHybridWorkAllocation(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: str = None) -> str:
-        if not project_id:
-            payload = {"error": "project_id is required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
 
-        allocations = data.get("allocations", {}).values()
-        employees = data.get("employees", {}).values()
+        if not project_id:
+            return json.dumps({"error": "project_id is required"})
+
+        allocations = data.get("allocations", [])
+        employees = data.get("employees", [])
 
         project_allocations = [
             alloc
-            for alloc in allocations.values() if alloc.get("project_id") == project_id and alloc.get("status") == "active"
+            for alloc in allocations
+            if alloc.get("project_id") == project_id and alloc.get("status") == "active"
         ]
 
         total_hours = 0
@@ -3504,7 +3479,7 @@ class SummarizeHybridWorkAllocation(Tool):
             total_hours += hours
 
             employee = next(
-                (emp for emp in employees.values() if emp.get("employee_id") == employee_id),
+                (emp for emp in employees if emp.get("employee_id") == employee_id),
                 None,
             )
 
@@ -3533,9 +3508,11 @@ class SummarizeHybridWorkAllocation(Tool):
                     onsite_hours += hours
 
         onsite_percentage = (
-            round(onsite_hours / total_hours * 100) if total_hours > 0 else 0
+            round((onsite_hours / total_hours * 100)) if total_hours > 0 else 0
         )
-        payload = {
+
+        return json.dumps(
+            {
                 "project_id": project_id,
                 "onsite_percentage": onsite_percentage,
                 "remote_work_maintained": remote_work_maintained,
@@ -3549,15 +3526,14 @@ class SummarizeHybridWorkAllocation(Tool):
                     "status": "calculated",
                 },
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "summarizeHybridWorkAllocation",
+                "name": "summarize_hybrid_work_allocation",
                 "description": "Calculate and summarize onsite vs remote work allocation percentages for a project",
                 "parameters": {
                     "type": "object",

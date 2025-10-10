@@ -1,38 +1,26 @@
 import json
-from typing import Any
-
-from tau_bench.envs.tool import Tool
-
-
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db.values())
-    return db
+from typing import Any, Dict, List
+from domains.dto import Tool
 
 
 class GetUserId(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_name: str = None) -> str:
-        users = data.get("users", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        users = data.get("users", [])
+        user_name = kwargs.get("user_name")
 
-        for user in users.values():
+        for user in users:
             if user.get("name") == user_name:
-                payload = {"user_id": user.get("user_id")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "User not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"user_id": user.get("user_id")})
+
+        return json.dumps({"error": "User not found"})
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GetUserId",
+                "name": "get_user_id",
                 "description": "Search for user by name",
                 "parameters": {
                     "type": "object",
@@ -50,18 +38,18 @@ class GetUserId(Tool):
 
 class GetUserGoals(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        goals = data.get("goals", {}).values()
-        result = [g for g in goals.values() if g["user_id"] == user_id]
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        goals = data.get("goals", [])
+        result = [g for g in goals if g["user_id"] == user_id]
+        return json.dumps(result, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetUserGoals",
+                "name": "get_user_goals",
                 "description": "Retrieves the active career goals for a given user.",
                 "parameters": {
                     "type": "object",
@@ -79,29 +67,29 @@ class GetUserGoals(Tool):
 
 class GetRoleRequirements(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], role_name: str = None) -> str:
-        role_catalog = data.get("role_skill_catalog", {}).values()
-        result = [r for r in role_catalog.values() if r["role"] == role_name]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        role_name = kwargs.get("role_name")
+        role_catalog = data.get("role_skill_catalog", [])
+        result = [r for r in role_catalog if r["role"] == role_name]
 
         if not result:
-            payload = {
+            return json.dumps(
+                {
                     "error": "Role not found",
                     "role_name": role_name,
                     "available_roles": [r["role"] for r in role_catalog],
-                }
-            out = json.dumps(
-                payload, indent=2,
+                },
+                indent=2,
             )
-            return out
-        payload = result[0]
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(result[0], indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getRoleRequirements",
+                "name": "get_role_requirements",
                 "description": "Retrieves the required skills and certifications for a given role.",
                 "parameters": {
                     "type": "object",
@@ -119,35 +107,37 @@ class GetRoleRequirements(Tool):
 
 class GetUserSkillGap(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, target_role: str = None) -> str:
-        gaps = data.get("skill_gap_analysis", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        target_role = kwargs.get("target_role")
+        gaps = data.get("skill_gap_analysis", [])
         result = [
             g
-            for g in gaps.values() if g["user_id"] == user_id and g["target_role"] == target_role
+            for g in gaps
+            if g["user_id"] == user_id and g["target_role"] == target_role
         ]
 
         if not result:
-            payload = {
+            return json.dumps(
+                {
                     "error": "No skill gap found",
                     "user_id": user_id,
                     "target_role": target_role,
                     "available_analyses": [
                         f"{g['user_id']} -> {g['target_role']}" for g in gaps
                     ],
-                }
-            out = json.dumps(
-                payload, indent=2,
+                },
+                indent=2,
             )
-            return out
-        payload = result[0]
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(result[0], indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetUserSkillGap",
+                "name": "get_user_skill_gap",
                 "description": "Gets the skill gap for a user targeting a specific role.",
                 "parameters": {
                     "type": "object",
@@ -169,23 +159,24 @@ class GetUserSkillGap(Tool):
 
 class RecommendCourseForGap(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, target_role: str = None) -> str:
-        gaps = data.get("skill_gap_analysis", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        target_role = kwargs.get("target_role")
+        gaps = data.get("skill_gap_analysis", [])
         user_gaps = [
             g
-            for g in gaps.values() if g["user_id"] == user_id and g["target_role"] == target_role
+            for g in gaps
+            if g["user_id"] == user_id and g["target_role"] == target_role
         ]
 
         if not user_gaps:
-            payload = {"error": "No gap found."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "No gap found."}, indent=2)
 
-        # Identify the most critical skill gap along with the courses that are offered
+        # Find the highest priority skill gap with available courses
         skill_gaps = user_gaps[0].get("skill_gaps", [])
         highest_priority_gap = None
 
-        # Arrange by priority (High to Low) and severity of the gap (High to Low)
+        # Sort by priority (High -> Medium -> Low) and gap severity (High -> Medium -> Low)
         priority_order = {"High": 3, "Medium": 2, "Low": 1}
         severity_order = {"High": 3, "Medium": 2, "Low": 1}
 
@@ -194,7 +185,7 @@ class RecommendCourseForGap(Tool):
                 if not highest_priority_gap:
                     highest_priority_gap = skill_gap
                 else:
-                    # Evaluate based on priority initially, followed by severity
+                    # Compare by priority first, then by severity
                     current_priority = priority_order.get(
                         skill_gap.get("priority", "Low"), 1
                     )
@@ -216,27 +207,27 @@ class RecommendCourseForGap(Tool):
                         highest_priority_gap = skill_gap
 
         if highest_priority_gap:
-            payload = {
-                "recommended_course": highest_priority_gap.get(
-                    "recommended_courses"
-                )[0],
-                "skill": highest_priority_gap.get("skill_name"),
-                "priority": highest_priority_gap.get("priority"),
-                "gap_severity": highest_priority_gap.get("gap_severity"),
-            }
-            out = json.dumps(
-                payload, indent=2,
+            # Return the first course for the highest priority gap (deterministic)
+            return json.dumps(
+                {
+                    "recommended_course": highest_priority_gap.get(
+                        "recommended_courses"
+                    )[0],
+                    "skill": highest_priority_gap.get("skill_name"),
+                    "priority": highest_priority_gap.get("priority"),
+                    "gap_severity": highest_priority_gap.get("gap_severity"),
+                },
+                indent=2,
             )
-            return out
-        payload = {"error": "No suitable course found."}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"error": "No suitable course found."}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RecommendCourseForGap",
+                "name": "recommend_course_for_gap",
                 "description": "Recommends the highest priority course from the catalog to close a user's skill gap for a target role.",
                 "parameters": {
                     "type": "object",
@@ -258,29 +249,29 @@ class RecommendCourseForGap(Tool):
 
 class GetTeamMembers(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], team_id: str = None) -> str:
-        teams = data.get("teams", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        team_id = kwargs.get("team_id")
+        teams = data.get("teams", [])
 
-        for t in teams.values():
+        for t in teams:
             if t["team_id"] == team_id:
-                payload = {"user_ids": t.get("team_members", [])}
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {
+                return json.dumps({"user_ids": t.get("team_members", [])}, indent=2)
+
+        return json.dumps(
+            {
                 "error": "Team not found",
                 "team_id": team_id,
                 "available_teams": [t["team_id"] for t in teams],
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetTeamMembers",
+                "name": "get_team_members",
                 "description": "Returns a list of user IDs belonging to a specific team.",
                 "parameters": {
                     "type": "object",
@@ -298,20 +289,19 @@ class GetTeamMembers(Tool):
 
 class GetUsersWithLeadershipGoals(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_ids: list[int] = None) -> str:
-        if user_ids is None:
-            user_ids = []
-        goals = data.get("goals", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_ids = kwargs.get("user_ids", [])
+        goals = data.get("goals", [])
         leadership_users = []
 
-        for g in goals.values():
+        for g in goals:
             if g["user_id"] in user_ids:
                 for goal in g.get("goals", []):
                     goal_desc = goal.get("goal_description", "").lower()
                     goal_type = goal.get("goal_type", "").lower()
                     target_role = goal.get("target_role", "").lower()
 
-                    # Look for signs of leadership
+                    # Check for leadership indicators
                     leadership_indicators = [
                         "leadership",
                         "lead",
@@ -338,15 +328,15 @@ class GetUsersWithLeadershipGoals(Tool):
                         if g["user_id"] not in leadership_users:
                             leadership_users.append(g["user_id"])
                         break
-        payload = leadership_users
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(leadership_users, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetUsersWithLeadershipGoals",
+                "name": "get_users_with_leadership_goals",
                 "description": "Filters users by whether they have a leadership-oriented goal.",
                 "parameters": {
                     "type": "object",
@@ -365,12 +355,14 @@ class GetUsersWithLeadershipGoals(Tool):
 
 class AssessSoftSkillAlignment(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, target_role: str = None) -> str:
-        soft_skills = data.get("soft_skills", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        target_role = kwargs.get("target_role")
+        soft_skills = data.get("soft_skills", [])
 
-        # Identify relevant soft skills for the desired position
+        # Find soft skills that are applicable to the target role
         applicable_skills = []
-        for s in soft_skills.values():
+        for s in soft_skills:
             if target_role in s.get("applicable_roles", []):
                 applicable_skills.append(s["skill"])
 
@@ -380,18 +372,16 @@ class AssessSoftSkillAlignment(Tool):
                 "role": target_role,
                 "required_soft_skills": applicable_skills,
             }
-            payload = aligned
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"error": "No soft skills found for role."}
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps(aligned, indent=2)
+
+        return json.dumps({"error": "No soft skills found for role."}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AssessSoftSkillAlignment",
+                "name": "assess_soft_skill_alignment",
                 "description": "Gets soft skill expectations for a role and compares them to user development plans.",
                 "parameters": {
                     "type": "object",
@@ -413,15 +403,18 @@ class AssessSoftSkillAlignment(Tool):
 
 class ShortlistSuccessorCandidate(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str, target_role: str) -> str:
-        # Create a consistent date derived from user_id and target_role
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs["user_id"]
+        target_role = kwargs["target_role"]
+
+        # Generate deterministic date based on user_id and target_role
         import hashlib
 
         hash_input = f"{user_id}_{target_role}"
         hash_value = int(hashlib.md5(hash_input.encode()).hexdigest()[:8], 16)
-        days_offset = hash_value % 30  # A range of 0 to 29 days from the reference date
+        days_offset = hash_value % 30  # 0-29 days from base date
 
-        # Employ a constant base date to ensure consistent outcomes
+        # Use a fixed base date for deterministic results
         base_date = "2025-06-01"
         from datetime import datetime, timedelta
 
@@ -434,20 +427,17 @@ class ShortlistSuccessorCandidate(Tool):
             "status": "shortlisted",
             "shortlist_date": shortlist_date,
         }
-        table = data.setdefault("hr_workflows", {})
-        key = f"{len(table)}"
-        table[key] = entry
-        payload = {"message": "Candidate shortlisted.", "record": entry}
-        out = json.dumps(
-            payload, indent=2
+        data.setdefault("hr_workflows", []).append(entry)
+        return json.dumps(
+            {"message": "Candidate shortlisted.", "record": entry}, indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ShortlistSuccessorCandidate",
+                "name": "shortlist_successor_candidate",
                 "description": "Marks a user as a shortlisted candidate for succession into a target role with deterministic date.",
                 "parameters": {
                     "type": "object",
@@ -461,7 +451,7 @@ class ShortlistSuccessorCandidate(Tool):
                             "description": "The target role under consideration.",
                         },
                     },
-                    "required": ["user_id", "target_role"],
+                    "required": ["user_id", "target_role", "succession_for_role"],
                 },
             },
         }
@@ -469,31 +459,30 @@ class ShortlistSuccessorCandidate(Tool):
 
 class GetUserTargetRole(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        goals_data = data.get("goals", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        goals_data = data.get("goals", [])
 
-        user_goals = [g for g in goals_data.values() if g.get("user_id") == user_id]
+        user_goals = [g for g in goals_data if g.get("user_id") == user_id]
 
         if not user_goals:
-            payload = {"error": f"No goals found for user {user_id}."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"No goals found for user {user_id}."})
 
-        # Locate the initial goal categorized as "Role Transition"
+        # Find the first goal with the type "Role Transition"
         for goal in user_goals[0].get("goals", []):
             if goal.get("goal_type") == "Role Transition" and "target_role" in goal:
-                payload = {"target_role": goal.get("target_role")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"No 'Role Transition' goal found for user {user_id}."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"target_role": goal.get("target_role")})
+
+        return json.dumps(
+            {"error": f"No 'Role Transition' goal found for user {user_id}."}
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetUserTargetRole",
+                "name": "get_user_target_role",
                 "description": "Retrieves the formal target role from a user's 'Role Transition' career goal.",
                 "parameters": {
                     "type": "object",
@@ -511,15 +500,18 @@ class GetUserTargetRole(Tool):
 
 class AssignCourseToUser(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str, course_id: str) -> str:
-        # Create a consistent date based on user_id and course_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs["user_id"]
+        course_id = kwargs["course_id"]
+
+        # Generate deterministic date based on user_id and course_id
         import hashlib
 
         hash_input = f"{user_id}_{course_id}"
         hash_value = int(hashlib.md5(hash_input.encode()).hexdigest()[:8], 16)
-        days_offset = hash_value % 30  # A span of 0 to 29 days from the reference date
+        days_offset = hash_value % 30  # 0-29 days from base date
 
-        # Utilize a stable base date for reliable results
+        # Use a fixed base date for deterministic results
         base_date = "2025-07-01"
         from datetime import datetime, timedelta
 
@@ -533,20 +525,17 @@ class AssignCourseToUser(Tool):
             "assigned_date": assigned_date,
         }
 
-        table = data.setdefault("user_course_progress", {})
-        key = f"{len(table)}"
-        table[key] = progress_entry
-        payload = {"message": "Course assigned to user.", "entry": progress_entry}
-        out = json.dumps(
-            payload, indent=2
+        data.setdefault("user_course_progress", []).append(progress_entry)
+        return json.dumps(
+            {"message": "Course assigned to user.", "entry": progress_entry}, indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AssignCourseToUser",
+                "name": "assign_course_to_user",
                 "description": "Assigns a course to a user and logs it in course progress with deterministic date.",
                 "parameters": {
                     "type": "object",
@@ -568,16 +557,16 @@ class AssignCourseToUser(Tool):
 
 class ValidateUserGoalAlignment(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, target_role: str = None) -> str:
-        goals = data.get("goals", {}).values()
-        user_goals = [g for g in goals.values() if g["user_id"] == user_id]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        target_role = kwargs.get("target_role")
+        goals = data.get("goals", [])
+        user_goals = [g for g in goals if g["user_id"] == user_id]
 
         if not user_goals:
-            payload = {"valid": False, "reason": "No goals found for user"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"valid": False, "reason": "No goals found for user"}, indent=2
             )
-            return out
 
         for goal_group in user_goals:
             for goal in goal_group.get("goals", []):
@@ -589,22 +578,20 @@ class ValidateUserGoalAlignment(Tool):
                     or target_role.lower() in goal_target_role
                     or goal_target_role == target_role.lower()
                 ):
-                    payload = {"valid": True, "goal_id": goal.get("goal_id")}
-                    out = json.dumps(
-                        payload, indent=2
+                    return json.dumps(
+                        {"valid": True, "goal_id": goal.get("goal_id")}, indent=2
                     )
-                    return out
-        payload = {"valid": False, "reason": "No goals found for target role"}
-        out = json.dumps(
-            payload, indent=2
+
+        return json.dumps(
+            {"valid": False, "reason": "No goals found for target role"}, indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ValidateUserGoalAlignment",
+                "name": "validate_user_goal_alignment",
                 "description": "Validates that a user has goals aligned with a target role.",
                 "parameters": {
                     "type": "object",
@@ -626,48 +613,50 @@ class ValidateUserGoalAlignment(Tool):
 
 class CheckTrainingNeeded(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, target_role: str = None) -> str:
-        gaps = data.get("skill_gap_analysis", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        target_role = kwargs.get("target_role")
+        gaps = data.get("skill_gap_analysis", [])
         user_gaps = [
             g
-            for g in gaps.values() if g["user_id"] == user_id and g["target_role"] == target_role
+            for g in gaps
+            if g["user_id"] == user_id and g["target_role"] == target_role
         ]
 
         if not user_gaps:
-            payload = {"training_needed": False, "reason": "No skill gap analysis found"}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"training_needed": False, "reason": "No skill gap analysis found"},
+                indent=2,
             )
-            return out
 
         gap = user_gaps[0]
         readiness_score = gap.get("overall_readiness_score", 0)
 
         if readiness_score < 70:
-            payload = {
+            return json.dumps(
+                {
                     "training_needed": True,
                     "readiness_score": readiness_score,
                     "reason": f"Readiness score {readiness_score} is below threshold of 70",
-                }
-            out = json.dumps(
-                payload, indent=2,
+                },
+                indent=2,
             )
-            return out
-        payload = {
+
+        return json.dumps(
+            {
                 "training_needed": False,
                 "readiness_score": readiness_score,
                 "reason": f"Readiness score {readiness_score} meets threshold",
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CheckTrainingNeeded",
+                "name": "check_training_needed",
                 "description": "Checks if training is needed for a user targeting a specific role based on readiness score.",
                 "parameters": {
                     "type": "object",
@@ -689,33 +678,31 @@ class CheckTrainingNeeded(Tool):
 
 class ValidateTeamMembership(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, team_id: str = None) -> str:
-        teams = data.get("teams", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        team_id = kwargs.get("team_id")
+        teams = data.get("teams", [])
 
-        for team in teams.values():
+        for team in teams:
             if team["team_id"] == team_id:
                 members = team.get("team_members", [])
                 if user_id in members:
-                    payload = {"valid": True, "team_name": team.get("team_name")}
-                    out = json.dumps(
-                        payload, indent=2
+                    return json.dumps(
+                        {"valid": True, "team_name": team.get("team_name")}, indent=2
                     )
-                    return out
                 else:
-                    payload = {"valid": False, "reason": "User not in team"}
-                    out = json.dumps(
-                        payload, indent=2
+                    return json.dumps(
+                        {"valid": False, "reason": "User not in team"}, indent=2
                     )
-                    return out
-        payload = {"valid": False, "reason": "Team not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"valid": False, "reason": "Team not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ValidateTeamMembership",
+                "name": "validate_team_membership",
                 "description": "Validates that a user is a member of a specific team.",
                 "parameters": {
                     "type": "object",
@@ -737,55 +724,56 @@ class ValidateTeamMembership(Tool):
 
 class ValidateCourseSkillMapping(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], course_id: str = None, skill_name: str = None) -> str:
-        courses = data.get("course_catalog", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        course_id = kwargs.get("course_id")
+        skill_name = kwargs.get("skill_name")
+        courses = data.get("course_catalog", [])
 
         course = None
-        for c in courses.values():
+        for c in courses:
             if c["course_id"] == course_id:
                 course = c
                 break
 
         if not course:
-            payload = {"valid": False, "error": "Course not found", "course_id": course_id}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"valid": False, "error": "Course not found", "course_id": course_id},
+                indent=2,
             )
-            return out
 
-        # Verify whether the course includes the skill
+        # Check if skill is covered by the course
         skills_covered = []
         for skill_imparted in course.get("skills_imparted", []):
             skills_covered.append(skill_imparted.get("skill", ""))
 
         if skill_name in skills_covered:
-            payload = {
+            return json.dumps(
+                {
                     "valid": True,
                     "course_id": course_id,
                     "skill_name": skill_name,
                     "course_name": course.get("name", ""),
-                }
-            out = json.dumps(
-                payload, indent=2,
+                },
+                indent=2,
             )
-            return out
-        payload = {
+
+        return json.dumps(
+            {
                 "valid": False,
                 "error": "Skill not covered by course",
                 "course_id": course_id,
                 "skill_name": skill_name,
                 "skills_covered": skills_covered,
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ValidateCourseSkillMapping",
+                "name": "validate_course_skill_mapping",
                 "description": "Validates that a course covers a specific skill.",
                 "parameters": {
                     "type": "object",
@@ -807,29 +795,29 @@ class ValidateCourseSkillMapping(Tool):
 
 class GetUserPreferences(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        preferences = data.get("user_preferences", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        preferences = data.get("user_preferences", [])
 
-        for pref in preferences.values():
+        for pref in preferences:
             if pref.get("user_id") == user_id:
-                payload = pref
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {
+                return json.dumps(pref, indent=2)
+
+        return json.dumps(
+            {
                 "error": "User preferences not found",
                 "user_id": user_id,
-                "available_users_with_prefs": [p.get("user_id") for p in preferences.values()],
-            }
-        out = json.dumps(
-            payload, indent=2,
+                "available_users_with_prefs": [p.get("user_id") for p in preferences],
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getUserPreferences",
+                "name": "get_user_preferences",
                 "description": "Retrieves the career and learning preferences for a given user, such as preferred industries, work style, and learning formats.",
                 "parameters": {
                     "type": "object",
@@ -847,19 +835,20 @@ class GetUserPreferences(Tool):
 
 class GetUserCourseProgress(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        progress_data = data.get("user_course_progress", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        progress_data = data.get("user_course_progress", [])
 
-        user_progress = [p for p in progress_data.values() if p.get("user_id") == user_id]
-        payload = user_progress
-        out = json.dumps(payload, indent=2)
-        return out
+        user_progress = [p for p in progress_data if p.get("user_id") == user_id]
+
+        return json.dumps(user_progress, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getUserCourseProgress",
+                "name": "get_user_course_progress",
                 "description": "Retrieves the course progress for a given user, including completed, in-progress, and assigned courses.",
                 "parameters": {
                     "type": "object",
@@ -877,17 +866,19 @@ class GetUserCourseProgress(Tool):
 
 class LogTeamTraining(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str, course_id: str, skill_name: str) -> str:
-        # Create a consistent date derived from user_id and course_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        # Generate deterministic date based on user_id and course_id
+        user_id = kwargs["user_id"]
+        course_id = kwargs["course_id"]
 
-        # Develop a straightforward hash-based method for date generation to ensure uniformity
+        # Create a simple hash-based date generation for consistency
         import hashlib
 
         hash_input = f"{user_id}_{course_id}"
         hash_value = int(hashlib.md5(hash_input.encode()).hexdigest()[:8], 16)
-        days_offset = hash_value % 30  # A duration of 0 to 29 days from the reference date
+        days_offset = hash_value % 30  # 0-29 days from base date
 
-        # Adopt a constant base date for predictable outcomes
+        # Use a fixed base date for deterministic results
         base_date = "2025-07-01"
         from datetime import datetime, timedelta
 
@@ -896,24 +887,21 @@ class LogTeamTraining(Tool):
 
         entry = {
             "user_id": user_id,
-            "skill_name": skill_name,
+            "skill_name": kwargs["skill_name"],
             "course_id": course_id,
             "log_date": log_date,
         }
-        # This line locates the 'team_training_log' array in the data and appends the new entry.
-        # If the array is absent, it initializes it first.
-        table = data.setdefault("team_training_log", {})
-        key = f"{len(table)}"
-        table[key] = entry
-        payload = {"message": "Training logged.", "entry": entry}
-        out = json.dumps(payload, indent=2)
-        return out
+        # This line finds the 'team_training_log' list in the data and adds the new entry.
+        # If the list doesn't exist, it creates it first.
+        data.setdefault("team_training_log", []).append(entry)
+        return json.dumps({"message": "Training logged.", "entry": entry}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "LogTeamTraining",
+                "name": "log_team_training",
                 "description": "Logs a course training entry for a user for a specific skill with deterministic date.",
                 "parameters": {
                     "type": "object",
@@ -939,10 +927,11 @@ class LogTeamTraining(Tool):
 
 class GetUserProfile(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        users = data.get("users", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        users = data.get("users", [])
 
-        for user in users.values():
+        for user in users:
             if user.get("user_id") == user_id:
                 profile_data = {
                     "user_id": user.get("user_id"),
@@ -951,18 +940,16 @@ class GetUserProfile(Tool):
                     "department": user.get("department"),
                     "team_id": user.get("team_id"),
                 }
-                payload = profile_data
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"User profile not found for {user_id}."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(profile_data, indent=2)
+
+        return json.dumps({"error": f"User profile not found for {user_id}."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetUserProfile",
+                "name": "get_user_profile",
                 "description": "Retrieves key profile information for a user, such as their current role and department.",
                 "parameters": {
                     "type": "object",

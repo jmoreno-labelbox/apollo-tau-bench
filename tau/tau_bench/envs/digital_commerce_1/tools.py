@@ -1,91 +1,51 @@
+import hashlib
 import json
-from typing import Any
+from typing import Any, Dict, List, Optional
+from urllib.parse import urlparse
 
-from tau_bench.envs.tool import Tool
+from domains.dto import Tool
 
 FIXED_NOW = "2025-08-06T12:00:00Z"
 
 
+def _json(x: Any) -> str:
+    return json.dumps(x, separators=(",", ":"))
 
 
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db.values())
-    return db
+def _ensure_table(db: Dict[str, Any], name: str):
+    if name not in db:
+        db[name] = []
+    return db[name]
 
 
-def _get_table(data: dict[str, Any], name: str) -> list[dict[str, Any]]:
-    """Get table from data and convert from dict to list if needed."""
-    table = data.get(name, [])
-    return _convert_db_to_list(table)
-
-
-def _stable_id(prefix: str, *parts: str) -> str:
-    pass
-    base = "-".join(_slugify(p) for p in parts if p is not None and str(p) != "")
-    return f"{prefix}-{base}" if base else prefix
-
-
-def _get_network_defaults(db: dict[str, Any], environment: str) -> dict[str, Any]:
-    _environmentL = environment or ''.lower()
-    pass
-    subnets = _ensure_table(db, "aws_subnet_groups")
-    row = _find_one(subnets, environment=environment)
-    vpc_id = row.get("vpc_id") if row else f"vpc-{environment.lower()}-0001"
-    sn = (
-        row.get("subnet_ids")
-        if row and row.get("subnet_ids")
-        else [f"subnet-{environment.lower()}-a", f"subnet-{environment.lower()}-b"]
-    )
-    allow = (
-        row.get("allowlist_cidrs")
-        if row and row.get("allowlist_cidrs")
-        else ["10.0.0.0/16"]
-    )
-    return {
-        "vpc_id": vpc_id,
-        "subnet_ids": sn,
-        "allowlist_cidrs": allow,
-        "tls_ports": [443],
-        "redis_ports": [6379],
-    }
-
-
-def _find_one(rows: list[dict[str, Any]], **crit):
-    pass
+def _find_one(rows: List[Dict[str, Any]], **crit):
+    crit_items = sorted(crit.items(), key=lambda kv: kv[0])
     for r in rows:
-        if all(str(r.get(k)) == str(v) for k, v in crit.items()):
+        match = True
+        for k, v in crit_items:
+            if str(r.get(k)) != str(v):
+                match = False
+                break
+        if match:
             return r
     return None
 
 
-def _ensure_unique_id(rows: list, id_field: str, candidate: str) -> str:
-    pass
-    if not any(r.get(id_field) == candidate for r in rows.values()):
-        return candidate
-    i = 2
-    while any(r.get(id_field) == f"{candidate}-{i}" for r in rows.values()):
-        i += 1
-    return f"{candidate}-{i}"
-
-
-def _find_all(rows: list[dict[str, Any]], **crit) -> list[dict[str, Any]]:
-    pass
+def _find_all(rows: List[Dict[str, Any]], **crit) -> List[Dict[str, Any]]:
     out = []
+    crit_items = sorted(crit.items(), key=lambda kv: kv[0])
     for r in rows:
-        ok = True
-        for k, v in crit.items():
+        match = True
+        for k, v in crit_items:
             if str(r.get(k)) != str(v):
-                ok = False
+                match = False
                 break
-        if ok:
+        if match:
             out.append(r)
     return out
 
 
 def _slugify(text: str, max_len: int = 40) -> str:
-    pass
     s = str(text).lower()
     out = []
     prev_dash = False
@@ -103,43 +63,57 @@ def _slugify(text: str, max_len: int = 40) -> str:
     return slug[:max_len] if max_len > 0 else slug
 
 
-def _ensure_table(db: dict[str, Any], name: str):
-    pass
-    if name not in db:
-        db[name] = []
-    return _convert_db_to_list(db[name])
+def _stable_id(prefix: str, *parts: str) -> str:
+    base = "-".join(_slugify(p) for p in parts if p is not None and str(p) != "")
+    return f"{prefix}-{base}" if base else prefix
 
 
-def _json(x: Any) -> str:
-    pass
-    payload = x
-    out = json.dumps(payload, separators=(",", ":"))
-    return out
+def _ensure_unique_id(rows: list, id_field: str, candidate: str) -> str:
+    if not any(r.get(id_field) == candidate for r in rows):
+        return candidate
+    i = 2
+    while any(r.get(id_field) == f"{candidate}-{i}" for r in rows):
+        i += 1
+    return f"{candidate}-{i}"
 
 
-#--------------------------- AWS / Security / Infrastructure ---------------------------
+def _get_network_defaults(db: Dict[str, Any], environment: str) -> Dict[str, Any]:
+    subnets = _ensure_table(db, "aws_subnet_groups")
+    row = _find_one(subnets, environment=environment)
+    vpc_id = row.get("vpc_id") if row else f"vpc-{environment.lower()}-0001"
+    sn = (
+        row.get("subnet_ids")
+        if row and row.get("subnet_ids")
+        else [f"subnet-{environment.lower()}-a", f"subnet-{environment.lower()}-b"]
+    )
+    allow = row.get("allowlist_cidrs") if row and row.get("allowlist_cidrs") else ["10.0.0.0/16"]
+    return {
+        "vpc_id": vpc_id,
+        "subnet_ids": sn,
+        "allowlist_cidrs": allow,
+        "tls_ports": [443],
+        "redis_ports": [6379],
+    }
 
 
 class GetEnvironmentNetworkDefaults(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], environment: str) -> str:
+    def invoke(data: Dict[str, Any], environment: str) -> str:
         res = _get_network_defaults(data, environment)
         res.update({"environment": environment})
         return _json(res)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetEnvironmentNetworkDefaults",
+                "name": "get_environment_network_defaults",
                 "description": "Resolve VPC/subnets/allowlist and standard ports for an environment.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "environment": {
-                            "type": "string",
-                            "enum": ["DEV", "UAT", "PROD"],
-                        }
+                        "environment": {"type": "string", "enum": ["DEV", "UAT", "PROD"]}
                     },
                     "required": ["environment"],
                 },
@@ -149,9 +123,8 @@ class GetEnvironmentNetworkDefaults(Tool):
 
 class GetServiceSecurityGroup(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], environment: str, service_name: str) -> str:
+    def invoke(data: Dict[str, Any], environment: str, service_name: str) -> str:
         rules = _ensure_table(data, "aws_security_group_rules")
-        # Gather all rules that correspond to environment and service
         matches = _find_all(rules, environment=environment, service_name=service_name)
         if matches:
             sg_id = matches[0]["sg_id"]
@@ -166,7 +139,6 @@ class GetServiceSecurityGroup(Tool):
                 if r.get("direction") == "egress"
             ]
         else:
-            # fixed sg id (not saved until an update applies rules)
             sg_id = _stable_id("sg", environment, service_name)
             ingress, egress = [], []
         return _json(
@@ -179,20 +151,18 @@ class GetServiceSecurityGroup(Tool):
                 "egress_rules": egress,
             }
         )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetServiceSecurityGroup",
+                "name": "get_service_security_group",
                 "description": "Find the security group for a service in an environment.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "environment": {
-                            "type": "string",
-                            "enum": ["DEV", "UAT", "PROD"],
-                        },
+                        "environment": {"type": "string", "enum": ["DEV", "UAT", "PROD"]},
                         "service_name": {"type": "string"},
                     },
                     "required": ["environment", "service_name"],
@@ -204,58 +174,13 @@ class GetServiceSecurityGroup(Tool):
 class UpdateSecurityGroupRuleset(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         sg_id: str,
         environment: str,
         service_name: str,
-        tcp_ports: list[int],
-        allowlist_cidrs: list[str]
+        tcp_ports: List[int],
+        allowlist_cidrs: List[str],
     ) -> str:
-        rules = _ensure_table(data, "aws_security_group_rules")
-        for port in tcp_ports:
-            for cidr in allowlist_cidrs:
-                row = _find_one(
-                    rules,
-                    sg_id=sg_id,
-                    environment=environment,
-                    service_name=service_name,
-                    direction="ingress",
-                    protocol="tcp",
-                    port=int(port),
-                    cidr=cidr,
-                )
-                if row:
-                    row["updated_at"] = FIXED_NOW
-                else:
-                    rules.append(
-                        {
-                            "sg_id": sg_id,
-                            "environment": environment,
-                            "service_name": service_name,
-                            "direction": "ingress",
-                            "protocol": "tcp",
-                            "port": int(port),
-                            "cidr": cidr,
-                            "description": f"{service_name} [{environment}] ingress {port}/{cidr}",
-                            "created_at": FIXED_NOW,
-                        }
-                    )
-        summary = f"{service_name} [{environment}] ports={sorted(set(tcp_ports))} cidrs={sorted(set(allowlist_cidrs))}"
-        return _json(
-            {
-                "change_set_id": _stable_id(
-                    "chg-sg",
-                    sg_id,
-                    environment,
-                    service_name,
-                    *map(str, tcp_ports),
-                    *allowlist_cidrs,
-                ),
-                "labels": {"summary": summary},
-                "applied": True,
-            }
-        )
-        pass
         rules = _ensure_table(data, "aws_security_group_rules")
         for port in tcp_ports:
             for cidr in allowlist_cidrs:
@@ -303,26 +228,19 @@ class UpdateSecurityGroupRuleset(Tool):
 
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "UpdateSecurityGroupRuleset",
+                "name": "update_security_group_ruleset",
                 "description": "Upsert ingress rules for an SG using env/service context.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "sg_id": {"type": "string"},
-                        "environment": {
-                            "type": "string",
-                            "enum": ["DEV", "UAT", "PROD"],
-                        },
+                        "environment": {"type": "string", "enum": ["DEV", "UAT", "PROD"]},
                         "service_name": {"type": "string"},
                         "tcp_ports": {"type": "array", "items": {"type": "integer"}},
-                        "allowlist_cidrs": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                        },
+                        "allowlist_cidrs": {"type": "array", "items": {"type": "string"}},
                     },
                     "required": [
                         "sg_id",
@@ -339,14 +257,8 @@ class UpdateSecurityGroupRuleset(Tool):
 class ProvisionOrUpdateRedisCluster(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
-        cluster_name: str,
-        node_type: str,
-        replicas: int,
-        environment: str
+        data: Dict[str, Any], cluster_name: str, node_type: str, replicas: int, environment: str
     ) -> str:
-        _environmentL = environment or ''.lower()
-        pass
         clusters = _ensure_table(data, "aws_elasticache_clusters")
         cluster_id = _stable_id("rc", cluster_name, environment)
         endpoint = f"{cluster_name}.{environment.lower()}.cache.local:6379"
@@ -376,50 +288,14 @@ class ProvisionOrUpdateRedisCluster(Tool):
                     "tls_in_transit": False,
                 }
             )
-        return _json(
-            {"cluster_id": cluster_id, "endpoint": endpoint, "status": "available"}
-        )
-        _environmentL = environment or ''.lower()
-        pass
-        clusters = _ensure_table(data, "aws_elasticache_clusters")
-        cluster_id = _stable_id("rc", cluster_name, environment)
-        endpoint = f"{cluster_name}.{environment.lower()}.cache.local:6379"
-        row = _find_one(clusters, cluster_id=cluster_id)
-        if row:
-            row.update(
-                {
-                    "cluster_name": cluster_name,
-                    "node_type": node_type,
-                    "replicas": int(replicas),
-                    "environment": environment,
-                    "endpoint": endpoint,
-                    "status": "available",
-                }
-            )
-        else:
-            clusters.append(
-                {
-                    "cluster_id": cluster_id,
-                    "cluster_name": cluster_name,
-                    "node_type": node_type,
-                    "replicas": int(replicas),
-                    "environment": environment,
-                    "endpoint": endpoint,
-                    "status": "available",
-                    "require_auth": False,
-                    "tls_in_transit": False,
-                }
-            )
-        return _json(
-            {"cluster_id": cluster_id, "endpoint": endpoint, "status": "available"}
-        )
+        return _json({"cluster_id": cluster_id, "endpoint": endpoint, "status": "available"})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "provisionOrUpdateRedisCluster",
+                "name": "provision_or_update_redis_cluster",
                 "description": "Provision or update an ElastiCache/Redis cluster for an environment.",
                 "parameters": {
                     "type": "object",
@@ -427,17 +303,9 @@ class ProvisionOrUpdateRedisCluster(Tool):
                         "cluster_name": {"type": "string"},
                         "node_type": {"type": "string"},
                         "replicas": {"type": "integer", "minimum": 0},
-                        "environment": {
-                            "type": "string",
-                            "enum": ["DEV", "UAT", "PROD"],
-                        },
+                        "environment": {"type": "string", "enum": ["DEV", "UAT", "PROD"]},
                     },
-                    "required": [
-                        "cluster_name",
-                        "node_type",
-                        "replicas",
-                        "environment",
-                    ],
+                    "required": ["cluster_name", "node_type", "replicas", "environment"],
                 },
             },
         }
@@ -446,36 +314,11 @@ class ProvisionOrUpdateRedisCluster(Tool):
 class SetRedisAuthAndTLS(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         cluster_id: str,
         require_auth: bool = True,
-        tls_in_transit: bool = True
+        tls_in_transit: bool = True,
     ) -> str:
-        clusters = _ensure_table(data, "aws_elasticache_clusters")
-        row = _find_one(clusters, cluster_id=cluster_id) or _find_one(
-            clusters, cluster_name=cluster_id
-        )
-        if not row:
-            raise ValueError(f"Cluster not found: {cluster_id}")
-        env = row.get("environment", "UAT")
-        kms_key_alias = f"alias/dcomm-{env.lower()}"
-        row.update(
-            {
-                "require_auth": bool(require_auth),
-                "tls_in_transit": bool(tls_in_transit),
-                "kms_key_alias": kms_key_alias,
-                "secret_arn": f"arn:aws:secretsmanager:local:000000000000:secret:{row.get('cluster_id', cluster_id)}",
-                "updated_at": FIXED_NOW,
-            }
-        )
-        return _json(
-            {
-                "secret_arn": row["secret_arn"],
-                "tls_status": "enabled" if row["tls_in_transit"] else "disabled",
-                "kms_key_alias": kms_key_alias,
-            }
-        )
-        pass
         clusters = _ensure_table(data, "aws_elasticache_clusters")
         row = _find_one(clusters, cluster_id=cluster_id) or _find_one(
             clusters, cluster_name=cluster_id
@@ -503,11 +346,10 @@ class SetRedisAuthAndTLS(Tool):
 
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "SetRedisAuthAndTls",
+                "name": "set_redis_auth_and_tls",
                 "description": "Enable AUTH/TLS; booleans default to True if omitted.",
                 "parameters": {
                     "type": "object",
@@ -524,27 +366,7 @@ class SetRedisAuthAndTLS(Tool):
 
 class CreateInterfaceEndpoint(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], vpc_id: str, service_name: str, subnet_ids: list[str]
-    ) -> str:
-        endpoints = _ensure_table(data, "aws_vpc_endpoints")
-        endpoint_id = _stable_id("vpce", vpc_id, service_name, *subnet_ids)
-        dns = f"{endpoint_id}.vpce.local"
-        row = _find_one(endpoints, endpoint_id=endpoint_id)
-        if row:
-            row["dns_entries"] = [dns]
-        else:
-            endpoints.append(
-                {
-                    "endpoint_id": endpoint_id,
-                    "vpc_id": vpc_id,
-                    "service_name": service_name,
-                    "subnet_ids": list(subnet_ids),
-                    "dns_entries": [dns],
-                }
-            )
-        return _json({"endpoint_id": endpoint_id, "dns_entries": [dns]})
-        pass
+    def invoke(data: Dict[str, Any], vpc_id: str, service_name: str, subnet_ids: List[str]) -> str:
         endpoints = _ensure_table(data, "aws_vpc_endpoints")
         endpoint_id = _stable_id("vpce", vpc_id, service_name, *subnet_ids)
         dns = f"{endpoint_id}.vpce.local"
@@ -564,11 +386,11 @@ class CreateInterfaceEndpoint(Tool):
         return _json({"endpoint_id": endpoint_id, "dns_entries": [dns]})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateInterfaceEndpoint",
+                "name": "create_interface_endpoint",
                 "description": "Create a VPC Interface Endpoint for a service.",
                 "parameters": {
                     "type": "object",
@@ -585,31 +407,7 @@ class CreateInterfaceEndpoint(Tool):
 
 class CreateSecretFor(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], environment: str, purpose: str, value_source_id: str
-    ) -> str:
-        _environmentL = environment or ''.lower()
-        pass
-        settings = _ensure_table(data, "custom_settings")
-        key = f"secret:{purpose}:{environment}"
-        kms_key_alias = f"alias/dcomm-{environment.lower()}"
-        secret_arn = _stable_id("arn:secret", key, value_source_id, kms_key_alias)
-        row = _find_one(settings, name=key)
-        payload = {"source": value_source_id, "kms": kms_key_alias, "arn": secret_arn}
-        if row:
-            row.update({"value": json.dumps(payload), "updated_at": FIXED_NOW})
-        else:
-            settings.append(
-                {
-                    "setting_id": _stable_id("sec", key),
-                    "name": key,
-                    "value": json.dumps(payload),
-                    "created_at": FIXED_NOW,
-                }
-            )
-        return _json({"secret_arn": secret_arn})
-        _environmentL = environment or ''.lower()
-        pass
+    def invoke(data: Dict[str, Any], environment: str, purpose: str, value_source_id: str) -> str:
         settings = _ensure_table(data, "custom_settings")
         key = f"secret:{purpose}:{environment}"
         kms_key_alias = f"alias/dcomm-{environment.lower()}"
@@ -631,26 +429,18 @@ class CreateSecretFor(Tool):
 
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "CreateSecretFor",
+                "name": "create_secret_for",
                 "description": "Create/rotate a secret using deterministic naming by environment and purpose.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "environment": {
-                            "type": "string",
-                            "enum": ["DEV", "UAT", "PROD"],
-                        },
+                        "environment": {"type": "string", "enum": ["DEV", "UAT", "PROD"]},
                         "purpose": {
                             "type": "string",
-                            "enum": [
-                                "REDIS_AUTH_HEADER",
-                                "OAUTH_CLIENT_SECRET",
-                                "API_AUTH_HEADER",
-                            ],
+                            "enum": ["REDIS_AUTH_HEADER", "OAUTH_CLIENT_SECRET", "API_AUTH_HEADER"],
                         },
                         "value_source_id": {"type": "string"},
                     },
@@ -663,10 +453,7 @@ class CreateSecretFor(Tool):
 class ConfigureCacheIntegration(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
-        external_url: str,
-        auth_header_secret_arn: str,
-        partition_key: str
+        data: Dict[str, Any], external_url: str, auth_header_secret_arn: str, partition_key: Optional[str] = None
     ) -> str:
         settings = _ensure_table(data, "custom_settings")
 
@@ -687,69 +474,36 @@ class ConfigureCacheIntegration(Tool):
 
         _upsert("CacheAPI.ExternalSystemURL", external_url)
         _upsert("CacheAPI.ExternalSystemAuthHeader", auth_header_secret_arn)
-        _upsert("CacheAPI.ExternalSystemPartitionKey", partition_key)
+        if partition_key:
+            _upsert("CacheAPI.ExternalSystemPartitionKey", partition_key)
         return _json(
             {
                 "setting_ids": [
                     "CacheAPI.ExternalSystemURL",
                     "CacheAPI.ExternalSystemAuthHeader",
-                    "CacheAPI.ExternalSystemPartitionKey",
-                ],
-                "verified": True,
-            }
-        )
-        pass
-        settings = _ensure_table(data, "custom_settings")
-
-        def _upsert(name: str, value: str):
-            pass
-            row = _find_one(settings, name=name)
-            if row:
-                row["value"] = value
-                row["updated_at"] = FIXED_NOW
-            else:
-                settings.append(
-                    {
-                        "setting_id": _stable_id("cs", name),
-                        "name": name,
-                        "value": value,
-                        "updated_at": FIXED_NOW,
-                    }
-                )
-
-        _upsert("CacheAPI.ExternalSystemURL", external_url)
-        _upsert("CacheAPI.ExternalSystemAuthHeader", auth_header_secret_arn)
-        _upsert("CacheAPI.ExternalSystemPartitionKey", partition_key)
-        return _json(
-            {
-                "setting_ids": [
-                    "CacheAPI.ExternalSystemURL",
-                    "CacheAPI.ExternalSystemAuthHeader",
-                    "CacheAPI.ExternalSystemPartitionKey",
+                    *([
+                        "CacheAPI.ExternalSystemPartitionKey",
+                    ] if partition_key else []),
                 ],
                 "verified": True,
             }
         )
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ConfigureCacheIntegration",
+                "name": "configure_cache_integration",
                 "description": "Point Commerce to the external cache (URL/auth/partition key).",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "external_url": {"type": "string"},
                         "auth_header_secret_arn": {"type": "string"},
-                        "partition_key": {"type": "string"},
+                        "partition_key": {"type": "string", "description": "Optional, uses default value if omitted."},
                     },
-                    "required": [
-                        "external_url",
-                        "auth_header_secret_arn",
-                        "partition_key",
-                    ],
+                    "required": ["external_url", "auth_header_secret_arn"],
                 },
             },
         }
@@ -757,7 +511,7 @@ class ConfigureCacheIntegration(Tool):
 
 class RunCacheWarmJobs(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], mode: str) -> str:
+    def invoke(data: Dict[str, Any], mode: str) -> str:
         jobs = _ensure_table(data, "cache_jobs")
         job_name = "Load API Metadata" if mode == "metadata" else "Populate Cache Job"
         job_id = _stable_id("job", job_name)
@@ -782,18 +536,17 @@ class RunCacheWarmJobs(Tool):
                 "items_warmed": items_warmed,
             }
         )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RunCacheWarmJobs",
+                "name": "run_cache_warm_jobs",
                 "description": "Execute cache warm jobs for metadata or populate.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "mode": {"type": "string", "enum": ["metadata", "populate"]}
-                    },
+                    "properties": {"mode": {"type": "string", "enum": ["metadata", "populate"]}},
                     "required": ["mode"],
                 },
             },
@@ -802,7 +555,7 @@ class RunCacheWarmJobs(Tool):
 
 class SetCachePartitionKey(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], partition_key: str, version: str) -> str:
+    def invoke(data: Dict[str, Any], partition_key: str, version: str) -> str:
         settings = _ensure_table(data, "custom_settings")
         name = "CacheAPI.ExternalSystemPartitionKeyVersion"
         row = _find_one(settings, name=name)
@@ -819,12 +572,13 @@ class SetCachePartitionKey(Tool):
                 }
             )
         return _json({"applied_version": version})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SetCachePartitionKey",
+                "name": "set_cache_partition_key",
                 "description": "Set the cache partition key version.",
                 "parameters": {
                     "type": "object",
@@ -840,19 +594,12 @@ class SetCachePartitionKey(Tool):
 
 class ManageCacheMaintenance(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], environment: str, action: str) -> str:
+    def invoke(data: Dict[str, Any], environment: str, action: str) -> str:
         jobs = _ensure_table(data, "cache_jobs")
-        # Structure maintenance as two designated tasks
         targets = ["Load API Metadata", "Populate Cache Job"]
         job_ids = []
         if action in ("create", "update", "verify"):
-            status = (
-                "Queued"
-                if action != "verify"
-                else (_find_one(jobs, job_name=targets[0]) or {}).get(
-                    "last_run_status", "Unknown"
-                )
-            )
+
             for name in targets:
                 jid = _stable_id("job", name, environment)
                 job_ids.append(jid)
@@ -874,7 +621,7 @@ class ManageCacheMaintenance(Tool):
         if action == "remove":
             for name in targets:
                 jid = _stable_id("job", name, environment)
-                jobs[:] = [r for r in jobs.values() if r.get("job_id") != jid]
+                jobs[:] = [r for r in jobs if r.get("job_id") != jid]
         last = _find_one(jobs, job_name=targets[0])
         return _json(
             {
@@ -883,20 +630,18 @@ class ManageCacheMaintenance(Tool):
                 "last_run_status": (last or {}).get("last_run_status", "Unknown"),
             }
         )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ManageCacheMaintenance",
+                "name": "manage_cache_maintenance",
                 "description": "Manage cache maintenance scheduling for an environment.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "environment": {
-                            "type": "string",
-                            "enum": ["DEV", "UAT", "PROD"],
-                        },
+                        "environment": {"type": "string", "enum": ["DEV", "UAT", "PROD"]},
                         "action": {
                             "type": "string",
                             "enum": ["create", "update", "remove", "verify"],
@@ -910,7 +655,7 @@ class ManageCacheMaintenance(Tool):
 
 class ConfigureTraceSampling(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], sample_rate: float) -> str:
+    def invoke(data: Dict[str, Any], sample_rate: float) -> str:
         flags = _ensure_table(data, "trace_flags")
         policy_id = _stable_id("trace", f"{sample_rate:.2f}")
         row = _find_one(flags, policy_id=policy_id)
@@ -919,28 +664,21 @@ class ConfigureTraceSampling(Tool):
             row["created_at"] = FIXED_NOW
         else:
             flags.append(
-                {
-                    "policy_id": policy_id,
-                    "sample_rate": float(sample_rate),
-                    "created_at": FIXED_NOW,
-                }
+                {"policy_id": policy_id, "sample_rate": float(sample_rate), "created_at": FIXED_NOW}
             )
         return _json({"policy_id": policy_id, "effective_rate": float(sample_rate)})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ConfigureTraceSampling",
+                "name": "configure_trace_sampling",
                 "description": "Configure API trace sampling rate globally.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "sample_rate": {
-                            "type": "number",
-                            "minimum": 0.0,
-                            "maximum": 1.0,
-                        }
+                        "sample_rate": {"type": "number", "minimum": 0.0, "maximum": 1.0}
                     },
                     "required": ["sample_rate"],
                 },
@@ -950,13 +688,11 @@ class ConfigureTraceSampling(Tool):
 
 class EnableDigitalCommerceGateway(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], api_group_name: str, environment: str) -> str:
+    def invoke(data: Dict[str, Any], api_group_name: str, environment: str) -> str:
         settings = _ensure_table(data, "custom_settings")
         key = f"DCG:{api_group_name}:{environment}"
         row = _find_one(settings, name=key)
-        value = json.dumps(
-            {"status": "Enabled", "group": api_group_name, "env": environment}
-        )
+        value = json.dumps({"status": "Enabled", "group": api_group_name, "env": environment})
         if row:
             row["value"] = value
             row["updated_at"] = FIXED_NOW
@@ -970,26 +706,21 @@ class EnableDigitalCommerceGateway(Tool):
                 }
             )
         return _json(
-            {
-                "dcg_id": _stable_id("dcg", api_group_name, environment),
-                "status": "Enabled",
-            }
+            {"dcg_id": _stable_id("dcg", api_group_name, environment), "status": "Enabled"}
         )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "EnableDigitalCommerceGateway",
+                "name": "enable_digital_commerce_gateway",
                 "description": "Enable the Digital Commerce Gateway group in an environment.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "api_group_name": {"type": "string"},
-                        "environment": {
-                            "type": "string",
-                            "enum": ["DEV", "UAT", "PROD"],
-                        },
+                        "environment": {"type": "string", "enum": ["DEV", "UAT", "PROD"]},
                     },
                     "required": ["api_group_name", "environment"],
                 },
@@ -997,27 +728,16 @@ class EnableDigitalCommerceGateway(Tool):
         }
 
 
-#--------------------------- API and Identity ---------------------------
-
-
 class ConfigureConnectedAppOAuth(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
-        app_name_hint: str,
-        scopes: list[str],
-        callback_urls: list[str]
+        data: Dict[str, Any], app_name_hint: str, scopes: List[str], callback_urls: List[str]
     ) -> str:
         apps = _ensure_table(data, "connected_apps")
         app_id = _stable_id("app", app_name_hint)
         row = _find_one(apps, app_id=app_id)
         client_id = _stable_id("client", app_name_hint)
         secret_arn = f"arn:aws:secretsmanager:local:000000000000:secret:{app_id}"
-        payload = {
-            "name": app_name_hint,
-            "scopes": list(scopes),
-            "callbacks": list(callback_urls),
-        }
         if row:
             row.update(
                 {
@@ -1041,53 +761,14 @@ class ConfigureConnectedAppOAuth(Tool):
                     "created_at": FIXED_NOW,
                 }
             )
-        return _json(
-            {"app_id": app_id, "client_id": client_id, "secret_arn": secret_arn}
-        )
-        pass
-        apps = _ensure_table(data, "connected_apps")
-        app_id = _stable_id("app", app_name_hint)
-        row = _find_one(apps, app_id=app_id)
-        client_id = _stable_id("client", app_name_hint)
-        secret_arn = f"arn:aws:secretsmanager:local:000000000000:secret:{app_id}"
-        payload = {
-            "name": app_name_hint,
-            "scopes": list(scopes),
-            "callbacks": list(callback_urls),
-        }
-        if row:
-            row.update(
-                {
-                    "name": app_name_hint,
-                    "scopes": list(scopes),
-                    "callback_urls": list(callback_urls),
-                    "client_id": client_id,
-                    "secret_arn": secret_arn,
-                    "updated_at": FIXED_NOW,
-                }
-            )
-        else:
-            apps.append(
-                {
-                    "app_id": app_id,
-                    "name": app_name_hint,
-                    "scopes": list(scopes),
-                    "callback_urls": list(callback_urls),
-                    "client_id": client_id,
-                    "secret_arn": secret_arn,
-                    "created_at": FIXED_NOW,
-                }
-            )
-        return _json(
-            {"app_id": app_id, "client_id": client_id, "secret_arn": secret_arn}
-        )
+        return _json({"app_id": app_id, "client_id": client_id, "secret_arn": secret_arn})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ConfigureConnectedAppOauth",
+                "name": "configure_connected_app_oauth",
                 "description": "Configure connected app OAuth scopes and callbacks.",
                 "parameters": {
                     "type": "object",
@@ -1104,36 +785,11 @@ class ConfigureConnectedAppOAuth(Tool):
 
 class PublishOpenAPISpec(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], spec_name: str, spec_version: str, spec_blob_id: str
-    ) -> str:
+    def invoke(data: Dict[str, Any], spec_name: str, spec_version: str, spec_blob_id: str) -> str:
         settings = _ensure_table(data, "custom_settings")
         spec_id = _stable_id("spec", spec_name, spec_version)
         name = f"OpenAPI:{spec_name}"
-        value = json.dumps(
-            {"spec_id": spec_id, "version": spec_version, "blob": spec_blob_id}
-        )
-        row = _find_one(settings, name=name)
-        if row:
-            row["value"] = value
-            row["updated_at"] = FIXED_NOW
-        else:
-            settings.append(
-                {
-                    "setting_id": _stable_id("cs", name),
-                    "name": name,
-                    "value": value,
-                    "updated_at": FIXED_NOW,
-                }
-            )
-        return _json({"spec_id": spec_id, "version": spec_version})
-        pass
-        settings = _ensure_table(data, "custom_settings")
-        spec_id = _stable_id("spec", spec_name, spec_version)
-        name = f"OpenAPI:{spec_name}"
-        value = json.dumps(
-            {"spec_id": spec_id, "version": spec_version, "blob": spec_blob_id}
-        )
+        value = json.dumps({"spec_id": spec_id, "version": spec_version, "blob": spec_blob_id})
         row = _find_one(settings, name=name)
         if row:
             row["value"] = value
@@ -1150,11 +806,11 @@ class PublishOpenAPISpec(Tool):
         return _json({"spec_id": spec_id, "version": spec_version})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "PublishOpenapiSpec",
+                "name": "publish_openapi_spec",
                 "description": "Publish/register an OpenAPI spec artifact.",
                 "parameters": {
                     "type": "object",
@@ -1171,9 +827,8 @@ class PublishOpenAPISpec(Tool):
 
 class RegisterApiEndpoints(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], spec_id: str, gateway_id: str) -> str:
+    def invoke(data: Dict[str, Any], spec_id: str, gateway_id: str) -> str:
         settings = _ensure_table(data, "custom_settings")
-        # Simple mapping (to ensure consistency, we only provide a single GET endpoint)
         endpoint_id = _stable_id("ep", spec_id, gateway_id)
         route_map = {"GET /v3/offers": endpoint_id}
         key = f"Endpoints:{spec_id}:{gateway_id}"
@@ -1192,19 +847,17 @@ class RegisterApiEndpoints(Tool):
                 }
             )
         return _json({"endpoint_ids": [endpoint_id], "route_map": route_map})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RegisterApiEndpoints",
+                "name": "register_api_endpoints",
                 "description": "Register endpoints from an OpenAPI spec into a gateway.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "spec_id": {"type": "string"},
-                        "gateway_id": {"type": "string"},
-                    },
+                    "properties": {"spec_id": {"type": "string"}, "gateway_id": {"type": "string"}},
                     "required": ["spec_id", "gateway_id"],
                 },
             },
@@ -1214,38 +867,31 @@ class RegisterApiEndpoints(Tool):
 class RunTestCollection(Tool):
     @staticmethod
     def invoke(data, environment: str, collection_name: str = "SMOKE") -> str:
-        cases = _ensure_table(data, "cases")
+        tests = _ensure_table(data, "test_runs")
         run_id = _stable_id("run", collection_name, environment, FIXED_NOW)
-        cases.append(
+        tests.append(
             {
-                "case_id": run_id,
-                "title": f"Test: {collection_name} [{environment}]",
-                "status": "Passed",
-                "passed": 42,
-                "failed": 0,
-                "duration_ms": 12000,
+                "run_id": run_id,
+                "collection_name": collection_name,
+                "environment": environment,
+                "status": "Running",
                 "created_at": FIXED_NOW,
             }
         )
-        return _json(
-            {"run_id": run_id, "passed": 42, "failed": 0, "duration_ms": 12000}
-        )
+        return _json({"run_id": run_id})
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "RunTestCollection",
+                "name": "run_test_collection",
                 "description": "Execute a named API test collection. Defaults to 'SMOKE'.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "environment": {
-                            "type": "string",
-                            "enum": ["DEV", "UAT", "PROD"],
-                        },
-                        "collection_name": {"type": "string"},
+                        "environment": {"type": "string", "enum": ["DEV", "UAT", "PROD"]},
+                        "collection_name": {"type": "string", "default": "SMOKE"},
                     },
                     "required": ["environment"],
                 },
@@ -1257,9 +903,7 @@ class RecordApiChangeLog(Tool):
     @staticmethod
     def invoke(data, target_id: str, environment: str, change_type: str = "ops") -> str:
         cases = _ensure_table(data, "cases")
-        change_log_id = _stable_id(
-            "chg", change_type, target_id, environment, FIXED_NOW
-        )
+        change_log_id = _stable_id("chg", change_type, target_id, environment, FIXED_NOW)
         title = f"{change_type.capitalize()} – {target_id} [{environment}]"
         cases.append(
             {
@@ -1269,25 +913,20 @@ class RecordApiChangeLog(Tool):
                 "created_at": FIXED_NOW,
             }
         )
-        return _json(
-            {"change_log_id": change_log_id, "title": title, "timestamp": FIXED_NOW}
-        )
+        return _json({"change_log_id": change_log_id, "title": title, "timestamp": FIXED_NOW})
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "RecordApiChangeLog",
+                "name": "record_api_change_log",
                 "description": "Record an API change event. Defaults change_type='ops'.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "target_id": {"type": "string"},
-                        "environment": {
-                            "type": "string",
-                            "enum": ["DEV", "UAT", "PROD"],
-                        },
+                        "environment": {"type": "string", "enum": ["DEV", "UAT", "PROD"]},
                         "change_type": {"type": "string"},
                     },
                     "required": ["target_id", "environment"],
@@ -1299,38 +938,12 @@ class RecordApiChangeLog(Tool):
 class DeployLambdaFunction(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         environment: str,
         service_name: str,
         source_bundle_id: str,
-        function_purpose: str
+        function_purpose: str,
     ) -> str:
-        _service_nameL = service_name or ''.lower()
-        _function_purposeL = function_purpose or ''.lower()
-        _environmentL = environment or ''.lower()
-        pass
-        lambdas = _ensure_table(data, "aws_lambdas")
-        fn_slug = f"{service_name.lower().replace(' ','-')}-{function_purpose.lower()}-{environment.lower()}"
-        function_name = f"fn-{fn_slug}"
-        function_arn = f"arn:aws:lambda:local:000000000000:function:{function_name}"
-        row = _find_one(lambdas, function_arn=function_arn)
-        payload = {
-            "function_arn": function_arn,
-            "function_name": function_name,
-            "service_name": service_name,
-            "environment": environment,
-            "function_purpose": function_purpose,
-            "source_bundle_id": source_bundle_id,
-        }
-        if row:
-            row.update({**payload, "updated_at": FIXED_NOW})
-        else:
-            lambdas.append({**payload, "created_at": FIXED_NOW})
-        return _json({"function_arn": function_arn, "function_name": function_name})
-        _service_nameL = service_name or ''.lower()
-        _function_purposeL = function_purpose or ''.lower()
-        _environmentL = environment or ''.lower()
-        pass
         lambdas = _ensure_table(data, "aws_lambdas")
         fn_slug = f"{service_name.lower().replace(' ','-')}-{function_purpose.lower()}-{environment.lower()}"
         function_name = f"fn-{fn_slug}"
@@ -1352,29 +965,20 @@ class DeployLambdaFunction(Tool):
 
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "DeployLambdaFunction",
+                "name": "deploy_lambda_function",
                 "description": "Deploy Lambda; deterministic name from service/purpose/environment.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "environment": {
-                            "type": "string",
-                            "enum": ["DEV", "UAT", "PROD"],
-                        },
+                        "environment": {"type": "string", "enum": ["DEV", "UAT", "PROD"]},
                         "service_name": {"type": "string"},
                         "source_bundle_id": {"type": "string"},
                         "function_purpose": {
                             "type": "string",
-                            "enum": [
-                                "cache_warmer",
-                                "webhook",
-                                "ingest",
-                                "maintenance",
-                            ],
+                            "enum": ["cache_warmer", "webhook", "ingest", "maintenance"],
                         },
                     },
                     "required": [
@@ -1390,33 +994,7 @@ class DeployLambdaFunction(Tool):
 
 class CreateLambdaSchedule(Tool):
     @staticmethod
-    def invoke(
-        data, function_arn: str, schedule_expression: str = "rate(15 minutes)"
-    ) -> str:
-        schedules = _ensure_table(data, "aws_lambda_schedules")
-        schedule_id = _stable_id("sched", function_arn, schedule_expression)
-        rule_name = f"rule-{schedule_id}"
-        row = _find_one(schedules, schedule_id=schedule_id)
-        if row:
-            row.update(
-                {
-                    "function_arn": function_arn,
-                    "schedule_expression": schedule_expression,
-                    "updated_at": FIXED_NOW,
-                }
-            )
-        else:
-            schedules.append(
-                {
-                    "schedule_id": schedule_id,
-                    "rule_name": rule_name,
-                    "function_arn": function_arn,
-                    "schedule_expression": schedule_expression,
-                    "created_at": FIXED_NOW,
-                }
-            )
-        return _json({"schedule_id": schedule_id, "rule_name": rule_name})
-        pass
+    def invoke(data, function_arn: str, schedule_expression: str = "rate(15 minutes)") -> str:
         schedules = _ensure_table(data, "aws_lambda_schedules")
         schedule_id = _stable_id("sched", function_arn, schedule_expression)
         rule_name = f"rule-{schedule_id}"
@@ -1443,11 +1021,10 @@ class CreateLambdaSchedule(Tool):
 
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "CreateLambdaSchedule",
+                "name": "create_lambda_schedule",
                 "description": "Create an EventBridge schedule for a Lambda. Defaults to rate(15 minutes).",
                 "parameters": {
                     "type": "object",
@@ -1469,50 +1046,11 @@ class CreateCloudWatchAlarm(Tool):
         metric_name: str = "Errors",
         threshold: float = 1.0,
         period_seconds: int = 300,
-        comparison: str = "GreaterThanOrEqualToThreshold"
+        comparison: str = "GreaterThanOrEqualToThreshold",
     ) -> str:
         alarms = _ensure_table(data, "aws_cloudwatch_alarms")
         alarm_id = _stable_id(
-            "al",
-            resource_id,
-            metric_name,
-            str(threshold),
-            str(period_seconds),
-            comparison,
-        )
-        alarm_name = f"{metric_name}-{resource_id}"
-        row = _find_one(alarms, alarm_id=alarm_id)
-        payload = {
-            "resource_id": resource_id,
-            "metric_name": metric_name,
-            "threshold": float(threshold),
-            "period_seconds": int(period_seconds),
-            "comparison": comparison,
-        }
-        if row:
-            row.update(payload)
-            row["state"] = "OK"
-            row["updated_at"] = FIXED_NOW
-        else:
-            alarms.append(
-                {
-                    "alarm_id": alarm_id,
-                    "alarm_name": alarm_name,
-                    "state": "OK",
-                    **payload,
-                    "created_at": FIXED_NOW,
-                }
-            )
-        return _json({"alarm_id": alarm_id, "alarm_name": alarm_name, "state": "OK"})
-        pass
-        alarms = _ensure_table(data, "aws_cloudwatch_alarms")
-        alarm_id = _stable_id(
-            "al",
-            resource_id,
-            metric_name,
-            str(threshold),
-            str(period_seconds),
-            comparison,
+            "al", resource_id, metric_name, str(threshold), str(period_seconds), comparison
         )
         alarm_name = f"{metric_name}-{resource_id}"
         row = _find_one(alarms, alarm_id=alarm_id)
@@ -1541,11 +1079,10 @@ class CreateCloudWatchAlarm(Tool):
 
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "CreateCloudwatchAlarm",
+                "name": "create_cloudwatch_alarm",
                 "description": "Create a CloudWatch alarm. Defaults: Errors, 1.0, 300s, GTE.",
                 "parameters": {
                     "type": "object",
@@ -1580,21 +1117,18 @@ class CreateCloudWatchDashboard(Tool):
         else:
             dashboards.append({**payload, "created_at": FIXED_NOW})
         return _json({"dashboard_name": dashboard_name, "url": url})
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "CreateCloudwatchDashboard",
+                "name": "create_cloudwatch_dashboard",
                 "description": "Create a CloudWatch dashboard. Defaults purpose to 'cache'.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "environment": {
-                            "type": "string",
-                            "enum": ["DEV", "UAT", "PROD"],
-                        },
+                        "environment": {"type": "string", "enum": ["DEV", "UAT", "PROD"]},
                         "purpose": {"type": "string"},
                     },
                     "required": ["environment"],
@@ -1603,52 +1137,44 @@ class CreateCloudWatchDashboard(Tool):
         }
 
 
-#── CACHE & INTEGRATION (1) ─────────────────────────────────────────────────────────────
-
-
 class InvalidateCacheByKeys(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], keys: list[str]) -> str:
+    def invoke(data: Dict[str, Any], keys: List[str]) -> str:
         inv = _ensure_table(data, "cache_invalidations")
         ts = FIXED_NOW
         for k in keys:
             inv.append({"key": k, "invalidated_at": ts})
         return _json({"invalidated_count": len(keys)})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "InvalidateCacheByKeys",
+                "name": "invalidate_cache_by_keys",
                 "description": "Invalidate specific cache entries by key.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "keys": {"type": "array", "items": {"type": "string"}}
-                    },
+                    "properties": {"keys": {"type": "array", "items": {"type": "string"}}},
                     "required": ["keys"],
                 },
             },
         }
 
 
-#── CATALOG & CHECKOUT (5) ─────────────────────────────────────────────────────────────
-
-
 class ResolveCatalogEntities(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], kind: str, names: list[str]) -> str:
+    def invoke(data: Dict[str, Any], kind: str, names: List[str]) -> str:
         out = []
         if kind == "product":
             products = _ensure_table(data, "products")
             for n in names:
                 row = _find_one(products, name=n) or _find_one(products, product_code=n)
                 if not row:
-                    # generate in a deterministic manner if absent
                     pid = _stable_id("prod", n)
                     code = n if "-" in n else f"{n.upper().replace(' ','_')}-001"
                     row = {"product_id": pid, "name": n, "product_code": code}
-                    data["products"][product_id] = row
+                    products.append(row)
                 out.append(
                     {
                         "name": row.get("name", n),
@@ -1671,40 +1197,27 @@ class ResolveCatalogEntities(Tool):
                 row = _find_one(offers, offer_code=n) or _find_one(offers, name=n)
                 if not row:
                     oid = _stable_id("off", n)
-                    row = {
-                        "offer_id": oid,
-                        "offer_code": n,
-                        "description": n,
-                        "active": False,
-                    }
-                    data["offers"][offer_id] = row
-                out.append(
-                    {
-                        "name": row.get("name", row.get("offer_code")),
-                        "id": row["offer_id"],
-                    }
-                )
+                    row = {"offer_id": oid, "offer_code": n, "description": n, "active": False}
+                    offers.append(row)
+                out.append({"name": row.get("name", row.get("offer_code")), "id": row["offer_id"]})
         elif kind == "pbe":
             pbes = _ensure_table(data, "pricebook_entries")
             for n in names:
                 row = _find_one(pbes, pbe_id=n)
                 if row:
                     out.append(
-                        {
-                            "name": n,
-                            "id": row["pbe_id"],
-                            "product_code": row.get("product_code"),
-                        }
+                        {"name": n, "id": row["pbe_id"], "product_code": row.get("product_code")}
                     )
         else:
             raise ValueError(f"Unsupported kind: {kind}")
         return _json({"entities": out})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "resolveCatalogEntities",
+                "name": "resolve_catalog_entities",
                 "description": "Resolve names to canonical catalog entity ids and codes.",
                 "parameters": {
                     "type": "object",
@@ -1723,19 +1236,14 @@ class ResolveCatalogEntities(Tool):
 
 class UpsertPricebookEntriesBatch(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], pricebook_name: str, items: list[dict[str, Any]]
-    ) -> str:
+    def invoke(data: Dict[str, Any], pricebook_name: str, items: List[Dict[str, Any]]) -> str:
         pbs = _ensure_table(data, "pricebooks")
         pbes = _ensure_table(data, "pricebook_entries")
         products = _ensure_table(data, "products")
 
         pb = _find_one(pbs, name=pricebook_name)
         if not pb:
-            pb = {
-                "pricebook_id": _stable_id("pb", pricebook_name),
-                "name": pricebook_name,
-            }
+            pb = {"pricebook_id": _stable_id("pb", pricebook_name), "name": pricebook_name}
             pbs.append(pb)
 
         pbe_ids = []
@@ -1744,54 +1252,8 @@ class UpsertPricebookEntriesBatch(Tool):
             unit_price = float(it["unit_price"])
             prod = _find_one(products, product_code=code)
             if not prod:
-                prod = {
-                    "product_id": _stable_id("prod", code),
-                    "name": code,
-                    "product_code": code,
-                }
-                data["products"][product_id] = prod
-
-            pbe_id = _stable_id("pbe", pb["pricebook_id"], code)
-            row = _find_one(pbes, pbe_id=pbe_id)
-            payload = {
-                "pbe_id": pbe_id,
-                "pricebook_id": pb["pricebook_id"],
-                "product_code": code,
-                "unit_price": unit_price,
-                "updated_at": FIXED_NOW,
-            }
-            if row:
-                row.update(payload)
-            else:
-                pbes.append(payload)
-            pbe_ids.append(pbe_id)
-
-        return _json({"upserted_count": len(pbe_ids), "pbe_ids": pbe_ids})
-        pass
-        pbs = _ensure_table(data, "pricebooks")
-        pbes = _ensure_table(data, "pricebook_entries")
-        products = _ensure_table(data, "products")
-
-        pb = _find_one(pbs, name=pricebook_name)
-        if not pb:
-            pb = {
-                "pricebook_id": _stable_id("pb", pricebook_name),
-                "name": pricebook_name,
-            }
-            pbs.append(pb)
-
-        pbe_ids = []
-        for it in items:
-            code = it["product_code"]
-            unit_price = float(it["unit_price"])
-            prod = _find_one(products, product_code=code)
-            if not prod:
-                prod = {
-                    "product_id": _stable_id("prod", code),
-                    "name": code,
-                    "product_code": code,
-                }
-                data["products"][product_id] = prod
+                prod = {"product_id": _stable_id("prod", code), "name": code, "product_code": code}
+                products.append(prod)
 
             pbe_id = _stable_id("pbe", pb["pricebook_id"], code)
             row = _find_one(pbes, pbe_id=pbe_id)
@@ -1811,11 +1273,11 @@ class UpsertPricebookEntriesBatch(Tool):
         return _json({"upserted_count": len(pbe_ids), "pbe_ids": pbe_ids})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpsertPricebookEntriesBatch",
+                "name": "upsert_pricebook_entries_batch",
                 "description": "Upsert multiple price book entries at once.",
                 "parameters": {
                     "type": "object",
@@ -1841,21 +1303,15 @@ class UpsertPricebookEntriesBatch(Tool):
 
 class UpsertOffer(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], offer_code: str, active: bool) -> str:
+    def invoke(data: Dict[str, Any], offer_code: str, active: bool) -> str:
         offers = _ensure_table(data, "offers")
-        row = _find_one(offers, offer_code=offer_code) or _find_one(
-            offers, name=offer_code
-        )
+        row = _find_one(offers, offer_code=offer_code) or _find_one(offers, name=offer_code)
         if not row:
             raise ValueError(f"Offer code not found: {offer_code}")
         row["active"] = (
             bool(active)
             if "active" in row
-            else (
-                bool(active)
-                if "is_active" not in row
-                else row.update({"is_active": bool(active)})
-            )
+            else bool(active) if "is_active" not in row else row.update({"is_active": bool(active)})
         )
         row["updated_at"] = FIXED_NOW
         return _json(
@@ -1864,20 +1320,17 @@ class UpsertOffer(Tool):
                 "active": bool(row.get("active") or row.get("is_active", False)),
             }
         )
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "upsertOffer",
+                "name": "upsert_offer",
                 "description": "Activate/deactivate an existing offer by code (no free-text fields).",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "offer_code": {"type": "string"},
-                        "active": {"type": "boolean"},
-                    },
+                    "properties": {"offer_code": {"type": "string"}, "active": {"type": "boolean"}},
                     "required": ["offer_code", "active"],
                 },
             },
@@ -1886,27 +1339,7 @@ class UpsertOffer(Tool):
 
 class SetPricingTierForCustomer(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], customer_email: str, pricing_tier_name: str
-    ) -> str:
-        customers = _ensure_table(data, "customers")
-        cust = _find_one(customers, email=customer_email)
-        if cust:
-            cust["pricing_tier"] = pricing_tier_name
-            cust["updated_at"] = FIXED_NOW
-            cid = cust["customer_id"]
-        else:
-            cid = _stable_id("cust", customer_email)
-            customers.append(
-                {
-                    "customer_id": cid,
-                    "email": customer_email,
-                    "pricing_tier": pricing_tier_name,
-                    "created_at": FIXED_NOW,
-                }
-            )
-        return _json({"customer_id": cid, "applied_tier": pricing_tier_name})
-        pass
+    def invoke(data: Dict[str, Any], customer_email: str, pricing_tier_name: str) -> str:
         customers = _ensure_table(data, "customers")
         cust = _find_one(customers, email=customer_email)
         if cust:
@@ -1926,11 +1359,11 @@ class SetPricingTierForCustomer(Tool):
         return _json({"customer_id": cid, "applied_tier": pricing_tier_name})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SetPricingTierForCustomer",
+                "name": "set_pricing_tier_for_customer",
                 "description": "Apply a named pricing tier for a customer by email.",
                 "parameters": {
                     "type": "object",
@@ -1947,11 +1380,11 @@ class SetPricingTierForCustomer(Tool):
 class CreateCartWithItems(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         customer_email: str,
-        items: list[dict[str, Any]],
-        promo_code: str | None,
-        shipping_method: str | None
+        items: List[Dict[str, Any]],
+        promo_code: Optional[str] = None,
+        shipping_method: Optional[str] = None,
     ) -> str:
         customers = _ensure_table(data, "customers")
         carts = _ensure_table(data, "carts")
@@ -1964,11 +1397,7 @@ class CreateCartWithItems(Tool):
         cust = _find_one(customers, email=customer_email)
         if not cust:
             cid = _stable_id("cust", customer_email)
-            cust = {
-                "customer_id": cid,
-                "email": customer_email,
-                "created_at": FIXED_NOW,
-            }
+            cust = {"customer_id": cid, "email": customer_email, "created_at": FIXED_NOW}
             customers.append(cust)
 
         subtotal = 0.0
@@ -1985,106 +1414,12 @@ class CreateCartWithItems(Tool):
             line_total = round(unit * qty, 2)
             subtotal = round(subtotal + line_total, 2)
             lines.append(
-                {
-                    "product_code": code,
-                    "qty": qty,
-                    "unit_price": unit,
-                    "line_total": line_total,
-                }
+                {"product_code": code, "qty": qty, "unit_price": unit, "line_total": line_total}
             )
 
         discount = 0.0
         if promo_code:
-            promo = _find_one(offers, offer_code=promo_code) or _find_one(
-                offers, name=promo_code
-            )
-            if promo and bool(promo.get("active", promo.get("is_active", False))):
-                dt = (promo.get("discount_type") or "").upper()
-                dv = float(promo.get("discount_value", 0.0))
-                if dt == "PERCENTAGE":
-                    discount = round(subtotal * dv / 100.0, 2)
-                elif dt == "FIXED_AMOUNT":
-                    discount = round(min(dv, subtotal), 2)
-
-        method = (shipping_method or "STANDARD").upper()
-        rate_row = _find_one(methods, code=method) or {"code": "STANDARD", "rate": 5.00}
-        shipping = float(rate_row.get("rate", 5.00))
-
-        total = round(subtotal - discount + shipping, 2)
-        candidate = _stable_id("cart", cust["customer_id"], FIXED_NOW)
-        cart_id = _ensure_unique_id(carts, "cart_id", candidate)
-
-        carts.append(
-            {
-                "cart_id": cart_id,
-                "customer_id": cust["customer_id"],
-                "customer_email": customer_email,
-                "subtotal": subtotal,
-                "discount": discount,
-                "shipping": shipping,
-                "total": total,
-                "created_at": FIXED_NOW,
-            }
-        )
-        for li in lines:
-            cart_items.append({"cart_id": cart_id, **li})
-
-        return _json(
-            {
-                "cart_id": cart_id,
-                "subtotal": subtotal,
-                "discount": discount,
-                "shipping": shipping,
-                "total": total,
-                "shipping_method": method,
-            }
-        )
-        pass
-        customers = _ensure_table(data, "customers")
-        carts = _ensure_table(data, "carts")
-        cart_items = _ensure_table(data, "cart_items")
-        pbes = _ensure_table(data, "pricebook_entries")
-        products = _ensure_table(data, "products")
-        offers = _ensure_table(data, "offers")
-        methods = _ensure_table(data, "shipping_methods")
-
-        cust = _find_one(customers, email=customer_email)
-        if not cust:
-            cid = _stable_id("cust", customer_email)
-            cust = {
-                "customer_id": cid,
-                "email": customer_email,
-                "created_at": FIXED_NOW,
-            }
-            customers.append(cust)
-
-        subtotal = 0.0
-        lines = []
-        for it in items:
-            code = it["product_code"]
-            qty = int(it["qty"])
-            pbe = next((r for r in pbes if r.get("product_code") == code), None)
-            if pbe:
-                unit = float(pbe.get("unit_price", 0.0))
-            else:
-                prod = _find_one(products, product_code=code) or {}
-                unit = float(prod.get("base_price", 0.0))
-            line_total = round(unit * qty, 2)
-            subtotal = round(subtotal + line_total, 2)
-            lines.append(
-                {
-                    "product_code": code,
-                    "qty": qty,
-                    "unit_price": unit,
-                    "line_total": line_total,
-                }
-            )
-
-        discount = 0.0
-        if promo_code:
-            promo = _find_one(offers, offer_code=promo_code) or _find_one(
-                offers, name=promo_code
-            )
+            promo = _find_one(offers, offer_code=promo_code) or _find_one(offers, name=promo_code)
             if promo and bool(promo.get("active", promo.get("is_active", False))):
                 dt = (promo.get("discount_type") or "").upper()
                 dv = float(promo.get("discount_value", 0.0))
@@ -2129,11 +1464,10 @@ class CreateCartWithItems(Tool):
 
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "CreateCartWithItems",
+                "name": "create_cart_with_items",
                 "description": "Create a cart; auto-calc prices, promo, and shipping method.",
                 "parameters": {
                     "type": "object",
@@ -2162,12 +1496,9 @@ class CreateCartWithItems(Tool):
         }
 
 
-#── PERSONALIZATION & PROMOTIONS (2) ───────────────────────────────────────────────────
-
-
 class UpsertPromotion(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], code: str, active: bool) -> str:
+    def invoke(data: Dict[str, Any], code: str, active: bool) -> str:
         offers = _ensure_table(data, "offers")
         row = _find_one(offers, offer_code=code) or _find_one(offers, name=code)
         if not row:
@@ -2183,20 +1514,17 @@ class UpsertPromotion(Tool):
                 "active": bool(row.get("active") or row.get("is_active", False)),
             }
         )
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "UpsertPromotion",
+                "name": "upsert_promotion",
                 "description": "Activate/deactivate an existing promotion by code.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "code": {"type": "string"},
-                        "active": {"type": "boolean"},
-                    },
+                    "properties": {"code": {"type": "string"}, "active": {"type": "boolean"}},
                     "required": ["code", "active"],
                 },
             },
@@ -2206,11 +1534,11 @@ class UpsertPromotion(Tool):
 class UpsertContextRule(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         segment_name: str,
         rule_name_hint: str,
-        attributes: dict[str, Any],
-        bind_to_offer_code: str | None = None
+        attributes: Dict[str, Any],
+        bind_to_offer_code: Optional[str] = None,
     ) -> str:
         rules = _ensure_table(data, "context_rules")
         binds = _ensure_table(data, "context_rule_bindings")
@@ -2245,9 +1573,7 @@ class UpsertContextRule(Tool):
             binding_id = _stable_id("bind", context_rule_id, bind_to_offer_code)
             existing = _find_one(binds, binding_id=binding_id)
             if existing:
-                existing.update(
-                    {"offer_code": bind_to_offer_code, "updated_at": FIXED_NOW}
-                )
+                existing.update({"offer_code": bind_to_offer_code, "updated_at": FIXED_NOW})
             else:
                 binds.append(
                     {
@@ -2258,74 +1584,14 @@ class UpsertContextRule(Tool):
                     }
                 )
 
-        return _json(
-            {
-                "context_rule_id": context_rule_id,
-                "binding_id": binding_id,
-                "title": title,
-            }
-        )
-        pass
-        rules = _ensure_table(data, "context_rules")
-        binds = _ensure_table(data, "context_rule_bindings")
-
-        context_rule_id = _stable_id("ctx", segment_name, rule_name_hint)
-        title = f"{segment_name} – {rule_name_hint}"
-        row = _find_one(rules, context_rule_id=context_rule_id)
-        if row:
-            row.update(
-                {
-                    "segment_name": segment_name,
-                    "rule_name_hint": rule_name_hint,
-                    "attributes": attributes,
-                    "title": title,
-                    "updated_at": FIXED_NOW,
-                }
-            )
-        else:
-            rules.append(
-                {
-                    "context_rule_id": context_rule_id,
-                    "segment_name": segment_name,
-                    "rule_name_hint": rule_name_hint,
-                    "attributes": attributes,
-                    "title": title,
-                    "created_at": FIXED_NOW,
-                }
-            )
-
-        binding_id = None
-        if bind_to_offer_code:
-            binding_id = _stable_id("bind", context_rule_id, bind_to_offer_code)
-            existing = _find_one(binds, binding_id=binding_id)
-            if existing:
-                existing.update(
-                    {"offer_code": bind_to_offer_code, "updated_at": FIXED_NOW}
-                )
-            else:
-                binds.append(
-                    {
-                        "binding_id": binding_id,
-                        "context_rule_id": context_rule_id,
-                        "offer_code": bind_to_offer_code,
-                        "created_at": FIXED_NOW,
-                    }
-                )
-
-        return _json(
-            {
-                "context_rule_id": context_rule_id,
-                "binding_id": binding_id,
-                "title": title,
-            }
-        )
+        return _json({"context_rule_id": context_rule_id, "binding_id": binding_id, "title": title})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpsertContextRule",
+                "name": "upsert_context_rule",
                 "description": "Create/update a context rule and optionally bind it to an offer.",
                 "parameters": {
                     "type": "object",
@@ -2343,27 +1609,27 @@ class UpsertContextRule(Tool):
 
 class GetCacheCluster(Tool):
     @staticmethod
-    def invoke(data, cluster_id: str, endpoint_url: str = None, instance_type: str = None, security_group_id: str = None, status: str = None) -> str:
-        rows = _get_table(data, "aws_elasticache_clusters")
+    def invoke(data, cluster_id: str) -> str:
+        rows = data.setdefault("aws_elasticache_clusters", [])
         row = next((r for r in rows if str(r.get("cluster_id")) == cluster_id), None)
         if not row:
             raise ValueError(f"cache cluster not found: {cluster_id}")
-        payload = {
-            "cluster_id": row["cluster_id"],
-            "endpoint_url": row["endpoint_url"],
-            "instance_type": row["instance_type"],
-            "security_group_id": row["security_group_id"],
-            "status": row["status"],
-        }
-        out = json.dumps(payload)
-        return out
+        return json.dumps(
+            {
+                "cluster_id": row["cluster_id"],
+                "endpoint_url": row["endpoint_url"],
+                "instance_type": row["instance_type"],
+                "security_group_id": row["security_group_id"],
+                "status": row["status"],
+            }
+        )
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GetCacheCluster",
+                "name": "get_cache_cluster",
                 "description": "Read existing ElastiCache cluster by id.",
                 "parameters": {
                     "type": "object",
@@ -2376,27 +1642,27 @@ class GetCacheCluster(Tool):
 
 class GetOfferByCode(Tool):
     @staticmethod
-    def invoke(data, offer_code: str, offer_id: str = None, id: str = None, discount_type: str = None, discount_value: float = None, is_active: bool = None, active: bool = False) -> str:
-        rows = _get_table(data, "offers")
+    def invoke(data, offer_code: str) -> str:
+        rows = data.setdefault("offers", [])
         row = next((r for r in rows if str(r.get("offer_code")) == offer_code), None)
         if not row:
             raise ValueError(f"offer not found: {offer_code}")
-        payload = {
-            "offer_id": row.get("offer_id") or row.get("id"),
-            "offer_code": row["offer_code"],
-            "discount_type": row.get("discount_type"),
-            "discount_value": row.get("discount_value"),
-            "is_active": bool(row.get("is_active", row.get("active", False))),
-        }
-        out = json.dumps(payload)
-        return out
+        return json.dumps(
+            {
+                "offer_id": row.get("offer_id") or row.get("id"),
+                "offer_code": row["offer_code"],
+                "discount_type": row.get("discount_type"),
+                "discount_value": row.get("discount_value"),
+                "is_active": bool(row.get("is_active", row.get("active", False))),
+            }
+        )
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GetOfferByCode",
+                "name": "get_offer_by_code",
                 "description": "Read an existing promotion/offer by code.",
                 "parameters": {
                     "type": "object",
@@ -2410,7 +1676,7 @@ class GetOfferByCode(Tool):
 class GetPricebookByName(Tool):
     @staticmethod
     def invoke(data, pricebook_name: str) -> str:
-        rows = _get_table(data, "pricebooks")
+        rows = data.setdefault("pricebooks", [])
         row = next(
             (
                 r
@@ -2422,21 +1688,21 @@ class GetPricebookByName(Tool):
         )
         if not row:
             raise ValueError(f"pricebook not found: {pricebook_name}")
-        payload = {
-            "pricebook_id": row.get("pricebook_id") or row.get("id"),
-            "pricebook_name": row.get("pricebook_name") or row.get("name"),
-            "is_active": bool(row.get("is_active", True)),
-            "is_standard": bool(row.get("is_standard", False)),
-        }
-        out = json.dumps(payload)
-        return out
+        return json.dumps(
+            {
+                "pricebook_id": row.get("pricebook_id") or row.get("id"),
+                "pricebook_name": row.get("pricebook_name") or row.get("name"),
+                "is_active": bool(row.get("is_active", True)),
+                "is_standard": bool(row.get("is_standard", False)),
+            }
+        )
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GetPricebookByName",
+                "name": "get_pricebook_by_name",
                 "description": "Read an existing pricebook by name.",
                 "parameters": {
                     "type": "object",
@@ -2450,24 +1716,24 @@ class GetPricebookByName(Tool):
 class GetProductByName(Tool):
     @staticmethod
     def invoke(data, name: str) -> str:
-        rows = _get_table(data, "products")
+        rows = data.setdefault("products", [])
         row = next((r for r in rows if str(r.get("name")) == name), None)
         if not row:
             raise ValueError(f"product not found: {name}")
-        payload = {
-            "product_id": row["product_id"],
-            "name": row["name"],
-            "sku": row.get("sku") or row.get("product_code"),
-        }
-        out = json.dumps(payload)
-        return out
+        return json.dumps(
+            {
+                "product_id": row["product_id"],
+                "name": row["name"],
+                "sku": row.get("sku") or row.get("product_code"),
+            }
+        )
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GetProductByName",
+                "name": "get_product_by_name",
                 "description": "Read an existing product by name.",
                 "parameters": {
                     "type": "object",
@@ -2481,25 +1747,83 @@ class GetProductByName(Tool):
 class GetSecurityGroupRules(Tool):
     @staticmethod
     def invoke(data, security_group_id: str) -> str:
-        rows = _get_table(data, "aws_security_group_rules")
-        rules = [
-            r for r in rows if str(r.get("security_group_id")) == security_group_id
-        ]
-        payload = {"security_group_id": security_group_id, "rules": rules}
-        out = json.dumps(payload)
-        return out
+        rows = data.setdefault("aws_security_group_rules", [])
+        rules = [r for r in rows if str(r.get("security_group_id")) == security_group_id]
+        return json.dumps({"security_group_id": security_group_id, "rules": rules})
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "getSecurityGroupRules",
+                "name": "get_security_group_rules",
                 "description": "Read all rules for a given security group.",
                 "parameters": {
                     "type": "object",
                     "properties": {"security_group_id": {"type": "string"}},
                     "required": ["security_group_id"],
+                },
+            },
+        }
+
+
+class VerifyOAuthRedirectDomain(Tool):
+    @staticmethod
+    def invoke(data: Dict[str, Any], callback_url: Any, expected_domain: Any) -> str:
+        parsed = urlparse(str(callback_url))
+        domain = (parsed.hostname or "").lower()
+        exp = str(expected_domain).lower()
+        status = "verified" if domain == exp else "mismatch"
+        return json.dumps(status, indent=2)
+
+    @staticmethod
+    def get_info() -> Dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "verify_oauth_redirect_domain",
+                "description": "Verify that an OAuth callback URL's host matches an approved domain.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "callback_url": {"type": "string"},
+                        "expected_domain": {"type": "string"},
+                    },
+                    "required": ["callback_url", "expected_domain"],
+                },
+            },
+        }
+
+
+class RegisterOAuthTrustedAudience(Tool):
+    @staticmethod
+    def invoke(data: Dict[str, Any], app_name_hint: Any, audiences: Any) -> str:
+        app = str(app_name_hint)
+        h = hashlib.sha256((app + "|" + "|".join(sorted(audiences))).encode("utf-8")).hexdigest()[
+            :10
+        ]
+        policy_id = f"aud-{h}"
+        table = data.setdefault("oauth_trusted_audiences", {})
+        table[app] = {"audiences": list(dict.fromkeys(audiences)), "policy_id": policy_id}
+        return json.dumps(
+            {"app_name_hint": app, "audiences": table[app]["audiences"], "policy_id": policy_id},
+            indent=2,
+        )
+
+    @staticmethod
+    def get_info() -> Dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "register_oauth_trusted_audience",
+                "description": "Register allowed token audiences (aud) for a connected app to prevent token reuse.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "app_name_hint": {"type": "string"},
+                        "audiences": {"type": "array", "items": {"type": "string"}},
+                    },
+                    "required": ["app_name_hint", "audiences"],
                 },
             },
         }
@@ -2541,4 +1865,6 @@ TOOLS = [
     GetSecurityGroupRules(),
     UpsertPromotion(),
     UpsertContextRule(),
+    VerifyOAuthRedirectDomain(),
+    RegisterOAuthTrustedAudience(),
 ]

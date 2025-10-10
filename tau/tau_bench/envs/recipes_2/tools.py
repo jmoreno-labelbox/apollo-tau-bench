@@ -1,92 +1,67 @@
 import json
+from typing import Any, Dict, List, Set
 from datetime import datetime, timedelta
-from typing import Any
 
-from tau_bench.envs.tool import Tool
-
+from domains.dto import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-
-#Meal Planning Tools
+# Meal Plan Tools
 class CreateMealPlan(Tool):
-    """Establishes a new meal plan for a family."""
-
+    """Creates a new meal plan for a household."""
     @staticmethod
-    def invoke(data: dict[str, Any], household_id: int = None, week_start_date: str = None, created_by_user_id: int = None) -> str:
-        meal_plans = data.get("meal_plans", {}).values()
-        # Automatically create the subsequent meal_plan_id
-        new_id = (
-            max([plan.get("meal_plan_id", 0) for plan in meal_plans.values()]) + 1
-            if meal_plans
-            else 6001
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        household_id = kwargs.get("household_id")
+        week_start_date = kwargs.get("week_start_date")
+        created_by_user_id = kwargs.get("created_by_user_id")
+
+        meal_plans = data.get("meal_plans", [])
+        # Automatically generate the next meal_plan_id
+        new_id = max([plan.get("meal_plan_id", 0) for plan in meal_plans]) + 1 if meal_plans else 6001
 
         new_plan = {
             "meal_plan_id": new_id,
             "household_id": household_id,
             "week_start_date": week_start_date,
             "created_by_user_id": created_by_user_id,
-            "created_at": "2025-08-20T11:00:00Z",  # Employing a constant timestamp for uniformity
+            "created_at": "2025-08-20T11:00:00Z" # Using a fixed timestamp for consistency
         }
-        data["meal_plans"][meal_plan_id] = new_plan
-        payload = new_plan
-        out = json.dumps(payload)
-        return out
+        data["meal_plans"].append(new_plan)
+        return json.dumps(new_plan)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateMealPlan",
+                "name": "create_meal_plan",
                 "description": "Creates a new meal plan for a household.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "household_id": {"type": "integer"},
-                        "week_start_date": {
-                            "type": "string",
-                            "description": "Start date of the week in YYYY-MM-DD format.",
-                        },
+                        "week_start_date": {"type": "string", "description": "Start date of the week in YYYY-MM-DD format."},
                         "created_by_user_id": {"type": "integer"},
                     },
-                    "required": [
-                        "household_id",
-                        "week_start_date",
-                        "created_by_user_id",
-                    ],
+                    "required": ["household_id", "week_start_date", "created_by_user_id"],
                 },
             },
         }
 
-
 class AddRecipeToMealPlan(Tool):
-    """Incorporates a recipe entry into a current meal plan."""
-
+    """Adds a recipe entry to an existing meal plan."""
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        meal_plan_id: int,
-        plan_date: str,
-        recipe_id: int,
-        meal_type: str = "Dinner",
-        servings_adult: int = 2,
-        servings_child: int = 1,
-        notes: str = ""
-    ) -> str:
-        entries = data.get("meal_plan_entries", {}).values()
-        # Automatically create the next entry_id
-        new_id = (
-            max([entry.get("entry_id", 0) for entry in entries.values()]) + 1
-            if entries
-            else 6101
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        meal_plan_id = kwargs.get("meal_plan_id")
+        plan_date = kwargs.get("plan_date")
+        recipe_id = kwargs.get("recipe_id")
+        meal_type = kwargs.get("meal_type", "Dinner")
+        servings_adult = kwargs.get("servings_adult", 2)
+        servings_child = kwargs.get("servings_child", 1)
+        notes = kwargs.get("notes", "")
+
+        entries = data.get("meal_plan_entries", [])
+        # Automatically generate the next entry_id
+        new_id = max([entry.get("entry_id", 0) for entry in entries]) + 1 if entries else 6101
 
         new_entry = {
             "entry_id": new_id,
@@ -96,67 +71,61 @@ class AddRecipeToMealPlan(Tool):
             "recipe_id": recipe_id,
             "servings_adult": servings_adult,
             "servings_child": servings_child,
-            "notes": notes,
+            "notes": notes
         }
         data["meal_plan_entries"].append(new_entry)
-        payload = new_entry
-        out = json.dumps(payload)
-        return out
+        return json.dumps(new_entry)
+        
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddRecipeToMealPlan",
+                "name": "add_recipe_to_meal_plan",
                 "description": "Adds a recipe entry to an existing meal plan.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "meal_plan_id": {"type": "integer"},
-                        "plan_date": {
-                            "type": "string",
-                            "description": "Date for the meal in YYYY-MM-DD format.",
-                        },
+                        "plan_date": {"type": "string", "description": "Date for the meal in YYYY-MM-DD format."},
                         "recipe_id": {"type": "integer"},
-                        "notes": {
-                            "type": "string",
-                            "description": "Optional notes for the meal entry.",
-                        },
+                        "notes": {"type": "string", "description": "Optional notes for the meal entry."},
                     },
                     "required": ["meal_plan_id", "plan_date", "recipe_id"],
                 },
             },
         }
-
-
-#Grocery Planning Tools
+        
+# Grocery List Tools
 class CreateGroceryListFromMealPlan(Tool):
-    """Creates a shopping list based on a meal plan."""
-
+    """Generates a grocery list from a meal plan."""
     @staticmethod
-    def invoke(data: dict[str, Any], household_id: int = None, meal_plan_id: int = None, user_id: int = None) -> str:
-        lists = data.get("grocery_lists", {}).values()
-        # Automatically create the next list_id
-        new_id = max([l.get("list_id", 0) for l in lists.values()]) + 1 if lists else 8001
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        household_id = kwargs.get("household_id")
+        meal_plan_id = kwargs.get("meal_plan_id")
+        user_id = kwargs.get("user_id")
+
+        lists = data.get("grocery_lists", [])
+        # Automatically generate the next list_id
+        new_id = max([l.get("list_id", 0) for l in lists]) + 1 if lists else 8001
 
         new_list = {
             "list_id": new_id,
             "household_id": household_id,
             "source_meal_plan_id": meal_plan_id,
             "created_by_user_id": user_id,
-            "created_at": "2025-08-20T12:00:00Z",  # Utilizing a stable timestamp for consistency
-            "status_enum": "initialized",
+            "created_at": "2025-08-20T12:00:00Z", # Using a fixed timestamp for consistency
+            "status_enum": "initialized"
         }
         data["grocery_lists"].append(new_list)
-        payload = new_list
-        out = json.dumps(payload)
-        return out
+        return json.dumps(new_list)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateGroceryListFromMealPlan",
+                "name": "create_grocery_list_from_meal_plan",
                 "description": "Generates a grocery list from a meal plan.",
                 "parameters": {
                     "type": "object",
@@ -170,24 +139,23 @@ class CreateGroceryListFromMealPlan(Tool):
             },
         }
 
-
 class AddItemToGroceryList(Tool):
-    """Inserts a new item into a grocery list."""
-
+    """Adds a new item to a grocery list."""
     @staticmethod
-    def invoke(data: dict[str, Any], list_id: int = None, ingredient_id: int = None, quantity: float = None, unit: str = None) -> str:
-        items = data.get("grocery_list_items", {}).values()
-        # Automatically create the next item_id
-        new_id = max([item.get("item_id", 0) for item in items.values()]) + 1 if items else 8101
-
-        ingredients = data.get("ingredients", {}).values()
-        ingredient_info = next(
-            (ing for ing in ingredients.values() if ing["ingredient_id"] == ingredient_id), None
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        list_id = kwargs.get("list_id")
+        ingredient_id = kwargs.get("ingredient_id")
+        quantity = kwargs.get("quantity")
+        unit = kwargs.get("unit")
+        
+        items = data.get("grocery_list_items", [])
+        # Automatically generate the next item_id
+        new_id = max([item.get("item_id", 0) for item in items]) + 1 if items else 8101
+        
+        ingredients = data.get("ingredients", [])
+        ingredient_info = next((ing for ing in ingredients if ing["ingredient_id"] == ingredient_id), None)
         if not ingredient_info:
-            payload = {"error": f"Ingredient {ingredient_id} not found."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Ingredient {ingredient_id} not found."})
 
         new_item = {
             "item_id": new_id,
@@ -197,18 +165,17 @@ class AddItemToGroceryList(Tool):
             "unit": unit,
             "grocery_section": ingredient_info.get("grocery_section"),
             "pantry_staple_flag": ingredient_info.get("pantry_staple_flag"),
-            "overlap_last_month_flag": False,
+            "overlap_last_month_flag": False
         }
         data["grocery_list_items"].append(new_item)
-        payload = new_item
-        out = json.dumps(payload)
-        return out
+        return json.dumps(new_item)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddItemToGroceryList",
+                "name": "add_item_to_grocery_list",
                 "description": "Adds a new item to a grocery list.",
                 "parameters": {
                     "type": "object",
@@ -223,25 +190,20 @@ class AddItemToGroceryList(Tool):
             },
         }
 
-
-#Ordering Tools
+# Order Tools
 class CreateOrderFromGroceryList(Tool):
-    """Forms a new order based on a grocery list."""
-
+    """Creates a new order from a grocery list."""
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        household_id: int = None,
-        store_id: int = None,
-        list_id: int = None,
-        subtotal_cents: int = None,
-        total_cents: int = None
-    ) -> str:
-        orders = data.get("orders", {}).values()
-        # Automatically create the next order_id
-        new_id = (
-            max([order.get("order_id", 0) for order in orders.values()]) + 1 if orders else 10001
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        household_id = kwargs.get("household_id")
+        store_id = kwargs.get("store_id")
+        list_id = kwargs.get("list_id")
+        subtotal_cents = kwargs.get("subtotal_cents")
+        total_cents = kwargs.get("total_cents")
+        
+        orders = data.get("orders", [])
+        # Automatically generate the next order_id
+        new_id = max([order.get("order_id", 0) for order in orders]) + 1 if orders else 10001
 
         new_order = {
             "order_id": new_id,
@@ -253,18 +215,17 @@ class CreateOrderFromGroceryList(Tool):
             "total_cents": total_cents,
             "placed_ts": "2025-08-21T09:00:00Z",
             "scheduled_slot_start_ts": "2025-08-22T18:00:00Z",
-            "scheduled_slot_end_ts": "2025-08-22T20:00:00Z",
+            "scheduled_slot_end_ts": "2025-08-22T20:00:00Z"
         }
-        data["orders"][order_id] = new_order
-        payload = new_order
-        out = json.dumps(payload)
-        return out
+        data["orders"].append(new_order)
+        return json.dumps(new_order)
+        
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateOrderFromGroceryList",
+                "name": "create_order_from_grocery_list",
                 "description": "Creates a new order from a grocery list.",
                 "parameters": {
                     "type": "object",
@@ -275,27 +236,26 @@ class CreateOrderFromGroceryList(Tool):
                         "subtotal_cents": {"type": "integer"},
                         "total_cents": {"type": "integer"},
                     },
-                    "required": [
-                        "household_id",
-                        "store_id",
-                        "list_id",
-                        "subtotal_cents",
-                        "total_cents",
-                    ],
+                    "required": ["household_id", "store_id", "list_id", "subtotal_cents", "total_cents"],
                 },
             },
         }
-
-
-#Audit Logging Tool
+        
+# Audit Log Tool
 class AddAuditLog(Tool):
-    """Inserts a new record into the audit logs."""
-
+    """Adds a new entry to the audit logs."""
     @staticmethod
-    def invoke(data: dict[str, Any], household_id: int, user_id: int, entity_type: str, entity_id: int, action_enum: str, payload_json: dict = {}) -> str:
-        logs = data.get("audit_logs", {}).values()
-        # Automatically create the next audit_id
-        new_id = max([log.get("audit_id", 0) for log in logs.values()]) + 1 if logs else 12001
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        household_id = kwargs.get("household_id")
+        user_id = kwargs.get("user_id")
+        entity_type = kwargs.get("entity_type")
+        entity_id = kwargs.get("entity_id")
+        action_enum = kwargs.get("action_enum")
+        payload_json = kwargs.get("payload_json", {})
+        
+        logs = data.get("audit_logs", [])
+        # Automatically generate the next audit_id
+        new_id = max([log.get("audit_id", 0) for log in logs]) + 1 if logs else 12001
 
         new_log = {
             "audit_id": new_id,
@@ -305,71 +265,53 @@ class AddAuditLog(Tool):
             "entity_id": entity_id,
             "action_enum": action_enum,
             "payload_json": payload_json,
-            "created_at": "2025-08-25T11:00:05Z",  # Applying a fixed timestamp for reliability
+            "created_at": "2025-08-25T11:00:05Z" # Using a fixed timestamp for consistency
         }
         data["audit_logs"].append(new_log)
-        payload = new_log
-        out = json.dumps(payload)
-        return out
+        return json.dumps(new_log)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddAuditLog",
+                "name": "add_audit_log",
                 "description": "Adds a new entry to the audit logs.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "household_id": {"type": "integer"},
                         "user_id": {"type": "integer"},
-                        "entity_type": {
-                            "type": "string",
-                            "description": "The type of entity being logged (e.g., meal_plans, orders).",
-                        },
+                        "entity_type": {"type": "string", "description": "The type of entity being logged (e.g., meal_plans, orders)."},
                         "entity_id": {"type": "integer"},
-                        "action_enum": {
-                            "type": "string",
-                            "description": "The action performed (e.g., create, update, delete).",
-                        },
-                        "payload_json": {
-                            "type": "object",
-                            "description": "JSON object with details about the action.",
-                        },
+                        "action_enum": {"type": "string", "description": "The action performed (e.g., create, update, delete)."},
+                        "payload_json": {"type": "object", "description": "JSON object with details about the action."},
                     },
-                    "required": [
-                        "household_id",
-                        "user_id",
-                        "entity_type",
-                        "entity_id",
-                        "action_enum",
-                    ],
+                    "required": ["household_id", "user_id", "entity_type", "entity_id", "action_enum"],
                 },
             },
         }
 
 
-#User and Family Tools
+
+# User and Household Tools
 class GetUserByEmail(Tool):
-    """Fetches a user's information using their email address."""
+    """Retrieves a user's details by their email address."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        email = kwargs.get("email")
+        users = data.get("users", [])
+        for user in users:
+            if user.get("email") == email:
+                return json.dumps(user)
+        return json.dumps({"error": f"User with email '{email}' not found."})
 
     @staticmethod
-    def invoke(data: dict[str, Any], email: str = None) -> str:
-        users = data.get("users", {}).values()
-        for user in users.values():
-            if user.get("email") == email:
-                payload = user
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"User with email '{email}' not found."}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getUserByEmail",
+                "name": "get_user_by_email",
                 "description": "Retrieves a user's details by their email address.",
                 "parameters": {
                     "type": "object",
@@ -384,27 +326,23 @@ class GetUserByEmail(Tool):
             },
         }
 
-
 class GetHouseholdByUserId(Tool):
-    """Obtains household details for a specified user ID."""
+    """Retrieves household information for a given user ID."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_id = kwargs.get("user_id")
+        households = data.get("households", [])
+        for household in households:
+            if household.get("primary_user_id") == user_id:
+                return json.dumps(household)
+        return json.dumps({"error": f"Household for user ID '{user_id}' not found."})
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        households = data.get("households", {}).values()
-        for household in households.values():
-            if household.get("primary_user_id") == user_id:
-                payload = household
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Household for user ID '{user_id}' not found."}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetHouseholdByUserId",
+                "name": "get_household_by_user_id",
                 "description": "Retrieves household information for a given user ID.",
                 "parameters": {
                     "type": "object",
@@ -419,25 +357,21 @@ class GetHouseholdByUserId(Tool):
             },
         }
 
-
 class GetMembersByHouseholdId(Tool):
-    """Fetches all members associated with a specific household ID."""
+    """Retrieves all members for a given household ID."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        household_id = kwargs.get("household_id")
+        members = data.get("members", [])
+        household_members = [member for member in members if member.get("household_id") == household_id]
+        return json.dumps(household_members)
 
     @staticmethod
-    def invoke(data: dict[str, Any], household_id: str = None) -> str:
-        members = data.get("members", {}).values()
-        household_members = [
-            member for member in members.values() if member.get("household_id") == household_id
-        ]
-        payload = household_members
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetMembersByHouseholdId",
+                "name": "get_members_by_household_id",
                 "description": "Retrieves all members for a given household ID.",
                 "parameters": {
                     "type": "object",
@@ -452,30 +386,26 @@ class GetMembersByHouseholdId(Tool):
             },
         }
 
-
 class SearchHouseholdsByName(Tool):
-    """Looks for households whose names include the given text."""
+    """Searches for households with names containing the specified text."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name_query = kwargs.get("name_query")
+        if not name_query:
+            return json.dumps({"error": "name_query parameter is required."})
+        households = data.get("households", [])
+        matching_households = [
+            household for household in households 
+            if name_query.lower() in household.get("household_name", "").lower()
+        ]
+        return json.dumps(matching_households)
 
     @staticmethod
-    def invoke(data: dict[str, Any], name_query: str = None) -> str:
-        if not name_query:
-            payload = {"error": "name_query parameter is required."}
-            out = json.dumps(payload)
-            return out
-        households = data.get("households", {}).values()
-        matching_households = [
-            household
-            for household in households.values() if name_query.lower() in household.get("household_name", "").lower()
-        ]
-        payload = matching_households
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchHouseholdsByName",
+                "name": "search_households_by_name",
                 "description": "Searches for households with names containing the specified text.",
                 "parameters": {
                     "type": "object",
@@ -490,295 +420,228 @@ class SearchHouseholdsByName(Tool):
             },
         }
 
-
-#Recipe and Component Tools
+# Recipe and Ingredient Tools
 class SearchRecipes(Tool):
-    """Looks for recipes according to different parameters."""
-
+    """Searches for recipes based on various criteria."""
     @staticmethod
-    def invoke(data: dict[str, Any], cuisine: str = None, meal_type: str = None, is_peanut_free: bool = None) -> str:
-        recipes = data.get("recipes", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        recipes = data.get("recipes", [])
+        cuisine = kwargs.get("cuisine")
+        meal_type = kwargs.get("meal_type")
+        is_peanut_free = kwargs.get("is_peanut_free")
         results = []
-        for recipe in recipes.values():
+        for recipe in recipes:
             match = True
             if cuisine and recipe.get("cuisine") != cuisine:
                 match = False
             if meal_type and recipe.get("meal_type") != meal_type:
                 match = False
-            if (
-                is_peanut_free is not None
-                and recipe.get("is_peanut_free") != is_peanut_free
-            ):
+            if is_peanut_free is not None and recipe.get("is_peanut_free") != is_peanut_free:
                 match = False
             if match:
                 results.append(recipe)
-        payload = results
-        out = json.dumps(payload)
-        return out
+        return json.dumps(results)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchRecipes",
+                "name": "search_recipes",
                 "description": "Searches for recipes based on various criteria.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "cuisine": {
-                            "type": "string",
-                            "description": "The cuisine of the recipe (e.g., Italian, Mexican).",
-                        },
-                        "meal_type": {
-                            "type": "string",
-                            "description": "The type of meal (e.g., Dinner, Lunch).",
-                        },
-                        "is_peanut_free": {
-                            "type": "boolean",
-                            "description": "Filter for peanut-free recipes.",
-                        },
+                        "cuisine": {"type": "string", "description": "The cuisine of the recipe (e.g., Italian, Mexican)."},
+                        "meal_type": {"type": "string", "description": "The type of meal (e.g., Dinner, Lunch)."},
+                        "is_peanut_free": {"type": "boolean", "description": "Filter for peanut-free recipes."},
                     },
                 },
             },
         }
 
-
 class GetRecipeDetails(Tool):
-    """Fetches complete information for a particular recipe ID."""
+    """Retrieves the full details for a specific recipe ID."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        recipe_id = kwargs.get("recipe_id")
+        recipes = data.get("recipes", [])
+        for recipe in recipes:
+            if recipe.get("recipe_id") == recipe_id:
+                return json.dumps(recipe)
+        return json.dumps({"error": f"Recipe with ID '{recipe_id}' not found."})
 
     @staticmethod
-    def invoke(data: dict[str, Any], recipe_id: str = None) -> str:
-        recipes = data.get("recipes", {}).values()
-        for recipe in recipes.values():
-            if recipe.get("recipe_id") == recipe_id:
-                payload = recipe
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Recipe with ID '{recipe_id}' not found."}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getRecipeDetails",
+                "name": "get_recipe_details",
                 "description": "Retrieves the full details for a specific recipe ID.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "recipe_id": {
-                            "type": "integer",
-                            "description": "The unique ID of the recipe.",
-                        }
-                    },
+                    "properties": {"recipe_id": {"type": "integer", "description": "The unique ID of the recipe."}},
                     "required": ["recipe_id"],
                 },
             },
         }
 
-
 class GetRecipeIngredients(Tool):
-    """Obtains all components for a certain recipe ID."""
+    """Retrieves all ingredients for a specific recipe ID."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        recipe_id = kwargs.get("recipe_id")
+        recipe_ingredients = data.get("recipe_ingredients", [])
+        ingredients = [ri for ri in recipe_ingredients if ri.get("recipe_id") == recipe_id]
+        return json.dumps(ingredients)
 
     @staticmethod
-    def invoke(data: dict[str, Any], recipe_id: str = None) -> str:
-        recipe_ingredients = data.get("recipe_ingredients", {}).values()
-        ingredients = [
-            ri for ri in recipe_ingredients.values() if ri.get("recipe_id") == recipe_id
-        ]
-        payload = ingredients
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetRecipeIngredients",
+                "name": "get_recipe_ingredients",
                 "description": "Retrieves all ingredients for a specific recipe ID.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "recipe_id": {
-                            "type": "integer",
-                            "description": "The unique ID of the recipe.",
-                        }
-                    },
+                    "properties": {"recipe_id": {"type": "integer", "description": "The unique ID of the recipe."}},
                     "required": ["recipe_id"],
                 },
             },
         }
-
-
+        
 class SearchRecipesByTitleSubstring(Tool):
-    """Looks for recipes whose titles include the specified text."""
+    """Searches for recipes with titles containing the specified text."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        title_substring = kwargs.get("title_substring")
+        if not title_substring:
+            return json.dumps({"error": "title_substring parameter is required."})
+        recipes = data.get("recipes", [])
+        matching_recipes = [
+            recipe for recipe in recipes 
+            if title_substring.lower() in recipe.get("recipe_title", "").lower()
+        ]
+        return json.dumps(matching_recipes)
 
     @staticmethod
-    def invoke(data: dict[str, Any], title_substring: str = None) -> str:
-        if not title_substring:
-            payload = {"error": "title_substring parameter is required."}
-            out = json.dumps(payload)
-            return out
-        recipes = data.get("recipes", {}).values()
-        matching_recipes = [
-            recipe
-            for recipe in recipes.values() if title_substring.lower() in recipe.get("recipe_title", "").lower()
-        ]
-        payload = matching_recipes
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchRecipesByTitleSubstring",
+                "name": "search_recipes_by_title_substring",
                 "description": "Searches for recipes with titles containing the specified text.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "title_substring": {
-                            "type": "string",
-                            "description": "The text to search for in recipe titles.",
-                        }
+                        "title_substring": {"type": "string", "description": "The text to search for in recipe titles."}
                     },
                     "required": ["title_substring"],
                 },
             },
         }
 
-
-#Stock and Meal Record Tools
+# Inventory and Meal History Tools
 class GetInventoryForHousehold(Tool):
-    """Fetches all stock items for a specific household ID."""
+    """Retrieves all inventory items for a given household ID."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        household_id = kwargs.get("household_id")
+        inventory = data.get("inventory_items", [])
+        household_inventory = [item for item in inventory if item.get("household_id") == household_id]
+        return json.dumps(household_inventory)
 
     @staticmethod
-    def invoke(data: dict[str, Any], household_id: str = None) -> str:
-        inventory = data.get("inventory_items", {}).values()
-        household_inventory = [
-            item for item in inventory.values() if item.get("household_id") == household_id
-        ]
-        payload = household_inventory
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getInventoryForHousehold",
+                "name": "get_inventory_for_household",
                 "description": "Retrieves all inventory items for a given household ID.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "household_id": {
-                            "type": "integer",
-                            "description": "The unique ID of the household.",
-                        }
-                    },
+                    "properties": {"household_id": {"type": "integer", "description": "The unique ID of the household."}},
                     "required": ["household_id"],
                 },
             },
         }
 
-
 class GetMealHistoryForHousehold(Tool):
-    """Obtains the meal records for a specific household ID over a defined number of previous days."""
-
+    """Retrieves the meal history for a given household ID for a specified number of past days."""
     @staticmethod
-    def invoke(data: dict[str, Any], household_id: str, days_ago: int = 14) -> str:
-        meal_history = data.get("meal_history", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        household_id = kwargs.get("household_id")
+        days_ago = kwargs.get("days_ago", 14)
+        meal_history = data.get("meal_history", [])
         current_date = datetime.strptime("2025-08-20", "%Y-%m-%d")
         start_date = current_date - timedelta(days=days_ago)
         history = [
-            h
-            for h in meal_history.values() if h.get("household_id") == household_id
-            and datetime.strptime(h.get("plan_date"), "%Y-%m-%d") >= start_date
+            h for h in meal_history 
+            if h.get("household_id") == household_id and 
+               datetime.strptime(h.get("plan_date"), "%Y-%m-%d") >= start_date
         ]
-        payload = history
-        out = json.dumps(payload)
-        return out
+        return json.dumps(history)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetMealHistoryForHousehold",
+                "name": "get_meal_history_for_household",
                 "description": "Retrieves the meal history for a given household ID for a specified number of past days.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "household_id": {
-                            "type": "integer",
-                            "description": "The unique ID of the household.",
-                        },
-                        "days_ago": {
-                            "type": "integer",
-                            "description": "Number of past days to retrieve history for. Defaults to 14.",
-                        },
+                        "household_id": {"type": "integer", "description": "The unique ID of the household."},
+                        "days_ago": {"type": "integer", "description": "Number of past days to retrieve history for. Defaults to 14."},
                     },
                     "required": ["household_id"],
                 },
             },
         }
 
-
-#Meal Planning Tools
+# Meal Plan Tools
 
 
 class GetMealPlansByHouseholdId(Tool):
-    """Fetches all meal plans associated with a particular household ID."""
+    """Retrieves all meal plans for a specific household ID."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        household_id = kwargs.get("household_id")
+        if household_id is None:
+            return json.dumps({"error": "household_id parameter is required."})
+        meal_plans = data.get("meal_plans", [])
+        matching_plans = [plan for plan in meal_plans if plan.get("household_id") == household_id]
+        return json.dumps(matching_plans)
 
     @staticmethod
-    def invoke(data: dict[str, Any], household_id: str = None) -> str:
-        if household_id is None:
-            payload = {"error": "household_id parameter is required."}
-            out = json.dumps(payload)
-            return out
-        meal_plans = data.get("meal_plans", {}).values()
-        matching_plans = [
-            plan for plan in meal_plans.values() if plan.get("household_id") == household_id
-        ]
-        payload = matching_plans
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetMealPlansByHouseholdId",
+                "name": "get_meal_plans_by_household_id",
                 "description": "Retrieves all meal plans for a specific household ID.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "household_id": {
-                            "type": "integer",
-                            "description": "The unique ID of the household.",
-                        }
-                    },
+                    "properties": {"household_id": {"type": "integer", "description": "The unique ID of the household."}},
                     "required": ["household_id"],
                 },
             },
         }
 
-
 class SearchMealPlanEntries(Tool):
-    """Looks for meal plan entries in a specific plan and date range that have a substring in their notes."""
-
+    """Searches for meal plan entries within a specific plan and date range that contain a substring in their notes."""
     @staticmethod
-    def invoke(data: dict[str, Any], meal_plan_id: str = None, start_date: str = None, end_date: str = None, notes_substring: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        meal_plan_id = kwargs.get("meal_plan_id")
+        start_date = kwargs.get("start_date")
+        end_date = kwargs.get("end_date")
+        notes_substring = kwargs.get("notes_substring")
         if not all([meal_plan_id, start_date, end_date, notes_substring]):
-            payload = {
-                    "error": "meal_plan_id, start_date, end_date, and notes_substring are required parameters."
-                }
-            out = json.dumps(
-                payload)
-            return out
-        meal_plan_entries = data.get("meal_plan_entries", {}).values()
+            return json.dumps({"error": "meal_plan_id, start_date, end_date, and notes_substring are required parameters."})
+        meal_plan_entries = data.get("meal_plan_entries", [])
         matching_entries = []
-        for entry in meal_plan_entries.values():
+        for entry in meal_plan_entries:
             if entry.get("meal_plan_id") != meal_plan_id:
                 continue
             plan_date = entry.get("plan_date", "")
@@ -786,148 +649,106 @@ class SearchMealPlanEntries(Tool):
                 continue
             notes = entry.get("notes", "")
             if notes and notes_substring.lower() in notes.lower():
-                matching_data["meal_plan_entries"][entry["meal_plan_entrie_id"]] = entry
-        payload = matching_entries
-        out = json.dumps(payload)
-        return out
+                matching_entries.append(entry)
+        return json.dumps(matching_entries)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchMealPlanEntries",
+                "name": "search_meal_plan_entries",
                 "description": "Searches for meal plan entries within a specific plan and date range that contain a substring in their notes.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "meal_plan_id": {
-                            "type": "integer",
-                            "description": "The unique ID of the meal plan to search within.",
-                        },
-                        "start_date": {
-                            "type": "string",
-                            "description": "The start date of the search range (YYYY-MM-DD).",
-                        },
-                        "end_date": {
-                            "type": "string",
-                            "description": "The end date of the search range (YYYY-MM-DD).",
-                        },
-                        "notes_substring": {
-                            "type": "string",
-                            "description": "The text to search for within the entry notes.",
-                        },
+                        "meal_plan_id": {"type": "integer", "description": "The unique ID of the meal plan to search within."},
+                        "start_date": {"type": "string", "description": "The start date of the search range (YYYY-MM-DD)."},
+                        "end_date": {"type": "string", "description": "The end date of the search range (YYYY-MM-DD)."},
+                        "notes_substring": {"type": "string", "description": "The text to search for within the entry notes."},
                     },
-                    "required": [
-                        "meal_plan_id",
-                        "start_date",
-                        "end_date",
-                        "notes_substring",
-                    ],
+                    "required": ["meal_plan_id", "start_date", "end_date", "notes_substring"],
                 },
             },
         }
 
-
 class GetMealPlanEntriesByRecipeId(Tool):
-    """Fetches all meal plan entries that incorporate a particular recipe ID."""
+    """Retrieves all meal plan entries that use a specific recipe ID."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        recipe_id = kwargs.get("recipe_id")
+        if recipe_id is None:
+            return json.dumps({"error": "recipe_id parameter is required."})
+        meal_plan_entries = data.get("meal_plan_entries", [])
+        matching_entries = [entry for entry in meal_plan_entries if entry.get("recipe_id") == recipe_id]
+        return json.dumps(matching_entries)
 
     @staticmethod
-    def invoke(data: dict[str, Any], recipe_id: str = None) -> str:
-        if recipe_id is None:
-            payload = {"error": "recipe_id parameter is required."}
-            out = json.dumps(payload)
-            return out
-        meal_plan_entries = data.get("meal_plan_entries", {}).values()
-        matching_entries = [
-            entry for entry in meal_plan_entries.values() if entry.get("recipe_id") == recipe_id
-        ]
-        payload = matching_entries
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetMealPlanEntriesByRecipeId",
+                "name": "get_meal_plan_entries_by_recipe_id",
                 "description": "Retrieves all meal plan entries that use a specific recipe ID.",
                 "parameters": {
                     "type": "object",
-                    "properties": {
-                        "recipe_id": {
-                            "type": "integer",
-                            "description": "The unique ID of the recipe to find in meal plans.",
-                        }
-                    },
+                    "properties": {"recipe_id": {"type": "integer", "description": "The unique ID of the recipe to find in meal plans."}},
                     "required": ["recipe_id"],
                 },
             },
         }
 
+# Grocery List Tools
 
-#Grocery Planning Tools
-
-
-#Modify/Delete Tools
+# Update/Delete Tools
 class UpdateInventoryItemQuantity(Tool):
-    """Modifies the amount of an item in the household stock."""
-
+    """Updates the quantity of an item in the household inventory."""
     @staticmethod
-    def invoke(data: dict[str, Any], inv_item_id: str = None, new_quantity: int = None) -> str:
-        inventory = data.get("inventory_items", {}).values()
-        for item in inventory.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        inv_item_id = kwargs.get("inv_item_id")
+        new_quantity = kwargs.get("new_quantity")
+        inventory = data.get("inventory_items", [])
+        for item in inventory:
             if item.get("inv_item_id") == inv_item_id:
                 item["quantity"] = new_quantity
-                payload = item
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Inventory item {inv_item_id} not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(item)
+        return json.dumps({"error": f"Inventory item {inv_item_id} not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateInventoryItemQuantity",
+                "name": "update_inventory_item_quantity",
                 "description": "Updates the quantity of an item in the household inventory.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "inv_item_id": {"type": "integer"},
-                        "new_quantity": {"type": "number"},
+                        "inv_item_id": {"type": "integer"}, "new_quantity": {"type": "number"},
                     },
                     "required": ["inv_item_id", "new_quantity"],
                 },
             },
         }
 
-
 class RemoveRecipeFromMealPlan(Tool):
-    """Deletes a recipe from a meal plan."""
+    """Removes a recipe from a meal plan."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        entry_id = kwargs.get("entry_id")
+        entries = data.get("meal_plan_entries", [])
+        entry_to_remove = next((e for e in entries if e.get("entry_id") == entry_id), None)
+        if entry_to_remove:
+            data["meal_plan_entries"] = [e for e in entries if e.get("entry_id") != entry_id]
+            return json.dumps({"status": "success", "message": f"Entry {entry_id} removed."})
+        return json.dumps({"error": f"Meal plan entry {entry_id} not found."})
 
     @staticmethod
-    def invoke(data: dict[str, Any], entry_id: str = None) -> str:
-        entries = data.get("meal_plan_entries", {}).values()
-        entry_to_remove = next(
-            (e for e in entries.values() if e.get("entry_id") == entry_id), None
-        )
-        if entry_to_remove:
-            data["meal_plan_entries"] = [
-                e for e in entries.values() if e.get("entry_id") != entry_id
-            ]
-            payload = {"status": "success", "message": f"Entry {entry_id} removed."}
-            out = json.dumps(payload)
-            return out
-        payload = {"error": f"Meal plan entry {entry_id} not found."}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RemoveRecipeFromMealPlan",
+                "name": "remove_recipe_from_meal_plan",
                 "description": "Removes a recipe from a meal plan.",
                 "parameters": {
                     "type": "object",
@@ -937,32 +758,30 @@ class RemoveRecipeFromMealPlan(Tool):
             },
         }
 
-
 class SearchUsersByName(Tool):
-    """Looks for users whose full names include the specified text."""
+    """Searches for users with full names containing the specified text."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], name_query: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name_query = kwargs.get("name_query")
         if not name_query:
-            payload = {"error": "name_query parameter is required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "name_query parameter is required."})
 
-        users = data.get("users", {}).values()
-
+        users = data.get("users", [])
+        
         matching_users = [
-            user
-            for user in users.values() if name_query.lower() in user.get("full_name", "").lower()
+            user for user in users 
+            if name_query.lower() in user.get("full_name", "").lower()
         ]
-        payload = matching_users
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps(matching_users)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchUsersByName",
+                "name": "search_users_by_name",
                 "description": "Searches for users with full names containing the specified text.",
                 "parameters": {
                     "type": "object",
@@ -979,30 +798,29 @@ class SearchUsersByName(Tool):
 
 
 class SearchIngredientsByName(Tool):
-    """Looks for ingredients whose names contain the specified text."""
+    """Searches for ingredients with names containing the specified text."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], name_query: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name_query = kwargs.get("name_query")
         if not name_query:
-            payload = {"error": "name_query parameter is required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "name_query parameter is required."})
 
-        ingredients = data.get("ingredients", {}).values()
-
+        ingredients = data.get("ingredients", [])
+        
         matching_ingredients = [
-            ingredient
-            for ingredient in ingredients.values() if name_query.lower() in ingredient.get("ingredient_name", "").lower()
+            ingredient for ingredient in ingredients 
+            if name_query.lower() in ingredient.get("ingredient_name", "").lower()
         ]
-        payload = matching_ingredients
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps(matching_ingredients)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchIngredientsByName",
+                "name": "search_ingredients_by_name",
                 "description": "Searches for ingredients with names containing the specified text.",
                 "parameters": {
                     "type": "object",
@@ -1017,33 +835,32 @@ class SearchIngredientsByName(Tool):
             },
         }
 
-
 class GetInventoryForHouseholdAndIngredientId(Tool):
-    """Fetches all stock items for a specific household ID and a particular ingredient ID."""
+    """Retrieves all inventory items for a given household ID and a specific ingredient ID."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], household_id: str = None, ingredient_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        household_id = kwargs.get("household_id")
+        ingredient_id = kwargs.get("ingredient_id")
+
         if household_id is None or ingredient_id is None:
-            payload = {"error": "household_id and ingredient_id parameters are required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "household_id and ingredient_id parameters are required."})
 
-        inventory = data.get("inventory_items", {}).values()
-
+        inventory = data.get("inventory_items", [])
+        
         household_ingredient_inventory = [
-            item
-            for item in inventory.values() if item.get("household_id") == household_id
-            and item.get("ingredient_id") == ingredient_id
+            item for item in inventory 
+            if item.get("household_id") == household_id and item.get("ingredient_id") == ingredient_id
         ]
-        payload = household_ingredient_inventory
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps(household_ingredient_inventory)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetInventoryForHouseholdAndIngredientId",
+                "name": "get_inventory_for_household_and_ingredient_id",
                 "description": "Retrieves inventory items for a specific household and ingredient.",
                 "parameters": {
                     "type": "object",
@@ -1055,39 +872,37 @@ class GetInventoryForHouseholdAndIngredientId(Tool):
                         "ingredient_id": {
                             "type": "integer",
                             "description": "The unique ID of the ingredient to find in the inventory.",
-                        },
+                        }
                     },
                     "required": ["household_id", "ingredient_id"],
                 },
             },
         }
 
-
 class SearchStoresByName(Tool):
-    """Looks for stores whose names include the specified text."""
+    """Searches for stores with names containing the specified text."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], name_query: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name_query = kwargs.get("name_query")
         if not name_query:
-            payload = {"error": "name_query parameter is required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "name_query parameter is required."})
 
-        stores = data.get("stores", {}).values()
-
+        stores = data.get("stores", [])
+        
         matching_stores = [
-            store
-            for store in stores.values() if name_query.lower() in store.get("store_name", "").lower()
+            store for store in stores 
+            if name_query.lower() in store.get("store_name", "").lower()
         ]
-        payload = matching_stores
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps(matching_stores)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchStoresByName",
+                "name": "search_stores_by_name",
                 "description": "Searches for stores with names containing the specified text.",
                 "parameters": {
                     "type": "object",
@@ -1104,12 +919,17 @@ class SearchStoresByName(Tool):
 
 
 class AddMealHistory(Tool):
-    """Inserts a new record into the meal history."""
-
+    """Adds a new entry to the meal history."""
     @staticmethod
-    def invoke(data: dict[str, Any], household_id: int = None, recipe_id: int = None, plan_date: str = None, was_prepared: bool = None, rating_int: int = None) -> str:
-        history = data.get("meal_history", {}).values()
-        new_id = max([h.get("history_id", 0) for h in history.values()]) + 1 if history else 6201
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        household_id = kwargs.get("household_id")
+        recipe_id = kwargs.get("recipe_id")
+        plan_date = kwargs.get("plan_date")
+        was_prepared = kwargs.get("was_prepared")
+        rating_int = kwargs.get("rating_int")
+
+        history = data.get("meal_history", [])
+        new_id = max([h.get("history_id", 0) for h in history]) + 1 if history else 6201
 
         new_entry = {
             "history_id": new_id,
@@ -1117,66 +937,52 @@ class AddMealHistory(Tool):
             "plan_date": plan_date,
             "recipe_id": recipe_id,
             "was_prepared": was_prepared,
-            "rating_int": rating_int,
+            "rating_int": rating_int
         }
         data["meal_history"].append(new_entry)
-        payload = new_entry
-        out = json.dumps(payload)
-        return out
+        return json.dumps(new_entry)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddMealHistory",
+                "name": "add_meal_history",
                 "description": "Adds a new entry to the meal history.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "household_id": {"type": "integer"},
                         "recipe_id": {"type": "integer"},
-                        "plan_date": {
-                            "type": "string",
-                            "description": "Date the meal was planned for in YYYY-MM-DD format.",
-                        },
+                        "plan_date": {"type": "string", "description": "Date the meal was planned for in YYYY-MM-DD format."},
                         "was_prepared": {"type": "boolean"},
-                        "rating_int": {
-                            "type": "integer",
-                            "description": "Rating from 1 to 5; can be null.",
-                        },
+                        "rating_int": {"type": "integer", "description": "Rating from 1 to 5; can be null."},
                     },
-                    "required": [
-                        "household_id",
-                        "recipe_id",
-                        "plan_date",
-                        "was_prepared",
-                    ],
+                    "required": ["household_id", "recipe_id", "plan_date", "was_prepared"],
                 },
             },
         }
 
-
 class UpdateMealPlanEntryNotes(Tool):
-    """Modifies the notes for a particular meal plan entry."""
-
+    """Updates the notes for a specific meal plan entry."""
     @staticmethod
-    def invoke(data: dict[str, Any], entry_id: str = None, new_notes: str = None) -> str:
-        entries = data.get("meal_plan_entries", {}).values()
-        for entry in entries.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        entry_id = kwargs.get("entry_id")
+        new_notes = kwargs.get("new_notes")
+
+        entries = data.get("meal_plan_entries", [])
+        for entry in entries:
             if entry.get("entry_id") == entry_id:
                 entry["notes"] = new_notes
-                payload = entry
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Meal plan entry with ID '{entry_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(entry)
+        return json.dumps({"error": f"Meal plan entry with ID '{entry_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateMealPlanEntryNotes",
+                "name": "update_meal_plan_entry_notes",
                 "description": "Updates the notes for a specific meal plan entry.",
                 "parameters": {
                     "type": "object",
@@ -1189,34 +995,29 @@ class UpdateMealPlanEntryNotes(Tool):
             },
         }
 
-
 class AddUser(Tool):
-    """Incorporates a new user."""
+    """Adds a new user."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        email = kwargs.get("email")
+        full_name = kwargs.get("full_name")
+        users = data.get("users", [])
+        if any(user.get("email") == email for user in users):
+            return json.dumps({"error": f"User with email '{email}' already exists."})
+        new_id = max([u.get("user_id", 0) for u in users]) + 1 if users else 101
+        new_user = {
+            "user_id": new_id, "email": email, "full_name": full_name,
+            "created_at": "2025-08-22T10:00:00Z"
+        }
+        data["users"].append(new_user)
+        return json.dumps(new_user)
 
     @staticmethod
-    def invoke(data: dict[str, Any], email: str = None, full_name: str = None) -> str:
-        users = data.get("users", {}).values()
-        if any(user.get("email") == email for user in users.values()):
-            payload = {"error": f"User with email '{email}' already exists."}
-            out = json.dumps(payload)
-            return out
-        new_id = max([u.get("user_id", 0) for u in users.values()]) + 1 if users else 101
-        new_user = {
-            "user_id": new_id,
-            "email": email,
-            "full_name": full_name,
-            "created_at": "2025-08-22T10:00:00Z",
-        }
-        data["users"][user_id] = new_user
-        payload = new_user
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "addUser",
+                "name": "add_user",
                 "description": "Adds a new user.",
                 "parameters": {
                     "type": "object",
@@ -1229,34 +1030,28 @@ class AddUser(Tool):
             },
         }
 
-
 class AddHousehold(Tool):
-    """Incorporates a new household."""
+    """Adds a new household."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        household_name = kwargs.get("household_name")
+        timezone = kwargs.get("timezone")
+        primary_user_id = kwargs.get("primary_user_id")
+        households = data.get("households", [])
+        new_id = max([h.get("household_id", 0) for h in households]) + 1 if households else 201
+        new_household = {
+            "household_id": new_id, "household_name": household_name,
+            "timezone": timezone, "primary_user_id": primary_user_id
+        }
+        data["households"].append(new_household)
+        return json.dumps(new_household)
 
     @staticmethod
-    def invoke(data: dict[str, Any], household_name: str = None, timezone: str = None, primary_user_id: int = None) -> str:
-        households = data.get("households", {}).values()
-        new_id = (
-            max([h.get("household_id", 0) for h in households.values()]) + 1
-            if households
-            else 201
-        )
-        new_household = {
-            "household_id": new_id,
-            "household_name": household_name,
-            "timezone": timezone,
-            "primary_user_id": primary_user_id,
-        }
-        data["households"][household_id] = new_household
-        payload = new_household
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "addHousehold",
+                "name": "add_household",
                 "description": "Adds a new household.",
                 "parameters": {
                     "type": "object",
@@ -1270,46 +1065,37 @@ class AddHousehold(Tool):
             },
         }
 
-
 class AddMember(Tool):
-    """Inserts a new member into a household."""
-
+    """Adds a new member to a household."""
     @staticmethod
-    def invoke(data: dict[str, Any], household_id: int = None, full_name: str = None, birthdate: str = None, is_child: bool = None) -> str:
-        members = data.get("members", {}).values()
-        new_id = max([m.get("member_id", 0) for m in members.values()]) + 1 if members else 301
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        household_id = kwargs.get("household_id")
+        full_name = kwargs.get("full_name")
+        birthdate = kwargs.get("birthdate")
+        is_child = kwargs.get("is_child")
+        members = data.get("members", [])
+        new_id = max([m.get("member_id", 0) for m in members]) + 1 if members else 301
         new_member = {
-            "member_id": new_id,
-            "household_id": household_id,
-            "full_name": full_name,
-            "birthdate": birthdate,
-            "is_child": is_child,
-            "activity_level": "medium",
-            "dietary_notes": "",
-            "allergies_json": ["none"],
-            "target_calories": 1400,
-            "target_protein": 35,
+            "member_id": new_id, "household_id": household_id, "full_name": full_name,
+            "birthdate": birthdate, "is_child": is_child, "activity_level": "medium",
+            "dietary_notes": "", "allergies_json": ["none"], "target_calories": 1400, "target_protein": 35
         }
         data["members"].append(new_member)
-        payload = new_member
-        out = json.dumps(payload)
-        return out
+        return json.dumps(new_member)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "addMember",
+                "name": "add_member",
                 "description": "Adds a new member to a household.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "household_id": {"type": "integer"},
                         "full_name": {"type": "string"},
-                        "birthdate": {
-                            "type": "string",
-                            "description": "YYYY-MM-DD format.",
-                        },
+                        "birthdate": {"type": "string", "description": "YYYY-MM-DD format."},
                         "is_child": {"type": "boolean"},
                     },
                     "required": ["household_id", "full_name", "birthdate", "is_child"],
@@ -1317,32 +1103,30 @@ class AddMember(Tool):
             },
         }
 
-
 class GetGroceryListsByHouseholdId(Tool):
-    """Fetches all shopping lists for a particular household ID."""
+    """Retrieves all grocery lists for a specific household ID."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], household_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        household_id = kwargs.get("household_id")
         if household_id is None:
-            payload = {"error": "household_id parameter is required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "household_id parameter is required."})
 
-        grocery_lists = data.get("grocery_lists", {}).values()
-
+        grocery_lists = data.get("grocery_lists", [])
+        
         matching_lists = [
-            glist
-            for glist in grocery_lists.values() if glist.get("household_id") == household_id
+            glist for glist in grocery_lists 
+            if glist.get("household_id") == household_id
         ]
-        payload = matching_lists
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps(matching_lists)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetGroceryListsByHouseholdId",
+                "name": "get_grocery_lists_by_household_id",
                 "description": "Retrieves all grocery lists for a specific household ID.",
                 "parameters": {
                     "type": "object",
@@ -1357,33 +1141,32 @@ class GetGroceryListsByHouseholdId(Tool):
             },
         }
 
-
 class GetMealHistoryByHouseholdAndDate(Tool):
-    """Obtains meal records for a specific household on a particular date."""
+    """Retrieves meal history for a specific household on a given date."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], household_id: str = None, plan_date: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        household_id = kwargs.get("household_id")
+        plan_date = kwargs.get("plan_date")
+
         if household_id is None or plan_date is None:
-            payload = {"error": "household_id and plan_date parameters are required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "household_id and plan_date parameters are required."})
 
-        meal_history = data.get("meal_history", {}).values()
-
+        meal_history = data.get("meal_history", [])
+        
         matching_history = [
-            entry
-            for entry in meal_history.values() if entry.get("household_id") == household_id
-            and entry.get("plan_date") == plan_date
+            entry for entry in meal_history 
+            if entry.get("household_id") == household_id and entry.get("plan_date") == plan_date
         ]
-        payload = matching_history
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps(matching_history)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetMealHistoryByHouseholdAndDate",
+                "name": "get_meal_history_by_household_and_date",
                 "description": "Retrieves meal history for a specific household on a given date.",
                 "parameters": {
                     "type": "object",
@@ -1395,7 +1178,7 @@ class GetMealHistoryByHouseholdAndDate(Tool):
                         "plan_date": {
                             "type": "string",
                             "description": "The date of the meal plan entry in YYYY-MM-DD format.",
-                        },
+                        }
                     },
                     "required": ["household_id", "plan_date"],
                 },
@@ -1404,39 +1187,29 @@ class GetMealHistoryByHouseholdAndDate(Tool):
 
 
 class RemoveItemFromGroceryList(Tool):
-    """Deletes an item from a grocery list using its item ID."""
-
+    """Removes an item from a grocery list by its item ID."""
     @staticmethod
-    def invoke(data: dict[str, Any], item_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        item_id = kwargs.get("item_id")
         if item_id is None:
-            payload = {"error": "item_id parameter is required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "item_id parameter is required."})
 
-        items = data.get("grocery_list_items", {}).values()
+        items = data.get("grocery_list_items", [])
         original_count = len(items)
-        # Exclude the item that has the corresponding ID
-        data["grocery_list_items"] = [
-            item for item in items.values() if item.get("item_id") != item_id
-        ]
+        # Filter out the item with the matching ID
+        data["grocery_list_items"] = [item for item in items if item.get("item_id") != item_id]
 
         if len(data["grocery_list_items"]) < original_count:
-            payload = {
-                "status": "success",
-                "message": f"Item {item_id} removed from grocery list.",
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"status": "success", "message": f"Item {item_id} removed from grocery list."})
         else:
-            payload = {"error": f"Item with ID '{item_id}' not found on any grocery list."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Item with ID '{item_id}' not found on any grocery list."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RemoveItemFromGroceryList",
+                "name": "remove_item_from_grocery_list",
                 "description": "Removes an item from a grocery list by its item ID.",
                 "parameters": {
                     "type": "object",
@@ -1451,49 +1224,41 @@ class RemoveItemFromGroceryList(Tool):
             },
         }
 
-
 class UpdateMealHistory(Tool):
-    """Modifies a record in the meal history, including its preparation status or rating."""
-
+    """Updates an entry in the meal history, such as its preparation status or rating."""
     @staticmethod
-    def invoke(data: dict[str, Any], history_id: str = None, was_prepared: bool = None, rating_int: int = None) -> str:
-        if history_id is None:
-            payload = {"error": "history_id parameter is required."}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        history_id = kwargs.get("history_id")
+        was_prepared = kwargs.get("was_prepared")
+        rating_int = kwargs.get("rating_int")
 
-        history = data.get("meal_history", {}).values()
-        for entry in history.values():
+        if history_id is None:
+            return json.dumps({"error": "history_id parameter is required."})
+
+        history = data.get("meal_history", [])
+        for entry in history:
             if entry.get("history_id") == history_id:
                 if was_prepared is not None:
                     entry["was_prepared"] = was_prepared
                 if rating_int is not None:
                     entry["rating_int"] = rating_int
-                payload = entry
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Meal history entry with ID '{history_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(entry)
+        
+        return json.dumps({"error": f"Meal history entry with ID '{history_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateMealHistory",
+                "name": "update_meal_history",
                 "description": "Updates an entry in the meal history, such as its preparation status or rating.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "history_id": {"type": "integer"},
-                        "was_prepared": {
-                            "type": "boolean",
-                            "description": "Set to true if the meal was prepared.",
-                        },
-                        "rating_int": {
-                            "type": "integer",
-                            "description": "Rating from 1 to 5, can be null.",
-                        },
+                        "was_prepared": {"type": "boolean", "description": "Set to true if the meal was prepared."},
+                        "rating_int": {"type": "integer", "description": "Rating from 1 to 5, can be null."},
                     },
                     "required": ["history_id"],
                 },
@@ -1502,31 +1267,31 @@ class UpdateMealHistory(Tool):
 
 
 class GetGroceryListItemsByListIdAndIngredientId(Tool):
-    """Fetches items from a specific grocery list that correspond to a particular ingredient ID."""
+    """Retrieves grocery list items from a specific list that match a given ingredient ID."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], list_id: str = None, ingredient_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        list_id = kwargs.get("list_id")
+        ingredient_id = kwargs.get("ingredient_id")
+
         if list_id is None or ingredient_id is None:
-            payload = {"error": "list_id and ingredient_id parameters are required."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "list_id and ingredient_id parameters are required."})
 
-        grocery_list_items = data.get("grocery_list_items", {}).values()
-
+        grocery_list_items = data.get("grocery_list_items", [])
+        
         matching_items = [
-            item
-            for item in grocery_list_items.values() if item.get("list_id") == list_id
-            and item.get("ingredient_id") == ingredient_id
+            item for item in grocery_list_items 
+            if item.get("list_id") == list_id and item.get("ingredient_id") == ingredient_id
         ]
-        payload = matching_items
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps(matching_items)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetGroceryListItemsByListIdAndIngredientId",
+                "name": "get_grocery_list_items_by_list_id_and_ingredient_id",
                 "description": "Retrieves grocery list items from a specific list that match a given ingredient ID.",
                 "parameters": {
                     "type": "object",
@@ -1538,13 +1303,12 @@ class GetGroceryListItemsByListIdAndIngredientId(Tool):
                         "ingredient_id": {
                             "type": "integer",
                             "description": "The unique ID of the ingredient to find on the list.",
-                        },
+                        }
                     },
                     "required": ["list_id", "ingredient_id"],
                 },
             },
         }
-
 
 TOOLS = [
     CreateMealPlan(),
@@ -1583,3 +1347,6 @@ TOOLS = [
     UpdateMealHistory(),
     GetGroceryListItemsByListIdAndIngredientId(),
 ]
+
+
+

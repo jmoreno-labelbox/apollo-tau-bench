@@ -1,111 +1,51 @@
+from domains.dto import Tool
+from typing import Any, Dict, List, Optional, Tuple
 import json
 import re
 from datetime import datetime, timedelta
-from typing import Any
 
-from tau_bench.envs.tool import Tool
-
-#A fixed timestamp for a consistent "now"
+# A hardcoded timestamp for deterministic "now"
 HARD_TS = "2024-08-15T12:00:00Z"
 
+# ----------------------------
+# Helpers
+# ----------------------------
+def _err(msg: str, code: str = "bad_request", **extra) -> str:
+    """Creates a JSON error message."""
+    out = {"error": msg, "code": code}
+    if extra:
+        out.update(extra)
+    return json.dumps(out, indent=2)
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db.values())
-    return db
-
-
-def _get_table(data: dict[str, Any], name: str) -> list[dict[str, Any]]:
-    """Get table from data and convert from dict to list if needed."""
-    table = data.get(name, [])
-    return _convert_db_to_list(table)
-
-
-def _get_hardcoded_template_and_render(
-    template_name: str, context: dict[str, Any]
-) -> dict[str, str]:
-    """Fetches a fixed template by name and renders it using the provided context."""
-    pass
-    templates = {
-        "welcome": {
-            "subject": "Welcome to the Team, {{candidate_name}}!",
-            "body": "Dear {{candidate_name}},\n\nWelcome to our team! We're thrilled to have you join us as our new {{role_title}} starting {{start_date}}.\n\nAttached you'll find your personalized welcome packet.\n\nPlease review these documents before your first day. If you have any questions, don't hesitate to reach out.\n\nBest regards,\nHR Team",
-        },
-        "asset_request_notification": {
-            "subject": "Asset Provisioning Request - {{candidate_name}}",
-            "body": "A new asset request has been submitted for {{candidate_name}}.\n\nUrgency: {{urgency_level}}\nSpecifications: {{specifications}}\n\nPlease review and process this request.",
-        },
-        "overdue_task_reminder": {
-            "subject": "Onboarding Reminder for {{name}}",
-            "body": "Hi {{name}},\n\nThis is a friendly reminder to complete the following overdue onboarding tasks:\n\n{{tasks}}\n\nThanks,\nHR Team",
-        },
-        "orientation_invitation": {
-            "subject": "Orientation Invitation for {{candidate_name}}",
-            "body": "Hi {{candidate_name}},\n\nPlease join us for your new hire orientation at {{meeting_time}} in {{meeting_location}}.\n\nWe look forward to seeing you there!",
-        },
-        "manager_introduction": {
-            "subject": "Introduction: {{candidate_name}}",
-            "body": "Hi {{manager_email_nullable}},\n\nThis is an introduction to your new team member, {{candidate_name}}, who will be starting on {{start_date}}.\n\nBest regards,\nHR Team",
-        },
-        "it_support_request": {
-            "subject": "URGENT: System Access Failure for {{candidate_name}}",
-            "body": "Hi IT Support,\n\nPlease investigate and resolve the following system access failures for candidate {{candidate_name}} ({{candidate_email}}):\n\n{{failure_notes}}\n\nThank you,\nHR Onboarding",
-        },
-        "manager_access_issue_notification": {
-            "subject": "Action Required: System Access Issues for {{candidate_name}}",
-            "body": "Hi {{manager_name}},\n\nThis is an alert that your new hire, {{candidate_name}}, is experiencing system access issues that may delay their onboarding. Our IT team has been notified.\n\nThanks,\nHR Onboarding",
-        },
-        "manager_overdue_escalation": {
-            "subject": "Escalation: Overdue Onboarding Tasks for {{candidate_name}}",
-            "body": "Hi {{manager_name}},\n\nThis is an escalation regarding overdue onboarding tasks for your new hire, {{candidate_name}}. Please follow up with them to ensure their onboarding stays on track.\n\nThanks,\nHR Onboarding",
-        },
-    }
-
-    template = templates.get(template_name)
-    if not template:
-        return {"subject": "", "body": ""}  #Return blank strings if the template is missing
-
-    subject = _render_template(template["subject"], context)
-    body = _render_template(template["body"], context)
-
-    return {"subject": subject, "body": body}
-
-
-def _as_int(x: Any) -> int | None:
-    """Converts a value to an integer in a safe manner."""
-    pass
+def _as_int(x: Any) -> Optional[int]:
+    """Safely converts a value to an integer."""
     try:
         return int(x)
     except (ValueError, TypeError):
         return None
 
-
 def _days_between(d1_str: str, d2_str: str) -> int:
-    """A reliable method to compute the number of days between two ISO date strings."""
-    pass
+    """A deterministic way to calculate days between two ISO date strings."""
     try:
-        #Expects ISO format with 'Z' indicating UTC
+        # Assumes ISO format with 'Z' for UTC
         d1 = datetime.fromisoformat(d1_str.replace("Z", "+00:00"))
         d2 = datetime.fromisoformat(d2_str.replace("Z", "+00:00"))
         return abs((d2 - d1).days)
     except (ValueError, TypeError):
-        return 9999  #Return a high value for formats that are invalid
+        return 9999  # Return a large number for invalid formats
 
+def _render_template(template_content: str, context: Dict[str, Any]) -> str:
+    """Performs simple string replacement on a template."""
+    for key, value in context.items():
+        template_content = template_content.replace(f"{{{{{key}}}}}", str(value))
+    return template_content
 
-def _get_email_template(
-    data: dict[str, Any], template_name: str
-) -> dict[str, str] | None:
-    """Fetches and interprets an email template from onboarding_files."""
-    pass
-    files = data.get("onboarding_files", {}).values()
-    #Presume a standard for template paths, such as /templates/emails/welcome.json
+def _get_email_template(data: Dict[str, Any], template_name: str) -> Optional[Dict[str, str]]:
+    """Retrieves and parses an email template from onboarding_files."""
+    files = data.get("onboarding_files", [])
+    # Assume a convention for template paths, e.g., /templates/emails/welcome.json
     template_path = f"/templates/emails/{template_name}.json"
-    template_file = next(
-        (f for f in files.values() if f.get("file_path") == template_path), None
-    )
+    template_file = next((f for f in files if f.get("file_path") == template_path), None)
 
     if not template_file:
         return None
@@ -115,52 +55,12 @@ def _get_email_template(
     except json.JSONDecodeError:
         return None
 
-
-def _next_str_id(rows: list[dict[str, Any]], key: str, prefix: str) -> str:
-    """Creates the subsequent string ID in a series (e.g., CAND-001)."""
-    pass
-    if not rows:
-        return f"{prefix}1"
-
-    max_id = 0
-    for r in rows:
-        id_val = r.get(key)
-        if id_val and isinstance(id_val, str) and id_val.startswith(prefix):
-            try:
-                num_part = int(id_val[len(prefix) :])
-                if num_part > max_id:
-                    max_id = num_part
-            except ValueError:
-                continue
-
-    return f"{prefix}{max_id + 1:03d}"
-
-
-#----------------------------
-#Utility functions
-#----------------------------
-def _err(msg: str, code: str = "bad_request", **extra) -> str:
-    """Generates a JSON formatted error message."""
-    pass
-    out = {"error": msg, "code": code}
-    if extra:
-        out.update(extra)
-    payload = out
-    out = json.dumps(payload, indent=2)
-    return out
-
-
-def _get_markdown_template(
-    data: dict[str, Any], template_name: str
-) -> dict[str, str] | None:
-    """Fetches and interprets a markdown email template from onboarding_files."""
-    pass
-    files = data.get("onboarding_files", {}).values()
-    #Fix the path for markdown templates
+def _get_markdown_template(data: Dict[str, Any], template_name: str) -> Optional[Dict[str, str]]:
+    """Retrieves and parses a markdown email template from onboarding_files."""
+    files = data.get("onboarding_files", [])
+    # Correct path for markdown templates
     template_path = f"/onboarding/templates/{template_name}.md"
-    template_file = next(
-        (f for f in files.values() if f.get("file_path") == template_path), None
-    )
+    template_file = next((f for f in files if f.get("file_path") == template_path), None)
 
     if not template_file:
         return None
@@ -169,40 +69,95 @@ def _get_markdown_template(
     if not content:
         return {"subject": "", "body": ""}
 
-    #Consider the first line as the subject and the remainder as the body
+    # Assume first line is subject, rest is body
     lines = content.splitlines()
     subject = lines[0].strip()
     body = "\n".join(lines[1:]).strip()
     return {"subject": subject, "body": body}
 
-
-def _generate_new_thread_id(emails: list[dict[str, Any]]) -> str:
-    """Creates a new sequential identifier for threads."""
-    pass
+def _generate_new_thread_id(emails: List[Dict[str, Any]]) -> str:
+    """Generates a new sequential thread ID."""
     max_id = 0
-    for email in emails.values():
+    for email in emails:
         thread_id = email.get("thread_id_nullable")
         if thread_id and thread_id.startswith("thread_"):
             try:
-                num_part = int(thread_id.split("_")[1])
+                num_part = int(thread_id.split('_')[1])
                 if num_part > max_id:
                     max_id = num_part
             except (ValueError, IndexError):
                 continue
     return f"thread_{max_id + 1}"
 
+def _next_str_id(rows: List[Dict[str, Any]], key: str, prefix: str) -> str:
+    """Generates the next string ID in a sequence (e.g., CAND-001)."""
+    if not rows:
+        return f"{prefix}1"
 
-def _render_template(template_content: str, context: dict[str, Any]) -> str:
-    """Executes basic string substitution on a template."""
-    pass
-    for key, value in context.items():
-        template_content = template_content.replace(f"{{{{{key}}}}}", str(value))
-    return template_content
+    max_id = 0
+    for r in rows:
+        id_val = r.get(key)
+        if id_val and isinstance(id_val, str) and id_val.startswith(prefix):
+            try:
+                num_part = int(id_val[len(prefix):])
+                if num_part > max_id:
+                    max_id = num_part
+            except ValueError:
+                continue
 
+    return f"{prefix}{max_id + 1:03d}"
 
-#============================================================
-#Centralized configurations based on roles
-#============================================================
+def _get_hardcoded_template_and_render(template_name: str, context: Dict[str, Any]) -> Dict[str, str]:
+    """
+    Retrieves a hardcoded template by name and renders it with the given context.
+    """
+    templates = {
+        "welcome": {
+            "subject": "Welcome to the Team, {{candidate_name}}!",
+            "body": "Dear {{candidate_name}},\n\nWelcome to our team! We're thrilled to have you join us as our new {{role_title}} starting {{start_date}}.\n\nAttached you'll find your personalized welcome packet.\n\nPlease review these documents before your first day. If you have any questions, don't hesitate to reach out.\n\nBest regards,\nHR Team"
+        },
+        "asset_request_notification": {
+            "subject": "Asset Provisioning Request - {{candidate_name}}",
+            "body": "A new asset request has been submitted for {{candidate_name}}.\n\nUrgency: {{urgency_level}}\nSpecifications: {{specifications}}\n\nPlease review and process this request."
+        },
+        "overdue_task_reminder": {
+            "subject": "Onboarding Reminder for {{name}}",
+            "body": "Hi {{name}},\n\nThis is a friendly reminder to complete the following overdue onboarding tasks:\n\n{{tasks}}\n\nThanks,\nHR Team"
+        },
+        "orientation_invitation": {
+            "subject": "Orientation Invitation for {{candidate_name}}",
+            "body": "Hi {{candidate_name}},\n\nPlease join us for your new hire orientation at {{meeting_time}} in {{meeting_location}}.\n\nWe look forward to seeing you there!"
+        },
+        "manager_introduction": {
+            "subject": "Introduction: {{candidate_name}}",
+            "body": "Hi {{manager_email_nullable}},\n\nThis is an introduction to your new team member, {{candidate_name}}, who will be starting on {{start_date}}.\n\nBest regards,\nHR Team"
+        },
+        "it_support_request": {
+            "subject": "URGENT: System Access Failure for {{candidate_name}}",
+            "body": "Hi IT Support,\n\nPlease investigate and resolve the following system access failures for candidate {{candidate_name}} ({{candidate_email}}):\n\n{{failure_notes}}\n\nThank you,\nHR Onboarding"
+        },
+        "manager_access_issue_notification": {
+            "subject": "Action Required: System Access Issues for {{candidate_name}}",
+            "body": "Hi {{manager_name}},\n\nThis is an alert that your new hire, {{candidate_name}}, is experiencing system access issues that may delay their onboarding. Our IT team has been notified.\n\nThanks,\nHR Onboarding"
+        },
+        "manager_overdue_escalation": {
+            "subject": "Escalation: Overdue Onboarding Tasks for {{candidate_name}}",
+            "body": "Hi {{manager_name}},\n\nThis is an escalation regarding overdue onboarding tasks for your new hire, {{candidate_name}}. Please follow up with them to ensure their onboarding stays on track.\n\nThanks,\nHR Onboarding"
+        }
+    }
+
+    template = templates.get(template_name)
+    if not template:
+        return {"subject": "", "body": ""} # Return empty strings if template not found
+
+    subject = _render_template(template["subject"], context)
+    body = _render_template(template["body"], context)
+
+    return {"subject": subject, "body": body}
+
+# ============================================================
+# Centralized Role-Based Configurations
+# ============================================================
 
 ROLE_SYSTEMS_MAP = {
     "Software Engineer": ["GitHub", "VPN", "AWS Console"],
@@ -341,121 +296,81 @@ ROLE_ASSET_DEFAULTS_MAP = {
     },
 }
 
-
-#============================================================
-#1. retrieve_candidate_with_complete_context
-#============================================================
+# ============================================================
+# 1. get_candidate_with_full_context
+# ============================================================
 class GetCandidateWithFullContextTool(Tool):
-    """Fetches candidate record along with all associated emails, asset requests, checklist items, and access checks for a complete overview."""
+    """Retrieves candidate record with all linked emails, asset requests, checklist items, and access checks for comprehensive view."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
         if not candidate_id:
             return _err("candidate_id is required")
 
-        candidates = data.get("candidates", {}).values()
-        candidate = next(
-            (c for c in candidates.values() if str(c.get("candidate_id")) == str(candidate_id)),
-            None,
-        )
+        candidates = data.get("candidates", [])
+        candidate = next((c for c in candidates if str(c.get("candidate_id")) == str(candidate_id)), None)
 
         if not candidate:
-            return _err(
-                f"Candidate with id '{candidate_id}' not found", code="not_found"
-            )
+            return _err(f"Candidate with id '{candidate_id}' not found", code="not_found")
 
         result = {
             "candidate": candidate,
-            "emails": [
-                e
-                for e in data.get("emails", {}).values()
-                if str(e.get("candidate_id_nullable")) == str(candidate_id)
-            ],
-            "asset_requests": [
-                ar
-                for ar in data.get("asset_requests", {}).values()
-                if str(ar.get("candidate_id")) == str(candidate_id)
-            ],
-            "checklist_items": [
-                ci
-                for ci in data.get("checklist_items", {}).values()
-                if str(ci.get("candidate_id")) == str(candidate_id)
-            ],
-            "access_checks": [
-                ac
-                for ac in data.get("access_checks", {}).values()
-                if str(ac.get("candidate_id")) == str(candidate_id)
-            ],
+            "emails": [e for e in data.get("emails", []) if str(e.get("candidate_id_nullable")) == str(candidate_id)],
+            "asset_requests": [ar for ar in data.get("asset_requests", []) if str(ar.get("candidate_id")) == str(candidate_id)],
+            "checklist_items": [ci for ci in data.get("checklist_items", []) if str(ci.get("candidate_id")) == str(candidate_id)],
+            "access_checks": [ac for ac in data.get("access_checks", []) if str(ac.get("candidate_id")) == str(candidate_id)],
         }
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(result, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCandidateWithFullContext",
+                "name": "get_candidate_with_full_context",
                 "description": "Retrieves candidate record with all linked emails, asset requests, checklist items, and access checks for comprehensive view.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "candidate_id": {
-                            "type": "string",
-                            "description": "Target candidate identifier",
-                        }
+                        "candidate_id": {"type": "string", "description": "Target candidate identifier"}
                     },
                     "required": ["candidate_id"],
                 },
             },
         }
 
-
-#============================================================
-#2. locate_candidates_based_on_onboarding_status
-#============================================================
+# ============================================================
+# 2. find_candidates_by_onboarding_status
+# ============================================================
 class FindCandidatesByOnboardingStatusTool(Tool):
-    """Searches the candidates table based on status, optionally incorporating date ranges and related record counts."""
+    """Queries candidates table filtering by status, optionally including date ranges and related record counts."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        onboarding_status: str, 
-        start_date_after: str = None, 
-        include_record_counts: bool = False
-    ) -> str:
-        if not onboarding_status:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        status = kwargs.get("onboarding_status")
+        start_date_after = kwargs.get("start_date_after")
+        include_counts = kwargs.get("include_record_counts", False)
+
+        if not status:
             return _err("onboarding_status is required")
 
-        valid_statuses = {
-            "Started",
-            "Packet Sent",
-            "Access Issues",
-            "Asset Pending",
-            "Onboarded",
-        }
-        if onboarding_status not in valid_statuses:
-            return _err(
-                f"Invalid onboarding_status '{onboarding_status}'. Valid statuses are: {sorted(list(valid_statuses))}"
-            )
+        valid_statuses = {"Started", "Packet Sent", "Access Issues", "Asset Pending", "Onboarded"}
+        if status not in valid_statuses:
+            return _err(f"Invalid onboarding_status '{status}'. Valid statuses are: {sorted(list(valid_statuses))}")
 
-        candidates = data.get("candidates", {}).values()
+        candidates = data.get("candidates", [])
 
-        # Filter based on status
-        filtered_candidates = [
-            c for c in candidates.values() if c.get("onboarding_status") == onboarding_status
-        ]
+        # Filter by status
+        filtered_candidates = [c for c in candidates if c.get("onboarding_status") == status]
 
-        # Filter according to start date
+        # Filter by start date
         if start_date_after:
             try:
-                # Check the format of the date
+                # Validate date format
                 datetime.fromisoformat(start_date_after)
-                filtered_candidates = [
-                    c
-                    for c in filtered_candidates
-                    if (c.get("start_date") or "0000-00-00") > start_date_after
-                ]
+                filtered_candidates = [c for c in filtered_candidates if (c.get("start_date") or "0000-00-00") > start_date_after]
             except ValueError:
                 return _err("Invalid start_date_after format. Please use YYYY-MM-DD.")
 
@@ -466,86 +381,64 @@ class FindCandidatesByOnboardingStatusTool(Tool):
                 continue
 
             result_candidate = candidate.copy()
-            if include_record_counts:
+            if include_counts:
                 cid_str = str(candidate_id)
                 result_candidate["record_counts"] = {
-                    "emails": len(
-                        [
-                            e
-                            for e in data.get("emails", {}).values()
-                            if str(e.get("candidate_id_nullable")) == cid_str
-                        ]
-                    ),
-                    "asset_requests": len(
-                        [
-                            ar
-                            for ar in data.get("asset_requests", {}).values()
-                            if str(ar.get("candidate_id")) == cid_str
-                        ]
-                    ),
-                    "checklist_items": len(
-                        [
-                            ci
-                            for ci in data.get("checklist_items", {}).values()
-                            if str(ci.get("candidate_id")) == cid_str
-                        ]
-                    ),
-                    "access_checks": len(
-                        [
-                            ac
-                            for ac in data.get("access_checks", {}).values()
-                            if str(ac.get("candidate_id")) == cid_str
-                        ]
-                    ),
+                    "emails": len([e for e in data.get("emails", []) if str(e.get("candidate_id_nullable")) == cid_str]),
+                    "asset_requests": len([ar for ar in data.get("asset_requests", []) if str(ar.get("candidate_id")) == cid_str]),
+                    "checklist_items": len([ci for ci in data.get("checklist_items", []) if str(ci.get("candidate_id")) == cid_str]),
+                    "access_checks": len([ac for ac in data.get("access_checks", []) if str(ac.get("candidate_id")) == cid_str]),
                 }
             results.append(result_candidate)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindCandidatesByOnboardingStatus",
+                "name": "find_candidates_by_onboarding_status",
                 "description": "Queries candidates table filtering by status, optionally including date ranges and related record counts.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "onboarding_status": {
                             "type": "string",
-                            "description": "Status to filter ('Started', 'Packet Sent', 'Access Issues', 'Asset Pending', 'Onboarded')",
+                            "description": "Status to filter ('Started', 'Packet Sent', 'Access Issues', 'Asset Pending', 'Onboarded')"
                         },
                         "start_date_after": {
                             "type": "string",
-                            "description": "Filter candidates starting after date (YYYY-MM-DD)",
+                            "description": "Filter candidates starting after date (YYYY-MM-DD)"
                         },
                         "include_record_counts": {
                             "type": "boolean",
-                            "description": "Include counts of related emails/tasks/assets",
-                        },
+                            "description": "Include counts of related emails/tasks/assets"
+                        }
                     },
                     "required": ["onboarding_status"],
                 },
             },
         }
 
-
-#============================================================
-#3. retrieve_overdue_checklist_items
-#============================================================
+# ============================================================
+# 3. get_overdue_checklist_items
+# ============================================================
 class GetOverdueChecklistItemsTool(Tool):
-    """Searches checklist_items for overdue tasks, organized by candidate and task priority."""
+    """Queries checklist_items for tasks past due date, grouped by candidate and task priority."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str = None, days_overdue_threshold: int = 0) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
+        days_overdue_threshold = _as_int(kwargs.get("days_overdue_threshold", 0))
+
         if days_overdue_threshold is None:
             return _err("days_overdue_threshold must be an integer.")
 
-        checklist_items = data.get("checklist_items", {}).values()
+        checklist_items = data.get("checklist_items", [])
 
         overdue_items = []
-        for item in checklist_items.values():
+        for item in checklist_items:
             due_date = item.get("due_date")
             if not due_date or item.get("status") == "Completed":
                 continue
@@ -558,133 +451,108 @@ class GetOverdueChecklistItemsTool(Tool):
                     item_copy["days_overdue"] = days_overdue
                     overdue_items.append(item_copy)
 
-        # Organize by candidate
+        # Group by candidate
         grouped_results = {}
         for item in overdue_items:
             cid = item.get("candidate_id")
             if cid not in grouped_results:
                 grouped_results[cid] = []
             grouped_results[cid].append(item)
-        payload = grouped_results
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(grouped_results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetOverdueChecklistItems",
+                "name": "get_overdue_checklist_items",
                 "description": "Queries checklist_items for tasks past due date, grouped by candidate and task priority.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "candidate_id": {
-                            "type": "string",
-                            "description": "Specific candidate or null for all candidates",
-                        },
-                        "days_overdue_threshold": {
-                            "type": "integer",
-                            "description": "Minimum days past due date",
-                        },
+                        "candidate_id": {"type": "string", "description": "Specific candidate or null for all candidates"},
+                        "days_overdue_threshold": {"type": "integer", "description": "Minimum days past due date"}
                     },
                     "required": ["days_overdue_threshold"],
                 },
             },
         }
 
-
-#============================================================
-#4. assess_email_communication_gaps
-#============================================================
+# ============================================================
+# 4. check_email_communication_gaps
+# ============================================================
 class CheckEmailCommunicationGapsTool(Tool):
-    """Examines the emails table to find candidates lacking anticipated communications (welcome, orientation, reminders)."""
+    """Analyzes emails table to identify candidates missing expected communications (welcome, orientation, reminders)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str = None, expected_email_types: list = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
+        expected_email_types = kwargs.get("expected_email_types")
+
         if not expected_email_types or not isinstance(expected_email_types, list):
             return _err("expected_email_types (array) is required")
 
         candidates_to_check = []
         if candidate_id:
-            candidate = next(
-                (
-                    c
-                    for c in data.get("candidates", {}).values()
-                    if str(c.get("candidate_id")) == str(candidate_id)
-                ),
-                None,
-            )
+            candidate = next((c for c in data.get("candidates", []) if str(c.get("candidate_id")) == str(candidate_id)), None)
             if not candidate:
                 return _err(f"Candidate '{candidate_id}' not found", code="not_found")
-            _get_table(data, "candidates")[candidate_id] = candidate
+            candidates_to_check.append(candidate)
         else:
-            candidates_to_check = data.get("candidates", {}).values()
+            candidates_to_check = data.get("candidates", [])
 
-        emails = data.get("emails", {}).values()
+        emails = data.get("emails", [])
         results = []
-        for candidate in candidates_to_check.values():
+        for candidate in candidates_to_check:
             cid = str(candidate.get("candidate_id"))
-            candidate_emails = [
-                e for e in emails.values() if str(e.get("candidate_id_nullable")) == cid
-            ]
+            candidate_emails = [e for e in emails if str(e.get("candidate_id_nullable")) == cid]
 
-            sent_email_subjects = [
-                str(e.get("subject", "")).lower() for e in candidate_emails
-            ]
+            sent_email_subjects = [str(e.get("subject", "")).lower() for e in candidate_emails]
 
             missing_types = []
             for email_type in expected_email_types:
-                if not any(
-                    email_type.lower().replace("_", " ") in subject
-                    for subject in sent_email_subjects
-                ):
+                if not any(email_type.lower().replace("_", " ") in subject for subject in sent_email_subjects):
                     missing_types.append(email_type)
 
             if missing_types:
-                results.append(
-                    {
-                        "candidate_id": cid,
-                        "candidate_name": candidate.get("candidate_name"),
-                        "missing_email_types": missing_types,
-                    }
-                )
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+                results.append({
+                    "candidate_id": cid,
+                    "candidate_name": candidate.get("candidate_name"),
+                    "missing_email_types": missing_types
+                })
+
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CheckEmailCommunicationGaps",
+                "name": "check_email_communication_gaps",
                 "description": "Analyzes emails table to identify candidates missing expected communications (welcome, orientation, reminders).",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "candidate_id": {
-                            "type": "string",
-                            "description": "Specific candidate or null for all",
-                        },
-                        "expected_email_types": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "Email types to verify presence of",
-                        },
+                        "candidate_id": {"type": "string", "description": "Specific candidate or null for all"},
+                        "expected_email_types": {"type": "array", "items": {"type": "string"}, "description": "Email types to verify presence of"}
                     },
                     "required": ["expected_email_types"],
                 },
             },
         }
 
-
-#============================================================
-#5. search_available_assets_by_type
-#============================================================
+# ============================================================
+# 5. query_available_assets_by_type
+# ============================================================
 class QueryAvailableAssetsByTypeTool(Tool):
-    """Looks through the inventory_assets table for available assets that meet specifications, along with their assignment status."""
+    """Searches inventory_assets table for available assets matching specifications, with assignment status."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], asset_type: str = None, status_filter: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        asset_type = kwargs.get("asset_type")
+        status_filter = kwargs.get("status_filter")
+
         if not asset_type:
             return _err("asset_type is required")
         if not status_filter:
@@ -692,81 +560,66 @@ class QueryAvailableAssetsByTypeTool(Tool):
 
         valid_statuses = {"Available", "Reserved", "Assigned", "In Repair"}
         if status_filter not in valid_statuses:
-            return _err(
-                f"Invalid status_filter. Valid statuses are: {sorted(list(valid_statuses))}"
-            )
+            return _err(f"Invalid status_filter. Valid statuses are: {sorted(list(valid_statuses))}")
 
-        assets = data.get("inventory_assets", {}).values()
+        assets = data.get("inventory_assets", [])
 
         matching_assets = [
-            asset
-            for asset in assets.values() if asset.get("asset_type") == asset_type
-            and asset.get("status") == status_filter
+            asset for asset in assets
+            if asset.get("asset_type") == asset_type and asset.get("status") == status_filter
         ]
-        payload = matching_assets
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(matching_assets, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "QueryAvailableAssetsByType",
+                "name": "query_available_assets_by_type",
                 "description": "Searches inventory_assets table for available assets matching specifications, with assignment status.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "asset_type": {
-                            "type": "string",
-                            "description": "Equipment type needed ('Laptop', 'Phone', 'Monitor', etc.)",
-                        },
-                        "status_filter": {
-                            "type": "string",
-                            "description": "Asset status ('Available', 'Reserved', 'Assigned', 'In Repair')",
-                        },
+                        "asset_type": {"type": "string", "description": "Equipment type needed ('Laptop', 'Phone', 'Monitor', etc.)"},
+                        "status_filter": {"type": "string", "description": "Asset status ('Available', 'Reserved', 'Assigned', 'In Repair')"}
                     },
                     "required": ["asset_type", "status_filter"],
                 },
             },
         }
 
-
-#============================================================
-#6. retrieve_pending_asset_requests
-#============================================================
+# ============================================================
+# 6. get_pending_asset_requests
+# ============================================================
 class GetPendingAssetRequestsTool(Tool):
-    """Fetches asset_requests along with status analysis and associated candidate information for planning fulfillment."""
+    """Retrieves asset_requests with status analysis and linked candidate information for fulfillment planning."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], status_filter: str = None, role_filter: str = None,
-    candidate_id: Any = None,
-    ) -> str:
-        asset_requests = data.get("asset_requests", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        status_filter = kwargs.get("status_filter")
+        role_filter = kwargs.get("candidate_role_filter")
 
-        # Implement status filter
+        asset_requests = data.get("asset_requests", [])
+
+        # Apply status filter
         if status_filter:
             valid_statuses = {"Pending", "Sent", "Reserved", "Completed"}
             if status_filter not in valid_statuses:
-                return _err(
-                    f"Invalid status_filter. Valid statuses are: {sorted(list(valid_statuses))}"
-                )
-            asset_requests = [
-                r for r in asset_requests.values() if r.get("status") == status_filter
-            ]
+                 return _err(f"Invalid status_filter. Valid statuses are: {sorted(list(valid_statuses))}")
+            asset_requests = [r for r in asset_requests if r.get("status") == status_filter]
 
         results = []
-        candidates_map = {
-            str(c.get("candidate_id")): c for c in data.get("candidates", {}).values()
-        }
+        candidates_map = {str(c.get("candidate_id")): c for c in data.get("candidates", [])}
 
-        for request in asset_requests.values():
+        for request in asset_requests:
             candidate_id = str(request.get("candidate_id"))
             candidate = candidates_map.get(candidate_id)
 
             if not candidate:
                 continue
 
-            # Implement role filter
+            # Apply role filter
             if role_filter and candidate.get("role_title") != role_filter:
                 continue
 
@@ -775,58 +628,52 @@ class GetPendingAssetRequestsTool(Tool):
                 "candidate_id": candidate_id,
                 "candidate_name": candidate.get("candidate_name"),
                 "role_title": candidate.get("role_title"),
-                "start_date": candidate.get("start_date"),
+                "start_date": candidate.get("start_date")
             }
             results.append(request_copy)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPendingAssetRequests",
+                "name": "get_pending_asset_requests",
                 "description": "Retrieves asset_requests with status analysis and linked candidate information for fulfillment planning.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "status_filter": {
-                            "type": "string",
-                            "description": "Request status ('Pending', 'Sent', 'Reserved', 'Completed')",
-                        },
-                        "candidate_role_filter": {
-                            "type": "string",
-                            "description": "Filter by candidate role",
-                        },
+                        "status_filter": {"type": "string", "description": "Request status ('Pending', 'Sent', 'Reserved', 'Completed')"},
+                        "candidate_role_filter": {"type": "string", "description": "Filter by candidate role"}
                     },
                     "required": [],
                 },
             },
         }
 
-
-#============================================================
-#7. evaluate_system_access_failures
-#============================================================
+# ============================================================
+# 7. analyze_system_access_failures
+# ============================================================
 class AnalyzeSystemAccessFailuresTool(Tool):
-    """Searches the access_checks table for unsuccessful verifications, organized by system and failure patterns."""
+    """Queries access_checks table for failed verifications, grouped by system and failure patterns."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str = None, system_name: str = None) -> str:
-        access_checks = data.get("access_checks", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
+        system_name = kwargs.get("system_name")
 
-        failures = [check for check in access_checks.values() if check.get("status") == "Failed"]
+        access_checks = data.get("access_checks", [])
+
+        failures = [check for check in access_checks if check.get("status") == "Failed"]
 
         if candidate_id:
-            failures = [
-                f for f in failures if str(f.get("candidate_id")) == str(candidate_id)
-            ]
+            failures = [f for f in failures if str(f.get("candidate_id")) == str(candidate_id)]
 
         if system_name:
-            failures = [f for f in failures.values() if f.get("system_name") == system_name]
+            failures = [f for f in failures if f.get("system_name") == system_name]
 
-        # Organize by system
+        # Group by system
         analysis = {}
         for f in failures:
             sys_name = f.get("system_name")
@@ -834,7 +681,7 @@ class AnalyzeSystemAccessFailuresTool(Tool):
                 analysis[sys_name] = {
                     "total_failures": 0,
                     "candidates_affected": set(),
-                    "failure_notes": [],
+                    "failure_notes": []
                 }
 
             analysis[sys_name]["total_failures"] += 1
@@ -842,58 +689,47 @@ class AnalyzeSystemAccessFailuresTool(Tool):
             if f.get("note_nullable"):
                 analysis[sys_name]["failure_notes"].append(f.get("note_nullable"))
 
-        # Transform set into list for JSON serialization
+        # Convert set to list for JSON serialization
         for sys_name in analysis:
-            analysis[sys_name]["candidates_affected"] = list(
-                analysis[sys_name]["candidates_affected"]
-            )
-            analysis[sys_name]["affected_candidate_count"] = len(
-                analysis[sys_name]["candidates_affected"]
-            )
-        payload = analysis
-        out = json.dumps(payload, indent=2)
-        return out
+            analysis[sys_name]["candidates_affected"] = list(analysis[sys_name]["candidates_affected"])
+            analysis[sys_name]["affected_candidate_count"] = len(analysis[sys_name]["candidates_affected"])
+
+        return json.dumps(analysis, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AnalyzeSystemAccessFailures",
+                "name": "analyze_system_access_failures",
                 "description": "Queries access_checks table for failed verifications, grouped by system and failure patterns.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "candidate_id": {
-                            "type": "string",
-                            "description": "Specific candidate or null for system-wide analysis",
-                        },
-                        "system_name": {
-                            "type": "string",
-                            "description": "Specific system to analyze",
-                        },
+                        "candidate_id": {"type": "string", "description": "Specific candidate or null for system-wide analysis"},
+                        "system_name": {"type": "string", "description": "Specific system to analyze"}
                     },
                     "required": [],
                 },
             },
         }
 
-
-#============================================================
-#8. retrieve_draft_emails_needing_action
-#============================================================
+# ============================================================
+# 8. get_draft_emails_requiring_action
+# ============================================================
 class GetDraftEmailsRequiringActionTool(Tool):
-    """Searches the emails table for draft messages requiring completion and dispatch, along with aging analysis."""
+    """Queries emails table for draft messages that need completion and sending, with aging analysis."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], draft_age_days: int = None, candidate_filter: str = None) -> str:
-        pass
-        draft_age_days = _as_int(draft_age_days)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        draft_age_days = _as_int(kwargs.get("draft_age_days"))
+        candidate_filter = kwargs.get("candidate_filter")
 
         if draft_age_days is None:
             return _err("draft_age_days (integer) is required")
 
-        emails = data.get("emails", {}).values()
-        drafts = [e for e in emails.values() if e.get("draft_flag") == True]
+        emails = data.get("emails", [])
+        drafts = [e for e in emails if e.get("draft_flag") == True]
 
         results = []
         for draft in drafts:
@@ -903,275 +739,247 @@ class GetDraftEmailsRequiringActionTool(Tool):
 
             age = _days_between(created_at, HARD_TS)
             if age >= draft_age_days:
-                if candidate_filter is None or str(
-                    draft.get("candidate_id_nullable")
-                ) == str(candidate_filter):
+                if candidate_filter is None or str(draft.get("candidate_id_nullable")) == str(candidate_filter):
                     draft_copy = draft.copy()
                     draft_copy["age_days"] = age
                     results.append(draft_copy)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getDraftEmailsRequiringAction",
+                "name": "get_draft_emails_requiring_action",
                 "description": "Queries emails table for draft messages that need completion and sending, with aging analysis.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "draft_age_days": {
-                            "type": "integer",
-                            "description": "Minimum age of drafts to include",
-                        },
-                        "candidate_filter": {
-                            "type": "string",
-                            "description": "Filter to specific candidate",
-                        },
+                        "draft_age_days": {"type": "integer", "description": "Minimum age of drafts to include"},
+                        "candidate_filter": {"type": "string", "description": "Filter to specific candidate"}
                     },
                     "required": ["draft_age_days"],
                 },
             },
         }
 
-
-#============================================================
-#9. locate_template_files_by_type
-#============================================================
+# ============================================================
+# 9. find_template_files_by_type
+# ============================================================
 class FindTemplateFilesByTypeTool(Tool):
-    """Looks through the onboarding_files table for accessible templates, filtering by content type and last updated date."""
+    """Searches onboarding_files table for available templates, filtering by content type and last update."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], template_category: str = None, mime_type: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        template_category = kwargs.get("template_category")
+        mime_type = kwargs.get("mime_type")
+
         if not template_category:
             return _err("template_category is required")
 
-        files = data.get("onboarding_files", {}).values()
+        files = data.get("onboarding_files", [])
 
-        # Templates are recognized by their path.
+        # Templates are identified by their path.
         templates = [
-            f
-            for f in files.values() if f"/templates/{template_category}/" in f.get("file_path", "")
+            f for f in files
+            if f"/templates/{template_category}/" in f.get("file_path", "")
         ]
 
         if mime_type:
-            templates = [t for t in templates.values() if t.get("mime_type") == mime_type]
-        payload = templates
-        out = json.dumps(payload, indent=2)
-        return out
+            templates = [t for t in templates if t.get("mime_type") == mime_type]
+
+        return json.dumps(templates, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "findTemplateFilesByType",
+                "name": "find_template_files_by_type",
                 "description": "Searches onboarding_files table for available templates, filtering by content type and last update.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "template_category": {
-                            "type": "string",
-                            "description": "Template type needed ('welcome', 'asset_request', 'reminder')",
-                        },
-                        "mime_type": {
-                            "type": "string",
-                            "description": "File format filter",
-                        },
+                        "template_category": {"type": "string", "description": "Template type needed ('welcome', 'asset_request', 'reminder')"},
+                        "mime_type": {"type": "string", "description": "File format filter"}
                     },
                     "required": ["template_category"],
                 },
             },
         }
 
-
-#============================================================
-#10. retrieve_candidates_requiring_orientation_scheduling
-#============================================================
+# ============================================================
+# 10. get_candidates_needing_orientation_scheduling
+# ============================================================
 class GetCandidatesNeedingOrientationSchedulingTool(Tool):
-    """Recognizes candidates prepared for orientation based on their status, access checks, and absent invitation timestamps."""
+    """Identifies candidates ready for orientation based on status, access checks, and missing invitation timestamps."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], days_until_start: int = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        days_until_start = _as_int(kwargs.get("days_until_start"))
         if days_until_start is None:
             return _err("days_until_start (integer) is required")
 
-        candidates = data.get("candidates", {}).values()
-        access_checks = data.get("access_checks", {}).values()
-        emails = data.get("emails", {}).values()
+        candidates = data.get("candidates", [])
+        access_checks = data.get("access_checks", [])
+        emails = data.get("emails", [])
 
         ready_candidates = []
-        for candidate in candidates.values():
+        for candidate in candidates:
             start_date = candidate.get("start_date")
             cid = str(candidate.get("candidate_id"))
 
             if not start_date:
                 continue
 
-            # Verify days remaining until start
-            if _days_between(HARD_TS.split("T")[0], start_date) > days_until_start:
+            # Check days until start
+            if _days_between(HARD_TS.split('T')[0], start_date) > days_until_start:
                 continue
 
-            # Examine status (assuming 'Asset Pending' or 'Packet Sent' indicate readiness)
-            if candidate.get("onboarding_status") not in [
-                "Asset Pending",
-                "Packet Sent",
-                "Started",
-            ]:
+            # Check status (assuming 'Asset Pending' or 'Packet Sent' are ready states)
+            if candidate.get("onboarding_status") not in ["Asset Pending", "Packet Sent", "Started"]:
+                 continue
+
+            # Check access checks
+            candidate_access_checks = [ac for ac in access_checks if str(ac.get("candidate_id")) == cid]
+            if not candidate_access_checks or any(ac.get("status") == "Failed" for ac in candidate_access_checks):
                 continue
 
-            # Review access checks
-            candidate_access_checks = [
-                ac for ac in access_checks.values() if str(ac.get("candidate_id")) == cid
-            ]
-            if not candidate_access_checks or any(
-                ac.get("status") == "Failed" for ac in candidate_access_checks
-            ):
-                continue
-
-            # Look for an existing orientation invitation by examining the subject
+            # Check for existing orientation invitation by searching subject
             has_invitation = any(
                 "orientation invitation" in str(e.get("subject", "")).lower()
-                for e in emails.values() if str(e.get("candidate_id_nullable")) == cid
+                for e in emails
+                if str(e.get("candidate_id_nullable")) == cid
             )
             if has_invitation:
                 continue
 
             candidate_copy = candidate.copy()
-            # Basic priority scoring
-            priority_score = 100 - _days_between(HARD_TS.split("T")[0], start_date)
+            # Simple priority scoring
+            priority_score = 100 - _days_between(HARD_TS.split('T')[0], start_date)
             candidate_copy["scheduling_priority_score"] = priority_score
-            ready__get_table(data, "candidates")[candidate_id] = candidate_copy
+            ready_candidates.append(candidate_copy)
 
-        ready_candidates.sort(
-            key=lambda x: x["scheduling_priority_score"], reverse=True
-        )
-        payload = ready_candidates
-        out = json.dumps(payload, indent=2)
-        return out
+        ready_candidates.sort(key=lambda x: x["scheduling_priority_score"], reverse=True)
+
+        return json.dumps(ready_candidates, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCandidatesNeedingOrientationScheduling",
+                "name": "get_candidates_needing_orientation_scheduling",
                 "description": "Identifies candidates ready for orientation based on status, access checks, and missing invitation timestamps.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "days_until_start": {
-                            "type": "integer",
-                            "description": "How many days before start date to schedule",
-                        }
+                        "days_until_start": {"type": "integer", "description": "How many days before start date to schedule"}
                     },
                     "required": ["days_until_start"],
                 },
             },
         }
 
-
-#============================================================
-#11. evaluate_attachment_file_inventory
-#============================================================
+# ============================================================
+# 11. analyze_attachment_file_inventory
+# ============================================================
 class AnalyzeAttachmentFileInventoryTool(Tool):
-    """Searches the attachments table to analyze file types, sizes, and email linkage patterns among candidates."""
+    """Queries attachments table analyzing file types, sizes, and email linkage patterns across candidates."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str = None, file_type_filter: str = None) -> str:
-        attachments = data.get("attachments", {}).values()
-        emails = data.get("emails", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
+        file_type_filter = kwargs.get("file_type_filter")
 
-        # Generate a map for fast retrieval
+        attachments = data.get("attachments", [])
+        emails = data.get("emails", [])
+
+        # Create a map for quick lookup
         email_id_to_candidate_id = {
-            e.get("message_id"): e.get("candidate_id_nullable") for e in emails.values()
+            e.get("message_id"): e.get("candidate_id_nullable") for e in emails
         }
 
-        # Filter based on candidate if specified
+        # Filter by candidate if provided
         if candidate_id:
-            # Retrieve all attachment IDs associated with the candidate's emails
+            # Get all attachment IDs linked to the candidate's emails
             candidate_attachment_ids = set()
-            for email in emails.values():
+            for email in emails:
                 if str(email.get("candidate_id_nullable")) == str(candidate_id):
                     for att_id in email.get("attachments_ids", []):
                         candidate_attachment_ids.add(att_id)
 
             attachments = [
-                att
-                for att in attachments.values() if att.get("attachment_id") in candidate_attachment_ids
+                att for att in attachments
+                if att.get("attachment_id") in candidate_attachment_ids
             ]
 
-        # Filter according to file type
+        # Filter by file type
         if file_type_filter:
             attachments = [
-                att for att in attachments.values() if att.get("mime_type") == file_type_filter
+                att for att in attachments
+                if att.get("mime_type") == file_type_filter
             ]
 
-        # Evaluation
-        total_size = sum(att.get("size_bytes", 0) for att in attachments.values())
+        # Analysis
+        total_size = sum(att.get("size_bytes", 0) for att in attachments)
         file_type_distribution = {}
-        for att in attachments.values():
+        for att in attachments:
             mime_type = att.get("mime_type", "unknown")
-            file_type_distribution[mime_type] = (
-                file_type_distribution.get(mime_type, 0) + 1
-            )
+            file_type_distribution[mime_type] = file_type_distribution.get(mime_type, 0) + 1
 
         result = {
             "total_attachments": len(attachments),
             "total_size_bytes": total_size,
             "file_type_distribution": file_type_distribution,
-            "attachments_sample": attachments[:10],  # an example
+            "attachments_sample": attachments[:10] # a sample
         }
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(result, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "analyzeAttachmentFileInventory",
+                "name": "analyze_attachment_file_inventory",
                 "description": "Queries attachments table analyzing file types, sizes, and email linkage patterns across candidates.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "candidate_id": {
-                            "type": "string",
-                            "description": "Specific candidate or null for system-wide analysis",
-                        },
-                        "file_type_filter": {
-                            "type": "string",
-                            "description": "MIME type filter",
-                        },
+                        "candidate_id": {"type": "string", "description": "Specific candidate or null for system-wide analysis"},
+                        "file_type_filter": {"type": "string", "description": "MIME type filter"}
                     },
                     "required": [],
                 },
             },
         }
 
-
-#============================================================
-#12. retrieve_email_thread_conversations
-#============================================================
+# ============================================================
+# 12. get_email_thread_conversations
+# ============================================================
 class GetEmailThreadConversationsTool(Tool):
-    """Tracks email threads by utilizing thread_id and reply relationships to recreate conversation flows."""
+    """Traces email threads using thread_id and reply relationships to reconstruct conversation flows."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str = None, include_draft_responses: bool = False) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
+        include_drafts = kwargs.get("include_draft_responses", False)
+
         if not candidate_id:
             return _err("candidate_id is required")
 
-        emails = data.get("emails", {}).values()
+        emails = data.get("emails", [])
 
         candidate_emails = [
-            e
-            for e in emails.values() if str(e.get("candidate_id_nullable")) == str(candidate_id)
+            e for e in emails
+            if str(e.get("candidate_id_nullable")) == str(candidate_id)
         ]
 
-        if not include_draft_responses:
-            candidate_emails = [e for e in candidate_emails.values() if not e.get("draft_flag")]
+        if not include_drafts:
+            candidate_emails = [e for e in candidate_emails if not e.get("draft_flag")]
 
-        # Organize by thread_id
+        # Group by thread_id
         threads = {}
         for email in candidate_emails:
             thread_id = email.get("thread_id_nullable")
@@ -1180,55 +988,47 @@ class GetEmailThreadConversationsTool(Tool):
                     threads[thread_id] = []
                 threads[thread_id].append(email)
 
-        # Arrange emails in each thread by date
+        # Sort emails within each thread by date
         for thread_id in threads:
             threads[thread_id].sort(key=lambda e: e.get("date_ts", ""))
-        payload = threads
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(threads, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetEmailThreadConversations",
+                "name": "get_email_thread_conversations",
                 "description": "Traces email threads using thread_id and reply relationships to reconstruct conversation flows.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "candidate_id": {
-                            "type": "string",
-                            "description": "Target candidate",
-                        },
-                        "include_draft_responses": {
-                            "type": "boolean",
-                            "description": "Include unsent draft replies",
-                        },
+                        "candidate_id": {"type": "string", "description": "Target candidate"},
+                        "include_draft_responses": {"type": "boolean", "description": "Include unsent draft replies"}
                     },
                     "required": ["candidate_id"],
                 },
             },
         }
 
-
-#============================================================
-#13. examine_label_usage_patterns
-#============================================================
+# ============================================================
+# 13. query_label_usage_patterns
+# ============================================================
 class QueryLabelUsagePatternsTool(Tool):
-    """Examines the usage of email_labels across emails to comprehend categorization patterns and identify missing labels."""
+    """Analyzes email_labels usage across emails to understand categorization patterns and missing labels."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], label_category: str = None) -> str:
-        pass
-        label_category_filter = label_category  # This parameter remains but will not be utilized since the category is absent
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        label_category_filter = kwargs.get("label_category") # This parameter is kept but won't be used as category doesn't exist
 
-        labels_map = {l.get("label_id"): l for l in data.get("email_labels", {}).values()}
-        emails = data.get("emails", {}).values()
+        labels_map = {l.get("label_id"): l for l in data.get("email_labels", [])}
+        emails = data.get("emails", [])
 
         usage_stats = {}
         unlabeled_emails = 0
 
-        for email in emails.values():
+        for email in emails:
             label_ids = email.get("labels_ids", [])
             if not label_ids:
                 unlabeled_emails += 1
@@ -1244,183 +1044,158 @@ class QueryLabelUsagePatternsTool(Tool):
 
         result = {
             "label_usage_stats": usage_stats,
-            "unlabeled_email_count": unlabeled_emails,
+            "unlabeled_email_count": unlabeled_emails
         }
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(result, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "queryLabelUsagePatterns",
+                "name": "query_label_usage_patterns",
                 "description": "Analyzes email_labels usage across emails to understand categorization patterns and missing labels.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "label_category": {
-                            "type": "string",
-                            "description": "Specific label type to analyze",
-                        }
+                        "label_category": {"type": "string", "description": "Specific label type to analyze"}
                     },
                     "required": [],
                 },
             },
         }
 
-
-#============================================================
-#14. assess_file_storage_organization
-#============================================================
+# ============================================================
+# 14. check_file_storage_organization
+# ============================================================
 class CheckFileStorageOrganizationTool(Tool):
-    """Assesses the onboarding_files table to analyze file path organization, duplicate content, and the completeness of candidate files."""
+    """Reviews onboarding_files table analyzing file path organization, duplicate content, and candidate file completeness."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str = None) -> str:
-        files = data.get("onboarding_files", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
+
+        files = data.get("onboarding_files", [])
 
         if candidate_id:
-            files = [
-                f for f in files.values() if str(f.get("candidate_id")) == str(candidate_id)
-            ]
+            files = [f for f in files if str(f.get("candidate_id")) == str(candidate_id)]
 
-        # Evaluate duplicates based on content_text
+        # Analyze duplicates based on content_text
         content_map = {}
         duplicates = []
-        for file in files.values():
+        for file in files:
             content = file.get("content_text")
             if content:
                 if content in content_map:
-                    duplicates.append(
-                        {
-                            "original": content_map[content],
-                            "duplicate": file.get("file_path"),
-                        }
-                    )
+                    duplicates.append({
+                        "original": content_map[content],
+                        "duplicate": file.get("file_path")
+                    })
                 else:
                     content_map[content] = file.get("file_path")
 
-        # Examine organization (basic check for path structure)
+        # Analyze organization (simple check for path structure)
         improperly_organized = [
-            f.get("file_path")
-            for f in files.values() if not re.match(
-                r"/[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+/", str(f.get("file_path", ""))
-            )
+            f.get("file_path") for f in files
+            if not re.match(r"/[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+/", str(f.get("file_path", "")))
         ]
 
         result = {
             "total_files_analyzed": len(files),
             "duplicate_files_found": len(duplicates),
             "improperly_organized_paths": improperly_organized,
-            "duplicates": duplicates,
+            "duplicates": duplicates
         }
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(result, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "checkFileStorageOrganization",
+                "name": "check_file_storage_organization",
                 "description": "Reviews onboarding_files table analyzing file path organization, duplicate content, and candidate file completeness.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "candidate_id": {
-                            "type": "string",
-                            "description": "Specific candidate or null for system analysis",
-                        }
+                        "candidate_id": {"type": "string", "description": "Specific candidate or null for system analysis"}
                     },
                     "required": [],
                 },
             },
         }
 
-
-#============================================================
-#15. retrieve_manager_candidate_assignments
-#============================================================
+# ============================================================
+# 15. get_manager_candidate_assignments
+# ============================================================
 class GetManagerCandidateAssignmentsTool(Tool):
-    """Examines the candidates table to grasp the distribution of manager workloads and patterns of onboarding supervision."""
+    """Analyzes candidates table to understand manager workload distribution and onboarding supervision patterns."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], manager_email: str = None) -> str:
-        candidates = data.get("candidates", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        manager_email = kwargs.get("manager_email")
+
+        candidates = data.get("candidates", [])
 
         if manager_email:
-            candidates = [
-                c
-                for c in candidates.values() if c.get("manager_email_nullable") == manager_email
-            ]
+            candidates = [c for c in candidates if c.get("manager_email_nullable") == manager_email]
 
         manager_workload = {}
-        for candidate in candidates.values():
+        for candidate in candidates:
             manager = candidate.get("manager_email_nullable")
             if manager:
                 if manager not in manager_workload:
                     manager_workload[manager] = {"count": 0, "candidates": []}
                 manager_workload[manager]["count"] += 1
-                manager_workload[manager]["candidates"].append(
-                    {
-                        "candidate_id": candidate.get("candidate_id"),
-                        "candidate_name": candidate.get("candidate_name"),
-                        "status": candidate.get("onboarding_status"),
-                    }
-                )
-        payload = manager_workload
-        out = json.dumps(payload, indent=2)
-        return out
+                manager_workload[manager]["candidates"].append({
+                    "candidate_id": candidate.get("candidate_id"),
+                    "candidate_name": candidate.get("candidate_name"),
+                    "status": candidate.get("onboarding_status")
+                })
+
+        return json.dumps(manager_workload, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetManagerCandidateAssignments",
+                "name": "get_manager_candidate_assignments",
                 "description": "Analyzes candidates table to understand manager workload distribution and onboarding supervision patterns.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "manager_email": {
-                            "type": "string",
-                            "description": "Specific manager or null for all managers",
-                        }
+                        "manager_email": {"type": "string", "description": "Specific manager or null for all managers"}
                     },
                     "required": [],
                 },
             },
         }
 
-
-#============================================================
-#16. establish_new_candidate_record
-#============================================================
+# ============================================================
+# 16. create_new_candidate_record
+# ============================================================
 class CreateNewCandidateRecordTool(Tool):
-    """Adds a candidate to the candidates table with validation, duplicate checking, and initial status assignment."""
+    """Inserts candidate into candidates table with validation, duplicate checking, and initial status setting."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        candidate_name: str = None,
-        role_title: str = None,
-        start_date: str = None,
-        candidate_email: str = None,
-        manager_email: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_name = kwargs.get("candidate_name")
+        role_title = kwargs.get("role_title")
+        start_date = kwargs.get("start_date")
+        candidate_email = kwargs.get("candidate_email")
+        manager_email = kwargs.get("manager_email")
+
         if not all([candidate_name, role_title, start_date, candidate_email]):
-            return _err(
-                "candidate_name, role_title, start_date, and candidate_email are required"
-            )
+            return _err("candidate_name, role_title, start_date, and candidate_email are required")
 
-        candidates = _get_table(data, "candidates")
+        candidates = data.setdefault("candidates", [])
 
-        # Check for duplicates
-        if any(c.get("candidate_email") == candidate_email for c in candidates.values()):
-            return _err(
-                f"Candidate with email '{candidate_email}' already exists.",
-                code="conflict",
-            )
+        # Duplicate check
+        if any(c.get("candidate_email") == candidate_email for c in candidates):
+            return _err(f"Candidate with email '{candidate_email}' already exists.", code="conflict")
 
         new_candidate = {
             "candidate_id": _next_str_id(candidates, "candidate_id", "CAND-"),
@@ -1435,63 +1210,46 @@ class CreateNewCandidateRecordTool(Tool):
             "checklist_follow_up_ts_nullable": None,
             "orientation_invite_ts_nullable": None,
             "manager_intro_invite_ts_nullable": None,
-            "welcome_email_message_id_nullable": None,
+            "welcome_email_message_id_nullable": None
         }
 
-        _get_table(data, "candidates")[candidate_id] = new_candidate
-        payload = new_candidate
-        out = json.dumps(payload, indent=2)
-        return out
+        candidates.append(new_candidate)
+
+        return json.dumps(new_candidate, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateNewCandidateRecord",
+                "name": "create_new_candidate_record",
                 "description": "Inserts candidate into candidates table with validation, duplicate checking, and initial status setting.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "candidate_name": {
-                            "type": "string",
-                            "description": "Full name from user input",
-                        },
-                        "role_title": {
-                            "type": "string",
-                            "description": "Job position title",
-                        },
-                        "start_date": {
-                            "type": "string",
-                            "description": "Start date in YYYY-MM-DD format",
-                        },
-                        "candidate_email": {
-                            "type": "string",
-                            "description": "Company email address",
-                        },
-                        "manager_email": {
-                            "type": "string",
-                            "description": "Manager email if known",
-                        },
+                        "candidate_name": {"type": "string", "description": "Full name from user input"},
+                        "role_title": {"type": "string", "description": "Job position title"},
+                        "start_date": {"type": "string", "description": "Start date in YYYY-MM-DD format"},
+                        "candidate_email": {"type": "string", "description": "Company email address"},
+                        "manager_email": {"type": "string", "description": "Manager email if known"}
                     },
-                    "required": [
-                        "candidate_name",
-                        "role_title",
-                        "start_date",
-                        "candidate_email",
-                    ],
+                    "required": ["candidate_name", "role_title", "start_date", "candidate_email"],
                 },
             },
         }
 
-
-#============================================================
-#17. refresh_candidate_onboarding_status
-#============================================================
+# ============================================================
+# 17. update_candidate_onboarding_status
+# ============================================================
 class UpdateCandidateOnboardingStatusTool(Tool):
-    """Refreshes status and associated timestamp fields for one or more candidates."""
+    """Updates status and related timestamp fields for one or more candidates."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str = None, candidate_ids: list = None, new_status: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
+        candidate_ids = kwargs.get("candidate_ids")
+        new_status = kwargs.get("new_status")
+
         if not new_status:
             return _err("new_status is required.")
 
@@ -1504,13 +1262,11 @@ class UpdateCandidateOnboardingStatusTool(Tool):
         if not ids_to_process:
             return _err("candidate_id or candidate_ids is required.")
 
-        candidates = data.get("candidates", {}).values()
+        candidates = data.get("candidates", [])
         updated_candidates = []
 
         for cid in ids_to_process:
-            candidate = next(
-                (c for c in candidates.values() if str(c.get("candidate_id")) == str(cid)), None
-            )
+            candidate = next((c for c in candidates if str(c.get("candidate_id")) == str(cid)), None)
 
             if not candidate:
                 if len(ids_to_process) == 1:
@@ -1518,48 +1274,40 @@ class UpdateCandidateOnboardingStatusTool(Tool):
                 continue
 
             candidate["onboarding_status"] = new_status
-            updated__get_table(data, "candidates")[candidate_id] = candidate
-        payload = updated_candidates
-        out = json.dumps(payload, indent=2)
-        return out
+            updated_candidates.append(candidate)
+
+        return json.dumps(updated_candidates, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateCandidateOnboardingStatus",
+                "name": "update_candidate_onboarding_status",
                 "description": "Updates status and related timestamp fields for one or more candidates.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "candidate_id": {
-                            "type": "string",
-                            "description": "A single target candidate identifier.",
-                        },
-                        "candidate_ids": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "A list of target candidate identifiers.",
-                        },
-                        "new_status": {
-                            "type": "string",
-                            "description": "Status from workflow analysis",
-                        },
+                        "candidate_id": {"type": "string", "description": "A single target candidate identifier."},
+                        "candidate_ids": {"type": "array", "items": {"type": "string"}, "description": "A list of target candidate identifiers."},
+                        "new_status": {"type": "string", "description": "Status from workflow analysis"},
                     },
                     "required": ["new_status"],
                 },
             },
         }
 
-
-#============================================================
-#18. create_personalized_welcome_file (Refactored)
-#============================================================
+# ============================================================
+# 18. generate_personalized_welcome_file (Refactored)
+# ============================================================
 class GeneratePersonalizedWelcomeFileTool(Tool):
-    """Generates tailored welcome markdown in the onboarding_files table for one or more candidates."""
+    """Creates customized welcome markdown in onboarding_files table for one or more candidates."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str = None, candidate_ids: list[str] = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
+        candidate_ids = kwargs.get("candidate_ids")
+
         ids_to_process = []
         if candidate_ids:
             ids_to_process.extend(candidate_ids)
@@ -1569,10 +1317,8 @@ class GeneratePersonalizedWelcomeFileTool(Tool):
         if not ids_to_process:
             return _err("candidate_id or candidate_ids is required.")
 
-        candidates_map = {
-            str(c.get("candidate_id")): c for c in data.get("candidates", {}).values()
-        }
-        onboarding_files = _get_table(data, "onboarding_files")
+        candidates_map = {str(c.get("candidate_id")): c for c in data.get("candidates", [])}
+        onboarding_files = data.setdefault("onboarding_files", [])
         created_files = []
 
         for cid in ids_to_process:
@@ -1582,15 +1328,15 @@ class GeneratePersonalizedWelcomeFileTool(Tool):
                     return _err(f"Candidate '{cid}' not found.", code="not_found")
                 continue
 
-            #Fixed markdown template
+            # Hardcoded markdown template
             template_content = """
-    lcome, {{candidate_name}}!
+# Welcome, {{candidate_name}}!
 
-    re thrilled to have you join us as a {{role_title}}. Your first day will be on {{start_date}}.
-     manager will be {{manager_email_nullable}}.
+We are thrilled to have you join us as a {{role_title}}. Your first day will be on {{start_date}}.
+Your manager will be {{manager_email_nullable}}.
 
-    e prepared this packet to help you get started.
-    """
+We've prepared this packet to help you get started.
+"""
 
             context = candidate
             content = _render_template(template_content, context)
@@ -1603,47 +1349,41 @@ class GeneratePersonalizedWelcomeFileTool(Tool):
                 "mime_type": "text/markdown",
                 "created_ts": HARD_TS,
                 "updated_ts": HARD_TS,
-                "candidate_id": cid,
+                "candidate_id": cid
             }
-            _get_table(data, "onboarding_files")[new_file["onboarding_file_id"]] = new_file
-            created__get_table(data, "onboarding_files")[new_file["onboarding_file_id"]] = new_file
-        payload = created_files
-        out = json.dumps(payload, indent=2)
-        return out
+            onboarding_files.append(new_file)
+            created_files.append(new_file)
+
+        return json.dumps(created_files, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GeneratePersonalizedWelcomeFile",
+                "name": "generate_personalized_welcome_file",
                 "description": "Creates customized welcome markdown for one or more candidates.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "candidate_id": {
-                            "type": "string",
-                            "description": "A single target candidate identifier.",
-                        },
-                        "candidate_ids": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "A list of target candidate identifiers.",
-                        },
+                        "candidate_id": {"type": "string", "description": "A single target candidate identifier."},
+                        "candidate_ids": {"type": "array", "items": {"type": "string"}, "description": "A list of target candidate identifiers."}
                     },
                 },
             },
         }
 
-
-#============================================================
-#19. generate_role_based_checklist_tasks (Refactored)
-#============================================================
+# ============================================================
+# 19. create_role_based_checklist_tasks (Refactored)
+# ============================================================
 class CreateRoleBasedChecklistTasksTool(Tool):
-    """Adds several checklist_items records according to the roles of one or more candidates."""
+    """Inserts multiple checklist_items records based on the roles of one or more candidates."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str = None, candidate_ids: list[str] = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
+        candidate_ids = kwargs.get("candidate_ids")
+
         ids_to_process = []
         if candidate_ids:
             ids_to_process.extend(candidate_ids)
@@ -1653,10 +1393,8 @@ class CreateRoleBasedChecklistTasksTool(Tool):
         if not ids_to_process:
             return _err("candidate_id or candidate_ids is required.")
 
-        candidates_map = {
-            str(c.get("candidate_id")): c for c in data.get("candidates", {}).values()
-        }
-        checklist_items = _get_table(data, "checklist_items")
+        candidates_map = {str(c.get("candidate_id")): c for c in data.get("candidates", [])}
+        checklist_items = data.setdefault("checklist_items", [])
         all_created_tasks = []
 
         for cid in ids_to_process:
@@ -1669,9 +1407,7 @@ class CreateRoleBasedChecklistTasksTool(Tool):
             start_date_str = candidate.get("start_date")
             if not start_date_str:
                 if len(ids_to_process) == 1:
-                    return _err(
-                        "Candidate start_date is required for due date calculation."
-                    )
+                    return _err("Candidate start_date is required for due date calculation.")
                 continue
 
             start_date = datetime.fromisoformat(start_date_str)
@@ -1686,9 +1422,7 @@ class CreateRoleBasedChecklistTasksTool(Tool):
 
             if not task_list:
                 if len(ids_to_process) == 1:
-                    return _err(
-                        f"No task template found for role '{candidate.get('role_title', '')}'."
-                    )
+                    return _err(f"No task template found for role '{candidate.get('role_title', '')}'.")
                 continue
 
             created_tasks = []
@@ -1703,298 +1437,217 @@ class CreateRoleBasedChecklistTasksTool(Tool):
                     "created_ts": HARD_TS,
                     "updated_ts": HARD_TS,
                     "reminder_sent_flag": False,
-                    "reminder_email_message_id_nullable": None,
+                    "reminder_email_message_id_nullable": None
                 }
-                _get_table(data, "checklist_items")[new_task["checklist_item_id"]] = new_task
+                checklist_items.append(new_task)
                 created_tasks.append(new_task)
             all_created_tasks.extend(created_tasks)
-        payload = all_created_tasks
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(all_created_tasks, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateRoleBasedChecklistTasks",
+                "name": "create_role_based_checklist_tasks",
                 "description": "Inserts multiple checklist_items records based on the roles of one or more candidates.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "candidate_id": {
-                            "type": "string",
-                            "description": "A single target candidate identifier.",
-                        },
-                        "candidate_ids": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "A list of target candidate identifiers.",
-                        },
+                        "candidate_id": {"type": "string", "description": "A single target candidate identifier."},
+                        "candidate_ids": {"type": "array", "items": {"type": "string"}, "description": "A list of target candidate identifiers."}
                     },
                 },
             },
         }
 
-
-#============================================================
-#20. allocate_asset_to_candidate
-#============================================================
+# ============================================================
+# 20. assign_asset_to_candidate
+# ============================================================
 class AssignAssetToCandidateTool(Tool):
-    """Refreshes the inventory_assets table to allocate a specific asset and updates the status of related asset_requests."""
+    """Updates inventory_assets table to assign specific asset and updates corresponding asset_requests status."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], asset_request_id: str = None, asset_tag: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        asset_request_id = kwargs.get("asset_request_id")
+        asset_tag = kwargs.get("asset_tag")
+
         if not asset_request_id or not asset_tag:
             return _err("asset_request_id and asset_tag are required.")
 
-        # Locate asset and request
-        asset = next(
-            (
-                a
-                for a in data.get("inventory_assets", {}).values()
-                if a.get("asset_tag") == asset_tag
-            ),
-            None,
-        )
-        request = next(
-            (
-                r
-                for r in data.get("asset_requests", {}).values()
-                if str(r.get("request_id")) == str(asset_request_id)
-            ),
-            None,
-        )
+        # Find asset and request
+        asset = next((a for a in data.get("inventory_assets", []) if a.get("asset_tag") == asset_tag), None)
+        request = next((r for r in data.get("asset_requests", []) if str(r.get("request_id")) == str(asset_request_id)), None)
 
         if not asset:
             return _err(f"Asset with tag '{asset_tag}' not found.", code="not_found")
         if not request:
-            return _err(
-                f"Asset request '{asset_request_id}' not found.", code="not_found"
-            )
+            return _err(f"Asset request '{asset_request_id}' not found.", code="not_found")
 
         if asset.get("status") != "Available":
             return _err(f"Asset '{asset_tag}' is not available for assignment.")
 
-        # Allocate asset
+        # Assign asset
         asset["status"] = "Assigned"
         asset["assigned_candidate_id_nullable"] = request.get("candidate_id")
 
-        # Refresh request
+        # Update request
         request["status"] = "Completed"
         request["asset_tag_nullable"] = asset_tag
         request["updated_ts"] = HARD_TS
 
-        result = {"asset": asset, "asset_request": request}
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+        result = {
+            "asset": asset,
+            "asset_request": request
+        }
+
+        return json.dumps(result, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AssignAssetToCandidate",
+                "name": "assign_asset_to_candidate",
                 "description": "Updates inventory_assets table to assign specific asset and updates corresponding asset_requests status.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "asset_request_id": {
-                            "type": "string",
-                            "description": "Request being fulfilled",
-                        },
-                        "asset_tag": {
-                            "type": "string",
-                            "description": "Specific asset from availability search",
-                        },
+                        "asset_request_id": {"type": "string", "description": "Request being fulfilled"},
+                        "asset_tag": {"type": "string", "description": "Specific asset from availability search"},
                     },
                     "required": ["asset_request_id", "asset_tag"],
                 },
             },
         }
 
-
-#============================================================
-#21. dispatch_email_with_attachments (Refactored)
-#============================================================
+# ============================================================
+# 21. send_email_with_attachments (Refactored)
+# ============================================================
 class SendEmailWithAttachmentsTool(Tool):
-    """Generates a new email record using a template, including attachments."""
+    """Creates a new email record from a template, with attachments."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        candidate_id: str = None,
-        template_name: str = None,
-        template_context: dict = None,
-        to_emails: list = None,
-        from_email: str = "hr@company.com",
-        cc_emails: list = None,
-        label_ids: list = None,
-        attachment_file_paths: list = None
-,
-    updates: Any = None,
-    ) -> str:
-        if template_context is None:
-            template_context = {}
-        if cc_emails is None:
-            cc_emails = []
-        if label_ids is None:
-            label_ids = []
-        if attachment_file_paths is None:
-            attachment_file_paths = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
+        template_name = kwargs.get("template_name")
+        template_context = kwargs.get("template_context", {})
 
         if not candidate_id or not template_name:
             return _err("candidate_id and template_name are required.")
 
-        candidate = next(
-            (
-                c
-                for c in data.get("candidates", {}).values()
-                if str(c.get("candidate_id")) == str(candidate_id)
-            ),
-            None,
-        )
+        candidate = next((c for c in data.get("candidates", []) if str(c.get("candidate_id")) == str(candidate_id)), None)
         if not candidate:
             return _err(f"Candidate '{candidate_id}' not found.", code="not_found")
 
-        # Context generation that is dynamic for particular templates
-        if (
-            template_name == "it_support_request"
-            and "failure_notes" in template_context
-        ):
-            # Process dictionary from evaluate_system_access_failures
-            if isinstance(template_context["failure_notes"], dict):
-                failures = template_context["failure_notes"]
-                failure_notes_str = "\n".join(
-                    [
-                        f"- {sys}: {', '.join(details.get('failure_notes', []))}"
-                        for sys, details in failures.items()
-                    ]
-                )
-                template_context["failure_notes"] = failure_notes_str
+        # Dynamic context generation for specific templates
+        if template_name == "it_support_request" and "failure_notes" in template_context:
+            # Handle dictionary from analyze_system_access_failures
+            if isinstance(template_context['failure_notes'], dict):
+                failures = template_context['failure_notes']
+                failure_notes_str = "\n".join([f"- {sys}: {', '.join(details.get('failure_notes', []))}" for sys, details in failures.items()])
+                template_context['failure_notes'] = failure_notes_str
 
-            # Standard recipient for IT support inquiries
-            if to_emails is None:
-                to_emails = ["it-support@example.com"]
+            # Default recipient for IT support requests
+            kwargs.setdefault('to_emails', ['it-support@example.com'])
 
         if template_name == "asset_fulfillment_notification":
-            # Confirm asset_name and asset_tag are included in context
-            if (
-                "asset_name" not in template_context
-                or "asset_tag" not in template_context
-            ):
-                return _err(
-                    "asset_fulfillment_notification template requires asset_name and asset_tag in template_context."
-                )
+            # Ensure asset_name and asset_tag are in context
+            if "asset_name" not in template_context or "asset_tag" not in template_context:
+                return _err("asset_fulfillment_notification template requires asset_name and asset_tag in template_context.")
 
-        if not to_emails:
+        if not kwargs.get('to_emails'):
             return _err("to_emails is required for this template.")
 
         context = candidate.copy()
         context.update(template_context)
         rendered_content = _get_hardcoded_template_and_render(template_name, context)
 
-        emails = _get_table(data, "emails")
-        attachments = _get_table(data, "attachments")
-        onboarding_files = data.get("onboarding_files", {}).values()
+        emails = data.setdefault("emails", [])
+        attachments = data.setdefault("attachments", [])
+        onboarding_files = data.get("onboarding_files", [])
 
         new_email = {
             "message_id": _next_str_id(emails, "message_id", "msg_"),
             "subject": rendered_content["subject"],
             "body": rendered_content["body"],
-            "from_email": from_email,
-            "to_emails": to_emails,
-            "cc_emails": cc_emails,
+            "from_email": kwargs.get("from_email", "hr@company.com"),
+            "to_emails": kwargs.get("to_emails"),
+            "cc_emails": kwargs.get("cc_emails", []),
             "date_ts": HARD_TS,
-            "labels_ids": label_ids,
+            "labels_ids": kwargs.get("label_ids", []),
             "attachments_ids": [],
-            "draft_flag": False,
-            "sent_flag": True,
+            "draft_flag": False, "sent_flag": True,
             "candidate_id_nullable": candidate_id,
-            "thread_id_nullable": None,
-            "in_reply_to_message_id_nullable": None,
+            "thread_id_nullable": None, "in_reply_to_message_id_nullable": None
         }
 
+        attachment_paths = kwargs.get("attachment_file_paths", [])
         if template_name == "welcome":
             welcome_packet_path = f"/onboarding/{candidate_id}/welcome_packet.md"
-            if any(f.get("file_path") == welcome_packet_path for f in onboarding_files.values()):
-                attachment_file_paths.append(welcome_packet_path)
+            if any(f.get("file_path") == welcome_packet_path for f in onboarding_files):
+                attachment_paths.append(welcome_packet_path)
 
-        for file_path in attachment_file_paths:
-            source_file = next(
-                (f for f in onboarding_files.values() if f.get("file_path") == file_path), None
-            )
+        for file_path in attachment_paths:
+            source_file = next((f for f in onboarding_files if f.get("file_path") == file_path), None)
             if source_file:
-                new_attachment_id = _next_str_id(
-                    attachments, "attachment_id", "attach_"
-                )
+                new_attachment_id = _next_str_id(attachments, "attachment_id", "attach_")
                 new_attachment = {
                     "attachment_id": new_attachment_id,
                     "message_id": new_email["message_id"],
-                    "filename": file_path.split("/")[-1],
+                    "filename": file_path.split('/')[-1],
                     "mime_type": source_file.get("mime_type"),
                     "file_path": file_path,
                     "size_bytes": source_file.get("size_bytes", 1024),
-                    "stored_ts": HARD_TS,
+                    "stored_ts": HARD_TS
                 }
-                _get_table(data, "attachments")[attachment_id] = new_attachment
+                attachments.append(new_attachment)
                 new_email["attachments_ids"].append(new_attachment_id)
 
-        _get_table(data, "emails")[email_id] = new_email
+        emails.append(new_email)
 
         result = {
             "email": new_email,
-            "results": {"system_name": "Email", "status": "Success"},
+            "results": {'system_name': 'Email', 'status': 'Success'}
         }
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(result, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SendEmailWithAttachments",
+                "name": "send_email_with_attachments",
                 "description": "Creates a new email from a template, with attachments.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "candidate_id": {"type": "string"},
                         "template_name": {"type": "string"},
-                        "to_emails": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "Required. List of recipient email addresses.",
-                        },
-                        "from_email": {
-                            "type": "string",
-                            "description": "Optional: Defaults to hr@company.com",
-                        },
+                        "to_emails": {"type": "array", "items": {"type": "string"}, "description": "Required. List of recipient email addresses."},
+                        "from_email": {"type": "string", "description": "Optional: Defaults to hr@company.com"},
                         "cc_emails": {"type": "array", "items": {"type": "string"}},
-                        "attachment_file_paths": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "Optional: paths to attach. Welcome packet is auto-attached for 'welcome' template.",
-                        },
+                        "attachment_file_paths": {"type": "array", "items": {"type": "string"}, "description": "Optional: paths to attach. Welcome packet is auto-attached for 'welcome' template."},
                         "label_ids": {"type": "array", "items": {"type": "string"}},
-                        "template_context": {
-                            "type": "object",
-                            "description": "Optional: context for templates. For IT support, failure notes are auto-generated. For asset_fulfillment_notification, requires asset_name and asset_tag.",
-                        },
+                        "template_context": {"type": "object", "description": "Optional: context for templates. For IT support, failure notes are auto-generated. For asset_fulfillment_notification, requires asset_name and asset_tag."}
                     },
                     "required": ["candidate_id", "template_name", "to_emails"],
                 },
             },
         }
 
-
-#============================================================
-#22. execute_and_log_system_access_checks (Replaces log_system_access_results)
-#============================================================
+# ============================================================
+# 22. run_and_record_system_access_checks (Replaces record_system_access_results)
+# ============================================================
 class RunAndRecordSystemAccessChecksTool(Tool):
-    """Verifies required system access for one or more candidates according to their role and logs the outcomes."""
+    """Checks necessary system access for one or more candidates based on their role and records the results."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str = None, candidate_ids: list[str] = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
+        candidate_ids = kwargs.get("candidate_ids")
+
         ids_to_process = []
         if candidate_ids:
             ids_to_process.extend(candidate_ids)
@@ -2004,10 +1657,8 @@ class RunAndRecordSystemAccessChecksTool(Tool):
         if not ids_to_process:
             return _err("candidate_id or candidate_ids is required.")
 
-        candidates_map = {
-            str(c.get("candidate_id")): c for c in data.get("candidates", {}).values()
-        }
-        access_checks = _get_table(data, "access_checks")
+        candidates_map = {str(c.get("candidate_id")): c for c in data.get("candidates", [])}
+        access_checks = data.setdefault("access_checks", [])
         all_created_records = []
 
         for cid in ids_to_process:
@@ -2026,84 +1677,71 @@ class RunAndRecordSystemAccessChecksTool(Tool):
             for system_name in systems_to_check:
                 status = "Success"
                 note_nullable = None
-                if (sum(ord(c) for c in cid.values() + len(system_name)) % 7 == 0):
+                if (sum(ord(c) for c in cid) + len(system_name)) % 7 == 0:
                     status = "Failed"
-                    note_nullable = (
-                        f"Automated check failed. Code: {sum(ord(c) for c in cid[:5])}."
-                    )
+                    note_nullable = f"Automated check failed. Code: {sum(ord(c) for c in cid[:5])}."
 
                 new_check = {
                     "candidate_id": cid,
                     "system_name": system_name,
                     "status": status,
                     "note_nullable": note_nullable,
-                    "checked_ts": HARD_TS,
+                    "checked_ts": HARD_TS
                 }
-                _get_table(data, "access_checks")[new_check["access_check_id"]] = new_check
+                access_checks.append(new_check)
                 created_records.append(new_check)
             all_created_records.extend(created_records)
-        payload = all_created_records
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(all_created_records, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RunAndRecordSystemAccessChecks",
+                "name": "run_and_record_system_access_checks",
                 "description": "Checks necessary system access for one or more candidates based on their role and records the results.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "candidate_id": {
-                            "type": "string",
-                            "description": "A single target candidate identifier.",
-                        },
-                        "candidate_ids": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "A list of target candidate identifiers.",
-                        },
+                        "candidate_id": {"type": "string", "description": "A single target candidate identifier."},
+                        "candidate_ids": {"type": "array", "items": {"type": "string"}, "description": "A list of target candidate identifiers."}
                     },
                 },
             },
         }
 
-
-#============================================================
-#23. refresh_task_completion_status
-#============================================================
+# ============================================================
+# 23. update_task_completion_status
+# ============================================================
 class UpdateTaskCompletionStatusTool(Tool):
-    """Refreshes existing records in the `checklist_items` array by marking status as 'Completed'."""
+    """Updates existing records in `checklist_items` array by setting status to 'Completed'."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], item_ids: list = None) -> str:
-        if item_ids is None:
-            item_ids = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        item_ids = kwargs.get("item_ids", [])
         if not item_ids:
             return _err("item_ids array is required.")
 
-        checklist_items = data.get("checklist_items", {}).values()
+        checklist_items = data.get("checklist_items", [])
         updated_items = []
 
         for item_id in item_ids:
-            item = next(
-                (i for i in checklist_items.values() if i.get("item_id") == item_id), None
-            )
+            item = next((i for i in checklist_items if i.get("item_id") == item_id), None)
             if item:
                 item["status"] = "Completed"
                 item["updated_ts"] = HARD_TS
                 item["reminder_sent_flag"] = False
                 updated_items.append(item)
-        payload = updated_items
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(updated_items, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateTaskCompletionStatus",
+                "name": "update_task_completion_status",
                 "description": "Updates `checklist_items` to mark tasks as 'Completed'.",
                 "parameters": {
                     "type": "object",
@@ -2115,22 +1753,17 @@ class UpdateTaskCompletionStatusTool(Tool):
             },
         }
 
-
-#============================================================
-#24. generate_asset_request_with_notification (Refactored)
-#============================================================
+# ============================================================
+# 24. create_asset_request_with_notification (Refactored)
+# ============================================================
 class CreateAssetRequestWithNotificationTool(Tool):
-    """Generates asset requests along with related IT notification emails for one or more candidates."""
+    """Creates asset requests and corresponding IT notification emails for one or more candidates."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        candidate_id: str = None,
-        candidate_ids: list[str] = None,
-        asset_type: str = None,
-        urgency_level: str = None,
-        specifications: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
+        candidate_ids = kwargs.get("candidate_ids")
+
         ids_to_process = []
         if candidate_ids:
             ids_to_process.extend(candidate_ids)
@@ -2140,11 +1773,9 @@ class CreateAssetRequestWithNotificationTool(Tool):
         if not ids_to_process:
             return _err("candidate_id or candidate_ids is required.")
 
-        candidates_map = {
-            str(c.get("candidate_id")): c for c in data.get("candidates", {}).values()
-        }
-        asset_requests = _get_table(data, "asset_requests")
-        emails = _get_table(data, "emails")
+        candidates_map = {str(c.get("candidate_id")): c for c in data.get("candidates", [])}
+        asset_requests = data.setdefault("asset_requests", [])
+        emails = data.setdefault("emails", [])
         all_results = []
 
         for cid in ids_to_process:
@@ -2155,21 +1786,17 @@ class CreateAssetRequestWithNotificationTool(Tool):
                 continue
 
             role_title = candidate.get("role_title", "")
-            defaults = ROLE_ASSET_DEFAULTS_MAP.get(
-                role_title, ROLE_ASSET_DEFAULTS_MAP["Default"]
-            )
-            asset_type = asset_type or defaults["asset_type"]
-            urgency = urgency_level or defaults["urgency_level"]
-            specs = specifications or defaults["specifications"]
+            defaults = ROLE_ASSET_DEFAULTS_MAP.get(role_title, ROLE_ASSET_DEFAULTS_MAP["Default"])
+            asset_type = kwargs.get("asset_type", defaults["asset_type"])
+            urgency = kwargs.get("urgency_level", defaults["urgency_level"])
+            specs = kwargs.get("specifications", defaults["specifications"])
 
             context = {
                 "candidate_name": candidate.get("candidate_name", ""),
                 "urgency_level": urgency,
-                "specifications": specs,
+                "specifications": specs
             }
-            rendered = _get_hardcoded_template_and_render(
-                "asset_request_notification", context
-            )
+            rendered = _get_hardcoded_template_and_render("asset_request_notification", context)
 
             new_email_id = _next_str_id(emails, "message_id", "msg_")
             new_email = {
@@ -2178,21 +1805,13 @@ class CreateAssetRequestWithNotificationTool(Tool):
                 "body": rendered["body"],
                 "from_email": "hr@company.com",
                 "to_emails": ["it-assets@company.com"],
-                "cc_emails": (
-                    [candidate.get("manager_email_nullable")]
-                    if candidate.get("manager_email_nullable")
-                    else []
-                ),
-                "date_ts": HARD_TS,
-                "labels_ids": ["label_1"],
-                "attachments_ids": [],
-                "draft_flag": False,
-                "sent_flag": True,
+                "cc_emails": [candidate.get("manager_email_nullable")] if candidate.get("manager_email_nullable") else [],
+                "date_ts": HARD_TS, "labels_ids": ["label_1"], "attachments_ids": [],
+                "draft_flag": False, "sent_flag": True,
                 "candidate_id_nullable": cid,
-                "thread_id_nullable": None,
-                "in_reply_to_message_id_nullable": None,
+                "thread_id_nullable": None, "in_reply_to_message_id_nullable": None
             }
-            _get_table(data, "emails")[email_id] = new_email
+            emails.append(new_email)
 
             new_request = {
                 "request_id": _next_str_id(asset_requests, "request_id", "asset_req_"),
@@ -2203,116 +1822,95 @@ class CreateAssetRequestWithNotificationTool(Tool):
                 "inventory_checked_flag": False,
                 "asset_tag_nullable": None,
                 "requested_ts": HARD_TS,
-                "updated_ts": HARD_TS,
+                "updated_ts": HARD_TS
             }
-            _get_table(data, "asset_requests")[asset_request_id] = new_request
+            asset_requests.append(new_request)
 
             result = {
                 "asset_request": new_request,
                 "email": new_email,
-                "results": {"system_name": "Email", "status": "Success"},
+                "results": {'system_name': 'Email', 'status': 'Success'}
             }
             all_results.append(result)
-        payload = all_results
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(all_results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateAssetRequestWithNotification",
+                "name": "create_asset_request_with_notification",
                 "description": "Creates asset requests and corresponding IT notification emails for one or more candidates.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "candidate_id": {
-                            "type": "string",
-                            "description": "A single target candidate identifier.",
-                        },
-                        "candidate_ids": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "A list of target candidate identifiers.",
-                        },
-                        "asset_type": {
-                            "type": "string",
-                            "description": "Optional: Defaults based on role.",
-                        },
-                        "urgency_level": {
-                            "type": "string",
-                            "description": "Optional: Defaults based on role.",
-                        },
-                        "specifications": {
-                            "type": "string",
-                            "description": "Optional: Defaults based on role.",
-                        },
+                        "candidate_id": {"type": "string", "description": "A single target candidate identifier."},
+                        "candidate_ids": {"type": "array", "items": {"type": "string"}, "description": "A list of target candidate identifiers."},
+                        "asset_type": {"type": "string", "description": "Optional: Defaults based on role."},
+                        "urgency_level": {"type": "string", "description": "Optional: Defaults based on role."},
+                        "specifications": {"type": "string", "description": "Optional: Defaults based on role."}
                     },
                 },
             },
         }
 
-
-#============================================================
-#25. implement_email_labels_and_threading
-#============================================================
+# ============================================================
+# 25. apply_email_labels_and_threading
+# ============================================================
 class ApplyEmailLabelsAndThreadingTool(Tool):
-    """Refreshes existing records in the `emails` array by altering labels and thread IDs."""
+    """Updates existing records in `emails` array by modifying labels and thread IDs."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], label_assignments: dict = None, thread_assignments: dict = None) -> str:
-        label_assignments = label_assignments or {}
-        thread_assignments = thread_assignments or {}
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        label_assignments = kwargs.get("label_assignments", {})
+        thread_assignments = kwargs.get("thread_assignments", {})
         message_ids = set(label_assignments.keys()) | set(thread_assignments.keys())
 
-        emails = data.get("emails", {}).values()
-        labels_map = {l.get("label_id") for l in data.get("email_labels", {}).values()}
+        emails = data.get("emails", [])
+        labels_map = {l.get("label_id") for l in data.get("email_labels", [])}
         updated_emails = []
 
         for msg_id in message_ids:
-            email = next((e for e in emails.values() if e.get("message_id") == msg_id), None)
+            email = next((e for e in emails if e.get("message_id") == msg_id), None)
             if email:
                 if msg_id in label_assignments:
-                    valid_labels = [
-                        l for l in label_assignments[msg_id] if l in labels_map
-                    ]
+                    valid_labels = [l for l in label_assignments[msg_id] if l in labels_map]
                     email["labels_ids"] = valid_labels
                 if msg_id in thread_assignments:
                     email["thread_id_nullable"] = thread_assignments[msg_id]
-                updated__get_table(data, "emails")[email_id] = email
-        payload = updated_emails
-        out = json.dumps(payload, indent=2)
-        return out
+                updated_emails.append(email)
+
+        return json.dumps(updated_emails, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ApplyEmailLabelsAndThreading",
+                "name": "apply_email_labels_and_threading",
                 "description": "Updates emails with specified labels and thread IDs.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "label_assignments": {"type": "object"},
-                        "thread_assignments": {"type": "object"},
+                        "thread_assignments": {"type": "object"}
                     },
                     "required": [],
                 },
             },
         }
 
-
-#============================================================
-#26. dispatch_batch_reminder_emails (Refactored)
-#============================================================
+# ============================================================
+# 26. send_batch_reminder_emails (Refactored)
+# ============================================================
 class SendBatchReminderEmailsTool(Tool):
-    """Generates several reminder emails from a template and refreshes the related `checklist_items`."""
+    """Creates multiple reminder emails from a template and updates corresponding `checklist_items`."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_ids: list = None, days_overdue_threshold: int = 0) -> str:
-        if candidate_ids is None:
-            candidate_ids = []
-        days_overdue_threshold = _as_int(days_overdue_threshold)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_ids = kwargs.get("candidate_ids", [])
+        days_overdue_threshold = _as_int(kwargs.get("days_overdue_threshold", 0))
         template_name = "overdue_task_reminder"
 
         if not candidate_ids:
@@ -2320,18 +1918,17 @@ class SendBatchReminderEmailsTool(Tool):
         if days_overdue_threshold is None:
             return _err("days_overdue_threshold must be an integer.")
 
-        emails = _get_table(data, "emails")
-        candidates_map = {c.get("candidate_id"): c for c in data.get("candidates", {}).values()}
-        all_checklist_items = data.get("checklist_items", {}).values()
+        emails = data.setdefault("emails", [])
+        candidates_map = {c.get("candidate_id"): c for c in data.get("candidates", [])}
+        all_checklist_items = data.get("checklist_items", [])
 
         results = []
         for candidate_id in candidate_ids:
             candidate = candidates_map.get(candidate_id)
-            if not candidate:
-                continue
+            if not candidate: continue
 
             overdue_tasks = []
-            for item in all_checklist_items.values():
+            for item in all_checklist_items:
                 if str(item.get("candidate_id")) != str(candidate_id):
                     continue
                 due_date = item.get("due_date")
@@ -2344,13 +1941,10 @@ class SendBatchReminderEmailsTool(Tool):
             if not overdue_tasks:
                 continue
 
-            context = {
-                "name": candidate.get("candidate_name"),
-                "tasks": ", ".join([t.get("task_name", "") for t in overdue_tasks]),
-            }
+            context = { "name": candidate.get("candidate_name"), "tasks": ", ".join([t.get("task_name", "") for t in overdue_tasks]) }
             rendered = _get_hardcoded_template_and_render(template_name, context)
 
-            # Generate Email
+            # Create Email
             new_email_id = _next_str_id(emails, "message_id", "msg_")
             new_email = {
                 "message_id": new_email_id,
@@ -2358,23 +1952,15 @@ class SendBatchReminderEmailsTool(Tool):
                 "body": rendered["body"],
                 "from_email": "hr@company.com",
                 "to_emails": [candidate.get("candidate_email")],
-                "cc_emails": (
-                    [candidate.get("manager_email_nullable")]
-                    if candidate.get("manager_email_nullable")
-                    else []
-                ),
-                "date_ts": HARD_TS,
-                "labels_ids": ["label_2"],
-                "attachments_ids": [],
-                "draft_flag": False,
-                "sent_flag": True,
+                "cc_emails": [candidate.get("manager_email_nullable")] if candidate.get("manager_email_nullable") else [],
+                "date_ts": HARD_TS, "labels_ids": ["label_2"], "attachments_ids": [],
+                "draft_flag": False, "sent_flag": True,
                 "candidate_id_nullable": candidate.get("candidate_id"),
-                "thread_id_nullable": None,
-                "in_reply_to_message_id_nullable": None,
+                "thread_id_nullable": None, "in_reply_to_message_id_nullable": None
             }
-            _get_table(data, "emails")[email_id] = new_email
+            emails.append(new_email)
 
-            # Refresh checklist items
+            # Update checklist items
             updated_items = []
             for item in overdue_tasks:
                 item["reminder_sent_flag"] = True
@@ -2382,64 +1968,32 @@ class SendBatchReminderEmailsTool(Tool):
                 item["updated_ts"] = HARD_TS
                 updated_items.append(item)
 
-            results.append(
-                {
-                    "created_email": new_email,
-                    "updated_checklist_items": updated_items,
-                    "results": {"system_name": "Email", "status": "Success"},
-                }
-            )
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+            results.append({"created_email": new_email, "updated_checklist_items": updated_items, "results": {'system_name': 'Email', 'status': 'Success'}})
+
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "SendBatchReminderEmails",
-                "description": "Sends batch reminder emails for overdue tasks.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "candidate_ids": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "List of candidate IDs to send reminders to.",
-                        },
-                        "days_overdue_threshold": {
-                            "type": "integer",
-                            "description": "Minimum days past due date to trigger a reminder.",
-                        },
-                    },
-                    "required": ["candidate_ids", "days_overdue_threshold"],
-                },
-            },
-        }
+            "type": "function", "function": {"name": "send_batch_reminder_emails",
+            "description": "Sends batch reminder emails for overdue tasks.",
+            "parameters": {"type": "object", "properties": {
+                "candidate_ids": {"type": "array", "items": {"type": "string"}, "description": "List of candidate IDs to send reminders to."},
+                "days_overdue_threshold": {"type": "integer", "description": "Minimum days past due date to trigger a reminder."}
+            }, "required": ["candidate_ids", "days_overdue_threshold"]}}}
 
-
-#============================================================
-#27. refresh_asset_request_status
-#============================================================
+# ============================================================
+# 27. update_asset_request_status
+# ============================================================
 class UpdateAssetRequestStatusTool(Tool):
-    """Refreshes the status and associated fields of an existing asset request."""
+    """Updates an existing asset request's status and related fields."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        request_id: str,
-        new_status: str,
-        linked_message_id: str = None,
-        assigned_asset_tag: str = None
-    ) -> str:
-        request = next(
-            (
-                r
-                for r in data.get("asset_requests", {}).values()
-                if r.get("request_id") == request_id
-            ),
-            None,
-        )
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        request_id = kwargs.get("request_id")
+        new_status = kwargs.get("new_status")
+
+        request = next((r for r in data.get("asset_requests", []) if r.get("request_id") == request_id), None)
         if not request:
             return _err(f"Request '{request_id}' not found", code="not_found")
 
@@ -2448,241 +2002,156 @@ class UpdateAssetRequestStatusTool(Tool):
 
         request["status"] = new_status
         request["updated_ts"] = HARD_TS
-        if linked_message_id is not None:
-            request["email_message_id_nullable"] = linked_message_id
-        if assigned_asset_tag is not None:
-            request["asset_tag_nullable"] = assigned_asset_tag
+        if "linked_message_id" in kwargs:
+            request["email_message_id_nullable"] = kwargs["linked_message_id"]
+        if "assigned_asset_tag" in kwargs:
+            request["asset_tag_nullable"] = kwargs["assigned_asset_tag"]
             request["inventory_checked_flag"] = True
-        payload = request
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(request, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "UpdateAssetRequestStatus",
-                "description": "Updates the status of an asset request.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "request_id": {"type": "string"},
-                        "new_status": {"type": "string"},
-                        "linked_message_id": {"type": "string"},
-                        "assigned_asset_tag": {"type": "string"},
-                    },
-                    "required": ["request_id", "new_status"],
-                },
-            },
-        }
+            "type": "function", "function": {"name": "update_asset_request_status",
+            "description": "Updates the status of an asset request.",
+            "parameters": {"type": "object", "properties": {
+                "request_id": {"type": "string"}, "new_status": {"type": "string"},
+                "linked_message_id": {"type": "string"}, "assigned_asset_tag": {"type": "string"}
+            }, "required": ["request_id", "new_status"]}}}
 
-
-#============================================================
-#28. generate_orientation_invitation_emails (Refactored)
-#============================================================
+# ============================================================
+# 28. create_orientation_invitation_emails (Refactored)
+# ============================================================
 class CreateOrientationInvitationEmailsTool(Tool):
-    """Generates orientation and manager introduction emails for candidates using templates."""
+    """Creates orientation and manager intro emails for candidates from templates."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        orientation_details: dict[str, Any] = None, 
-        ready_candidate_ids: list[str] = None,
-        orientation_template_name: str = None,
-        manager_intro_template_name: str = None
-    ) -> str:
-        pass
-        candidates_map = {c.get("candidate_id"): c for c in data.get("candidates", {}).values()}
-        emails = _get_table(data, "emails")
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidates_map = {c.get("candidate_id"): c for c in data.get("candidates", [])}
+        emails = data.setdefault("emails", [])
         results = []
 
-        orientation_details = orientation_details or {}
+        orientation_details = kwargs.get("orientation_details", {})
 
-        for candidate_id in ready_candidate_ids or []:
+        for candidate_id in kwargs.get("ready_candidate_ids", []):
             candidate = candidates_map.get(candidate_id)
-            if not candidate:
-                continue
+            if not candidate: continue
 
             context = candidate.copy()
             context.update(orientation_details)
 
-            #Orientation Message
-            rendered_orient = _get_hardcoded_template_and_render(
-                "orientation_invitation", context
-            )
+            # Orientation Email
+            rendered_orient = _get_hardcoded_template_and_render("orientation_invitation", context)
             orient_email_id = _next_str_id(emails, "message_id", "msg_")
             orient_email = {
                 "message_id": orient_email_id,
                 "subject": rendered_orient["subject"],
                 "body": rendered_orient["body"],
-                "from_email": "hr@company.com",
-                "to_emails": [candidate.get("candidate_email")],
-                "cc_emails": (
-                    [candidate.get("manager_email_nullable")]
-                    if candidate.get("manager_email_nullable")
-                    else []
-                ),
-                "date_ts": HARD_TS,
-                "labels_ids": ["label_4"],
-                "attachments_ids": [],
-                "draft_flag": False,
-                "sent_flag": True,
-                "candidate_id_nullable": candidate_id,
-                "thread_id_nullable": None,
-                "in_reply_to_message_id_nullable": None,
+                "from_email": "hr@company.com", "to_emails": [candidate.get("candidate_email")],
+                "cc_emails": [candidate.get("manager_email_nullable")] if candidate.get("manager_email_nullable") else [],
+                "date_ts": HARD_TS, "labels_ids": ["label_4"], "attachments_ids": [],
+                "draft_flag": False, "sent_flag": True, "candidate_id_nullable": candidate_id,
+                "thread_id_nullable": None, "in_reply_to_message_id_nullable": None
             }
-            _get_table(data, "emails")[email_id] = orient_email
+            emails.append(orient_email)
 
-            #Manager Introduction Message
-            rendered_intro = _get_hardcoded_template_and_render(
-                "manager_introduction", context
-            )
+            # Manager Intro Email
+            rendered_intro = _get_hardcoded_template_and_render("manager_introduction", context)
             intro_email_id = _next_str_id(emails, "message_id", "msg_")
             intro_email = {
                 "message_id": intro_email_id,
                 "subject": rendered_intro["subject"],
                 "body": rendered_intro["body"],
-                "from_email": "hr@company.com",
-                "to_emails": [candidate.get("manager_email_nullable")],
+                "from_email": "hr@company.com", "to_emails": [candidate.get("manager_email_nullable")],
                 "cc_emails": [candidate.get("candidate_email")],
-                "date_ts": HARD_TS,
-                "labels_ids": ["label_5"],
-                "attachments_ids": [],
-                "draft_flag": False,
-                "sent_flag": True,
-                "candidate_id_nullable": candidate_id,
-                "thread_id_nullable": None,
-                "in_reply_to_message_id_nullable": None,
+                "date_ts": HARD_TS, "labels_ids": ["label_5"], "attachments_ids": [],
+                "draft_flag": False, "sent_flag": True, "candidate_id_nullable": candidate_id,
+                "thread_id_nullable": None, "in_reply_to_message_id_nullable": None
             }
-            _get_table(data, "emails")[email_id] = intro_email
+            emails.append(intro_email)
 
             candidate["orientation_invite_ts_nullable"] = HARD_TS
             candidate["manager_intro_invite_ts_nullable"] = HARD_TS
 
-            results.append(
-                {
-                    "candidate_id": candidate_id,
-                    "orientation_email": orient_email,
-                    "manager_intro_email": intro_email,
-                    "updated_candidate": candidate,
-                    "results": {"system_name": "Email", "status": "Success"},
-                    "email_type": "orientation invitation",
-                }
-            )
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+            results.append({"candidate_id": candidate_id, "orientation_email": orient_email, "manager_intro_email": intro_email, "updated_candidate": candidate, "results": {'system_name': 'Email', 'status': 'Success'}, "email_type": "orientation invitation"})
+
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "CreateOrientationInvitationEmails",
-                "description": "Creates orientation and manager introduction emails.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "ready_candidate_ids": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                        },
-                        "orientation_details": {
-                            "type": "object",
-                            "description": "e.g., meeting_time, meeting_location",
-                        },
-                        "orientation_template_name": {
-                            "type": "string",
-                            "description": "Template name for orientation email",
-                        },
-                        "manager_intro_template_name": {
-                            "type": "string",
-                            "description": "Template name for manager introduction email",
-                        },
-                    },
-                    "required": [
-                        "ready_candidate_ids",
-                        "orientation_template_name",
-                        "manager_intro_template_name",
-                    ],
-                },
-            },
-        }
+            "type": "function", "function": {"name": "create_orientation_invitation_emails",
+            "description": "Creates orientation and manager introduction emails.",
+            "parameters": {"type": "object", "properties": {
+                "ready_candidate_ids": {"type": "array", "items": {"type": "string"}},
+                "orientation_details": {"type": "object", "description": "e.g., meeting_time, meeting_location"},
+                "orientation_template_name": {"type": "string", "description": "Template name for orientation email"},
+                "manager_intro_template_name": {"type": "string", "description": "Template name for manager introduction email"}
+            }, "required": ["ready_candidate_ids", "orientation_template_name", "manager_intro_template_name"]}}}
 
-
-#============================================================
-#29. store_completed_candidate_files
-#============================================================
+# ============================================================
+# 29. archive_completed_candidate_files
+# ============================================================
 class ArchiveCompletedCandidateFilesTool(Tool):
-    """Refreshes file paths for archiving and generates a summary file."""
+    """Updates file paths to archive them and creates a summary file."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str, archive_path_prefix: str = "/archived") -> str:
-        files = _get_table(data, "onboarding_files")
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
+        prefix = kwargs.get("archive_path_prefix", "/archived")
+        files = data.setdefault("onboarding_files", [])
 
         updated_files = []
         archived_paths = []
-        for file in files.values():
+        for file in files:
             if file.get("candidate_id") == candidate_id:
                 old_path = file["file_path"]
-                file["file_path"] = f"{archive_path_prefix}{old_path}"
+                file["file_path"] = f"{prefix}{old_path}"
                 file["updated_ts"] = HARD_TS
-                updated__get_table(data, "onboarding_files")[file["onboarding_file_id"]] = file
+                updated_files.append(file)
                 archived_paths.append(old_path)
 
-        summary_content = (
-            f"Archived {len(archived_paths)} files for candidate {candidate_id}:\n"
-            + "\n".join(archived_paths)
-        )
+        summary_content = f"Archived {len(archived_paths)} files for candidate {candidate_id}:\n" + "\n".join(archived_paths)
         summary_file = {
-            "file_path": f"{archive_path_prefix}/{candidate_id}/archive_summary.md",
-            "content_text": summary_content,
-            "mime_type": "text/markdown",
-            "created_ts": HARD_TS,
-            "updated_ts": HARD_TS,
-            "candidate_id": candidate_id,
+            "file_path": f"{prefix}/{candidate_id}/archive_summary.md",
+            "content_text": summary_content, "mime_type": "text/markdown",
+            "created_ts": HARD_TS, "updated_ts": HARD_TS,
+            "candidate_id": candidate_id
         }
-        _get_table(data, "onboarding_files")[summary_file["onboarding_file_id"]] = summary_file
-        payload = updated_files + [summary_file]
-        out = json.dumps(payload, indent=2)
-        return out
+        files.append(summary_file)
+
+        return json.dumps(updated_files + [summary_file], indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "archiveCompletedCandidateFiles",
-                "description": "Archives files for a completed candidate.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "candidate_id": {"type": "string"},
-                        "archive_path_prefix": {"type": "string"},
-                    },
-                    "required": ["candidate_id"],
-                },
-            },
-        }
+            "type": "function", "function": {"name": "archive_completed_candidate_files",
+            "description": "Archives files for a completed candidate.",
+            "parameters": {"type": "object", "properties": {
+                "candidate_id": {"type": "string"}, "archive_path_prefix": {"type": "string"}
+            }, "required": ["candidate_id"]}}}
 
-
-#============================================================
-#30. merge_email_threads_and_cleanup (Fixed)
-#============================================================
+# ============================================================
+# 30. consolidate_email_threads_and_cleanup (Fixed)
+# ============================================================
 class ConsolidateEmailThreadsAndCleanupTool(Tool):
-    """Organizes emails into threads and removes outdated drafts."""
+    """Groups emails into threads and cleans up old drafts."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str = None, draft_cleanup_age_days: int = 30) -> str:
-        all_emails = data.get("emails", {}).values()
-        candidate_emails = [
-            e for e in all_emails.values() if e.get("candidate_id_nullable") == candidate_id
-        ]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
+        age_days = kwargs.get("draft_cleanup_age_days", 30)
+
+        all_emails = data.get("emails", [])
+        candidate_emails = [e for e in all_emails if e.get("candidate_id_nullable") == candidate_id]
         updated_emails = []
 
-        # Organizing by subject
+        # Threading by subject
         subject_groups = {}
         for email in candidate_emails:
             subject = str(email.get("subject", "")).strip()
-            # Standardize subject by eliminating Re: Fwd: etc.
+            # Normalize subject by removing Re: Fwd: etc.
             clean_subject = re.sub(r"^(Re|Fwd|RE|FWD):\s*", "", subject)
             if clean_subject not in subject_groups:
                 subject_groups[clean_subject] = []
@@ -2694,110 +2163,88 @@ class ConsolidateEmailThreadsAndCleanupTool(Tool):
                 for email in group:
                     if not email.get("thread_id_nullable"):
                         email["thread_id_nullable"] = thread_id
-                        updated__get_table(data, "emails")[email_id] = email
+                        updated_emails.append(email)
 
-        # Remove outdated drafts
+        # Cleanup old drafts
         for email in candidate_emails:
-            if (
-                email.get("draft_flag")
-                and _days_between(email.get("date_ts", "0"), HARD_TS) > draft_cleanup_age_days
-            ):
+            if email.get("draft_flag") and _days_between(email.get("date_ts", "0"), HARD_TS) > age_days:
                 email["draft_flag"] = False
-                email["sent_flag"] = False  # It was not dispatched
+                email["sent_flag"] = False # It was never sent
                 if email not in updated_emails:
-                    updated__get_table(data, "emails")[email_id] = email
-        payload = updated_emails
-        out = json.dumps(payload, indent=2)
-        return out
+                    updated_emails.append(email)
+
+        return json.dumps(updated_emails, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
-            "type": "function",
-            "function": {
-                "name": "consolidateEmailThreadsAndCleanup",
-                "description": "Groups emails into threads and cleans up old drafts.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "candidate_id": {"type": "string"},
-                        "draft_cleanup_age_days": {"type": "integer"},
-                    },
-                    "required": ["candidate_id"],
-                },
-            },
-        }
+            "type": "function", "function": {"name": "consolidate_email_threads_and_cleanup",
+            "description": "Groups emails into threads and cleans up old drafts.",
+            "parameters": {"type": "object", "properties": {
+                "candidate_id": {"type": "string"}, "draft_cleanup_age_days": {"type": "integer"}
+            }, "required": ["candidate_id"]}}}
 
-
-#============================================================
-#31. refresh_candidates_record
-#============================================================
+# ============================================================
+# 31. update_candidates_record
+# ============================================================
 class UpdateCandidatesRecordTool(Tool):
-    """Refreshes one or more fields for a collection of candidate records."""
+    """Updates one or more fields for a list of candidate records."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_ids: list = None, fields_to_update: dict = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_ids = kwargs.get("candidate_ids")
+        fields_to_update = kwargs.get("fields_to_update")
+
         if not candidate_ids or not isinstance(candidate_ids, list):
             return _err("candidate_ids (array) is required")
         if not fields_to_update or not isinstance(fields_to_update, dict):
             return _err("fields_to_update (object) is required")
 
-        candidates = data.get("candidates", {}).values()
+        candidates = data.get("candidates", [])
         updated_candidates = []
 
-        for candidate in candidates.values():
+        for candidate in candidates:
             if candidate.get("candidate_id") in candidate_ids:
                 for field, value in fields_to_update.items():
                     if field in candidate:
                         candidate[field] = value
-                updated__get_table(data, "candidates")[candidate_id] = candidate
-        payload = updated_candidates
-        out = json.dumps(payload, indent=2)
-        return out
+                updated_candidates.append(candidate)
+
+        return json.dumps(updated_candidates, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateCandidatesRecord",
+                "name": "update_candidates_record",
                 "description": "Updates one or more fields for a list of candidate records. Useful for setting timestamps or notes after an action has been performed.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "candidate_ids": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "List of candidate IDs to update.",
-                        },
-                        "fields_to_update": {
-                            "type": "object",
-                            "description": 'A dictionary of fields to update. e.g., {"checklist_follow_up_ts_nullable": "2024-08-15T12:00:00Z"}',
-                        },
+                        "candidate_ids": {"type": "array", "items": {"type": "string"}, "description": "List of candidate IDs to update."},
+                        "fields_to_update": {"type": "object", "description": "A dictionary of fields to update. e.g., {\"checklist_follow_up_ts_nullable\": \"2024-08-15T12:00:00Z\"}"}
                     },
                     "required": ["candidate_ids", "fields_to_update"],
                 },
             },
         }
 
-
-#============================================================
-#31. alert_manager
-#============================================================
+# ============================================================
+# 31. notify_manager
+# ============================================================
 class NotifyManagerTool(Tool):
-    """Dispatches a standardized notification email to the manager of a candidate."""
+    """Sends a standardized notification email to a candidate's manager."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str = None, notification_type: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
+        notification_type = kwargs.get("notification_type")
+
         if not candidate_id or not notification_type:
             return _err("candidate_id and notification_type are required.")
 
-        candidate = next(
-            (
-                c
-                for c in data.get("candidates", {}).values()
-                if str(c.get("candidate_id")) == str(candidate_id)
-            ),
-            None,
-        )
+        candidate = next((c for c in data.get("candidates", []) if str(c.get("candidate_id")) == str(candidate_id)), None)
         if not candidate:
             return _err(f"Candidate '{candidate_id}' not found.", code="not_found")
 
@@ -2808,11 +2255,11 @@ class NotifyManagerTool(Tool):
         template_name = f"manager_{notification_type}_notification"
 
         context = candidate.copy()
-        context["manager_name"] = manager_email.split("@")[0]
+        context["manager_name"] = manager_email.split('@')[0]
 
         rendered = _get_hardcoded_template_and_render(template_name, context)
 
-        emails = _get_table(data, "emails")
+        emails = data.setdefault("emails", [])
         new_email = {
             "message_id": _next_str_id(emails, "message_id", "msg_"),
             "subject": rendered["subject"],
@@ -2823,62 +2270,56 @@ class NotifyManagerTool(Tool):
             "date_ts": HARD_TS,
             "labels_ids": [],
             "attachments_ids": [],
-            "draft_flag": False,
-            "sent_flag": True,
+            "draft_flag": False, "sent_flag": True,
             "candidate_id_nullable": candidate_id,
             "thread_id_nullable": _generate_new_thread_id(emails),
-            "in_reply_to_message_id_nullable": None,
+            "in_reply_to_message_id_nullable": None
         }
-        _get_table(data, "emails")[email_id] = new_email
-        payload = new_email
-        out = json.dumps(payload, indent=2)
-        return out
+        emails.append(new_email)
+
+        return json.dumps(new_email, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "NotifyManager",
+                "name": "notify_manager",
                 "description": "Sends a standardized notification email to a candidate's manager.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "candidate_id": {"type": "string"},
-                        "notification_type": {
-                            "type": "string",
-                            "description": "e.g., 'access_issue', 'overdue_escalation'",
-                        },
+                        "notification_type": {"type": "string", "description": "e.g., 'access_issue', 'overdue_escalation'"}
                     },
                     "required": ["candidate_id", "notification_type"],
                 },
             },
         }
 
-
-#============================================================
-#32. retrieve_available_email_types
-#============================================================
+# ============================================================
+# 32. get_available_email_types
+# ============================================================
 class GetAvailableEmailTypesTool(Tool):
-    """Provides a list of acceptable email types for use with the check_email_communication_gaps tool."""
+    """Returns a list of valid email types that can be used with the check_email_communication_gaps tool."""
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         email_types = [
             "welcome",
             "asset provisioning request",
             "onboarding reminder",
             "orientation invitation",
-            "introduction",
+            "introduction"
         ]
-        payload = email_types
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(email_types, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAvailableEmailTypes",
+                "name": "get_available_email_types",
                 "description": "Returns a list of valid email types for checking communication gaps.",
                 "parameters": {
                     "type": "object",
@@ -2888,122 +2329,94 @@ class GetAvailableEmailTypesTool(Tool):
             },
         }
 
-
-#============================================================
-#33. address_sso_access_problem (New)
-#============================================================
+# ============================================================
+# 33. resolve_sso_access_issue (New)
+# ============================================================
 class ResolveSSOAccessIssueTool(Tool):
-    """Imitates an IT intervention to address a failed SSO access verification for a candidate."""
+    """Simulates an IT intervention to resolve a failed SSO access check for a candidate."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
         if not candidate_id:
             return _err("candidate_id is required.")
 
-        access_checks = data.get("access_checks", {}).values()
+        access_checks = data.get("access_checks", [])
         updated_checks = []
 
-        # Locate and resolve the unsuccessful SSO verification
-        sso_check = next(
-            (
-                ac
-                for ac in access_checks.values() if ac.get("candidate_id") == candidate_id
-                and ac.get("system_name") == "SSO"
-                and ac.get("status") == "Failed"
-            ),
-            None,
-        )
+        # Find and fix the failed SSO check
+        sso_check = next((ac for ac in access_checks if ac.get("candidate_id") == candidate_id and ac.get("system_name") == "SSO" and ac.get("status") == "Failed"), None)
 
         if not sso_check:
-            return _err(
-                f"No failed SSO access check found for candidate '{candidate_id}'.",
-                code="not_found",
-            )
+            return _err(f"No failed SSO access check found for candidate '{candidate_id}'.", code="not_found")
 
         sso_check["status"] = "Success"
         sso_check["note_nullable"] = "Resolved by IT."
         sso_check["checked_ts"] = HARD_TS
         updated_checks.append(sso_check)
 
-        # Refresh related systems
+        # Update dependent systems
         dependent_systems = ["Slack", "GitHub"]
         for system in dependent_systems:
-            dependent_check = next(
-                (
-                    ac
-                    for ac in access_checks.values() if ac.get("candidate_id") == candidate_id
-                    and ac.get("system_name") == system
-                ),
-                None,
-            )
-            if dependent_check and dependent_check.get("status") in [
-                "Failed",
-                "Pending",
-            ]:
+            dependent_check = next((ac for ac in access_checks if ac.get("candidate_id") == candidate_id and ac.get("system_name") == system), None)
+            if dependent_check and dependent_check.get("status") in ["Failed", "Pending"]:
                 dependent_check["status"] = "Pending"
-                dependent_check["note_nullable"] = (
-                    "Ready for re-check after SSO resolution."
-                )
+                dependent_check["note_nullable"] = "Ready for re-check after SSO resolution."
                 dependent_check["checked_ts"] = HARD_TS
                 updated_checks.append(dependent_check)
-        payload = updated_checks
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(updated_checks, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ResolveSsoAccessIssue",
+                "name": "resolve_sso_access_issue",
                 "description": "Simulates an IT intervention to resolve a failed SSO access check for a candidate, updating their status to 'Success'.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"candidate_id": {"type": "string"}},
+                    "properties": {
+                        "candidate_id": {"type": "string"}
+                    },
                     "required": ["candidate_id"],
                 },
             },
         }
 
-
-#============================================================
-#34. refresh_access_check_status (New)
-#============================================================
+# ============================================================
+# 34. update_access_check_status (New)
+# ============================================================
 class UpdateAccessCheckStatusTool(Tool):
-    """Refreshes the status of a particular system access verification for a candidate."""
+    """Updates the status of a specific system access check for a candidate."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str = None, system_name: str = None, new_status: str = None, note: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        candidate_id = kwargs.get("candidate_id")
+        system_name = kwargs.get("system_name")
+        new_status = kwargs.get("new_status")
+        note = kwargs.get("note")
+
         if not all([candidate_id, system_name, new_status]):
             return _err("candidate_id, system_name, and new_status are required.")
 
-        access_check = next(
-            (
-                ac
-                for ac in data.get("access_checks", {}).values()
-                if ac.get("candidate_id") == candidate_id
-                and ac.get("system_name") == system_name
-            ),
-            None,
-        )
+        access_check = next((ac for ac in data.get("access_checks", []) if ac.get("candidate_id") == candidate_id and ac.get("system_name") == system_name), None)
 
         if not access_check:
-            return _err(
-                f"No access check found for candidate '{candidate_id}' and system '{system_name}'.",
-                code="not_found",
-            )
+            return _err(f"No access check found for candidate '{candidate_id}' and system '{system_name}'.", code="not_found")
 
         access_check["status"] = new_status
         access_check["note_nullable"] = note
         access_check["checked_ts"] = HARD_TS
-        payload = access_check
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(access_check, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateAccessCheckStatus",
+                "name": "update_access_check_status",
                 "description": "Updates the status of a specific system access check for a candidate.",
                 "parameters": {
                     "type": "object",
@@ -3011,17 +2424,16 @@ class UpdateAccessCheckStatusTool(Tool):
                         "candidate_id": {"type": "string"},
                         "system_name": {"type": "string"},
                         "new_status": {"type": "string"},
-                        "note": {"type": "string"},
+                        "note": {"type": "string"}
                     },
                     "required": ["candidate_id", "system_name", "new_status"],
                 },
             },
         }
 
-
-#============================================================
-#Export entities
-#============================================================
+# ============================================================
+# Export instances
+# ============================================================
 TOOLS = [
     GetCandidateWithFullContextTool(),
     FindCandidatesByOnboardingStatusTool(),

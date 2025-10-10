@@ -1,108 +1,72 @@
+from domains.dto import Tool
 import json
-from typing import Any
-
-from tau_bench.envs.tool import Tool
-
-
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db.values())
-    return db
+from typing import Dict, Any, List
 
 
 class GetFileMetadata(Tool):
-    """Obtains metadata for a particular file on a designated server."""
-
+    """Retrieves metadata for a specific file on a specific server."""
     @staticmethod
-    def invoke(data: dict[str, Any], filepath: str = None, server_hostname: str = None) -> str:
-        for server in data.get("file_system", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        filepath = kwargs.get("filepath")
+        server_hostname = kwargs.get("server_hostname")
+
+        for server in data.get("file_system", []):
             if server.get("hostname") == server_hostname:
                 for directory in server.get("directories", []):
                     for file in directory.get("files", []):
-                        if (
-                            f"{directory.get('path')}/{file.get('filename')}"
-                            == filepath
-                        ):
-                            payload = file
-                            out = json.dumps(payload)
-                            return out
-                payload = {"error": f"File not found: {filepath} on server {server_hostname}"}
-                out = json.dumps(
-                    payload)
-                return out
-        payload = {"error": f"Server not found: {server_hostname}"}
-        out = json.dumps(payload)
-        return out
+                        if f"{directory.get('path')}/{file.get('filename')}" == filepath:
+                            return json.dumps(file)
+                # If the inner loop finishes, the file was not found on this server
+                return json.dumps({"error": f"File not found: {filepath} on server {server_hostname}"})
+        # If the outer loop finishes, the server was not found
+        return json.dumps({"error": f"Server not found: {server_hostname}"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetFileMetadata",
+                "name": "get_file_metadata",
                 "description": "Retrieves metadata for a specific file on a specific server.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "filepath": {
-                            "type": "string",
-                            "description": "The full path to the file.",
-                        },
-                        "server_hostname": {
-                            "type": "string",
-                            "description": "The hostname of the server where the file is located.",
-                        },
+                        "filepath": {"type": "string", "description": "The full path to the file."},
+                        "server_hostname": {"type": "string", "description": "The hostname of the server where the file is located."}
                     },
                     "required": ["filepath", "server_hostname"],
                 },
             },
         }
 
-
 class GetLastAccessTime(Tool):
-    """Fetches the last access timestamp for a particular file on a specified server."""
-
+    """Retrieves the last access timestamp for a specific file on a specific server."""
     @staticmethod
-    def invoke(data: dict[str, Any], filepath: str = None, server_hostname: str = None) -> str:
-        for server in data.get("file_system", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        filepath = kwargs.get("filepath")
+        server_hostname = kwargs.get("server_hostname")
+
+        for server in data.get("file_system", []):
             if server.get("hostname") == server_hostname:
                 for directory in server.get("directories", []):
                     for file in directory.get("files", []):
-                        if (
-                            f"{directory.get('path')}/{file.get('filename')}"
-                            == filepath
-                        ):
-                            payload = {"last_accessed": file.get("last_accessed")}
-                            out = json.dumps(
-                                payload)
-                            return out
-                payload = {"error": f"File not found: {filepath} on server {server_hostname}"}
-                out = json.dumps(
-                    payload)
-                return out
-        payload = {"error": f"Server not found: {server_hostname}"}
-        out = json.dumps(payload)
-        return out
+                        if f"{directory.get('path')}/{file.get('filename')}" == filepath:
+                            return json.dumps({"last_accessed": file.get("last_accessed")})
+                return json.dumps({"error": f"File not found: {filepath} on server {server_hostname}"})
+        return json.dumps({"error": f"Server not found: {server_hostname}"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getLastAccessTime",
+                "name": "get_last_access_time",
                 "description": "Retrieves the last access timestamp for a specific file on a specific server.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "filepath": {
-                            "type": "string",
-                            "description": "The full path to the file.",
-                        },
-                        "server_hostname": {
-                            "type": "string",
-                            "description": "The hostname of the server where the file is located.",
-                        },
+                        "filepath": {"type": "string", "description": "The full path to the file."},
+                        "server_hostname": {"type": "string", "description": "The hostname of the server where the file is located."}
                     },
                     "required": ["filepath", "server_hostname"],
                 },
@@ -111,56 +75,47 @@ class GetLastAccessTime(Tool):
 
 
 class GetLastAccessedFile(Tool):
-    """Acquires the file that was accessed most recently on a specific server."""
-
+    """Gets the most recently accessed file on a specific server."""
     @staticmethod
-    def invoke(data: dict[str, Any], server_hostname: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        server_hostname = kwargs.get("server_hostname")
+        
         latest_file_path = None
-        latest_timestamp = (
-            "1970-01-01T00:00:00Z"  # Set up with an ancient timestamp
-        )
+        latest_timestamp = "1970-01-01T00:00:00Z" # Initialize with a very old timestamp
 
         server_found = False
-        for server in data.get("file_system", {}).values():
+        for server in data.get("file_system", []):
             if server.get("hostname") == server_hostname:
                 server_found = True
                 for directory in server.get("directories", []):
                     for file in directory.get("files", []):
                         if file.get("last_accessed") > latest_timestamp:
                             latest_timestamp = file.get("last_accessed")
-                            latest_file_path = (
-                                f"{directory.get('path')}/{file.get('filename')}"
-                            )
-                break  # Cease operation upon locating the server
-
+                            latest_file_path = f"{directory.get('path')}/{file.get('filename')}"
+                break # Stop after finding the server
+        
         if not server_found:
-            payload = {"error": f"Server not found: {server_hostname}"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Server not found: {server_hostname}"})
 
         if not latest_file_path:
-            payload = {
-                "message": f"No files with access times found on server {server_hostname}."
-            }
-            out = json.dumps(payload)
-            return out
-        payload = {"filepath": latest_file_path, "last_accessed": latest_timestamp}
-        out = json.dumps(payload)
-        return out
+            return json.dumps({"message": f"No files with access times found on server {server_hostname}."})
+
+        return json.dumps({
+            "filepath": latest_file_path,
+            "last_accessed": latest_timestamp
+        })
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getLastAccessedFile",
+                "name": "get_last_accessed_file",
                 "description": "Gets the most recently accessed file on a specific server.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "server_hostname": {
-                            "type": "string",
-                            "description": "The hostname of the server to check.",
-                        }
+                        "server_hostname": {"type": "string", "description": "The hostname of the server to check."}
                     },
                     "required": ["server_hostname"],
                 },
@@ -169,134 +124,110 @@ class GetLastAccessedFile(Tool):
 
 
 class FindFiles(Tool):
-    """Locates files on a server according to defined criteria."""
-
+    """Finds files on a server based on specified criteria."""
     @staticmethod
-    def invoke(data: dict[str, Any], server_hostname: str = None, search_path: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        server_hostname = kwargs.get("server_hostname")
+        search_path = kwargs.get("search_path")
+        
         found_files = []
-        for server in data.get("file_system", {}).values():
+        for server in data.get("file_system", []):
             if server.get("hostname") == server_hostname:
                 for directory in server.get("directories", []):
                     if directory.get("path").startswith(search_path):
                         for file in directory.get("files", []):
-                            found_files.append(
-                                f"{directory.get('path')}/{file.get('filename')}"
-                            )
-        payload = {"files": found_files}
-        out = json.dumps(payload)
-        return out
+                            found_files.append(f"{directory.get('path')}/{file.get('filename')}")
+        return json.dumps({"files": found_files})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindFiles",
+                "name": "find_files",
                 "description": "Finds files on a server based on specified criteria.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "server_hostname": {
-                            "type": "string",
-                            "description": "The hostname of the server to search.",
-                        },
-                        "search_path": {
-                            "type": "string",
-                            "description": "The directory path to start the search from.",
-                        },
+                        "server_hostname": {"type": "string", "description": "The hostname of the server to search."},
+                        "search_path": {"type": "string", "description": "The directory path to start the search from."}
                     },
                     "required": ["server_hostname", "search_path"],
                 },
             },
         }
 
-
 class CheckDiskSpace(Tool):
-    """Assesses the free disk space on a server."""
+    """Checks the available disk space on a server."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        server_hostname = kwargs.get("server_hostname")
+        for server in data.get("system_resources", []):
+            if server.get("hostname") == server_hostname:
+                return json.dumps(server.get("disk"))
+        return json.dumps({"error": f"Server not found: {server_hostname}"})
 
     @staticmethod
-    def invoke(data: dict[str, Any], server_hostname: str = None) -> str:
-        for server in data.get("system_resources", {}).values():
-            if server.get("hostname") == server_hostname:
-                payload = server.get("disk")
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Server not found: {server_hostname}"}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CheckDiskSpace",
+                "name": "check_disk_space",
                 "description": "Checks the available disk space on a server.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "server_hostname": {
-                            "type": "string",
-                            "description": "The hostname of the server to check.",
-                        }
+                        "server_hostname": {"type": "string", "description": "The hostname of the server to check."}
                     },
                     "required": ["server_hostname"],
                 },
             },
         }
 
-
 class CreateArchive(Tool):
-    """Generates a new archive instruction along with a simulated archive file in the file_system.json state."""
-
+    """Creates a new archive instruction and a simulated archive file in the file_system.json state."""
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        destination_directory: str,
-        archive_name: str,
-        user_id: str = None,
-        remote_address: str = None,
-        filepaths: list[str] = None
-    ) -> str:
-        # Step 1: Generate the instruction in archive_instructions.json
-        archive_instructions = data.get("archive_instructions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        # Part 1: Create the instruction in archive_instructions.json
+        archive_instructions = data.get("archive_instructions", [])
         max_id = 0
         if archive_instructions:
-            for instruction in archive_instructions.values():
+            for instruction in archive_instructions:
                 try:
-                    current_id_num = int(
-                        instruction.get("archive_id", "arch_000").split("_")[1]
-                    )
+                    current_id_num = int(instruction.get("archive_id", "arch_000").split("_")[1])
                     if current_id_num > max_id:
                         max_id = current_id_num
                 except (IndexError, ValueError):
-                    continue
+                    continue 
         new_id_num = max_id + 1
         archive_id = f"arch_{new_id_num:03d}"
-
+        
+        destination_directory = kwargs.get("destination_directory")
+        archive_name = kwargs.get("archive_name")
         archive_path = f"{destination_directory}/{archive_name}.tar.gz"
 
         new_archive_instruction = {
             "archive_id": archive_id,
-            "user_id": user_id,
+            "user_id": kwargs.get("user_id"),
             "destination_directory": destination_directory,
-            "remote_address": remote_address,
+            "remote_address": kwargs.get("remote_address"),
             "archive_name": archive_name,
-            "filepaths": filepaths,
+            "filepaths": kwargs.get("filepaths"),
             "status": "pending",
         }
         data["archive_instructions"].append(new_archive_instruction)
 
-        # Step 2: Generate the simulated file in file_system.json
+        # Part 2: Create the simulated file in file_system.json
+        filepaths = kwargs.get("filepaths", [])
         if not filepaths:
-            payload = {"error": "No filepaths provided for archive creation."}
-            out = json.dumps(payload)
-            return out
+             return json.dumps({"error": "No filepaths provided for archive creation."})
 
-        # Locate the server and determine the size based on the source files
+        # Find the server and calculate the size from the source files
         source_server = None
         total_size = 0
         for path in filepaths:
             file_found = False
-            for server in data.get("file_system", {}).values():
+            for server in data.get("file_system", []):
                 for directory in server.get("directories", []):
                     for file in directory.get("files", []):
                         if f"{directory.get('path')}/{file.get('filename')}" == path:
@@ -304,28 +235,24 @@ class CreateArchive(Tool):
                             total_size += int(file.get("size", 0))
                             file_found = True
                             break
-                    if file_found and source_server:
-                        break
-                if file_found and source_server:
-                    break
-
+                    if file_found and source_server: break
+                if file_found and source_server: break
+        
         if not source_server:
-            payload = {"error": f"Could not find the source server for files: {filepaths}"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Could not find the source server for files: {filepaths}"})
 
-        archive_size = int(total_size * 0.8)  # Emulate 80% compression
-        archive_checksum = "a1f2e3d4c5b6789012345678901234567890abcd"
+        archive_size = int(total_size * 0.8) # Simulate 80% compression
+        archive_checksum = 'a1f2e3d4c5b6789012345678901234567890abcd'
         new_archive_file = {
             "filename": f"{archive_name}.tar.gz",
             "size": str(archive_size),
-            "owner": user_id,
+            "owner": kwargs.get("user_id"),
             "permissions": "644",
             "last_modified": "2025-08-13T01:01:01Z",
-            "checksum": archive_checksum,
+            "checksum": archive_checksum
         }
-
-        # Place the archive in the destination directory on the source server
+        
+        # Add the archive to the destination directory on the source server
         dest_dir_found = False
         for directory in source_server["directories"]:
             if directory["path"] == destination_directory:
@@ -333,23 +260,21 @@ class CreateArchive(Tool):
                 dest_dir_found = True
                 break
         if not dest_dir_found:
-            source_server["directories"].append(
-                {"path": destination_directory, "files": [new_archive_file]}
-            )
-        payload = {
-            "status": "success",
-            "message": f"Archive instruction {archive_id} created and simulated file created at {source_server['hostname']}:{archive_path}.",
+             source_server["directories"].append({"path": destination_directory, "files": [new_archive_file]})
+
+        return json.dumps({
+            "status": "success", 
+            "message": f"Archive instruction {archive_id} created and simulated file created at {source_server['hostname']}:{archive_path}.", 
             "archive_id": archive_id,
-            "archive_path": archive_path,
-        }
-        out = json.dumps(payload)
-        return out
+            "archive_path": archive_path
+        })
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateArchive",
+                "name": "create_archive",
                 "description": "Creates a new archive instruction and a simulated archive file in the file_system.json state.",
                 "parameters": {
                     "type": "object",
@@ -360,45 +285,35 @@ class CreateArchive(Tool):
                         "archive_name": {"type": "string"},
                         "filepaths": {"type": "array", "items": {"type": "string"}},
                     },
-                    "required": [
-                        "user_id",
-                        "destination_directory",
-                        "remote_address",
-                        "archive_name",
-                        "filepaths",
-                    ],
+                    "required": ["user_id", "destination_directory", "remote_address", "archive_name", "filepaths"],
                 },
             },
         }
 
-
 class CreateFileList(Tool):
-    """Incorporates a list of files into the file_lists.json database, retrieving their size and checksum from file_system.json."""
-
+    """Adds a list of files to the file_lists.json database, looking up their size and checksum from file_system.json."""
     @staticmethod
-    def invoke(data: dict[str, Any], operation_id: str = None, filepaths: list = None) -> str:
-        if filepaths is None:
-            filepaths = []
-        file_lists = data.get("file_lists", {}).values()
-
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        operation_id = kwargs.get("operation_id")
+        filepaths = kwargs.get("filepaths", [])
+        file_lists = data.get("file_lists", [])
+        
         max_id = 0
         if file_lists:
-            for item in file_lists.values():
+            for item in file_lists:
                 try:
                     current_id_num = int(item.get("file_id", "file_000").split("_")[1])
                     if current_id_num > max_id:
                         max_id = current_id_num
                 except (IndexError, ValueError):
                     continue
-
+        
         added_files = []
         for i, filepath in enumerate(filepaths):
             found_size = "0"
-            found_checksum = (
-                "a1f2e3d4c5b6789012345678901234567890abcd"  # Standard checksum
-            )
+            found_checksum = 'a1f2e3d4c5b6789012345678901234567890abcd' # Default checksum
             file_found = False
-            for server in data.get("file_system", {}).values():
+            for server in data.get("file_system", []):
                 for directory in server.get("directories", []):
                     for file in directory.get("files", []):
                         current_path = f"{directory.get('path')}/{file.get('filename')}"
@@ -411,11 +326,11 @@ class CreateFileList(Tool):
                         break
                 if file_found:
                     break
-
+            
             new_id_num = max_id + i + 1
             file_id = f"file_{new_id_num:03d}"
-            filename = filepath.split("/")[-1]
-
+            filename = filepath.split('/')[-1]
+            
             new_entry = {
                 "operation_id": operation_id,
                 "file_id": file_id,
@@ -424,111 +339,88 @@ class CreateFileList(Tool):
                 "filedestination": None,
                 "size": found_size,
                 "checksum": found_checksum,
-                "status": "pending",
+                "status": "pending"
             }
-            data["file_lists"][new_entry["file_list_id"]] = new_entry
-            added_data["files"][file_id] = file_id
-        payload = {
-            "status": "success",
-            "message": f"Added {len(added_files)} files to the list.",
-            "file_ids": added_files,
-        }
-        out = json.dumps(payload)
-        return out
+            file_lists.append(new_entry)
+            added_files.append(file_id)
+            
+        return json.dumps({"status": "success", "message": f"Added {len(added_files)} files to the list.", "file_ids": added_files})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateFileList",
+                "name": "create_file_list",
                 "description": "Adds a list of files to the file_lists.json database, looking up their size and checksum from file_system.json.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "operation_id": {
-                            "type": "string",
-                            "description": "The ID of the operation these files are associated with.",
-                        },
-                        "filepaths": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "description": "A list of full file paths to add.",
-                        },
+                        "operation_id": {"type": "string", "description": "The ID of the operation these files are associated with."},
+                        "filepaths": {"type": "array", "items": {"type": "string"}, "description": "A list of full file paths to add."}
                     },
                     "required": ["operation_id", "filepaths"],
                 },
             },
         }
-
-
 class TransferFile(Tool):
-    """Emulates the transfer of a file by establishing its record on the destination server in file_system.json. Creates the server and directory if they are absent."""
-
+    """Simulates transferring a file by creating its record on the destination server in file_system.json. Creates server and directory if they do not exist."""
     @staticmethod
-    def invoke(data: dict[str, Any], source_path: str = None, destination_path: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        source_path = kwargs.get("source_path")
+        destination_full_path = kwargs.get("destination_path")
+
         source_file_details = None
         file_found = False
-        for server in data.get("file_system", {}).values():
+        source_server_hostname = None
+        for server in data.get("file_system", []):
             for directory in server.get("directories", []):
                 for file in directory.get("files", []):
                     if f"{directory.get('path')}/{file.get('filename')}" == source_path:
                         source_file_details = file.copy()
-                        server.get("hostname")
+                        source_server_hostname = server.get("hostname")
                         file_found = True
                         break
-                if file_found:
-                    break
-            if file_found:
-                break
-
+                if file_found: break
+            if file_found: break
+        
         if not source_file_details:
-            # Verify if the source path contains a server name (for transfers between servers)
+             # Check if the source path includes a server name (for inter-server transfers)
             try:
                 source_hostname, path = source_path.split(":", 1)
-                for server in data.get("file_system", {}).values():
+                for server in data.get("file_system", []):
                     if server.get("hostname") == source_hostname:
-                        for directory in server.get("directories", []):
+                         for directory in server.get("directories", []):
                             for file in directory.get("files", []):
-                                if (
-                                    f"{directory.get('path')}/{file.get('filename')}"
-                                    == path
-                                ):
+                                if f"{directory.get('path')}/{file.get('filename')}" == path:
                                     source_file_details = file.copy()
-                                    server.get("hostname")
+                                    source_server_hostname = server.get("hostname")
                                     file_found = True
                                     break
-                            if file_found:
-                                break
-                    if file_found:
-                        break
+                            if file_found: break
+                    if file_found: break
             except ValueError:
-                pass  # Path not designated for a server
-
+                pass # Not a server-specified path
+        
         if not source_file_details:
-            payload = {"error": f"Source file not found: {source_path}"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Source file not found: {source_path}"})
 
         try:
-            dest_hostname, dest_path = destination_path.split(":", 1)
+            dest_hostname, dest_path = destination_full_path.split(":", 1)
             dest_dir_path = "/".join(dest_path.split("/")[:-1])
             dest_filename = dest_path.split("/")[-1]
         except ValueError:
-            payload = {
-                "error": "Invalid destination format. Expected 'hostname:/path/to/file'"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Invalid destination format. Expected 'hostname:/path/to/file'"})
 
         dest_server = None
-        for server in data["file_system"].values():
+        for server in data["file_system"]:
             if server.get("hostname") == dest_hostname:
                 dest_server = server
                 break
-
+        
         if not dest_server:
             max_id = 0
-            for s in data["file_system"].values():
+            for s in data["file_system"]:
                 try:
                     current_id_num = int(s.get("server_id", "srv_000").split("_")[1])
                     if current_id_num > max_id:
@@ -537,11 +429,7 @@ class TransferFile(Tool):
                     continue
             new_id_num = max_id + 1
             new_server_id = f"srv_{new_id_num:03d}"
-            dest_server = {
-                "server_id": new_server_id,
-                "hostname": dest_hostname,
-                "directories": [],
-            }
+            dest_server = {"server_id": new_server_id, "hostname": dest_hostname, "directories": []}
             data["file_system"].append(dest_server)
 
         dest_directory = None
@@ -553,22 +441,19 @@ class TransferFile(Tool):
         if not dest_directory:
             dest_directory = {"path": dest_dir_path, "files": []}
             dest_server["directories"].append(dest_directory)
-
+        
         new_file_entry = source_file_details
         new_file_entry["filename"] = dest_filename
         dest_directory["files"].append(new_file_entry)
-        payload = {
-            "status": "success",
-            "message": f"File transferred from {source_path} to {destination_path}.",
-        }
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"status": "success", "message": f"File transferred from {source_path} to {destination_full_path}."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "TransferFile",
+                "name": "transfer_file",
                 "description": "Simulates transferring a file by creating its record on the destination server in file_system.json. Creates server and directory if they do not exist.",
                 "parameters": {
                     "type": "object",
@@ -581,150 +466,118 @@ class TransferFile(Tool):
             },
         }
 
-
 class VerifyChecksum(Tool):
-    """Confirms the checksum of a file against its initial record in file_lists.json."""
-
+    """Verifies the checksum of a file against its original record in file_lists.json."""
     @staticmethod
-    def invoke(data: dict[str, Any], file_id: str = None, filepath: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        file_id = kwargs.get("file_id")
+        filepath = kwargs.get("filepath")
+        
         original_checksum = None
-        for record in data.get("file_lists", {}).values():
+        for record in data.get("file_lists", []):
             if record.get("file_id") == file_id:
                 original_checksum = record.get("checksum")
                 break
-
+        
         if not original_checksum:
-            payload = {"error": f"File record not found for file_id: {file_id}"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"File record not found for file_id: {file_id}"})
 
         try:
             dest_hostname, dest_path = filepath.split(":", 1)
         except ValueError:
-            payload = {"error": "Invalid filepath format. Expected 'hostname:/path/to/file'"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "Invalid filepath format. Expected 'hostname:/path/to/file'"})
 
         actual_checksum = None
         file_found = False
-        for server in data.get("file_system", {}).values():
+        for server in data.get("file_system", []):
             if server.get("hostname") == dest_hostname:
                 for directory in server.get("directories", []):
                     for file in directory.get("files", []):
-                        if (
-                            f"{directory.get('path')}/{file.get('filename')}"
-                            == dest_path
-                        ):
+                        if f"{directory.get('path')}/{file.get('filename')}" == dest_path:
                             actual_checksum = file.get("checksum")
                             file_found = True
                             break
-                    if file_found:
-                        break
-                if file_found:
-                    break
+                    if file_found: break
+                if file_found: break
 
         if not file_found:
-            payload = {"error": f"File not found at path: {filepath}"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"File not found at path: {filepath}"})
 
-        match = original_checksum == actual_checksum
-        payload = {
-            "match": match,
-            "original_checksum": original_checksum,
-            "actual_checksum": actual_checksum,
-        }
-        out = json.dumps(payload)
-        return out
+        match = (original_checksum == actual_checksum)
+        
+        return json.dumps({"match": match, "original_checksum": original_checksum, "actual_checksum": actual_checksum})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "VerifyChecksum",
+                "name": "verify_checksum",
                 "description": "Verifies the checksum of a file against its original record in file_lists.json.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "file_id": {
-                            "type": "string",
-                            "description": "The ID of the file record in file_lists.json.",
-                        },
-                        "filepath": {
-                            "type": "string",
-                            "description": "The full path of the file to verify, in 'hostname:/path/to/file' format.",
-                        },
+                        "file_id": {"type": "string", "description": "The ID of the file record in file_lists.json."},
+                        "filepath": {"type": "string", "description": "The full path of the file to verify, in 'hostname:/path/to/file' format."}
                     },
                     "required": ["file_id", "filepath"],
                 },
             },
         }
-
-
 class DeleteFile(Tool):
-    """Removes a file from the file system."""
-
+    """Deletes a file from the file system."""
     @staticmethod
-    def invoke(data: dict[str, Any], filepath: str) -> str:
-        for server in data.get("file_system", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        filepath = kwargs.get("filepath")
+        for server in data.get("file_system", []):
             for directory in server.get("directories", []):
                 original_len = len(directory.get("files", []))
-                directory["files"] = [
-                    f
-                    for f in directory.get("files", [])
-                    if f"{directory.get('path')}/{f.get('filename')}" != filepath
-                ]
+                directory["files"] = [f for f in directory.get("files", []) if f"{directory.get('path')}/{f.get('filename')}" != filepath]
                 if len(directory.get("files", [])) < original_len:
-                    payload = {"status": "success", "message": f"File {filepath} deleted."}
-                    out = json.dumps(payload)
-                    return out
-        payload = {"error": f"File not found: {filepath}"}
-        out = json.dumps(payload)
-        return out
+                    return json.dumps({"status": "success", "message": f"File {filepath} deleted."})
+        return json.dumps({"error": f"File not found: {filepath}"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "DeleteFile",
+                "name": "delete_file",
                 "description": "Deletes a file from the file system.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "filepath": {
-                            "type": "string",
-                            "description": "The full path of the file to delete.",
-                        }
+                        "filepath": {"type": "string", "description": "The full path of the file to delete."}
                     },
                     "required": ["filepath"],
                 },
             },
         }
-
-
 class LogTaskStart(Tool):
-    """Records the initiation of a new task in task_logs.json."""
-
+    """Logs the start of a new task in task_logs.json."""
     @staticmethod
-    def invoke(data: dict[str, Any], task_id: str = None, user_id: str = None, task_type: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        task_id = kwargs.get("task_id")
+        user_id = kwargs.get("user_id")
+        task_type = kwargs.get("task_type")
+
         new_task_log = {
             "task_id": task_id,
             "task_type": task_type,
             "user_id": user_id,
             "result": "in_progress",
-            "started_at": "2025-08-13T01:01:01Z",  # Emulated timestamp
-            "notes": "Task initiated by agent.",
+            "started_at": "2025-08-13T01:01:01Z", # Simulated timestamp
+            "notes": "Task initiated by agent."
         }
         data["task_logs"].append(new_task_log)
-        payload = {"status": "success", "message": f"Task {task_id} logged as in_progress."}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "success", "message": f"Task {task_id} logged as in_progress."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "LogTaskStart",
+                "name": "log_task_start",
                 "description": "Logs the start of a new task in task_logs.json.",
                 "parameters": {
                     "type": "object",
@@ -737,48 +590,31 @@ class LogTaskStart(Tool):
                 },
             },
         }
-
-
 class UpdateTaskStatus(Tool):
-    """Modifies the status of a task across different logs."""
-
+    """Updates the status of a task in various logs."""
     @staticmethod
-    def invoke(data: dict[str, Any], task_id: str = None, new_status: str = None) -> str:
-        for task in data.get("task_logs", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        task_id = kwargs.get("task_id")
+        new_status = kwargs.get("new_status")
+        for task in data.get("task_logs", []):
             if task.get("task_id") == task_id:
                 task["result"] = new_status
-                payload = {
-                    "status": "success",
-                    "message": f"Task {task_id} status updated to {new_status}.",
-                }
-                out = json.dumps(payload)
-                return out
-        for task in data.get("archive_instructions", {}).values():
+                return json.dumps({"status": "success", "message": f"Task {task_id} status updated to {new_status}."})
+        for task in data.get("archive_instructions", []):
             if task.get("archive_id") == task_id:
                 task["status"] = new_status
-                payload = {
-                    "status": "success",
-                    "message": f"Task {task_id} status updated to {new_status}.",
-                }
-                out = json.dumps(payload)
-                return out
-        for task in data.get("directories", {}).values():
-            if task.get("operation_id") == task_id:
-                payload = {
-                    "status": "success",
-                    "message": f"Task {task_id} status noted as {new_status}.",
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Task not found: {task_id}"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"status": "success", "message": f"Task {task_id} status updated to {new_status}."})
+        for task in data.get("directories", []):
+             if task.get("operation_id") == task_id:
+                return json.dumps({"status": "success", "message": f"Task {task_id} status noted as {new_status}."})
+        return json.dumps({"error": f"Task not found: {task_id}"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateTaskStatus",
+                "name": "update_task_status",
                 "description": "Updates the status of a task in various logs.",
                 "parameters": {
                     "type": "object",
@@ -791,16 +627,14 @@ class UpdateTaskStatus(Tool):
             },
         }
 
-
 class LogCompletionMessage(Tool):
-    """Records a completion message and provides the generated msg_id."""
-
+    """Logs a completion message and returns the generated msg_id."""
     @staticmethod
-    def invoke(data: dict[str, Any], task_id: str = None, user_id: str = None, message: str = None) -> str:
-        completion_messages = data.get("completion_messages", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        completion_messages = data.get("completion_messages", [])
         max_id = 0
         if completion_messages:
-            for msg in completion_messages.values():
+            for msg in completion_messages:
                 try:
                     current_id_num = int(msg.get("msg_id", "comp_000").split("_")[1])
                     if current_id_num > max_id:
@@ -812,25 +646,19 @@ class LogCompletionMessage(Tool):
 
         new_log = {
             "msg_id": msg_id,
-            "task_id": task_id,
-            "user_id": user_id,
-            "msg": message,
+            "task_id": kwargs.get("task_id"),
+            "user_id": kwargs.get("user_id"),
+            "msg": kwargs.get("message"),
         }
         data["completion_messages"].append(new_log)
-        payload = {
-                "status": "success",
-                "message": "Completion message logged.",
-                "msg_id": msg_id,
-            }
-        out = json.dumps(
-            payload)
-        return out
+        return json.dumps({"status": "success", "message": "Completion message logged.", "msg_id": msg_id})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "LogCompletionMessage",
+                "name": "log_completion_message",
                 "description": "Logs a completion message and returns the generated msg_id.",
                 "parameters": {
                     "type": "object",
@@ -844,27 +672,26 @@ class LogCompletionMessage(Tool):
             },
         }
 
-
 class SendSlackNotification(Tool):
-    """Dispatches a notification to a Slack channel."""
-
+    """Sends a notification to a Slack channel."""
     @staticmethod
-    def invoke(data: dict[str, Any], channel_name: str = None, message: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        channel_name = kwargs.get("channel_name")
+        message = kwargs.get("message")
+        
         channel_id = None
-        for channel in data.get("slack_channels", {}).values():
+        for channel in data.get("slack_channels", []):
             if channel.get("name") == channel_name:
                 channel_id = channel.get("channel_id")
                 break
-
+        
         if not channel_id:
-            payload = {"error": f"Channel '{channel_name}' not found."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Channel '{channel_name}' not found."})
 
-        slack_messages = data.get("slack_messages", {}).values()
+        slack_messages = data.get("slack_messages", [])
         max_id = 0
         if slack_messages:
-            for msg in slack_messages.values():
+            for msg in slack_messages:
                 try:
                     current_id_num = int(msg.get("message_id", "msg_000").split("_")[1])
                     if current_id_num > max_id:
@@ -881,18 +708,17 @@ class SendSlackNotification(Tool):
             "username": "SystemMonitor",
             "message": message,
             "timestamp": "2025-08-13T01:01:01Z",
-            "type": "system_alert",
+            "type": "system_alert"
         }
         data["slack_messages"].append(new_message)
-        payload = {"status": "success", "message": f"Message sent to {channel_name}."}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "success", "message": f"Message sent to {channel_name}."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SendSlackNotification",
+                "name": "send_slack_notification",
                 "description": "Sends a notification to a Slack channel.",
                 "parameters": {
                     "type": "object",
@@ -905,16 +731,14 @@ class SendSlackNotification(Tool):
             },
         }
 
-
 class LogError(Tool):
-    """Records an error message and returns the generated msg_id."""
-
+    """Logs an error message and returns the generated msg_id."""
     @staticmethod
-    def invoke(data: dict[str, Any], err_type: str = None, task_id: str = None, user_id: str = None, message: str = None, severity: str = None) -> str:
-        error_messages = data.get("error_messages", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        error_messages = data.get("error_messages", [])
         max_id = 0
         if error_messages:
-            for msg in error_messages.values():
+            for msg in error_messages:
                 try:
                     current_id_num = int(msg.get("msg_id", "err_msg_000").split("_")[2])
                     if current_id_num > max_id:
@@ -926,22 +750,21 @@ class LogError(Tool):
 
         new_error = {
             "msg_id": msg_id,
-            "err_type": err_type,
-            "task_id": task_id,
-            "user_id": user_id,
-            "msg": message,
-            "severity": severity,
+            "err_type": kwargs.get("err_type"),
+            "task_id": kwargs.get("task_id"),
+            "user_id": kwargs.get("user_id"),
+            "msg": kwargs.get("message"),
+            "severity": kwargs.get("severity"),
         }
         data["error_messages"].append(new_error)
-        payload = {"status": "success", "message": "Error message logged.", "msg_id": msg_id}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"status": "success", "message": "Error message logged.", "msg_id": msg_id})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "logError",
+                "name": "log_error",
                 "description": "Logs an error message and returns the generated msg_id.",
                 "parameters": {
                     "type": "object",
@@ -952,92 +775,72 @@ class LogError(Tool):
                         "message": {"type": "string"},
                         "severity": {"type": "string"},
                     },
-                    "required": [
-                        "err_type",
-                        "task_id",
-                        "user_id",
-                        "message",
-                        "severity",
-                    ],
+                    "required": ["err_type", "task_id", "user_id", "message", "severity"],
                 },
             },
         }
 
-
 class GetPendingFileChecks(Tool):
-    """Fetches tasks for pending file checks."""
+    """Retrieves pending file check tasks."""
+    @staticmethod
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        pending_tasks = [task for task in data.get("file_check_db", []) if not task.get("completed")]
+        return json.dumps({"pending_tasks": pending_tasks})
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        pending_tasks = [
-            task for task in data.get("file_check_db", {}).values() if not task.get("completed")
-        ]
-        payload = {"pending_tasks": pending_tasks}
-        out = json.dumps(payload)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPendingFileChecks",
+                "name": "get_pending_file_checks",
                 "description": "Retrieves pending file check tasks.",
                 "parameters": {},
             },
         }
 
-
 class CreateDirectory(Tool):
-    """Establishes a new directory."""
-
+    """Creates a new directory."""
     @staticmethod
-    def invoke(data: dict[str, Any], server_hostname: str = None, new_directory_path: str = None) -> str:
-        for server in data.get("file_system", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        server_hostname = kwargs.get("server_hostname")
+        new_directory_path = kwargs.get("new_directory_path")
+
+        for server in data.get("file_system", []):
             if server.get("hostname") == server_hostname:
                 server["directories"].append({"path": new_directory_path, "files": []})
-                payload = {
-                    "status": "success",
-                    "message": f"Directory '{new_directory_path}' created on '{server_hostname}'.",
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Server not found: {server_hostname}"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"status": "success", "message": f"Directory '{new_directory_path}' created on '{server_hostname}'."})
+        
+        return json.dumps({"error": f"Server not found: {server_hostname}"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateDirectory",
+                "name": "create_directory",
                 "description": "Creates a new directory on a server.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "server_hostname": {
-                            "type": "string",
-                            "description": "The hostname of the server.",
-                        },
-                        "new_directory_path": {
-                            "type": "string",
-                            "description": "The full path of the new directory.",
-                        },
+                        "server_hostname": {"type": "string", "description": "The hostname of the server."},
+                        "new_directory_path": {"type": "string", "description": "The full path of the new directory."}
                     },
                     "required": ["server_hostname", "new_directory_path"],
                 },
             },
         }
 
-
 class MoveFile(Tool):
-    """Transfers a file from a source location to a target location."""
-
+    """Moves a file from a source path to a destination path."""
     @staticmethod
-    def invoke(data: dict[str, Any], source_path: str = None, destination_path: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        source_path = kwargs.get("source_path")
+        destination_path = kwargs.get("destination_path")
+        
         file_to_move = None
         source_directory = None
 
-        for server in data.get("file_system", {}).values():
+        for server in data.get("file_system", []):
             for directory in server.get("directories", []):
                 for file in directory.get("files", []):
                     if f"{directory.get('path')}/{file.get('filename')}" == source_path:
@@ -1048,44 +851,31 @@ class MoveFile(Tool):
                     break
             if file_to_move:
                 break
-
+        
         if not file_to_move:
-            payload = {"error": f"Source file not found: {source_path}"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Source file not found: {source_path}"})
 
-        source_directory["files"] = [
-            f
-            for f in source_directory["files"]
-            if f"{source_directory.get('path')}/{f.get('filename')}" != source_path
-        ]
+        source_directory["files"] = [f for f in source_directory["files"] if f"{source_directory.get('path')}/{f.get('filename')}" != source_path]
 
         dest_dir_path = "/".join(destination_path.split("/")[:-1])
         dest_filename = destination_path.split("/")[-1]
-
+        
         file_to_move["filename"] = dest_filename
 
-        for server in data.get("file_system", {}).values():
+        for server in data.get("file_system", []):
             for directory in server.get("directories", []):
                 if directory.get("path") == dest_dir_path:
                     directory["files"].append(file_to_move)
-                    payload = {
-                            "status": "success",
-                            "message": f"File moved from {source_path} to {destination_path}.",
-                        }
-                    out = json.dumps(
-                        payload)
-                    return out
-        payload = {"error": f"Destination directory not found: {dest_dir_path}"}
-        out = json.dumps(
-            payload)
-        return out
+                    return json.dumps({"status": "success", "message": f"File moved from {source_path} to {destination_path}."})
+
+        return json.dumps({"error": f"Destination directory not found: {dest_dir_path}"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "MoveFile",
+                "name": "move_file",
                 "description": "Moves a file from a source path to a destination path.",
                 "parameters": {
                     "type": "object",
@@ -1099,7 +889,7 @@ class MoveFile(Tool):
         }
 
 
-#--- Compilation of all accessible tools ---
+# --- List of all available tools ---
 TOOLS = [
     GetFileMetadata(),
     GetLastAccessTime(),
@@ -1120,3 +910,5 @@ TOOLS = [
     CreateDirectory(),
     MoveFile(),
 ]
+
+

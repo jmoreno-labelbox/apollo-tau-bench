@@ -1,40 +1,27 @@
 import json
-from typing import Any
+from typing import Any, Dict, List, Set
+from domains.dto import Tool
 
-from tau_bench.envs.tool import Tool
-
-#---------------------------------------------------------------------------
-#1.  Retrieve a specific employee using their ID  (READ)
-#---------------------------------------------------------------------------
-
-
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
+# ---------------------------------------------------------------------------
+#  1.  Get a single employee by ID  (READ)
+# ---------------------------------------------------------------------------
 
 
 class get_employee_by_id(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None) -> str:
-        employees = data.get("employees", {}).values()
-        for e in employees.values():
+    def invoke(data: Dict[str, Any], employee_id: str) -> str:
+        employees = data.get("employees", [])
+        for e in employees:
             if e["employee_id"] == employee_id:
-                payload = e
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"employee_id {employee_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(e, indent=2)
+        return json.dumps({"error": f"employee_id {employee_id} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetEmployeeById",
+                "name": "get_employee_by_id",
                 "description": "Return the complete employee record including fields first_name, last_name, preferred_name, date_of_birth, gender, ethnicity_code, nationality, marital_status, hire_date, termination_date, status, position_id, department_id, level_id, manager_id, work_location, work_email, work_phone, compensation_id, benefit_plan_ids, performance_review_ids, skills, role_description, notes for the given employee_id.",
                 "parameters": {
                     "type": "object",
@@ -51,30 +38,29 @@ class get_employee_by_id(Tool):
         }
 
 
-#---------------------------------------------------------------------------
-#2.  Find employees using various filters  (READ)
-#---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+#  2.  Search employees by arbitrary filters  (READ)
+# ---------------------------------------------------------------------------
 
 
 class find_employees(Tool):
     """
-    Executes basic AND-style filtering on any primary employee attributes
+    Performs simple AND-style filtering on any top-level employee fields
     (e.g. {"department_id": "DEPT1001", "status": "Active"}).
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], filters: dict[str, Any]) -> str:
-        employees = data.get("employees", {}).values()
-        hits = [e for e in employees.values() if all(e.get(k) == v for k, v in filters.items())]
-        payload = {"count": len(hits), "results": hits}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], filters: Dict[str, Any]) -> str:
+        employees = data.get("employees", [])
+        hits = [e for e in employees if all(e.get(k) == v for k, v in filters.items())]
+        return json.dumps({"count": len(hits), "results": hits}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindEmployees",
+                "name": "find_employees",
                 "description": "Return employees' full records that match ALL supplied attribute/value pairs.",
                 "parameters": {
                     "type": "object",
@@ -91,39 +77,34 @@ class find_employees(Tool):
         }
 
 
-#---------------------------------------------------------------------------
-#3.  Add a new employee entry  (WRITE)
-#---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+#  3.  Create a new employee record  (WRITE)
+# ---------------------------------------------------------------------------
 
 
 class create_new_employee(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], employee: Dict[str, Any]) -> str:
         new_emp = employee
         if not new_emp:
-            payload = {"error": "employee payload required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "employee payload required"}, indent=2)
 
-        employees = data.get("employees", {}).values()
-        if any(e["employee_id"] == new_emp["employee_id"] for e in employees.values()):
-            payload = {"error": "employee_id already exists"}
-            out = json.dumps(payload, indent=2)
-            return out
+        employees = data.get("employees", [])
+        if any(e["employee_id"] == new_emp["employee_id"] for e in employees):
+            return json.dumps({"error": "employee_id already exists"}, indent=2)
 
-        data["employees"][employee_id] = new_emp
+        employees.append(new_emp)
         data["employees"] = employees
-        payload = {"success": f'employee {new_emp["employee_id"]} created'}
-        out = json.dumps(
-            payload, indent=2
+        return json.dumps(
+            {"success": f'employee {new_emp["employee_id"]} created'}, indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateNewEmployee",
+                "name": "create_new_employee",
                 "description": "Insert a completely new employee record.",
                 "parameters": {
                     "type": "object",
@@ -140,41 +121,38 @@ class create_new_employee(Tool):
         }
 
 
-#---------------------------------------------------------------------------
-#4.  Modify changeable employee attributes  (WRITE/PATCH)
-#---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+#  4.  Update mutable employee fields  (WRITE/PATCH)
+# ---------------------------------------------------------------------------
 
 
 class update_employee_record(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str, updates: dict[str, Any]) -> str:
-        employees = data.get("employees", {}).values()
+    def invoke(data: Dict[str, Any], employee_id: str, updates: Dict[str, Any]) -> str:
+        employees = data.get("employees", [])
         changes = updates
 
         updated = False
-        for e in employees.values():
+        for e in employees:
             if e["employee_id"] == employee_id:
                 e.update(changes)
                 updated = True
                 break
 
         if not updated:
-            payload = {"error": f"employee_id {employee_id} not found"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": f"employee_id {employee_id} not found"}, indent=2
             )
-            return out
 
         data["employees"] = employees
-        payload = {"success": f"employee {employee_id} updated"}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"success": f"employee {employee_id} updated"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateEmployeeRecord",
+                "name": "update_employee_record",
                 "description": "Patch one or more fields on an existing employee record.",
                 "parameters": {
                     "type": "object",
@@ -192,40 +170,38 @@ class update_employee_record(Tool):
         }
 
 
-#---------------------------------------------------------------------------
-#5.  End employment / off-board employee (soft delete)  (WRITE)
-#---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+#  5.  Terminate / off-board employee (soft delete)  (WRITE)
+# ---------------------------------------------------------------------------
 
 
 class terminate_employee(Tool):
     """
-    Designates an employee as terminated by updating status, termination_date,
-    and (if desired) removing benefit and compensation associations.
+    Marks an employee as terminated by setting status, termination_date,
+    and (optionally) clearing benefit and compensation links.
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str, termination_date: str = None) -> str:
-        employees = data.get("employees", {}).values()
+    def invoke(data: Dict[str, Any], employee_id: str, termination_date: str) -> str:
+        employees = data.get("employees", [])
 
-        for e in employees.values():
+        for e in employees:
             if e["employee_id"] == employee_id:
                 e["status"] = "Terminated"
                 e["termination_date"] = termination_date
                 data["employees"] = employees
-                payload = {"success": f"employee {employee_id} terminated"}
-                out = json.dumps(
-                    payload, indent=2
+                return json.dumps(
+                    {"success": f"employee {employee_id} terminated"}, indent=2
                 )
-                return out
-        payload = {"error": f"employee_id {employee_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"error": f"employee_id {employee_id} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "TerminateEmployee",
+                "name": "terminate_employee",
                 "description": "Soft-delete: flag employee as Terminated and record final day.",
                 "parameters": {
                     "type": "object",
@@ -243,31 +219,28 @@ class terminate_employee(Tool):
         }
 
 
-#---------------------------------------------------------------------------
-#6.  Retrieve department information  (READ)
-#---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+#  6.  Get department metadata  (READ)
+# ---------------------------------------------------------------------------
 
 
 class get_department_by_id(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], department_id: str = None) -> str:
-        depts = data.get("departments", {}).values()
-        for d in depts.values():
+    def invoke(data: Dict[str, Any], department_id: str) -> str:
+        depts = data.get("departments", [])
+        for d in depts:
             if d["department_id"] == department_id:
-                payload = d
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"department_id {department_id} not found"}
-        out = json.dumps(
-            payload, indent=2
+                return json.dumps(d, indent=2)
+        return json.dumps(
+            {"error": f"department_id {department_id} not found"}, indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetDepartmentById",
+                "name": "get_department_by_id",
                 "description": "Fetch department details by department_id.",
                 "parameters": {
                     "type": "object",
@@ -279,81 +252,59 @@ class get_department_by_id(Tool):
         }
 
 
-#---------------------------------------------------------------------------
-#7.  Display all departments  (READ)
-#---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+#  7.  List all departments  (READ)
+# ---------------------------------------------------------------------------
 
 
 class list_departments(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], departments: list = None) -> str:
-        payload = departments if departments is not None else data.get("departments", {}).values()
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any]) -> str:
+        return json.dumps(data.get("departments", []), indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListDepartments",
+                "name": "list_departments",
                 "description": "Return every department record.",
                 "parameters": {"type": "object", "properties": {}, "required": []},
             },
         }
 
 
-#---------------------------------------------------------------------------
-#8.  Modify department leader, budget, or details  (WRITE)
-#---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+#  8.  Update department head, budget, or description  (WRITE)
+# ---------------------------------------------------------------------------
 
 
 class update_department_record(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any], department_id: str, updates: dict[str, Any]
+        data: Dict[str, Any], department_id: str, updates: Dict[str, Any]
     ) -> str:
-        depts = data.get("departments", {}).values()
+        depts = data.get("departments", [])
         changes = updates
 
-        for d in depts.values():
+        for d in depts:
             if d["department_id"] == department_id:
                 d.update(changes)
                 data["departments"] = depts
-                payload = {"success": f"department {department_id} updated"}
-                out = json.dumps(
-                    payload, indent=2
+                return json.dumps(
+                    {"success": f"department {department_id} updated"}, indent=2
                 )
-                return out
-        payload = {"error": f"department_id {department_id} not found"}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
-        pass
-        depts = data.get("departments", {}).values()
-        changes = updates
 
-        for d in depts.values():
-            if d["department_id"] == department_id:
-                d.update(changes)
-                data["departments"] = depts
-                payload = {"success": f"department {department_id} updated"}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
-        payload = {"error": f"department_id {department_id} not found"}
-        out = json.dumps(
-            payload, indent=2
+        return json.dumps(
+            {"error": f"department_id {department_id} not found"}, indent=2
         )
-        return out
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateDepartmentRecord",
+                "name": "update_department_record",
                 "description": "Patch mutable department attributes (head_id, budget …).",
                 "parameters": {
                     "type": "object",
@@ -368,26 +319,25 @@ class update_department_record(Tool):
         }
 
 
-#---------------------------------------------------------------------------
-#9.  Retrieve the current salary of an employee  (READ)
-#---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+#  9.  Get an employee's current compensation  (READ)
+# ---------------------------------------------------------------------------
 
 
 class get_compensation_by_employee_id(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None) -> str:
-        comp = data.get("compensation_records", {}).values()
-        latest = [c for c in comp.values() if c["employee_id"] == employee_id]
+    def invoke(data: Dict[str, Any], employee_id: str) -> str:
+        comp = data.get("compensation_records", [])
+        latest = [c for c in comp if c["employee_id"] == employee_id]
         latest.sort(key=lambda c: c["effective_date"], reverse=True)
-        payload = latest[0] if latest else {"error": "not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(latest[0] if latest else {"error": "not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCompensationByEmployeeId",
+                "name": "get_compensation_by_employee_id",
                 "description": "Return the most recent compensation record for employee_id.",
                 "parameters": {
                     "type": "object",
@@ -399,35 +349,33 @@ class get_compensation_by_employee_id(Tool):
         }
 
 
-#---------------------------------------------------------------------------
-#10.  Insert or update compensation (new effective date)  (WRITE)
-#---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# 10.  Upsert compensation (new effective date)  (WRITE)
+# ---------------------------------------------------------------------------
 
 
 class set_compensation(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], compensation: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], compensation: Dict[str, Any]) -> str:
         if not compensation:
-            payload = {"error": "compensation record required"}
-            out = json.dumps(payload, indent=2)
-            return out
-        comp = data.get("compensation_records", {}).values()
+            return json.dumps({"error": "compensation record required"}, indent=2)
+        comp = data.get("compensation_records", [])
         comp = [
-            c for c in comp.values() if c["compensation_id"] != compensation["compensation_id"]
+            c for c in comp if c["compensation_id"] != compensation["compensation_id"]
         ]
-        data["compensation_records"][compensation["compensation_record_id"]] = compensation
+        comp.append(compensation)
         data["compensation_records"] = comp
-        payload = {"success": f'compensation {compensation["compensation_id"]} recorded'}
-        out = json.dumps(
-            payload, indent=2,
+        return json.dumps(
+            {"success": f'compensation {compensation["compensation_id"]} recorded'},
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SetCompensation",
+                "name": "set_compensation",
                 "description": "Insert a new compensation record with all necessary fields (overwrites prior record if compensation_id already exists).",
                 "parameters": {
                     "type": "object",
@@ -444,30 +392,27 @@ class set_compensation(Tool):
         }
 
 
-#---------------------------------------------------------------------------
-#11.  Submit a performance evaluation  (WRITE)
-#---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# 11.  Add a performance review  (WRITE)
+# ---------------------------------------------------------------------------
 
 
 class create_performance_review(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], review: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], review: Dict[str, Any]) -> str:
         if not review:
-            payload = {"error": "review record required"}
-            out = json.dumps(payload, indent=2)
-            return out
-        pr = data.get("performance_reviews", {}).values()
-        data["performance_reviews"][review["performance_review_id"]] = review
+            return json.dumps({"error": "review record required"}, indent=2)
+        pr = data.get("performance_reviews", [])
+        pr.append(review)
         data["performance_reviews"] = pr
-        payload = {"success": f'review {review["review_id"]} added'}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"success": f'review {review["review_id"]} added'}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreatePerformanceReview",
+                "name": "create_performance_review",
                 "description": "Append a new performance review record.",
                 "parameters": {
                     "type": "object",
@@ -479,28 +424,27 @@ class create_performance_review(Tool):
         }
 
 
-#---------------------------------------------------------------------------
-#12.  Display evaluations for an employee  (READ)
-#---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# 12.  List reviews for an employee  (READ)
+# ---------------------------------------------------------------------------
 
 
 class get_performance_reviews_by_employee_id(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], employee_id: str) -> str:
         pr = [
             r
-            for r in data.get("performance_reviews", {}).values()
+            for r in data.get("performance_reviews", [])
             if r["employee_id"] == employee_id
         ]
-        payload = pr
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(pr, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPerformanceReviewsByEmployeeId",
+                "name": "get_performance_reviews_by_employee_id",
                 "description": "Return all reviews linked to the employee.",
                 "parameters": {
                     "type": "object",
@@ -512,30 +456,27 @@ class get_performance_reviews_by_employee_id(Tool):
         }
 
 
-#---------------------------------------------------------------------------
-#13.  Submit a request for a new leave record  (WRITE)
-#---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# 13.  Request a new leave record  (WRITE)
+# ---------------------------------------------------------------------------
 
 
 class create_leave_record(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], leave: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], leave: Dict[str, Any]) -> str:
         if not leave:
-            payload = {"error": "leave record required"}
-            out = json.dumps(payload, indent=2)
-            return out
-        lv = data.get("leave_records", {}).values()
-        data["leave_records"][leave["leave_record_id"]] = leave
+            return json.dumps({"error": "leave record required"}, indent=2)
+        lv = data.get("leave_records", [])
+        lv.append(leave)
         data["leave_records"] = lv
-        payload = {"success": f'leave {leave["leave_id"]} requested'}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"success": f'leave {leave["leave_id"]} requested'}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateLeaveRecord",
+                "name": "create_leave_record",
                 "description": "Insert a leave request; status should start as 'Pending'.",
                 "parameters": {
                     "type": "object",
@@ -547,34 +488,32 @@ class create_leave_record(Tool):
         }
 
 
-#---------------------------------------------------------------------------
-#14.  Confirm or modify leave status  (WRITE)
-#---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# 14.  Approve / update leave status  (WRITE)
+# ---------------------------------------------------------------------------
 
 
 class update_leave_status(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], leave_id: str, status: str = None) -> str:
-        lv = data.get("leave_records", {}).values()
+    def invoke(data: Dict[str, Any], leave_id: str, status: str) -> str:
+        lv = data.get("leave_records", [])
 
-        for leave_record in lv.values():
+        for leave_record in lv:
             if leave_record["leave_id"] == leave_id:
                 leave_record["status"] = status
                 data["leave_records"] = lv
-                payload = {"success": f"leave {leave_id} set to {status}"}
-                out = json.dumps(
-                    payload, indent=2
+                return json.dumps(
+                    {"success": f"leave {leave_id} set to {status}"}, indent=2
                 )
-                return out
-        payload = {"error": f"leave_id {leave_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"error": f"leave_id {leave_id} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateLeaveStatus",
+                "name": "update_leave_status",
                 "description": "Change status of an existing leave record (e.g., Approved, Denied).",
                 "parameters": {
                     "type": "object",
@@ -589,28 +528,27 @@ class update_leave_status(Tool):
         }
 
 
-#---------------------------------------------------------------------------
-#15.  Display leave records for an employee  (READ)
-#---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# 15.  List leaves for an employee  (READ)
+# ---------------------------------------------------------------------------
 
 
 class list_employee_leaves(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], employee_id: str) -> str:
         lv = [
             leave_record
-            for leave_record in data.get("leave_records", {}).values()
+            for leave_record in data.get("leave_records", [])
             if leave_record["employee_id"] == employee_id
         ]
-        payload = lv
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(lv, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListEmployeeLeaves",
+                "name": "list_employee_leaves",
                 "description": "Return all leave records for the employee (any status).",
                 "parameters": {
                     "type": "object",
@@ -622,32 +560,30 @@ class list_employee_leaves(Tool):
         }
 
 
-#---------------------------------------------------------------------------
-#16.  Introduce a new benefits plan (e.g., PPO2)  (WRITE)
-#---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# 16.  Add a new benefit plan (e.g., PPO2)  (WRITE)
+# ---------------------------------------------------------------------------
 
 
 class create_benefit_plan(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], benefit_plan: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], benefit_plan: Dict[str, Any]) -> str:
         if not benefit_plan:
-            payload = {"error": "benefit_plan record required"}
-            out = json.dumps(payload, indent=2)
-            return out
-        bp = data.get("benefits_plan", {}).values()
-        data["benefits_plan"][benefit_plan["benefits_plan_id"]] = benefit_plan
+            return json.dumps({"error": "benefit_plan record required"}, indent=2)
+        bp = data.get("benefits_plan", [])
+        bp.append(benefit_plan)
         data["benefits_plan"] = bp
-        payload = {"success": f'benefit_plan {benefit_plan["benefit_plan_id"]} added'}
-        out = json.dumps(
-            payload, indent=2,
+        return json.dumps(
+            {"success": f'benefit_plan {benefit_plan["benefit_plan_id"]} added'},
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateBenefitPlan",
+                "name": "create_benefit_plan",
                 "description": "Create a new benefit plan definition.",
                 "parameters": {
                     "type": "object",
@@ -659,56 +595,36 @@ class create_benefit_plan(Tool):
         }
 
 
-#---------------------------------------------------------------------------
-#17.  Modify properties of a current benefits plan  (WRITE)
-#---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# 17.  Amend attributes of an existing benefit plan  (WRITE)
+# ---------------------------------------------------------------------------
 
 
 class update_benefit_plan(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any], benefit_plan_id: str, updates: dict[str, Any]
+        data: Dict[str, Any], benefit_plan_id: str, updates: Dict[str, Any]
     ) -> str:
-        bp = data.get("benefits_plan", {}).values()
+        bp = data.get("benefits_plan", [])
 
-        for p in bp.values():
+        for p in bp:
             if p["benefit_plan_id"] == benefit_plan_id:
                 p.update(updates)
                 data["benefits_plan"] = bp
-                payload = {"success": f"benefit_plan {benefit_plan_id} updated"}
-                out = json.dumps(
-                    payload, indent=2
+                return json.dumps(
+                    {"success": f"benefit_plan {benefit_plan_id} updated"}, indent=2
                 )
-                return out
-        payload = {"error": f"benefit_plan_id {benefit_plan_id} not found"}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
-        pass
-        bp = data.get("benefits_plan", {}).values()
 
-        for p in bp.values():
-            if p["benefit_plan_id"] == benefit_plan_id:
-                p.update(updates)
-                data["benefits_plan"] = bp
-                payload = {"success": f"benefit_plan {benefit_plan_id} updated"}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
-        payload = {"error": f"benefit_plan_id {benefit_plan_id} not found"}
-        out = json.dumps(
-            payload, indent=2
+        return json.dumps(
+            {"error": f"benefit_plan_id {benefit_plan_id} not found"}, indent=2
         )
-        return out
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateBenefitPlan",
+                "name": "update_benefit_plan",
                 "description": "Patch fields of an existing benefit plan.",
                 "parameters": {
                     "type": "object",
@@ -723,57 +639,39 @@ class update_benefit_plan(Tool):
         }
 
 
-#---------------------------------------------------------------------------
-#18.  Add or remove an employee from a benefits plan list  (WRITE)
-#---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# 18.  Enroll or remove an employee in a benefit plan list  (WRITE)
+# ---------------------------------------------------------------------------
 
 
 class set_employee_benefits(Tool):
     """
-    Replaces the benefit_plan_ids array for an employee to precisely align with the
-    list provided in `benefit_plan_ids`.
+    Overwrites the benefit_plan_ids array for an employee to match exactly the
+    list supplied in `benefit_plan_ids`.
     """
 
     @staticmethod
     def invoke(
-        data: dict[str, Any], employee_id: str, benefit_plan_ids: list[str]
-     = None) -> str:
-        employees = data.get("employees", {}).values()
+        data: Dict[str, Any], employee_id: str, benefit_plan_ids: List[str]
+    ) -> str:
+        employees = data.get("employees", [])
 
-        for e in employees.values():
+        for e in employees:
             if e["employee_id"] == employee_id:
                 e["benefit_plan_ids"] = benefit_plan_ids
                 data["employees"] = employees
-                payload = {"success": f"benefits for {employee_id} updated"}
-                out = json.dumps(
-                    payload, indent=2
+                return json.dumps(
+                    {"success": f"benefits for {employee_id} updated"}, indent=2
                 )
-                return out
-        payload = {"error": f"employee_id {employee_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
-        pass
-        employees = data.get("employees", {}).values()
 
-        for e in employees.values():
-            if e["employee_id"] == employee_id:
-                e["benefit_plan_ids"] = benefit_plan_ids
-                data["employees"] = employees
-                payload = {"success": f"benefits for {employee_id} updated"}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
-        payload = {"error": f"employee_id {employee_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"error": f"employee_id {employee_id} not found"}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SetEmployeeBenefits",
+                "name": "set_employee_benefits",
                 "description": "Replace an employee's benefit_plan_ids array with the supplied list.",
                 "parameters": {
                     "type": "object",
@@ -792,55 +690,51 @@ class set_employee_benefits(Tool):
         }
 
 
-#---------------------------------------------------------------------------
-#19.  Retrieve an available new employee ID  (READ)
-#---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# 19.  Get unused new employee ID  (READ)
+# ---------------------------------------------------------------------------
 
 
 class get_new_employee_id(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        employees = data.get("employees", {}).values()
-        used_ids = [e["employee_id"] for e in employees.values()]
+    def invoke(data: Dict[str, Any]) -> str:
+        employees = data.get("employees", [])
+        used_ids = [e["employee_id"] for e in employees]
         for i in range(10000, 100000):
             if f"E{i:05d}" not in used_ids:
-                payload = f"E{i:05d}"
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": "no unused employee ID found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(f"E{i:05d}", indent=2)
+        return json.dumps({"error": "no unused employee ID found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetNewEmployeeId",
+                "name": "get_new_employee_id",
                 "description": "Return an employee ID that is not currently in use.",
                 "parameters": {},
             },
         }
 
 
-#---------------------------------------------------------------------------
-#20.  Look up position  (READ)
-#---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# 20.  Search position  (READ)
+# ---------------------------------------------------------------------------
 
 
 class search_positions(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], title: str = None) -> str:
-        positions = data.get("positions", {}).values()
-        hits = [p for p in positions.values() if p["title"] == title]
-        payload = hits
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], title: str) -> str:
+        positions = data.get("positions", [])
+        hits = [p for p in positions if p["title"] == title]
+        return json.dumps(hits, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "searchPositions",
+                "name": "search_positions",
                 "description": "Return all positions that match the title. If no match, return an empty list.",
                 "parameters": {
                     "type": "object",
@@ -854,37 +748,34 @@ class search_positions(Tool):
 
 class get_new_compensation_id(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], compensations: list[dict[str, Any]] = None) -> str:
-        compensations = compensations if compensations is not None else []
+    def invoke(data: Dict[str, Any]) -> str:
+        compensations = data.get("compensations", [])
         prefix = "COMP"
         start_num = 10000
 
         if not compensations:
-            payload = f"{prefix}{start_num}"
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps(f"{prefix}{start_num}", indent=2)
 
         max_id_num = 0
         for comp in compensations:
             comp_id = comp.get("compensation_id", "")
             if comp_id.startswith(prefix):
                 try:
-                    num = int(comp_id[len(prefix):])
+                    num = int(comp_id[len(prefix) :])
                     if num > max_id_num:
                         max_id_num = num
                 except (ValueError, TypeError):
                     continue
 
         next_id = f"{prefix}{max(start_num, max_id_num) + 1}"
-        payload = next_id
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(next_id, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetNewCompensationId",
+                "name": "get_new_compensation_id",
                 "description": "Return a compensation ID that is not currently in use.",
                 "parameters": {},
             },
@@ -893,15 +784,13 @@ class get_new_compensation_id(Tool):
 
 class get_new_review_id(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], reviews: list[dict[str, Any]] = None) -> str:
-        reviews = reviews if reviews is not None else []
+    def invoke(data: Dict[str, Any]) -> str:
+        reviews = data.get("reviews", [])
         prefix = "PR"
         start_num = 10000
 
         if not reviews:
-            payload = f"{prefix}{start_num}"
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps(f"{prefix}{start_num}", indent=2)
 
         max_id_num = 0
         for review in reviews:
@@ -915,15 +804,14 @@ class get_new_review_id(Tool):
                     continue
 
         next_id = f"{prefix}{max(start_num, max_id_num) + 1}"
-        payload = next_id
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(next_id, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetNewReviewId",
+                "name": "get_new_review_id",
                 "description": "Return a performance review ID that is not currently in use.",
                 "parameters": {},
             },
@@ -931,7 +819,7 @@ class get_new_review_id(Tool):
 
 
 class get_employee_by_ids_by_region(Tool):
-    REGION_MAP: dict[str, set[str]] = {
+    REGION_MAP: Dict[str, Set[str]] = {
         "EU": {
             "AT",
             "BE",
@@ -958,37 +846,39 @@ class get_employee_by_ids_by_region(Tool):
             "RO",
             "SK",
             "SI",
-            "ESP",
+            "ES",
             "SE",
         }
     }
 
     @staticmethod
-    def invoke(data: dict[str, Any], region: str = None, status: str = "Active") -> str:
-        if not region or region not in get_employee_by_ids_by_region.REGION_MAP:
-            payload = {"error": f"Invalid or unsupported region: {region}"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        region = kwargs.get("region")
+        status_filter = kwargs.get("status", "Active")
 
-        employees = data.get("employees", {}).values()
+        if not region or region not in get_employee_by_ids_by_region.REGION_MAP:
+            return json.dumps(
+                {"error": f"Invalid or unsupported region: {region}"}, indent=2
+            )
+
+        employees = data.get("employees", [])
         target_nationalities = get_employee_by_ids_by_region.REGION_MAP[region]
 
         found_employees = [
             emp
-            for emp in employees.values() if emp.get("nationality") in target_nationalities
-            and emp.get("status") == status
+            for emp in employees
+            if emp.get("nationality") in target_nationalities
+            and emp.get("status") == status_filter
         ]
-        payload = found_employees
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(found_employees, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getEmployeeByIdsByRegion",
+                "name": "get_employee_by_ids_by_region",
                 "description": "Retrieves a list of employees belonging to a specific geographical or political region (e.g., EU).",
                 "parameters": {
                     "type": "object",
@@ -1011,18 +901,16 @@ class get_employee_by_ids_by_region(Tool):
 
 class get_new_leave_id(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        leaves = data.get("leaves", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        leaves = data.get("leaves", [])
         prefix = "LV"
         start_num = 10000
 
         if not leaves:
-            payload = f"{prefix}{start_num}"
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps(f"{prefix}{start_num}", indent=2)
 
         max_id_num = 0
-        for leave in leaves.values():
+        for leave in leaves:
             leave_id = leave.get("leave_id", "")
             if leave_id.startswith(prefix):
                 try:
@@ -1033,15 +921,14 @@ class get_new_leave_id(Tool):
                     continue
 
         next_id_num = max(start_num, max_id_num) + 1
-        payload = f"{prefix}{next_id_num}"
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(f"{prefix}{next_id_num}", indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetNewLeaveId",
+                "name": "get_new_leave_id",
                 "description": "Return a leave ID that is not currently in use.",
                 "parameters": {},
             },

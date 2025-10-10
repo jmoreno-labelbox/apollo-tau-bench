@@ -1,58 +1,42 @@
 import json
-from typing import Any
-
-from tau_bench.envs.tool import Tool
-
+from typing import Any, Dict, List
+from domains.dto import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db.values())
-    return db
-
-
-#Fundamental utility functions
-class GetTodayDate(Tool):
+# Basic utility tools
+class get_today_date(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        payload = {"today": "2025-10-02"}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any]) -> str:
+        return json.dumps({"today": "2025-10-02"}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "getTodayDate",
+                "name": "get_today_date",
                 "description": "Get today's date",
                 "parameters": {"type": "object", "properties": {}, "required": []},
             },
         }
 
 
-class GetUserIdFromName(Tool):
+class get_user_id_from_name(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], first_name: str, last_name: str) -> str:
-        users = data.get("users", {}).values()
+    def invoke(data: Dict[str, Any], first_name: str, last_name: str) -> str:
+        users = data.get("users", [])
         full_name = f"{first_name} {last_name}"
-        for user in users.values():
+        for user in users:
             if user.get("name") == full_name:
-                payload = {"user_id": user["user_id"]}
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": "User not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps({"user_id": user["user_id"]}, indent=2)
+        return json.dumps({"error": "User not found"}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "getUserIdFromName",
+                "name": "get_user_id_from_name",
                 "description": "Get user ID from first and last name",
                 "parameters": {
                     "type": "object",
@@ -66,33 +50,28 @@ class GetUserIdFromName(Tool):
         }
 
 
-class GetCourseIdByName(Tool):
+class get_course_id_by_name(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], course_name: str) -> str:
-        _course_nameL = course_name or ''.lower()
-        pass
-        courses = data.get("course_catalog", {}).values()
-        # Locate a course whose name includes the specified string (case-insensitive)
+    def invoke(data: Dict[str, Any], course_name: str) -> str:
+        courses = data.get("course_catalog", [])
+        # Find a course where the name contains the provided string (case-insensitive)
         course = next(
-            (c for c in courses.values() if course_name.lower() in c.get("name", "").lower()),
+            (c for c in courses if course_name.lower() in c.get("name", "").lower()),
             None,
         )
         if course:
-            payload = {"course_id": course["course_id"]}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"error": f"Course with name containing '{course_name}' not found"}
-        out = json.dumps(
-            payload, indent=2,
+            return json.dumps({"course_id": course["course_id"]}, indent=2)
+        return json.dumps(
+            {"error": f"Course with name containing '{course_name}' not found"},
+            indent=2,
         )
-        return out
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "getCourseIdByName",
+                "name": "get_course_id_by_name",
                 "description": "Find a course ID by its name.",
                 "parameters": {
                     "type": "object",
@@ -108,17 +87,15 @@ class GetCourseIdByName(Tool):
         }
 
 
-class GetGoalIdByDescription(Tool):
+class get_goal_id_by_description(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str, keyword: str) -> str:
-        _keywordL = keyword or ''.lower()
-        pass
-        goals_data = data.get("goals", {}).values()
+    def invoke(data: Dict[str, Any], user_id: str, keyword: str) -> str:
+        goals_data = data.get("goals", [])
         user_goals_obj = next(
-            (g for g in goals_data.values() if g.get("user_id") == user_id), None
+            (g for g in goals_data if g.get("user_id") == user_id), None
         )
         if user_goals_obj:
-            # Identify a goal with a description that includes the keyword (case-insensitive)
+            # Find a goal where the description contains the keyword (case-insensitive)
             goal = next(
                 (
                     g
@@ -128,23 +105,20 @@ class GetGoalIdByDescription(Tool):
                 None,
             )
             if goal:
-                payload = {"goal_id": goal["goal_id"]}
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {
-            "error": f"Goal for user {user_id} containing keyword '{keyword}' not found"
-        }
-        out = json.dumps(
-            payload, indent=2,
+                return json.dumps({"goal_id": goal["goal_id"]}, indent=2)
+        return json.dumps(
+            {
+                "error": f"Goal for user {user_id} containing keyword '{keyword}' not found"
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "getGoalIdByDescription",
+                "name": "get_goal_id_by_description",
                 "description": "Find a user's goal ID by searching for a keyword in the goal's description.",
                 "parameters": {
                     "type": "object",
@@ -161,32 +135,26 @@ class GetGoalIdByDescription(Tool):
         }
 
 
-class GetTeamIdByName(Tool):
+class get_team_id_by_name(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], team_name: str) -> str:
-        _team_nameL = team_name or ''.lower()
-        pass
-        teams = data.get("teams", {}).values()
+    def invoke(data: Dict[str, Any], team_name: str) -> str:
+        teams = data.get("teams", [])
         team = next(
-            (t for t in teams.values() if t.get("team_name", "").lower() == team_name.lower()),
+            (t for t in teams if t.get("team_name", "").lower() == team_name.lower()),
             None,
         )
         if team:
-            payload = {"team_id": team["team_id"]}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"error": f"Team with name '{team_name}' not found"}
-        out = json.dumps(
-            payload, indent=2
+            return json.dumps({"team_id": team["team_id"]}, indent=2)
+        return json.dumps(
+            {"error": f"Team with name '{team_name}' not found"}, indent=2
         )
-        return out
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "getTeamIdByName",
+                "name": "get_team_id_by_name",
                 "description": "Find a team ID by its name.",
                 "parameters": {
                     "type": "object",
@@ -197,36 +165,30 @@ class GetTeamIdByName(Tool):
         }
 
 
-class FindHrWorkflowForUser(Tool):
+class find_hr_workflow_for_user(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        user_id: Any = None
-    ) -> str:
-        hr_workflows = data.get("hr_workflows", {}).values()
-        # A user may serve as the main employee or a candidate within a workflow
+    def invoke(data: Dict[str, Any], user_id: str) -> str:
+        workflows = data.get("hr_workflows", [])
+        # A user can be the primary employee or a candidate in a workflow
         workflow = next(
             (
                 w
-                for w in hr_workflows.values() if w.get("employee_id") == user_id
+                for w in workflows
+                if w.get("employee_id") == user_id
                 or user_id in [c.get("employee_id") for c in w.get("candidates", [])]
             ),
             None,
         )
         if workflow:
-            payload = {"workflow_id": workflow["workflow_id"]}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"error": f"Workflow for user {user_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+            return json.dumps({"workflow_id": workflow["workflow_id"]}, indent=2)
+        return json.dumps({"error": f"Workflow for user {user_id} not found"}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "findHrWorkflowForUser",
+                "name": "find_hr_workflow_for_user",
                 "description": "Find an HR workflow associated with a specific user ID.",
                 "parameters": {
                     "type": "object",
@@ -237,29 +199,27 @@ class FindHrWorkflowForUser(Tool):
         }
 
 
-class SearchUsers(Tool):
+class search_users(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], filters: dict = None) -> str:
-        users = data.get("users", {}).values()
-        if filters and "user_id" in filters:
+    def invoke(data: Dict[str, Any], filters: dict) -> str:
+        users = data.get("users", [])
+        if "user_id" in filters:
             user = next(
-                (u for u in users.values() if u.get("user_id") == filters["user_id"]), None
+                (u for u in users if u.get("user_id") == filters["user_id"]), None
             )
             return (
                 json.dumps(user, indent=2)
                 if user
                 else json.dumps({"error": "User not found"}, indent=2)
             )
-        payload = {"users": users}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"users": users}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "searchUsers",
+                "name": "search_users",
                 "description": "Search for users by filters",
                 "parameters": {
                     "type": "object",
@@ -270,23 +230,23 @@ class SearchUsers(Tool):
         }
 
 
-class GetCourse(Tool):
+class get_course(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], course_id: str) -> str:
-        courses = data.get("course_catalog", {}).values()
-        course = next((c for c in courses.values() if c.get("course_id") == course_id), None)
+    def invoke(data: Dict[str, Any], course_id: str) -> str:
+        courses = data.get("course_catalog", [])
+        course = next((c for c in courses if c.get("course_id") == course_id), None)
         return (
             json.dumps(course, indent=2)
             if course
             else json.dumps({"error": "Course not found"}, indent=2)
         )
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "getCourse",
+                "name": "get_course",
                 "description": "Get course details by course ID",
                 "parameters": {
                     "type": "object",
@@ -297,10 +257,10 @@ class GetCourse(Tool):
         }
 
 
-class EnrollInCourse(Tool):
+class enroll_in_course(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any], user_id: str, course_id: str, enroll_date: str
+        data: Dict[str, Any], user_id: str, course_id: str, enroll_date: str
     ) -> str:
         enrollment = {
             "user_id": user_id,
@@ -310,23 +270,17 @@ class EnrollInCourse(Tool):
             "completion_date": None,
             "current_progress_percent": 0,
         }
-        table = data.setdefault("user_course_progress", {})
-        key = f"{len(table)}"
-        table[key] = enrollment
-        payload = {"success": f"User {user_id} enrolled in course {course_id}"}
-        out = json.dumps(
-            payload, indent=2
+        data.setdefault("user_course_progress", []).append(enrollment)
+        return json.dumps(
+            {"success": f"User {user_id} enrolled in course {course_id}"}, indent=2
         )
-        return out
-
 
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "enrollInCourse",
+                "name": "enroll_in_course",
                 "description": "Enroll a user in a course",
                 "parameters": {
                     "type": "object",
@@ -341,24 +295,22 @@ class EnrollInCourse(Tool):
         }
 
 
-class ListUserCourses(Tool):
+class list_user_courses(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str) -> str:
+    def invoke(data: Dict[str, Any], user_id: str) -> str:
         courses = [
             c
-            for c in data.get("user_course_progress", {}).values()
+            for c in data.get("user_course_progress", [])
             if c.get("user_id") == user_id
         ]
-        payload = {"courses": courses}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"courses": courses}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "listUserCourses",
+                "name": "list_user_courses",
                 "description": "List all courses for a user",
                 "parameters": {
                     "type": "object",
@@ -369,13 +321,13 @@ class ListUserCourses(Tool):
         }
 
 
-class GetUserCourseProgress(Tool):
+class get_user_course_progress(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str, course_id: str) -> str:
+    def invoke(data: Dict[str, Any], user_id: str, course_id: str) -> str:
         progress = next(
             (
                 p
-                for p in data.get("user_course_progress", {}).values()
+                for p in data.get("user_course_progress", [])
                 if p.get("user_id") == user_id and p.get("course_id") == course_id
             ),
             None,
@@ -385,13 +337,13 @@ class GetUserCourseProgress(Tool):
             if progress
             else json.dumps({"error": "Course progress not found"}, indent=2)
         )
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "getUserCourseProgress",
+                "name": "get_user_course_progress",
                 "description": "Get course progress for a specific user and course",
                 "parameters": {
                     "type": "object",
@@ -405,36 +357,30 @@ class GetUserCourseProgress(Tool):
         }
 
 
-class UpdateUserCourseProgress(Tool):
+class update_user_course_progress(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any], user_id: str, course_id: str, updates: dict[str, Any]
+        data: Dict[str, Any], user_id: str, course_id: str, updates: Dict[str, Any]
     ) -> str:
         rec = next(
             (
                 r
-                for r in data.get("user_course_progress", {}).values()
+                for r in data.get("user_course_progress", [])
                 if r["user_id"] == user_id and r["course_id"] == course_id
             ),
             None,
         )
         if rec:
             rec.update(updates)
-            payload = {"success": "course progress updated"}
-            out = json.dumps(payload)
-            return out
-        payload = {"error": "course enrollment not found"}
-        out = json.dumps(payload)
-        return out
-
+            return json.dumps({"success": "course progress updated"})
+        return json.dumps({"error": "course enrollment not found"})
 
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "updateUserCourseProgress",
+                "name": "update_user_course_progress",
                 "description": "Update an existing course-progress record for a user.",
                 "parameters": {
                     "type": "object",
@@ -449,19 +395,17 @@ class UpdateUserCourseProgress(Tool):
         }
 
 
-class ComputeAverageProgress(Tool):
+class compute_average_progress(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str) -> str:
-        """Provide the average completion rate for all courses associated with a user."""
+    def invoke(data: Dict[str, Any], user_id: str) -> str:
+        """Return the average completion percentage across all courses for a user."""
         records = [
             rec
-            for rec in data.get("user_course_progress", {}).values()
+            for rec in data.get("user_course_progress", [])
             if rec["user_id"] == user_id
         ]
         if not records:
-            payload = {"average_progress": 0}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"average_progress": 0})
         total, count = 0, 0
         for rec in records:
             if rec.get("status") == "Completed":
@@ -470,15 +414,14 @@ class ComputeAverageProgress(Tool):
                 total += rec.get("current_progress_percent", 0)
             count += 1
         avg = round(total / count, 2)
-        payload = {"average_progress": avg}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"average_progress": avg})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "computeAverageProgress",
+                "name": "compute_average_progress",
                 "description": "Calculate a user's average course completion percentage across all enrollments.",
                 "parameters": {
                     "type": "object",
@@ -489,22 +432,20 @@ class ComputeAverageProgress(Tool):
         }
 
 
-class ListUserGoals(Tool):
+class list_user_goals(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str) -> str:
-        goals_data = data.get("goals", {}).values()
-        user_goals = next((g for g in goals_data.values() if g.get("user_id") == user_id), {}).values()
+    def invoke(data: Dict[str, Any], user_id: str) -> str:
+        goals_data = data.get("goals", [])
+        user_goals = next((g for g in goals_data if g.get("user_id") == user_id), {})
         goals = user_goals.get("goals", [])
-        payload = {"user_id": user_id, "goals": goals}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"user_id": user_id, "goals": goals}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "listUserGoals",
+                "name": "list_user_goals",
                 "description": "List all goals for a user",
                 "parameters": {
                     "type": "object",
@@ -515,11 +456,11 @@ class ListUserGoals(Tool):
         }
 
 
-class GetGoal(Tool):
+class get_goal(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str, goal_id: str) -> str:
-        goals_data = data.get("goals", {}).values()
-        user_goals = next((g for g in goals_data.values() if g.get("user_id") == user_id), {}).values()
+    def invoke(data: Dict[str, Any], user_id: str, goal_id: str) -> str:
+        goals_data = data.get("goals", [])
+        user_goals = next((g for g in goals_data if g.get("user_id") == user_id), {})
         goals = user_goals.get("goals", [])
         goal = next((g for g in goals if g.get("goal_id") == goal_id), None)
         return (
@@ -527,13 +468,13 @@ class GetGoal(Tool):
             if goal
             else json.dumps({"error": "Goal not found"}, indent=2)
         )
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "getGoal",
+                "name": "get_goal",
                 "description": "Get goal details for a user",
                 "parameters": {
                     "type": "object",
@@ -547,25 +488,24 @@ class GetGoal(Tool):
         }
 
 
-class AddGoal(Tool):
+class add_goal(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str, goal: dict[str, Any]) -> str:
-        """Add a new goal to a user's profile."""
-        for entry in data.get("goals", {}).values():
+    def invoke(data: Dict[str, Any], user_id: str, goal: Dict[str, Any]) -> str:
+        """Append a new goal to a user's record."""
+        for entry in data.get("goals", []):
             if entry["user_id"] == user_id:
                 entry["goals"].append(goal)
                 break
-        else:  # no current goal list available for this user
+        else:  # no existing goal list for this user
             data.setdefault("goals", []).append({"user_id": user_id, "goals": [goal]})
-        payload = {"success": f"goal {goal['goal_id']} added for {user_id}"}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"success": f"goal {goal['goal_id']} added for {user_id}"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "addGoal",
+                "name": "add_goal",
                 "description": "Add a new goal object to the specified user.",
                 "parameters": {
                     "type": "object",
@@ -579,11 +519,11 @@ class AddGoal(Tool):
         }
 
 
-class UpdateGoal(Tool):
+class update_goal(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str, goal_id: str, updates: dict) -> str:
-        goals_data = data.get("goals", {}).values()
-        user_goals = next((g for g in goals_data.values() if g.get("user_id") == user_id), None)
+    def invoke(data: Dict[str, Any], user_id: str, goal_id: str, updates: dict) -> str:
+        goals_data = data.get("goals", [])
+        user_goals = next((g for g in goals_data if g.get("user_id") == user_id), None)
         if user_goals:
             goals = user_goals.get("goals", [])
             goal = next((g for g in goals if g.get("goal_id") == goal_id), None)
@@ -593,21 +533,17 @@ class UpdateGoal(Tool):
                         goal.get("notes", "") + " " + updates.pop("notes_append")
                     )
                 goal.update(updates)
-                payload = {"success": f"Goal {goal_id} updated for user {user_id}"}
-                out = json.dumps(
-                    payload, indent=2
+                return json.dumps(
+                    {"success": f"Goal {goal_id} updated for user {user_id}"}, indent=2
                 )
-                return out
-        payload = {"error": "Goal not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"error": "Goal not found"}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "updateGoal",
+                "name": "update_goal",
                 "description": "Update goal details for a user",
                 "parameters": {
                     "type": "object",
@@ -622,23 +558,23 @@ class UpdateGoal(Tool):
         }
 
 
-class GetTeam(Tool):
+class get_team(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], team_id: str) -> str:
-        teams = data.get("teams", {}).values()
-        team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
+    def invoke(data: Dict[str, Any], team_id: str) -> str:
+        teams = data.get("teams", [])
+        team = next((t for t in teams if t.get("team_id") == team_id), None)
         return (
             json.dumps(team, indent=2)
             if team
             else json.dumps({"error": "Team not found"}, indent=2)
         )
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "getTeam",
+                "name": "get_team",
                 "description": "Get team details by team ID",
                 "parameters": {
                     "type": "object",
@@ -649,36 +585,30 @@ class GetTeam(Tool):
         }
 
 
-class AddTeamMember(Tool):
+class add_team_member(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], team_id: str, user_id: str) -> str:
-        teams = data.get("teams", {}).values()
-        team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
+    def invoke(data: Dict[str, Any], team_id: str, user_id: str) -> str:
+        teams = data.get("teams", [])
+        team = next((t for t in teams if t.get("team_id") == team_id), None)
         if team:
             team_members = team.setdefault("team_members", [])
             if user_id not in team_members:
                 team_members.append(user_id)
-                payload = {"success": f"User {user_id} added to team {team_id}"}
-                out = json.dumps(
-                    payload, indent=2
+                return json.dumps(
+                    {"success": f"User {user_id} added to team {team_id}"}, indent=2
                 )
-                return out
             else:
-                payload = {"success": f"User {user_id} already in team {team_id}"}
-                out = json.dumps(
-                    payload, indent=2
+                return json.dumps(
+                    {"success": f"User {user_id} already in team {team_id}"}, indent=2
                 )
-                return out
-        payload = {"error": "Team not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"error": "Team not found"}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "addTeamMember",
+                "name": "add_team_member",
                 "description": "Add a team member to a team",
                 "parameters": {
                     "type": "object",
@@ -692,34 +622,32 @@ class AddTeamMember(Tool):
         }
 
 
-class GetSkillGapAnalysis(Tool):
+class get_skill_gap_analysis(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], analysis_id: str = "", user_id: str = "") -> str:
-        analyses = data.get("skill_gap_analysis", {}).values()
+    def invoke(data: Dict[str, Any], analysis_id: str = "", user_id: str = "") -> str:
+        analyses = data.get("skill_gap_analysis", [])
         if analysis_id:
             analysis = next(
-                (a for a in analyses.values() if a.get("analysis_id") == analysis_id), None
+                (a for a in analyses if a.get("analysis_id") == analysis_id), None
             )
         elif user_id:
-            analysis = next((a for a in analyses.values() if a.get("user_id") == user_id), None)
+            analysis = next((a for a in analyses if a.get("user_id") == user_id), None)
         else:
-            payload = {"error": "Must provide either analysis_id or user_id"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": "Must provide either analysis_id or user_id"}, indent=2
             )
-            return out
         return (
             json.dumps(analysis, indent=2)
             if analysis
             else json.dumps({"error": "Analysis not found"}, indent=2)
         )
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "getSkillGapAnalysis",
+                "name": "get_skill_gap_analysis",
                 "description": "Get skill gap analysis by ID or user ID",
                 "parameters": {
                     "type": "object",
@@ -733,25 +661,22 @@ class GetSkillGapAnalysis(Tool):
         }
 
 
-class ListUserMentorships(Tool):
+class list_user_mentorships(Tool):
     @staticmethod
-    def invoke(data, user_id: str, user_mentorship_relationships: list = None) -> str:
-        if user_mentorship_relationships is None:
-            user_mentorship_relationships = data.get("user_mentorship_relationships", {}).values()
+    def invoke(data, user_id: str) -> str:
         rels = [
             rel
-            for rel in user_mentorship_relationships.values() if rel.get("mentee_id") == user_id
+            for rel in data.get("user_mentorship_relationships", [])
+            if rel.get("mentee_id") == user_id
         ]
-        payload = {"mentorships": rels}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"mentorships": rels}, indent=2)
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "listUserMentorships",
+                "name": "list_user_mentorships",
                 "description": "List all mentorship relationships for a specific user.",
                 "parameters": {
                     "type": "object",
@@ -762,34 +687,34 @@ class ListUserMentorships(Tool):
         }
 
 
-class AddMentorshipRelationship(Tool):
+class add_mentorship_relationship(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any],
+        data: Dict[str, Any],
         mentor_id: str,
         mentee_id: str,
         start_date: str,
         status: str,
-        focus_areas: list[str],
+        focus_areas: List[str],
     ) -> str:
         relationships = data.setdefault("user_mentorship_relationships", [])
 
-        #--- Logic for automatic generation of relationship_id ---
+        # --- Auto-generation logic for relationship_id ---
         if not relationships:
             new_id_num = 1
         else:
-            #Identify the highest current ID number to prevent conflicts
+            # Find the highest existing ID number to avoid collisions
             max_id = 0
             for rel in relationships:
                 try:
-                    num = int(rel["relationship_id"][2:])  #Expects format MR###
+                    num = int(rel["relationship_id"][2:])  # Assumes format MR###
                     if num > max_id:
                         max_id = num
                 except (ValueError, IndexError):
-                    continue  #Ignore incorrectly formatted IDs
+                    continue  # Skip malformed IDs
             new_id_num = max_id + 1
 
-        new_relationship_id = f"MR{new_id_num:03d}"  #Formats like MR001, MR015, and so on.
+        new_relationship_id = f"MR{new_id_num:03d}"  # Formats as MR001, MR015, etc.
 
         new_relationship = {
             "relationship_id": new_relationship_id,
@@ -801,23 +726,21 @@ class AddMentorshipRelationship(Tool):
         }
 
         relationships.append(new_relationship)
-        payload = {
+
+        return json.dumps(
+            {
                 "success": f"Mentorship relationship {new_relationship_id} created",
                 "relationship_id": new_relationship_id,
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
-
 
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "addMentorshipRelationship",
+                "name": "add_mentorship_relationship",
                 "description": "Create a new mentorship relationship with an auto-generated ID.",
                 "parameters": {
                     "type": "object",
@@ -840,39 +763,35 @@ class AddMentorshipRelationship(Tool):
         }
 
 
-class UpdateMentorshipRelationship(Tool):
+class update_mentorship_relationship(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any], relationship_id: str, updates: dict[str, Any]
+        data: Dict[str, Any], relationship_id: str, updates: Dict[str, Any]
     ) -> str:
         rel = next(
             (
                 r
-                for r in data.get("user_mentorship_relationships", {}).values()
+                for r in data.get("user_mentorship_relationships", [])
                 if r["relationship_id"] == relationship_id
             ),
             None,
         )
         if not rel:
-            payload = {"error": "relationship not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "relationship not found"})
 
-        #--- EASED LOGIC ---
-        #The tool now solely executes a direct update.
+        # --- SIMPLIFIED LOGIC ---
+        # The tool now only performs a direct update.
         rel.update(updates)
-        payload = {"success": f"relationship {relationship_id} updated"}
-        out = json.dumps(payload)
-        return out
+        # --- END OF SIMPLIFICATION ---
 
+        return json.dumps({"success": f"relationship {relationship_id} updated"})
 
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "updateMentorshipRelationship",
+                "name": "update_mentorship_relationship",
                 "description": "Modify attributes of an existing mentorship relationship by overwriting them with new values.",
                 "parameters": {
                     "type": "object",
@@ -886,9 +805,9 @@ class UpdateMentorshipRelationship(Tool):
         }
 
 
-class ScheduleMentorshipSession(Tool):
+class schedule_mentorship_session(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], relationship_id: str, session_date: str) -> str:
+    def invoke(data: Dict[str, Any], relationship_id: str, session_date: str) -> str:
         sessions = data.setdefault("scheduled_mentorship_sessions", [])
         sessions.append(
             {
@@ -897,17 +816,14 @@ class ScheduleMentorshipSession(Tool):
                 "status": "Scheduled",
             }
         )
-        payload = {"scheduled_for": session_date}
-        out = json.dumps(payload)
-        return out
-        
+        return json.dumps({"scheduled_for": session_date})
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "scheduleMentorshipSession",
+                "name": "schedule_mentorship_session",
                 "description": "Schedule a mentorship session for an existing relationship.",
                 "parameters": {
                     "type": "object",
@@ -921,24 +837,23 @@ class ScheduleMentorshipSession(Tool):
         }
 
 
-class ComputeMentorLoad(Tool):
+class compute_mentor_load(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], mentor_id: str) -> str:
-        """Calculate the number of active mentees for a mentor."""
+    def invoke(data: Dict[str, Any], mentor_id: str) -> str:
+        """Count active mentees for a mentor."""
         count = sum(
             1
-            for rel in data.get("user_mentorship_relationships", {}).values()
+            for rel in data.get("user_mentorship_relationships", [])
             if rel["mentor_id"] == mentor_id and rel["status"] == "Active"
         )
-        payload = {"current_mentees": count}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"current_mentees": count})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "computeMentorLoad",
+                "name": "compute_mentor_load",
                 "description": "Return the number of active mentees a mentor currently has.",
                 "parameters": {
                     "type": "object",
@@ -949,13 +864,13 @@ class ComputeMentorLoad(Tool):
         }
 
 
-class GetHrWorkflow(Tool):
+class get_hr_workflow(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], workflow_id: str) -> str:
+    def invoke(data: Dict[str, Any], workflow_id: str) -> str:
         workflow = next(
             (
                 w
-                for w in data.get("hr_workflows", {}).values()
+                for w in data.get("hr_workflows", [])
                 if w.get("workflow_id") == workflow_id
             ),
             None,
@@ -965,13 +880,13 @@ class GetHrWorkflow(Tool):
             if workflow
             else json.dumps({"error": "Workflow not found"}, indent=2)
         )
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "getHrWorkflow",
+                "name": "get_hr_workflow",
                 "description": "Get HR workflow details by workflow ID",
                 "parameters": {
                     "type": "object",
@@ -982,36 +897,32 @@ class GetHrWorkflow(Tool):
         }
 
 
-class UpdateHrWorkflow(Tool):
+class update_hr_workflow(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], workflow_id: str, updates: dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], workflow_id: str, updates: Dict[str, Any]) -> str:
         wf = next(
             (
                 w
-                for w in data.get("hr_workflows", {}).values()
+                for w in data.get("hr_workflows", [])
                 if w["workflow_id"] == workflow_id
             ),
             None,
         )
         if not wf:
-            payload = {"error": "workflow not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "workflow not found"})
 
         if "notes_append" in updates:
             wf["notes"] = wf.get("notes", "") + " " + updates.pop("notes_append")
 
         wf.update(updates)
-        payload = {"success": f"workflow {workflow_id} updated"}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"success": f"workflow {workflow_id} updated"})
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "updateHrWorkflow",
+                "name": "update_hr_workflow",
                 "description": "Update fields of an existing HR workflow record.",
                 "parameters": {
                     "type": "object",
@@ -1025,25 +936,22 @@ class UpdateHrWorkflow(Tool):
         }
 
 
-class AddUserCertification(Tool):
+class add_user_certification(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str, cert: dict) -> str:
+    def invoke(data: Dict[str, Any], user_id: str, cert: dict) -> str:
         cert["user_id"] = user_id
-        table = data.setdefault("user_certification", {})
-        key = f"{len(table)}"
-        table[key] = cert
-        payload = {"success": f"Certification {cert['cert_name']} added for user {user_id}"}
-        out = json.dumps(
-            payload, indent=2,
+        data.setdefault("user_certification", []).append(cert)
+        return json.dumps(
+            {"success": f"Certification {cert['cert_name']} added for user {user_id}"},
+            indent=2,
         )
-        return out
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "addUserCertification",
+                "name": "add_user_certification",
                 "description": "Add a certification for a user",
                 "parameters": {
                     "type": "object",
@@ -1057,20 +965,18 @@ class AddUserCertification(Tool):
         }
 
 
-class NotifyHr(Tool):
+class notify_hr(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], message: str) -> str:
+    def invoke(data: Dict[str, Any], message: str) -> str:
         data.setdefault("hr_notifications", []).append({"message": message})
-        payload = {"notified": "HR", "message": message}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"notified": "HR", "message": message})
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "notifyHr",
+                "name": "notify_hr",
                 "description": "Send an informational notification to the HR team.",
                 "parameters": {
                     "type": "object",
@@ -1081,22 +987,20 @@ class NotifyHr(Tool):
         }
 
 
-class NotifyUser(Tool):
+class notify_user(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str, message: str) -> str:
+    def invoke(data: Dict[str, Any], user_id: str, message: str) -> str:
         data.setdefault("user_notifications", []).append(
             {"user_id": user_id, "message": message}
         )
-        payload = {"notified_user": user_id}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"notified_user": user_id})
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "notifyUser",
+                "name": "notify_user",
                 "description": "Push a notification message to an individual user.",
                 "parameters": {
                     "type": "object",
@@ -1110,36 +1014,36 @@ class NotifyUser(Tool):
         }
 
 
-#Complete tools registry
+# All tools registry
 TOOLS = [
-    GetTodayDate(),
-    GetUserIdFromName(),
-    GetCourseIdByName(),
-    GetGoalIdByDescription(),
-    GetTeamIdByName(),
-    FindHrWorkflowForUser(),
-    SearchUsers(),
-    GetCourse(),
-    EnrollInCourse(),
-    ListUserCourses(),
-    GetUserCourseProgress(),
-    UpdateUserCourseProgress(),
-    ComputeAverageProgress(),
-    ListUserGoals(),
-    GetGoal(),
-    AddGoal(),
-    UpdateGoal(),
-    GetTeam(),
-    AddTeamMember(),
-    GetSkillGapAnalysis(),
-    ListUserMentorships(),
-    AddMentorshipRelationship(),
-    UpdateMentorshipRelationship(),
-    ScheduleMentorshipSession(),
-    ComputeMentorLoad(),
-    GetHrWorkflow(),
-    UpdateHrWorkflow(),
-    AddUserCertification(),
-    NotifyHr(),
-    NotifyUser(),
+    get_today_date(),
+    get_user_id_from_name(),
+    get_course_id_by_name(),
+    get_goal_id_by_description(),
+    get_team_id_by_name(),
+    find_hr_workflow_for_user(),
+    search_users(),
+    get_course(),
+    enroll_in_course(),
+    list_user_courses(),
+    get_user_course_progress(),
+    update_user_course_progress(),
+    compute_average_progress(),
+    list_user_goals(),
+    get_goal(),
+    add_goal(),
+    update_goal(),
+    get_team(),
+    add_team_member(),
+    get_skill_gap_analysis(),
+    list_user_mentorships(),
+    add_mentorship_relationship(),
+    update_mentorship_relationship(),
+    schedule_mentorship_session(),
+    compute_mentor_load(),
+    get_hr_workflow(),
+    update_hr_workflow(),
+    add_user_certification(),
+    notify_hr(),
+    notify_user(),
 ]

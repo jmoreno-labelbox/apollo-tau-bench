@@ -1,64 +1,51 @@
+from domains.dto import Tool
 import json
-from datetime import datetime
-from typing import Any
-
-from tau_bench.envs.tool import Tool
-
-
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db.values())
-    return db
+from typing import Dict, Any
+from datetime import datetime, timedelta
 
 
 class GetCampaigns(Tool):
-    """Fetches all advertising campaigns."""
+    """Retrieves all advertising campaigns."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], timestamp: Any = None) -> str:
-        campaigns = data.get("campaigns", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        campaigns = data.get("campaigns", [])
         ids_ = []
-        for i in campaigns.values():
+        for i in campaigns:
             ids_ += [i.get("campaign_id")]
-        payload = {"campaigns_ids": ids_}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"campaigns_ids": ids_})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getCampaigns",
+                "name": "get_campaigns",
                 "description": "Retrieves all advertising campaign ids.",
                 "parameters": {},
             },
         }
 
-
 class GetNameForCampaign(Tool):
-    """Fetches a particular campaign using its ID."""
+    """Retrieves a specific campaign by ID."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], campaign_id: str = None) -> str:
-        campaigns = data.get("campaigns", {}).values()
-
-        for campaign in campaigns.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        campaign_id = kwargs.get("campaign_id")
+        campaigns = data.get("campaigns", [])
+        
+        for campaign in campaigns:
             if campaign.get("campaign_id") == campaign_id:
-                payload = {"name": campaign.get("name")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Campaign with ID '{campaign_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"name": campaign.get('name')})
+        
+        return json.dumps({"error": f"Campaign with ID '{campaign_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetNameForCampaign",
+                "name": "get_name_for_campaign",
                 "description": "Retrieves a specific campaign by ID.",
                 "parameters": {
                     "type": "object",
@@ -73,28 +60,26 @@ class GetNameForCampaign(Tool):
             },
         }
 
-
 class GetObjectiveForCampaign(Tool):
-    """Fetches the goal of a specific campaign."""
+    """Retrieves the objective for a specific campaign."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], campaign_id: str = None) -> str:
-        campaigns = data.get("campaigns", {}).values()
-
-        for campaign in campaigns.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        campaign_id = kwargs.get("campaign_id")
+        campaigns = data.get("campaigns", [])
+        
+        for campaign in campaigns:
             if campaign.get("campaign_id") == campaign_id:
-                payload = {"objective": campaign.get("objective")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Campaign with ID '{campaign_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"objective": campaign.get('objective')})
+        
+        return json.dumps({"error": f"Campaign with ID '{campaign_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getObjectiveForCampaign",
+                "name": "get_objective_for_campaign",
                 "description": "Retrieves the objective for a specific campaign.",
                 "parameters": {
                     "type": "object",
@@ -109,28 +94,26 @@ class GetObjectiveForCampaign(Tool):
             },
         }
 
-
 class GetStatusForCampaign(Tool):
-    """Fetches the current status of a specific campaign."""
+    """Retrieves the status for a specific campaign."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], campaign_id: str = None) -> str:
-        campaigns = data.get("campaigns", {}).values()
-
-        for campaign in campaigns.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        campaign_id = kwargs.get("campaign_id")
+        campaigns = data.get("campaigns", [])
+        
+        for campaign in campaigns:
             if campaign.get("campaign_id") == campaign_id:
-                payload = {"status": campaign.get("status")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Campaign with ID '{campaign_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"status": campaign.get('status')})
+        
+        return json.dumps({"error": f"Campaign with ID '{campaign_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getStatusForCampaign",
+                "name": "get_status_for_campaign",
                 "description": "Retrieves the status for a specific campaign.",
                 "parameters": {
                     "type": "object",
@@ -147,88 +130,86 @@ class GetStatusForCampaign(Tool):
 
 
 class UpdateCampaignStatus(Tool):
-    """Modifies the status of a campaign."""
+    """Updates the status of a campaign."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], campaign_id: str = None, new_status: str = None) -> str:
-        campaigns = data.get("campaigns", {}).values()
-        for campaign in campaigns.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        campaign_id = kwargs.get("campaign_id")
+        new_status = kwargs.get("new_status")
+        
+        campaigns = data.get("campaigns", [])
+        for campaign in campaigns:
             if campaign.get("campaign_id") == campaign_id:
-                old_status = campaign["status"]
-                campaign["status"] = new_status
-                payload = {
+                old_status = campaign['status']
+                campaign['status'] = new_status
+                return json.dumps({
                     "status": "success",
-                    "message": f"Campaign status updated from '{old_status}' to '{new_status}'",
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Campaign {campaign_id} not found"}
-        out = json.dumps(payload)
-        return out
+                    "message": f"Campaign status updated from '{old_status}' to '{new_status}'"
+                })
+
+        return json.dumps({"error": f"Campaign {campaign_id} not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "updateCampaignStatus",
+                "name": "update_campaign_status",
                 "description": "Updates the status of a campaign.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "campaign_id": {"type": "string"},
-                        "new_status": {"type": "string"},
+                        "new_status": {"type": "string"}
                     },
-                    "required": ["campaign_id", "new_status"],
-                },
-            },
+                    "required": ["campaign_id", "new_status"]
+                }
+            }
         }
 
 
 class GetAdSets(Tool):
-    """Fetches all IDs of ad sets."""
+    """Retrieves all ad set IDs."""
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        adsets = data.get("adsets", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adsets = data.get("adsets", [])
         ids_ = []
-        for i in adsets.values():
+        for i in adsets:
             ids_ += [i.get("adset_id")]
-        payload = {"adset_ids": ids_}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"adset_ids": ids_})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getAdsets",
+                "name": "get_adsets",
                 "description": "Retrieves all ad set IDs.",
                 "parameters": {},
             },
         }
 
-
 class GetNameForAdSet(Tool):
-    """Fetches the name of a specific ad set."""
+    """Retrieves the name for a specific ad set."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None) -> str:
-        adsets = data.get("adsets", {}).values()
-
-        for adset in adsets.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
+        adsets = data.get("adsets", [])
+        
+        for adset in adsets:
             if adset.get("adset_id") == adset_id:
-                payload = {"name": adset.get("name")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Ad set with ID '{adset_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"name": adset.get('name')})
+        
+        return json.dumps({"error": f"Ad set with ID '{adset_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetNameForAdset",
+                "name": "get_name_for_adset",
                 "description": "Retrieves the name for a specific ad set.",
                 "parameters": {
                     "type": "object",
@@ -243,28 +224,26 @@ class GetNameForAdSet(Tool):
             },
         }
 
-
 class GetCampaignIdForAdSet(Tool):
-    """Fetches the campaign ID associated with a specific ad set."""
+    """Retrieves the campaign ID for a specific ad set."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None) -> str:
-        adsets = data.get("adsets", {}).values()
-
-        for adset in adsets.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
+        adsets = data.get("adsets", [])
+        
+        for adset in adsets:
             if adset.get("adset_id") == adset_id:
-                payload = {"campaign_id": adset.get("campaign_id")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Ad set with ID '{adset_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"campaign_id": adset.get('campaign_id')})
+        
+        return json.dumps({"error": f"Ad set with ID '{adset_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCampaignIdForAdset",
+                "name": "get_campaign_id_for_adset",
                 "description": "Retrieves the campaign ID for a specific ad set.",
                 "parameters": {
                     "type": "object",
@@ -279,28 +258,26 @@ class GetCampaignIdForAdSet(Tool):
             },
         }
 
-
 class GetDailyBudgetForAdSet(Tool):
-    """Fetches the daily budget allocated for a specific ad set."""
+    """Retrieves the daily budget for a specific ad set."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None) -> str:
-        adsets = data.get("adsets", {}).values()
-
-        for adset in adsets.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
+        adsets = data.get("adsets", [])
+        
+        for adset in adsets:
             if adset.get("adset_id") == adset_id:
-                payload = {"daily_budget": adset.get("daily_budget")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Ad set with ID '{adset_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"daily_budget": adset.get('daily_budget')})
+        
+        return json.dumps({"error": f"Ad set with ID '{adset_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetDailyBudgetForAdset",
+                "name": "get_daily_budget_for_adset",
                 "description": "Retrieves the daily budget for a specific ad set.",
                 "parameters": {
                     "type": "object",
@@ -315,90 +292,86 @@ class GetDailyBudgetForAdSet(Tool):
             },
         }
 
-
 class UpdateDailyBudgetForAdSet(Tool):
-    """Modifies the daily budget of a specific ad set."""
+    """Updates the daily budget for a specific ad set."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None, new_budget: float = None) -> str:
-        adsets = data.get("adsets", {}).values()
-        for adset in adsets.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
+        new_budget = kwargs.get("new_budget")
+        
+        adsets = data.get("adsets", [])
+        for adset in adsets:
             if adset.get("adset_id") == adset_id:
-                old_budget = adset["daily_budget"]
-                adset["daily_budget"] = new_budget
-                payload = {
+                old_budget = adset['daily_budget']
+                adset['daily_budget'] = new_budget
+                return json.dumps({
                     "status": "success",
-                    "message": f"Ad set budget updated from {old_budget} to {new_budget}",
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Ad set {adset_id} not found"}
-        out = json.dumps(payload)
-        return out
+                    "message": f"Ad set budget updated from {old_budget} to {new_budget}"
+                })
+
+        return json.dumps({"error": f"Ad set {adset_id} not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateDailyBudgetForAdset",
+                "name": "update_daily_budget_for_adset",
                 "description": "Updates the daily budget for a specific ad set.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "adset_id": {"type": "string"},
-                        "new_budget": {"type": "number"},
+                        "new_budget": {"type": "number"}
                     },
-                    "required": ["adset_id", "new_budget"],
-                },
-            },
+                    "required": ["adset_id", "new_budget"]
+                }
+            }
         }
 
-
 class GetAds(Tool):
-    """Fetches all IDs of ads."""
+    """Retrieves all ad IDs."""
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        ads = data.get("ads", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ads = data.get("ads", [])
         ids_ = []
-        for i in ads.values():
+        for i in ads:
             ids_ += [i.get("ad_id")]
-        payload = {"ad_ids": ids_}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"ad_ids": ids_})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getAds",
+                "name": "get_ads",
                 "description": "Retrieves all ad IDs.",
                 "parameters": {},
             },
         }
 
-
 class GetNameForAd(Tool):
-    """Fetches the name of a specific ad."""
+    """Retrieves the name for a specific ad."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], ad_id: str = None) -> str:
-        ads = data.get("ads", {}).values()
-
-        for ad in ads.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ad_id = kwargs.get("ad_id")
+        ads = data.get("ads", [])
+        
+        for ad in ads:
             if ad.get("ad_id") == ad_id:
-                payload = {"name": ad.get("name")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Ad with ID '{ad_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"name": ad.get('name')})
+        
+        return json.dumps({"error": f"Ad with ID '{ad_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getNameForAd",
+                "name": "get_name_for_ad",
                 "description": "Retrieves the name for a specific ad.",
                 "parameters": {
                     "type": "object",
@@ -415,26 +388,25 @@ class GetNameForAd(Tool):
 
 
 class GetCreativeTypeForAd(Tool):
-    """Fetches the creative type of a specific ad."""
+    """Retrieves the creative_type for a specific ad."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], ad_id: str = None) -> str:
-        ads = data.get("ads", {}).values()
-
-        for ad in ads.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ad_id = kwargs.get("ad_id")
+        ads = data.get("ads", [])
+        
+        for ad in ads:
             if ad.get("ad_id") == ad_id:
-                payload = {"creative_type": ad.get("creative_type")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Ad with ID '{ad_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"creative_type": ad.get('creative_type')})
+        
+        return json.dumps({"error": f"Ad with ID '{ad_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCreativeTypeForAd",
+                "name": "get_creative_type_for_ad",
                 "description": "Retrieves the creative_type for a specific ad.",
                 "parameters": {
                     "type": "object",
@@ -451,26 +423,25 @@ class GetCreativeTypeForAd(Tool):
 
 
 class GetStatusForAd(Tool):
-    """Fetches the current status of a specific ad."""
+    """Retrieves the status for a specific ad."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], ad_id: str = None) -> str:
-        ads = data.get("ads", {}).values()
-
-        for ad in ads.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ad_id = kwargs.get("ad_id")
+        ads = data.get("ads", [])
+        
+        for ad in ads:
             if ad.get("ad_id") == ad_id:
-                payload = {"status": ad.get("status")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Ad with ID '{ad_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"status": ad.get('status')})
+        
+        return json.dumps({"error": f"Ad with ID '{ad_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetStatusForAd",
+                "name": "get_status_for_ad",
                 "description": "Retrieves the status for a specific ad.",
                 "parameters": {
                     "type": "object",
@@ -485,92 +456,87 @@ class GetStatusForAd(Tool):
             },
         }
 
-
 class UpdateAdStatus(Tool):
-    """Modifies the status of a specific ad."""
+    """Updates the status for a specific ad."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], ad_id: str = None, new_status: str = None,
-    timestamp: Any = None,
-    ) -> str:
-        ads = data.get("ads", {}).values()
-        for ad in ads.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ad_id = kwargs.get("ad_id")
+        new_status = kwargs.get("new_status")
+        
+        ads = data.get("ads", [])
+        for ad in ads:
             if ad.get("ad_id") == ad_id:
-                old_status = ad["status"]
-                ad["status"] = new_status
-                payload = {
+                old_status = ad['status']
+                ad['status'] = new_status
+                return json.dumps({
                     "status": "success",
-                    "message": f"Ad status updated from '{old_status}' to '{new_status}'",
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Ad {ad_id} not found"}
-        out = json.dumps(payload)
-        return out
+                    "message": f"Ad status updated from '{old_status}' to '{new_status}'"
+                })
+
+        return json.dumps({"error": f"Ad {ad_id} not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateAdStatus",
+                "name": "update_ad_status",
                 "description": "Updates the status for a specific ad.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "ad_id": {"type": "string"},
-                        "new_status": {"type": "string"},
+                        "new_status": {"type": "string"}
                     },
-                    "required": ["ad_id", "new_status"],
-                },
-            },
+                    "required": ["ad_id", "new_status"]
+                }
+            }
         }
 
 
 class GetProducts(Tool):
-    """Fetches all IDs of products."""
+    """Retrieves all product IDs."""
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        products = data.get("dim_product", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        products = data.get("dim_product", [])
         ids_ = []
-        for i in products.values():
+        for i in products:
             ids_ += [i.get("product_id")]
-        payload = {"product_ids": ids_}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"product_ids": ids_})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getProducts",
+                "name": "get_products",
                 "description": "Retrieves all product IDs.",
                 "parameters": {},
             },
         }
 
-
 class GetNameForProduct(Tool):
-    """Fetches the name of a specific product."""
+    """Retrieves the name for a specific product."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], product_id: str = None) -> str:
-        products = data.get("dim_product", {}).values()
-
-        for product in products.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        product_id = kwargs.get("product_id")
+        products = data.get("dim_product", [])
+        
+        for product in products:
             if product.get("product_id") == product_id:
-                payload = {"name": product.get("name")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Product with ID '{product_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"name": product.get('name')})
+        
+        return json.dumps({"error": f"Product with ID '{product_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getNameForProduct",
+                "name": "get_name_for_product",
                 "description": "Retrieves the name for a specific product.",
                 "parameters": {
                     "type": "object",
@@ -587,50 +553,47 @@ class GetNameForProduct(Tool):
 
 
 class GetPlans(Tool):
-    """Fetches all IDs of plans."""
+    """Retrieves all plan IDs."""
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        plans = data.get("plans", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        plans = data.get("plans", [])
         ids_ = []
-        for i in plans.values():
+        for i in plans:
             ids_ += [i.get("plan_id")]
-        payload = {"plan_ids": ids_}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"plan_ids": ids_})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPlans",
+                "name": "get_plans",
                 "description": "Retrieves all plan IDs.",
                 "parameters": {},
             },
         }
 
-
 class GetDateForPlan(Tool):
-    """Fetches the date associated with a specific plan."""
+    """Retrieves the date for a specific plan."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], plan_id: str = None) -> str:
-        plans = data.get("plans", {}).values()
-
-        for plan in plans.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        plan_id = kwargs.get("plan_id")
+        plans = data.get("plans", [])
+        
+        for plan in plans:
             if plan.get("plan_id") == plan_id:
-                payload = {"date": plan.get("date")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Plan with ID '{plan_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"date": plan.get('date')})
+        
+        return json.dumps({"error": f"Plan with ID '{plan_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetDateForPlan",
+                "name": "get_date_for_plan",
                 "description": "Retrieves the date for a specific plan.",
                 "parameters": {
                     "type": "object",
@@ -647,50 +610,47 @@ class GetDateForPlan(Tool):
 
 
 class GetAutomationRuns(Tool):
-    """Fetches all IDs of automation runs."""
+    """Retrieves all automation run IDs."""
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        runs = data.get("automation_runs", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        runs = data.get("automation_runs", [])
         ids_ = []
-        for i in runs.values():
+        for i in runs:
             ids_ += [i.get("run_id")]
-        payload = {"automation_run_ids": ids_}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"automation_run_ids": ids_})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getAutomationRuns",
+                "name": "get_automation_runs",
                 "description": "Retrieves all automation run IDs.",
                 "parameters": {},
             },
         }
 
-
 class GetRunTypeForAutomationRun(Tool):
-    """Fetches the type of run for a specific automation run."""
+    """Retrieves the run type for a specific automation run."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], run_id: str = None) -> str:
-        runs = data.get("automation_runs", {}).values()
-
-        for run in runs.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        run_id = kwargs.get("run_id")
+        runs = data.get("automation_runs", [])
+        
+        for run in runs:
             if run.get("run_id") == run_id:
-                payload = {"run_type": run.get("run_type")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Automation run with ID '{run_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"run_type": run.get('run_type')})
+        
+        return json.dumps({"error": f"Automation run with ID '{run_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getRunTypeForAutomationRun",
+                "name": "get_run_type_for_automation_run",
                 "description": "Retrieves the run type for a specific automation run.",
                 "parameters": {
                     "type": "object",
@@ -706,51 +666,49 @@ class GetRunTypeForAutomationRun(Tool):
         }
 
 
+
 class GetBudgetChanges(Tool):
-    """Fetches all IDs of budget changes."""
+    """Retrieves all budget change IDs."""
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        changes = data.get("budget_changes", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        changes = data.get("budget_changes", [])
         ids_ = []
-        for i in changes.values():
+        for i in changes:
             ids_ += [i.get("change_id")]
-        payload = {"budget_change_ids": ids_}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"budget_change_ids": ids_})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getBudgetChanges",
+                "name": "get_budget_changes",
                 "description": "Retrieves all budget change IDs.",
                 "parameters": {},
             },
         }
 
-
 class GetAdSetIdForBudgetChange(Tool):
-    """Fetches the ad set ID linked to a specific budget change."""
+    """Retrieves the ad set ID for a specific budget change."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], change_id: str = None) -> str:
-        changes = data.get("budget_changes", {}).values()
-
-        for change in changes.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        change_id = kwargs.get("change_id")
+        changes = data.get("budget_changes", [])
+        
+        for change in changes:
             if change.get("change_id") == change_id:
-                payload = {"adset_id": change.get("adset_id")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Budget change with ID '{change_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"adset_id": change.get('adset_id')})
+        
+        return json.dumps({"error": f"Budget change with ID '{change_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getAdsetIdForBudgetChange",
+                "name": "get_adset_id_for_budget_change",
                 "description": "Retrieves the ad set ID for a specific budget change.",
                 "parameters": {
                     "type": "object",
@@ -767,25 +725,26 @@ class GetAdSetIdForBudgetChange(Tool):
 
 
 class SearchCampaignsByObjective(Tool):
-    """Looks for campaigns that have a particular objective."""
+    """Searches for campaigns with a specific objective."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], objective: str = None) -> str:
-        campaigns = data.get("campaigns", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        objective = kwargs.get("objective")
+        campaigns = data.get("campaigns", [])
         matching_campaigns = []
-
-        for campaign in campaigns.values():
+        
+        for campaign in campaigns:
             if campaign.get("objective") == objective:
                 matching_campaigns.append(campaign.get("campaign_id"))
-        payload = {"campaign_ids": matching_campaigns}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"campaign_ids": matching_campaigns})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchCampaignsByObjective",
+                "name": "search_campaigns_by_objective",
                 "description": "Searches for campaigns with a specific objective.",
                 "parameters": {
                     "type": "object",
@@ -800,27 +759,27 @@ class SearchCampaignsByObjective(Tool):
             },
         }
 
-
 class SearchCampaignsByStatus(Tool):
-    """Looks for campaigns that have a specific status."""
+    """Searches for campaigns with a specific status."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], status: str = None) -> str:
-        campaigns = data.get("campaigns", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        status = kwargs.get("status")
+        campaigns = data.get("campaigns", [])
         matching_campaigns = []
-
-        for campaign in campaigns.values():
+        
+        for campaign in campaigns:
             if campaign.get("status") == status:
                 matching_campaigns.append(campaign.get("campaign_id"))
-        payload = {"campaign_ids": matching_campaigns}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"campaign_ids": matching_campaigns})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "searchCampaignsByStatus",
+                "name": "search_campaigns_by_status",
                 "description": "Searches for campaigns with a specific status.",
                 "parameters": {
                     "type": "object",
@@ -837,25 +796,26 @@ class SearchCampaignsByStatus(Tool):
 
 
 class SearchAdSetsByCategory(Tool):
-    """Looks for ad sets belonging to a certain category."""
+    """Searches for ad sets with a specific category."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], category: str = None) -> str:
-        adsets = data.get("adsets", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        category = kwargs.get("category")
+        adsets = data.get("adsets", [])
         matching_adsets = []
-
-        for adset in adsets.values():
+        
+        for adset in adsets:
             if adset.get("category") == category:
                 matching_adsets.append(adset.get("adset_id"))
-        payload = {"adset_ids": matching_adsets}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"adset_ids": matching_adsets})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchAdsetsByCategory",
+                "name": "search_adsets_by_category",
                 "description": "Searches for ad sets with a specific category.",
                 "parameters": {
                     "type": "object",
@@ -870,27 +830,27 @@ class SearchAdSetsByCategory(Tool):
             },
         }
 
-
 class SearchAdSetsByStatus(Tool):
-    """Looks for ad sets that have a specific status."""
+    """Searches for ad sets with a specific status."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], status: str = None) -> str:
-        adsets = data.get("adsets", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        status = kwargs.get("status")
+        adsets = data.get("adsets", [])
         matching_adsets = []
-
-        for adset in adsets.values():
+        
+        for adset in adsets:
             if adset.get("status") == status:
                 matching_adsets.append(adset.get("adset_id"))
-        payload = {"adset_ids": matching_adsets}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"adset_ids": matching_adsets})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchAdsetsByStatus",
+                "name": "search_adsets_by_status",
                 "description": "Searches for ad sets with a specific status.",
                 "parameters": {
                     "type": "object",
@@ -907,25 +867,26 @@ class SearchAdSetsByStatus(Tool):
 
 
 class SearchAdsByCreativeType(Tool):
-    """Looks for ads that feature a particular creative type."""
+    """Searches for ads with a specific creative type."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], creative_type: str = None) -> str:
-        ads = data.get("ads", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        creative_type = kwargs.get("creative_type")
+        ads = data.get("ads", [])
         matching_ads = []
-
-        for ad in ads.values():
+        
+        for ad in ads:
             if ad.get("creative_type") == creative_type:
                 matching_ads.append(ad.get("ad_id"))
-        payload = {"ad_ids": matching_ads}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"ad_ids": matching_ads})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "searchAdsByCreativeType",
+                "name": "search_ads_by_creative_type",
                 "description": "Searches for ads with a specific creative type.",
                 "parameters": {
                     "type": "object",
@@ -940,27 +901,27 @@ class SearchAdsByCreativeType(Tool):
             },
         }
 
-
 class SearchAdsByStatus(Tool):
-    """Looks for ads that have a specific status."""
+    """Searches for ads with a specific status."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], status: str = None) -> str:
-        ads = data.get("ads", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        status = kwargs.get("status")
+        ads = data.get("ads", [])
         matching_ads = []
-
-        for ad in ads.values():
+        
+        for ad in ads:
             if ad.get("status") == status:
                 matching_ads.append(ad.get("ad_id"))
-        payload = {"ad_ids": matching_ads}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"ad_ids": matching_ads})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "searchAdsByStatus",
+                "name": "search_ads_by_status",
                 "description": "Searches for ads with a specific status.",
                 "parameters": {
                     "type": "object",
@@ -977,25 +938,26 @@ class SearchAdsByStatus(Tool):
 
 
 class SearchProductsByCategory(Tool):
-    """Looks for products that belong to a certain category."""
+    """Searches for products with a specific category."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], category: str = None) -> str:
-        products = data.get("dim_product", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        category = kwargs.get("category")
+        products = data.get("dim_product", [])
         matching_products = []
-
-        for product in products.values():
+        
+        for product in products:
             if product.get("category") == category:
                 matching_products.append(product.get("product_id"))
-        payload = {"product_ids": matching_products}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"product_ids": matching_products})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "searchProductsByCategory",
+                "name": "search_products_by_category",
                 "description": "Searches for products with a specific category.",
                 "parameters": {
                     "type": "object",
@@ -1012,25 +974,26 @@ class SearchProductsByCategory(Tool):
 
 
 class SearchAutomationRunsByType(Tool):
-    """Looks for automation runs that have a specific run type."""
+    """Searches for automation runs with a specific run type."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], run_type: str = None) -> str:
-        runs = data.get("automation_runs", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        run_type = kwargs.get("run_type")
+        runs = data.get("automation_runs", [])
         matching_runs = []
-
-        for run in runs.values():
+        
+        for run in runs:
             if run.get("run_type") == run_type:
                 matching_runs.append(run.get("run_id"))
-        payload = {"automation_run_ids": matching_runs}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"automation_run_ids": matching_runs})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "searchAutomationRunsByType",
+                "name": "search_automation_runs_by_type",
                 "description": "Searches for automation runs with a specific run type.",
                 "parameters": {
                     "type": "object",
@@ -1045,27 +1008,27 @@ class SearchAutomationRunsByType(Tool):
             },
         }
 
-
 class SearchAutomationRunsByStatus(Tool):
-    """Looks for automation runs that have a specific status."""
+    """Searches for automation runs with a specific status."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], status: str = None) -> str:
-        runs = data.get("automation_runs", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        status = kwargs.get("status")
+        runs = data.get("automation_runs", [])
         matching_runs = []
-
-        for run in runs.values():
+        
+        for run in runs:
             if run.get("status") == status:
                 matching_runs.append(run.get("run_id"))
-        payload = {"automation_run_ids": matching_runs}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"automation_run_ids": matching_runs})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "searchAutomationRunsByStatus",
+                "name": "search_automation_runs_by_status",
                 "description": "Searches for automation runs with a specific status.",
                 "parameters": {
                     "type": "object",
@@ -1082,25 +1045,26 @@ class SearchAutomationRunsByStatus(Tool):
 
 
 class SearchBudgetChangesByAdSet(Tool):
-    """Looks for budget changes related to a specific ad set."""
+    """Searches for budget changes for a specific ad set."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None) -> str:
-        changes = data.get("budget_changes", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
+        changes = data.get("budget_changes", [])
         matching_changes = []
-
-        for change in changes.values():
+        
+        for change in changes:
             if change.get("adset_id") == adset_id:
                 matching_changes.append(change.get("change_id"))
-        payload = {"budget_change_ids": matching_changes}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"budget_change_ids": matching_changes})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "searchBudgetChangesByAdset",
+                "name": "search_budget_changes_by_adset",
                 "description": "Searches for budget changes for a specific ad set.",
                 "parameters": {
                     "type": "object",
@@ -1116,38 +1080,35 @@ class SearchBudgetChangesByAdSet(Tool):
         }
 
 
-#Tools for Adding/Deleting Campaigns
+# Campaign Delete/Add Tools
 class DeleteCampaign(Tool):
-    """Removes a campaign."""
+    """Deletes a campaign."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], campaign_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        campaign_id = kwargs.get("campaign_id")
         if not campaign_id:
-            payload = {"error": "campaign_id is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "campaign_id is a required parameter."})
 
-        campaigns = data.get("campaigns", {}).values()
-        for campaign in campaigns.values():
+        campaigns = data.get("campaigns", [])
+        for campaign in campaigns:
             if campaign.get("campaign_id") == campaign_id:
-                data["campaigns"] = [
-                    d for d in data["campaigns"].values() if d["campaign_id"] != campaign_id
-                ]
-                payload = {
-                    "status": "success",
-                    "message": f"Campaign with id {campaign_id} deleted successfully",
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Campaign with ID '{campaign_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                data['campaigns'] = [d for d in data['campaigns'] if d['campaign_id'] != campaign_id]
+                return json.dumps(
+                    {
+                        "status": "success",
+                        "message": f"Campaign with id {campaign_id} deleted successfully",
+                    }
+                )
+
+        return json.dumps({"error": f"Campaign with ID '{campaign_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "deleteCampaign",
+                "name": "delete_campaign",
                 "description": "Deletes a campaign.",
                 "parameters": {
                     "type": "object",
@@ -1162,54 +1123,50 @@ class DeleteCampaign(Tool):
             },
         }
 
-
 class AddCampaign(Tool):
-    """Creates a new campaign."""
+    """Adds a new campaign."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], campaign_id: str = None, name: str = None, objective: str = None, created_date: str = None, status: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        campaign_id = kwargs.get("campaign_id")
+        name = kwargs.get("name")
+        objective = kwargs.get("objective")
+        created_date = kwargs.get("created_date")
+        status = kwargs.get("status")
+
         if not campaign_id:
-            payload = {"error": "campaign_id is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "campaign_id is a required parameter."})
         if not name:
-            payload = {"error": "name is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "name is a required parameter."})
         if not objective:
-            payload = {"error": "objective is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "objective is a required parameter."})
         if not created_date:
-            payload = {"error": "created_date is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "created_date is a required parameter."})
         if not status:
-            payload = {"error": "status is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "status is a required parameter."})
 
         new_campaign = {
             "campaign_id": campaign_id,
             "name": name,
             "objective": objective,
             "created_date": created_date,
-            "status": status,
+            "status": status
         }
-        data["campaigns"] += [new_campaign]
-        payload = {
+        data['campaigns'] += [new_campaign]
+
+        return json.dumps(
+            {
                 "status": "success",
                 "message": f"New campaign was added: {new_campaign}",
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddCampaign",
+                "name": "add_campaign",
                 "description": "Adds a new campaign.",
                 "parameters": {
                     "type": "object",
@@ -1233,53 +1190,42 @@ class AddCampaign(Tool):
                         "status": {
                             "type": "string",
                             "description": "The status of the campaign (e.g., active, paused, archived).",
-                        },
+                        }
                     },
-                    "required": [
-                        "campaign_id",
-                        "name",
-                        "objective",
-                        "created_date",
-                        "status",
-                    ],
+                    "required": ["campaign_id", "name", "objective", "created_date", "status"],
                 },
             },
         }
 
-
-#Tools for Adding/Deleting Ad Sets
+# AdSet Delete/Add Tools
 class DeleteAdSet(Tool):
-    """Removes an ad set."""
+    """Deletes an ad set."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
         if not adset_id:
-            payload = {"error": "adset_id is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "adset_id is a required parameter."})
 
-        adsets = data.get("adsets", {}).values()
-        for adset in adsets.values():
+        adsets = data.get("adsets", [])
+        for adset in adsets:
             if adset.get("adset_id") == adset_id:
-                data["adsets"] = [
-                    d for d in data["adsets"].values() if d["adset_id"] != adset_id
-                ]
-                payload = {
+                data['adsets'] = [d for d in data['adsets'] if d['adset_id'] != adset_id]
+                return json.dumps(
+                    {
                         "status": "success",
                         "message": f"Ad set with id {adset_id} deleted successfully",
                     }
-                out = json.dumps(
-                    payload)
-                return out
-        payload = {"error": f"Ad set with ID '{adset_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                )
+
+        return json.dumps({"error": f"Ad set with ID '{adset_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "deleteAdset",
+                "name": "delete_adset",
                 "description": "Deletes an ad set.",
                 "parameters": {
                     "type": "object",
@@ -1294,55 +1240,37 @@ class DeleteAdSet(Tool):
             },
         }
 
-
 class AddAdSet(Tool):
-    """Creates a new ad set."""
+    """Adds a new ad set."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        adset_id: str = None,
-        campaign_id: str = None,
-        name: str = None,
-        category: str = None,
-        daily_budget: float = None,
-        bid_strategy: str = None,
-        bid_amount: float = None,
-        status: str = None,
-        updated_at: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
+        campaign_id = kwargs.get("campaign_id")
+        name = kwargs.get("name")
+        category = kwargs.get("category")
+        daily_budget = kwargs.get("daily_budget")
+        bid_strategy = kwargs.get("bid_strategy")
+        bid_amount = kwargs.get("bid_amount")
+        status = kwargs.get("status")
+        updated_at = kwargs.get("updated_at")
+
         if not adset_id:
-            payload = {"error": "adset_id is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "adset_id is a required parameter."})
         if not campaign_id:
-            payload = {"error": "campaign_id is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "campaign_id is a required parameter."})
         if not name:
-            payload = {"error": "name is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "name is a required parameter."})
         if not category:
-            payload = {"error": "category is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "category is a required parameter."})
         if not daily_budget:
-            payload = {"error": "daily_budget is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "daily_budget is a required parameter."})
         if not bid_strategy:
-            payload = {"error": "bid_strategy is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "bid_strategy is a required parameter."})
         if not status:
-            payload = {"error": "status is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "status is a required parameter."})
         if not updated_at:
-            payload = {"error": "updated_at is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "updated_at is a required parameter."})
 
         new_adset = {
             "adset_id": adset_id,
@@ -1353,21 +1281,23 @@ class AddAdSet(Tool):
             "bid_strategy": bid_strategy,
             "bid_amount": bid_amount,
             "status": status,
-            "updated_at": updated_at,
+            "updated_at": updated_at
         }
-        data["adsets"] += [new_adset]
-        payload = {
-            "status": "success",
-            "message": f"New ad set was added: {new_adset}",
-        }
-        out = json.dumps(payload)
-        return out
+        data['adsets'] += [new_adset]
+
+        return json.dumps(
+            {
+                "status": "success",
+                "message": f"New ad set was added: {new_adset}",
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddAdset",
+                "name": "add_adset",
                 "description": "Adds a new ad set.",
                 "parameters": {
                     "type": "object",
@@ -1407,53 +1337,42 @@ class AddAdSet(Tool):
                         "updated_at": {
                             "type": "string",
                             "description": "The last update timestamp (ISO format).",
-                        },
+                        }
                     },
-                    "required": [
-                        "adset_id",
-                        "campaign_id",
-                        "name",
-                        "category",
-                        "daily_budget",
-                        "bid_strategy",
-                        "status",
-                        "updated_at",
-                    ],
+                    "required": ["adset_id", "campaign_id", "name", "category", "daily_budget", "bid_strategy", "status", "updated_at"],
                 },
             },
         }
 
-
-#Tools for Adding/Deleting Ads
+# Ad Delete/Add Tools
 class DeleteAd(Tool):
-    """Removes an ad."""
+    """Deletes an ad."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], ad_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ad_id = kwargs.get("ad_id")
         if not ad_id:
-            payload = {"error": "ad_id is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "ad_id is a required parameter."})
 
-        ads = data.get("ads", {}).values()
-        for ad in ads.values():
+        ads = data.get("ads", [])
+        for ad in ads:
             if ad.get("ad_id") == ad_id:
-                data["ads"] = [d for d in data["ads"].values() if d["ad_id"] != ad_id]
-                payload = {
-                    "status": "success",
-                    "message": f"Ad with id {ad_id} deleted successfully",
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Ad with ID '{ad_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                data['ads'] = [d for d in data['ads'] if d['ad_id'] != ad_id]
+                return json.dumps(
+                    {
+                        "status": "success",
+                        "message": f"Ad with id {ad_id} deleted successfully",
+                    }
+                )
+
+        return json.dumps({"error": f"Ad with ID '{ad_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "deleteAd",
+                "name": "delete_ad",
                 "description": "Deletes an ad.",
                 "parameters": {
                     "type": "object",
@@ -1468,45 +1387,31 @@ class DeleteAd(Tool):
             },
         }
 
-
 class AddAd(Tool):
-    """Creates a new ad."""
+    """Adds a new ad."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        ad_id: str = None,
-        adset_id: str = None,
-        name: str = None,
-        creative_type: str = None,
-        status: str = None,
-        start_date: str = None,
-        end_date: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ad_id = kwargs.get("ad_id")
+        adset_id = kwargs.get("adset_id")
+        name = kwargs.get("name")
+        creative_type = kwargs.get("creative_type")
+        status = kwargs.get("status")
+        start_date = kwargs.get("start_date")
+        end_date = kwargs.get("end_date")
+
         if not ad_id:
-            payload = {"error": "ad_id is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "ad_id is a required parameter."})
         if not adset_id:
-            payload = {"error": "adset_id is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "adset_id is a required parameter."})
         if not name:
-            payload = {"error": "name is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "name is a required parameter."})
         if not creative_type:
-            payload = {"error": "creative_type is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "creative_type is a required parameter."})
         if not status:
-            payload = {"error": "status is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "status is a required parameter."})
         if not start_date:
-            payload = {"error": "start_date is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "start_date is a required parameter."})
 
         new_ad = {
             "ad_id": ad_id,
@@ -1515,21 +1420,23 @@ class AddAd(Tool):
             "creative_type": creative_type,
             "status": status,
             "start_date": start_date,
-            "end_date": end_date,
+            "end_date": end_date
         }
-        data["ads"] += [new_ad]
-        payload = {
-            "status": "success",
-            "message": f"New ad was added: {new_ad}",
-        }
-        out = json.dumps(payload)
-        return out
+        data['ads'] += [new_ad]
+
+        return json.dumps(
+            {
+                "status": "success",
+                "message": f"New ad was added: {new_ad}",
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "addAd",
+                "name": "add_ad",
                 "description": "Adds a new ad.",
                 "parameters": {
                     "type": "object",
@@ -1561,53 +1468,42 @@ class AddAd(Tool):
                         "end_date": {
                             "type": "string",
                             "description": "The end date of the ad (YYYY-MM-DD format, optional).",
-                        },
+                        }
                     },
-                    "required": [
-                        "ad_id",
-                        "adset_id",
-                        "name",
-                        "creative_type",
-                        "status",
-                        "start_date",
-                    ],
+                    "required": ["ad_id", "adset_id", "name", "creative_type", "status", "start_date"],
                 },
             },
         }
 
-
-#Tools for Adding/Deleting Products
+# Product Delete/Add Tools
 class DeleteProduct(Tool):
-    """Removes a product."""
+    """Deletes a product."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], product_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        product_id = kwargs.get("product_id")
         if not product_id:
-            payload = {"error": "product_id is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "product_id is a required parameter."})
 
-        products = data.get("dim_product", {}).values()
-        for product in products.values():
+        products = data.get("dim_product", [])
+        for product in products:
             if product.get("product_id") == product_id:
-                data["dim_product"] = [
-                    d for d in data["dim_product"].values() if d["product_id"] != product_id
-                ]
-                payload = {
-                    "status": "success",
-                    "message": f"Product with id {product_id} deleted successfully",
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Product with ID '{product_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                data['dim_product'] = [d for d in data['dim_product'] if d['product_id'] != product_id]
+                return json.dumps(
+                    {
+                        "status": "success",
+                        "message": f"Product with id {product_id} deleted successfully",
+                    }
+                )
+
+        return json.dumps({"error": f"Product with ID '{product_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "deleteProduct",
+                "name": "delete_product",
                 "description": "Deletes a product.",
                 "parameters": {
                     "type": "object",
@@ -1622,49 +1518,46 @@ class DeleteProduct(Tool):
             },
         }
 
-
 class AddProduct(Tool):
-    """Creates a new product."""
+    """Adds a new product."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], product_id: str = None, sku: str = None, name: str = None, category: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        product_id = kwargs.get("product_id")
+        sku = kwargs.get("sku")
+        name = kwargs.get("name")
+        category = kwargs.get("category")
+
         if not product_id:
-            payload = {"error": "product_id is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "product_id is a required parameter."})
         if not sku:
-            payload = {"error": "sku is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "sku is a required parameter."})
         if not name:
-            payload = {"error": "name is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "name is a required parameter."})
         if not category:
-            payload = {"error": "category is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "category is a required parameter."})
 
         new_product = {
             "product_id": product_id,
             "sku": sku,
             "name": name,
-            "category": category,
+            "category": category
         }
-        data["dim_product"] += [new_product]
-        payload = {
+        data['dim_product'] += [new_product]
+
+        return json.dumps(
+            {
                 "status": "success",
                 "message": f"New product was added: {new_product}",
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "addProduct",
+                "name": "add_product",
                 "description": "Adds a new product.",
                 "parameters": {
                     "type": "object",
@@ -1684,7 +1577,7 @@ class AddProduct(Tool):
                         "category": {
                             "type": "string",
                             "description": "The category of the product (e.g., Electronics, Apparel).",
-                        },
+                        }
                     },
                     "required": ["product_id", "sku", "name", "category"],
                 },
@@ -1693,25 +1586,26 @@ class AddProduct(Tool):
 
 
 class SearchAdSetsByCampaignId(Tool):
-    """Looks for ad sets that are part of a specific campaign."""
+    """Searches for ad sets belonging to a specific campaign."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], campaign_id: str = None) -> str:
-        adsets = data.get("adsets", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        campaign_id = kwargs.get("campaign_id")
+        adsets = data.get("adsets", [])
         matching_adsets = []
-
-        for adset in adsets.values():
+        
+        for adset in adsets:
             if adset.get("campaign_id") == campaign_id:
                 matching_adsets.append(adset.get("adset_id"))
-        payload = {"adset_ids": matching_adsets}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"adset_ids": matching_adsets})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchAdsetsByCampaignId",
+                "name": "search_adsets_by_campaign_id",
                 "description": "Searches for ad sets belonging to a specific campaign.",
                 "parameters": {
                     "type": "object",
@@ -1727,32 +1621,30 @@ class SearchAdSetsByCampaignId(Tool):
         }
 
 
-#Tools for Calculations and Comparisons
+# Calculation and Comparison Tools
 class CalculateROAS(Tool):
-    """Computes Return on Ad Spend (ROAS) based on revenue and expenditure."""
+    """Calculates Return on Ad Spend (ROAS) from revenue and spend."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], revenue: float = None, spend: float = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        revenue = kwargs.get("revenue")
+        spend = kwargs.get("spend")
+        
         if revenue is None or spend is None:
-            payload = {"error": "revenue and spend are required parameters."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({"error": "revenue and spend are required parameters."})
+        
         if spend == 0:
-            payload = {"error": "spend cannot be zero."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({"error": "spend cannot be zero."})
+        
         roas = revenue / spend
-        payload = {"roas": roas}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"roas": roas})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "calculateRoas",
+                "name": "calculate_roas",
                 "description": "Calculates Return on Ad Spend (ROAS) from revenue and spend.",
                 "parameters": {
                     "type": "object",
@@ -1764,39 +1656,36 @@ class CalculateROAS(Tool):
                         "spend": {
                             "type": "number",
                             "description": "The amount spent.",
-                        },
+                        }
                     },
                     "required": ["revenue", "spend"],
                 },
             },
         }
 
-
 class CalculateCPA(Tool):
-    """Computes Cost Per Acquisition (CPA) using expenditure and purchases."""
+    """Calculates Cost Per Acquisition (CPA) from spend and purchases."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], spend: float = None, purchases: int = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        spend = kwargs.get("spend")
+        purchases = kwargs.get("purchases")
+        
         if spend is None or purchases is None:
-            payload = {"error": "spend and purchases are required parameters."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({"error": "spend and purchases are required parameters."})
+        
         if purchases == 0:
-            payload = {"error": "purchases cannot be zero."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({"error": "purchases cannot be zero."})
+        
         cpa = spend / purchases
-        payload = {"cpa": cpa}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"cpa": cpa})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "calculateCpa",
+                "name": "calculate_cpa",
                 "description": "Calculates Cost Per Acquisition (CPA) from spend and purchases.",
                 "parameters": {
                     "type": "object",
@@ -1808,24 +1697,25 @@ class CalculateCPA(Tool):
                         "purchases": {
                             "type": "number",
                             "description": "The number of purchases.",
-                        },
+                        }
                     },
                     "required": ["spend", "purchases"],
                 },
             },
         }
 
-
 class CompareValue(Tool):
-    """Evaluates a value against a threshold with a defined operator."""
+    """Compares a value with a threshold using a specified operator."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], value: Any = None, threshold: Any = None, operator: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        value = kwargs.get("value")
+        threshold = kwargs.get("threshold")
+        operator = kwargs.get("operator")
+        
         if value is None or threshold is None or operator is None:
-            payload = {"error": "value, threshold, and operator are required parameters."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({"error": "value, threshold, and operator are required parameters."})
+        
         result = False
         if operator == "greater":
             result = value > threshold
@@ -1838,18 +1728,16 @@ class CompareValue(Tool):
         elif operator == "equal":
             result = value == threshold
         else:
-            payload = {"error": f"Unknown operator: {operator}"}
-            out = json.dumps(payload)
-            return out
-        payload = {"result": result}
-        out = json.dumps(payload)
-        return out
+            return json.dumps({"error": f"Unknown operator: {operator}"})
+        
+        return json.dumps({"result": result})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CompareValue",
+                "name": "compare_value",
                 "description": "Compares a value with a threshold using a specified operator.",
                 "parameters": {
                     "type": "object",
@@ -1865,34 +1753,33 @@ class CompareValue(Tool):
                         "operator": {
                             "type": "string",
                             "description": "The comparison operator (greater, greater_equal, less, less_equal, equal).",
-                        },
+                        }
                     },
                     "required": ["value", "threshold", "operator"],
                 },
             },
         }
 
-
 class IncreaseValueWithPercent(Tool):
-    """Boosts a value by a defined percentage."""
+    """Increases a value by a specified percentage."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], value: float = None, percent: float = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        value = kwargs.get("value")
+        percent = kwargs.get("percent")
+        
         if value is None or percent is None:
-            payload = {"error": "value and percent are required parameters."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({"error": "value and percent are required parameters."})
+        
         new_value = value * (100 + percent) / 100
-        payload = {"new_value": new_value}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"new_value": new_value})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "IncreaseValueWithPercent",
+                "name": "increase_value_with_percent",
                 "description": "Increases a value by a specified percentage.",
                 "parameters": {
                     "type": "object",
@@ -1904,40 +1791,35 @@ class IncreaseValueWithPercent(Tool):
                         "percent": {
                             "type": "number",
                             "description": "The percentage to increase by.",
-                        },
+                        }
                     },
                     "required": ["value", "percent"],
                 },
             },
         }
 
-
-#Tools for Logging Audits
+# Audit Logging Tools
 class LogBudgetChange(Tool):
-    """Inserts a new record into the budget_changes table."""
+    """Adds a new entry to the budget_changes table."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None, old_budget: float = None, new_budget: float = None, changed_at: str = None, reason: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
+        old_budget = kwargs.get("old_budget")
+        new_budget = kwargs.get("new_budget")
+        changed_at = kwargs.get("changed_at")
+        reason = kwargs.get("reason")
+        
         if not adset_id:
-            payload = {"error": "adset_id is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "adset_id is a required parameter."})
         if not old_budget:
-            payload = {"error": "old_budget is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "old_budget is a required parameter."})
         if not new_budget:
-            payload = {"error": "new_budget is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "new_budget is a required parameter."})
         if not changed_at:
-            payload = {"error": "changed_at is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "changed_at is a required parameter."})
         if not reason:
-            payload = {"error": "reason is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "reason is a required parameter."})
 
         new_budget_change = {
             "change_id": f"BC-{adset_id}",
@@ -1945,25 +1827,27 @@ class LogBudgetChange(Tool):
             "old_budget": old_budget,
             "new_budget": new_budget,
             "changed_at": changed_at,
-            "reason": reason,
+            "reason": reason
         }
-
+        
         if "budget_changes" not in data:
             data["budget_changes"] = []
+            
+        data['budget_changes'].append(new_budget_change)
 
-        data["budget_changes"].append(new_budget_change)
-        payload = {
+        return json.dumps(
+            {
                 "status": "success",
                 "message": f"New budget change was added: {new_budget_change}",
             }
-        out = json.dumps(payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "LogBudgetChange",
+                "name": "log_budget_change",
                 "description": "Adds a new entry to the budget_changes table.",
                 "parameters": {
                     "type": "object",
@@ -1987,57 +1871,36 @@ class LogBudgetChange(Tool):
                         "reason": {
                             "type": "string",
                             "description": "The reason for the budget change.",
-                        },
+                        }
                     },
-                    "required": [
-                        "change_id",
-                        "adset_id",
-                        "old_budget",
-                        "new_budget",
-                        "changed_at",
-                        "reason",
-                    ],
+                    "required": ["change_id", "adset_id", "old_budget", "new_budget", "changed_at", "reason"],
                 },
             },
         }
 
-
 class LogStrategyChange(Tool):
-    """Inserts a new record into the strategy_changes table."""
+    """Adds a new entry to the strategy_changes table."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        adset_id: str = None,
-        old_strategy: str = None,
-        new_strategy: str = None,
-        old_bid: float = None,
-        new_bid: float = None,
-        changed_at: str = None,
-        reason: str = None
-,
-    change_id: Any = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
+        old_strategy = kwargs.get("old_strategy")
+        new_strategy = kwargs.get("new_strategy")
+        old_bid = kwargs.get("old_bid")
+        new_bid = kwargs.get("new_bid")
+        changed_at = kwargs.get("changed_at")
+        reason = kwargs.get("reason")
+        
         if not adset_id:
-            payload = {"error": "adset_id is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "adset_id is a required parameter."})
         if not old_strategy:
-            payload = {"error": "old_strategy is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "old_strategy is a required parameter."})
         if not new_strategy:
-            payload = {"error": "new_strategy is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "new_strategy is a required parameter."})
         if not changed_at:
-            payload = {"error": "changed_at is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "changed_at is a required parameter."})
         if not reason:
-            payload = {"error": "reason is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "reason is a required parameter."})
 
         new_strategy_change = {
             "change_id": f"SC-{adset_id}",
@@ -2047,25 +1910,27 @@ class LogStrategyChange(Tool):
             "old_bid": old_bid,
             "new_bid": new_bid,
             "changed_at": changed_at,
-            "reason": reason,
+            "reason": reason
         }
-
+        
         if "strategy_changes" not in data:
             data["strategy_changes"] = []
+            
+        data['strategy_changes'].append(new_strategy_change)
 
-        data["strategy_changes"].append(new_strategy_change)
-        payload = {
-            "status": "success",
-            "message": f"New strategy change was added: {new_strategy_change}",
-        }
-        out = json.dumps(payload)
-        return out
+        return json.dumps(
+            {
+                "status": "success",
+                "message": f"New strategy change was added: {new_strategy_change}",
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "LogStrategyChange",
+                "name": "log_strategy_change",
                 "description": "Adds a new entry to the strategy_changes table.",
                 "parameters": {
                     "type": "object",
@@ -2097,63 +1962,41 @@ class LogStrategyChange(Tool):
                         "reason": {
                             "type": "string",
                             "description": "The reason for the strategy change.",
-                        },
+                        }
                     },
-                    "required": [
-                        "adset_id",
-                        "old_strategy",
-                        "new_strategy",
-                        "changed_at",
-                        "reason",
-                    ],
+                    "required": ["adset_id", "old_strategy", "new_strategy", "changed_at", "reason"],
                 },
             },
         }
 
-
 class AddAutomationRun(Tool):
-    """Inserts a new record into the automation_runs table."""
+    """Adds a new entry to the automation_runs table."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        run_id: str = None,
-        run_type: str = None,
-        started_at: str = None,
-        ended_at: str = None,
-        status: str = None,
-        input_ref: str = None,
-        errors_json: str = None,
-        reason: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        run_id = kwargs.get("run_id")
+        run_type = kwargs.get("run_type")
+        started_at = kwargs.get("started_at")
+        ended_at = kwargs.get("ended_at")
+        status = kwargs.get("status")
+        input_ref = kwargs.get("input_ref")
+        errors_json = kwargs.get("errors_json")
+        reason = kwargs.get("reason")
+        
         if not run_id:
-            payload = {"error": "run_id is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "run_id is a required parameter."})
         if not run_type:
-            payload = {"error": "run_type is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "run_type is a required parameter."})
         if not started_at:
-            payload = {"error": "started_at is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "started_at is a required parameter."})
         if not ended_at:
-            payload = {"error": "ended_at is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "ended_at is a required parameter."})
         if not status:
-            payload = {"error": "status is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "status is a required parameter."})
         if not input_ref:
-            payload = {"error": "input_ref is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "input_ref is a required parameter."})
         if not errors_json:
-            payload = {"error": "errors_json is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "errors_json is a required parameter."})
 
         new_automation_run = {
             "run_id": run_id,
@@ -2162,28 +2005,30 @@ class AddAutomationRun(Tool):
             "ended_at": ended_at,
             "status": status,
             "input_ref": input_ref,
-            "errors_json": errors_json,
+            "errors_json": errors_json
         }
-
+        
         if reason:
             new_automation_run["reason"] = reason
-
+            
         if "automation_runs" not in data:
             data["automation_runs"] = []
+            
+        data['automation_runs'].append(new_automation_run)
 
-        data["automation_runs"].append(new_automation_run)
-        payload = {
-            "status": "success",
-            "message": f"New automation run was added: {new_automation_run}",
-        }
-        out = json.dumps(payload)
-        return out
+        return json.dumps(
+            {
+                "status": "success",
+                "message": f"New automation run was added: {new_automation_run}",
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddAutomationRun",
+                "name": "add_automation_run",
                 "description": "Adds a new entry to the automation_runs table.",
                 "parameters": {
                     "type": "object",
@@ -2219,127 +2064,128 @@ class AddAutomationRun(Tool):
                         "reason": {
                             "type": "string",
                             "description": "The reason for the automation run.",
-                        },
+                        }
                     },
-                    "required": [
-                        "run_id",
-                        "run_type",
-                        "started_at",
-                        "ended_at",
-                        "status",
-                        "input_ref",
-                        "errors_json",
-                    ],
+                    "required": ["run_id", "run_type", "started_at", "ended_at", "status", "input_ref", "errors_json"],
                 },
             },
         }
 
-
-#Tools for Bid Strategies
+# Bid Strategy Tools
 class UpdateBidStrategyForAdSet(Tool):
-    """Modifies the bid strategy of a specific ad set."""
+    """Updates the bid strategy for a specific ad set."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None, new_strategy: str = None, new_bid: float = None) -> str:
-        adsets = data.get("adsets", {}).values()
-        for adset in adsets.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
+        new_strategy = kwargs.get("new_strategy")
+        new_bid = kwargs.get("new_bid")
+        
+        adsets = data.get("adsets", [])
+        for adset in adsets:
             if adset.get("adset_id") == adset_id:
-                old_strategy = adset["bid_strategy"]
-                adset["bid_amount"]
-                adset["bid_strategy"] = new_strategy
-                adset["bid_amount"] = new_bid
-                payload = {
+                old_strategy = adset['bid_strategy']
+                old_bid = adset['bid_amount']
+                adset['bid_strategy'] = new_strategy
+                adset['bid_amount'] = new_bid
+                return json.dumps({
                     "status": "success",
-                    "message": f"Ad set bid strategy updated from '{old_strategy}' to '{new_strategy}' with bid {new_bid}",
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Ad set {adset_id} not found"}
-        out = json.dumps(payload)
-        return out
+                    "message": f"Ad set bid strategy updated from '{old_strategy}' to '{new_strategy}' with bid {new_bid}"
+                })
+
+        return json.dumps({"error": f"Ad set {adset_id} not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateBidStrategyForAdset",
+                "name": "update_bid_strategy_for_adset",
                 "description": "Updates the bid strategy for a specific ad set.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "adset_id": {"type": "string"},
                         "new_strategy": {"type": "string"},
-                        "new_bid": {"type": "number"},
+                        "new_bid": {"type": "number"}
                     },
-                    "required": ["adset_id", "new_strategy", "new_bid"],
-                },
-            },
+                    "required": ["adset_id", "new_strategy", "new_bid"]
+                }
+            }
         }
 
-
-#Tools for Ad Set Status
+# AdSet Status Tools
 class UpdateAdSetStatus(Tool):
-    """Modifies the status of a specific ad set."""
+    """Updates the status for a specific ad set."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None, new_status: str = None) -> str:
-        adsets = data.get("adsets", {}).values()
-        for adset in adsets.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
+        new_status = kwargs.get("new_status")
+        
+        adsets = data.get("adsets", [])
+        for adset in adsets:
             if adset.get("adset_id") == adset_id:
-                old_status = adset["status"]
-                adset["status"] = new_status
-                payload = {
+                old_status = adset['status']
+                adset['status'] = new_status
+                return json.dumps({
                     "status": "success",
-                    "message": f"Ad set status updated from '{old_status}' to '{new_status}'",
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Ad set {adset_id} not found"}
-        out = json.dumps(payload)
-        return out
+                    "message": f"Ad set status updated from '{old_status}' to '{new_status}'"
+                })
+
+        return json.dumps({"error": f"Ad set {adset_id} not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateAdsetStatus",
+                "name": "update_adset_status",
                 "description": "Updates the status for a specific ad set.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "adset_id": {"type": "string"},
-                        "new_status": {"type": "string"},
+                        "new_status": {"type": "string"}
                     },
-                    "required": ["adset_id", "new_status"],
-                },
-            },
+                    "required": ["adset_id", "new_status"]
+                }
+            }
         }
 
-
-#Tools for Managing Plans
+# Plan Management Tools
 class CreatePlanAllocation(Tool):
-    """Establishes a plan allocation for an ad set."""
+    """Creates a plan allocation for an ad set."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None, budget: float = None, bid_strategy: str = None, bid_amount: float = None, creative_type: str = None) -> str:
-        # This tool is generally utilized for developing a complete plan
-        # Currently, we will only provide the allocation information
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
+        budget = kwargs.get("budget")
+        bid_strategy = kwargs.get("bid_strategy")
+        bid_amount = kwargs.get("bid_amount")
+        creative_type = kwargs.get("creative_type")
+        
+        # This tool would typically be used in the context of creating a full plan
+        # For now, we'll just return the allocation details
         allocation = {
             "adset_id": adset_id,
             "budget": budget,
             "bid_strategy": bid_strategy,
             "bid_amount": bid_amount,
-            "creative_type": creative_type,
+            "creative_type": creative_type
         }
-        payload = {"status": "success", "allocation": allocation}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({
+            "status": "success",
+            "allocation": allocation
+        })
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createPlanAllocation",
+                "name": "create_plan_allocation",
                 "description": "Creates a plan allocation for an ad set.",
                 "parameters": {
                     "type": "object",
@@ -2363,7 +2209,7 @@ class CreatePlanAllocation(Tool):
                         "creative_type": {
                             "type": "string",
                             "description": "The creative type.",
-                        },
+                        }
                     },
                     "required": ["adset_id", "budget", "bid_strategy", "creative_type"],
                 },
@@ -2371,28 +2217,27 @@ class CreatePlanAllocation(Tool):
         }
 
 
-#Tools for Policy Parameters
+# Policy Parameter Tools
 class GetPolicyParam(Tool):
-    """Fetches the value of a policy parameter."""
+    """Retrieves a policy parameter value."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], param_name: str = None) -> str:
-        policy_params = data.get("policy_params", {}).values()
-
-        for param in policy_params.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        param_name = kwargs.get("param_name")
+        policy_params = data.get("policy_params", [])
+        
+        for param in policy_params:
             if param.get("param_name") == param_name:
-                payload = {"param_value": param.get("param_value")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Policy parameter '{param_name}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"param_value": param.get("param_value")})
+        
+        return json.dumps({"error": f"Policy parameter '{param_name}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPolicyParam",
+                "name": "get_policy_param",
                 "description": "Retrieves a policy parameter value.",
                 "parameters": {
                     "type": "object",
@@ -2407,68 +2252,67 @@ class GetPolicyParam(Tool):
             },
         }
 
-
 class UpdatePolicyParam(Tool):
-    """Modifies the value of a policy parameter."""
+    """Updates a policy parameter value."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], param_name: str = None, param_value: Any = None, updated_at: str = None) -> str:
-        policy_params = data.get("policy_params", {}).values()
-        for param in policy_params.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        param_name = kwargs.get("param_name")
+        param_value = kwargs.get("param_value")
+        updated_at = kwargs.get("updated_at")
+        
+        policy_params = data.get("policy_params", [])
+        for param in policy_params:
             if param.get("param_name") == param_name:
-                old_value = param["param_value"]
-                param["param_value"] = param_value
-                param["updated_at"] = updated_at
-                payload = {
+                old_value = param['param_value']
+                param['param_value'] = param_value
+                param['updated_at'] = updated_at
+                return json.dumps({
                     "status": "success",
-                    "message": f"Policy parameter '{param_name}' updated from '{old_value}' to '{param_value}'",
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Policy parameter '{param_name}' not found."}
-        out = json.dumps(payload)
-        return out
+                    "message": f"Policy parameter '{param_name}' updated from '{old_value}' to '{param_value}'"
+                })
+
+        return json.dumps({"error": f"Policy parameter '{param_name}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdatePolicyParam",
+                "name": "update_policy_param",
                 "description": "Updates a policy parameter value.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "param_name": {"type": "string"},
                         "param_value": {"type": "string"},
-                        "updated_at": {"type": "string"},
+                        "updated_at": {"type": "string"}
                     },
-                    "required": ["param_name", "param_value", "updated_at"],
-                },
-            },
+                    "required": ["param_name", "param_value", "updated_at"]
+                }
+            }
         }
 
-
-#Extra utility tools
+# Additional helper tools
 class CheckNoPurchases(Tool):
-    """Verifies if a list of purchase counts consists solely of zeros."""
+    """Checks if a list of purchase counts contains only zeros."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], purchases_list: list[int] = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        purchases_list = kwargs.get("purchases_list")
+        
         if purchases_list is None:
-            payload = {"error": "purchases_list is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "purchases_list is a required parameter."})
+        
+        all_zeros = all(purchase == 0 for purchase in purchases_list)
+        return json.dumps({"all_zeros": all_zeros})
 
-        all_zeros = all(purchase == 0 for purchase in purchases_list.values())
-        payload = {"all_zeros": all_zeros}
-        out = json.dumps(payload)
-        return out
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "checkNoPurchases",
+                "name": "check_no_purchases",
                 "description": "Checks if a list of purchase counts contains only zeros.",
                 "parameters": {
                     "type": "object",
@@ -2476,7 +2320,9 @@ class CheckNoPurchases(Tool):
                         "purchases_list": {
                             "type": "array",
                             "description": "List of purchase counts.",
-                            "items": {"type": "number"},
+                            "items": {
+                                "type": "number"
+                            }
                         }
                     },
                     "required": ["purchases_list"],
@@ -2484,32 +2330,29 @@ class CheckNoPurchases(Tool):
             },
         }
 
-
 class CalculatePercentageChange(Tool):
-    """Computes the percentage difference in revenue between two amounts."""
+    """Calculates the percentage change in revenue between two values."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], current_value: float = None, previous_value: float = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        current_value = kwargs.get("current_value")
+        previous_value = kwargs.get("previous_value")
+        
         if current_value is None or previous_value is None:
-            payload = {"error": "current_value and previous_value are required parameters."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({"error": "current_value and previous_value are required parameters."})
+        
         if previous_value == 0:
-            payload = {"error": "previous_value cannot be zero."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({"error": "previous_value cannot be zero."})
+        
         change_percent = ((current_value - previous_value) / previous_value) * 100
-        payload = {"change_percent": change_percent}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"change_percent": change_percent})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculatePercentageChange",
+                "name": "calculate_percentage_change",
                 "description": "Calculates the percentage change between two values.",
                 "parameters": {
                     "type": "object",
@@ -2521,39 +2364,36 @@ class CalculatePercentageChange(Tool):
                         "previous_value": {
                             "type": "number",
                             "description": "The previous value.",
-                        },
+                        }
                     },
                     "required": ["current_value", "previous_value"],
                 },
             },
         }
 
-
 class CalculateSpendVariance(Tool):
-    """Computes the percentage variance between projected and actual expenditure."""
+    """Calculates the variance percentage between planned and actual spend."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], planned_spend: float = None, actual_spend: float = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        planned_spend = kwargs.get("planned_spend")
+        actual_spend = kwargs.get("actual_spend")
+        
         if planned_spend is None or actual_spend is None:
-            payload = {"error": "planned_spend and actual_spend are required parameters."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({"error": "planned_spend and actual_spend are required parameters."})
+        
         if planned_spend == 0:
-            payload = {"error": "planned_spend cannot be zero."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({"error": "planned_spend cannot be zero."})
+        
         variance_percent = ((actual_spend - planned_spend) / planned_spend) * 100
-        payload = {"variance_percent": variance_percent}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"variance_percent": variance_percent})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateSpendVariance",
+                "name": "calculate_spend_variance",
                 "description": "Calculates the variance percentage between planned and actual spend.",
                 "parameters": {
                     "type": "object",
@@ -2565,7 +2405,7 @@ class CalculateSpendVariance(Tool):
                         "actual_spend": {
                             "type": "number",
                             "description": "The actual spend amount.",
-                        },
+                        }
                     },
                     "required": ["planned_spend", "actual_spend"],
                 },
@@ -2573,44 +2413,41 @@ class CalculateSpendVariance(Tool):
         }
 
 
+
 class CalculateCampaignROASForPeriod(Tool):
-    """Computes ROAS for a campaign during a specified timeframe."""
+    """Calculates ROAS for a campaign over a period."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], campaign_id: str = None, start_date: str = None, end_date: str = None) -> str:
-        adsets = data.get("adsets", {}).values()
-        campaign_adsets = [
-            adset for adset in adsets.values() if adset.get("campaign_id") == campaign_id
-        ]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        campaign_id = kwargs.get("campaign_id")
+        start_date = kwargs.get("start_date")
+        end_date = kwargs.get("end_date")
+        
+        adsets = data.get("adsets", [])
+        campaign_adsets = [adset for adset in adsets if adset.get("campaign_id") == campaign_id]
         adset_ids = [adset.get("adset_id") for adset in campaign_adsets]
-
-        insights = data.get("f_insights", {}).values()
+        
+        insights = data.get("f_insights", [])
         total_revenue = 0
         total_spend = 0
-
-        for insight in insights.values():
-            if (
-                insight.get("adset_id") in adset_ids
-                and start_date <= insight.get("date") <= end_date
-            ):
+        
+        for insight in insights:
+            if insight.get("adset_id") in adset_ids and start_date <= insight.get("date") <= end_date:
                 total_revenue += insight.get("revenue", 0)
                 total_spend += insight.get("spend", 0)
-
+        
         if total_spend == 0:
-            payload = {"error": "No spend found for the period."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({"error": "No spend found for the period."})
+        
         roas = total_revenue / total_spend
-        payload = {"roas": roas}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"roas": roas})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "calculateCampaignRoasForPeriod",
+                "name": "calculate_campaign_roas_for_period",
                 "description": "Calculates ROAS for a campaign over a period.",
                 "parameters": {
                     "type": "object",
@@ -2626,7 +2463,7 @@ class CalculateCampaignROASForPeriod(Tool):
                         "end_date": {
                             "type": "string",
                             "description": "End date in YYYY-MM-DD format.",
-                        },
+                        }
                     },
                     "required": ["campaign_id", "start_date", "end_date"],
                 },
@@ -2635,37 +2472,34 @@ class CalculateCampaignROASForPeriod(Tool):
 
 
 class CalculateROASForAdSetForPeriod(Tool):
-    """Computes ROAS for a specific ad set during a specified timeframe."""
+    """Calculates ROAS for a specific ad set over a period."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None, start_date: str = None, end_date: str = None) -> str:
-        insights = data.get("f_insights", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
+        start_date = kwargs.get("start_date")
+        end_date = kwargs.get("end_date")
+        insights = data.get("f_insights", [])
         total_revenue = 0
         total_spend = 0
-
-        for insight in insights.values():
-            if (
-                insight.get("adset_id") == adset_id
-                and start_date <= insight.get("date") <= end_date
-            ):
+        
+        for insight in insights:
+            if insight.get("adset_id") == adset_id and start_date <= insight.get("date") <= end_date:
                 total_revenue += insight.get("revenue", 0)
                 total_spend += insight.get("spend", 0)
-
+        
         if total_spend == 0:
-            payload = {"error": "No spend found for the period."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({"error": "No spend found for the period."})
+        
         roas = total_revenue / total_spend
-        payload = {"roas": roas}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"roas": roas})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateAdsetRoasForPeriod",
+                "name": "calculate_adset_roas_for_period",
                 "description": "Calculates ROAS for a specific ad set over a period.",
                 "parameters": {
                     "type": "object",
@@ -2681,49 +2515,43 @@ class CalculateROASForAdSetForPeriod(Tool):
                         "end_date": {
                             "type": "string",
                             "description": "End date in YYYY-MM-DD format.",
-                        },
+                        }
                     },
                     "required": ["adset_id", "start_date", "end_date"],
                 },
             },
         }
 
-
 class CalculateCPAForAdSetForPeriod(Tool):
-    """Computes CPA for a specific ad set during a specified timeframe."""
+    """Calculates CPA for a specific ad set over a period."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None, start_date: str = None, end_date: str = None) -> str:
-        insights = data.get("f_insights", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
+        start_date = kwargs.get("start_date")
+        end_date = kwargs.get("end_date")
+        insights = data.get("f_insights", [])
         total_spend = 0
         total_purchases = 0
-
-        for insight in insights.values():
-            if (
-                insight.get("adset_id") == adset_id
-                and start_date <= insight.get("date") <= end_date
-            ):
+        
+        for insight in insights:
+            if insight.get("adset_id") == adset_id and start_date <= insight.get("date") <= end_date:
                 total_spend += insight.get("spend", 0)
                 total_purchases += insight.get("purchases", 0)
-
+        
         if total_purchases == 0:
-            payload = {"cpa": 0}
-            out = json.dumps(payload)
-            return out
-            payload = {"error": "No purchases found for the period."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({'cpa': 0})
+            return json.dumps({"error": "No purchases found for the period."})
+        
         cpa = total_spend / total_purchases
-        payload = {"cpa": cpa}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"cpa": cpa})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateAdsetCpaForPeriod",
+                "name": "calculate_adset_cpa_for_period",
                 "description": "Calculates CPA for a specific ad set over a period.",
                 "parameters": {
                     "type": "object",
@@ -2739,42 +2567,39 @@ class CalculateCPAForAdSetForPeriod(Tool):
                         "end_date": {
                             "type": "string",
                             "description": "End date in YYYY-MM-DD format.",
-                        },
+                        }
                     },
                     "required": ["adset_id", "start_date", "end_date"],
                 },
             },
         }
 
-
 class CalculateROASForAdSetForDay(Tool):
-    """Computes ROAS for a specific ad set on a particular day."""
+    """Calculates ROAS for a specific ad set on a specific day."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None, date: str = None) -> str:
-        insights = data.get("f_insights", {}).values()
-
-        for insight in insights.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
+        date = kwargs.get("date")
+        insights = data.get("f_insights", [])
+        
+        for insight in insights:
             if insight.get("adset_id") == adset_id and insight.get("date") == date:
                 revenue = insight.get("revenue", 0)
                 spend = insight.get("spend", 0)
                 if spend == 0:
-                    payload = {"error": "Spend is zero, cannot calculate ROAS."}
-                    out = json.dumps(payload)
-                    return out
+                    return json.dumps({"error": "Spend is zero, cannot calculate ROAS."})
                 roas = revenue / spend
-                payload = {"roas": roas}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"No insights found for ad set {adset_id} on date {date}."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"roas": roas})
+        
+        return json.dumps({"error": f"No insights found for ad set {adset_id} on date {date}."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateAdsetRoasForDay",
+                "name": "calculate_adset_roas_for_day",
                 "description": "Calculates ROAS for a specific ad set on a specific day.",
                 "parameters": {
                     "type": "object",
@@ -2786,42 +2611,39 @@ class CalculateROASForAdSetForDay(Tool):
                         "date": {
                             "type": "string",
                             "description": "The date in YYYY-MM-DD format.",
-                        },
+                        }
                     },
                     "required": ["adset_id", "date"],
                 },
             },
         }
 
-
 class CalculateCPAForAdSetForDay(Tool):
-    """Computes CPA for a specific ad set on a particular day."""
+    """Calculates CPA for a specific ad set on a specific day."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None, date: str = None) -> str:
-        insights = data.get("f_insights", {}).values()
-
-        for insight in insights.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
+        date = kwargs.get("date")
+        insights = data.get("f_insights", [])
+        
+        for insight in insights:
             if insight.get("adset_id") == adset_id and insight.get("date") == date:
                 spend = insight.get("spend", 0)
                 purchases = insight.get("purchases", 0)
                 if purchases == 0:
-                    payload = {"error": "No purchases, cannot calculate CPA."}
-                    out = json.dumps(payload)
-                    return out
+                    return json.dumps({"error": "No purchases, cannot calculate CPA."})
                 cpa = spend / purchases
-                payload = {"cpa": cpa}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"No insights found for ad set {adset_id} on date {date}."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"cpa": cpa})
+        
+        return json.dumps({"error": f"No insights found for ad set {adset_id} on date {date}."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "calculateAdsetCpaForDay",
+                "name": "calculate_adset_cpa_for_day",
                 "description": "Calculates CPA for a specific ad set on a specific day.",
                 "parameters": {
                     "type": "object",
@@ -2833,7 +2655,7 @@ class CalculateCPAForAdSetForDay(Tool):
                         "date": {
                             "type": "string",
                             "description": "The date in YYYY-MM-DD format.",
-                        },
+                        }
                     },
                     "required": ["adset_id", "date"],
                 },
@@ -2842,30 +2664,26 @@ class CalculateCPAForAdSetForDay(Tool):
 
 
 class SearchAdSetsByName(Tool):
-    """Looks for ad sets whose names include the specified text."""
+    """Searches for ad sets with names containing the specified text."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], name_query: str = None) -> str:
-        adsets = data.get("adsets", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name_query = kwargs.get("name_query")
+        adsets = data.get("adsets", [])
         matching_adsets = []
         
-        if not name_query:
-            payload = {"adset_ids": []}
-            out = json.dumps(payload)
-            return out
-
-        for adset in adsets.values():
+        for adset in adsets:
             if name_query.lower() in adset.get("name", "").lower():
                 matching_adsets.append(adset.get("adset_id"))
-        payload = {"adset_ids": matching_adsets}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"adset_ids": matching_adsets})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchAdsetsByName",
+                "name": "search_adsets_by_name",
                 "description": "Searches for ad sets with names containing the specified text.",
                 "parameters": {
                     "type": "object",
@@ -2882,30 +2700,26 @@ class SearchAdSetsByName(Tool):
 
 
 class SearchCampaignsByName(Tool):
-    """Looks for campaigns whose names include the specified text."""
+    """Searches for campaigns with names containing the specified text."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], name_query: str = None) -> str:
-        campaigns = data.get("campaigns", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name_query = kwargs.get("name_query")
+        campaigns = data.get("campaigns", [])
         matching_campaigns = []
         
-        if not name_query:
-            payload = {"campaign_ids": []}
-            out = json.dumps(payload)
-            return out
-
-        for campaign in campaigns.values():
+        for campaign in campaigns:
             if name_query.lower() in campaign.get("name", "").lower():
                 matching_campaigns.append(campaign.get("campaign_id"))
-        payload = {"campaign_ids": matching_campaigns}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"campaign_ids": matching_campaigns})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchCampaignsByName",
+                "name": "search_campaigns_by_name",
                 "description": "Searches for campaigns with names containing the specified text.",
                 "parameters": {
                     "type": "object",
@@ -2922,19 +2736,18 @@ class SearchCampaignsByName(Tool):
 
 
 class GetCurrentTimestamp(Tool):
-    """Provides a fixed current timestamp value."""
+    """Returns a hardcoded current timestamp value."""
 
     @staticmethod
-    def invoke(data: dict[str, Any]) -> str:
-        payload = {"timestamp": "2025-08-13T01:01:01Z"}
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        return json.dumps({"timestamp": "2025-08-13T01:01:01Z"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCurrentTimestamp",
+                "name": "get_current_timestamp",
                 "description": "Returns a hardcoded current timestamp value (2025-08-13T01:01:01Z).",
                 "parameters": {},
             },
@@ -2942,38 +2755,32 @@ class GetCurrentTimestamp(Tool):
 
 
 class DeleteAutomationRun(Tool):
-    """Removes a record of an automation run."""
+    """Deletes an automation run record."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], run_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        run_id = kwargs.get("run_id")
         if not run_id:
-            payload = {"error": "run_id is a required parameter."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "run_id is a required parameter."})
 
-        runs = data.get("automation_runs", {}).values()
+        runs = data.get("automation_runs", [])
         original_count = len(runs)
-        data["automation_runs"] = [r for r in runs.values() if r.get("run_id") != run_id]
+        data['automation_runs'] = [r for r in runs if r.get("run_id") != run_id]
 
-        if len(data["automation_runs"]) < original_count:
-            payload = {
-                    "status": "success",
-                    "message": f"Automation run with id {run_id} deleted successfully.",
-                }
-            out = json.dumps(
-                payload)
-            return out
+        if len(data['automation_runs']) < original_count:
+            return json.dumps({
+                "status": "success",
+                "message": f"Automation run with id {run_id} deleted successfully."
+            })
         else:
-            payload = {"error": f"Automation run with ID '{run_id}' not found."}
-            out = json.dumps(
-                payload)
-            return out
+            return json.dumps({"error": f"Automation run with ID '{run_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "deleteAutomationRun",
+                "name": "delete_automation_run",
                 "description": "Deletes an automation run record.",
                 "parameters": {
                     "type": "object",
@@ -2990,52 +2797,49 @@ class DeleteAutomationRun(Tool):
 
 
 class AddPlan(Tool):
-    """Creates a new plan."""
+    """Adds a new plan."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], plan_id: str = None, date: str = None, author: str = None, allocations: list = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        plan_id = kwargs.get("plan_id")
+        date = kwargs.get("date")
+        author = kwargs.get("author")
+        allocations = kwargs.get("allocations")
+
         if not all([plan_id, date, author, allocations]):
-            payload = {
-                    "error": "plan_id, date, author, and allocations are required parameters."
-                }
-            out = json.dumps(
-                payload)
-            return out
+            return json.dumps({"error": "plan_id, date, author, and allocations are required parameters."})
 
-        # Fundamental checks for allocations
+        # Basic validation for allocations
         if not isinstance(allocations, list):
-            payload = {"error": "allocations must be a list."}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "allocations must be a list."})
 
-        total_budget = sum(alloc.get("budget", 0) for alloc in allocations.values())
+        total_budget = sum(alloc.get('budget', 0) for alloc in allocations)
 
         new_plan = {
             "plan_id": plan_id,
             "date": date,
             "total_budget": total_budget,
             "author": author,
-            "created_at": "2025-08-13T01:01:01Z",  # Employing a fixed timestamp for uniformity
+            "created_at": "2025-08-13T01:01:01Z",  # Using hardcoded timestamp for consistency
             "checksum": "manual_override_checksum",
-            "allocations": allocations,
+            "allocations": allocations
         }
 
         if "plans" not in data:
             data["plans"] = []
-        data["plans"][plan_id] = new_plan
-        payload = {
-                "status": "success",
-                "message": f"New plan was added: {new_plan}",
-            }
-        out = json.dumps(
-            payload)
-        return out
+        data['plans'].append(new_plan)
+
+        return json.dumps({
+            "status": "success",
+            "message": f"New plan was added: {new_plan}",
+        })
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "addPlan",
+                "name": "add_plan",
                 "description": "Adds a new plan.",
                 "parameters": {
                     "type": "object",
@@ -3043,35 +2847,33 @@ class AddPlan(Tool):
                         "plan_id": {"type": "string"},
                         "date": {"type": "string"},
                         "author": {"type": "string"},
-                        "allocations": {"type": "array", "items": {"type": "object"}},
+                        "allocations": {"type": "array", "items": {"type": "object"}}
                     },
                     "required": ["plan_id", "date", "author", "allocations"],
                 },
             },
         }
 
-
 class GetStatusForAdSet(Tool):
-    """Fetches the current status of a specific ad set."""
+    """Retrieves the status for a specific ad set."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None) -> str:
-        adsets = data.get("adsets", {}).values()
-
-        for adset in adsets.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
+        adsets = data.get("adsets", [])
+        
+        for adset in adsets:
             if adset.get("adset_id") == adset_id:
-                payload = {"status": adset.get("status")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Ad set with ID '{adset_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"status": adset.get('status')})
+        
+        return json.dumps({"error": f"Ad set with ID '{adset_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetStatusForAdset",
+                "name": "get_status_for_adset",
                 "description": "Retrieves the status for a specific ad set.",
                 "parameters": {
                     "type": "object",
@@ -3086,27 +2888,26 @@ class GetStatusForAdSet(Tool):
             },
         }
 
-
 class DecreaseValueWithPercent(Tool):
-    """Reduces a value by a defined percentage."""
+    """Decreases a value by a specified percentage."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], value: float = None, percent: float = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        value = kwargs.get("value")
+        percent = kwargs.get("percent")
+        
         if value is None or percent is None:
-            payload = {"error": "value and percent are required parameters."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({"error": "value and percent are required parameters."})
+        
         new_value = value * (100 - percent) / 100
-        payload = {"new_value": new_value}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"new_value": new_value})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "DecreaseValueWithPercent",
+                "name": "decrease_value_with_percent",
                 "description": "Decreases a value by a specified percentage.",
                 "parameters": {
                     "type": "object",
@@ -3118,7 +2919,7 @@ class DecreaseValueWithPercent(Tool):
                         "percent": {
                             "type": "number",
                             "description": "The percentage to decrease by.",
-                        },
+                        }
                     },
                     "required": ["value", "percent"],
                 },
@@ -3127,30 +2928,28 @@ class DecreaseValueWithPercent(Tool):
 
 
 class RoundNumberToUnit(Tool):
-    """Rounds a number to the closest multiple of a defined unit."""
+    """Rounds a number to the nearest multiple of a specified unit."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], number: float = None, unit: float = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        number = kwargs.get("number")
+        unit = kwargs.get("unit")
+        
         if number is None or unit is None:
-            payload = {"error": "number and unit are required parameters."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({"error": "number and unit are required parameters."})
+        
         if unit <= 0:
-            payload = {"error": "unit must be a positive number."}
-            out = json.dumps(payload)
-            return out
-
+            return json.dumps({"error": "unit must be a positive number."})
+        
         rounded_number = round(number / unit) * unit
-        payload = {"rounded_number": rounded_number}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"rounded_number": rounded_number})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RoundNumberToUnit",
+                "name": "round_number_to_unit",
                 "description": "Rounds a number to the nearest multiple of a specified unit.",
                 "parameters": {
                     "type": "object",
@@ -3162,7 +2961,7 @@ class RoundNumberToUnit(Tool):
                         "unit": {
                             "type": "number",
                             "description": "The unit to round to (e.g., 10 for rounding to nearest 10).",
-                        },
+                        }
                     },
                     "required": ["number", "unit"],
                 },
@@ -3171,30 +2970,26 @@ class RoundNumberToUnit(Tool):
 
 
 class SearchAdsByName(Tool):
-    """Looks for ads whose names include the specified text."""
+    """Searches for ads with names containing the specified text."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], name_query: str = None) -> str:
-        ads = data.get("ads", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name_query = kwargs.get("name_query")
+        ads = data.get("ads", [])
         matching_ads = []
         
-        if not name_query:
-            payload = {"ad_ids": []}
-            out = json.dumps(payload)
-            return out
-
-        for ad in ads.values():
+        for ad in ads:
             if name_query.lower() in ad.get("name", "").lower():
                 matching_ads.append(ad.get("ad_id"))
-        payload = {"ad_ids": matching_ads}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"ad_ids": matching_ads})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "searchAdsByName",
+                "name": "search_ads_by_name",
                 "description": "Searches for ads with names containing the specified text.",
                 "parameters": {
                     "type": "object",
@@ -3209,27 +3004,27 @@ class SearchAdsByName(Tool):
             },
         }
 
-
 class SearchAdsByAdSet(Tool):
-    """Looks for ads that are part of a specific ad set."""
+    """Searches for ads belonging to a specific ad set."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None) -> str:
-        ads = data.get("ads", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
+        ads = data.get("ads", [])
         matching_ads = []
-
-        for ad in ads.values():
+        
+        for ad in ads:
             if ad.get("adset_id") == adset_id:
                 matching_ads.append(ad.get("ad_id"))
-        payload = {"ad_ids": matching_ads}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"ad_ids": matching_ads})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchAdsByAdset",
+                "name": "search_ads_by_adset",
                 "description": "Searches for ads belonging to a specific ad set.",
                 "parameters": {
                     "type": "object",
@@ -3246,26 +3041,25 @@ class SearchAdsByAdSet(Tool):
 
 
 class GetBidStrategyForAdSet(Tool):
-    """Fetches the bid strategy associated with a specific ad set."""
+    """Retrieves the bid strategy for a specific ad set."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None) -> str:
-        adsets = data.get("adsets", {}).values()
-
-        for adset in adsets.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
+        adsets = data.get("adsets", [])
+        
+        for adset in adsets:
             if adset.get("adset_id") == adset_id:
-                payload = {"bid_strategy": adset.get("bid_strategy")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Ad set with ID '{adset_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"bid_strategy": adset.get('bid_strategy')})
+        
+        return json.dumps({"error": f"Ad set with ID '{adset_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetBidStrategyForAdset",
+                "name": "get_bid_strategy_for_adset",
                 "description": "Retrieves the bid strategy for a specific ad set.",
                 "parameters": {
                     "type": "object",
@@ -3280,28 +3074,26 @@ class GetBidStrategyForAdSet(Tool):
             },
         }
 
-
 class GetBidAmountForAdSet(Tool):
-    """Fetches the bid amount set for a specific ad set."""
+    """Retrieves the bid amount for a specific ad set."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None) -> str:
-        adsets = data.get("adsets", {}).values()
-
-        for adset in adsets.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
+        adsets = data.get("adsets", [])
+        
+        for adset in adsets:
             if adset.get("adset_id") == adset_id:
-                payload = {"bid_amount": adset.get("bid_amount")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Ad set with ID '{adset_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"bid_amount": adset.get('bid_amount')})
+        
+        return json.dumps({"error": f"Ad set with ID '{adset_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetBidAmountForAdset",
+                "name": "get_bid_amount_for_adset",
                 "description": "Retrieves the bid amount for a specific ad set.",
                 "parameters": {
                     "type": "object",
@@ -3318,26 +3110,25 @@ class GetBidAmountForAdSet(Tool):
 
 
 class GetAllocationsForPlan(Tool):
-    """Fetches the allocations linked to a specific plan."""
+    """Retrieves the allocations for a specific plan."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], plan_id: str = None) -> str:
-        plans = data.get("plans", {}).values()
-
-        for plan in plans.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        plan_id = kwargs.get("plan_id")
+        plans = data.get("plans", [])
+        
+        for plan in plans:
             if plan.get("plan_id") == plan_id:
-                payload = {"allocations": plan.get("allocations", [])}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Plan with ID '{plan_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"allocations": plan.get('allocations', [])})
+        
+        return json.dumps({"error": f"Plan with ID '{plan_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAllocationsForPlan",
+                "name": "get_allocations_for_plan",
                 "description": "Retrieves the allocations for a specific plan.",
                 "parameters": {
                     "type": "object",
@@ -3354,26 +3145,25 @@ class GetAllocationsForPlan(Tool):
 
 
 class GetCategoryForProduct(Tool):
-    """Fetches the category associated with a specific product."""
+    """Retrieves the category for a specific product."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], product_id: str = None) -> str:
-        products = data.get("dim_product", {}).values()
-
-        for product in products.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        product_id = kwargs.get("product_id")
+        products = data.get("dim_product", [])
+        
+        for product in products:
             if product.get("product_id") == product_id:
-                payload = {"category": product.get("category")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Product with ID '{product_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"category": product.get('category')})
+        
+        return json.dumps({"error": f"Product with ID '{product_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getCategoryForProduct",
+                "name": "get_category_for_product",
                 "description": "Retrieves the category for a specific product.",
                 "parameters": {
                     "type": "object",
@@ -3388,32 +3178,27 @@ class GetCategoryForProduct(Tool):
             },
         }
 
-
 class SearchProductsByName(Tool):
-    """Looks for products whose names include the specified text."""
+    """Searches for products with names containing the specified text."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], name_query: str = None) -> str:
-        products = data.get("dim_product", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name_query = kwargs.get("name_query")
+        products = data.get("dim_product", [])
         matching_products = []
         
-        if not name_query:
-            payload = {"product_ids": []}
-            out = json.dumps(payload)
-            return out
-
-        for product in products.values():
+        for product in products:
             if name_query.lower() in product.get("name", "").lower():
                 matching_products.append(product.get("product_id"))
-        payload = {"product_ids": matching_products}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"product_ids": matching_products})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "searchProductsByName",
+                "name": "search_products_by_name",
                 "description": "Searches for products with names containing the specified text.",
                 "parameters": {
                     "type": "object",
@@ -3430,25 +3215,26 @@ class SearchProductsByName(Tool):
 
 
 class SearchAdSetsByBidStrategy(Tool):
-    """Looks for ad sets that utilize a specific bid strategy."""
+    """Searches for ad sets with a specific bid strategy."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], bid_strategy: str = None) -> str:
-        adsets = data.get("adsets", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        bid_strategy = kwargs.get("bid_strategy")
+        adsets = data.get("adsets", [])
         matching_adsets = []
-
-        for adset in adsets.values():
+        
+        for adset in adsets:
             if adset.get("bid_strategy") == bid_strategy:
                 matching_adsets.append(adset.get("adset_id"))
-        payload = {"adset_ids": matching_adsets}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"adset_ids": matching_adsets})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchAdsetsByBidStrategy",
+                "name": "search_adsets_by_bid_strategy",
                 "description": "Searches for ad sets with a specific bid strategy.",
                 "parameters": {
                     "type": "object",
@@ -3463,28 +3249,26 @@ class SearchAdSetsByBidStrategy(Tool):
             },
         }
 
-
 class GetBidStrategyForAdSet(Tool):
-    """Fetches the bid strategy linked to a specific ad set."""
+    """Retrieves the bid strategy for a specific ad set."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], adset_id: str = None) -> str:
-        adsets = data.get("adsets", {}).values()
-
-        for adset in adsets.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        adset_id = kwargs.get("adset_id")
+        adsets = data.get("adsets", [])
+        
+        for adset in adsets:
             if adset.get("adset_id") == adset_id:
-                payload = {"bid_strategy": adset.get("bid_strategy")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": f"Ad set with ID '{adset_id}' not found."}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"bid_strategy": adset.get('bid_strategy')})
+        
+        return json.dumps({"error": f"Ad set with ID '{adset_id}' not found."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetBidStrategyForAdset",
+                "name": "get_bid_strategy_for_adset",
                 "description": "Retrieves the bid strategy for a specific ad set.",
                 "parameters": {
                     "type": "object",
@@ -3500,32 +3284,31 @@ class GetBidStrategyForAdSet(Tool):
         }
 
 
+
 class GetViewershipForDateAndCategory(Tool):
-    """Fetches viewership statistics for a specific date and category."""
+    """Retrieves viewership data for a specific date and category."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], date: str = None, category: str = None) -> str:
-        viewership_data = data.get("f_viewership", {}).values()
-
-        for entry in viewership_data.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        date = kwargs.get("date")
+        category = kwargs.get("category")
+        viewership_data = data.get("f_viewership", [])
+        
+        for entry in viewership_data:
             if entry.get("date") == date and entry.get("category") == category:
-                payload = {
+                return json.dumps({
                     "sessions": entry.get("sessions"),
-                    "active_users": entry.get("active_users"),
-                }
-                out = json.dumps(payload)
-                return out
-        payload = {
-            "error": f"No viewership data found for category '{category}' on date '{date}'."
-        }
-        out = json.dumps(payload)
-        return out
+                    "active_users": entry.get("active_users")
+                })
+        
+        return json.dumps({"error": f"No viewership data found for category '{category}' on date '{date}'."})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetViewershipForDateAndCategory",
+                "name": "get_viewership_for_date_and_category",
                 "description": "Retrieves viewership data for a specific date and category.",
                 "parameters": {
                     "type": "object",
@@ -3537,41 +3320,43 @@ class GetViewershipForDateAndCategory(Tool):
                         "category": {
                             "type": "string",
                             "description": "The category to get viewership for.",
-                        },
+                        }
                     },
                     "required": ["date", "category"],
                 },
             },
         }
 
-
 class GetTotalViewershipForCategoryInPeriod(Tool):
-    """Computes total viewership for a category within a date range."""
+    """Calculates total viewership for a category over a date range."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], category: str = None, start_date: str = None, end_date: str = None) -> str:
-        viewership_data = data.get("f_viewership", {}).values()
-
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        category = kwargs.get("category")
+        start_date = kwargs.get("start_date")
+        end_date = kwargs.get("end_date")
+        viewership_data = data.get("f_viewership", [])
+        
         total_sessions = 0
         total_active_users = 0
-
-        for entry in viewership_data.values():
-            if (
-                entry.get("category") == category
-                and start_date <= entry.get("date") <= end_date
-            ):
+        
+        for entry in viewership_data:
+            if (entry.get("category") == category and 
+                start_date <= entry.get("date") <= end_date):
                 total_sessions += entry.get("sessions", 0)
                 total_active_users += entry.get("active_users", 0)
-        payload = {"total_sessions": total_sessions, "total_active_users": total_active_users}
-        out = json.dumps(
-            payload)
-        return out
+        
+        return json.dumps({
+            "total_sessions": total_sessions,
+            "total_active_users": total_active_users
+        })
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getTotalViewershipForCategoryInPeriod",
+                "name": "get_total_viewership_for_category_in_period",
                 "description": "Calculates total viewership for a category over a date range.",
                 "parameters": {
                     "type": "object",
@@ -3587,58 +3372,56 @@ class GetTotalViewershipForCategoryInPeriod(Tool):
                         "end_date": {
                             "type": "string",
                             "description": "The end date of the period (YYYY-MM-DD format).",
-                        },
+                        }
                     },
                     "required": ["category", "start_date", "end_date"],
                 },
             },
         }
 
-
 class GetAverageViewershipForCategoryInPeriod(Tool):
-    """Computes average daily viewership for a category across a date range."""
+    """Calculates average daily viewership for a category over a date range."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], category: str, start_date: str, end_date: str) -> str:
-        viewership_data = data.get("f_viewership", {}).values()
-
-        # Determine the total days within the timeframe
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        category = kwargs.get("category")
+        start_date = kwargs.get("start_date")
+        end_date = kwargs.get("end_date")
+        viewership_data = data.get("f_viewership", [])
+        
+        # Calculate the number of days in the period
         start = datetime.strptime(start_date, "%Y-%m-%d")
         end = datetime.strptime(end_date, "%Y-%m-%d")
         days_in_period = (end - start).days + 1
-
+        
         total_sessions = 0
         total_active_users = 0
         days_with_data = 0
-
-        for entry in viewership_data.values():
-            if (
-                entry.get("category") == category
-                and start_date <= entry.get("date") <= end_date
-            ):
+        
+        for entry in viewership_data:
+            if (entry.get("category") == category and 
+                start_date <= entry.get("date") <= end_date):
                 total_sessions += entry.get("sessions", 0)
                 total_active_users += entry.get("active_users", 0)
                 days_with_data += 1
-
-        # Compute averages
+        
+        # Calculate averages
         avg_sessions = total_sessions / days_in_period if days_in_period > 0 else 0
-        avg_active_users = (
-            total_active_users / days_in_period if days_in_period > 0 else 0
-        )
-        payload = {
+        avg_active_users = total_active_users / days_in_period if days_in_period > 0 else 0
+        
+        return json.dumps({
             "average_sessions": avg_sessions,
             "average_active_users": avg_active_users,
             "days_in_period": days_in_period,
-            "days_with_data": days_with_data,
-        }
-        out = json.dumps(payload)
-        return out
+            "days_with_data": days_with_data
+        })
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAverageViewershipForCategoryInPeriod",
+                "name": "get_average_viewership_for_category_in_period",
                 "description": "Calculates average daily viewership for a category over a date range.",
                 "parameters": {
                     "type": "object",
@@ -3654,7 +3437,7 @@ class GetAverageViewershipForCategoryInPeriod(Tool):
                         "end_date": {
                             "type": "string",
                             "description": "The end date of the period (YYYY-MM-DD format).",
-                        },
+                        }
                     },
                     "required": ["category", "start_date", "end_date"],
                 },
@@ -3662,31 +3445,33 @@ class GetAverageViewershipForCategoryInPeriod(Tool):
         }
 
 
+
 class GetSalesForCategoryInPeriod(Tool):
-    """Fetches sales statistics for a specific category within a date range."""
+    """Retrieves sales data for a specific category and date range."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], category: str = None, start_date: str = None, end_date: str = None) -> str:
-        sales_data = data.get("f_sales", {}).values()
-
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        category = kwargs.get("category")
+        start_date = kwargs.get("start_date")
+        end_date = kwargs.get("end_date")
+        sales_data = data.get("f_sales", [])
+        
         matching_sales = []
-
-        for entry in sales_data.values():
-            if (
-                entry.get("category") == category
-                and entry.get("start_date") >= start_date
-                and entry.get("end_date") <= end_date
-            ):
+        
+        for entry in sales_data:
+            if (entry.get("category") == category and 
+                entry.get("start_date") >= start_date and 
+                entry.get("end_date") <= end_date):
                 matching_sales.append(entry)
-        payload = {"sales_data": matching_sales}
-        out = json.dumps(payload)
-        return out
+        
+        return json.dumps({"sales_data": matching_sales})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetSalesForCategoryInPeriod",
+                "name": "get_sales_for_category_in_period",
                 "description": "Retrieves sales data for a specific category and date range.",
                 "parameters": {
                     "type": "object",
@@ -3702,7 +3487,7 @@ class GetSalesForCategoryInPeriod(Tool):
                         "end_date": {
                             "type": "string",
                             "description": "The end date of the period (YYYY-MM-DD format).",
-                        },
+                        }
                     },
                     "required": ["category", "start_date", "end_date"],
                 },
@@ -3711,45 +3496,46 @@ class GetSalesForCategoryInPeriod(Tool):
 
 
 class GetAverageDailySalesForCategoryInPeriod(Tool):
-    """Computes average daily sales for a category during a date range."""
+    """Calculates average daily sales for a category over a date range."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], category: str = None, start_date: str = None, end_date: str = None) -> str:
-        sales_data = data.get("f_sales", {}).values()
-
-        # Determine the total days within the timeframe
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        category = kwargs.get("category")
+        start_date = kwargs.get("start_date")
+        end_date = kwargs.get("end_date")
+        sales_data = data.get("f_sales", [])
+        
+        # Calculate the number of days in the period
         start = datetime.strptime(start_date, "%Y-%m-%d")
         end = datetime.strptime(end_date, "%Y-%m-%d")
         days_in_period = (end - start).days + 1
-
+        
         total_units = 0
         total_revenue = 0
-
-        for entry in sales_data.values():
-            if (
-                entry.get("category") == category
-                and entry.get("start_date") >= start_date
-                and entry.get("end_date") <= end_date
-            ):
+        
+        for entry in sales_data:
+            if (entry.get("category") == category and 
+                entry.get("start_date") >= start_date and 
+                entry.get("end_date") <= end_date):
                 total_units += entry.get("units", 0)
                 total_revenue += entry.get("revenue", 0)
-
-        # Compute averages
+        
+        # Calculate averages
         avg_units = total_units / days_in_period if days_in_period > 0 else 0
         avg_revenue = total_revenue / days_in_period if days_in_period > 0 else 0
-        payload = {
+        
+        return json.dumps({
             "average_units": avg_units,
             "average_revenue": avg_revenue,
-            "days_in_period": days_in_period,
-        }
-        out = json.dumps(payload)
-        return out
+            "days_in_period": days_in_period
+        })
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getAverageDailySalesForCategoryInPeriod",
+                "name": "get_average_daily_sales_for_category_in_period",
                 "description": "Calculates average daily sales for a category over a date range.",
                 "parameters": {
                     "type": "object",
@@ -3765,7 +3551,7 @@ class GetAverageDailySalesForCategoryInPeriod(Tool):
                         "end_date": {
                             "type": "string",
                             "description": "The end date of the period (YYYY-MM-DD format).",
-                        },
+                        }
                     },
                     "required": ["category", "start_date", "end_date"],
                 },
@@ -3773,7 +3559,7 @@ class GetAverageDailySalesForCategoryInPeriod(Tool):
         }
 
 
-#--- Compilation of all accessible tools ---
+# --- List of all available tools ---
 TOOLS = [
     GetCampaigns(),
     GetNameForCampaign(),
@@ -3831,14 +3617,18 @@ TOOLS = [
     CheckNoPurchases(),
     CalculatePercentageChange(),
     CalculateSpendVariance(),
+
     CalculateCampaignROASForPeriod(),
     CalculateROASForAdSetForPeriod(),
     CalculateCPAForAdSetForPeriod(),
     CalculateROASForAdSetForDay(),
     CalculateCPAForAdSetForDay(),
+
     SearchAdSetsByName(),
     SearchCampaignsByName(),
+
     GetCurrentTimestamp(),
+
     DeleteAutomationRun(),
     AddPlan(),
     GetStatusForAdSet(),
@@ -3846,6 +3636,7 @@ TOOLS = [
     RoundNumberToUnit(),
     SearchAdsByName(),
     SearchAdsByAdSet(),
+
     GetCreativeTypeForAd(),
     GetBidStrategyForAdSet(),
     GetBidAmountForAdSet(),
@@ -3854,6 +3645,7 @@ TOOLS = [
     SearchProductsByName(),
     SearchAdSetsByBidStrategy(),
     GetBidStrategyForAdSet(),
+
     GetViewershipForDateAndCategory(),
     GetTotalViewershipForCategoryInPeriod(),
     GetAverageViewershipForCategoryInPeriod(),

@@ -1,15 +1,6 @@
-from tau_bench.envs.tool import Tool
+from domains.dto import Tool
 from typing import Any, Dict
 import json
-
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
 
 def get_current_timestamp() -> str:
     return "2025-07-31T12:00:00.000000" + "Z" # per rules
@@ -19,13 +10,13 @@ def generate_unique_id() -> str:
 
 class FindCustomerByNameTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], first_name: str = '', last_name: str = '') -> str:
-        first_name = first_name.lower()
-        last_name = last_name.lower()
-        customers = data.get("customers", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        first_name = kwargs.get('first_name', '').lower()
+        last_name = kwargs.get('last_name', '').lower()
+        customers = data.get('customers', [])
 
         matches = []
-        for customer in customers.values():
+        for customer in customers:
             if (customer['personal_info']['first_name'].lower() == first_name and
                 customer['personal_info']['last_name'].lower() == last_name):
                 matches.append({
@@ -35,12 +26,13 @@ class FindCustomerByNameTool(Tool):
                 })
 
         return json.dumps(matches, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindCustomerByName",
+                "name": "find_customer_by_name",
                 "description": "Find customer records by first and last name",
                 "parameters": {
                     "type": "object",
@@ -55,11 +47,12 @@ class FindCustomerByNameTool(Tool):
 
 class GetCustomerAccountsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
-        accounts = data.get("accounts", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get('customer_id')
+        accounts = data.get('accounts', [])
 
         customer_accounts = []
-        for account in accounts.values():
+        for account in accounts:
             if account['customer_id'] == customer_id:
                 customer_accounts.append({
                     'account_id': account['account_id'],
@@ -70,12 +63,13 @@ class GetCustomerAccountsTool(Tool):
                 })
 
         return json.dumps(customer_accounts, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCustomerAccounts",
+                "name": "get_customer_accounts",
                 "description": "Get all accounts for a specific customer",
                 "parameters": {
                     "type": "object",
@@ -89,11 +83,13 @@ class GetCustomerAccountsTool(Tool):
 
 class GetAccountTransactionsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str, limit: int = 10) -> str:
-        transactions = data.get("transactions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        limit = kwargs.get('limit', 10)
+        transactions = data.get('transactions', [])
 
         account_transactions = []
-        for transaction in transactions.values():
+        for transaction in transactions:
             if transaction['account_id'] == account_id:
                 account_transactions.append({
                     'transaction_id': transaction['transaction_id'],
@@ -105,12 +101,13 @@ class GetAccountTransactionsTool(Tool):
 
         account_transactions.sort(key=lambda x: x['date'], reverse=True)
         return json.dumps(account_transactions[:limit], indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAccountTransactions",
+                "name": "get_account_transactions",
                 "description": "Get recent transactions for a specific account",
                 "parameters": {
                     "type": "object",
@@ -125,14 +122,19 @@ class GetAccountTransactionsTool(Tool):
 
 class TransferFundsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], from_account_id: str, to_account_id: str, amount: float, description: str = 'Internal transfer') -> str:
-        accounts = data.get("accounts", {}).values()
-        transactions = data.get("transactions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        from_account_id = kwargs.get('from_account_id')
+        to_account_id = kwargs.get('to_account_id')
+        amount = kwargs.get('amount')
+        description = kwargs.get('description', 'Internal transfer')
+
+        accounts = data.get('accounts', [])
+        transactions = data.get('transactions', [])
 
         from_account = None
         to_account = None
 
-        for account in accounts.values():
+        for account in accounts:
             if account['account_id'] == from_account_id:
                 from_account = account
             elif account['account_id'] == to_account_id:
@@ -171,8 +173,8 @@ class TransferFundsTool(Tool):
             "channel": "Online"
         }
 
-        data["transactions"][transaction_id] = debit_transaction
-        data["transactions"][transaction_id] = credit_transaction
+        transactions.append(debit_transaction)
+        transactions.append(credit_transaction)
 
         return json.dumps({
             "success": True,
@@ -182,12 +184,13 @@ class TransferFundsTool(Tool):
             "debit_transaction_id": debit_transaction['transaction_id'],
             "credit_transaction_id": credit_transaction['transaction_id']
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "TransferFunds",
+                "name": "transfer_funds",
                 "description": "Transfer funds between two accounts",
                 "parameters": {
                     "type": "object",
@@ -204,10 +207,11 @@ class TransferFundsTool(Tool):
 
 class CalculateAccountBalanceTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None) -> str:
-        accounts = data.get("accounts", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        accounts = data.get('accounts', [])
 
-        for account in accounts.values():
+        for account in accounts:
             if account['account_id'] == account_id:
                 return json.dumps({
                     "account_id": account_id,
@@ -217,12 +221,13 @@ class CalculateAccountBalanceTool(Tool):
                 }, indent=2)
 
         return json.dumps({"error": f"Account {account_id} not found"}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateAccountBalance",
+                "name": "calculate_account_balance",
                 "description": "Get current balance for a specific account",
                 "parameters": {
                     "type": "object",
@@ -237,8 +242,13 @@ class CalculateAccountBalanceTool(Tool):
 
 class CreateSupportTicketTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str, subject: str, description: str, priority: str = 'Medium') -> str:
-        support_tickets = data.get("support_tickets", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get('customer_id')
+        subject = kwargs.get('subject')
+        description = kwargs.get('description')
+        priority = kwargs.get('priority', 'Medium')
+
+        support_tickets = data.get('support_tickets', [])
 
         ticket_id = f"ticket_{generate_unique_id()}"
         new_ticket = {
@@ -253,7 +263,7 @@ class CreateSupportTicketTool(Tool):
             "resolution": None
         }
 
-        support_data["tickets"][ticket_id] = new_ticket
+        support_tickets.append(new_ticket)
 
         return json.dumps({
             "ticket_id": ticket_id,
@@ -261,12 +271,13 @@ class CreateSupportTicketTool(Tool):
             "priority": priority,
             "created_date": new_ticket["created_date"]
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateSupportTicket",
+                "name": "create_support_ticket",
                 "description": "Create a new customer support ticket",
                 "parameters": {
                     "type": "object",
@@ -283,13 +294,18 @@ class CreateSupportTicketTool(Tool):
 
 class SearchTransactionsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, start_date: str = None, 
-               end_date: str = None, min_amount: float = None, max_amount: float = None, description_keywords: str = None, 
-               transaction_type: str = None) -> str:
-        transactions = data.get("transactions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        start_date = kwargs.get('start_date')
+        end_date = kwargs.get('end_date')
+        min_amount = kwargs.get('min_amount')
+        max_amount = kwargs.get('max_amount')
+        transaction_type = kwargs.get('transaction_type')
+
+        transactions = data.get('transactions', [])
         filtered_transactions = []
 
-        for transaction in transactions.values():
+        for transaction in transactions:
             if transaction['account_id'] != account_id:
                 continue
 
@@ -314,12 +330,13 @@ class SearchTransactionsTool(Tool):
             })
 
         return json.dumps(filtered_transactions, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchTransactions",
+                "name": "search_transactions",
                 "description": "Search transactions with filters",
                 "parameters": {
                     "type": "object",
@@ -338,21 +355,25 @@ class SearchTransactionsTool(Tool):
 
 class ApplyForLoanTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, loan_type: str = None, 
-               requested_amount: float = None, purpose: str = None, 
-               annual_income: float = None) -> str:
-        loan_applications = data.get("loan_applications", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get('customer_id')
+        loan_type = kwargs.get('loan_type')
+        requested_amount = kwargs.get('requested_amount')
+        purpose = kwargs.get('purpose')
+        income = kwargs.get('annual_income')
+
+        loan_applications = data.get('loan_applications', [])
 
         application_id = f"loan_app_{generate_unique_id()}"
 
         credit_score = 720
-        if annual_income > 80000:
+        if income > 80000:
             credit_score = 750
-        elif annual_income < 40000:
+        elif income < 40000:
             credit_score = 650
 
         status = "Under Review"
-        if requested_amount > annual_income * 5:
+        if requested_amount > income * 5:
             status = "Requires Additional Documentation"
 
         new_application = {
@@ -361,7 +382,7 @@ class ApplyForLoanTool(Tool):
             "loan_type": loan_type,
             "requested_amount": requested_amount,
             "purpose": purpose,
-            "annual_income": annual_income,
+            "annual_income": income,
             "credit_score": credit_score,
             "status": status,
             "application_date": get_current_timestamp(),
@@ -369,7 +390,7 @@ class ApplyForLoanTool(Tool):
             "approved_amount": None
         }
 
-        loan_data["applications"][application_id] = new_application
+        loan_applications.append(new_application)
 
         return json.dumps({
             "application_id": application_id,
@@ -377,12 +398,13 @@ class ApplyForLoanTool(Tool):
             "credit_score": credit_score,
             "application_date": new_application["application_date"]
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ApplyForLoan",
+                "name": "apply_for_loan",
                 "description": "Submit a loan application",
                 "parameters": {
                     "type": "object",
@@ -400,9 +422,14 @@ class ApplyForLoanTool(Tool):
 
 class AddBeneficiaryTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, beneficiary_name: str = None, 
-               account_number: str = None, routing_number: str = None, bank_name: str = None, iban: str = None) -> str:
-        beneficiaries = data.get("beneficiaries", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get('customer_id')
+        beneficiary_name = kwargs.get('beneficiary_name')
+        account_number = kwargs.get('account_number')
+        routing_number = kwargs.get('routing_number')
+        bank_name = kwargs.get('bank_name')
+
+        beneficiaries = data.get('beneficiaries', [])
 
         beneficiary_id = f"ben_{generate_unique_id()}"
 
@@ -416,11 +443,8 @@ class AddBeneficiaryTool(Tool):
             "status": "Active",
             "date_added": get_current_timestamp()
         }
-        
-        if iban:
-            new_beneficiary["iban"] = iban
 
-        data["beneficiaries"][new_beneficiary["beneficiarie_id"]] = new_beneficiary
+        beneficiaries.append(new_beneficiary)
 
         return json.dumps({
             "beneficiary_id": beneficiary_id,
@@ -428,12 +452,13 @@ class AddBeneficiaryTool(Tool):
             "status": "Active",
             "date_added": new_beneficiary["date_added"]
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AddBeneficiary",
+                "name": "add_beneficiary",
                 "description": "Add a new payment beneficiary",
                 "parameters": {
                     "type": "object",
@@ -453,14 +478,18 @@ class AddBeneficiaryTool(Tool):
 
 class CalculateMonthlySpendingTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, month: int = None, year: int = None) -> str:
-        transactions = data.get("transactions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        month = kwargs.get('month')
+        year = kwargs.get('year')
+
+        transactions = data.get('transactions', [])
 
         total_spending = 0
         spending_by_category = {}
         transaction_count = 0
 
-        for transaction in transactions.values():
+        for transaction in transactions:
             if transaction['account_id'] != account_id:
                 continue
             if transaction['amount'] >= 0:
@@ -487,12 +516,13 @@ class CalculateMonthlySpendingTool(Tool):
             "spending_by_merchant": spending_by_category,
             "average_transaction": round(total_spending / max(1, transaction_count), 2)
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateMonthlySpending",
+                "name": "calculate_monthly_spending",
                 "description": "Calculate spending summary for a specific month",
                 "parameters": {
                     "type": "object",
@@ -508,11 +538,12 @@ class CalculateMonthlySpendingTool(Tool):
 
 class GetCustomerLoansTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
-        loans = data.get("loans", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get('customer_id')
+        loans = data.get('loans', [])
 
         customer_loans = []
-        for loan in loans.values():
+        for loan in loans:
             if loan['customer_id'] == customer_id:
                 customer_loans.append({
                     'loan_id': loan['loan_id'],
@@ -525,12 +556,13 @@ class GetCustomerLoansTool(Tool):
                 })
 
         return json.dumps(customer_loans, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCustomerLoans",
+                "name": "get_customer_loans",
                 "description": "Get all loans for a specific customer",
                 "parameters": {
                     "type": "object",
@@ -544,10 +576,15 @@ class GetCustomerLoansTool(Tool):
 
 class SetupScheduledPaymentTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, from_account_id: str = None, 
-               beneficiary_id: str = None, amount: float = None, frequency: str = None, 
-               start_date: str = None) -> str:
-        scheduled_payments = data.get("scheduled_payments", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get('customer_id')
+        from_account_id = kwargs.get('from_account_id')
+        beneficiary_id = kwargs.get('beneficiary_id')
+        amount = kwargs.get('amount')
+        frequency = kwargs.get('frequency')
+        start_date = kwargs.get('start_date')
+
+        scheduled_payments = data.get('scheduled_payments', [])
 
         payment_id = f"sched_{generate_unique_id()}"
 
@@ -564,7 +601,7 @@ class SetupScheduledPaymentTool(Tool):
             "next_payment_date": start_date
         }
 
-        data["scheduled_payments"][new_payment["scheduled_payment_id"]] = new_payment
+        scheduled_payments.append(new_payment)
 
         return json.dumps({
             "payment_id": payment_id,
@@ -573,12 +610,13 @@ class SetupScheduledPaymentTool(Tool):
             "amount": amount,
             "frequency": frequency
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SetupScheduledPayment",
+                "name": "setup_scheduled_payment",
                 "description": "Setup a recurring scheduled payment",
                 "parameters": {
                     "type": "object",
@@ -597,10 +635,13 @@ class SetupScheduledPaymentTool(Tool):
 
 class UpdateCustomerContactTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, email: str = None, phone: str = None) -> str:
-        customers = data.get("customers", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get('customer_id')
+        email = kwargs.get('email')
+        phone = kwargs.get('phone')
+        customers = data.get('customers', [])
 
-        for customer in customers.values():
+        for customer in customers:
             if customer['customer_id'] == customer_id:
                 if email:
                     customer['contact_info']['email_address'] = email
@@ -618,12 +659,13 @@ class UpdateCustomerContactTool(Tool):
                 }, indent=2)
 
         return json.dumps({"error": f"Customer {customer_id} not found"}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateCustomerContact",
+                "name": "update_customer_contact",
                 "description": "Update customer contact information",
                 "parameters": {
                     "type": "object",
@@ -639,10 +681,12 @@ class UpdateCustomerContactTool(Tool):
 
 class FreezeAccountTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str, reason: str = 'Customer request') -> str:
-        accounts = data.get("accounts", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        reason = kwargs.get('reason', 'Customer request')
+        accounts = data.get('accounts', [])
 
-        for account in accounts.values():
+        for account in accounts:
             if account['account_id'] == account_id:
                 old_status = account['status']
                 account['status'] = 'Frozen'
@@ -658,12 +702,13 @@ class FreezeAccountTool(Tool):
                 }, indent=2)
 
         return json.dumps({"error": f"Account {account_id} not found"}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FreezeAccount",
+                "name": "freeze_account",
                 "description": "Freeze an account to prevent transactions",
                 "parameters": {
                     "type": "object",
@@ -678,11 +723,12 @@ class FreezeAccountTool(Tool):
 
 class GetCustomerBeneficiariesTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
-        beneficiaries = data.get("beneficiaries", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get('customer_id')
+        beneficiaries = data.get('beneficiaries', [])
 
         customer_beneficiaries = []
-        for beneficiary in beneficiaries.values():
+        for beneficiary in beneficiaries:
             if beneficiary['customer_id'] == customer_id:
                 bank_name = beneficiary.get('bank_name')
                 if not bank_name and 'account_details' in beneficiary:
@@ -697,12 +743,13 @@ class GetCustomerBeneficiariesTool(Tool):
                 })
 
         return json.dumps(customer_beneficiaries, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCustomerBeneficiaries",
+                "name": "get_customer_beneficiaries",
                 "description": "Get all beneficiaries for a customer",
                 "parameters": {
                     "type": "object",
@@ -716,13 +763,17 @@ class GetCustomerBeneficiariesTool(Tool):
 
 class ProcessLoanPaymentTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], loan_id: str = None, payment_amount: float = None, from_account_id: str = None) -> str:
-        loans = data.get("loans", {}).values()
-        accounts = data.get("accounts", {}).values()
-        transactions = data.get("transactions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        loan_id = kwargs.get('loan_id')
+        payment_amount = kwargs.get('payment_amount')
+        from_account_id = kwargs.get('from_account_id')
+
+        loans = data.get('loans', [])
+        accounts = data.get('accounts', [])
+        transactions = data.get('transactions', [])
 
         loan = None
-        for l in loans.values():
+        for l in loans:
             if l['loan_id'] == loan_id:
                 loan = l
                 break
@@ -731,7 +782,7 @@ class ProcessLoanPaymentTool(Tool):
             return json.dumps({"error": f"Loan {loan_id} not found"}, indent=2)
 
         account = None
-        for a in accounts.values():
+        for a in accounts:
             if a['account_id'] == from_account_id:
                 account = a
                 break
@@ -754,7 +805,7 @@ class ProcessLoanPaymentTool(Tool):
             "channel": "Online"
         }
 
-        data["transactions"][transaction_id] = transaction
+        transactions.append(transaction)
 
         return json.dumps({
             "loan_id": loan_id,
@@ -763,12 +814,13 @@ class ProcessLoanPaymentTool(Tool):
             "new_account_balance": account['balance'],
             "transaction_id": transaction['transaction_id']
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ProcessLoanPayment",
+                "name": "process_loan_payment",
                 "description": "Make a payment towards a loan",
                 "parameters": {
                     "type": "object",
@@ -784,7 +836,9 @@ class ProcessLoanPaymentTool(Tool):
 
 class ValidateRoutingNumberTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], routing_number: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        routing_number = kwargs.get('routing_number')
+
         valid_routing_numbers = {
             "021000021": "Chase Bank",
             "011401533": "Wells Fargo",
@@ -803,12 +857,13 @@ class ValidateRoutingNumberTool(Tool):
             "is_valid": is_valid,
             "bank_name": bank_name if is_valid else "Invalid routing number"
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ValidateRoutingNumber",
+                "name": "validate_routing_number",
                 "description": "Validate a bank routing number",
                 "parameters": {
                     "type": "object",
@@ -822,10 +877,11 @@ class ValidateRoutingNumberTool(Tool):
 
 class GetTransactionDetailsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], transaction_id: str = None) -> str:
-        transactions = data.get("transactions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        transaction_id = kwargs.get('transaction_id')
+        transactions = data.get('transactions', [])
 
-        for transaction in transactions.values():
+        for transaction in transactions:
             if transaction['transaction_id'] == transaction_id:
                 return json.dumps({
                     'transaction_id': transaction['transaction_id'],
@@ -840,12 +896,13 @@ class GetTransactionDetailsTool(Tool):
                 }, indent=2)
 
         return json.dumps({"error": f"Transaction {transaction_id} not found"}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetTransactionDetails",
+                "name": "get_transaction_details",
                 "description": "Get detailed information about a specific transaction",
                 "parameters": {
                     "type": "object",
@@ -859,14 +916,15 @@ class GetTransactionDetailsTool(Tool):
 
 class CalculateCreditUtilizationTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
-        accounts = data.get("accounts", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get('customer_id')
+        accounts = data.get('accounts', [])
 
         credit_accounts = []
         total_balance = 0
         total_limit = 0
 
-        for account in accounts.values():
+        for account in accounts:
             if (account['customer_id'] == customer_id and
                 account['account_type'] == 'Credit Card'):
                 credit_limit = account.get('credit_limit', 5000)
@@ -893,12 +951,13 @@ class CalculateCreditUtilizationTool(Tool):
             "total_limit": total_limit,
             "overall_utilization_percent": round(overall_utilization, 2)
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateCreditUtilization",
+                "name": "calculate_credit_utilization",
                 "description": "Calculate credit utilization for all customer credit cards",
                 "parameters": {
                     "type": "object",
@@ -912,10 +971,14 @@ class CalculateCreditUtilizationTool(Tool):
 
 class ResolveTicketTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], ticket_id: str, resolution: str, agent_id: str = 'SYSTEM') -> str:
-        support_tickets = data.get("support_tickets", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ticket_id = kwargs.get('ticket_id')
+        resolution = kwargs.get('resolution')
+        agent_id = kwargs.get('agent_id', 'SYSTEM')
 
-        for ticket in support_tickets.values():
+        support_tickets = data.get('support_tickets', [])
+
+        for ticket in support_tickets:
             if ticket['ticket_id'] == ticket_id:
                 ticket['status'] = 'Resolved'
                 ticket['resolution'] = resolution
@@ -931,12 +994,13 @@ class ResolveTicketTool(Tool):
                 }, indent=2)
 
         return json.dumps({"error": f"Ticket {ticket_id} not found"}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "resolveTicket",
+                "name": "resolve_ticket",
                 "description": "Resolve a customer support ticket",
                 "parameters": {
                     "type": "object",
@@ -952,10 +1016,12 @@ class ResolveTicketTool(Tool):
 
 class CalculateInterestEarnedTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str, days: int = 30) -> str:
-        accounts = data.get("accounts", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        days = kwargs.get('days', 30)
+        accounts = data.get('accounts', [])
 
-        for account in accounts.values():
+        for account in accounts:
             if account['account_id'] == account_id:
                 if account['account_type'] != 'Savings':
                     return json.dumps({"error": "Interest calculation only available for savings accounts"}, indent=2)
@@ -976,12 +1042,13 @@ class CalculateInterestEarnedTool(Tool):
                 }, indent=2)
 
         return json.dumps({"error": f"Account {account_id} not found"}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "calculateInterestEarned",
+                "name": "calculate_interest_earned",
                 "description": "Calculate interest earned for a savings account",
                 "parameters": {
                     "type": "object",
@@ -996,10 +1063,15 @@ class CalculateInterestEarnedTool(Tool):
 
 class UpdateLoanApplicationStatusTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], application_id: str, status: str, approved_amount: float = None, notes: str = '') -> str:
-        loan_applications = data.get("loan_applications", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        application_id = kwargs.get('application_id')
+        status = kwargs.get('status')
+        approved_amount = kwargs.get('approved_amount')
+        notes = kwargs.get('notes', '')
 
-        for application in loan_applications.values():
+        loan_applications = data.get('loan_applications', [])
+
+        for application in loan_applications:
             if application['application_id'] == application_id:
                 application['status'] = status
                 application['decision'] = status
@@ -1018,12 +1090,13 @@ class UpdateLoanApplicationStatusTool(Tool):
                 }, indent=2)
 
         return json.dumps({"error": f"Application {application_id} not found"}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "updateLoanApplicationStatus",
+                "name": "update_loan_application_status",
                 "description": "Update the status of a loan application",
                 "parameters": {
                     "type": "object",
@@ -1040,12 +1113,16 @@ class UpdateLoanApplicationStatusTool(Tool):
 
 class GenerateAccountStatementTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, start_date: str = None, end_date: str = None) -> str:
-        accounts = data.get("accounts", {}).values()
-        transactions = data.get("transactions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        start_date = kwargs.get('start_date')
+        end_date = kwargs.get('end_date')
+
+        accounts = data.get('accounts', [])
+        transactions = data.get('transactions', [])
 
         account = None
-        for a in accounts.values():
+        for a in accounts:
             if a['account_id'] == account_id:
                 account = a
                 break
@@ -1057,7 +1134,7 @@ class GenerateAccountStatementTool(Tool):
         total_credits = 0
         total_debits = 0
 
-        for transaction in transactions.values():
+        for transaction in transactions:
             if (transaction['account_id'] == account_id and
                 start_date <= transaction['transaction_date'] <= end_date):
 
@@ -1084,12 +1161,13 @@ class GenerateAccountStatementTool(Tool):
             "transaction_count": len(statement_transactions),
             "transactions": statement_transactions
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GenerateAccountStatement",
+                "name": "generate_account_statement",
                 "description": "Generate account statement for a date range",
                 "parameters": {
                     "type": "object",
@@ -1105,10 +1183,13 @@ class GenerateAccountStatementTool(Tool):
 
 class CancelScheduledPaymentTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], payment_id: str, reason: str = 'Customer request') -> str:
-        scheduled_payments = data.get("scheduled_payments", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        payment_id = kwargs.get('payment_id')
+        reason = kwargs.get('reason', 'Customer request')
 
-        for payment in scheduled_payments.values():
+        scheduled_payments = data.get('scheduled_payments', [])
+
+        for payment in scheduled_payments:
             if payment['payment_id'] == payment_id:
                 old_status = payment['status']
                 payment['status'] = 'Cancelled'
@@ -1124,12 +1205,13 @@ class CancelScheduledPaymentTool(Tool):
                 }, indent=2)
 
         return json.dumps({"error": f"Scheduled payment {payment_id} not found"}, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CancelScheduledPayment",
+                "name": "cancel_scheduled_payment",
                 "description": "Cancel a scheduled payment",
                 "parameters": {
                     "type": "object",
@@ -1144,11 +1226,14 @@ class CancelScheduledPaymentTool(Tool):
 
 class SearchCustomersByEmailTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], email_domain: str = '', partial_email: str = '') -> str:
-        customers = data.get("customers", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        email_domain = kwargs.get('email_domain', '')
+        partial_email = kwargs.get('partial_email', '')
+
+        customers = data.get('customers', [])
         matches = []
 
-        for customer in customers.values():
+        for customer in customers:
             email = customer['contact_info']['email_address']
 
             if email_domain and email.endswith(f"@{email_domain}"):
@@ -1165,12 +1250,13 @@ class SearchCustomersByEmailTool(Tool):
                 })
 
         return json.dumps(matches, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchCustomersByEmail",
+                "name": "search_customers_by_email",
                 "description": "Search customers by email domain or partial email",
                 "parameters": {
                     "type": "object",
@@ -1184,13 +1270,16 @@ class SearchCustomersByEmailTool(Tool):
 
 class GetCustomerSupportTicketsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, status: str = None) -> str:
-        support_tickets = data.get("support_tickets", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get('customer_id')
+        status_filter = kwargs.get('status')
+
+        support_tickets = data.get('support_tickets', [])
         customer_tickets = []
 
-        for ticket in support_tickets.values():
+        for ticket in support_tickets:
             if ticket['customer_id'] == customer_id:
-                if not status or ticket['status'] == status:
+                if not status_filter or ticket['status'] == status_filter:
                     subject = ticket.get('subject', ticket.get('category', 'N/A'))
 
                     customer_tickets.append({
@@ -1203,12 +1292,13 @@ class GetCustomerSupportTicketsTool(Tool):
                     })
 
         return json.dumps(customer_tickets, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCustomerSupportTickets",
+                "name": "get_customer_support_tickets",
                 "description": "Get support tickets for a customer",
                 "parameters": {
                     "type": "object",
@@ -1223,20 +1313,23 @@ class GetCustomerSupportTicketsTool(Tool):
 
 class GenerateDetailedMonthlySummaryTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, month: str = None) -> str:
-        transactions = data.get("transactions", {}).values()
-        scheduled_payments = data.get("scheduled_payments", {}).values()
-        support_tickets = data.get("support_tickets", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        month_str = kwargs.get('month')
 
-        start_date = f"{month}-01T00:00:00Z"
-        end_date = f"{month}-31T23:59:59Z"
+        transactions = data.get('transactions', [])
+        scheduled_payments = data.get('scheduled_payments', [])
+        support_tickets = data.get('support_tickets', [])
+
+        start_date = f"{month_str}-01T00:00:00Z"
+        end_date = f"{month_str}-31T23:59:59Z"
 
         purchases = []
         deposits = []
         total_purchases = 0
         total_deposits = 0
 
-        for txn in transactions.values():
+        for txn in transactions:
             if txn.get('account_id') != account_id:
                 continue
             if txn.get('transaction_date', '') < start_date or txn.get('transaction_date', '') > end_date:
@@ -1250,20 +1343,20 @@ class GenerateDetailedMonthlySummaryTool(Tool):
 
         scheduled = []
         recurring = []
-        for payment in scheduled_payments.values():
-            if payment.get('from_account_id', None) == account_id and payment.get('next_payment_date', '')[:7] == month:
+        for payment in scheduled_payments:
+            if payment.get('from_account_id', None) == account_id and payment.get('next_payment_date', '')[:7] == month_str:
                 scheduled.append(payment)
                 if payment.get('frequency') in ['Monthly', 'Weekly']:
                     recurring.append(payment)
 
         tickets = []
-        for ticket in support_tickets.values():
-            if ticket.get('account_id', '') == account_id and ticket.get('created_date', '')[:7] == month:
-                data["tickets"][ticket_id] = ticket
+        for ticket in support_tickets:
+            if ticket.get('account_id', '') == account_id and ticket.get('created_date', '')[:7] == month_str:
+                tickets.append(ticket)
 
         summary = {
             "account_id": account_id,
-            "month": month,
+            "month": month_str,
             "total_purchases": total_purchases,
             "total_deposits": total_deposits,
             "scheduled_payments": scheduled,
@@ -1271,12 +1364,13 @@ class GenerateDetailedMonthlySummaryTool(Tool):
             "support_tickets": tickets
         }
         return json.dumps(summary, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GenerateDetailedMonthlySummary",
+                "name": "generate_detailed_monthly_summary",
                 "description": "Generate a detailed monthly summary for an account including purchases, deposits, scheduled payments, and support tickets.",
                 "parameters": {
                     "type": "object",
@@ -1291,14 +1385,16 @@ class GenerateDetailedMonthlySummaryTool(Tool):
 
 class RetrieveScheduledPaymentsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], customer_id: str = None, source_account_id: str = None, month: str = None, frequency: Any = None, source_account_ids: list = None) -> str:
-        # Support source_account_ids parameter
-        if source_account_ids and not source_account_id:
-            source_account_id = source_account_ids[0] if source_account_ids else None
-        scheduled_payments = data.get("scheduled_payments", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get('customer_id')
+        source_account_id = kwargs.get('source_account_id')
+        month = kwargs.get('month')
+        frequency = kwargs.get('frequency', None)
+
+        scheduled_payments = data.get('scheduled_payments', [])
         results = []
 
-        for payment in scheduled_payments.values():
+        for payment in scheduled_payments:
             if payment.get('customer_id') != customer_id:
                 continue
             if payment.get('from_account_id', None) != source_account_id:
@@ -1319,12 +1415,13 @@ class RetrieveScheduledPaymentsTool(Tool):
             })
 
         return json.dumps(results, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RetrieveScheduledPayments",
+                "name": "retrieve_scheduled_payments",
                 "description": "Retrieve scheduled payments for a customer and account, with optional month and frequency filters.",
                 "parameters": {
                     "type": "object",
@@ -1345,12 +1442,17 @@ class RetrieveScheduledPaymentsTool(Tool):
 
 class CalculateTotalExpenditureTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str, start_date: str = None, end_date: str = None, transaction_type: str = 'Purchase') -> str:
-        transactions = data.get("transactions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        start_date = kwargs.get('start_date')
+        end_date = kwargs.get('end_date')
+        transaction_type = kwargs.get('transaction_type', 'Purchase')
+
+        transactions = data.get('transactions', [])
         total = 0
         matching = []
 
-        for transaction in transactions.values():
+        for transaction in transactions:
             if transaction.get('account_id') != account_id:
                 continue
             if transaction.get('transaction_type') != transaction_type:
@@ -1370,12 +1472,13 @@ class CalculateTotalExpenditureTool(Tool):
             "total_expenditure": total,
             "transaction_count": len(matching)
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateTotalExpenditure",
+                "name": "calculate_total_expenditure",
                 "description": "Calculate total expenditure for purchases or other transaction types in a date range.",
                 "parameters": {
                     "type": "object",
@@ -1392,14 +1495,17 @@ class CalculateTotalExpenditureTool(Tool):
 
 class CalculateTotalWithdrawalTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, start_date: str = None, end_date: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        start_date = kwargs.get('start_date')
+        end_date = kwargs.get('end_date')
         transaction_type = 'Withdrawal'
 
-        transactions = data.get("transactions", {}).values()
+        transactions = data.get('transactions', [])
         total = 0
         matching = []
 
-        for transaction in transactions.values():
+        for transaction in transactions:
             if transaction.get('account_id') != account_id:
                 continue
             if transaction.get('transaction_type') != transaction_type:
@@ -1419,12 +1525,13 @@ class CalculateTotalWithdrawalTool(Tool):
             "total_withdrawal": total,
             "transaction_count": len(matching)
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateTotalWithdrawal",
+                "name": "calculate_total_withdrawal",
                 "description": "Calculate total withdrawals for an account in a date range.",
                 "parameters": {
                     "type": "object",
@@ -1440,14 +1547,17 @@ class CalculateTotalWithdrawalTool(Tool):
 
 class CalculateTotalDepositsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, start_date: str = None, end_date: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        start_date = kwargs.get('start_date')
+        end_date = kwargs.get('end_date')
         transaction_type = 'Deposit'
 
-        transactions = data.get("transactions", {}).values()
+        transactions = data.get('transactions', [])
         total = 0
         matching = []
 
-        for transaction in transactions.values():
+        for transaction in transactions:
             if transaction.get('account_id') != account_id:
                 continue
             if transaction.get('transaction_type') != transaction_type:
@@ -1467,12 +1577,13 @@ class CalculateTotalDepositsTool(Tool):
             "total_deposits": total,
             "transaction_count": len(matching)
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateTotalDeposits",
+                "name": "calculate_total_deposits",
                 "description": "Calculate total deposits for an account in a date range.",
                 "parameters": {
                     "type": "object",
@@ -1488,19 +1599,16 @@ class CalculateTotalDepositsTool(Tool):
 
 class GetSupportTicketsForAccountTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, fields: list = None, start_date: str = None, end_date: str = None, customer_id: str = None) -> str:
-        # Support both account_id and customer_id
-        if not account_id and customer_id:
-            # Find account for this customer
-            accounts = data.get("accounts", {}).values()
-            for acc in accounts.values():
-                if acc.get('customer_id') == customer_id:
-                    account_id = acc.get('account_id')
-                    break
-        support_tickets = data.get("support_tickets", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        fields = kwargs.get('fields', None)
+        start_date = kwargs.get('start_date')
+        end_date = kwargs.get('end_date')
+
+        support_tickets = data.get('support_tickets', [])
         results = []
 
-        for ticket in support_tickets.values():
+        for ticket in support_tickets:
             ticket_account_id = ticket.get('account_id', None)
             if ticket_account_id != account_id:
                 continue
@@ -1508,7 +1616,7 @@ class GetSupportTicketsForAccountTool(Tool):
                 subject = ticket.get('subject', '').lower()
                 description = ticket.get('description', '').lower()
                 category = ticket.get('category', '').lower()
-                if not any(field.lower() in subject or field.lower() in description or field.lower() in category for field in fields.values()):
+                if not any(field.lower() in subject or field.lower() in description or field.lower() in category for field in fields):
                     continue
             created_date = ticket.get('created_date', '')
             resolved_date = ticket.get('resolved_date', '')
@@ -1535,12 +1643,13 @@ class GetSupportTicketsForAccountTool(Tool):
             })
 
         return json.dumps(results, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetSupportTicketsForAccount",
+                "name": "get_support_tickets_for_account",
                 "description": "Get support tickets for a specific account, filtered by keywords and date range.",
                 "parameters": {
                     "type": "object",
@@ -1561,19 +1670,16 @@ class GetSupportTicketsForAccountTool(Tool):
 
 class GetSupportTicketsForAccountsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_ids: list = None, fields: list = None, start_date: str = None, end_date: str = None, account_id: str = None, customer_id: str = None) -> str:
-        # Support single account_id or customer_id parameters
-        if account_id and not account_ids:
-            account_ids = [account_id]
-        elif customer_id and not account_ids:
-            # Find accounts for this customer
-            accounts = data.get("accounts", {}).values()
-            account_ids = [acc.get('account_id') for acc in accounts.values() if acc.get('customer_id') == customer_id]
-        account_ids = account_ids or []
-        support_tickets = data.get("support_tickets", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_ids = kwargs.get('account_ids', [])
+        fields = kwargs.get('fields', None)
+        start_date = kwargs.get('start_date')
+        end_date = kwargs.get('end_date')
+
+        support_tickets = data.get('support_tickets', [])
         results = []
 
-        for ticket in support_tickets.values():
+        for ticket in support_tickets:
             ticket_account_id = ticket.get('account_id', None)
             if ticket_account_id not in account_ids:
                 continue
@@ -1581,7 +1687,7 @@ class GetSupportTicketsForAccountsTool(Tool):
                 subject = ticket.get('subject', '').lower()
                 description = ticket.get('description', '').lower()
                 category = ticket.get('category', '').lower()
-                if not any(field.lower() in subject or field.lower() in description or field.lower() in category for field in fields.values()):
+                if not any(field.lower() in subject or field.lower() in description or field.lower() in category for field in fields):
                     continue
             created_date = ticket.get('created_date', '')
             resolved_date = ticket.get('resolved_date', '')
@@ -1607,12 +1713,13 @@ class GetSupportTicketsForAccountsTool(Tool):
             })
 
         return json.dumps(results, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetSupportTicketsForAccounts",
+                "name": "get_support_tickets_for_accounts",
                 "description": "Get support tickets for multiple accounts, filtered by keywords and date range.",
                 "parameters": {
                     "type": "object",
@@ -1637,26 +1744,12 @@ class GetSupportTicketsForAccountsTool(Tool):
 
 class GetLoanApplicationsForCustomerTool(Tool):
     @staticmethod
-    def invoke(
-        data: Dict[str, Any],
-        customer_id: str = None,
-        application_id: str = None,
-        loan_type: str = None,
-        requested_amount: float = None,
-        purpose: str = None,
-        annual_income: float = None,
-        credit_score: int = None,
-        status: str = None,
-        application_date: str = None,
-        decision: str = None,
-        approved_amount: float = None,
-        notes: str = None,
-        before_date: str = None
-    ) -> str:
-        loan_applications = data.get("loan_applications", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customer_id = kwargs.get('customer_id')
+        loan_applications = data.get('loan_applications', [])
         result = []
 
-        for application in loan_applications.values():
+        for application in loan_applications:
             if application.get('customer_id') == customer_id:
                 result.append({
                     "application_id": application.get("application_id"),
@@ -1673,12 +1766,13 @@ class GetLoanApplicationsForCustomerTool(Tool):
                 })
 
         return json.dumps(result, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetLoanApplicationsForCustomer",
+                "name": "get_loan_applications_for_customer",
                 "description": "Get all loan applications for a specific customer.",
                 "parameters": {
                     "type": "object",
@@ -1692,10 +1786,13 @@ class GetLoanApplicationsForCustomerTool(Tool):
 
 class GenerateDetailedMonthlyReportTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, month: str = None) -> str:
-        transactions = data.get("transactions", {}).values()
-        scheduled_payments = data.get("scheduled_payments", {}).values()
-        support_tickets = data.get("support_tickets", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        month = kwargs.get('month')
+
+        transactions = data.get('transactions', [])
+        scheduled_payments = data.get('scheduled_payments', [])
+        support_tickets = data.get('support_tickets', [])
 
         start_date = f"{month}-01T00:00:00Z"
         end_date = f"{month}-31T23:59:59Z"
@@ -1707,7 +1804,7 @@ class GenerateDetailedMonthlyReportTool(Tool):
         total_deposits = 0
         total_withdrawals = 0
 
-        for txn in transactions.values():
+        for txn in transactions:
             if txn.get('account_id') != account_id:
                 continue
             if txn.get('transaction_date', '') < start_date or txn.get('transaction_date', '') > end_date:
@@ -1724,16 +1821,16 @@ class GenerateDetailedMonthlyReportTool(Tool):
 
         scheduled = []
         recurring = []
-        for payment in scheduled_payments.values():
+        for payment in scheduled_payments:
             if payment.get('from_account_id', None) == account_id and payment.get('next_payment_date', '')[:7] == month:
                 scheduled.append(payment)
                 if payment.get('frequency') in ['Monthly', 'Weekly']:
                     recurring.append(payment)
 
         tickets = []
-        for ticket in support_tickets.values():
+        for ticket in support_tickets:
             if ticket.get('account_id', '') == account_id and ticket.get('created_date', '')[:7] == month:
-                data["tickets"][ticket_id] = ticket
+                tickets.append(ticket)
 
         report = {
             "account_id": account_id,
@@ -1746,12 +1843,13 @@ class GenerateDetailedMonthlyReportTool(Tool):
             "support_tickets": tickets
         }
         return json.dumps(report, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GenerateDetailedMonthlyReport",
+                "name": "generate_detailed_monthly_report",
                 "description": "Generate a comprehensive monthly report for an account including purchases, deposits, withdrawals, scheduled payments, and support tickets.",
                 "parameters": {
                     "type": "object",
@@ -1766,10 +1864,13 @@ class GenerateDetailedMonthlyReportTool(Tool):
 
 class GenerateMonthlyAccountSummaryTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, month: str = None) -> str:
-        transactions = data.get("transactions", {}).values()
-        scheduled_payments = data.get("scheduled_payments", {}).values()
-        support_tickets = data.get("support_tickets", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        month = kwargs.get('month')
+
+        transactions = data.get('transactions', [])
+        scheduled_payments = data.get('scheduled_payments', [])
+        support_tickets = data.get('support_tickets', [])
 
         start_date = f"{month}-01T00:00:00Z"
         end_date = f"{month}-31T23:59:59Z"
@@ -1779,7 +1880,7 @@ class GenerateMonthlyAccountSummaryTool(Tool):
         total_purchases = 0
         transaction_count = 0
 
-        for txn in transactions.values():
+        for txn in transactions:
             if txn.get('account_id') != account_id:
                 continue
             txn_date = txn.get('transaction_date', '')
@@ -1794,11 +1895,13 @@ class GenerateMonthlyAccountSummaryTool(Tool):
                 total_purchases += abs(txn.get('amount', 0))
 
         scheduled_count = sum(
-            1 for payment in scheduled_payments.values() if payment.get('from_account_id', None) == account_id and payment.get('next_payment_date', '')[:7] == month
+            1 for payment in scheduled_payments
+            if payment.get('from_account_id', None) == account_id and payment.get('next_payment_date', '')[:7] == month
         )
 
         support_ticket_count = sum(
-            1 for ticket in support_tickets.values() if ticket.get('account_id', '') == account_id and ticket.get('created_date', '')[:7] == month
+            1 for ticket in support_tickets
+            if ticket.get('account_id', '') == account_id and ticket.get('created_date', '')[:7] == month
         )
 
         summary = {
@@ -1812,12 +1915,13 @@ class GenerateMonthlyAccountSummaryTool(Tool):
             "support_ticket_count": support_ticket_count
         }
         return json.dumps(summary, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GenerateMonthlyAccountSummary",
+                "name": "generate_monthly_account_summary",
                 "description": "Generate a summary for an account for a given month, including totals for deposits, withdrawals, purchases, transaction count, scheduled payments, and support tickets.",
                 "parameters": {
                     "type": "object",
@@ -1832,15 +1936,19 @@ class GenerateMonthlyAccountSummaryTool(Tool):
 
 class CalculateTotalEventAndPurchaseSpendingTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, start_date: str = None, end_date: str = None) -> str:
-        transactions = data.get("transactions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        start_date = kwargs.get('start_date')
+        end_date = kwargs.get('end_date')
+
+        transactions = data.get('transactions', [])
         total_spending = 0
         event_spending = 0
         purchase_spending = 0
         event_count = 0
         purchase_count = 0
 
-        for txn in transactions.values():
+        for txn in transactions:
             if txn.get('account_id') != account_id:
                 continue
             txn_date = txn.get('transaction_date', '')
@@ -1869,12 +1977,13 @@ class CalculateTotalEventAndPurchaseSpendingTool(Tool):
             "event_transaction_count": event_count,
             "purchase_transaction_count": purchase_count
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateTotalEventAndPurchaseSpending",
+                "name": "calculate_total_event_and_purchase_spending",
                 "description": "Calculate total spending for 'Event' and 'Purchase' transactions for an account in a given date range.",
                 "parameters": {
                     "type": "object",
@@ -1890,11 +1999,12 @@ class CalculateTotalEventAndPurchaseSpendingTool(Tool):
 
 class GetAccountChangesFromTicketsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None) -> str:
-        support_tickets = data.get("support_tickets", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        support_tickets = data.get('support_tickets', [])
         changes = []
 
-        for ticket in support_tickets.values():
+        for ticket in support_tickets:
             if ticket.get('account_id') != account_id:
                 continue
             change_types = []
@@ -1903,7 +2013,7 @@ class GetAccountChangesFromTicketsTool(Tool):
             category = ticket.get('category', '').lower()
 
             keywords = ["update", "change", "modify", "freeze", "close", "re-open", "unlock", "limit", "restriction", "address", "contact", "status", "name"]
-            if any(kw in subject or kw in description or kw in category for kw in keywords.values()):
+            if any(kw in subject or kw in description or kw in category for kw in keywords):
                 change_types.append("change_detected")
 
             changes.append({
@@ -1918,12 +2028,13 @@ class GetAccountChangesFromTicketsTool(Tool):
             })
 
         return json.dumps(changes, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAccountChangesFromTickets",
+                "name": "get_account_changes_from_tickets",
                 "description": "Extract tickets that indicate account changes (update, freeze, contact change, etc) for a specific account.",
                 "parameters": {
                     "type": "object",
@@ -1937,12 +2048,16 @@ class GetAccountChangesFromTicketsTool(Tool):
 
 class CalculateTotalBillPaymentsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, start_date: str = None, end_date: str = None) -> str:
-        transactions = data.get("transactions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        start_date = kwargs.get('start_date')
+        end_date = kwargs.get('end_date')
+
+        transactions = data.get('transactions', [])
         total_bill_payments = 0
         bill_payment_count = 0
 
-        for txn in transactions.values():
+        for txn in transactions:
             if txn.get('account_id') != account_id:
                 continue
             txn_date = txn.get('transaction_date', '')
@@ -1961,12 +2076,13 @@ class CalculateTotalBillPaymentsTool(Tool):
             "total_bill_payments": total_bill_payments,
             "bill_payment_count": bill_payment_count
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateTotalBillPayments",
+                "name": "calculate_total_bill_payments",
                 "description": "Calculate total bill payments for an account in a given date range.",
                 "parameters": {
                     "type": "object",
@@ -1982,15 +2098,16 @@ class CalculateTotalBillPaymentsTool(Tool):
 
 class CalculateTotalPaymentsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, start_date: str = None, end_date: str = None, transaction_type: str = None) -> str:
-        transactions = data.get("transactions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        start_date = kwargs.get('start_date')
+        end_date = kwargs.get('end_date')
+
+        transactions = data.get('transactions', [])
         total_payments = 0
         payment_count = 0
-        
-        # Use transaction_type parameter if provided, otherwise default to 'payment'
-        filter_type = transaction_type.lower() if transaction_type else 'payment'
 
-        for txn in transactions.values():
+        for txn in transactions:
             if txn.get('account_id') != account_id:
                 continue
             txn_date = txn.get('transaction_date', '')
@@ -1998,7 +2115,7 @@ class CalculateTotalPaymentsTool(Tool):
                 continue
             if end_date and txn_date > end_date:
                 continue
-            if txn.get('transaction_type', '').lower() == filter_type:
+            if txn.get('transaction_type', '').lower() == 'payment':
                 total_payments += abs(txn.get('amount', 0))
                 payment_count += 1
 
@@ -2009,12 +2126,13 @@ class CalculateTotalPaymentsTool(Tool):
             "total_payments": total_payments,
             "payment_count": payment_count
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateTotalPayments",
+                "name": "calculate_total_payments",
                 "description": "Calculate total payments for an account in a given date range.",
                 "parameters": {
                     "type": "object",
@@ -2030,14 +2148,18 @@ class CalculateTotalPaymentsTool(Tool):
 
 class CalculateTotalDepositsAndPurchasesTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, start_date: str = None, end_date: str = None) -> str:
-        transactions = data.get("transactions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        start_date = kwargs.get('start_date')
+        end_date = kwargs.get('end_date')
+
+        transactions = data.get('transactions', [])
         total_deposits = 0
         total_purchases = 0
         deposit_count = 0
         purchase_count = 0
 
-        for txn in transactions.values():
+        for txn in transactions:
             if txn.get('account_id') != account_id:
                 continue
             txn_date = txn.get('transaction_date', '')
@@ -2063,12 +2185,13 @@ class CalculateTotalDepositsAndPurchasesTool(Tool):
             "deposit_count": deposit_count,
             "purchase_count": purchase_count
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateTotalDepositsAndPurchases",
+                "name": "calculate_total_deposits_and_purchases",
                 "description": "Calculate total deposits and purchases for an account in a given date range.",
                 "parameters": {
                     "type": "object",
@@ -2084,12 +2207,16 @@ class CalculateTotalDepositsAndPurchasesTool(Tool):
 
 class CalculateTotalATMWithdrawalsTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, start_date: str = None, end_date: str = None) -> str:
-        transactions = data.get("transactions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        start_date = kwargs.get('start_date')
+        end_date = kwargs.get('end_date')
+
+        transactions = data.get('transactions', [])
         total_atm_withdrawals = 0
         withdrawal_count = 0
 
-        for txn in transactions.values():
+        for txn in transactions:
             if txn.get('account_id') != account_id:
                 continue
             txn_date = txn.get('transaction_date', '')
@@ -2108,12 +2235,13 @@ class CalculateTotalATMWithdrawalsTool(Tool):
             "total_atm_withdrawals": total_atm_withdrawals,
             "atm_withdrawal_count": withdrawal_count
         }, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateTotalAtmWithdrawals",
+                "name": "calculate_total_atm_withdrawals",
                 "description": "Calculate total ATM withdrawals for an account in a given date range.",
                 "parameters": {
                     "type": "object",
@@ -2129,11 +2257,15 @@ class CalculateTotalATMWithdrawalsTool(Tool):
 
 class GenerateFinancialReportTool(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], account_id: str = None, start_date: str = None, end_date: str = None) -> str:
-        transactions = data.get("transactions", {}).values()
-        scheduled_payments = data.get("scheduled_payments", {}).values()
-        support_tickets = data.get("support_tickets", {}).values()
-        loans = data.get("loans", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        account_id = kwargs.get('account_id')
+        start_date = kwargs.get('start_date')
+        end_date = kwargs.get('end_date')
+
+        transactions = data.get('transactions', [])
+        scheduled_payments = data.get('scheduled_payments', [])
+        support_tickets = data.get('support_tickets', [])
+        loans = data.get('loans', [])
 
         total_deposits = 0
         total_withdrawals = 0
@@ -2148,7 +2280,7 @@ class GenerateFinancialReportTool(Tool):
         bill_payment_count = 0
         atm_withdrawal_count = 0
 
-        for txn in transactions.values():
+        for txn in transactions:
             if txn.get('account_id') != account_id:
                 continue
             txn_date = txn.get('transaction_date', '')
@@ -2181,7 +2313,7 @@ class GenerateFinancialReportTool(Tool):
                 atm_withdrawal_count += 1
 
         scheduled_count = 0
-        for payment in scheduled_payments.values():
+        for payment in scheduled_payments:
             if payment.get('from_account_id', None) != account_id:
                 continue
             payment_date = payment.get('next_payment_date', '')
@@ -2193,7 +2325,7 @@ class GenerateFinancialReportTool(Tool):
             scheduled_count += 1
 
         support_ticket_count = 0
-        for ticket in support_tickets.values():
+        for ticket in support_tickets:
             if ticket.get('account_id', '') != account_id:
                 continue
             ticket_date = ticket.get('created_date', '')
@@ -2205,7 +2337,7 @@ class GenerateFinancialReportTool(Tool):
             support_ticket_count += 1
 
         loans_for_account = []
-        for loan in loans.values():
+        for loan in loans:
             if loan.get('account_id', '') != account_id:
                 continue
             loan_date = loan.get('issue_date', '')
@@ -2242,12 +2374,13 @@ class GenerateFinancialReportTool(Tool):
             "loans": loans_for_account
         }
         return json.dumps(report, indent=2)
+
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GenerateFinancialReport",
+                "name": "generate_financial_report",
                 "description": "Generate a comprehensive financial report for an account, including totals and counts for deposits, withdrawals, purchases, payments, bill payments, ATM withdrawals, scheduled payments, support tickets, and loans over a given period.",
                 "parameters": {
                     "type": "object",

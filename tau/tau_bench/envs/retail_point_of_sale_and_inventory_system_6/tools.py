@@ -1,43 +1,38 @@
 import json
 from collections import OrderedDict, defaultdict
-from typing import Any
+from typing import Any, Dict, List, Optional
 
-from tau_bench.envs.tool import Tool
-
-
+from domains.dto import Tool
 
 
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-
-class FindDiscountableProducts(Tool):
-    """Tool for searching all products eligible for discounts"""
+class find_discountable_products(Tool):
+    """
+    Tool to search for all products that can be discounted
+    """
 
     @staticmethod
-    def invoke(data: dict[str, Any], supplier_id: str = None) -> str:
-        products = data.get("products", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        supplier_id = kwargs.get("supplier_id")
+
+        products = data.get("products", [])
 
         out = []
 
-        for product in products.values():
-            # Include only products from the specified supplier if supplier_id is provided
+        for product in products:
+            # If supplier_id is sent, only include products from that supplier
             if (supplier_id is None) or (product["supplier_id"] == supplier_id):
-                # Select discountable products and append them to the return list
+                # Filter to discountable products and add to the return list
                 if product["is_discountable"]:
                     out.append(product["name"])
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "findDiscountableProducts",
+                "name": "find_discountable_products",
                 "description": "Gets the names of products that are considered discountable. If supplier_id is sent, then it will return only products for that supplier, otherwise it will return for all suppliers",
                 "parameters": {
                     "type": "object",
@@ -52,64 +47,60 @@ class FindDiscountableProducts(Tool):
         }
 
 
-class UpdateStockQuantity(Tool):
-    """Tool for adjusting the quantity of a specific product, useful after restocks or in cases of missing or damaged inventory"""
+class update_stock_quantity(Tool):
+    """
+    Tool to set the quantity of a certain product. This can be used after restocks or to handle cases where inventory is missing or damaged
+    """
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        timestamp: str = None,
-        store_id: str = None,
-        sku: str = None,
-        quantity: int = None,
-        relative_quantity: int = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        timestamp = kwargs.get("timestamp")
+        store_id = kwargs.get("store_id")
+        sku = kwargs.get("sku")
+        quantity = kwargs.get("quantity")
+        relative_quantity = kwargs.get("relative_quantity")
+
         if (
             (store_id is None)
             or (sku is None)
             or ((quantity is None) and (relative_quantity is None))
         ):
-            payload = {"error": "store_id, sku, and quantity are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "store_id, sku, and quantity are required"})
 
         if (quantity is not None) and (quantity < 0):
-            payload = {"error": "quantity must be 0 or greater"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "quantity must be 0 or greater"})
 
-        inventory = data.get("inventory", {}).values()
+        inventory = data.get("inventory", [])
 
-        for item in inventory.values():
-            # Item that matches
+        for item in inventory:
+            # Matching item
             if (item["store_id"] == store_id) and (item["sku"] == sku):
-                item["quantity"]
+                former_quantity = item["quantity"]
 
-                # Revise the quantity
+                # Update the quantity
                 if quantity is not None:
                     item["quantity"] = quantity
                 else:
                     item["quantity"] += int(relative_quantity)
 
-                # Modify the status
+                # Update the status
                 if item["quantity"] <= item["safety_stock"]:
                     item["status"] = "critical"
                 elif item["quantity"] <= item["reorder_level"]:
                     item["status"] = "low_stock"
                 else:
                     item["status"] = "in_stock"
-                payload = {"success": True}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "No matching product was found at the store"}
-        out = json.dumps(payload)
-        return out
+
+                return json.dumps({"success": True})
+
+        return json.dumps({"error": "No matching product was found at the store"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateStockQuantity",
+                "name": "update_stock_quantity",
                 "description": "Updates the quantity of a product and sets the status based on the quantity",
                 "parameters": {
                     "type": "object",
@@ -127,11 +118,11 @@ class UpdateStockQuantity(Tool):
                             "description": "The specific sku for the item",
                         },
                         "quantity": {
-                            "type": "integer",
+                            "type": "int",
                             "description": "The quantity to set for the item. Overrides relative_quantity",
                         },
                         "relative_quantity": {
-                            "type": "integer",
+                            "type": "int",
                             "description": "Will add or remove this much from the current quantity: 5 will add 5 and -2 will remove 2",
                         },
                     },
@@ -140,21 +131,26 @@ class UpdateStockQuantity(Tool):
         }
 
 
-class CheckLowStockItems(Tool):
-    """Tool for reordering items with low stock, capable of ordering for specific stores and items or all at once."""
+class check_low_stock_items(Tool):
+    """
+    Tool that will reorder low stock items. Can order for specific stores and items, or everything all at once.
+    """
 
     @staticmethod
-    def invoke(data: dict[str, Any], store_id: str = None, sku: str = None) -> str:
-        inventory = data.get("inventory", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        store_id = kwargs.get("store_id")
+        sku = kwargs.get("sku")
+
+        inventory = data.get("inventory", [])
 
         out = []
 
-        for item in inventory.values():
-            # When filtering by store or sku
+        for item in inventory:
+            # If filtering on store or sku
             if ((store_id is None) or (item["store_id"] == store_id)) and (
                 (sku is None) or (item["sku"] == sku)
             ):
-                # Verify if the item requires reordering
+                # Check if item needs to be reordered
                 if item["status"] in ["low_stock", "critical"]:
                     out.append(
                         {
@@ -169,15 +165,15 @@ class CheckLowStockItems(Tool):
                             ]
                         }
                     )
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CheckLowStockItems",
+                "name": "check_low_stock_items",
                 "description": "Checks if items are low stock and need to be reordered. Returns a list of items that are low stock",
                 "parameters": {
                     "type": "object",
@@ -196,53 +192,53 @@ class CheckLowStockItems(Tool):
         }
 
 
-class GetDetailedItemPrice(Tool):
+class get_detailed_item_price(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], sku: str = None, barcode: str = None) -> str:
-        #quantity = data.get("quantity", 1)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        sku = data.get("sku")
+        barcode = data.get("barcode")
+        # quantity = data.get("quantity", 1)
 
         if (sku is None) and (barcode is None):
-            payload = {"error": "sku or barcode must be sent"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "sku or barcode must be sent"}, indent=2)
 
-        products = data.get("products", {}).values()
+        products = data.get("products", [])
 
-        for product in products.values():
+        for product in products:
             if ((sku is not None) and (product["sku"] == sku)) or (
                 (barcode is not None) and (product["barcode"] == barcode)
             ):
-                #Retrieve the sku if a barcode was utilized
+                # Get the sku if barcode was used
                 sku = product["sku"]
 
-                #Apply the discount rate for discountable products; otherwise, assign 0
+                # Use the discount rate if the product is marked as discountable, otherwise set as 0
                 discount_rate = (
                     product["discount_rate"] if product["is_discountable"] else 0.0
                 )
 
-                #Determine the discount value
-                #discount = round(product["price"] * discount_rate, 2)
+                # Calculate the discount amount
+                # discount = round(product["price"] * discount_rate, 2)
 
                 tax_rate = product["tax_rate"]
-                payload = {
+
+                return json.dumps(
+                    {
                         "sku": sku,
                         "unit_price": product["price"],
                         "discount_rate": discount_rate,
                         "tax_rate": tax_rate,
-                    }
-                out = json.dumps(
-                    payload, indent=2,
+                    },
+                    indent=2,
                 )
-                return out
-        payload = {"error": "product not found"}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"error": "product not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getDetailedItemPrice",
+                "name": "get_detailed_item_price",
                 "description": "Gets the price infomation for a single transaction line item. Can use either sku or barcode",
                 "parameters": {
                     "type": "object",
@@ -252,14 +248,14 @@ class GetDetailedItemPrice(Tool):
                             "type": "string",
                             "description": "The barcode of the item",
                         },
-                        #"quantity": {"type": "integer", "description": "The quantity of the item being bought"}
+                        # "quantity": {"type": "int", "description": "The amount of the item being purchased"}
                     },
                 },
             },
         }
 
 
-class FindCheckOutEmployee(Tool):
+class find_check_out_employee(Tool):
     priority = [
         "Cashier",
         "Customer Service Rep",
@@ -272,34 +268,32 @@ class FindCheckOutEmployee(Tool):
     ]
 
     @staticmethod
-    def invoke(data: dict[str, Any], store_id: str = None, ignore_ids: list[str] = None) -> str:
-        employees = data.get("employees", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employees = data.get("employees", [])
 
-        if ignore_ids is None:
-            ignore_ids = []
-        elif isinstance(ignore_ids, str):
+        store_id = kwargs.get("store_id")
+        ignore_ids = kwargs.get("ignore_ids", [])
+        if isinstance(ignore_ids, str):
             ignore_ids = json.loads(ignore_ids)
 
-        # Inefficient nested loop, but it should work well given the small number of roles
-        for role in FindCheckOutEmployee.priority:
-            for employee in employees.values():
+        # Inefficient double loop, but should be fine due to low number of roles
+        for role in find_check_out_employee.priority:
+            for employee in employees:
                 if (
                     (employee["store_id"] == store_id)
                     and (employee["role"] == role)
                     and (employee["employee_id"] not in ignore_ids)
                 ):
-                    payload = employee
-                    out = json.dumps(payload, indent=2)
-                    return out
-        payload = {"error": "no suitable employee found"}
-        out = json.dumps(payload)
-        return out
+                    return json.dumps(employee, indent=2)
+
+        return json.dumps({"error": "no suitable employee found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindCheckOutEmployee",
+                "name": "find_check_out_employee",
                 "description": "Gets an employee to process a transaction at a store",
                 "parameters": {
                     "type": "object",
@@ -318,121 +312,121 @@ class FindCheckOutEmployee(Tool):
         }
 
 
-class TransactionPriceInfo(Tool):
-    """A tool for generating a price based on provided information, without performing any write operations. To complete the transaction, use make_transaction."""
+class transaction_price_info(Tool):
+    """
+    A tool that will create a price from the given information. Does not do any write operations. The finish the transaction, use make_transaction
+    """
 
-    #TODO: consolidate logic into a common utility for make_transaction
+    # TODO: gather logic into a shared utility for make_transaction
 
     @staticmethod
     def get_detailed_line_item_price(data, **kwargs):
-        pass
         sku = kwargs.get("sku")
         barcode = kwargs.get("barcode")
-        kwargs.get("quantity", 1)
+        quantity = kwargs.get("quantity", 1)
 
         if (sku is None) and (barcode is None):
-            payload = {"error": "sku or barcode must be sent"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "sku or barcode must be sent"}, indent=2)
 
-        products = data.get("products", {}).values()
-        promotions = data.get("promotions", {}).values()
+        products = data.get("products", [])
+        promotions = data.get("promotions", [])
 
-        for product in products.values():
+        for product in products:
             if ((sku is not None) and (product["sku"] == sku)) or (
                 (barcode is not None) and (product["barcode"] == barcode)
             ):
-                #Obtain the sku if a barcode was applied
+                # Get the sku if barcode was used
                 sku = product["sku"]
 
-                #Retrieve the promotional details
-                for promotion in promotions.values():
+                # Get the promotion information
+                for promotion in promotions:
                     if sku in promotion["applicable_skus"]:
+                        use_promotion = promotion
                         break
 
-                #Utilize the discount rate for products labeled as discountable; otherwise, set it to 0
-                #if use_promotion["type"] is "percentage"
+                # Use the discount rate if the product is marked as discountable, otherwise set as 0
+                # if use_promotion["type"] == "percentage"
                 discount_rate = (
                     product["discount_rate"] if product["is_discountable"] else 0.0
                 )
 
-                #Compute the discount amount
-                #discount = round(product["price"] * discount_rate, 2)
+                # Calculate the discount amount
+                # discount = round(product["price"] * discount_rate, 2)
 
                 tax_rate = product["tax_rate"]
-                payload = {
+
+                return json.dumps(
+                    {
                         "sku": sku,
                         "unit_price": product["price"],
                         "discount_rate": discount_rate,
                         "tax_rate": tax_rate,
-                    }
-                out = json.dumps(
-                    payload, indent=2,
+                    },
+                    indent=2,
                 )
-                return out
-        payload = {"error": "product not found"}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"error": "product not found"})
 
     @staticmethod
-    def invoke(data: dict[str, Any], timestamp: str = None, line_items: str = None) -> str:
-        if isinstance(line_items, str):
-            line_items = json.loads(line_items)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        timestamp = kwargs.get("timestamp")
 
-        if line_items is None:
-            payload = {"error": "item_list must be sent"}
-            out = json.dumps(payload)
-            return out
+        item_list = kwargs.get("line_items")
+        if isinstance(item_list, str):
+            item_list = json.loads(item_list)
 
-        # Items appropriate for a transaction record
-        line_items_list = []
+        if item_list is None:
+            return json.dumps({"error": "item_list must be sent"})
 
-        # Maintaining trackers for the total order
+        # Line items suitable for a transaction record
+        line_items = []
+
+        # Running trackers for the overall order
         total_amount = 0
         tax_amount = 0
         tax_rate = 0
         discount_total = 0
-        for item in line_items:
+        for item in item_list:
             sku = item.get("sku")
             barcode = item.get("barcode")
             quantity = item.get("quantity")
 
-            # Retrieve the pricing information for the item
+            # Get the price info for the item
             line_item_info = make_transaction.get_detailed_line_item_price(
                 data, sku=sku, barcode=barcode
             )
             line_item_info = json.loads(line_item_info)
 
-            # Extract values
+            # Unpack values
             sku = line_item_info["sku"]
             unit_price = line_item_info["unit_price"]
             unit_tax_rate = line_item_info["tax_rate"]
             discount_rate = line_item_info["discount_rate"]
 
-            # Compute totals for line items
-            # TODO: further development needed for discount to accommodate various discount types
+            # Calculate line item totals
+            # TODO: discount needs more work to account for different discount types
             unit_discount = unit_price * discount_rate
             item_sub_total = quantity * (unit_price - unit_discount)
             item_discount = round(quantity * unit_discount, 2)
             item_tax_amount = round(item_sub_total * unit_tax_rate, 2)
             item_final_amount = round(item_sub_total + item_tax_amount, 2)
 
-            # Generate the transaction log for line items
+            # Create the line item transaction log
             line_item = {
                 "sku": sku,
                 "quantity": quantity,
                 "unit_price": unit_price,
                 "discount": item_discount,
             }
-            line_items_list.append(line_item)
+            line_items.append(line_item)
 
-            # Revise the cumulative totals
+            # Update the running totals
             total_amount += item_final_amount
             tax_amount += item_tax_amount
             discount_total += item_discount
             tax_rate = max(tax_rate, unit_tax_rate)
 
-        # Construct the ultimate transaction log
+        # Build the final transaction log
         total_amount = round(total_amount, 2)
         tax_amount = round(tax_amount, 2)
         discount_total = round(discount_total, 2)
@@ -441,17 +435,17 @@ class TransactionPriceInfo(Tool):
             "tax_amount": tax_amount,
             "tax_rate": tax_rate,
             "discount_total": discount_total,
-            "line_items": line_items_list,
+            "line_items": line_items,
         }
-        payload = transaction_row
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(transaction_row, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "TransactionPriceInfo",
+                "name": "transaction_price_info",
                 "description": "Returns price info for communicating to a customer the price of an order",
                 "parameters": {
                     "type": "object",
@@ -464,82 +458,76 @@ class TransactionPriceInfo(Tool):
                 },
             },
         }
-        payload = transaction_row
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(transaction_row, indent=2)
 
 
 class make_transaction(Tool):
-    """Tool for managing purchases and refunds, adding records to transactions and updating stock as needed."""
+    """
+    Tool for handling a purchases and refunds. Adds the record to the transactions and updates the stock if necessary
+    """
 
     @staticmethod
     def get_detailed_line_item_price(data, **kwargs):
-        pass
         sku = kwargs.get("sku")
         barcode = kwargs.get("barcode")
-        kwargs.get("quantity", 1)
+        quantity = kwargs.get("quantity", 1)
 
         if (sku is None) and (barcode is None):
-            payload = {"error": "sku or barcode must be sent"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "sku or barcode must be sent"}, indent=2)
 
-        products = data.get("products", {}).values()
-        promotions = data.get("promotions", {}).values()
+        products = data.get("products", [])
+        promotions = data.get("promotions", [])
 
-        for product in products.values():
+        for product in products:
             if ((sku is not None) and (product["sku"] == sku)) or (
                 (barcode is not None) and (product["barcode"] == barcode)
             ):
-                #Fetch the sku if a barcode was utilized
+                # Get the sku if barcode was used
                 sku = product["sku"]
 
-                #Acquire the promotional information
-                for promotion in promotions.values():
+                # Get the promotion information
+                for promotion in promotions:
                     if sku in promotion["applicable_skus"]:
+                        use_promotion = promotion
                         break
 
-                #Apply the discount rate for products identified as discountable; otherwise, set it to 0
-                #if use_promotion["type"] equals "percentage"
+                # Use the discount rate if the product is marked as discountable, otherwise set as 0
+                # if use_promotion["type"] == "percentage"
                 discount_rate = (
                     product["discount_rate"] if product["is_discountable"] else 0.0
                 )
 
-                #Assess the discount amount
-                #discount = round(product["price"] * discount_rate, 2)
+                # Calculate the discount amount
+                # discount = round(product["price"] * discount_rate, 2)
 
                 tax_rate = product["tax_rate"]
-                payload = {
+
+                return json.dumps(
+                    {
                         "sku": sku,
                         "unit_price": product["price"],
                         "discount_rate": discount_rate,
                         "tax_rate": tax_rate,
-                    }
-                out = json.dumps(
-                    payload, indent=2,
+                    },
+                    indent=2,
                 )
-                return out
-        payload = {"error": "product not found"}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"error": "product not found"})
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        timestamp: str = None,
-        store_id: str = None,
-        employee_id: str = None,
-        customer_id: str = None,
-        line_items: str = None,
-        payment_method: str = None,
-        status: str = None,
-        payment_amount: float = None,
-        commit_transaction: bool = True
-    ) -> str:
-        if isinstance(line_items, str):
-            item_list = json.loads(line_items)
-        else:
-            item_list = line_items
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        timestamp = kwargs.get("timestamp")
+        store_id = kwargs.get("store_id")
+        employee_id = kwargs.get("employee_id")
+        customer_id = kwargs.get("customer_id")
+        item_list = kwargs.get("line_items")
+        if isinstance(item_list, str):
+            item_list = json.loads(item_list)
+        payment_method = kwargs.get("payment_method")
+        status = kwargs.get("status")
+        amount_paid = kwargs.get("payment_amount")
+        commit_transaction = kwargs.get("commit_transaction", True)
 
         if (
             (store_id is None)
@@ -547,18 +535,18 @@ class make_transaction(Tool):
             or (customer_id is None)
             or (item_list is None)
         ):
-            payload = {
-                "error": "store_id, employee_id, customer_id and item_list must be sent"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": "store_id, employee_id, customer_id and item_list must be sent"
+                }
+            )
 
-        transactions = data.get("transactions", {}).values()
+        transactions = data.get("transactions", [])
 
-        # Items that are appropriate for a transaction record
+        # Line items suitable for a transaction record
         line_items = []
 
-        # Tracking the overall order progress
+        # Running trackers for the overall order
         total_amount = 0
         tax_amount = 0
         tax_rate = 0
@@ -568,27 +556,27 @@ class make_transaction(Tool):
             barcode = item.get("barcode")
             quantity = item.get("quantity")
 
-            # Obtain the pricing details for the item
+            # Get the price info for the item
             line_item_info = make_transaction.get_detailed_line_item_price(
                 data, sku=sku, barcode=barcode
             )
             line_item_info = json.loads(line_item_info)
 
-            # Extract the values
+            # Unpack values
             sku = line_item_info["sku"]
             unit_price = line_item_info["unit_price"]
             unit_tax_rate = line_item_info["tax_rate"]
             discount_rate = line_item_info["discount_rate"]
 
-            # Determine totals for line items
-            # TODO: additional work required for discount to handle various discount types
+            # Calculate line item totals
+            # TODO: discount needs more work to account for different discount types
             unit_discount = unit_price * discount_rate
             item_sub_total = quantity * (unit_price - unit_discount)
             item_discount = round(quantity * unit_discount, 2)
             item_tax_amount = round(item_sub_total * unit_tax_rate, 2)
             item_final_amount = round(item_sub_total + item_tax_amount, 2)
 
-            # Establish the transaction log for line items
+            # Create the line item transaction log
             line_item = {
                 "sku": sku,
                 "quantity": quantity,
@@ -597,32 +585,32 @@ class make_transaction(Tool):
             }
             line_items.append(line_item)
 
-            # Adjust the ongoing totals
+            # Update the running totals
             total_amount += item_final_amount
             tax_amount += item_tax_amount
             discount_total += item_discount
             tax_rate = max(tax_rate, unit_tax_rate)
 
-        # Verify adequate payment and compute change
-        if (status == "completed") and (payment_amount < round(total_amount, 2)):
+        # Check for sufficent payment and calculate change
+        if (status == "completed") and (amount_paid < round(total_amount, 2)):
             if commit_transaction:
-                payload = {
-                    "error": "Amount paid is insufficient. Order total is: {}".format(
-                        total_amount
-                    )
-                }
-                out = json.dumps(payload)
-                return out
+                return json.dumps(
+                    {
+                        "error": "Amount paid is insufficient. Order total is: {}".format(
+                            total_amount
+                        )
+                    }
+                )
             else:
-                change_given = payment_amount
+                change_given = amount_paid
         else:
-            change_given = round(payment_amount - total_amount, 2)
+            change_given = round(amount_paid - total_amount, 2)
 
-        # Compile the final transaction log
+        # Build the final transaction log
 
-        # Retrieve the most recent transaction id and increase it by one
+        # Get the latest transaction id and increment by one
         transaction_id = (
-            max([int(x["transaction_id"].split("-")[1]) for x in transactions.values()]) + 1
+            max([int(x["transaction_id"].split("-")[1]) for x in transactions]) + 1
         )
 
         total_amount = round(total_amount, 2)
@@ -647,18 +635,18 @@ class make_transaction(Tool):
         }
         # transaction_row = json.dumps(transaction_row, indent = 2)
 
-        # Insert into the database and return the item
+        # Add to the database and return the item
         if commit_transaction:
-            data["transactions"][transaction_id] = transaction_row
-        payload = transaction_row
-        out = json.dumps(payload, indent=2)
-        return out
+            transactions.append(transaction_row)
+
+        return json.dumps(transaction_row, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "MakeTransaction",
+                "name": "make_transaction",
                 "description": "Creates the transaction log for a purchase",
                 "parameters": {
                     "type": "object",
@@ -684,7 +672,7 @@ class make_transaction(Tool):
                             "description": "The payment type used. cash or credit_card",
                         },
                         "payment_amount": {
-                            "type": "number",
+                            "type": "float",
                             "description": "The amount given by the customer",
                         },
                         "status": {
@@ -692,19 +680,11 @@ class make_transaction(Tool):
                             "description": "Signifies if the transaction is a purchase or a refund. (completed, refunded)",
                         },
                         "item_list": {
-                            "type": "array",
-                            "items": {
-                                "type": "object",
-                                "properties": {
-                                    "sku": {"type": "string"},
-                                    "barcode": {"type": "string"},
-                                    "quantity": {"type": "integer"}
-                                }
-                            },
-                            "description": "A list of items being purchased. Each item has either sku or barcode and a quantity.",
+                            "type": "string",
+                            "description": "A list of items being purchased. This should be a json object with a structure like so: [{'sku' : XXX, 'quantity' : 1}, {'barcode' : YYY, 'quantity' : 2}]",
                         },
                         "commit_transaction": {
-                            "type": "boolean",
+                            "type": "bool",
                             "description": "If true, the transaction will be commited and processed. If false, the function will just do a dry run and return the transaction information. Defaults to True",
                         },
                     },
@@ -714,31 +694,32 @@ class make_transaction(Tool):
 
 
 class find_transaction(Tool):
-    """Searches for and retrieves a transaction. If the transaction_id is known, it returns that specific row. If other parameters are provided, it searches for and returns all transactions that match those parameters."""
+    """
+    Searches for and returns a transaction. If the transaction_id is known, it will return that exact row. If the other parameters are sent, then it will search for and return all transactions matching those parameters
+    """
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        transaction_id: str = None,
-        store_id: str = None,
-        employee_id: str = None,
-        customer_id: str = None,
-        status: str = None,
-        date: str = None
-    ) -> str:
-        transactions = data.get("transactions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        transaction_id = kwargs.get("transaction_id")
+        store_id = kwargs.get("store_id")
+        employee_id = kwargs.get("employee_id")
+        customer_id = kwargs.get("customer_id")
+        status = kwargs.get("status")
+        date = kwargs.get("date")
+
+        transactions = data.get("transactions", [])
 
         matches = []
-        for transaction in transactions.values():
-            # Utilize transaction_id if provided, prioritizing it over other parameters
+        for transaction in transactions:
+            # If transaction_id is sent, then use it over the other parameters
             if (transaction_id is not None) and (
                 transaction["transaction_id"] == transaction_id
             ):
                 return transaction
 
-            # If not, include in the matches list if any search parameters align
+            # Otherwise, add to the list of matches if any of the search parameters matches
             else:
-                # Retrieve matches
+                # Get matches
                 store_id_match = (store_id is not None) and (
                     transaction["store_id"] == store_id
                 )
@@ -755,8 +736,8 @@ class find_transaction(Tool):
                     transaction["timestamp"][:10] == date
                 )
 
-                # Assess if the row is a match
-                # It must satisfy all provided criteria
+                # Determine if row is a match
+                # It should match all criteria that have been sent
                 is_match = all(
                     [
                         bool_out
@@ -776,15 +757,15 @@ class find_transaction(Tool):
 
                 if is_match:
                     matches.append(json.dumps(transaction))
-        payload = matches
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(matches)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindTransaction",
+                "name": "find_transaction",
                 "description": "Finds a transaction. Will return 1 row if transaction_id is sent, otherwise it will return rows that match the other parameters",
                 "parameters": {
                     "type": "object",
@@ -821,37 +802,36 @@ class find_transaction(Tool):
 
 class cancel_promotion(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], promotion_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        promotion_id = kwargs.get("promotion_id")
+
         if promotion_id is None:
-            payload = {"error": "promotion_id must be sent"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "promotion_id must be sent"})
 
-        promotions = data.get("promotions", {}).values()
-        products = data.get("products", {}).values()
+        promotions = data.get("promotions", [])
+        products = data.get("products", [])
 
-        for promotion in promotions.values():
-            # Narrow down to the appropriate promotion
+        for promotion in promotions:
+            # Filter to the correct promotion
             if promotion["promotion_id"] == promotion_id:
-                # Eliminate discounts from the products
-                # TODO: investigate the possibility of multiple promotions for each product
+                # Remove discounts from products
+                # TODO: check if there can be multiple promotions per product
                 applicable_skus = promotion["applicable_skus"]
-                for product in products.values():
+                for product in products:
                     if product["sku"] in applicable_skus:
                         product["is_discountable"] = False
 
-                # TODO: consider if the row should simply be deleted?
+                # TODO: should the row just be removed?
                 promotion["status"] = "canceled"
-        payload = {"success": "complete"}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"success": "complete"})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CancelPromotion",
+                "name": "cancel_promotion",
                 "description": "Cancels a current promotion",
                 "parameters": {
                     "type": "object",
@@ -868,46 +848,37 @@ class cancel_promotion(Tool):
 
 class create_promotion(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        name: str,
-        type: str,
-        discount_value: float,
-        description: str,
-        applicable_skus: list[str],
-        start_date: str,
-        end_date: str,
-        status: str,
-        usage_limit: int
-    ) -> str:
-        promotion_fields_unpacked = {
-            "name": name,
-            "type": type,
-            "discount_value": discount_value,
-            "description": description,
-            "applicable_skus": applicable_skus,
-            "start_date": start_date,
-            "end_date": end_date,
-            "status": status,
-            "usage_limit": usage_limit,
-        }
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        promotion_fields = [
+            "name",
+            "type",
+            "discount_value",
+            "description",
+            "applicable_skus",
+            "start_date",
+            "end_date",
+            "status",
+            "usage_limit",
+        ]
 
-        # Convert applicable_skus from json to a list if provided as json
+        promotion_fields_unpacked = {k: kwargs[k] for k in promotion_fields}
+
+        # If applicable_skus is sent as a json, it needs to be converted to a list
         if isinstance(promotion_fields_unpacked["applicable_skus"], str):
             promotion_fields_unpacked["applicable_skus"] = json.loads(
                 promotion_fields_unpacked["applicable_skus"]
             )
 
-        promotions = data.get("promotions", {}).values()
-        products = data.get("products", {}).values()
+        promotions = data.get("promotions", [])
+        products = data.get("products", [])
 
         promotion_id = (
-            max([int(x["promotion_id"].split("-")[1]) for x in promotions.values()]) + 1
+            max([int(x["promotion_id"].split("-")[1]) for x in promotions]) + 1
         )
 
-        # TODO: automate status setting based on the start date
+        # TODO: set status automatically based on start date
         promotion_row = {
-            "promotion_id": f"PROMO-{promotion_id:03}",
+            "promotion_id": "PROMO-{promotion_id:03}".format(promotion_id=promotion_id),
             "name": promotion_fields_unpacked["name"],
             "type": promotion_fields_unpacked["type"],
             "discount_value": promotion_fields_unpacked["discount_value"],
@@ -920,25 +891,24 @@ class create_promotion(Tool):
             "times_used": 0,
         }
 
-        # Revise the skus
-        for product in products.values():
+        # Update the skus
+        for product in products:
             if product["sku"] in promotion_fields_unpacked["applicable_skus"]:
                 product["is_discountable"] = True
 
-                # TODO: will need to manage various discount types
+                # TODO: will need to handle different discount types
                 product["discount_rate"] = (
                     promotion_fields_unpacked["discount_value"] / 100.0
                 )
-        payload = {"success": "complete"}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"success": "complete"}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreatePromotion",
+                "name": "create_promotion",
                 "description": "Creates a new promotion",
                 "parameters": {
                     "type": "object",
@@ -952,7 +922,7 @@ class create_promotion(Tool):
                             "description": "The type of promotion. 'fixed_bundle', 'tax_free', 'percentage', 'bogo_percentage'",
                         },
                         "discount_value": {
-                            "type": "integer",
+                            "type": "int",
                             "description": "The discount amount as an integer for percentage and bogo_percentage",
                         },
                         "description": {
@@ -976,7 +946,7 @@ class create_promotion(Tool):
                             "description": "The current status of the promotion. Should be 'active' if the sale is going or 'planned' if it is happening in the future",
                         },
                         "usage_limit": {
-                            "type": "integer",
+                            "type": "int",
                             "description": "The number of times the sale can be used.",
                         },
                     },
@@ -987,42 +957,33 @@ class create_promotion(Tool):
 
 class find_promotions(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        promotion_id: str = None,
-        type: str = None,
-        status: str = None,
-        name: str = None,
-        description: str = None,
-        has_sku: str = None
-    ) -> str:
-        promotions = data.get("promotions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        promotions = data.get("promotions", [])
 
-        # If customer id is provided, it will take precedence over all other criteria
+        # If customer id is sent, then it will override all other criteria
+        promotion_id = kwargs.get("promotion_id")
 
-        # These columns will match precisely with the provided value
+        # These columns will be matched exactly to the value sent
         exact_match_cols = ["type", "status"]
-        exact_match_values = {"type": type, "status": status}
+        exact_match_values = {k: kwargs.get(k) for k in exact_match_cols}
 
-        # These columns will match as long as the database field includes the provided value
+        # These columns will be matched as long as the database field contains the sent value
         approximate_match_cols = ["name", "description"]
-        approximate_match_values = {"name": name, "description": description}
+        approximate_match_values = {k: kwargs.get(k) for k in approximate_match_cols}
 
-        # These columns possess unique matching criteria
+        # These columns have special matching criteria
         special_match_cols = ["has_sku"]
-        special_match_values = {"has_sku": has_sku}
+        special_match_values = {k: kwargs.get(k) for k in special_match_cols}
 
         matches = []
-        for promotion in promotions.values():
-            # customer_id is prioritized
+        for promotion in promotions:
+            # customer_id takes priority
             if (promotion_id is not None) and (
                 promotion["promotion_id"] == promotion_id
             ):
-                payload = promotion
-                out = json.dumps(payload, indent=2)
-                return out
+                return json.dumps(promotion, indent=2)
 
-            # Add to the return list if all provided criteria align
+            # If all sent criteria match, then add it to the return list
             elif (
                 all(
                     [
@@ -1050,15 +1011,15 @@ class find_promotions(Tool):
                 )
             ):
                 matches.append(promotion)
-        payload = matches
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(matches, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindPromotions",
+                "name": "find_promotions",
                 "description": "Finds promotions matching the sent criteria. Returns an empty list if there are none",
                 "parameters": {
                     "type": "object",
@@ -1095,47 +1056,31 @@ class find_promotions(Tool):
 
 class create_customer(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        timestamp: str = None,
-        name: str = None,
-        phone_number: str = None,
-        email: str = None,
-        address: str = None,
-        birthdate: str = None,
-        loyalty_points: int = 0,
-        membership_level: str = "basic",
-        opt_in_marketing: bool = False,
-    ) -> str:
-        pass
-        customers = data.get("customers", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customers = data.get("customers", [])
 
-        # A timestamp must be included for database entries
+        # Timestamp needs to be sent for database records
+        timestamp = kwargs.get("timestamp")
 
-        # These values are required to be sent
+        # These values must be sent
         required_cols = ["name", "phone_number", "email", "address", "birthdate"]
 
-        # Default values apply if these are not provided
+        # These values have defaults if not sent
         optional_cols = ["loyalty_points", "membership_level", "opt_in_marketing"]
 
-        required_values = {
-            "name": name,
-            "phone_number": phone_number,
-            "email": email,
-            "address": address,
-            "birthdate": birthdate,
-        }
+        required_values = {k: kwargs.get(k) for k in required_cols}
         optional_values = {
-            "loyalty_points": loyalty_points,
-            "membership_level": membership_level,
-            "opt_in_marketing": opt_in_marketing,
+            "loyalty_points": 0,
+            "membership_level": "basic",
+            "opt_in_marketing": False,
         }
+        optional_values.update({k: kwargs[k] for k in optional_cols if k in kwargs})
 
-        # The function computes these values
+        # These values are calculated by the function
         fill_in = {
             "customer_id": "CUST-5{customer_id:03}".format(
                 customer_id=max(
-                    [int(x["customer_id"].split("-")[1][1:]) for x in customers.values()]
+                    [int(x["customer_id"].split("-")[1][1:]) for x in customers]
                 )
                 + 1
             ),
@@ -1144,21 +1089,20 @@ class create_customer(Tool):
             "status": "active",
         }
 
-        # Raise an error if any required values are absent
+        # Throw an error if any of the required values are missing
         if any([required_values[k] is None for k in required_values.keys()]):
-            payload = {
-                "error": "required values not sent: "
-                + ", ".join(
-                    [k for k in required_values.values() if required_values[k] is None]
-                )
-            }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {
+                    "error": "required values not sent: "
+                    + ", ".join(
+                        [k for k in required_values if required_values[k] is None]
+                    )
+                },
+                indent=2,
             )
-            return out
 
-        # This indicates the sequence of items in the database
-        # Although not essential due to the unordered nature of dictionaries, maintaining the same order can simplify validation
+        # This is the order that the items appear in the database
+        # May not be necessary since dictionaries are unordered, but it can make valiation easier if the items appear in the same order everytime
         col_order = [
             "customer_id",
             "name",
@@ -1174,23 +1118,24 @@ class create_customer(Tool):
             "status",
         ]
 
-        # Arrange the items
+        # Order the items
         row = required_values | optional_values | fill_in
         row_final = OrderedDict()
         for k in col_order:
             row_final[k] = row[k]
 
-        # Insert into the database
+        # Add to the database
         customers.append(json.dumps(row_final, indent=2))
-        payload = row_final
-        out = json.dumps(payload, indent=2)
-        return out
+
+        # Return the whole row for reference
+        return json.dumps(row_final, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateCustomer",
+                "name": "create_customer",
                 "description": "Creates a new customer record",
                 "parameters": {
                     "type": "object",
@@ -1220,7 +1165,7 @@ class create_customer(Tool):
                             "description": "The customer's birthdate. YYYY-MM-DD",
                         },
                         "loyalty_points": {
-                            "type": "integer",
+                            "type": "int",
                             "description": "OPTIONAL. The number of loyalty points the customer has. This will normally be 0, but sometimes they can start with points as an incentive to create an account.",
                         },
                         "memebership_level": {
@@ -1228,7 +1173,7 @@ class create_customer(Tool):
                             "description": "OPTIONAL. The membership tier the customer is starting on. This will default to 'basic'.",
                         },
                         "opt_in_marketing": {
-                            "type": "boolean",
+                            "type": "bool",
                             "description": "OPTIONAL. If the customer is opting into marketing. This will default to False",
                         },
                     },
@@ -1239,31 +1184,30 @@ class create_customer(Tool):
 
 class remove_customer(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], customer_id: str = None) -> str:
-        customers = data.get("customers", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customers = data.get("customers", [])
+
+        customer_id = kwargs.get("customer_id")
 
         if customer_id is None:
-            payload = {"error": "customer_id must be sent"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "customer_id must be sent"}, indent=2)
 
-        for customer in customers.values():
+        for customer in customers:
             if customer["customer_id"] == customer_id:
                 del customer
-                payload = {"success": f"Removed customer: {customer_id}"}
-                out = json.dumps(
-                    payload, indent=2
+
+                return json.dumps(
+                    {"success": "Removed customer: {}".format(customer_id)}, indent=2
                 )
-                return out
-        payload = {"error": "No customer found"}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"error": "No customer found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "removeCustomer",
+                "name": "remove_customer",
                 "description": "Removes a customer record",
                 "parameters": {
                     "type": "object",
@@ -1280,25 +1224,13 @@ class remove_customer(Tool):
 
 class find_customers(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        customer_id: str = None,
-        phone_number: str = None,
-        membership_level: str = None,
-        birthdate: str = None,
-        opt_in_marketing: bool = None,
-        status: str = None,
-        name: str = None,
-        email: str = None,
-        address: str = None,
-        birth_month: str = None,
-        city: str = None,
-    ) -> str:
-        customers = data.get("customers", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customers = data.get("customers", [])
 
-        # If a customer id is provided, it will supersede all other criteria
+        # If customer id is sent, then it will override all other criteria
+        customer_id = kwargs.get("customer_id")
 
-        # These columns will match exactly with the provided value
+        # These columns will be matched exactly to the value sent
         exact_match_cols = [
             "phone_number",
             "membership_level",
@@ -1306,37 +1238,25 @@ class find_customers(Tool):
             "opt_in_marketing",
             "status",
         ]
-        exact_match_values = {
-            "phone_number": phone_number,
-            "membership_level": membership_level,
-            "birthdate": birthdate,
-            "opt_in_marketing": opt_in_marketing,
-            "status": status,
-        }
+        exact_match_values = {k: kwargs.get(k) for k in exact_match_cols}
 
-        # These columns will match as long as the database field has the provided value
+        # These columns will be matched as long as the database field contains the sent value
         approximate_match_cols = ["name", "email", "address"]
-        approximate_match_values = {
-            "name": name,
-            "email": email,
-            "address": address,
-        }
+        approximate_match_values = {k: kwargs.get(k) for k in approximate_match_cols}
 
-        # These columns have distinct matching criteria
+        # These columns have special matching criteria
         special_match_values = {
-            "birth_month": birth_month,
-            "city": city,
+            "birth_month": kwargs.get("birth_month"),
+            "city": kwargs.get("city"),
         }
 
         matches = []
-        for customer in customers.values():
-            # customer_id is given priority
+        for customer in customers:
+            # customer_id takes priority
             if (customer_id is not None) and (customer["customer_id"] == customer_id):
-                payload = customer
-                out = json.dumps(payload, indent=2)
-                return out
+                return json.dumps(customer, indent=2)
 
-            # Include in the return list if all provided criteria match
+            # If all sent criteria match, then add it to the return list
             elif (
                 all(
                     [
@@ -1355,34 +1275,30 @@ class find_customers(Tool):
                 and all(
                     [
                         (
-                            (
-                                "-{}-".format(special_match_values["birth_month"])
-                                in customer["birthdate"]
-                            )
-                            if special_match_values["birth_month"] is not None
-                            else True
-                        ),
+                            "-{}-".format(special_match_values["birth_month"])
+                            in customer["birthdate"]
+                        )
+                        if special_match_values["birth_month"] is not None
+                        else True,
                         (
-                            (
-                                special_match_values["city"].lower()
-                                == customer["address"].split(",")[1].strip().lower()
-                            )
-                            if special_match_values["city"] is not None
-                            else True
-                        ),
+                            special_match_values["city"].lower()
+                            == customer["address"].split(",")[1].strip().lower()
+                        )
+                        if special_match_values["city"] is not None
+                        else True,
                     ]
                 )
             ):
                 matches.append(customer)
-        payload = matches
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(matches, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindCustomers",
+                "name": "find_customers",
                 "description": "Finds customer matching the sent criteria. Returns an empty list if there are none",
                 "parameters": {
                     "type": "object",
@@ -1408,7 +1324,7 @@ class find_customers(Tool):
                             "description": "birth date of the customer. Will do an exact match",
                         },
                         "opt_in_marketing": {
-                            "type": "boolean",
+                            "type": "bool",
                             "description": "opt in marketing of the customer. Will do an exact match",
                         },
                         "name": {
@@ -1424,7 +1340,7 @@ class find_customers(Tool):
                             "description": "address of the customer. Will do an approximate match",
                         },
                         "birth_month": {
-                            "type": "integer",
+                            "type": "int",
                             "description": "The month the person was born in. Will ignore year and day when matching to birth month",
                         },
                         "city": {
@@ -1439,32 +1355,17 @@ class find_customers(Tool):
 
 class update_customer(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        customer_id: str = None,
-        timestamp: str = None,
-        name: str = None,
-        phone_number: str = None,
-        email: str = None,
-        address: str = None,
-        birthdate: str = None,
-        membership_level: str = None,
-        status: str = None,
-        loyalty_points: int = None,
-        opt_in_marketing: bool = None
-    ) -> str:
-        customers = data.get("customers", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        customers = data.get("customers", [])
 
-        # These parameters are essential for updates
-        row_id = customer_id
-        timestamp = timestamp
+        # These parameters are mandatory for updates
+        row_id = kwargs.get("customer_id")
+        timestamp = kwargs.get("timestamp")
 
         if (row_id is None) or (timestamp is None):
-            payload = {"error": "customer_id and timestamp must be sent"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "customer_id and timestamp must be sent"})
 
-        # These parameters are being submitted for the update
+        # These are the parameters being sent for update
         updatable_cols = [
             "name",
             "phone_number",
@@ -1476,38 +1377,27 @@ class update_customer(Tool):
             "loyalty_points",
             "opt_in_marketing",
         ]
-        updating_values = {
-            "name": name,
-            "phone_number": phone_number,
-            "email": email,
-            "address": address,
-            "birthdate": birthdate,
-            "membership_level": membership_level,
-            "status": status,
-            "loyalty_points": loyalty_points,
-            "opt_in_marketing": opt_in_marketing,
-        }
+        updating_values = {k: kwargs.get(k) for k in updatable_cols}
 
-        for customer in customers.values():
+        for customer in customers:
             if customer["customer_id"] == row_id:
                 for col, value in updating_values.items():
-                    # Revise any provided values
+                    # Update any sent values
                     if value is not None:
                         customer[col] = value
 
                 customer["updated_at"] = timestamp
-                payload = customer
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": "no matching records found"}
-        out = json.dumps(payload)
-        return out
+
+                return json.dumps(customer, indent=2)
+
+        return json.dumps({"error": "no matching records found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateCustomer",
+                "name": "update_customer",
                 "description": "Creates a new customer record",
                 "parameters": {
                     "type": "object",
@@ -1541,7 +1431,7 @@ class update_customer(Tool):
                             "description": "The customer's birthdate. YYYY-MM-DD",
                         },
                         "loyalty_points": {
-                            "type": "integer",
+                            "type": "int",
                             "description": "The number of loyalty points the customer has",
                         },
                         "memebership_level": {
@@ -1549,7 +1439,7 @@ class update_customer(Tool):
                             "description": "The membership tier of the customer",
                         },
                         "opt_in_marketing": {
-                            "type": "boolean",
+                            "type": "bool",
                             "description": "OPTIONAL. If the customer is opting into marketing",
                         },
                     },
@@ -1560,21 +1450,13 @@ class update_customer(Tool):
 
 class create_employee(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        timestamp: str = None,
-        name: str = None,
-        phone_number: str = None,
-        email: str = None,
-        role: str = None,
-        hire_date: str = None,
-        store_id: str = None,
-    ) -> str:
-        employees = data.get("employees", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employees = data.get("employees", [])
 
-        # A timestamp is required for database records
+        # Timestamp needs to be sent for database records
+        timestamp = kwargs.get("timestamp")
 
-        # These values are required to be provided
+        # These values must be sent
         required_cols = [
             "name",
             "phone_number",
@@ -1584,20 +1466,14 @@ class create_employee(Tool):
             "store_id",
         ]
 
-        # Default values will apply if these are not provided
+        # These values have defaults if not sent
         optional_cols = []
 
-        required_values = {
-            "name": name,
-            "phone_number": phone_number,
-            "email": email,
-            "role": role,
-            "hire_date": hire_date,
-            "store_id": store_id,
-        }
+        required_values = {k: kwargs.get(k) for k in required_cols}
         optional_values = {}
+        optional_values.update({k: kwargs[k] for k in optional_cols if k in kwargs})
 
-        # The function calculates these values
+        # These values are calculated by the function
         fill_in = {
             "employee_id": "EMP-1{employee_id:03}".format(
                 employee_id=max(
@@ -1610,21 +1486,20 @@ class create_employee(Tool):
             "status": "active",
         }
 
-        # Raise an error if any required values are missing
+        # Throw an error if any of the required values are missing
         if any([required_values[k] is None for k in required_values.keys()]):
-            payload = {
-                "error": "required values not sent: "
-                + ", ".join(
-                    [k for k in required_values.values() if required_values[k] is None]
-                )
-            }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {
+                    "error": "required values not sent: "
+                    + ", ".join(
+                        [k for k in required_values if required_values[k] is None]
+                    )
+                },
+                indent=2,
             )
-            return out
 
-        # This represents the order of items in the database
-        # While not crucial due to the unordered nature of dictionaries, having items in a consistent order can facilitate validation
+        # This is the order that the items appear in the database
+        # May not be necessary since dictionaries are unordered, but it can make valiation easier if the items appear in the same order everytime
         col_order = [
             "employee_id",
             "name",
@@ -1636,23 +1511,24 @@ class create_employee(Tool):
             "status",
         ]
 
-        # Arrange the items
+        # Order the items
         row = required_values | optional_values | fill_in
         row_final = OrderedDict()
         for k in col_order:
             row_final[k] = row[k]
 
-        # Insert into the database
+        # Add to the database
         employees.append(json.dumps(row_final, indent=2))
-        payload = row_final
-        out = json.dumps(payload, indent=2)
-        return out
+
+        # Return the whole row for reference
+        return json.dumps(row_final, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createEmployee",
+                "name": "create_employee",
                 "description": "Creates a new employee record",
                 "parameters": {
                     "type": "object",
@@ -1690,31 +1566,30 @@ class create_employee(Tool):
 
 class remove_employee(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None) -> str:
-        employees = data.get("employees", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employees = data.get("employees", [])
+
+        employee_id = kwargs.get("employee_id")
 
         if employee_id is None:
-            payload = {"error": "employee_id must be sent"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "employee_id must be sent"}, indent=2)
 
-        for employee in employees.values():
+        for employee in employees:
             if employee["employee_id"] == employee_id:
                 del employee
-                payload = {"success": f"Removed employee: {employee_id}"}
-                out = json.dumps(
-                    payload, indent=2
+
+                return json.dumps(
+                    {"success": "Removed employee: {}".format(employee_id)}, indent=2
                 )
-                return out
-        payload = {"error": "No employee found"}
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps({"error": "No employee found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RemoveEmployee",
+                "name": "remove_employee",
                 "description": "Removes an employee record",
                 "parameters": {
                     "type": "object",
@@ -1731,25 +1606,13 @@ class remove_employee(Tool):
 
 class find_employees(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        employee_id: str = None,
-        phone_number: str = None,
-        membership_level: str = None,
-        birthdate: str = None,
-        opt_in_marketing: bool = None,
-        status: str = None,
-        role: str = None,
-        store_id: str = None,
-        name: str = None,
-        email: str = None,
-        address: str = None,
-    ) -> str:
-        employees = data.get("employees", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employees = data.get("employees", [])
 
-        # If a customer id is provided, it will take precedence over all other criteria
+        # If customer id is sent, then it will override all other criteria
+        employee_id = kwargs.get("employee_id")
 
-        # These columns will match precisely with the provided value
+        # These columns will be matched exactly to the value sent
         exact_match_cols = [
             "phone_number",
             "membership_level",
@@ -1759,33 +1622,19 @@ class find_employees(Tool):
             "role",
             "store_id",
         ]
-        exact_match_values = {
-            "phone_number": phone_number,
-            "membership_level": membership_level,
-            "birthdate": birthdate,
-            "opt_in_marketing": opt_in_marketing,
-            "status": status,
-            "role": role,
-            "store_id": store_id,
-        }
+        exact_match_values = {k: kwargs.get(k) for k in exact_match_cols}
 
-        # These columns will match as long as the database field includes the provided value
+        # These columns will be matched as long as the database field contains the sent value
         approximate_match_cols = ["name", "email", "address"]
-        approximate_match_values = {
-            "name": name,
-            "email": email,
-            "address": address,
-        }
+        approximate_match_values = {k: kwargs.get(k) for k in approximate_match_cols}
 
         matches = []
-        for employee in employees.values():
-            # customer_id is prioritized
+        for employee in employees:
+            # customer_id takes priority
             if (employee_id is not None) and (employee["employee_id"] == employee_id):
-                payload = employee
-                out = json.dumps(payload, indent=2)
-                return out
+                return json.dumps(employee, indent=2)
 
-            # Add to the return list if all provided criteria align
+            # If all sent criteria match, then add it to the return list
             elif all(
                 [
                     exact_match_values[k] == employee[k]
@@ -1800,15 +1649,15 @@ class find_employees(Tool):
                 ]
             ):
                 matches.append(employee)
-        payload = matches
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(matches, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindEmployees",
+                "name": "find_employees",
                 "description": "Finds employees matching the sent criteria. Returns an empty list if there are none",
                 "parameters": {
                     "type": "object",
@@ -1853,29 +1702,17 @@ class find_employees(Tool):
 
 class update_employee(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        employee_id: str = None,
-        timestamp: str = None,
-        name: str = None,
-        phone_number: str = None,
-        email: str = None,
-        hire_date: str = None,
-        status: str = None,
-        role: str = None
-    ) -> str:
-        employees = data.get("employees", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employees = data.get("employees", [])
 
-        # These parameters are essential for updates
-        row_id = employee_id
-        timestamp = timestamp
+        # These parameters are mandatory for updates
+        row_id = kwargs.get("employee_id")
+        timestamp = kwargs.get("timestamp")
 
         if (row_id is None) or (timestamp is None):
-            payload = {"error": "employee_id and timestamp must be sent"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "employee_id and timestamp must be sent"})
 
-        # These parameters are being submitted for the update
+        # These are the parameters being sent for update
         updatable_cols = [
             "name",
             "phone_number",
@@ -1884,35 +1721,27 @@ class update_employee(Tool):
             "status",
             "role",
         ]
-        updating_values = {
-            "name": name,
-            "phone_number": phone_number,
-            "email": email,
-            "hire_date": hire_date,
-            "status": status,
-            "role": role
-        }
+        updating_values = {k: kwargs.get(k) for k in updatable_cols}
 
-        for employee in employees.values():
+        for employee in employees:
             if employee["employee_id"] == row_id:
                 for col, value in updating_values.items():
-                    # Revise any provided values
+                    # Update any sent values
                     if value is not None:
                         employee[col] = value
 
                 employee["updated_at"] = timestamp
-                payload = employee
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": "no matching records found"}
-        out = json.dumps(payload)
-        return out
+
+                return json.dumps(employee, indent=2)
+
+        return json.dumps({"error": "no matching records found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateEmployee",
+                "name": "update_employee",
                 "description": "Creates a new employee record",
                 "parameters": {
                     "type": "object",
@@ -1949,22 +1778,13 @@ class update_employee(Tool):
 
 class create_inventory(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        sku: str = None,
-        store_id: str = None,
-        quantity: int = None,
-        reserved_quantity: int = None,
-        reorder_level: int = None,
-        safety_stock: int = None,
-        location: str = None,
-        timestamp: str = None
-    ) -> str:
-        inventory = data.get("inventory", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        inventory = data.get("inventory", [])
 
-        # A timestamp is required for database records
+        # Timestamp needs to be sent for database records
+        timestamp = kwargs.get("timestamp")
 
-        # These values are required to be sent
+        # These values must be sent
         required_cols = [
             "sku",
             "store_id",
@@ -1975,21 +1795,14 @@ class create_inventory(Tool):
             "location",
         ]
 
-        # Default values will apply if these are not provided
+        # These values have defaults if not sent
         optional_cols = []
 
-        required_values = {
-            "sku": sku,
-            "store_id": store_id,
-            "quantity": quantity,
-            "reserved_quantity": reserved_quantity,
-            "reorder_level": reorder_level,
-            "safety_stock": safety_stock,
-            "location": location,
-        }
+        required_values = {k: kwargs.get(k) for k in required_cols}
         optional_values = {}
+        optional_values.update({k: kwargs[k] for k in optional_cols if k in kwargs})
 
-        # The function computes these values
+        # These values are calculated by the function
         if required_values["quantity"] > required_values["reorder_level"]:
             status = "in_stock"
         elif required_values["quantity"] > required_values["safety_stock"]:
@@ -1998,7 +1811,7 @@ class create_inventory(Tool):
             status = "critical"
         fill_in = {
             "id": "INV-{inv_id:04}".format(
-                inv_id=max([int(x["id"].split("-")[1][1:]) for x in inventory.values()]) + 1
+                inv_id=max([int(x["id"].split("-")[1][1:]) for x in inventory]) + 1
             ),
             "created_at": timestamp,
             "updated_at": timestamp,
@@ -2006,20 +1819,20 @@ class create_inventory(Tool):
             "last_stock_count": timestamp[:10],
         }
 
-        # Raise an error if any required values are absent
+        # Throw an error if any of the required values are missing
         if any([required_values[k] is None for k in required_values.keys()]):
-            payload = {
-                "error": "required values not sent: "
-                + ", ".join([k for k in required_values.values() if required_values[k] is None])
-            }
-            out = json.dumps(
-                payload,
+            return json.dumps(
+                {
+                    "error": "required values not sent: "
+                    + ", ".join(
+                        [k for k in required_values if required_values[k] is None]
+                    )
+                },
                 indent=2,
             )
-            return out
 
-        # This indicates the sequence of items in the database
-        # Although not essential due to the unordered nature of dictionaries, maintaining the same order can simplify validation
+        # This is the order that the items appear in the database
+        # May not be necessary since dictionaries are unordered, but it can make valiation easier if the items appear in the same order everytime
         col_order = [
             "id",
             "sku",
@@ -2035,24 +1848,25 @@ class create_inventory(Tool):
             "updated_at",
         ]
 
-        # Arrange the items
+        # Order the items
         row = required_values | optional_values | fill_in
         row_final = OrderedDict()
         for k in col_order:
             row_final[k] = row[k]
 
-        # Insert into the database
+        # Add to the database
         inventory.append(json.dumps(row_final, indent=2))
-        payload = row_final
-        out = json.dumps(payload, indent=2)
-        return out
+
+        # Return the whole row for reference
+        return json.dumps(row_final, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createInventory",
-                "description": "Adds a new inventory item to the store. This is for items the store has never stocked before, to update the quantity of an existing item, use UpdateStockQuantity",
+                "name": "create_inventory",
+                "description": "Adds a new inventory item to the store. This is for items the store has never stocked before, to update the quantity of an existing item, use update_stock_quantity",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -2069,19 +1883,19 @@ class create_inventory(Tool):
                             "description": "The id of the store adding the inventory",
                         },
                         "quantity": {
-                            "type": "integer",
+                            "type": "int",
                             "description": "The amount that the store starts with",
                         },
                         "reserved_quantity": {
-                            "type": "integer",
+                            "type": "int",
                             "description": "The amount in reserve",
                         },
                         "reorder_level": {
-                            "type": "integer",
+                            "type": "int",
                             "description": "The amount to start reordering products",
                         },
                         "safety_stock": {
-                            "type": "integer",
+                            "type": "int",
                             "description": "The amount to consider critical stock",
                         },
                         "location": {
@@ -2096,30 +1910,31 @@ class create_inventory(Tool):
 
 class remove_inventory(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], inv_id: str = None) -> str:
-        inventory = data.get("inventory", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        inventory = data.get("inventory", [])
+
+        inv_id = kwargs.get("inv_id")
 
         if inv_id is None:
-            payload = {"error": "inv_id must be sent"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "inv_id must be sent"}, indent=2)
 
-        for item in inventory.values():
+        for item in inventory:
             if item["id"] == inv_id:
                 del item
-                payload = {"success": f"Removed item: {inv_id}"}
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": "No item found"}
-        out = json.dumps(payload, indent=2)
-        return out
+
+                return json.dumps(
+                    {"success": "Removed item: {}".format(inv_id)}, indent=2
+                )
+
+        return json.dumps({"error": "No item found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "removeInventory",
-                "description": "Removes an item from the store. This is for completely removing an item, to set to 0, use UpdateStockQuantity",
+                "name": "remove_inventory",
+                "description": "Removes an item from the store. This is for completely removing an item, to set to 0, use update_stock_quantity",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -2135,36 +1950,20 @@ class remove_inventory(Tool):
 
 class find_items(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        id: str = None,
-        sku: str = None,
-        store_id: str = None,
-        status: str = None,
-        last_stock_count: str = None,
-        location: str = None
-    ) -> str:
-        inventory = data.get("inventory", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        inventory = data.get("inventory", [])
 
-        # These columns will match precisely with the provided value
+        # These columns will be matched exactly to the value sent
         exact_match_cols = ["id", "sku", "store_id", "status", "last_stock_count"]
-        exact_match_values = {
-            "id": id,
-            "sku": sku,
-            "store_id": store_id,
-            "status": status,
-            "last_stock_count": last_stock_count
-        }
+        exact_match_values = {k: kwargs.get(k) for k in exact_match_cols}
 
-        # These columns will match as long as the database field has the provided value
+        # These columns will be matched as long as the database field contains the sent value
         approximate_match_cols = ["location"]
-        approximate_match_values = {
-            "location": location
-        }
+        approximate_match_values = {k: kwargs.get(k) for k in approximate_match_cols}
 
         matches = []
-        for item in inventory.values():
-            # Include in the return list if all provided criteria match
+        for item in inventory:
+            # If all sent criteria match, then add it to the return list
             if all(
                 [
                     exact_match_values[k] == item[k]
@@ -2179,15 +1978,15 @@ class find_items(Tool):
                 ]
             ):
                 matches.append(item)
-        payload = matches
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(matches, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindItems",
+                "name": "find_items",
                 "description": "Finds items matching the sent criteria. Returns an empty list if there are none",
                 "parameters": {
                     "type": "object",
@@ -2224,31 +2023,13 @@ class find_items(Tool):
 
 class create_product(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        sku: str,
-        name: str,
-        category: str,
-        price: float,
-        description: str,
-        supplier_id: int,
-        weight_kg: float,
-        dimensions_cm: str,
-        brand: str,
-        cost: float,
-        barcode: str,
-        tax_rate: float,
-        timestamp: str = None,
-        is_discountable: bool = False,
-        status: str = "active",
-        expiry_date: str = None,
-        discount_rate: float = 0.0,
-    ) -> str:
-        products = data.get("products", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        products = data.get("products", [])
 
-        # A timestamp must be included for database entries
+        # Timestamp needs to be sent for database records
+        timestamp = kwargs.get("timestamp")
 
-        # These values are required to be provided
+        # These values must be sent
         required_cols = [
             "sku",
             "name",
@@ -2264,47 +2045,35 @@ class create_product(Tool):
             "tax_rate",
         ]
 
-        # Default values will apply if these are not provided
+        # These values have defaults if not sent
         optional_cols = ["is_discountable", "status", "expiry_date", "discount_rate"]
 
-        required_values = {
-            "sku": sku,
-            "name": name,
-            "category": category,
-            "price": price,
-            "description": description,
-            "supplier_id": supplier_id,
-            "weight_kg": weight_kg,
-            "dimensions_cm": dimensions_cm,
-            "brand": brand,
-            "cost": cost,
-            "barcode": barcode,
-            "tax_rate": tax_rate,
-        }
+        required_values = {k: kwargs.get(k) for k in required_cols}
         optional_values = {
-            "is_discountable": is_discountable,
-            "status": status,
-            "expiry_date": expiry_date,
-            "discount_rate": discount_rate,
+            "is_discountable": False,
+            "status": "active",
+            "expiry_date": None,
+            "discount_rate": 0.0,
         }
+        optional_values.update({k: kwargs[k] for k in optional_cols if k in kwargs})
 
-        # The function computes these values
+        # These values are calculated by the function
         fill_in = {"created_at": timestamp, "updated_at": timestamp}
 
-        # Raise an error if any required values are missing
+        # Throw an error if any of the required values are missing
         if any([required_values[k] is None for k in required_values.keys()]):
-            payload = {
-                "error": "required values not sent: "
-                + ", ".join([k for k in required_values.values() if required_values[k] is None])
-            }
-            out = json.dumps(
-                payload,
+            return json.dumps(
+                {
+                    "error": "required values not sent: "
+                    + ", ".join(
+                        [k for k in required_values if required_values[k] is None]
+                    )
+                },
                 indent=2,
             )
-            return out
 
-        # This represents the order of items in the database
-        # While not crucial due to the unordered nature of dictionaries, having items in a consistent order can facilitate validation
+        # This is the order that the items appear in the database
+        # May not be necessary since dictionaries are unordered, but it can make valiation easier if the items appear in the same order everytime
         col_order = [
             "sku",
             "name",
@@ -2326,23 +2095,24 @@ class create_product(Tool):
             "updated_at",
         ]
 
-        # Arrange the items
+        # Order the items
         row = required_values | optional_values | fill_in
         row_final = OrderedDict()
         for k in col_order:
             row_final[k] = row[k]
 
-        # Insert into the database
+        # Add to the database
         products.append(json.dumps(row_final, indent=2))
-        payload = row_final
-        out = json.dumps(payload, indent=2)
-        return out
+
+        # Return the whole row for reference
+        return json.dumps(row_final, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateProduct",
+                "name": "create_product",
                 "description": "Adds a new product",
                 "parameters": {
                     "type": "object",
@@ -2360,7 +2130,7 @@ class create_product(Tool):
                             "description": "The category of the product. Ex: Electronics",
                         },
                         "price": {
-                            "type": "number",
+                            "type": "float",
                             "description": "The base price the customer pays",
                         },
                         "description": {
@@ -2372,7 +2142,7 @@ class create_product(Tool):
                             "description": "The supplier id of the supplier that offers the product",
                         },
                         "weight_kg": {
-                            "type": "number",
+                            "type": "float",
                             "description": "The weight in kilos of the item",
                         },
                         "dimensions_cm": {
@@ -2384,7 +2154,7 @@ class create_product(Tool):
                             "description": "The brand of the product",
                         },
                         "cost": {
-                            "type": "number",
+                            "type": "string",
                             "description": "The cost the store pays for the product",
                         },
                         "barcode": {
@@ -2392,15 +2162,15 @@ class create_product(Tool):
                             "description": "The barcode of the product",
                         },
                         "tax_rate": {
-                            "type": "number",
+                            "type": "string",
                             "description": "The tax rate of the product",
                         },
                         "is_discountable": {
-                            "type": "boolean",
+                            "type": "bool",
                             "description": "OPTIONAL. If the product has an active discount. Ensure that the promotions table is updated with this information. Defaults to False",
                         },
                         "discount_rate": {
-                            "type": "number",
+                            "type": "float",
                             "description": "OPTIONAL. The rate the product can be discounted at. Ensure that the promotions table is updated with this information. Defaults to 0",
                         },
                         "expiry_date": {
@@ -2408,8 +2178,7 @@ class create_product(Tool):
                             "description": "OPTIONAL. If this product has an expiration. Defaults to None",
                         },
                         "status": {
-                            "type": "string",
-                            "enum": ["active", "inactive"],
+                            "type": "status",
                             "description": "OPTIONAL. Status of the product. Defaults to 'active'",
                         },
                     },
@@ -2420,29 +2189,30 @@ class create_product(Tool):
 
 class remove_product(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], sku: str = None) -> str:
-        products = data.get("products", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        products = data.get("products", [])
+
+        sku = kwargs.get("sku")
 
         if sku is None:
-            payload = {"error": "sku must be sent"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "sku must be sent"}, indent=2)
 
-        for product in products.values():
+        for product in products:
             if product["sku"] == sku:
                 del product
-                payload = {"success": f"Removed product: {sku}"}
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": "No sku found"}
-        out = json.dumps(payload, indent=2)
-        return out
+
+                return json.dumps(
+                    {"success": "Removed product: {}".format(sku)}, indent=2
+                )
+
+        return json.dumps({"error": "No sku found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RemoveProduct",
+                "name": "remove_product",
                 "description": "Removes a product from the products table. This means that the supplier no longer offers it. Use remove_inventory if it is only being removed from a single store.",
                 "parameters": {
                     "type": "object",
@@ -2459,24 +2229,10 @@ class remove_product(Tool):
 
 class find_products(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        sku: str = None,
-        category: str = None,
-        is_discountable: bool = None,
-        supplier_id: int = None,
-        brand: str = None,
-        barcode: str = None,
-        status: str = None,
-        expiry_date: str = None,
-        name: str = None,
-        description: str = None,
-        created_at: str = None,
-        updated_at: str = None
-    ) -> str:
-        products = data.get("products", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        products = data.get("products", [])
 
-        # These columns will match precisely with the provided value
+        # These columns will be matched exactly to the value sent
         exact_match_cols = [
             "sku",
             "category",
@@ -2487,29 +2243,15 @@ class find_products(Tool):
             "status",
             "expiry_date",
         ]
-        exact_match_values = {
-            "sku": sku,
-            "category": category,
-            "is_discountable": is_discountable,
-            "supplier_id": supplier_id,
-            "brand": brand,
-            "barcode": barcode,
-            "status": status,
-            "expiry_date": expiry_date,
-        }
+        exact_match_values = {k: kwargs.get(k) for k in exact_match_cols}
 
-        # These columns will match as long as the database field includes the provided value
+        # These columns will be matched as long as the database field contains the sent value
         approximate_match_cols = ["name", "description", "created_at", "updated_at"]
-        approximate_match_values = {
-            "name": name,
-            "description": description,
-            "created_at": created_at,
-            "updated_at": updated_at,
-        }
+        approximate_match_values = {k: kwargs.get(k) for k in approximate_match_cols}
 
         matches = []
-        for product in products.values():
-            # Add to the return list if all provided criteria align
+        for product in products:
+            # If all sent criteria match, then add it to the return list
             if all(
                 [
                     exact_match_values[k] == product[k]
@@ -2524,15 +2266,15 @@ class find_products(Tool):
                 ]
             ):
                 matches.append(product)
-        payload = matches
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(matches, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindProducts",
+                "name": "find_products",
                 "description": "Finds products matching the sent criteria. Returns an empty list if there are none",
                 "parameters": {
                     "type": "object",
@@ -2546,7 +2288,7 @@ class find_products(Tool):
                             "description": "The category of the item. Will do an exact match",
                         },
                         "is_discountable": {
-                            "type": "boolean",
+                            "type": "bool",
                             "description": "If the product can be discounted. Will do an exact match",
                         },
                         "supplier_id": {
@@ -2593,82 +2335,77 @@ class find_products(Tool):
 
 class get_profit_margins(Tool):
     @staticmethod
-    def GetDetailedItemPrice(data, **kwargs):
-        pass
+    def get_detailed_item_price(data, **kwargs):
         sku = kwargs.get("sku")
         barcode = kwargs.get("barcode")
 
         if (sku is None) and (barcode is None):
-            payload = {"error": "sku or barcode must be sent"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "sku or barcode must be sent"}, indent=2)
 
-        products = data.get("products", {}).values()
+        products = data.get("products", [])
 
-        for product in products.values():
+        for product in products:
             if ((sku is not None) and (product["sku"] == sku)) or (
                 (barcode is not None) and (product["barcode"] == barcode)
             ):
-                #Retrieve the sku if a barcode was utilized
+                # Get the sku if barcode was used
                 sku = product["sku"]
 
-                #Apply the discount rate for discountable products; otherwise, assign 0
+                # Use the discount rate if the product is marked as discountable, otherwise set as 0
                 discount_rate = (
                     product["discount_rate"] if product["is_discountable"] else 0.0
                 )
 
-                #Determine the discount value
-                #discount = round(product["price"] * discount_rate, 2)
+                # Calculate the discount amount
+                # discount = round(product["price"] * discount_rate, 2)
 
                 tax_rate = product["tax_rate"]
-                payload = {
+
+                return json.dumps(
+                    {
                         "sku": sku,
                         "unit_price": product["price"],
                         "discount_rate": discount_rate,
                         "tax_rate": tax_rate,
                         "cost": product["cost"],
-                    }
-                out = json.dumps(
-                    payload, indent=2,
+                    },
+                    indent=2,
                 )
-                return out
-        payload = {"error": "product not found"}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"error": "product not found"})
 
     @staticmethod
-    def invoke(data: dict[str, Any], sku_list: str = None, ignore_discounts: bool = True) -> str:
-        pass
-        data.get("products", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        products = data.get("products", [])
 
+        sku_list = kwargs.get("sku_list")
         if isinstance(sku_list, str):
             sku_list = json.loads(sku_list)
+        ignore_discounts = kwargs.get("ignore_discounts", True)
 
         if sku_list is None:
-            payload = {"error": "sku_list must be sent"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "sku_list must be sent"}, indent=2)
 
         out = []
         for sku in sku_list:
-            # Retrieve the pricing information for the item
-            line_item_info = get_profit_margins.GetDetailedItemPrice(data, sku=sku)
+            # Get the price info for the item
+            line_item_info = get_profit_margins.get_detailed_item_price(data, sku=sku)
             line_item_info = json.loads(line_item_info)
 
-            # Extract values
+            # Unpack values
             sku = line_item_info["sku"]
             unit_price = line_item_info["unit_price"]
             unit_tax_rate = line_item_info["tax_rate"]
             discount_rate = line_item_info["discount_rate"]
             cost = line_item_info["cost"]
 
-            # Compute totals for line items
-            # TODO: further development needed for discount to accommodate various discount types
+            # Calculate line item totals
+            # TODO: discount needs more work to account for different discount types
             unit_discount = unit_price * discount_rate
             item_sub_total = unit_price - unit_discount
-            round(unit_discount, 2)
+            item_discount = round(unit_discount, 2)
             item_tax_amount = round(item_sub_total * unit_tax_rate, 2)
-            round(item_sub_total + item_tax_amount, 2)
+            item_final_amount = round(item_sub_total + item_tax_amount, 2)
 
             if ignore_discounts:
                 revenue = unit_price
@@ -2689,15 +2426,15 @@ class get_profit_margins(Tool):
                     "profit_margin_percent": profit_margin_percent,
                 }
             )
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetProfitMargins",
+                "name": "get_profit_margins",
                 "description": "Gets the per unit profit margins for items.",
                 "parameters": {
                     "type": "object",
@@ -2707,7 +2444,7 @@ class get_profit_margins(Tool):
                             "description": "A json list of the skus to get the profit margins for",
                         },
                         "ignore_discounts": {
-                            "type": "boolean",
+                            "type": "bool",
                             "description": "OPTIONAL. To calculate profits on the discounted total or not. Defaults to True",
                         },
                     },
@@ -2718,16 +2455,17 @@ class get_profit_margins(Tool):
 
 class get_top_selling_items(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], n_values: int = None, store_id: str = None, payment_method: str = None, customer_id: str = None) -> str:
-        transactions = data.get("transactions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        transactions = data.get("transactions", [])
+
+        n_values = kwargs.get("n_values")
 
         filter_cols = ["store_id", "payment_method", "customer_id"]
-        params_dict = {k: v for k, v in locals().items() if k != "data"}
-        filter_values = {k: params_dict.get(k) for k in filter_cols if params_dict.get(k) is not None}
+        filter_values = {k: kwargs.get(k) for k in filter_cols if k in kwargs}
 
         item_tracker = defaultdict(int)
-        for transaction in transactions.values():
-            # Apply filters based on any provided values
+        for transaction in transactions:
+            # Filter on any sent values
             if all([filter_values[k] == transaction[k] for k in filter_values.keys()]):
                 line_items = transaction["line_items"]
                 for item in line_items:
@@ -2735,21 +2473,21 @@ class get_top_selling_items(Tool):
 
         out = OrderedDict()
 
-        # Arrange the values by total and retrieve the top n items
+        # Sort the values by total and get the top n items
         sort = sorted(item_tracker, key=item_tracker.get, reverse=True)
         if n_values is not None:
             sort = sort[:n_values]
-        for sku in sort:
+        for sku in sorted(item_tracker, key=item_tracker.get, reverse=True)[:n_values]:
             out[sku] = item_tracker[sku]
-        payload = out
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(out, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetTopSellingItems",
+                "name": "get_top_selling_items",
                 "description": "Gets top selling items. Can filter values to narrow the scope",
                 "parameters": {
                     "type": "object",
@@ -2773,9 +2511,9 @@ class get_top_selling_items(Tool):
 
 
 TOOLS = [
-    FindDiscountableProducts(),
-    UpdateStockQuantity(),
-    CheckLowStockItems(),
+    find_discountable_products(),
+    update_stock_quantity(),
+    check_low_stock_items(),
     make_transaction(),
     find_transaction(),
     cancel_promotion(),
@@ -2797,7 +2535,7 @@ TOOLS = [
     find_products(),
     get_profit_margins(),
     get_top_selling_items(),
-    FindCheckOutEmployee(),
-    TransactionPriceInfo(),
-    GetDetailedItemPrice(),
+    find_check_out_employee(),
+    transaction_price_info(),
+    get_detailed_item_price()
 ]

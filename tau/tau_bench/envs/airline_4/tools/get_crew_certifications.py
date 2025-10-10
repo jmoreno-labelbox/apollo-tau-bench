@@ -1,7 +1,11 @@
+from __future__ import annotations
 from tau_bench.envs.tool import Tool
 import json
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta  #required for fallback window enlargement
+from decimal import ROUND_HALF_UP, Decimal
 from typing import Any
+import re
+from datetime import date as _date
 
 
 
@@ -12,162 +16,233 @@ def _convert_db_to_list(db):
     return db
 
 class GetCrewCertifications(Tool):
-    """API tool for obtaining crew member certifications and their validity status."""
+    """
+    Read-only access to a crew member's certifications with optional filters.
+
+    Filtering:
+      • certification_code (exact match against the standard code in data['certifications'])
+      • active_on (YYYY-MM-DD): returns records whose [issue_date .. expiry_date] encompasses this day.
+        - expiry_date None/''/'null' is considered open-ended.
+      • include_history: if True with active_on, include both active and inactive; if False, only active.
+
+    Predictable:
+      • Output is sorted by (certification_code, issue_date ASC).
+      • No modifications; consistent formatting/keys.
+    """
+
+    @staticmethod
+    def _is_active_on(
+        issue_date: str | None, expiry_date: str | None, day: str
+    ) -> bool:
+        pass
+        #Accept None/''/'null' as indefinite; all dates are ISO by the nature of upsert.
+        from datetime import date
+
+        d = date.fromisoformat(day)
+        start = date.fromisoformat(issue_date) if issue_date else date.min
+        end = (
+            date.max
+            if expiry_date in (None, "", "null")
+            else date.fromisoformat(expiry_date)
+        )
+        return start <= d <= end
 
     @staticmethod
     def invoke(
         data: dict[str, Any],
-        crew_member_id: str | None = None,
-        employee_code: str | None = None,
+        *,
+        crew_member_id: str,
+        certification_code: str | None = None,
+        active_on: str | None = None,
+        include_history: bool = False
     ) -> str:
-        pass
-        if not crew_member_id and not employee_code:
-            payload = {"error": "Either crew_member_id or employee_code must be provided"}
-            out = json.dumps(
-                payload)
-            return out
+        # Check crew for validity
+        if not crew_member_id:
+            return _json(
+                {"error": "missing_params", "reason": "crew_member_id is required"}
+            )
+        crew = _find_crew_member(data, crew_member_id)
+        if not crew:
+            return _json(
+                {"error": "crew_member_not_found", "crew_member_id": crew_member_id}
+            )
 
-        crew_certifications = data.get("crew_certifications", {}).values()
-        crew_members = data.get("crew_members", {}).values()
+        # Translate certification_code (if given) to the standard one in the master list
+        resolved_code = None
+        if certification_code:
+            cert = _get_cert_by_code(data, certification_code)
+            if not cert:
+                return _json(
+                    {
+                        "error": "certification_not_found",
+                        "certification_code": certification_code,
+                    }
+                )
+            resolved_code = cert.get("certification_code")
 
-        #Confirm the crew member's existence and retrieve their information
-        target_crew_member = None
-        for crew_member in crew_members.values():
-            if (
-                crew_member_id and crew_member.get("crew_member_id") == crew_member_id
-            ) or (employee_code and crew_member.get("employee_code") == employee_code):
-                target_crew_member = crew_member
-                break
+        # Standardize active_on if supplied
+        day = None
+        if active_on not in (None, "", "null"):
+            try:
+                # strict ISO; accept complete ISO datetime by utilizing a helper if needed
+                day = _to_iso_day(active_on)
+                from datetime import date as _date
 
-        if not target_crew_member:
-            search_term = crew_member_id if crew_member_id else employee_code
-            search_type = "crew_member_id" if crew_member_id else "employee_code"
-            payload = {"error": "Crew member not found", search_type: search_term}
-            out = json.dumps(
-                payload)
-            return out
+                _date.fromisoformat(day)
+            except Exception:
+                return _json(
+                    {
+                        "error": "invalid_date_format",
+                        "reason": "active_on must be YYYY-MM-DD",
+                    }
+                )
 
-        #Locate all certifications associated with this crew member
-        crew_member_id_to_search = target_crew_member.get("crew_member_id")
-        matching_certifications = []
+        # Gather and filter
+        rows = []
+        for cc in data.get("crew_certifications", {}).values():
+            cm = (cc.get("crew_member") or {}).get("crew_member_id")
+            cert = cc.get("certification") or {}
+            code = cert.get("certification_code")
 
-        for cert_record in crew_certifications.values():
-            cert_crew_member = cert_record.get("crew_member", {}).values()
-            if cert_crew_member.get("crew_member_id") == crew_member_id_to_search:
-                matching_certifications.append(cert_record)
+            if cm != crew_member_id:
+                continue
+            if resolved_code and code != resolved_code:
+                continue
 
-        if not matching_certifications:
-            payload = {
-                    "crew_member": {
-                        "crew_member_id": target_crew_member.get("crew_member_id"),
-                        "employee_code": target_crew_member.get("employee_code"),
-                        "full_name": f"{target_crew_member.get('first_name', '')} {target_crew_member.get('last_name', '')}".strip(),
-                        "role": target_crew_member.get("role"),
-                    },
-                    "certifications": [],
-                    "certification_summary": {
-                        "total_certifications": 0,
-                        "valid_certifications": 0,
-                        "expired_certifications": 0,
-                        "permanent_certifications": 0,
-                    },
+            i_date = cc.get("issue_date")
+            e_date = cc.get("expiry_date")
+
+            # Implement active_on filter
+            active_flag = None
+            if day:
+                active_flag = GetCrewCertifications._is_active_on(i_date, e_date, day)
+                if not active_flag and not include_history:
+                    continue
+
+            rows.append(
+                {
+                    "crew_certification_id": cc.get("crew_certification_id"),
+                    "crew_member_id": crew_member_id,
+                    "certification_code": code,
+                    "issue_date": i_date,
+                    "expiry_date": e_date,
+                    "active_on": active_flag,  # None if active_on is not supplied
                 }
-            out = json.dumps(
-                payload)
-            return out
+            )
 
-        #Obtain the current date for validity assessments
-        from datetime import date
+        # Predictable sorting
+        rows.sort(
+            key=lambda r: (
+                (r.get("certification_code") or ""),
+                (r.get("issue_date") or ""),
+            )
+        )
 
-        current_date = date(2025, 9, 15)
+        return _json(
+            {
+                "success": True,
+                "crew_member_id": crew_member_id,
+                "certification_code_filter": resolved_code,
+                "active_on": day,
+                "include_history": include_history,
+                "count": len(rows),
+                "results": rows,
+            }
+        )
+        pass
+        #Check crew for validity
+        if not crew_member_id:
+            return _json(
+                {"error": "missing_params", "reason": "crew_member_id is required"}
+            )
+        crew = _find_crew_member(data, crew_member_id)
+        if not crew:
+            return _json(
+                {"error": "crew_member_not_found", "crew_member_id": crew_member_id}
+            )
 
-        #Handle certifications and assess their validity
-        processed_certifications = []
-        valid_count = 0
-        expired_count = 0
-        permanent_count = 0
+        #Translate certification_code (if given) to the standard one in the master list
+        resolved_code = None
+        if certification_code:
+            cert = _get_cert_by_code(data, certification_code)
+            if not cert:
+                return _json(
+                    {
+                        "error": "certification_not_found",
+                        "certification_code": certification_code,
+                    }
+                )
+            resolved_code = cert.get("certification_code")
 
-        for cert_record in matching_certifications:
-            #Generate a record for processed certification
-            processed_cert = dict(cert_record)  #Duplicate the original record
+        #Standardize active_on if supplied
+        day = None
+        if active_on not in (None, "", "null"):
+            try:
+                #strict ISO; accept complete ISO datetime by utilizing a helper if needed
+                day = _to_iso_day(active_on)
+                from datetime import date as _date
 
-            #Assess the validity status
-            expiry_date_str = cert_record.get("expiry_date")
+                _date.fromisoformat(day)
+            except Exception:
+                return _json(
+                    {
+                        "error": "invalid_date_format",
+                        "reason": "active_on must be YYYY-MM-DD",
+                    }
+                )
 
-            if expiry_date_str is None:
-                #Absence of an expiry date indicates permanent certification
-                processed_cert["validity_status"] = "permanent"
-                processed_cert["is_valid"] = True
-                processed_cert["days_until_expiry"] = None
-                permanent_count += 1
-                valid_count += 1
-            else:
-                #Analyze the expiry date and verify its validity
-                try:
-                    expiry_date = datetime.fromisoformat(expiry_date_str).date()
-                    days_until_expiry = (expiry_date - current_date).days
+        #Gather and filter
+        rows = []
+        for cc in data.get("crew_certifications", {}).values():
+            cm = (cc.get("crew_member") or {}).get("crew_member_id")
+            cert = cc.get("certification") or {}
+            code = cert.get("certification_code")
 
-                    if days_until_expiry > 0:
-                        processed_cert["validity_status"] = "valid"
-                        processed_cert["is_valid"] = True
-                        processed_cert["days_until_expiry"] = days_until_expiry
-                        valid_count += 1
+            if cm != crew_member_id:
+                continue
+            if resolved_code and code != resolved_code:
+                continue
 
-                        #Include a warning for certifications nearing expiration
-                        if days_until_expiry <= 30:
-                            processed_cert["validity_status"] = "expiring_soon"
-                            processed_cert["warning"] = (
-                                f"Certification expires in {days_until_expiry} days"
-                            )
-                    else:
-                        processed_cert["validity_status"] = "expired"
-                        processed_cert["is_valid"] = False
-                        processed_cert["days_until_expiry"] = days_until_expiry
-                        processed_cert["expired_days_ago"] = abs(days_until_expiry)
-                        expired_count += 1
+            i_date = cc.get("issue_date")
+            e_date = cc.get("expiry_date")
 
-                except ValueError:
-                    #Date format is not valid
-                    processed_cert["validity_status"] = "unknown"
-                    processed_cert["is_valid"] = False
-                    processed_cert["days_until_expiry"] = None
-                    processed_cert["error"] = "Invalid expiry date format"
+            #Implement active_on filter
+            active_flag = None
+            if day:
+                active_flag = GetCrewCertifications._is_active_on(i_date, e_date, day)
+                if not active_flag and not include_history:
+                    continue
 
-            processed_certifications.append(processed_cert)
+            rows.append(
+                {
+                    "crew_certification_id": cc.get("crew_certification_id"),
+                    "crew_member_id": crew_member_id,
+                    "certification_code": code,
+                    "issue_date": i_date,
+                    "expiry_date": e_date,
+                    "active_on": active_flag,  #None if active_on is not supplied
+                }
+            )
 
-        #Categorize certifications based on their validity status
-        certifications_by_status = {
-            "valid": [],
-            "expiring_soon": [],
-            "expired": [],
-            "permanent": [],
-        }
+        #Predictable sorting
+        rows.sort(
+            key=lambda r: (
+                (r.get("certification_code") or ""),
+                (r.get("issue_date") or ""),
+            )
+        )
 
-        for cert in processed_certifications:
-            status = cert.get("validity_status", "unknown")
-            if status in certifications_by_status:
-                certifications_by_status[status].append(cert)
-
-        #Formulate response
-        response = {
-            "crew_member": {
-                "crew_member_id": target_crew_member.get("crew_member_id"),
-                "employee_code": target_crew_member.get("employee_code"),
-                "full_name": f"{target_crew_member.get('first_name', '')} {target_crew_member.get('last_name', '')}".strip(),
-                "role": target_crew_member.get("role"),
-            },
-            "certification_summary": {
-                "total_certifications": len(processed_certifications),
-                "valid_certifications": valid_count,
-                "expired_certifications": expired_count,
-                "permanent_certifications": permanent_count,
-            },
-            "certifications_by_status": certifications_by_status,
-            "all_certifications": processed_certifications,
-        }
-        payload = response
-        out = json.dumps(payload, indent=2)
-        return out
+        return _json(
+            {
+                "success": True,
+                "crew_member_id": crew_member_id,
+                "certification_code_filter": resolved_code,
+                "active_on": day,
+                "include_history": include_history,
+                "count": len(rows),
+                "results": rows,
+            }
+        )
 
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -175,20 +250,33 @@ class GetCrewCertifications(Tool):
             "type": "function",
             "function": {
                 "name": "GetCrewCertifications",
-                "description": "Get crew member certifications and validity status using either crew member ID or employee code. Includes validity checks and expiry warnings.",
+                "description": (
+                    "List certifications for a crew member with optional filters: certification_code, "
+                    "active_on (YYYY-MM-DD), include_history. Read-only, deterministic, sorted."
+                ),
                 "parameters": {
                     "type": "object",
+                    "additionalProperties": False,
                     "properties": {
                         "crew_member_id": {
                             "type": "string",
-                            "description": "Crew member ID (e.g., 'CM001'). Either this or employee_code must be provided.",
+                            "description": "e.g. CM001",
                         },
-                        "employee_code": {
+                        "certification_code": {
                             "type": "string",
-                            "description": "Employee code (e.g., 'EMP001'). Either this or crew_member_id must be provided.",
+                            "description": "Filter to a specific code (e.g. A320neo)",
+                        },
+                        "active_on": {
+                            "type": "string",
+                            "description": "YYYY-MM-DD; return records active on this date",
+                        },
+                        "include_history": {
+                            "type": "boolean",
+                            "description": "When active_on is given, include inactive too",
+                            "default": False,
                         },
                     },
-                    "required": [],
+                    "required": ["crew_member_id"],
                 },
             },
         }

@@ -1,1044 +1,737 @@
 import json
-from typing import Any
+import re
+from typing import Any, Dict, List
 
-from tau_bench.envs.tool import Tool
+from domains.dto import Tool
 
 FIXED_NOW = "2025-08-06T12:00:00Z"
 
 
+def _err(msg: str) -> str:
+    return json.dumps({"error": msg}, indent=2)
 
 
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
+def _as_id(x: Any) -> str:
+    if x is None:
+        return x
+    if isinstance(x, str):
+        return x
+    if isinstance(x, int):
+        return str(x)
+    if isinstance(x, float) and x.is_integer():
+        return str(int(x))
+    return str(x)
 
 
-def _ws_bucket(data: dict[str, Any], subject_id: str) -> dict[str, Any]:
-    pass
-    return _ws(data).setdefault(subject_id, {"events": []})
-
-
-def _get_org_type(org_id: str) -> str:
-    pass
-    if org_id.endswith("QRS"):
-        return "UAT"
-    if org_id.endswith("DEF"):
-        return "Staging"
-    return "Production"
-
-
-def _ensure_audit_log(data: dict[str, Any]) -> list[dict[str, Any]]:
-    pass
-    if "audit_log" not in data:
-        data["audit_log"] = []
-    return data["audit_log"]
-
-
-def _ws_append(
-    data: dict[str, Any], subject_id: str, event_type: str, payload: dict[str, Any]
-) -> None:
-    pass
-    bucket = _ws_bucket(data, subject_id)
-    bucket["events"].append(
-        {"event_type": event_type, "payload": payload, "ts": FIXED_NOW}
-    )
-
-
-def _append_audit(
-    data: dict[str, Any], event_type: str, subject_id: str, details: dict[str, Any]
-) -> None:
-    pass
-    log = _ensure_audit_log(data)
-    log.append(
-        {
-            "event_type": event_type,
-            "subject_id": subject_id,
-            "details": details,
-            "timestamp": FIXED_NOW,
-            "actor": "SYSTEM",
-        }
-    )
-
-
-def _ws(data: dict[str, Any]) -> dict[str, Any]:
-    pass
-    return data.setdefault("_ws", [])
-
-
-def _eq(a: Any, b: Any) -> bool:
-    """Secure comparison for identifiers (convert both sides to strings)."""
-    pass
-    return str(a) == str(b)
-
-
-def _sid(v: Any) -> str:
-    """Convert any value resembling an id (or subject key) into a string."""
-    pass
-    return str(v)
-
-
-class GetClusterById(Tool):
-    @staticmethod
-    def invoke(data: dict[str, Any], cluster_id: str) -> str:
-        cluster_id = _sid(cluster_id)
-        clusters = data.get("aws_elasticache_clusters", {}).values()
-        cluster = next((c for c in clusters.values() if c.get("cluster_id") == cluster_id), None)
-        payload = cluster or {"error": f"cluster {cluster_id} not found"}
-        out = json.dumps(
-            payload, indent=2
-        )
+def _coerce_ids_in(obj: Any) -> Any:
+    """Recursively stringify common *_id fields inside dicts/lists."""
+    if isinstance(obj, list):
+        return [_coerce_ids_in(x) for x in obj]
+    if isinstance(obj, dict):
+        out = {}
+        for k, v in obj.items():
+            if k.endswith("_id") or k in {"cart_item_id", "category_id"}:
+                out[k] = _as_id(v)
+            else:
+                out[k] = _coerce_ids_in(v)
         return out
+    return obj
+
+
+class GetContactByEmail(Tool):
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def invoke(data: Dict[str, Any], email: Any) -> str:
+        contacts = data.get("contacts", [])
+        match = next((c for c in contacts if c.get("email") == email), None)
+        return json.dumps(match or {}, indent=2)
+
+    @staticmethod
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetClusterById",
-                "description": "Retrieve ElastiCache cluster by ID.",
+                "name": "get_contact_by_email",
+                "description": "Return a contact by exact email (includes contact_id and account_id).",
                 "parameters": {
                     "type": "object",
-                    "properties": {"cluster_id": {"type": "string"}},
-                    "required": ["cluster_id"],
+                    "properties": {"email": {"type": "string"}},
+                    "required": ["email"],
                 },
             },
         }
 
 
-class ListClustersByStatus(Tool):
+class GetProductByName(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], status: str) -> str:
-        clusters = data.get("aws_elasticache_clusters", {}).values()
-        result = [c for c in clusters.values() if c.get("status") == status]
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], name: Any) -> str:
+        products = data.get("products", [])
+        match = next((p for p in products if p.get("name") == name), None)
+        return json.dumps(match or {}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "listClustersByStatus",
-                "description": "List ElastiCache clusters by status.",
+                "name": "get_product_by_name",
+                "description": "Return a product by exact display name.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"status": {"type": "string"}},
-                    "required": ["status"],
+                    "properties": {"name": {"type": "string"}},
+                    "required": ["name"],
                 },
             },
         }
 
 
-class ValidateClusterEndpoint(Tool):
+class ListProductsInCategory(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], cluster_id: str) -> str:
-        cluster_id = _sid(cluster_id)
-        clusters = data.get("aws_elasticache_clusters", {}).values()
-        cl = next((c for c in clusters.values() if c.get("cluster_id") == cluster_id), None)
-        if not cl:
-            payload = {"error": f"cluster {cluster_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        ok = cl.get("status") == "available" and cl.get("endpoint_url") not in (
-            None,
-            "NULL",
-            "",
-        )
-        payload = {
-            "cluster_id": cluster_id,
-            "valid": ok,
-            "endpoint_url": cl.get("endpoint_url"),
-        }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+    def invoke(data: Dict[str, Any], category_id: Any) -> str:
+        category_id = _as_id(category_id)
+        products = data.get("products", [])
+        rows = [p for p in products if _as_id(p.get("category_id")) == category_id]
+        return json.dumps({"products": rows}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ValidateClusterEndpoint",
-                "description": "Validate cluster is available and has a usable endpoint.",
+                "name": "list_products_in_category",
+                "description": "List products belonging to a category_id.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"cluster_id": {"type": "string"}},
-                    "required": ["cluster_id"],
+                    "properties": {"category_id": {"type": "string"}},
+                    "required": ["category_id"],
                 },
             },
         }
 
 
-class ListSecurityGroupRules(Tool):
+class GetPricebookByName(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], security_group_id: str) -> str:
-        security_group_id = _sid(security_group_id)
-        rules = data.get("aws_security_group_rules", {}).values()
-        result = [r for r in rules.values() if r.get("security_group_id") == security_group_id]
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], name: Any) -> str:
+        pricebooks = data.get("pricebooks", [])
+        match = next((pb for pb in pricebooks if pb.get("pricebook_name") == name), None)
+        return json.dumps(match or {}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListSecurityGroupRules",
-                "description": "List SG rules for a given security group.",
+                "name": "get_pricebook_by_name",
+                "description": "Resolve a pricebook by name.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"security_group_id": {"type": "string"}},
-                    "required": ["security_group_id"],
+                    "properties": {"name": {"type": "string"}},
+                    "required": ["name"],
                 },
             },
         }
 
 
-class HardenRedisSecurityGroup(Tool):
+class GetOfferByCode(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], security_group_id: str, allowed_cidr_list: list[str]
-    ) -> str:
-        security_group_id = _sid(security_group_id)
-        rules = data.get("aws_security_group_rules", {}).values()
-        changed = []
-        for r in list(rules):
-            if (
-                r.get("security_group_id") == security_group_id
-                and r.get("port") == 6379
-                and r.get("protocol") == "TCP"
-                and r.get("source_ip") == "0.0.0.0/0"
-            ):
-                rules.remove(r)
-                changed.append(r.get("rule_id"))
-        existing = {
-            (x.get("port"), x.get("protocol"), x.get("source_ip"))
-            for x in rules.values() if x.get("security_group_id") == security_group_id
-        }
-        for cidr in allowed_cidr_list:
-            key = (6379, "TCP", cidr)
-            if key not in existing:
-                new_rule_id = f"sgr-{security_group_id}-{cidr.replace('/', '_')}"
-                rules.append(
-                    {
-                        "rule_id": new_rule_id,
-                        "security_group_id": security_group_id,
-                        "port": 6379,
-                        "protocol": "TCP",
-                        "source_ip": cidr,
-                        "description": "Allow Redis access from approved CIDR",
-                    }
-                )
-                changed.append(new_rule_id)
-        payload = {"security_group_id": security_group_id, "changed": changed}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
-        return out
+    def invoke(data: Dict[str, Any], code: Any) -> str:
+        offers = data.get("offers", [])
+        match = next((o for o in offers if o.get("offer_code") == code), None)
+        return json.dumps(match or {}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "HardenRedisSecurityGroup",
-                "description": "Remove 0.0.0.0/0 Redis access and add approved CIDRs for port 6379/TCP.",
+                "name": "get_offer_by_code",
+                "description": "Return an offer by code (discount_type=PERCENTAGE|FIXED_AMOUNT).",
+                "parameters": {
+                    "type": "object",
+                    "properties": {"code": {"type": "string"}},
+                    "required": ["code"],
+                },
+            },
+        }
+
+
+class CreateCart(Tool):
+    @staticmethod
+    def invoke(data: Dict[str, Any], contact_id: Any) -> str:
+        contact_id = _as_id(contact_id)
+        if not contact_id:
+            return _err("contact_id required.")
+
+        contacts = data.get("contacts", [])
+        contact = next((c for c in contacts if _as_id(c.get("contact_id")) == contact_id), None)
+        if not contact:
+            return _err("Contact not found.")
+
+        carts = data.get("carts", [])
+        numeric_ids = [int(c["cart_id"]) for c in carts if str(c.get("cart_id", "")).isdigit()]
+        next_id = str(max(numeric_ids or [0]) + 1)
+
+        cart = {
+            "cart_id": next_id,
+            "contact_id": contact_id,
+            "account_id": contact.get("account_id"),
+            "applied_offer_id": None,
+            "override_pricebook_id": None,
+            "last_updated_at": FIXED_NOW,
+        }
+        carts.append(cart)
+        data["carts"] = carts
+        return json.dumps(cart, indent=2)
+
+    @staticmethod
+    def get_info() -> Dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "create_cart",
+                "description": "Create a cart for a contact; system auto-assigns the next numeric cart_id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "security_group_id": {"type": "string"},
-                        "allowed_cidr_list": {
-                            "type": "array",
-                            "items": {"type": "string"},
+                        "contact_id": {
+                            "type": "string",
+                            "description": "Existing contact_id.",
                         },
                     },
-                    "required": ["security_group_id", "allowed_cidr_list"],
+                    "required": ["contact_id"],
                 },
             },
         }
 
 
-class LinkCacheToOrg(Tool):
+class AddItemToCart(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], org_id: str, cluster_id: str, partition_key: str
-    ) -> str:
-        org_id, cluster_id = _sid(org_id), _sid(cluster_id)
-        partition_key = _sid(partition_key)
-        clusters = data.get("aws_elasticache_clusters", {}).values()
-        cl = next((c for c in clusters.values() if c.get("cluster_id") == cluster_id), None)
-        if not cl:
-            payload = {"error": f"cluster {cluster_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        if not (
-            cl.get("status") == "available"
-            and cl.get("endpoint_url") not in (None, "NULL", "")
-        ):
-            payload = {"error": "cluster not usable"}
-            out = json.dumps(payload, indent=2)
-            return out
-        settings = data.get("custom_settings", {}).values()
-        url_setting = next(
+    def invoke(data: Dict[str, Any], cart_id: Any, product_id: Any, quantity: Any) -> str:
+        cart_id = _as_id(cart_id)
+        product_id = _as_id(product_id)
+        if not cart_id or not product_id or quantity is None:
+            return _err("cart_id, product_id, quantity are required.")
+        qty = int(quantity)
+        if qty <= 0:
+            return _err("Quantity must be positive.")
+
+        carts = data.get("carts", [])
+        if not any(_as_id(c.get("cart_id")) == cart_id for c in carts):
+            return _err("Cart not found.")
+
+        products = data.get("products", [])
+        if not any(_as_id(p.get("product_id")) == product_id for p in products):
+            return _err("Product not found.")
+
+        items = data.get("cart_items", [])
+        existing = next(
             (
-                s
-                for s in settings.values() if s.get("org_id") == org_id
-                and s.get("setting_name") == "CacheAPI.ExternalSystemURL"
+                ci
+                for ci in items
+                if _as_id(ci.get("cart_id")) == cart_id
+                and _as_id(ci.get("product_id")) == product_id
             ),
             None,
         )
-        if url_setting:
-            url_setting["value"] = cl.get("endpoint_url")
-        pk_setting = next(
-            (
-                s
-                for s in settings.values() if s.get("org_id") == org_id
-                and s.get("setting_name") == "CacheAPI.ExternalSystemPartitionKey"
-            ),
-            None,
+        if existing:
+            existing["quantity"] = int(existing.get("quantity", 0)) + qty
+            data["cart_items"] = items
+            return json.dumps({"cart_item_id": existing["cart_item_id"], "updated": True}, indent=2)
+
+        next_id = str(
+            max(
+                [
+                    int(ci["cart_item_id"])
+                    for ci in items
+                    if str(ci.get("cart_item_id", "")).isdigit()
+                ]
+                or [0]
+            )
+            + 1
         )
-        if pk_setting:
-            pk_setting["value"] = partition_key
-        payload = {
-            "org_id": org_id,
-            "endpoint": cl.get("endpoint_url"),
-            "partition_key": partition_key,
+        line = {
+            "cart_item_id": next_id,
+            "cart_id": cart_id,
+            "product_id": product_id,
+            "quantity": qty,
         }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
-            
+        items.append(line)
+        data["cart_items"] = items
+        return json.dumps({"cart_item_id": next_id, "updated": False}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "linkCacheToOrg",
-                "description": "Set CacheAPI external URL and partition key for an org using a validated cluster.",
+                "name": "add_item_to_cart",
+                "description": "Add a product to a cart (upsert by product). New lines receive the next numeric cart_item_id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "org_id": {"type": "string"},
-                        "cluster_id": {"type": "string"},
-                        "partition_key": {"type": "string"},
+                        "cart_id": {"type": "string", "description": "Existing cart_id."},
+                        "product_id": {"type": "string", "description": "Target product_id."},
+                        "quantity": {"type": "integer", "description": "Positive whole number."},
                     },
-                    "required": ["org_id", "cluster_id", "partition_key"],
+                    "required": ["cart_id", "product_id", "quantity"],
                 },
             },
         }
 
 
-class NormalizeCustomSetting(Tool):
+class SetItemQuantity(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], setting_id: str) -> str:
-        settings = data.get("custom_settings", {}).values()
-        st = next((s for s in settings.values() if s.get("setting_id") == setting_id), None)
-        if not st:
-            payload = {"error": f"setting {setting_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        if st.get("value") == "NULL":
-            st["value"] = None
-        payload = st
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], cart_item_id: Any, quantity: Any) -> str:
+        if not cart_item_id or quantity is None:
+            return _err("cart_item_id and quantity are required.")
+        cart_item_id = str(cart_item_id)
+        items = data.get("cart_items", [])
+        line = next((ci for ci in items if ci.get("cart_item_id") == cart_item_id), None)
+        if not line:
+            return _err("Cart item not found.")
+        q = int(quantity)
+        if q <= 0:
+            return _err("new_quantity must be positive.")
+        line["quantity"] = q
+        return json.dumps({"cart_item_id": cart_item_id, "new_quantity": q}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "normalizeCustomSetting",
-                "description": "Normalize a custom setting value: string 'NULL' -> null.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"setting_id": {"type": "string"}},
-                    "required": ["setting_id"],
-                },
-            },
-        }
-
-
-class RunCacheJob(Tool):
-    @staticmethod
-    def invoke(data: dict[str, Any], org_id: str, job_name: str) -> str:
-        org_id = _sid(org_id)
-        jobs = data.get("cache_jobs", {}).values()
-        valid_jobs = {"Load API Metadata", "Populate Cache Job"}
-        if job_name not in valid_jobs:
-            payload = {"error": "invalid job name"}
-            out = json.dumps(payload, indent=2)
-            return out
-        updated = []
-        for j in jobs.values():
-            if j.get("org_id") == org_id and j.get("job_name") == job_name:
-                j["last_run_status"] = "Success"
-                j["last_run_time"] = FIXED_NOW
-                updated.append(j.get("job_id"))
-        _append_audit(data, "RUN_CACHE_JOB", org_id, {"job_name": job_name})
-        _ws_append(
-            data, org_id, "RUN_CACHE_JOB", {"job_name": job_name, "updated": updated}
-        )
-        payload = {"org_id": org_id, "job_name": job_name, "updated": updated}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "runCacheJob",
-                "description": "Run a cache job for an org; sets deterministic status/time on matching job rows.",
+                "name": "set_item_quantity",
+                "description": "Set quantity for an existing cart line.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "org_id": {"type": "string"},
-                        "job_name": {"type": "string"},
+                        "cart_item_id": {"type": "string"},
+                        "quantity": {"type": "integer"},
                     },
-                    "required": ["org_id", "job_name"],
+                    "required": ["cart_item_id", "quantity"],
                 },
             },
         }
 
 
-class GetCacheJobHistory(Tool):
+class RemoveItemFromCart(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], org_id: str) -> str:
-        org_id = _sid(org_id)
-        jobs = data.get("cache_jobs", {}).values()
-        result = [j for j in jobs.values() if j.get("org_id") == org_id]
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], cart_id: Any, product_id: Any) -> str:
+        cart_id = _as_id(cart_id)
+        product_id = _as_id(product_id)
+        if not cart_id or not product_id:
+            return _err("cart_id and product_id are required.")
+        items = data.get("cart_items", [])
+        before = len(items)
+        data["cart_items"] = [
+            ci
+            for ci in items
+            if not (
+                _as_id(ci.get("cart_id")) == cart_id and _as_id(ci.get("product_id")) == product_id
+            )
+        ]
+        if len(data["cart_items"]) == before:
+            return _err("Cart line not found.")
+        return json.dumps({"removed_cart_item_id": f"{cart_id}:{product_id}"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCacheJobHistory",
-                "description": "List cache jobs for an org.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"org_id": {"type": "string"}},
-                    "required": ["org_id"],
-                },
-            },
-        }
-
-
-class NormalizeConnectedAppScopes(Tool):
-    @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        app_id: str,
-        connected_apps: list = None
-    ) -> str:
-        app_id = _sid(app_id)
-        apps = connected_apps if connected_apps is not None else data.get("connected_apps", {}).values()
-        app = next((a for a in apps if a.get("app_id") == app_id), None)
-        if not app:
-            payload = {"error": f"app {app_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        scopes = app.get("oauth_scopes")
-        if isinstance(scopes, str):
-            vals = [s.strip() for s in scopes.split(",")]
-            scopes_list = [v for v in vals.values() if v]
-        elif isinstance(scopes, list):
-            scopes_list = scopes
-        else:
-            scopes_list = []
-        for r in ["api", "refresh_token"]:
-            if r not in scopes_list:
-                scopes_list.append(r)
-        app["oauth_scopes"] = scopes_list
-        _ws_append(data, app_id, "NORMALIZE_APP_SCOPES", {"oauth_scopes": scopes_list})
-        _append_audit(
-            data, "NORMALIZE_APP_SCOPES", app_id, {"oauth_scopes": scopes_list}
-        )
-        payload = app
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "normalizeConnectedAppScopes",
-                "description": "Normalize a connected app's oauth_scopes to a list and enforce required scopes.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"app_id": {"type": "string"}},
-                    "required": ["app_id"],
-                },
-            },
-        }
-
-
-class SetTraceFlag(Tool):
-    @staticmethod
-    def invoke(
-        data: dict[str, Any], org_id: str, flag_name: str, is_active: bool
-    ) -> str:
-        org_id, flag_name = _sid(org_id), _sid(flag_name)
-        is_active = bool(is_active)
-        flags = data.get("trace_flags", {}).values()
-        tf = next(
-            (
-                f
-                for f in flags.values() if f.get("org_id") == org_id and f.get("flag_name") == flag_name
-            ),
-            None,
-        )
-        if not tf:
-            payload = {"error": "trace flag not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        org_type = (
-            "UAT"
-            if org_id.endswith("QRS")
-            else ("Staging" if org_id.endswith("DEF") else "Production")
-        )
-        if (
-            org_type == "Production"
-            and is_active
-            and flag_name in ("CacheAPI.EcommLogger", "ApexDebug")
-        ):
-            payload = {"error": "forbidden in Production"}
-            out = json.dumps(payload, indent=2)
-            return out
-        tf["is_active"] = bool(is_active)
-        _ws_append(
-            data,
-            f"{org_id}:{flag_name}",
-            "SET_TRACE_FLAG",
-            {"is_active": bool(is_active)},
-        )
-        _append_audit(
-            data,
-            "SET_TRACE_FLAG",
-            f"{org_id}:{flag_name}",
-            {"is_active": bool(is_active)},
-        )
-        payload = tf
-        out = json.dumps(payload, indent=2)
-        return out
-           
-
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "setTraceFlag",
-                "description": "Enable/disable a trace flag with production-safe guardrails.",
+                "name": "remove_item_from_cart",
+                "description": "Remove a product from a cart.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "org_id": {"type": "string"},
-                        "flag_name": {"type": "string"},
-                        "is_active": {"type": "boolean"},
-                    },
-                    "required": ["org_id", "flag_name", "is_active"],
-                },
-            },
-        }
-
-
-class SetFeatureToggle(Tool):
-    @staticmethod
-    def invoke(data: dict[str, Any], org_id: str, toggle_name: str, value: str) -> str:
-        org_id, toggle_name, value = _sid(org_id), _sid(toggle_name), _sid(value)
-        settings = data.get("custom_settings", {}).values()
-        st = next(
-            (
-                s
-                for s in settings.values() if s.get("org_id") == org_id and s.get("setting_name") == toggle_name
-            ),
-            None,
-        )
-        if not st:
-            payload = {"error": "toggle not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        st["value"] = value
-        _ws_append(
-            data, f"{org_id}:{toggle_name}", "SET_FEATURE_TOGGLE", {"value": value}
-        )
-        _append_audit(
-            data, "SET_FEATURE_TOGGLE", f"{org_id}:{toggle_name}", {"value": value}
-        )
-        payload = st
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "setFeatureToggle",
-                "description": "Set a feature toggle value via custom settings.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "org_id": {"type": "string"},
-                        "toggle_name": {"type": "string"},
-                        "value": {"type": "string"},
-                    },
-                    "required": ["org_id", "toggle_name", "value"],
-                },
-            },
-        }
-
-
-class GetOrder(Tool):
-    @staticmethod
-    def invoke(data: dict[str, Any], order_id: str) -> str:
-        order_id = _sid(order_id)
-        orders = data.get("orders", {}).values()
-        o = next((x for x in orders.values() if x.get("order_id") == order_id), None)
-        payload = o or {"error": f"order {order_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetOrder",
-                "description": "Retrieve order record by ID.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"order_id": {"type": "string"}},
-                    "required": ["order_id"],
-                },
-            },
-        }
-
-
-class GetOrderItems(Tool):
-    @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        order_id: str,
-        order_items: list = None
-    ) -> str:
-        order_id = _sid(order_id)
-        items = order_items if order_items is not None else data.get("order_items", {}).values()
-        result = [i for i in items.values() if i.get("order_id") == order_id]
-        payload = result
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetOrderItems",
-                "description": "List items for an order.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"order_id": {"type": "string"}},
-                    "required": ["order_id"],
-                },
-            },
-        }
-
-
-class GetAccount(Tool):
-    @staticmethod
-    def invoke(data: dict[str, Any], account_id: str) -> str:
-        account_id = _sid(account_id)
-        accs = data.get("accounts", {}).values()
-        a = next((x for x in accs.values() if x.get("account_id") == account_id), None)
-        payload = a or {"error": f"account {account_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "getAccount",
-                "description": "Retrieve account by ID.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"account_id": {"type": "string"}},
-                    "required": ["account_id"],
-                },
-            },
-        }
-
-
-class GetOrg(Tool):
-    @staticmethod
-    def invoke(data: dict[str, Any], org_id: str) -> str:
-        org_id = _sid(org_id)
-        orgs = data.get("salesforce_orgs", {}).values()
-        org = next((o for o in orgs.values() if o.get("org_id") == org_id), None)
-        payload = org or {"error": f"org {org_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "getOrg",
-                "description": "Retrieve Salesforce org metadata (including org_name) by org_id.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"org_id": {"type": "string"}},
-                    "required": ["org_id"],
-                },
-            },
-        }
-
-
-class GetPriceForProduct(Tool):
-    @staticmethod
-    def invoke(data: dict[str, Any], pricebook_id: str, product_id: str) -> str:
-        pricebook_id, product_id = _sid(pricebook_id), _sid(product_id)
-        pbes = data.get("pricebook_entries", {}).values()
-        pbe = next(
-            (
-                p
-                for p in pbes.values() if p.get("pricebook_id") == pricebook_id
-                and p.get("product_id") == product_id
-            ),
-            None,
-        )
-        payload = pbe or {"error": "price not found"}
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "getPriceForProduct",
-                "description": "Get price for a product from a pricebook.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "pricebook_id": {"type": "string"},
+                        "cart_id": {"type": "string"},
                         "product_id": {"type": "string"},
                     },
-                    "required": ["pricebook_id", "product_id"],
+                    "required": ["cart_id", "product_id"],
                 },
             },
         }
 
 
-class GetProductStock(Tool):
+class ApplyOfferToCart(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], product_id: str) -> str:
-        product_id = _sid(product_id)
-        products = data.get("products", {}).values()
-        p = next((x for x in products.values() if x.get("product_id") == product_id), None)
-        if not p:
-            payload = {"error": f"product {product_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"product_id": product_id, "stock_quantity": p.get("stock_quantity")}
-        out = json.dumps(
-            payload, indent=2,
+    def invoke(data: Dict[str, Any], cart_id: Any, code: Any) -> str:
+        cart_id = _as_id(cart_id)
+        if not cart_id or not code:
+            return _err("cart_id and code are required.")
+
+        carts = data.get("carts", [])
+        cart = next((c for c in carts if _as_id(c.get("cart_id")) == cart_id), None)
+        if not cart:
+            return _err("Cart not found.")
+
+        offers = data.get("offers", [])
+        offer = next(
+            (o for o in offers if o.get("offer_code") == code and o.get("is_active") is True), None
         )
-        return out
+        if not offer:
+            return _err("Offer not found or inactive.")
+
+        cart["applied_offer_id"] = offer.get("offer_id")
+        data["carts"] = carts
+        return json.dumps(
+            {"cart_id": cart_id, "applied_offer_id": cart["applied_offer_id"], "code": code},
+            indent=2,
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetProductStock",
-                "description": "Get current stock quantity for a product.",
+                "name": "apply_offer_to_cart",
+                "description": "Apply an active offer code to a cart (sets cart.applied_offer_id).",
                 "parameters": {
                     "type": "object",
-                    "properties": {"product_id": {"type": "string"}},
-                    "required": ["product_id"],
+                    "properties": {
+                        "cart_id": {"type": "string", "description": "Existing cart_id."},
+                        "code": {"type": "string", "description": "Valid offer_code."},
+                    },
+                    "required": ["cart_id", "code"],
                 },
             },
         }
 
 
-def _active_offer(
-    offers: list[dict[str, Any]], offer_id: str | None
-) -> dict[str, Any] | None:
-    pass
-    if not offer_id:
-        return None
-    off = next((o for o in offers.values() if o.get("offer_id") == offer_id), None)
-    if not off:
-        return None
-    if off.get("is_active") is False:
-        return None
-    return off
+# --- add this class (e.g., below FindAccountByName) -------------------------
 
 
-class RecomputeOrderTotals(Tool):
+class GetAccountById(Tool):
+    """Read an account by its account_id."""
+
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str) -> str:
-        pass
-        order_id = _sid(order_id)
-        orders = data.get("orders", {}).values()
-        items = data.get("order_items", {}).values()
-        accounts = data.get("accounts", {}).values()
-        pbes = data.get("pricebook_entries", {}).values()
-        offers = data.get("offers", {}).values()
-        data.get("products", {}).values()
+    def get_info():
+        return {
+            "type": "function",
+            "function": {
+                "name": "get_account_by_id",
+                "description": "Return a single account record for the given account_id.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "account_id": {"type": "string", "description": "The account_id to fetch."}
+                    },
+                    "required": ["account_id"],
+                    "additionalProperties": False,
+                },
+            },
+        }
 
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
-        if not order:
-            payload = {"error": f"order {order_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+    @staticmethod
+    def invoke(data: Dict[str, Any], account_id: Any) -> str:
+        accounts = data.get("accounts") or []
+        target_id = str(account_id)
+        result = {}
+        for acc in accounts:
+            if str(acc.get("account_id")) == target_id:
+                result = acc
+                break
+        return json.dumps(result, indent=2)
 
-        account = next(
-            (a for a in accounts.values() if a.get("account_id") == order.get("account_id")),
+
+class PreviewCartTotals(Tool):
+    @staticmethod
+    def invoke(data: Dict[str, Any], cart_id: Any) -> str:
+        cart_id = _as_id(cart_id)
+        if not cart_id:
+            return _err("cart_id is required.")
+
+        carts = data.get("carts", [])
+        cart = next((c for c in carts if _as_id(c.get("cart_id")) == cart_id), None)
+        if not cart:
+            return _err("Cart not found.")
+
+        items = data.get("cart_items", [])
+        lines = [ci for ci in items if _as_id(ci.get("cart_id")) == cart_id]
+
+        contacts = data.get("contacts", [])
+        contact = next(
+            (c for c in contacts if _as_id(c.get("contact_id")) == _as_id(cart.get("contact_id"))),
             None,
         )
-        pricebook_id = account.get("default_pricebook_id") if account else None
-        line_items = [i for i in items.values() if i.get("order_id") == order_id]
+        accounts = data.get("accounts", [])
+        account = next(
+            (
+                a
+                for a in accounts
+                if _as_id(a.get("account_id"))
+                == _as_id(contact.get("account_id") if contact else None)
+            ),
+            None,
+        )
+
+        pricebook_id = account.get("default_pricebook_id")
+
+        pbes = data.get("pricebook_entries", [])
+        offers = data.get("offers", [])
+
         subtotal = 0.0
-        for li in line_items:
-            pbe = next(
+        for li in lines:
+            entry = next(
                 (
-                    p
-                    for p in pbes.values() if p.get("pricebook_id") == pricebook_id
-                    and p.get("product_id") == li.get("product_id")
+                    e
+                    for e in pbes
+                    if _as_id(e.get("pricebook_id")) == _as_id(pricebook_id)
+                    and _as_id(e.get("product_id")) == _as_id(li.get("product_id"))
                 ),
                 None,
             )
-            #revert to the current price if the pricebook entry is absent
-            price = pbe.get("price") if pbe else li.get("price", 0.0)
-            subtotal += float(price) * int(li.get("quantity", 0))
+            if not entry:
+                return _err("Missing pricebook entry.")
+            subtotal += float(entry.get("price", 0.0)) * int(li.get("quantity", 0))
 
         discount_amount = 0.0
-        applied_offer = _active_offer(offers, order.get("applied_offer_id"))
-        if applied_offer:
-            if applied_offer.get("discount_type") == "PERCENTAGE":
-                discount_amount = round(
-                    subtotal * float(applied_offer.get("discount_value", 0.0)) / 100.0,
-                    2,
-                )
-            elif applied_offer.get("discount_type") == "FIXED_AMOUNT":
-                discount_amount = float(applied_offer.get("discount_value", 0.0))
-            discount_amount = min(discount_amount, subtotal)
+        if cart.get("applied_offer_id"):
+            offer = next(
+                (
+                    o
+                    for o in offers
+                    if _as_id(o.get("offer_id")) == _as_id(cart.get("applied_offer_id"))
+                    and o.get("is_active") is True
+                ),
+                None,
+            )
+            if offer:
+                if offer.get("discount_type") == "PERCENTAGE":
+                    discount_amount = round(
+                        subtotal * (float(offer.get("discount_value", 0.0)) / 100.0), 2
+                    )
+                elif offer.get("discount_type") == "FIXED_AMOUNT":
+                    discount_amount = min(float(offer.get("discount_value", 0.0)), subtotal)
 
         total_amount = round(subtotal - discount_amount, 2)
-        order["subtotal"] = round(subtotal, 2)
-        order["discount_amount"] = round(discount_amount, 2)
-        order["total_amount"] = total_amount
-        _append_audit(data, "RECOMPUTE_TOTALS", order_id, {}).values()
-        _ws_append(data, order_id, "RECOMPUTE_TOTALS", {}).values()
-        payload = order
-        out = json.dumps(payload, indent=2)
-        return out
-
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "RecomputeOrderTotals",
-                "description": "Recompute order subtotal, discount and total using account pricebook and active offer.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"order_id": {"type": "string"}},
-                    "required": ["order_id"],
-                },
+        return json.dumps(
+            {
+                "cart_id": cart_id,
+                "subtotal": round(subtotal, 2),
+                "discount_amount": round(discount_amount, 2),
+                "total_amount": total_amount,
             },
-        }
-
-
-class ApplyOfferToOrder(Tool):
-    @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        order_id: str,
-        offer_id: str,
-        orders: list = None,
-        offers: list = None
-    ) -> str:
-        order_id, offer_id = _sid(order_id), _sid(offer_id)
-        orders = orders if orders is not None else data.get("orders", {}).values()
-        offers = offers if offers is not None else data.get("offers", {}).values()
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
-        if not order:
-            payload = {"error": f"order {order_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        off = _active_offer(offers, offer_id)
-        if not off:
-            payload = {"error": "offer not active or not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        order["applied_offer_id"] = offer_id
-        payload = {"order_id": order_id, "applied_offer_id": offer_id}
-        out = json.dumps(
-            payload, indent=2
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "applyOfferToOrder",
-                "description": "Apply an active offer to an order. (Does not recompute totals.)",
+                "name": "preview_cart_totals",
+                "description": "Compute cart totals from items + applied offer using the active pricebook.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "order_id": {"type": "string"},
-                        "offer_id": {"type": "string"},
+                        "cart_id": {"type": "string", "description": "Existing cart_id."}
                     },
-                    "required": ["order_id", "offer_id"],
+                    "required": ["cart_id"],
                 },
             },
         }
 
 
-class EnforceMinimumOrder(Tool):
+class CreateOrder(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        order_id: str,
-        orders: list = None,
-        accounts: list = None
-    ) -> str:
-        order_id = _sid(order_id)
-        orders = orders if orders is not None else data.get("orders", {}).values()
-        accounts = accounts if accounts is not None else data.get("accounts", {}).values()
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
-        if not order:
-            payload = {"error": f"order {order_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        account = next(
-            (a for a in accounts.values() if a.get("account_id") == order.get("account_id")),
+    def invoke(data: Dict[str, Any], cart_id: Any, order_id: Any = None) -> str:
+        cart_id = _as_id(cart_id)
+        if not cart_id:
+            return _err("cart_id required.")
+
+        carts = data.get("carts", [])
+        cart = next((c for c in carts if _as_id(c.get("cart_id")) == cart_id), None)
+        if not cart:
+            return _err("Cart not found.")
+
+        cart_items = data.get("cart_items", [])
+        lines = [ci for ci in cart_items if _as_id(ci.get("cart_id")) == cart_id]
+        if not lines:
+            return _err("Cart has no items.")
+
+        # auto-assign order_id if omitted
+        orders = data.get("orders", [])
+        if not order_id:
+            numeric_ids = [
+                int(o["order_id"]) for o in orders if str(o.get("order_id", "")).isdigit()
+            ]
+            order_id = str(max(numeric_ids or [0]) + 1)
+        order_id = _as_id(order_id)
+
+        # pricing context
+        contacts = data.get("contacts", [])
+        contact = next(
+            (c for c in contacts if _as_id(c.get("contact_id")) == _as_id(cart.get("contact_id"))),
             None,
         )
-        threshold = (
-            50.0 if (account and account.get("type") == "B2C Customer") else 1000.0
+        accounts = data.get("accounts", [])
+        account = next(
+            (
+                a
+                for a in accounts
+                if _as_id(a.get("account_id"))
+                == _as_id(contact.get("account_id") if contact else None)
+            ),
+            None,
         )
-        eligible = float(order.get("total_amount", 0.0)) >= threshold
-        _append_audit(
-            data,
-            "ELIGIBILITY_CHECK",
-            order_id,
-            {"eligible": eligible, "threshold": threshold},
+        pricebook_id = cart.get("override_pricebook_id") or (
+            account.get("default_pricebook_id") if account else "1"
         )
-        _ws_append(
-            data,
-            order_id,
-            "ELIGIBILITY_CHECK",
-            {"eligible": eligible, "threshold": threshold},
-        )
-        payload = {"order_id": order_id, "eligible": eligible, "threshold": threshold}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "EnforceMinimumOrder",
-                "description": "Check if an order meets minimum order thresholds (Retail vs B2B).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"order_id": {"type": "string"}},
-                    "required": ["order_id"],
-                },
-            },
+
+        pbes = data.get("pricebook_entries", [])
+        offers = data.get("offers", [])
+        products = data.get("products", [])
+
+        subtotal = 0.0
+        for li in lines:
+            pid = _as_id(li.get("product_id"))
+            pbe = next(
+                (
+                    e
+                    for e in pbes
+                    if _as_id(e.get("pricebook_id")) == _as_id(pricebook_id)
+                    and _as_id(e.get("product_id")) == pid
+                ),
+                None,
+            )
+            if not pbe:
+                return _err("Missing pricebook entry.")
+            price = float(pbe.get("price", 0.0))
+            qty = int(li.get("quantity", 0))
+            subtotal += price * qty
+
+            prod = next((p for p in products if _as_id(p.get("product_id")) == pid), None)
+            if not prod:
+                return _err(f"Product {pid} not found.")
+            current = int(prod.get("stock_quantity", 0))
+            if current < qty:
+                return _err(f"Insufficient stock for product {pid}.")
+            prod["stock_quantity"] = current - qty
+        data["products"] = products
+
+        discount_amount = 0.0
+        if cart.get("applied_offer_id"):
+            offer = next(
+                (
+                    o
+                    for o in offers
+                    if _as_id(o.get("offer_id")) == _as_id(cart.get("applied_offer_id"))
+                    and o.get("is_active") is True
+                ),
+                None,
+            )
+            if offer:
+                if offer.get("discount_type") == "PERCENTAGE":
+                    discount_amount = round(
+                        subtotal * (float(offer.get("discount_value", 0.0)) / 100.0), 2
+                    )
+                elif offer.get("discount_type") == "FIXED_AMOUNT":
+                    discount_amount = min(float(offer.get("discount_value", 0.0)), subtotal)
+
+        total = round(subtotal - discount_amount, 2)
+
+        new_order = {
+            "order_id": order_id,
+            "contact_id": cart.get("contact_id"),
+            "account_id": account.get("account_id") if account else None,
+            "applied_offer_id": cart.get("applied_offer_id"),
+            "order_date": FIXED_NOW,
+            "status": "Processing",
+            "subtotal": round(subtotal, 2),
+            "discount_amount": round(discount_amount, 2),
+            "total_amount": total,
+            "shipping_address_used": None,
         }
+        orders.append(new_order)
+        data["orders"] = orders
 
-
-def _adjust_stock(products: list[dict[str, Any]], product_id: str, delta: int) -> bool:
-    pass
-    product_id = _sid(product_id)
-    try:
-        delta = int(delta)
-    except Exception:
-        return False
-    p = next((x for x in products.values() if _eq(x.get("product_id"), product_id)), None)
-    if not p:
-        return False
-    new_qty = int(p.get("stock_quantity", 0)) + delta
-    if new_qty < 0:
-        return False
-    p["stock_quantity"] = new_qty
-    return True
-
-
-class UpdateProductStock(Tool):
-    @staticmethod
-    def invoke(data: dict[str, Any], product_id: str, delta: int) -> str:
-        products = data.get("products", {}).values()
-        ok = _adjust_stock(products, product_id, delta)
-        if not ok:
-            payload = {"error": "stock adjustment failed"}
-            out = json.dumps(payload, indent=2)
-            return out
-        p = next((x for x in products.values() if x.get("product_id") == product_id), None)
-        _append_audit(data, "UPDATE_STOCK", product_id, {"delta": delta})
-        _ws_append(data, product_id, "UPDATE_STOCK", {"delta": delta})
-        payload = {"product_id": product_id, "stock_quantity": p.get("stock_quantity")}
-        out = json.dumps(
-            payload, indent=2,
+        order_items = data.get("order_items", [])
+        next_oid = (
+            max(
+                [
+                    int(oi["order_item_id"])
+                    for oi in order_items
+                    if str(oi.get("order_item_id", "")).isdigit()
+                ]
+                or [0]
+            )
+            + 1
         )
-        return out
+        for idx, li in enumerate(lines):
+            pid = _as_id(li.get("product_id"))
+            pbe = next(
+                (
+                    e
+                    for e in pbes
+                    if _as_id(e.get("pricebook_id")) == _as_id(pricebook_id)
+                    and _as_id(e.get("product_id")) == pid
+                ),
+                None,
+            )
+            price = float(pbe.get("price", 0.0)) if pbe else 0.0
+            order_items.append(
+                {
+                    "order_item_id": str(next_oid + idx),
+                    "order_id": order_id,
+                    "product_id": pid,
+                    "quantity": int(li.get("quantity", 0)),
+                    "price": price,
+                }
+            )
+        data["order_items"] = order_items
+        data["carts"] = carts
+
+        return json.dumps(new_order, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateProductStock",
-                "description": "Adjust product stock by delta (must not go negative). Appends deterministic audit.",
+                "name": "create_order",
+                "description": "Create an order from a cart; auto-assigns order_id if omitted; writes order and order_items.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "product_id": {"type": "string"},
-                        "delta": {"type": "integer"},
+                        "cart_id": {
+                            "type": "string",
+                            "description": "Existing cart_id that has at least one cart item.",
+                        },
+                        "order_id": {
+                            "type": "string",
+                            "description": "(Optional) Explicit order_id; if omitted, system assigns next numeric string.",
+                        },
                     },
-                    "required": ["product_id", "delta"],
+                    "required": ["cart_id"],
                 },
             },
         }
 
 
-class ShipOrder(Tool):
+class ListOrderItems(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str) -> str:
-        order_id = _sid(order_id)
-        orders = data.get("orders", {}).values()
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
-        if not order:
-            payload = {"error": f"order {order_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        if order.get("status") != "Processing":
-            payload = {"error": "order not in Processing"}
-            out = json.dumps(payload, indent=2)
-            return out
-        order["status"] = "Shipped"
-        payload = order
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], order_id: Any) -> str:
+        order_id = _as_id(order_id)
+        order_items = data.get("order_items", [])
+        rows = [oi for oi in order_items if _as_id(oi.get("order_id")) == order_id]
+        items = [
+            {
+                "product_id": r.get("product_id"),
+                "qty": int(r.get("quantity", 0)),
+                "unit_price": float(r.get("price", 0.0)),
+                "line_subtotal": round(float(r.get("price", 0.0)) * int(r.get("quantity", 0)), 2),
+            }
+            for r in rows
+        ]
+        return json.dumps({"order_id": order_id, "items": items}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "shipOrder",
-                "description": "Ship a Processing order: checks stock and decrements product inventory.",
+                "name": "list_order_items",
+                "description": "Return normalized order line items for an order.",
                 "parameters": {
                     "type": "object",
                     "properties": {"order_id": {"type": "string"}},
@@ -1048,35 +741,41 @@ class ShipOrder(Tool):
         }
 
 
-class DeliverOrder(Tool):
+class SetOrderShippingAddress(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str) -> str:
-        order_id = _sid(order_id)
-        orders = data.get("orders", {}).values()
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
+    def invoke(data: Dict[str, Any], order_id: str, address: str) -> str:
+        order_id = _as_id(order_id)
+        if not order_id or address is None:
+            return _err("order_id and address are required.")
+
+        orders = data.get("orders", [])
+        order = next((o for o in orders if _as_id(o.get("order_id")) == order_id), None)
         if not order:
-            payload = {"error": f"order {order_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        if order.get("status") != "Shipped":
-            payload = {"error": "order not in Shipped"}
-            out = json.dumps(payload, indent=2)
-            return out
-        order["status"] = "Delivered"
-        payload = order
-        out = json.dumps(payload, indent=2)
-        return out
+            return _err("Order not found.")
+        if not isinstance(address, str):
+            return _err("address must be a string.")
+
+        order["shipping_address_used"] = address
+        data["orders"] = orders
+        return json.dumps({"order_id": order_id, "shipping_address_used": address}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "deliverOrder",
-                "description": "Set order to Delivered from Shipped.",
+                "name": "set_order_shipping_address",
+                "description": "Attach a string shipping address to an order.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"order_id": {"type": "string"}},
-                    "required": ["order_id"],
+                    "properties": {
+                        "order_id": {"type": "string", "description": "Target order_id."},
+                        "address": {
+                            "type": "string",
+                            "description": "Full shipping address string.",
+                        },
+                    },
+                    "required": ["order_id", "address"],
                 },
             },
         }
@@ -1084,532 +783,830 @@ class DeliverOrder(Tool):
 
 class CancelOrder(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str) -> str:
-        order_id = _sid(order_id)
-        orders = data.get("orders", {}).values()
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
+    def invoke(data: Dict[str, Any], order_id: Any) -> str:
+        order_id = _as_id(order_id)
+        if not order_id:
+            return _err("order_id required.")
+        orders = data.get("orders", [])
+        order = next((o for o in orders if _as_id(o.get("order_id")) == order_id), None)
         if not order:
-            payload = {"error": f"order {order_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        if order.get("status") == "Delivered":
-            payload = {"error": "cannot cancel Delivered order"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return _err("Order not found.")
         order["status"] = "Cancelled"
-        payload = order
-        out = json.dumps(payload, indent=2)
-        return out
+        order["cancelled_at"] = FIXED_NOW
+        return json.dumps({"order_id": order_id, "new_status": "Cancelled"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "cancelOrder",
-                "description": "Cancel an order unless it is already Delivered.",
+                "name": "cancel_order",
+                "description": "Cancel an order at a deterministic timestamp.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"order_id": {"type": "string"}},
+                    "properties": {
+                        "order_id": {"type": "string"},
+                    },
                     "required": ["order_id"],
                 },
             },
         }
 
 
-class CreateReturnCase(Tool):
+class CreateCase(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str, items: list[dict[str, Any]]) -> str:
-        order_id = _sid(order_id)
-        orders = data.get("orders", {}).values()
-        cases = data.get("cases", {}).values()
-        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
-        if not order:
-            payload = {"error": f"order {order_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        if order.get("status") != "Delivered":
-            payload = {"error": "returns only allowed for Delivered"}
-            out = json.dumps(payload, indent=2)
-            return out
-        new_case_id = f"5{order_id}"
-        cases.append(
-            {
-                "case_id": new_case_id,
-                "contact_id": order.get("contact_id"),
-                "account_id": order.get("account_id"),
-                "order_id": order_id,
-                "subject": f"Return Request for Order #{order_id}",
-                "status": "New",
-                "priority": "Medium",
-            }
-        )
-        order["status"] = "Return Pending"
-        _append_audit(
-            data,
-            "CREATE_RETURN_CASE",
-            order_id,
-            {"case_id": new_case_id, "items": items},
-        )
-        _ws_append(
-            data,
-            order_id,
-            "CREATE_RETURN_CASE",
-            {"case_id": new_case_id, "items": items},
-        )
-        payload = {"case_id": new_case_id, "order_status": order["status"]}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+    def invoke(
+        data: Dict[str, Any],
+        order_id: Any,
+        contact_id: Any,
+        subject: Any,
+    ) -> str:
+        case_id = None
+        if not order_id or not contact_id or not subject:
+            return _err("order_id, contact_id, subject are required.")
+        order_id = _as_id(order_id)
+        contact_id = _as_id(contact_id)
+        subject = subject.capitalize()
+
+        cases = data.setdefault("cases", [])
+
+        cid = _as_id(case_id)
+        if not cid:
+            nums = []
+            for c in cases:
+                existing = _as_id(c.get("case_id"))
+                if existing is not None and str(existing).isdigit():
+                    nums.append(int(existing))
+            next_id = (max(nums) + 1) if nums else 5001
+            cid = str(next_id)
+
+        exist = next((c for c in cases if _as_id(c.get("case_id")) == cid), None)
+        if exist:
+            return json.dumps(exist, indent=2)
+
+        case = {
+            "case_id": cid,
+            "order_id": order_id,
+            "contact_id": contact_id,
+            "subject": subject,
+            "status": "New",
+            "created_at": FIXED_NOW,
+        }
+        cases.append(case)
+        return json.dumps(case, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createReturnCase",
-                "description": "Create a return case for a Delivered order and set order to Return Pending.",
+                "name": "create_case",
+                "description": "Create a support case linked to an order and contact. ",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "order_id": {"type": "string"},
-                        "items": {"type": "array", "items": {"type": "object"}},
+                        "contact_id": {"type": "string"},
+                        "subject": {"type": "string"},
                     },
-                    "required": ["order_id", "items"],
+                    "required": ["order_id", "contact_id", "subject"],
                 },
             },
         }
 
 
-class ProcessReturn(Tool):
+class UpdateCaseStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str, items: list[dict[str, Any]]) -> str:
-        order_id = _sid(order_id)
-        norm_items: list[dict[str, Any]] = []
-        for it in items.values() or []:
-            pid = _sid(it.get("product_id"))
-            qty = int(it.get("quantity", 1))
-            reason = it.get("reason", "customer_request")
-            norm_items.append({"product_id": pid, "quantity": qty, "reason": reason})
-        orders = data.get("orders", {}).values()
-        order = next((o for o in orders.values() if _eq(o.get("order_id"), order_id)), None)
-        if not order:
-            payload = {"error": f"order {order_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        if order.get("status") not in ("Delivered", "Return Pending"):
-            payload = {"error": "return not allowed for this status"}
-            out = json.dumps(payload, indent=2)
-            return out
-        order["status"] = "Delivered"
-        _append_audit(data, "PROCESS_RETURN", order_id, {"items": norm_items})
-        _ws_append(data, order_id, "PROCESS_RETURN", {"items": norm_items})
-        payload = {"order_id": order_id, "order_status": order["status"]}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+    def invoke(data: Dict[str, Any], case_id: Any, status: Any) -> str:
+        if not case_id or not status:
+            return _err("case_id and status are required.")
+        case_id = _as_id(case_id)
+        cases = data.get("cases", [])
+        case = next((c for c in cases if _as_id(c.get("case_id")) == case_id), None)
+        if not case:
+            return _err("Case not found.")
+        case["status"] = status
+        return json.dumps({"case_id": case_id, "status": status}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ProcessReturn",
-                "description": "Process a return by incrementing product stock and normalizing order status.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "order_id": {"type": "string"},
-                        "items": {"type": "array", "items": {"type": "object"}},
-                    },
-                    "required": ["order_id", "items"],
-                },
-            },
-        }
-
-
-class CloseCase(Tool):
-    @staticmethod
-    def invoke(data: dict[str, Any], case_id: str, resolution: str) -> str:
-        case_id = _sid(case_id)
-        cases = data.get("cases", {}).values()
-        c = next((x for x in cases.values() if x.get("case_id") == case_id), None)
-        if not c:
-            payload = {"error": f"case {case_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        c["status"] = "Resolved"
-        c["resolution"] = resolution
-        _append_audit(data, "CLOSE_CASE", case_id, {"resolution": resolution})
-        _ws_append(data, case_id, "CLOSE_CASE", {"resolution": resolution})
-        payload = c
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "closeCase",
-                "description": "Close a case with a resolution.",
+                "name": "update_case_status",
+                "description": "Update the status of a support case.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "case_id": {"type": "string"},
-                        "resolution": {"type": "string"},
+                        "status": {"type": "string"},
                     },
-                    "required": ["case_id", "resolution"],
+                    "required": ["case_id", "status"],
                 },
             },
         }
 
 
-class ActivateOffer(Tool):
+class RefundOrderFull(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], offer_id: str, is_active: bool) -> str:
-        offer_id = _sid(offer_id)
-        offers = data.get("offers", {}).values()
-        off = next((o for o in offers.values() if o.get("offer_id") == offer_id), None)
-        if not off:
-            payload = {"error": f"offer {offer_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        off["is_active"] = bool(is_active)
-        _append_audit(data, "ACTIVATE_OFFER", offer_id, {"is_active": bool(is_active)})
-        _ws_append(data, offer_id, "ACTIVATE_OFFER", {"is_active": bool(is_active)})
-        payload = off
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], order_id: Any) -> str:
+        if not order_id:
+            return _err("order_id required.")
+        order_id = _as_id(order_id)
+        orders = data.get("orders", [])
+        order = next((o for o in orders if _as_id(o.get("order_id")) == order_id), None)
+        if not order:
+            return _err("Order not found.")
+        refunds = data.setdefault("refunds", [])
+        refund_id = f"RF_{len(refunds)+1:04d}"
+        amount = float(order.get("total_amount", 0.0))
+        rec = {
+            "refund_id": refund_id,
+            "order_id": order_id,
+            "amount": amount,
+            "kind": "full",
+        }
+        return json.dumps(rec, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "activateOffer",
-                "description": "Activate or deactivate an offer.",
+                "name": "refund_order_full",
+                "description": "Create a full refund ledger entry for an order.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "offer_id": {"type": "string"},
-                        "is_active": {"type": "boolean"},
+                        "order_id": {"type": "string"},
                     },
-                    "required": ["offer_id", "is_active"],
+                    "required": ["order_id"],
                 },
             },
         }
 
 
-class InvalidateCacheForCatalog(Tool):
+class RefundOrderPartial(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], org_id: str, catalog_id: str) -> str:
-        org_id, catalog_id = _sid(org_id), _sid(catalog_id)
-        _append_audit(data, "INVALIDATE_CACHE", f"{org_id}:{catalog_id}", {}).values()
-        _ws_append(data, f"{org_id}:{catalog_id}", "INVALIDATE_CACHE", {}).values()
-        payload = {"org_id": org_id, "catalog_id": catalog_id, "scheduled": True}
-        out = json.dumps(
-            payload, indent=2
+    def invoke(data: Dict[str, Any], order_id: Any, amount: Any) -> str:
+        if not order_id or amount is None:
+            return _err("order_id and amount are required.")
+        order_id = _as_id(order_id)
+
+        orders = data.get("orders", [])
+        order = next((o for o in orders if _as_id(o.get("order_id")) == order_id), None)
+        if not order:
+            return _err("Order not found.")
+
+        amt = round(float(amount), 2)
+        current = float(order.get("total_amount", 0.0))
+        if amt < 0:
+            return _err("amount must be non-negative.")
+        if amt > current:
+            return _err("amount exceeds order total_amount.")
+
+        order["total_amount"] = round(current - amt, 2)
+        data["orders"] = orders
+        return json.dumps(
+            {
+                "order_id": order_id,
+                "refunded_amount": amt,
+                "new_total_amount": order["total_amount"],
+                "kind": "partial",
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "InvalidateCacheForCatalog",
-                "description": "Record a cache invalidation for a catalog scope.",
+                "name": "refund_order_partial",
+                "description": "Reduce order total_amount by refund amount (clamped ≥ 0).",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "org_id": {"type": "string"},
-                        "catalog_id": {"type": "string"},
+                        "order_id": {"type": "string", "description": "Target order_id."},
+                        "amount": {
+                            "type": "number",
+                            "description": "Refund amount to subtract (≤ current total_amount).",
+                        },
                     },
-                    "required": ["org_id", "catalog_id"],
+                    "required": ["order_id", "amount"],
                 },
             },
         }
 
 
-class NormalizeTimestampField(Tool):
+class ListElastiCacheClusters(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], table_name: str, id_field: str, id_value: str, field: str
-    ) -> str:
-        id_value = _sid(id_value)
-        table = data.get(table_name, {}).values()
-        row = next((r for r in table if str(r.get(id_field)) == id_value), None)
-        if not row:
-            payload = {"error": "row not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        row[field] = FIXED_NOW
-        _append_audit(
-            data,
-            "NORMALIZE_TIMESTAMP",
-            f"{table_name}:{id_value}:{field}",
-            {"new_value": FIXED_NOW},
-        )
-        _ws_append(
-            data,
-            f"{table_name}:{id_value}:{field}",
-            "NORMALIZE_TIMESTAMP",
-            {"new_value": FIXED_NOW},
-        )
-        payload = row
-        out = json.dumps(payload, indent=2)
-        return out
-           
+    def invoke(data: Dict[str, Any]) -> str:
+        clusters = data.get("aws_elasticache_clusters", [])
+        return json.dumps({"clusters": clusters}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "normalizeTimestampField",
-                "description": "Normalize a datetime field on a given row to ISO-8601 fixed time.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "table_name": {"type": "string"},
-                        "id_field": {"type": "string"},
-                        "id_value": {"type": "string"},
-                        "field": {"type": "string"},
-                    },
-                    "required": ["table_name", "id_field", "id_value", "field"],
-                },
-            },
-        }
-
-
-class GetAuditLog(Tool):
-    @staticmethod
-    def invoke(data: dict[str, Any], audit_log: list = None) -> str:
-        payload = audit_log if audit_log is not None else []
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "GetAuditLog",
-                "description": "Return the audit log.",
+                "name": "list_elasticache_clusters",
+                "description": "List all ElastiCache clusters.",
                 "parameters": {"type": "object", "properties": {}},
             },
         }
 
 
-class CreateAuditRecord(Tool):
+class GetElastiCacheCluster(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        subject_id: str,
-        event_type: str,
-        details: dict[str, Any] | None = None,
-        bucket: str | None = None
-    ) -> str:
-        subject_id = _sid(subject_id)
-        if bucket is not None:
-            bucket = _sid(bucket)
-        event_type = _sid(event_type)
-        staged_events = _ws(data).get(subject_id, {"events": []}).get("events", [])
-        if details is None and bucket is None:
-            details = {
-                "summary": f"Aggregated evidence for {subject_id}",
-                "events": staged_events,
-            }
-        if isinstance(details, dict) and "timestamp" in details:
-            details = {k: v for k, v in details.items() if k != "timestamp"}
-        if details is None and bucket is not None:
-            details = {"bucket": bucket}
-
-        _append_audit(data, event_type, subject_id, details)
-        _ws(data).pop(subject_id, None)
-        payload = {"subject_id": subject_id, "event_type": event_type}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
-        return out
+    def invoke(data: Dict[str, Any], cluster_id: Any) -> str:
+        cluster_id = _as_id(cluster_id)
+        clusters = data.get("aws_elasticache_clusters", [])
+        m = next((c for c in clusters if _as_id(c.get("cluster_id")) == cluster_id), None)
+        return json.dumps(m or {}, indent=2)
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateAuditRecord",
-                "description": "Create a single aggregated audit record for a subject. Caller must provide either details or bucket.",
+                "name": "get_elasticache_cluster",
+                "description": "Return a single ElastiCache cluster by id.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {"cluster_id": {"type": "string"}},
+                    "required": ["cluster_id"],
+                },
+            },
+        }
+
+
+class ProvisionElastiCacheCluster(Tool):
+    @staticmethod
+    def invoke(
+        data: Dict[str, Any],
+        cluster_id: Any,
+        cluster_name: Any,
+        endpoint_url: Any,
+        status: Any,
+        instance_type: Any,
+        security_group_id: Any,
+    ) -> str:
+        cluster_id = _as_id(cluster_id)
+        clusters = data.get("aws_elasticache_clusters", [])
+        existing = next((c for c in clusters if _as_id(c.get("cluster_id")) == cluster_id), None)
+        if existing:
+            return json.dumps(existing, indent=2)
+
+        rec = {
+            "cluster_id": cluster_id,
+            "cluster_name": str(cluster_name),
+            "endpoint_url": str(endpoint_url),
+            "status": str(status),
+            "instance_type": str(instance_type),
+            "security_group_id": _as_id(security_group_id),
+        }
+        clusters.append(rec)
+        data["aws_elasticache_clusters"] = clusters
+        return json.dumps(rec, indent=2)
+
+    @staticmethod
+    def get_info() -> Dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "provision_elasticache_cluster",
+                "description": "Create an ElastiCache cluster record with required fields only.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "subject_id": {"type": "string"},
-                        "event_type": {"type": "string"},
-                        "details": {"type": "object"},
-                        "bucket": {"type": "string"},
+                        "cluster_id": {"type": "string", "description": "New cluster_id string."},
+                        "cluster_name": {"type": "string", "description": "Human-readable name."},
+                        "endpoint_url": {
+                            "type": "string",
+                            "description": "Hostname:port or 'NULL' if failed.",
+                        },
+                        "status": {
+                            "type": "string",
+                            "description": "e.g., 'available', 'provisioning', 'failed'.",
+                        },
+                        "instance_type": {
+                            "type": "string",
+                            "description": "e.g., 'cache.t3.medium'.",
+                        },
+                        "security_group_id": {
+                            "type": "string",
+                            "description": "Security group that protects the cluster.",
+                        },
                     },
-                    "required": ["subject_id", "event_type"],
+                    "required": [
+                        "cluster_id",
+                        "cluster_name",
+                        "endpoint_url",
+                        "status",
+                        "instance_type",
+                        "security_group_id",
+                    ],
                 },
             },
         }
 
 
-class NormalizeOrgCacheTimestamps(Tool):
+class UpdateElastiCacheInstanceType(Tool):
+    """Update only the instance_type on an existing ElastiCache cluster record."""
+
     @staticmethod
-    def invoke(data: dict[str, Any], org_id: str) -> str:
-        org_id = _sid(org_id)
-        jobs = data.get("cache_jobs", {}).values()
-        updated: list[str] = []
-        for j in jobs.values():
-            if j.get("org_id") == org_id:
-                j["last_run_time"] = FIXED_NOW
-                updated.append(j.get("job_id"))
-        payload = {"org_id": org_id, "updated": updated}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], cluster_id: Any, instance_type: Any) -> str:
+        if not cluster_id or not instance_type:
+            return json.dumps({"error": "cluster_id and instance_type are required."}, indent=2)
+
+        cluster_id = _as_id(cluster_id)
+        clusters = data.get("aws_elasticache_clusters", [])
+        rec = next((c for c in clusters if _as_id(c.get("cluster_id")) == cluster_id), None)
+        if not rec:
+            return json.dumps({"error": "Cluster not found."}, indent=2)
+
+        rec["instance_type"] = str(instance_type)
+        data["aws_elasticache_clusters"] = clusters
+        return json.dumps(
+            {"cluster_id": cluster_id, "instance_type": rec["instance_type"]}, indent=2
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "NormalizeOrgCacheTimestamps",
-                "description": "Normalize all cache job timestamps for an org to the fixed time.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"org_id": {"type": "string"}},
-                    "required": ["org_id"],
-                },
-            },
-        }
-
-
-class RunCacheJobsInOrder(Tool):
-    @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        org_id: str,
-        cache_jobs: list[dict[str, Any]] = None
-    ) -> str:
-        org_id = _sid(org_id)
-        required_seq = ["Load API Metadata", "Populate Cache Job"]
-        jobs = cache_jobs if cache_jobs is not None else data.get("cache_jobs", {}).values()
-        updated: list[str] = []
-        for job_name in required_seq:
-            for j in jobs.values():
-                if j.get("org_id") == org_id and j.get("job_name") == job_name:
-                    j["last_run_status"] = "Success"
-                    j["last_run_time"] = FIXED_NOW
-                    updated.append(j.get("job_id"))
-            _append_audit(data, "RUN_CACHE_JOB", org_id, {"job_name": job_name})
-            _ws_append(
-                data,
-                org_id,
-                "RUN_CACHE_JOB",
-                {"job_name": job_name, "updated": updated},
-            )
-        payload = {"org_id": org_id, "updated": updated, "sequence": required_seq}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "RunCacheJobsInOrder",
-                "description": "Run 'Load API Metadata' then 'Populate Cache Job' for an org; self-audits; deterministic.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"org_id": {"type": "string"}},
-                    "required": ["org_id"],
-                },
-            },
-        }
-
-
-class VerifyOrderPricesAgainstPricebook(Tool):
-    @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        order_id: str,
-        pricebook_id: str | None = None
-    ) -> str:
-        pass
-        order_id = _sid(order_id)
-        eff_pb = _sid(pricebook_id) if pricebook_id is not None else None
-        orders = data.get("orders", {}).values()
-        items = data.get("order_items", {}).values()
-        accounts = data.get("accounts", {}).values()
-        pbes = data.get("pricebook_entries", {}).values()
-        order = next((o for o in orders.values() if _eq(o.get("order_id"), order_id)), None)
-        if not order:
-            payload = {"error": f"order {order_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        if eff_pb is None:
-            acct = next(
-                (
-                    a
-                    for a in accounts.values() if _eq(a.get("account_id"), order.get("account_id"))
-                ),
-                None,
-            )
-            eff_pb = acct.get("default_pricebook_id") if acct else None
-        if not eff_pb:
-            payload = {"error": "no pricebook context available"}
-            out = json.dumps(payload, indent=2)
-            return out
-        lines = [li for li in items.values() if _eq(li.get("order_id"), order_id)]
-        checks = []
-        for li in lines:
-            pbe = next(
-                (
-                    p
-                    for p in pbes.values() if _eq(p.get("pricebook_id"), eff_pb)
-                    and _eq(p.get("product_id"), li.get("product_id"))
-                ),
-                None,
-            )
-            op = float(li.get("price", 0.0))
-            pb = float(pbe.get("price")) if pbe else None
-            checks.append(
-                {
-                    "product_id": li.get("product_id"),
-                    "order_price": op,
-                    "pricebook_price": pb,
-                    "quantity": int(li.get("quantity", 0)),
-                    "matches": (pb is not None and abs(op - pb) < 1e-9),
-                }
-            )
-        all_match = all(c["matches"] for c in checks.values()) if checks else False
-        _append_audit(
-            data,
-            "PRICEBOOK_VERIFICATION",
-            order_id,
-            {"pricebook_id": eff_pb, "all_match": all_match},
-        )
-        _ws_append(
-            data,
-            order_id,
-            "PRICEBOOK_VERIFICATION",
-            {"pricebook_id": eff_pb, "all_match": all_match},
-        )
-        payload = {"order_id": order_id, "pricebook_id": eff_pb, "checks": checks}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
-
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "VerifyOrderPricesAgainstPricebook",
-                "description": "Verify all order line prices against a given or inferred pricebook.",
+                "name": "update_elasticache_instance_type",
+                "description": "Update the instance_type on an ElastiCache cluster record.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "order_id": {"type": "string"},
-                        "pricebook_id": {"type": "string"},
+                        "cluster_id": {
+                            "type": "string",
+                            "description": "Target cluster_id from aws_elasticache_clusters.",
+                        },
+                        "instance_type": {
+                            "type": "string",
+                            "description": "New instance class, e.g., 'cache.t3.medium'.",
+                        },
+                    },
+                    "required": ["cluster_id", "instance_type"],
+                },
+            },
+        }
+
+
+class DeleteElastiCacheCluster(Tool):
+    @staticmethod
+    def invoke(data: Dict[str, Any], cluster_id: Any) -> str:
+        cluster_id = _as_id(cluster_id)
+        clusters = data.get("aws_elasticache_clusters", [])
+        m = next((c for c in clusters if _as_id(c.get("cluster_id")) == cluster_id), None)
+        if not m:
+            return _err("Cluster not found.")
+        m["status"] = "Deleted"
+        deleted_at = FIXED_NOW
+        m["deleted_at"] = str(deleted_at)
+        m["last_modified_at"] = str(deleted_at)
+        return json.dumps({"cluster_id": cluster_id, "status": "Deleted"}, indent=2)
+
+    @staticmethod
+    def get_info() -> Dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "delete_elasticache_cluster",
+                "description": "Mark an ElastiCache cluster as Deleted.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "cluster_id": {"type": "string"},
+                    },
+                    "required": ["cluster_id"],
+                },
+            },
+        }
+
+
+class ListSubnetGroups(Tool):
+    @staticmethod
+    def invoke(data: Dict[str, Any]) -> str:
+        groups = data.get("aws_subnet_groups", [])
+        return json.dumps({"subnet_groups": groups}, indent=2)
+
+    @staticmethod
+    def get_info() -> Dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "list_subnet_groups",
+                "description": "List all ElastiCache subnet groups.",
+                "parameters": {"type": "object", "properties": {}},
+            },
+        }
+
+
+class CreateSubnetGroup(Tool):
+    @staticmethod
+    def invoke(
+        data: Dict[str, Any],
+        subnet_group_id: Any,
+        name: Any,
+        description: Any,
+        subnet_ids: Any,
+        vpc_id: Any,
+    ) -> str:
+        subnet_group_id = _as_id(subnet_group_id)
+        groups = data.setdefault("aws_subnet_groups", [])
+        existing = next(
+            (g for g in groups if _as_id(g.get("subnet_group_id")) == subnet_group_id), None
+        )
+        if existing:
+            return json.dumps(existing, indent=2)
+        rec = {
+            "subnet_group_id": subnet_group_id,
+            "name": str(name),
+            "description": str(description),
+            "subnet_ids": [str(s) for s in (subnet_ids or [])],
+            "vpc_id": _as_id(vpc_id),
+        }
+        groups.append(rec)
+        return json.dumps(rec, indent=2)
+
+    @staticmethod
+    def get_info() -> Dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "create_subnet_group",
+                "description": "Create an ElastiCache subnet group.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "subnet_group_id": {"type": "string"},
+                        "name": {"type": "string"},
+                        "description": {"type": "string"},
+                        "subnet_ids": {"type": "array", "items": {"type": "string"}},
+                        "vpc_id": {"type": "string"},
+                    },
+                    "required": ["subnet_group_id", "name", "description", "subnet_ids", "vpc_id"],
+                },
+            },
+        }
+
+
+class ListSecurityGroupRules(Tool):
+    @staticmethod
+    def invoke(data: Dict[str, Any], group_id: Any) -> str:
+        group_id = _as_id(group_id)
+        rules = data.get("aws_security_group_rules", [])
+        rows = [r for r in rules if _as_id(r.get("group_id")) == group_id]
+        return json.dumps({"group_id": group_id, "rules": rows}, indent=2)
+
+    @staticmethod
+    def get_info() -> Dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "list_security_group_rules",
+                "description": "List ingress/egress rules for a security group.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {"group_id": {"type": "string"}},
+                    "required": ["group_id"],
+                },
+            },
+        }
+
+
+def _next_sgr_id(data: Dict[str, Any]) -> str:
+    n = len(data.get("aws_security_group_rules", [])) + 1
+    return "sgr-" + f"{n:016x}"
+
+
+class AddSecurityGroupRule(Tool):
+    @staticmethod
+    def invoke(
+        data: Dict[str, Any],
+        security_group_id: Any,
+        protocol: Any,
+        port: Any,
+        source_ip: Any,
+    ) -> str:
+        rid = _next_sgr_id(data)
+        rules = data.get("aws_security_group_rules", [])
+        rec = {
+            "rule_id": rid,
+            "security_group_id": _as_id(security_group_id),
+            "protocol": str(protocol).upper(),
+            "port": int(port),
+            "source_ip": str(source_ip),
+        }
+        rules.append(rec)
+        data["aws_security_group_rules"] = rules
+        return json.dumps(rec, indent=2)
+
+    @staticmethod
+    def get_info() -> Dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "add_security_group_rule",
+                "description": "Add a rule to a security group (rule_id format: sgr- + 16 lowercase hex).",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "security_group_id": {
+                            "type": "string",
+                            "description": "Target security group (sg-...).",
+                        },
+                        "protocol": {"type": "string", "description": "Protocol, e.g., 'TCP'."},
+                        "port": {"type": "integer", "description": "Port number, e.g., 6379."},
+                        "source_ip": {
+                            "type": "string",
+                            "description": "CIDR, e.g., '10.0.0.0/16'.",
+                        },
+                    },
+                    "required": [
+                        "security_group_id",
+                        "protocol",
+                        "port",
+                        "source_ip",
+                    ],
+                },
+            },
+        }
+
+
+class GetSubnetGroup(Tool):
+    @staticmethod
+    def invoke(data: Dict[str, Any], subnet_group_id: Any) -> str:
+        subnet_group_id = _as_id(subnet_group_id)
+        groups = data.get("aws_subnet_groups", [])
+        g = next((x for x in groups if _as_id(x.get("subnet_group_id")) == subnet_group_id), None)
+        return json.dumps(g or {}, indent=2)
+
+    @staticmethod
+    def get_info() -> Dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "get_subnet_group",
+                "description": "Get a single ElastiCache subnet group by id.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {"subnet_group_id": {"type": "string"}},
+                    "required": ["subnet_group_id"],
+                },
+            },
+        }
+
+
+class UpdateSubnetGroupDescription(Tool):
+    @staticmethod
+    def invoke(data: Dict[str, Any], subnet_group_id: Any, name: Any, description: Any) -> str:
+        subnet_group_id = _as_id(subnet_group_id)
+        groups = data.get("aws_subnet_groups", [])
+        g = next((x for x in groups if _as_id(x.get("subnet_group_id")) == subnet_group_id), None)
+        if not g:
+            return _err("Subnet group not found.")
+        g["name"] = str(name)
+        g["description"] = str(description)
+        return json.dumps(
+            {
+                "subnet_group_id": subnet_group_id,
+                "name": g["name"],
+                "description": g["description"],
+            },
+            indent=2,
+        )
+
+    @staticmethod
+    def get_info() -> Dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "update_subnet_group_description",
+                "description": "Rename a subnet group and update its description.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "subnet_group_id": {"type": "string"},
+                        "name": {"type": "string"},
+                        "description": {"type": "string"},
+                    },
+                    "required": ["subnet_group_id", "name", "description"],
+                },
+            },
+        }
+
+
+class UpdateElastiCacheClusterConfig(Tool):
+    @staticmethod
+    def invoke(data: Dict[str, Any], cluster_id: Any, node_type: Any, num_nodes: Any) -> str:
+        changed_at = FIXED_NOW
+        cluster_id = _as_id(cluster_id)
+        clusters = data.get("aws_elasticache_clusters", [])
+        c = next((x for x in clusters if _as_id(x.get("cluster_id")) == cluster_id), None)
+        if not c:
+            return _err("Cluster not found.")
+        c["node_type"] = str(node_type)
+        c["num_nodes"] = int(num_nodes)
+        c["last_modified_at"] = str(changed_at)
+        return json.dumps(
+            {
+                "cluster_id": cluster_id,
+                "node_type": c["node_type"],
+                "num_nodes": c["num_nodes"],
+                "last_modified_at": c["last_modified_at"],
+            },
+            indent=2,
+        )
+
+    @staticmethod
+    def get_info() -> Dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "update_elasticache_cluster_config",
+                "description": "Resize an ElastiCache cluster (node_type / num_nodes).",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "cluster_id": {"type": "string"},
+                        "node_type": {"type": "string"},
+                        "num_nodes": {"type": "integer"},
+                    },
+                    "required": ["cluster_id", "node_type", "num_nodes"],
+                },
+            },
+        }
+
+
+class GetContactByName(Tool):
+    @staticmethod
+    def invoke(data: Dict[str, Any], first_name: Any, last_name: Any) -> str:
+        if not first_name or not last_name:
+            return json.dumps({"error": "first_name and last_name are required."}, indent=2)
+        fn = str(first_name).strip().lower()
+        ln = str(last_name).strip().lower()
+        contacts = data.get("contacts", [])
+        matches = [
+            c
+            for c in contacts
+            if str(c.get("first_name", "")).strip().lower() == fn
+            and str(c.get("last_name", "")).strip().lower() == ln
+        ]
+        if not matches:
+            return json.dumps({}, indent=2)
+
+        # deterministic: lowest numeric contact_id wins if multiple
+        def _key(c):
+            s = str(c.get("contact_id", ""))
+            try:
+                return int(s)
+            except Exception:
+                return float("inf")
+
+        return json.dumps(sorted(matches, key=_key)[0], indent=2)
+
+    @staticmethod
+    def get_info() -> Dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "get_contact_by_name",
+                "description": "Return a contact by exact first and last name (includes contact_id and account_id).",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "first_name": {
+                            "type": "string",
+                            "description": "Exact first name from contacts.",
+                        },
+                        "last_name": {
+                            "type": "string",
+                            "description": "Exact last name from contacts.",
+                        },
+                    },
+                    "required": ["first_name", "last_name"],
+                },
+            },
+        }
+
+
+class ListOrdersForContact(Tool):
+    @staticmethod
+    def invoke(data: Dict[str, Any], contact_id: str) -> str:
+        if not contact_id:
+            return json.dumps({"error": "contact_id is required."}, indent=2)
+        contact_id = _as_id(contact_id)
+        rows = [o for o in data.get("orders", []) if _as_id(o.get("contact_id")) == contact_id]
+        rows = sorted(rows, key=lambda o: str(o.get("order_date", "")), reverse=True)  # ISO desc
+        return json.dumps({"orders": rows}, indent=2)
+
+    @staticmethod
+    def get_info() -> Dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "list_orders_for_contact",
+                "description": "List orders for a contact_id, newest first.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "contact_id": {"type": "string", "description": "Target contact_id."},
+                    },
+                    "required": ["contact_id"],
+                },
+            },
+        }
+
+
+class ListActiveOffers(Tool):
+    @staticmethod
+    def invoke(data: Dict[str, Any]) -> str:
+        offers = [o for o in data.get("offers", []) if o.get("is_active") is True]
+        return json.dumps({"offers": offers}, indent=2)
+
+    @staticmethod
+    def get_info() -> Dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "list_active_offers",
+                "description": "List all active offers (offer_code, discount_type/value).",
+                "parameters": {"type": "object", "properties": {}},
+            },
+        }
+
+
+class GetDefaultPricebookForAccount(Tool):
+    @staticmethod
+    def invoke(data: Dict[str, Any], account_id: Any) -> str:
+        if not account_id:
+            return json.dumps({"error": "account_id is required."}, indent=2)
+        account_id = _as_id(account_id)
+        acc = next(
+            (a for a in data.get("accounts", []) if _as_id(a.get("account_id")) == account_id), None
+        )
+        if not acc:
+            return json.dumps({}, indent=2)
+        pbid = _as_id(acc.get("default_pricebook_id"))
+        pb = next(
+            (p for p in data.get("pricebooks", []) if _as_id(p.get("pricebook_id")) == pbid), None
+        )
+        return json.dumps({"account_id": account_id, "pricebook": (pb or {})}, indent=2)
+
+    @staticmethod
+    def get_info() -> Dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "get_default_pricebook_for_account",
+                "description": "Return the default pricebook record for an account.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "account_id": {"type": "string", "description": "Target account_id."}
+                    },
+                    "required": ["account_id"],
+                },
+            },
+        }
+
+
+class ValidateReturnEligibility(Tool):
+    @staticmethod
+    def invoke(data: Dict[str, Any], order_id: Any) -> str:
+        if not order_id:
+            return json.dumps({"error": "order_id is required."}, indent=2)
+        order_id = _as_id(order_id)
+        order = next(
+            (o for o in data.get("orders", []) if _as_id(o.get("order_id")) == order_id), None
+        )
+        if not order:
+            return json.dumps({}, indent=2)
+        status = str(order.get("status", ""))
+        eligible_statuses = {"Delivered", "Completed"}  # align with SOP
+        eligible = status in eligible_statuses
+        out = {"order_id": order_id, "status": status, "eligible": eligible}
+        if not eligible:
+            out["reason"] = "Order status is not eligible for return."
+        return json.dumps(out, indent=2)
+
+    @staticmethod
+    def get_info() -> Dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "validate_return_eligibility",
+                "description": "Check if an order is eligible for return based on status (Delivered/Completed).",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "order_id": {"type": "string", "description": "Order to check."}
                     },
                     "required": ["order_id"],
                 },
@@ -1617,531 +1614,207 @@ class VerifyOrderPricesAgainstPricebook(Tool):
         }
 
 
-class CollectSubjectSnapshot(Tool):
+class ListCartsForContact(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        cache_jobs: list[dict[str, Any]] = None,
-        orders: list[dict[str, Any]] = None,
-        order_items: list[dict[str, Any]] = None,
-        accounts: list[dict[str, Any]] = None,
-        aws_security_group_rules: list[dict[str, Any]] = None,
-        connected_apps: list[dict[str, Any]] = None,
-        cases: list[dict[str, Any]] = None,
-        subject_id: str = None
-    ) -> str:
-        def is_org_catalog(s: str) -> bool:
-            pass
-            return ":" in s and len(s.split(":", 1)[0]) > 0
+    def invoke(data: Dict[str, Any], contact_id: Any) -> str:
+        if not contact_id:
+            return json.dumps({"error": "contact_id is required."}, indent=2)
+        contact_id = _as_id(contact_id)
+        carts = [c for c in data.get("carts", []) if _as_id(c.get("contact_id")) == contact_id]
 
-        def org_from(s: str) -> str:
-            pass
-            return s.split(":", 1)[0]
+        def _idnum(s):
+            try:
+                return int(str(s))
+            except Exception:
+                return 10**9
 
-        def cat_from(s: str) -> str:
-            pass
-            return s.split(":", 1)[1]
-
-        #data collections
-        cache_jobs = cache_jobs or []
-        orders = orders or []
-        items = order_items or []
-        accounts = accounts or []
-        sgs = aws_security_group_rules or []
-        apps = connected_apps or []
-        cases = cases or []
-
-        details: dict[str, Any] = {"subject_id": subject_id}
-
-        if is_org_catalog(subject_id):
-            org_id = org_from(subject_id)
-            #policy mandates two jobs
-            required = {"Load API Metadata", "Populate Cache Job"}
-            org_jobs = [j for j in cache_jobs.values() if j.get("org_id") == org_id]
-            found = {j.get("job_name") for j in org_jobs}
-            details.update(
-                {
-                    "org_id": org_id,
-                    "has_required_sequence": required.issubset(found),
-                    "present_jobs": sorted(list(found)),
-                    "last_run_times": {
-                        j["job_name"]: j.get("last_run_time") for j in org_jobs
-                    },
-                }
-            )
-
-        elif subject_id.startswith("00D8"):  #appears to be an organization identifier
-            org_jobs = [j for j in cache_jobs.values() if j.get("org_id") == subject_id]
-            details.update(
-                {
-                    "org_id": subject_id,
-                    "job_count": len(org_jobs),
-                    "job_names": sorted({j.get("job_name") for j in org_jobs}),
-                    "last_run_times": {
-                        j["job_name"]: j.get("last_run_time") for j in org_jobs
-                    },
-                }
-            )
-
-        elif subject_id.isdigit():  #order or case (these are numeric in your dataset)
-            #is it an order?
-            o = next((o for o in orders.values() if o.get("order_id") == subject_id), None)
-            if o:
-                its = [li for li in items.values() if li.get("order_id") == subject_id]
-                acct = next(
-                    (a for a in accounts.values() if a.get("account_id") == o.get("account_id")),
-                    None,
-                )
-                details.update(
-                    {
-                        "kind": "order",
-                        "status": o.get("status"),
-                        "subtotal": o.get("subtotal"),
-                        "discount_amount": o.get("discount_amount"),
-                        "total_amount": o.get("total_amount"),
-                        "item_count": len(its),
-                        "account_type": acct.get("type") if acct else None,
-                    }
-                )
-            else:
-                c = next((c for c in cases.values() if c.get("case_id") == subject_id), None)
-                details.update(
-                    {
-                        "kind": "case",
-                        "status": c.get("status") if c else None,
-                        "resolution": c.get("resolution") if c else None,
-                    }
-                )
-
-        elif subject_id.startswith("sg-"):  #identifier for the security group
-            grp = [r for r in sgs.values() if r.get("security_group_id") == subject_id]
-            has_public_redis = any(
-                r.get("port") == 6379
-                and r.get("protocol") == "TCP"
-                and r.get("source_ip") == "0.0.0.0/0"
-                for r in grp
-            )
-            details.update(
-                {
-                    "security_group_id": subject_id,
-                    "rule_count": len(grp),
-                    "has_public_redis": has_public_redis,
-                }
-            )
-
-        else:  #presume app_id (for instance, "203")
-            app = next((a for a in apps if a.get("app_id") == subject_id), None)
-            scopes = app.get("oauth_scopes") if app else []
-            if isinstance(scopes, str):
-                scopes = [x.strip() for x in scopes.split(",") if x.strip()]
-            details.update(
-                {
-                    "app_id": subject_id,
-                    "scope_count": len(scopes),
-                    "has_required_scopes": all(
-                        s in scopes for s in ("api", "refresh_token")
-                    ),
-                }
-            )
-
-        #Transfer to workspace and conduct a self-review
-        _ws_append(data, subject_id, "SNAPSHOT_COLLECTED", details)
-        _append_audit(data, "SNAPSHOT_COLLECTED", subject_id, {"ok": True})
-        payload = details
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "CollectSubjectSnapshot",
-                "description": "Collect a deterministic read-only snapshot of a subject (order, case, org, org:catalog, security group, connected app) for evidence-only use.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"subject_id": {"type": "string"}},
-                    "required": ["subject_id"],
-                },
-            },
-        }
-
-
-#---------------- general-purpose utilities (10 minor tools) ----------------
-
-
-class AddSubjectTag(Tool):
-    @staticmethod
-    def invoke(data: dict[str, Any], subject_id: str, tag: str) -> str:
-        subject_id = _sid(subject_id)
-        payload = {"tag": tag}
-        _ws_append(data, subject_id, "TAG_ADDED", payload)
-        _append_audit(data, "TAG_ADDED", subject_id, payload)
-        payload = {"subject_id": subject_id, "tag": tag, "ok": True}
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "AddSubjectTag",
-                "description": "Attach a tag to the subject and stage to evidence.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "subject_id": {"type": "string"},
-                        "tag": {"type": "string"},
-                    },
-                    "required": ["subject_id", "tag"],
-                },
-            },
-        }
-
-
-class RecordMetric(Tool):
-    @staticmethod
-    def invoke(data: dict[str, Any], subject_id: str, metric: str, value: float) -> str:
-        subject_id = _sid(subject_id)
-        payload = {"metric": metric, "value": float(value)}
-        _ws_append(data, subject_id, "METRIC_RECORDED", payload)
-        payload = {"subject_id": subject_id, "metric": metric, "value": float(value)}
-        out = json.dumps(
-            payload, indent=2,
+        carts.sort(
+            key=lambda c: (str(c.get("last_updated_at", "")), -_idnum(c.get("cart_id"))),
+            reverse=True,
         )
-        return out
+        return json.dumps({"contact_id": contact_id, "carts": carts}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RecordMetric",
-                "description": "Record a simple metric value for the subject.",
+                "name": "list_carts_for_contact",
+                "description": "List carts for a contact, newest first.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "subject_id": {"type": "string"},
-                        "metric": {"type": "string"},
-                        "value": {"type": "number"},
+                        "contact_id": {"type": "string", "description": "Target contact_id."}
                     },
-                    "required": ["subject_id", "metric", "value"],
+                    "required": ["contact_id"],
                 },
             },
         }
 
 
-class ComputeDeltaNumbers(Tool):
+class ListCartItems(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], before: float, after: float, label: str) -> str:
-        delta = float(after) - float(before)
-        payload = {
-            "label": label,
-            "before": float(before),
-            "after": float(after),
-            "delta": round(delta, 6),
-        }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "computeDeltaNumbers",
-                "description": "Compute numeric delta between before/after.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "before": {"type": "number"},
-                        "after": {"type": "number"},
-                        "label": {"type": "string"},
-                    },
-                    "required": ["before", "after", "label"],
-                },
-            },
-        }
-
-
-class DiffKeyset(Tool):
-    @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        left: dict[str, Any],
-        right: dict[str, Any],
-        keys: list[str],
-    ) -> str:
-        changes = {}
-        for k in keys:
-            lv = left.get(k, None)
-            rv = right.get(k, None)
-            if lv != rv:
-                changes[k] = {"before": lv, "after": rv}
-        payload = {"keys": keys, "changes": changes}
-        out = json.dumps(payload, indent=2)
-        return out
-        return out
-
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "diffKeyset",
-                "description": "Diff two dicts across selected keys.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "left": {"type": "object"},
-                        "right": {"type": "object"},
-                        "keys": {"type": "array", "items": {"type": "string"}},
-                    },
-                    "required": ["left", "right", "keys"],
-                },
-            },
-        }
-
-
-class ClassifySubjectForAudit(Tool):
-    @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        subject_id: str,
-        fallback_bucket: str = "MISC"
-    ) -> str:
-        subject_id = _sid(subject_id)
-        bucket = fallback_bucket
-        if ":" in subject_id:
-            bucket = "CACHE_ALIGNMENT_EVIDENCE"
-        elif subject_id.isdigit():
-            staged = _ws(data).get(subject_id, {"events": []}).get("events", [])
-            if any(ev.get("event_type") == "PROCESS_RETURN" for ev in staged.values()):
-                bucket = "RETURN_EVIDENCE"
-            else:
-                bucket = "PRICING_EVIDENCE"
-        elif subject_id.startswith("sg-"):
-            bucket = "SG_EVIDENCE"
-        payload = {"subject_id": subject_id, "bucket": bucket}
-        out = json.dumps(payload, indent=2)
-        return out
-        return out
-
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "classifySubjectForAudit",
-                "description": "Classify a subject_id into an audit bucket.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "subject_id": {"type": "string"},
-                        "fallback_bucket": {"type": "string"},
-                    },
-                    "required": ["subject_id"],
-                },
-            },
-        }
-
-
-class BuildAuditDetailsForBucket(Tool):
-    @staticmethod
-    def invoke(data: dict[str, Any], subject_id: str, bucket: str) -> str:
-        subject_id = _sid(subject_id)
-        staged = _ws(data).get(subject_id, {"events": []}).get("events", [])
-        try:
-            from .rules import build_audit_details as _build
-
-            details = _build(bucket=bucket, subject_id=subject_id, staged_events=staged)
-        except Exception:
-            details = {"bucket": bucket, "subject_id": subject_id, "events": staged}
-        payload = details
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "BuildAuditDetailsForBucket",
-                "description": "Build deterministic details for create_audit_record based on bucket rules in rules.py.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "subject_id": {"type": "string"},
-                        "bucket": {"type": "string"},
-                    },
-                    "required": ["subject_id", "bucket"],
-                },
-            },
-        }
-
-
-class RedactFields(Tool):
-    @staticmethod
-    def invoke(data: dict[str, Any], payload: dict[str, Any], fields: list[str]) -> str:
-        redacted = {k: v for k, v in payload.items() if k not in fields}
-        payload = redacted
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "redactFields",
-                "description": "Remove specified keys from a dict.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "payload": {"type": "object"},
-                        "fields": {"type": "array", "items": {"type": "string"}},
-                    },
-                    "required": ["payload", "fields"],
-                },
-            },
-        }
-
-
-class PickFields(Tool):
-    @staticmethod
-    def invoke(data: dict[str, Any], payload: dict[str, Any], fields: list[str]) -> str:
-        picked = {k: payload.get(k, None) for k in sorted(fields)}
-        payload = picked
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "pickFields",
-                "description": "Return only the selected keys from a dict.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "payload": {"type": "object"},
-                        "fields": {"type": "array", "items": {"type": "string"}},
-                    },
-                    "required": ["payload", "fields"],
-                },
-            },
-        }
-
-
-class EmitAnnotation(Tool):
-    @staticmethod
-    def invoke(data: dict[str, Any], subject_id: str, note: str) -> str:
-        subject_id = _sid(subject_id)
-        payload = {"note": note}
-        _append_audit(data, "ANNOTATION", subject_id, {"note": note})
-        _ws_append(data, subject_id, "ANNOTATION", payload)
-        payload = {"subject_id": subject_id, "note": note}
-        out = json.dumps(payload, indent=2)
-        return out
-    @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "EmitAnnotation",
-                "description": "Emit a freeform annotation into workspace evidence.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "subject_id": {"type": "string"},
-                        "note": {"type": "string"},
-                    },
-                    "required": ["subject_id", "note"],
-                },
-            },
-        }
-
-
-class ConsolidateWorkspaceEvents(Tool):
-    @staticmethod
-    def invoke(data: dict[str, Any], subject_id: str, event_types: list[str]) -> str:
-        subject_id = _sid(subject_id)
-        staged = _ws(data).get(subject_id, {"events": []}).get("events", [])
-        filt = [e for e in staged.values() if e.get("event_type") in set(event_types)]
-        # Provide only a predictable subset
-        slim = [
+    def invoke(data: Dict[str, Any], cart_id: Any) -> str:
+        if not cart_id:
+            return json.dumps({"error": "cart_id is required."}, indent=2)
+        cart_id = _as_id(cart_id)
+        rows = [ci for ci in data.get("cart_items", []) if _as_id(ci.get("cart_id")) == cart_id]
+        # return minimal, deterministic fields
+        items = [
             {
-                "event_type": e.get("event_type"),
-                "payload": e.get("payload"),
-                "ts": e.get("ts"),
+                "cart_item_id": r.get("cart_item_id"),
+                "product_id": r.get("product_id"),
+                "quantity": int(r.get("quantity", 0)),
             }
-            for e in filt
+            for r in rows
         ]
-        payload = {"subject_id": subject_id, "events": slim}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"cart_id": cart_id, "items": items}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ConsolidateWorkspaceEvents",
-                "description": "Return filtered staged events for a subject.",
+                "name": "list_cart_items",
+                "description": "List items in a cart (cart_item_id, product_id, quantity).",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "subject_id": {"type": "string"},
-                        "event_types": {"type": "array", "items": {"type": "string"}},
+                        "cart_id": {"type": "string", "description": "Existing cart_id."}
                     },
-                    "required": ["subject_id", "event_types"],
+                    "required": ["cart_id"],
+                },
+            },
+        }
+
+
+class ReturnOrder(Tool):
+    @staticmethod
+    def invoke(data: Dict[str, Any], order_id: Any, lines: Any) -> str:
+        order_id = _as_id(order_id)
+        if not order_id or lines is None:
+            return _err("order_id and lines are required.")
+        lines = _coerce_ids_in(lines)
+        orders = data.get("orders", [])
+        order = next((o for o in orders if _as_id(o.get("order_id")) == order_id), None)
+        if not order:
+            return _err("Order not found.")
+
+        order_items = data.get("order_items", [])
+        products = data.get("products", [])
+
+        items_processed = []
+        total_refund = 0.0
+
+        for ret in lines:
+            pid = _as_id(ret.get("product_id"))
+            qty = int(ret.get("qty", ret.get("quantity", 0)))
+            if qty <= 0 or not pid:
+                continue
+            oi = next(
+                (
+                    x
+                    for x in order_items
+                    if _as_id(x.get("order_id")) == order_id and _as_id(x.get("product_id")) == pid
+                ),
+                None,
+            )
+            if not oi:
+                continue
+            unit = float(oi.get("price", 0.0))
+            refund = unit * qty
+            total_refund += refund
+
+            prod = next((p for p in products if _as_id(p.get("product_id")) == pid), None)
+            if prod:
+                prod["stock_quantity"] = int(prod.get("stock_quantity", 0)) + qty
+
+            items_processed.append(
+                {
+                    "product_id": pid,
+                    "quantity": qty,
+                    "refund_amount": round(refund, 2),
+                }
+            )
+
+        order["status"] = "Return Pending"
+        return json.dumps(
+            {
+                "order_id": order_id,
+                "items_processed": items_processed,
+                "total_refund_amount": round(total_refund, 2),
+                "order_status": order["status"],
+            },
+            indent=2,
+        )
+
+    @staticmethod
+    def get_info() -> Dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "return_order",
+                "description": "Return one or more lines from an order and restock quantities.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "order_id": {"type": "string"},
+                        "lines": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "product_id": {"type": "string"},
+                                    "qty": {"type": "integer"},
+                                },
+                            },
+                        },
+                    },
+                    "required": ["order_id", "lines"],
                 },
             },
         }
 
 
 TOOLS = [
-    GetClusterById(),
-    ListClustersByStatus(),
-    ValidateClusterEndpoint(),
-    ListSecurityGroupRules(),
-    HardenRedisSecurityGroup(),
-    LinkCacheToOrg(),
-    NormalizeCustomSetting(),
-    RunCacheJob(),
-    GetCacheJobHistory(),
-    NormalizeConnectedAppScopes(),
-    SetTraceFlag(),
-    SetFeatureToggle(),
-    GetOrder(),
-    GetOrderItems(),
-    GetAccount(),
-    GetOrg(),
-    GetPriceForProduct(),
-    GetProductStock(),
-    UpdateProductStock(),
-    RecomputeOrderTotals(),
-    ApplyOfferToOrder(),
-    EnforceMinimumOrder(),
-    ShipOrder(),
-    DeliverOrder(),
+    GetContactByEmail(),
+    GetProductByName(),
+    GetContactByName(),
+    ListProductsInCategory(),
+    GetPricebookByName(),
+    GetOfferByCode(),
+    CreateCart(),
+    AddItemToCart(),
+    SetItemQuantity(),
+    RemoveItemFromCart(),
+    ApplyOfferToCart(),
+    PreviewCartTotals(),
+    CreateOrder(),
+    ListOrderItems(),
+    SetOrderShippingAddress(),
     CancelOrder(),
-    CreateReturnCase(),
-    ProcessReturn(),
-    CloseCase(),
-    ActivateOffer(),
-    InvalidateCacheForCatalog(),
-    NormalizeTimestampField(),
-    GetAuditLog(),
-    CreateAuditRecord(),
-    NormalizeOrgCacheTimestamps(),
-    VerifyOrderPricesAgainstPricebook(),
-    RunCacheJobsInOrder(),
-    CollectSubjectSnapshot(),
-    AddSubjectTag(),
-    RecordMetric(),
-    ComputeDeltaNumbers(),
-    DiffKeyset(),
-    ClassifySubjectForAudit(),
-    BuildAuditDetailsForBucket(),
-    RedactFields(),
-    PickFields(),
-    EmitAnnotation(),
-    ConsolidateWorkspaceEvents(),
+    ReturnOrder(),
+    CreateCase(),
+    UpdateCaseStatus(),
+    RefundOrderFull(),
+    RefundOrderPartial(),
+    ListElastiCacheClusters(),
+    GetElastiCacheCluster(),
+    ProvisionElastiCacheCluster(),
+    UpdateElastiCacheInstanceType(),
+    DeleteElastiCacheCluster(),
+    ListSubnetGroups(),
+    CreateSubnetGroup(),
+    ListSecurityGroupRules(),
+    AddSecurityGroupRule(),
+    GetSubnetGroup(),
+    UpdateSubnetGroupDescription(),
+    UpdateElastiCacheClusterConfig(),
+    ValidateReturnEligibility(),
+    ListOrdersForContact(),
+    ListActiveOffers(),
+    GetDefaultPricebookForAccount(),
+    ListCartsForContact(),
+    ListCartItems(),
+    GetAccountById(),
 ]

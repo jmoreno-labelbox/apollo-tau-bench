@@ -1,337 +1,299 @@
+from domains.dto import Tool
+from typing import Any, Dict
 import json
-from typing import Any
-
-from tau_bench.envs.tool import Tool
 
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-
-#---------- 1 ----------
+# ---------- 1 ----------
 class ListUsersTool(Tool):
-    """Display users with optional filtering."""
+    """List users with optional filters."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], department: str = None, status: str = None, mfa_enabled: bool = None) -> str:
-        users = data.get("users", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        dept = kwargs.get("department")
+        status = kwargs.get("status")
+        mfa_enabled = kwargs.get("mfa_enabled")
+        users = data.get("users", [])
 
         results = []
-        for u in users.values():
-            if department and u["department"] != department:
+        for u in users:
+            if dept and u["department"] != dept:
                 continue
             if status and u["status"] != status:
                 continue
             if mfa_enabled is not None and u["mfa_enabled"] != mfa_enabled:
                 continue
             results.append(u)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListUsers",
+                "name": "list_users",
                 "description": "List users with optional filters",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "department": {"type": "string"},
                         "status": {"type": "string"},
-                        "mfa_enabled": {"type": "boolean"},
-                    },
-                },
-            },
+                        "mfa_enabled": {"type": "boolean"}
+                    }
+                }
+            }
         }
 
-
-#---------- 2 ----------
+# ---------- 2 ----------
 class GetUserDetailsTool(Tool):
-    """Retrieve full user information."""
+    """Get complete user details."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        uid = user_id
-        for u in data.get("users", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        uid = kwargs.get("user_id")
+        for u in data.get("users", []):
             if u["user_id"] == uid:
-                payload = u
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"user_id {uid} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(u, indent=2)
+        return json.dumps({"error": f"user_id {uid} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetUserDetails",
+                "name": "get_user_details",
                 "description": "Get full details of a user by their user_id",
                 "parameters": {
                     "type": "object",
-                    "properties": {"user_id": {"type": "string"}},
-                    "required": ["user_id"],
-                },
-            },
+                    "properties": {
+                        "user_id": {"type": "string"}
+                    },
+                    "required": ["user_id"]
+                }
+            }
         }
 
-
-#---------- 3 ----------
+# ---------- 3 ----------
 class ListRolesTool(Tool):
-    """Display roles, with an optional filter for temporary ones."""
+    """List roles, with optional filter for temporary."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], is_temporary: bool = None) -> str:
-        roles = data.get("roles", {}).values()
-        if is_temporary is None:
-            payload = roles
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = [r for r in roles.values() if r["is_temporary"] == is_temporary]
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        temp_flag = kwargs.get("is_temporary")
+        roles = data.get("roles", [])
+        if temp_flag is None:
+            return json.dumps(roles, indent=2)
+        return json.dumps([r for r in roles if r["is_temporary"] == temp_flag], indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListRoles",
+                "name": "list_roles",
                 "description": "List all roles optionally filtering by temporary flag",
                 "parameters": {
                     "type": "object",
-                    "properties": {"is_temporary": {"type": "boolean"}},
-                },
-            },
+                    "properties": {
+                        "is_temporary": {"type": "boolean"}
+                    }
+                }
+            }
         }
 
 
-#---------- 6 ----------
+# ---------- 6 ----------
 class RevokeRoleFromUserTool(Tool):
-    """Remove a role from a user."""
+    """Revoke a role from a user."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, role_id: str = None) -> str:
-        uid = user_id
-        rid = role_id
-        user_roles = data.get("user_roles", {}).values()
-        to_remove = [
-            ur for ur in user_roles.values() if ur["user_id"] == uid and ur["role_id"] == rid
-        ]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        uid = kwargs.get("user_id")
+        rid = kwargs.get("role_id")
+        user_roles = data.get("user_roles", [])
+        to_remove = [ur for ur in user_roles if ur["user_id"] == uid and ur["role_id"] == rid]
         if not to_remove:
-            payload = {"error": "Role not found for user"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Role not found for user"}, indent=2)
         for rem in to_remove:
             user_roles.remove(rem)
-        payload = {"success": f"Role {rid} revoked from user {uid}"}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"success": f"Role {rid} revoked from user {uid}"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RevokeRole",
+                "name": "revoke_role",
                 "description": "Revokes a specific role from a user",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "user_id": {"type": "string"},
-                        "role_id": {"type": "string"},
+                        "role_id": {"type": "string"}
                     },
-                    "required": ["user_id", "role_id"],
-                },
-            },
+                    "required": ["user_id", "role_id"]
+                }
+            }
         }
 
-
-#---------- 7 ----------
+# ---------- 7 ----------
 class ListAccessRequestsTool(Tool):
-    """Display access requests categorized by status or resource."""
+    """List access requests by status or resource."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], status: str = None, resource_id: str = None) -> str:
-        reqs = data.get("access_requests", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        status = kwargs.get("status")
+        res_id = kwargs.get("resource_id")
+        reqs = data.get("access_requests", [])
         results = []
-        for r in reqs.values():
+        for r in reqs:
             if status and r["status"] != status:
                 continue
-            if resource_id and r["resource_id"] != resource_id:
+            if res_id and r["resource_id"] != res_id:
                 continue
             results.append(r)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListAccessRequests",
+                "name": "list_access_requests",
                 "description": "List access requests filtered by status or resource",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "status": {"type": "string"},
-                        "resource_id": {"type": "string"},
-                    },
-                },
-            },
+                        "resource_id": {"type": "string"}
+                    }
+                }
+            }
         }
 
-
-#---------- 8 ----------
+# ---------- 8 ----------
 class ApproveAccessRequestTool(Tool):
-    """Authorize an access request."""
+    """Approve an access request."""
 
-    @staticmethod  #<-- necessary to align with base class definition
-    def invoke(data: dict[str, Any], request_id: str, reviewer_id: str, decision_at: str) -> str:
-        rid = request_id
-        reviewer = reviewer_id
-        decision_at = decision_at  #<-- additional mandatory argument!
-        for req in data.get("access_requests", {}).values():
+    @staticmethod  # <-- required to match base class definition
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        rid = kwargs.get("request_id")
+        reviewer = kwargs.get("reviewer_id")
+        decision_at = kwargs.get("decision_at")  # <-- new required argument!
+        for req in data.get("access_requests", []):
             if req["request_id"] == rid:
                 req["status"] = "APPROVED"
                 req["reviewed_by"] = reviewer
-                req["decision_at"] = decision_at  #<-- utilize argument, AVOID hardcoding!
-                payload = {"success": f"Request {rid} approved"}
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Request {rid} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                req["decision_at"] = decision_at   # <-- use argument, NOT hardcoded!
+                return json.dumps({"success": f"Request {rid} approved"}, indent=2)
+        return json.dumps({"error": f"Request {rid} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ApproveAccessRequest",
+                "name": "approve_access_request",
                 "description": "Approve a pending access request",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "request_id": {"type": "string"},
                         "reviewer_id": {"type": "string"},
-                        "decision_at": {"type": "string"},  #<-- Include in properties!
+                        "decision_at": {"type": "string"},  # <-- Add to properties!
                     },
-                    "required": [
-                        "request_id",
-                        "reviewer_id",
-                        "decision_at",
-                    ],  #<-- Include in required!
-                },
-            },
+                    "required": ["request_id", "reviewer_id", "decision_at"],  # <-- Add to required!
+                }
+            }
         }
 
-
-#---------- 9 ----------
+# ---------- 9 ----------
 class RejectAccessRequestTool(Tool):
-    """Deny an access request."""
+    """Reject an access request."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], request_id: str = None, reviewer_id: str = None, decision_at: str = None,
-    reason: Any = None,
-    ) -> str:
-        rid = request_id
-        reviewer = reviewer_id
-        decision_at = decision_at
-        for req in data.get("access_requests", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        rid = kwargs.get("request_id")
+        reviewer = kwargs.get("reviewer_id")
+        decision_at = kwargs.get("decision_at")
+        for req in data.get("access_requests", []):
             if req["request_id"] == rid:
                 req["status"] = "REJECTED"
                 req["reviewed_by"] = reviewer
                 req["decision_at"] = decision_at
-                payload = {"success": f"Request {rid} rejected"}
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Request {rid} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps({"success": f"Request {rid} rejected"}, indent=2)
+        return json.dumps({"error": f"Request {rid} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RejectAccessRequest",
+                "name": "reject_access_request",
                 "description": "Reject a pending access request",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "request_id": {"type": "string"},
                         "reviewer_id": {"type": "string"},
-                        "decision_at": {"type": "string"},
+                        "decision_at": {"type": "string"}
                     },
-                    "required": ["request_id", "reviewer_id", "decision_at"],
-                },
-            },
+                    "required": ["request_id", "reviewer_id", "decision_at"]
+                }
+            }
         }
 
 
-#---------- 10 ----------
+# ---------- 10 ----------
 class GetCertificationDetailsTool(Tool):
-    """Retrieve information about a certification."""
+    """Get details of a certification."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], certification_id: str = None,
-    user_id: Any = None,
-    ) -> str:
-        cid = certification_id
-        for c in data.get("certifications", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cid = kwargs.get("certification_id")
+        for c in data.get("certifications", []):
             if c["certification_id"] == cid:
-                payload = c
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Certification {cid} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(c, indent=2)
+        return json.dumps({"error": f"Certification {cid} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCertificationDetails",
+                "name": "get_certification_details",
                 "description": "Get details of a certification record",
                 "parameters": {
                     "type": "object",
-                    "properties": {"certification_id": {"type": "string"}},
-                    "required": ["certification_id"],
-                },
-            },
+                    "properties": {
+                        "certification_id": {"type": "string"}
+                    },
+                    "required": ["certification_id"]
+                }
+            }
         }
 
-
-#---------- 11 ----------
+# ---------- 11 ----------
 class CompleteCertificationTool(Tool):
-    """Designate a certification as complete."""
+    """Mark a certification as complete."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], certification_id: str = None, completed_on: str = None) -> str:
-        for c in data.get("certifications", {}).values():
-            if c["certification_id"] == certification_id:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cid = kwargs.get("certification_id")
+        completed_on = kwargs.get("completed_on")
+        for c in data.get("certifications", []):
+            if c["certification_id"] == cid:
                 c["status"] = "COMPLETED"
                 c["completed_on"] = completed_on
-                payload = {"success": f"Certification {certification_id} completed"}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
-        payload = {"error": f"Certification {certification_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps({"success": f"Certification {cid} completed"}, indent=2)
+        return json.dumps({"error": f"Certification {cid} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CompleteCertification",
+                "name": "complete_certification",
                 "description": "Mark a certification as completed",
                 "parameters": {
                     "type": "object",
@@ -339,73 +301,72 @@ class CompleteCertificationTool(Tool):
                         "certification_id": {"type": "string"},
                         "completed_on": {"type": "string"},
                     },
-                    "required": ["certification_id", "completed_on"],
-                },
-            },
+                    "required": ["certification_id", "completed_on"]
+                }
+            }
         }
 
 
-#---------- 12 ----------
+# ---------- 12 ----------
 class ListPolicyExceptionsTool(Tool):
-    """Display exceptions to policies."""
+    """List policy exceptions."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], status: str = None, user_id: str = None, completed_on: Any = None,
-    permission_id: Any = None,
-    ) -> str:
-        exes = data.get("policy_exceptions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        status = kwargs.get("status")
+        uid = kwargs.get("user_id")
+        exes = data.get("policy_exceptions", [])
         results = []
-        for e in exes.values():
+        for e in exes:
             if status and e["status"] != status:
                 continue
-            if user_id and e["user_id"] != user_id:
+            if uid and e["user_id"] != uid:
                 continue
             results.append(e)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListPolicyExceptions",
+                "name": "list_policy_exceptions",
                 "description": "List policy exceptions optionally filtered by status or user_id",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "status": {"type": "string"},
-                        "user_id": {"type": "string"},
-                    },
-                },
-            },
+                        "user_id": {"type": "string"}
+                    }
+                }
+            }
         }
 
-
-#---------- 13 ----------
+# ---------- 13 ----------
 class ApprovePolicyExceptionTool(Tool):
-    """Authorize a policy exception."""
+    """Approve a policy exception."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], exception_id: str = None, reviewed_by: str = None, expires_on: str = None, reviewed_on: str = None, permission_id: Any = None) -> str:
-        for e in data.get("policy_exceptions", {}).values():
-            if e["exception_id"] == exception_id:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        eid = kwargs.get("exception_id")
+        reviewer = kwargs.get("reviewed_by")
+        expires = kwargs.get("expires_on")
+        reviewed_on = kwargs.get("reviewed_on")
+        for e in data.get("policy_exceptions", []):
+            if e["exception_id"] == eid:
                 e["status"] = "ACTIVE"
-                e["reviewed_by"] = reviewed_by
+                e["reviewed_by"] = reviewer
                 e["reviewed_on"] = reviewed_on
-                e["expires_on"] = expires_on
-                payload = {"success": f"Exception {exception_id} approved"}
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Exception {exception_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                e["expires_on"] = expires
+                return json.dumps({"success": f"Exception {eid} approved"}, indent=2)
+        return json.dumps({"error": f"Exception {eid} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ApprovePolicyException",
+                "name": "approve_policy_exception",
                 "description": "Approve a pending policy exception request",
                 "parameters": {
                     "type": "object",
@@ -413,123 +374,118 @@ class ApprovePolicyExceptionTool(Tool):
                         "exception_id": {"type": "string"},
                         "reviewed_by": {"type": "string"},
                         "expires_on": {"type": "string"},
-                        "reviewed_on": {"type": "string"},
+                        "reviewed_on": {"type": "string"}
                     },
-                    "required": [
-                        "exception_id",
-                        "reviewed_by",
-                        "expires_on",
-                        "reviewed_on",
-                    ],
-                },
-            },
+                    "required": ["exception_id", "reviewed_by", "expires_on", "reviewed_on"]
+                }
+            }
         }
 
-
-#---------- 14 ----------
+# ---------- 14 ----------
 class DenyPolicyExceptionTool(Tool):
-    """Reject a policy exception request."""
+    """Deny a policy exception request."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], exception_id: str = None, reviewed_by: str = None, reviewed_on: str = None) -> str:
-        for e in data.get("policy_exceptions", {}).values():
-            if e["exception_id"] == exception_id:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        eid = kwargs.get("exception_id")
+        reviewer = kwargs.get("reviewed_by")
+        reviewed_on = kwargs.get("reviewed_on")
+        for e in data.get("policy_exceptions", []):
+            if e["exception_id"] == eid:
                 e["status"] = "DENIED"
-                e["reviewed_by"] = reviewed_by
+                e["reviewed_by"] = reviewer
                 e["reviewed_on"] = reviewed_on
-                payload = {"success": f"Exception {exception_id} denied"}
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Exception {exception_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps({"success": f"Exception {eid} denied"}, indent=2)
+        return json.dumps({"error": f"Exception {eid} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "DenyPolicyException",
+                "name": "deny_policy_exception",
                 "description": "Deny a pending policy exception request",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "exception_id": {"type": "string"},
                         "reviewed_by": {"type": "string"},
-                        "reviewed_on": {"type": "string"},
+                        "reviewed_on": {"type": "string"}
                     },
-                    "required": ["exception_id", "reviewed_by", "reviewed_on"],
-                },
-            },
+                    "required": ["exception_id", "reviewed_by", "reviewed_on"]
+                }
+            }
         }
 
 
-#---------- 16 ----------
+# ---------- 16 ----------
 class GetPolicyExceptionDetailsTool(Tool):
-    """Provide the complete stored record for a specified policy exception (excluding error payloads)."""
+    """Return the full stored record for a given policy exception (no error payloads)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], exception_id: str = None) -> str:
-        pass
-        eid = exception_id
-        for e in data.get("policy_exceptions", {}).values() or []:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        eid = kwargs.get("exception_id")
+        for e in data.get("policy_exceptions", []) or []:
             if e.get("exception_id") == eid:
-                payload = e
-                out = json.dumps(payload, indent=2)
-                return out
-        #Not located → return empty object to prevent '"error":' keys from triggering validators
+                # Return the exact object as pretty JSON so you can grab reviewed_on, etc.
+                return json.dumps(e, indent=2)
+        # Not found → return empty object to avoid '"error":' keys tripping validators
         return "{}"
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPolicyExceptionDetails",
+                "name": "get_policy_exception_details",
                 "description": "Return the full stored policy-exception record for the given ID.",
                 "parameters": {
                     "type": "object",
                     "additionalProperties": False,
                     "properties": {
-                        "exception_id": {
-                            "type": "string",
-                            "description": "e.g., PE-007",
-                        }
+                        "exception_id": {"type": "string", "description": "e.g., PE-007"}
                     },
-                    "required": ["exception_id"],
-                },
-            },
+                    "required": ["exception_id"]
+                }
+            }
         }
 
 
-#---------- 17 ----------
+
+
+# ---------- 17 ----------
 class RequestPolicyExceptionTool(Tool):
-    """Initiate a new policy exception request."""
+    """Create a new policy exception request."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, permission_id: str = None, reason: str = None, requested_on: str = None) -> str:
-        exceptions = data.get("policy_exceptions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        uid = kwargs.get("user_id")
+        pid = kwargs.get("permission_id")
+        reason = kwargs.get("reason")
+        requested_on = kwargs.get("requested_on")
+        exceptions = data.get("policy_exceptions", [])
 
         new_id = f"PE-{len(exceptions) + 1:03d}"
         record = {
             "exception_id": new_id,
-            "user_id": user_id,
-            "permission_id": permission_id,
+            "user_id": uid,
+            "permission_id": pid,
             "reviewed_by": None,
             "requested_on": requested_on,
             "reviewed_on": None,
             "expires_on": None,
             "reason": reason,
-            "status": "PENDING_REVIEW",
+            "status": "PENDING_REVIEW"
         }
-        data["policy_exceptions"][record["policy_exception_id"]] = record
-        payload = {"success": f"Policy exception {new_id} requested"}
-        out = json.dumps(payload, indent=2)
-        return out
+        exceptions.append(record)
+        return json.dumps({"success": f"Policy exception {new_id} requested"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RequestPolicyException",
+                "name": "request_policy_exception",
                 "description": "Create a new policy exception request for a specific permission",
                 "parameters": {
                     "type": "object",
@@ -537,150 +493,147 @@ class RequestPolicyExceptionTool(Tool):
                         "user_id": {"type": "string"},
                         "permission_id": {"type": "string"},
                         "reason": {"type": "string"},
-                        "requested_on": {"type": "string"},
+                        "requested_on": {"type": "string"}
                     },
-                    "required": ["user_id", "permission_id", "reason", "requested_on"],
-                },
-            },
+                    "required": ["user_id", "permission_id", "reason", "requested_on"]
+                }
+            }
         }
 
 
-#---------- 18 ----------
+# ---------- 18 ----------
 class ListSiemAlertsTool(Tool):
-    """Display SIEM alerts with optional filters."""
+    """List SIEM alerts with optional filtering."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], resource_id: str = None, severity: str = None,
-    severity_in: Any = None,
-    ) -> str:
-        alerts = data.get("siem_alerts", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        res_id = kwargs.get("resource_id")
+        sev = kwargs.get("severity")
+        alerts = data.get("siem_alerts", [])
         results = []
-        for a in alerts.values():
-            if resource_id and a["resource_id"] != resource_id:
+        for a in alerts:
+            if res_id and a["resource_id"] != res_id:
                 continue
-            if severity and a["severity"] != severity:
+            if sev and a["severity"] != sev:
                 continue
             results.append(a)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListSiemAlerts",
+                "name": "list_siem_alerts",
                 "description": "List SIEM alerts filtered by resource or severity",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "resource_id": {"type": "string"},
-                        "severity": {"type": "string"},
-                    },
-                },
-            },
+                        "severity": {"type": "string"}
+                    }
+                }
+            }
         }
 
 
-#---------- 19 ----------
+# ---------- 19 ----------
 class GetSiemAlertDetailsTool(Tool):
-    """Get information about a SIEM alert."""
+    """Retrieve details of a SIEM alert."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], alert_id: str, severity_in: Any = None) -> str:
-        aid = alert_id
-        for a in data.get("siem_alerts", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        aid = kwargs.get("alert_id")
+        for a in data.get("siem_alerts", []):
             if a["alert_id"] == aid:
-                payload = a
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"SIEM alert {aid} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(a, indent=2)
+        return json.dumps({"error": f"SIEM alert {aid} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetSiemAlertDetails",
+                "name": "get_siem_alert_details",
                 "description": "Get detailed information for a specific SIEM alert",
                 "parameters": {
                     "type": "object",
-                    "properties": {"alert_id": {"type": "string"}},
-                    "required": ["alert_id"],
-                },
-            },
+                    "properties": {
+                        "alert_id": {"type": "string"}
+                    },
+                    "required": ["alert_id"]
+                }
+            }
         }
 
 
-#---------- 20 ----------
+# ---------- 20 ----------
 class CreateSiemRuleTool(Tool):
-    """Establish a new SIEM correlation rule."""
+    """Create a new SIEM correlation rule."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], rule_name: str = None, conditions: Any = None, created_by: str = None,
-    created_on: Any = None,
-    notes: str = None
-    ) -> str:
-        rules = data.get("siem_rules", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        rule_name = kwargs.get("rule_name")
+        conditions = kwargs.get("conditions")
+        created_by = kwargs.get("created_by")
+        rules = data.get("siem_rules", [])
         new_id = f"RULE-{len(rules) + 1:03d}"
-        rules.append(
-            {
-                "rule_id": new_id,
-                "rule_name": rule_name,
-                "conditions": conditions,
-                "created_by": created_by,
-            }
-        )
-        payload = {"success": f"SIEM rule {new_id} created"}
-        out = json.dumps(payload, indent=2)
-        return out
+        rules.append({
+            "rule_id": new_id,
+            "rule_name": rule_name,
+            "conditions": conditions,
+            "created_by": created_by
+        })
+        return json.dumps({"success": f"SIEM rule {new_id} created"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateSiemRule",
+                "name": "create_siem_rule",
                 "description": "Create and store a new rule in SIEM",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "rule_name": {"type": "string"},
                         "conditions": {"type": "object"},
-                        "created_by": {"type": "string"},
+                        "created_by": {"type": "string"}
                     },
-                    "required": ["rule_name", "conditions", "created_by"],
-                },
-            },
+                    "required": ["rule_name", "conditions", "created_by"]
+                }
+            }
         }
 
 
-#---------- 21 ----------
+# ---------- 21 ----------
 class InvestigateSiemIncidentTool(Tool):
-    """Document the outcome of an investigation for a SIEM alert."""
+    """Record an investigation result for a SIEM alert."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], alert_id: str = None, analyst_id: str = None, notes: str = None, investigated_on: str = None, created_on: Any = None) -> str:
-        investigations = data.get("siem_investigations", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        aid = kwargs.get("alert_id")
+        analyst = kwargs.get("analyst_id")
+        notes = kwargs.get("notes")
+        investigated_on = kwargs.get("investigated_on")
+
+        investigations = data.get("siem_investigations", [])
         new_id = f"INV-{len(investigations) + 1:03d}"
-        investigations.append(
-            {
-                "investigation_id": new_id,
-                "alert_id": alert_id,
-                "analyst_id": analyst_id,
-                "notes": notes,
-                "investigated_on": investigated_on,
-            }
-        )
-        payload = {"success": f"Investigation {new_id} recorded"}
-        out = json.dumps(payload, indent=2)
-        return out
+        investigations.append({
+            "investigation_id": new_id,
+            "alert_id": aid,
+            "analyst_id": analyst,
+            "notes": notes,
+            "investigated_on": investigated_on
+        })
+        return json.dumps({"success": f"Investigation {new_id} recorded"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "InvestigateSiemIncident",
+                "name": "investigate_siem_incident",
                 "description": "Create a record of SIEM incident investigation",
                 "parameters": {
                     "type": "object",
@@ -688,383 +641,361 @@ class InvestigateSiemIncidentTool(Tool):
                         "alert_id": {"type": "string"},
                         "analyst_id": {"type": "string"},
                         "notes": {"type": "string"},
-                        "investigated_on": {"type": "string"},
+                        "investigated_on": {"type": "string"}
                     },
-                    "required": ["alert_id", "analyst_id", "notes", "investigated_on"],
-                },
-            },
+                    "required": ["alert_id", "analyst_id", "notes", "investigated_on"]
+                }
+            }
         }
 
 
-#---------- 22 ----------
+# ---------- 22 ----------
 class ListSessionsTool(Tool):
-    """Display user sessions with optional filtering."""
+    """List user sessions with optional filters."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, active_only: bool = None) -> str:
-        sessions = data.get("sessions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        uid = kwargs.get("user_id")
+        active_only = kwargs.get("active_only")
+        sessions = data.get("sessions", [])
         results = []
-        for s in sessions.values():
-            if user_id and s["user_id"] != user_id:
+        for s in sessions:
+            if uid and s["user_id"] != uid:
                 continue
             if active_only and s.get("end_time") is not None:
                 continue
             results.append(s)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListSessions",
+                "name": "list_sessions",
                 "description": "List login sessions with optional user_id and active_only flag",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "user_id": {"type": "string"},
-                        "active_only": {"type": "boolean"},
-                    },
-                },
-            },
+                        "active_only": {"type": "boolean"}
+                    }
+                }
+            }
         }
 
 
-#---------- 23 ----------
+# ---------- 23 ----------
 class TerminateSessionTool(Tool):
-    """End a particular user session."""
+    """Terminate a specific user session."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], session_id: str = None, terminated_on: str = None) -> str:
-        sid = session_id
-        term_time = terminated_on
-        for s in data.get("sessions", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        sid = kwargs.get("session_id")
+        term_time = kwargs.get("terminated_on")
+        for s in data.get("sessions", []):
             if s["session_id"] == sid:
                 s["end_time"] = term_time
-                payload = {"success": f"Session {sid} terminated"}
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Session {sid} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps({"success": f"Session {sid} terminated"}, indent=2)
+        return json.dumps({"error": f"Session {sid} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "TerminateSession",
+                "name": "terminate_session",
                 "description": "Force terminate a session by ID",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "session_id": {"type": "string"},
-                        "terminated_on": {"type": "string"},
+                        "terminated_on": {"type": "string"}
                     },
-                    "required": ["session_id", "terminated_on"],
-                },
-            },
+                    "required": ["session_id", "terminated_on"]
+                }
+            }
         }
 
 
-#---------- 24 ----------
+# ---------- 24 ----------
 class AuditIamAccessTool(Tool):
-    """Display IAM access audit logs within specified timestamps."""
+    """List IAM access audit logs between timestamps."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], start_time: str = None, end_time: str = None) -> str:
-        logs = data.get("audit_logs", {}).values()
-        results = [
-            l
-            for l in logs.values() if start_time <= l["timestamp"] <= end_time and "IAM" in l.get("details", "")
-        ]
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        start = kwargs.get("start_time")
+        end = kwargs.get("end_time")
+        logs = data.get("audit_logs", [])
+        results = [l for l in logs if start <= l["timestamp"] <= end and "IAM" in l.get("details", "")]
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AuditIamAccess",
+                "name": "audit_iam_access",
                 "description": "Return IAM-specific audit logs in the provided time range",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "start_time": {"type": "string"},
-                        "end_time": {"type": "string"},
+                        "end_time": {"type": "string"}
                     },
-                    "required": ["start_time", "end_time"],
-                },
-            },
+                    "required": ["start_time", "end_time"]
+                }
+            }
         }
 
 
-#---------- 25 ----------
+# ---------- 25 ----------
 class SearchLogsTool(Tool):
-    """Query system logs using search text."""
+    """Search system logs by query text."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], query: str = "", resource_id: str = None, since: str = None) -> str:
-        logs = data.get("audit_logs", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        query = kwargs.get("query") or ""
+        res_id = kwargs.get("resource_id")
+        since = kwargs.get("since")
+        logs = data.get("audit_logs", [])
         results = []
-        for l in logs.values():
+        for l in logs:
             details_val = l.get("details")
-            # Perform the containment check solely if both are strings
-            if not (
-                isinstance(details_val, str)
-                and isinstance(query, str)
-                and query in details_val
-            ):
+            # Only do the containment check if both are str
+            if not (isinstance(details_val, str) and isinstance(query, str) and query in details_val):
                 continue
-            if resource_id and l.get("target_id") != resource_id:
+            if res_id and l.get("target_id") != res_id:
                 continue
             if since and l.get("timestamp") < since:
                 continue
             results.append(l)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchLogs",
+                "name": "search_logs",
                 "description": "Search logs by keyword, resource filter, and optional date cutoff",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "query": {"type": "string"},
                         "resource_id": {"type": "string"},
-                        "since": {"type": "string"},
+                        "since": {"type": "string"}
                     },
-                    "required": ["query"],
-                },
-            },
+                    "required": ["query"]
+                }
+            }
         }
 
 
-#---------- 26 ----------
+# ---------- 26 ----------
 class ExportLogsTool(Tool):
-    """Export logs in CSV or JSON format for the specified time range."""
+    """Export logs in CSV or JSON format within given time range."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], format: str = None, start_time: Any = None, end_time: Any = None) -> str:
-        logs = [l for l in data.get("audit_logs", {}).values() if start_time <= l["timestamp"] <= end_time]
-        if not format or not isinstance(format, str) or format.upper() not in ["CSV", "JSON"]:
-            payload = {"error": "Invalid format"}
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"format": format, "logs": logs}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        fmt = kwargs.get("format")
+        start = kwargs.get("start_time")
+        end = kwargs.get("end_time")
+        logs = [l for l in data.get("audit_logs", []) if start <= l["timestamp"] <= end]
+        if not fmt or not isinstance(fmt, str) or fmt.upper() not in ["CSV", "JSON"]:
+            return json.dumps({"error": "Invalid format"}, indent=2)
+        return json.dumps({"format": fmt, "logs": logs}, indent=2)
+
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ExportLogs",
+                "name": "export_logs",
                 "description": "Export logs to CSV or JSON format from given date range",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "format": {"type": "string", "enum": ["CSV", "JSON"]},
                         "start_time": {"type": "string"},
-                        "end_time": {"type": "string"},
+                        "end_time": {"type": "string"}
                     },
-                    "required": ["format", "start_time", "end_time"],
-                },
-            },
+                    "required": ["format", "start_time", "end_time"]
+                }
+            }
         }
 
 
-#---------- 27 ----------
+# ---------- 27 ----------
 class GetUserRolesTool(Tool):
-    """Get all roles allocated to a particular user."""
+    """Retrieve all roles assigned to a specific user."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        uid = user_id
-        roles_map = [
-            ur["role_id"] for ur in data.get("user_roles", {}).values() if ur["user_id"] == uid
-        ]
-        roles = [r for r in data.get("roles", {}).values() if r["role_id"] in roles_map]
-        payload = roles
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        uid = kwargs.get("user_id")
+        roles_map = [ur["role_id"] for ur in data.get("user_roles", []) if ur["user_id"] == uid]
+        roles = [r for r in data.get("roles", []) if r["role_id"] in roles_map]
+        return json.dumps(roles, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetUserRoles",
+                "name": "get_user_roles",
                 "description": "Retrieve all role objects assigned to a given user_id",
                 "parameters": {
                     "type": "object",
-                    "properties": {"user_id": {"type": "string"}},
-                    "required": ["user_id"],
-                },
-            },
+                    "properties": {
+                        "user_id": {"type": "string"}
+                    },
+                    "required": ["user_id"]
+                }
+            }
         }
 
 
-#---------- 28 ----------
+# ---------- 28 ----------
 class GetPermissionDetailsTool(Tool):
-    """Retrieve comprehensive information about a permission using its ID."""
+    """Get full details of a permission by ID."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], permission_id: str = None) -> str:
-        for p in data.get("permissions", {}).values():
-            if p["permission_id"] == permission_id:
-                payload = p
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Permission {permission_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        pid = kwargs.get("permission_id")
+        for p in data.get("permissions", []):
+            if p["permission_id"] == pid:
+                return json.dumps(p, indent=2)
+        return json.dumps({"error": f"Permission {pid} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPermissionDetails",
+                "name": "get_permission_details",
                 "description": "Get full permission record from permission_id",
                 "parameters": {
                     "type": "object",
-                    "properties": {"permission_id": {"type": "string"}},
-                    "required": ["permission_id"],
-                },
-            },
+                    "properties": {
+                        "permission_id": {"type": "string"}
+                    },
+                    "required": ["permission_id"]
+                }
+            }
         }
 
 
-#---------- 29 ----------
+# ---------- 29 ----------
 class GetResourceDetailsTool(Tool):
-    """Get information regarding a specified resource."""
+    """Retrieve details for a given resource."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], resource_id: str = None) -> str:
-        rid = resource_id
-        for res in data.get("resources", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        rid = kwargs.get("resource_id")
+        for res in data.get("resources", []):
             if res["resource_id"] == rid:
-                payload = res
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Resource {rid} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(res, indent=2)
+        return json.dumps({"error": f"Resource {rid} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetResourceDetails",
+                "name": "get_resource_details",
                 "description": "Get full details of a resource from resource_id",
                 "parameters": {
                     "type": "object",
-                    "properties": {"resource_id": {"type": "string"}},
-                    "required": ["resource_id"],
-                },
-            },
+                    "properties": {
+                        "resource_id": {"type": "string"}
+                    },
+                    "required": ["resource_id"]
+                }
+            }
         }
 
 
-#---------- 30 ----------
+# ---------- 30 ----------
 class GetRoleDetailsTool(Tool):
-    """Retrieve information on a particular role."""
+    """Get details about a specific role."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], role_id: str = None) -> str:
-        rid = role_id
-        for r in data.get("roles", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        rid = kwargs.get("role_id")
+        for r in data.get("roles", []):
             if r["role_id"] == rid:
-                payload = r
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Role {rid} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(r, indent=2)
+        return json.dumps({"error": f"Role {rid} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetRoleDetails",
+                "name": "get_role_details",
                 "description": "Get role_name, description, and is_temporary flag for a given role_id",
                 "parameters": {
                     "type": "object",
-                    "properties": {"role_id": {"type": "string"}},
-                    "required": ["role_id"],
-                },
-            },
+                    "properties": {
+                        "role_id": {"type": "string"}
+                    },
+                    "required": ["role_id"]
+                }
+            }
         }
 
 
-#---------- 31 ----------
+# ---------- 31 ----------
 class CreateUserTool(Tool):
-    """Establish a new user account with validation and logging for audit purposes."""
-
+    """Create a new user account with validation and audit logging."""
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        username: str = None, 
-        email: str = None, 
-        department: str = None, 
-        mfa_enabled: bool = False, 
-        created_by: str = None,
-    user_id: Any = None,
-    actor_id: Any = None,
-    created_at: str = None
-    ) -> str:
-        users = data.get("users", {}).values()
-        audit_logs = data.get("audit_logs", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        users = data.get("users", [])
+        audit_logs = data.get("audit_logs", [])
 
-        # Validation: confirm that username/email are distinct
-        for u in users.values():
+        username = kwargs.get("username")
+        email = kwargs.get("email")
+        department = kwargs.get("department")
+        mfa_enabled = kwargs.get("mfa_enabled", False)
+
+        # Validation: ensure username/email are unique
+        for u in users:
             if u["username"] == username:
-                payload = {"error": f"Username {username} already exists"}
-                out = json.dumps(payload, indent=2)
-                return out
+                return json.dumps({"error": f"Username {username} already exists"}, indent=2)
             if u["email"] == email:
-                payload = {"error": f"Email {email} already exists"}
-                out = json.dumps(payload, indent=2)
-                return out
+                return json.dumps({"error": f"Email {email} already exists"}, indent=2)
 
-        # Predictable new user_id
+        # Deterministic new user_id
         new_id = f"U-{len(users) + 1:03d}"
-        users.append(
-            {
-                "user_id": new_id,
-                "username": username,
-                "email": email,
-                "department": department,
-                "status": "PENDING_ACCESS",
-                "mfa_enabled": mfa_enabled,
-            }
-        )
+        users.append({
+            "user_id": new_id,
+            "username": username,
+            "email": email,
+            "department": department,
+            "status": "PENDING_ACCESS",
+            "mfa_enabled": mfa_enabled
+        })
 
-        # Entry for audit log
+        # Audit log entry
         new_log_id = f"L-{len(audit_logs) + 1:03d}"
-        audit_logs.append(
-            {
-                "log_id": new_log_id,
-                "actor_id": created_by,
-                "action_type": "USER_CREATED",
-                "target_id": new_id,
-                "timestamp": "2025-08-11 10:00:00+00:00",
-                "details": "User account created during onboarding process.",
-            }
-        )
-        payload = {"success": f"User {new_id} created"}
-        out = json.dumps(payload, indent=2)
-        return out
+        audit_logs.append({
+            "log_id": new_log_id,
+            "actor_id": kwargs.get("created_by"),
+            "action_type": "USER_CREATED",
+            "target_id": new_id,
+            "timestamp": "2025-08-11 10:00:00+00:00",
+            "details": "User account created during onboarding process."
+        })
+
+        return json.dumps({"success": f"User {new_id} created"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateUser",
+                "name": "create_user",
                 "description": "Create a new user in the system with PENDING_ACCESS status and log the event.",
                 "parameters": {
                     "type": "object",
@@ -1073,89 +1004,65 @@ class CreateUserTool(Tool):
                         "email": {"type": "string"},
                         "department": {"type": "string"},
                         "mfa_enabled": {"type": "boolean"},
-                        "created_by": {"type": "string"},
+                        "created_by": {"type": "string"}
                     },
-                    "required": ["username", "email", "department", "created_by"],
-                },
-            },
+                    "required": ["username", "email", "department", "created_by"]
+                }
+            }
         }
 
-
-#---------- 32 ----------
-
+# ---------- 32 ----------
 
 class CreateAccessRequestTool(Tool):
-    """File a new access request on behalf of a user."""
-
+    """Submit a new access request for a user."""
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        user_id: str = None, 
-        resource_id: str = None, 
-        role_id: str = None, 
-        justification: str = None,
-    submitted_at: Any = None,
-    request_id: str = None,
-    requester_id: str = None,
-    subject_id: str = None
-    ) -> str:
-        # Support requester_id and subject_id as aliases for user_id
-        user_id = user_id or requester_id or subject_id
-        pass
-        access_requests = data.get("access_requests", {}).values()
-        audit_logs = data.get("audit_logs", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        access_requests = data.get("access_requests", [])
+        audit_logs = data.get("audit_logs", [])
 
-        # Avoid duplicate PENDING requests
-        for ar in access_requests.values():
-            if (
-                ar["user_id"] == user_id
-                and ar["resource_id"] == resource_id
-                and ar["requested_role_id"] == role_id
-                and ar["status"] == "PENDING"
-            ):
-                payload = {"error": "Duplicate pending access request"}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
+        user_id = kwargs.get("user_id")
+        resource_id = kwargs.get("resource_id")
+        role_id = kwargs.get("role_id")
+        justification = kwargs.get("justification")
 
-        # Predictable request ID
+        # Prevent duplicate PENDING requests
+        for ar in access_requests:
+            if ar["user_id"] == user_id and ar["resource_id"] == resource_id and ar["requested_role_id"] == role_id and ar["status"] == "PENDING":
+                return json.dumps({"error": "Duplicate pending access request"}, indent=2)
+
+        # Deterministic request ID
         new_id = f"AR-{len(access_requests) + 1:03d}"
-        access_requests.append(
-            {
-                "request_id": new_id,
-                "user_id": user_id,
-                "resource_id": resource_id,
-                "requested_role_id": role_id,
-                "justification": justification,
-                "status": "PENDING",
-                "submitted_at": "2025-08-11 11:00:00+00:00",
-                "reviewed_by": None,
-                "decision_at": None,
-            }
-        )
+        access_requests.append({
+            "request_id": new_id,
+            "user_id": user_id,
+            "resource_id": resource_id,
+            "requested_role_id": role_id,
+            "justification": justification,
+            "status": "PENDING",
+            "submitted_at": "2025-08-11 11:00:00+00:00",
+            "reviewed_by": None,
+            "decision_at": None
+        })
 
-        # Logging for audit
+        # Audit logging
         new_log_id = f"L-{len(audit_logs) + 1:03d}"
-        audit_logs.append(
-            {
-                "log_id": new_log_id,
-                "actor_id": user_id,
-                "action_type": "ACCESS_REQUEST_CREATED",
-                "target_id": new_id,
-                "timestamp": "2025-08-11 11:00:00+00:00",
-                "details": f"User {user_id} submitted a request for {role_id} on {resource_id}",
-            }
-        )
-        payload = {"success": f"Access request {new_id} created"}
-        out = json.dumps(payload, indent=2)
-        return out
+        audit_logs.append({
+            "log_id": new_log_id,
+            "actor_id": user_id,
+            "action_type": "ACCESS_REQUEST_CREATED",
+            "target_id": new_id,
+            "timestamp": "2025-08-11 11:00:00+00:00",
+            "details": f"User {user_id} submitted a request for {role_id} on {resource_id}"
+        })
+
+        return json.dumps({"success": f"Access request {new_id} created"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateAccessRequest",
+                "name": "create_access_request",
                 "description": "Submit a new access request for a given resource and role.",
                 "parameters": {
                     "type": "object",
@@ -1163,62 +1070,54 @@ class CreateAccessRequestTool(Tool):
                         "user_id": {"type": "string"},
                         "resource_id": {"type": "string"},
                         "role_id": {"type": "string"},
-                        "justification": {"type": "string"},
+                        "justification": {"type": "string"}
                     },
-                    "required": ["user_id", "resource_id", "role_id", "justification"],
-                },
-            },
+                    "required": ["user_id", "resource_id", "role_id", "justification"]
+                }
+            }
         }
 
-
-#---------- 33 ----------
-
+# ---------- 33 ----------
 
 class CreateHubspotTicketTool(Tool):
-    """Initiate a new HubSpot ticket associated with RBAC or SIEM context."""
-
+    """Create a new HubSpot ticket linked to RBAC or SIEM context."""
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        subject: str = None,
-        description: str = None,
-        requester_id: str = None,
-        assignee_id: str = None,
-        category: str = None,
-        priority: str = "MEDIUM",
-        created_at: str = None
-    ) -> str:
-        pass
-        tickets = data.get("hubspot_tickets", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        tickets = data.get("hubspot_tickets", [])
 
-        # Predictable ticket ID
+        subject = kwargs.get("subject")
+        description = kwargs.get("description")
+        requester_id = kwargs.get("requester_id")
+        assignee_id = kwargs.get("assignee_id")
+        category = kwargs.get("category")
+        priority = kwargs.get("priority", "MEDIUM")
+
+        # Deterministic ticket ID
         new_id = f"TI-{len(tickets) + 1:03d}"
         fixed_time = "2025-08-11 12:00:00+00:00"
 
-        tickets.append(
-            {
-                "ticket_id": new_id,
-                "created_at": fixed_time,
-                "updated_at": fixed_time,
-                "subject": subject,
-                "description": description,
-                "status": "OPEN",
-                "priority": priority,
-                "assignee_id": assignee_id,
-                "requester_id": requester_id,
-                "category": category,
-                "closed_at": None,
-            }
-        )
-        payload = {"success": f"Ticket {new_id} created"}
-        out = json.dumps(payload, indent=2)
-        return out
+        tickets.append({
+            "ticket_id": new_id,
+            "created_at": fixed_time,
+            "updated_at": fixed_time,
+            "subject": subject,
+            "description": description,
+            "status": "OPEN",
+            "priority": priority,
+            "assignee_id": assignee_id,
+            "requester_id": requester_id,
+            "category": category,
+            "closed_at": None
+        })
+
+        return json.dumps({"success": f"Ticket {new_id} created"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateHubspotTicket",
+                "name": "create_hubspot_ticket",
                 "description": "Create a HubSpot ticket and associate it with RBAC or SIEM events.",
                 "parameters": {
                     "type": "object",
@@ -1228,51 +1127,39 @@ class CreateHubspotTicketTool(Tool):
                         "requester_id": {"type": "string"},
                         "assignee_id": {"type": "string"},
                         "category": {"type": "string"},
-                        "priority": {"type": "string"},
+                        "priority": {"type": "string"}
                     },
-                    "required": [
-                        "subject",
-                        "description",
-                        "requester_id",
-                        "assignee_id",
-                        "category",
-                    ],
-                },
-            },
+                    "required": ["subject", "description", "requester_id", "assignee_id", "category"]
+                }
+            }
         }
 
 
-#---------- 34 ----------
-
+# ---------- 34 ----------
 
 class UpdateUserStatusTool(Tool):
-    """Revise a user's status, department, or MFA settings with cascading impacts."""
-
+    """Update a user's status, department, or MFA settings with cascading effects."""
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        user_id: str,
-        status: str = None,
-        department: str = None,
-        mfa_enabled: bool = None,
-        updated_by: str = None
-    ) -> str:
-        users = data.get("users", {}).values()
-        audit_logs = data.get("audit_logs", {}).values()
-        sessions = data.get("sessions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        users = data.get("users", [])
+        audit_logs = data.get("audit_logs", [])
+        sessions = data.get("sessions", [])
 
-        # Find user
-        user = next((u for u in users.values() if u["user_id"] == user_id), None)
+        user_id = kwargs.get("user_id")
+        new_status = kwargs.get("status")
+        department = kwargs.get("department")
+        mfa_enabled = kwargs.get("mfa_enabled")
+
+        # Locate user
+        user = next((u for u in users if u["user_id"] == user_id), None)
         if not user:
-            payload = {"error": f"User {user_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"User {user_id} not found"}, indent=2)
 
-        # Revise details
-        if status:
-            user["status"] = status
-            if status in ["SUSPENDED", "DISABLED"]:
-                for s in sessions.values():
+        # Update details
+        if new_status:
+            user["status"] = new_status
+            if new_status in ["SUSPENDED", "DISABLED"]:
+                for s in sessions:
                     if s["user_id"] == user_id and s.get("end_time") is None:
                         s["end_time"] = "2025-08-11 13:00:00+00:00"
         if department:
@@ -1280,27 +1167,25 @@ class UpdateUserStatusTool(Tool):
         if mfa_enabled is not None:
             user["mfa_enabled"] = mfa_enabled
 
-        # Examine
+        # Audit
         log_id = f"L-{len(audit_logs) + 1:03d}"
-        audit_logs.append(
-            {
-                "log_id": log_id,
-                "actor_id": updated_by,
-                "action_type": "USER_UPDATED",
-                "target_id": user_id,
-                "timestamp": "2025-08-11 13:00:00+00:00",
-                "details": "User status/attributes updated",
-            }
-        )
-        payload = {"success": f"User {user_id} updated"}
-        out = json.dumps(payload, indent=2)
-        return out
+        audit_logs.append({
+            "log_id": log_id,
+            "actor_id": kwargs.get("updated_by"),
+            "action_type": "USER_UPDATED",
+            "target_id": user_id,
+            "timestamp": "2025-08-11 13:00:00+00:00",
+            "details": "User status/attributes updated"
+        })
+
+        return json.dumps({"success": f"User {user_id} updated"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateUserStatus",
+                "name": "update_user_status",
                 "description": "Update a user's status/department/MFA. Terminates sessions if suspended/disabled.",
                 "parameters": {
                     "type": "object",
@@ -1309,54 +1194,49 @@ class UpdateUserStatusTool(Tool):
                         "status": {"type": "string"},
                         "department": {"type": "string"},
                         "mfa_enabled": {"type": "boolean"},
-                        "updated_by": {"type": "string"},
+                        "updated_by": {"type": "string"}
                     },
-                    "required": ["user_id", "updated_by"],
-                },
-            },
+                    "required": ["user_id", "updated_by"]
+                }
+            }
         }
 
-
-#---------- 35 ----------
+# ---------- 35 ----------
 class EscalateSiemAlertTool(Tool):
-    """Increase the severity of a SIEM alert and optionally generate an incident ticket."""
+    """Escalate the severity of a SIEM alert and optionally create an incident ticket."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], alert_id: str = None, severity: str = None, reason: str = None) -> str:
-        alerts = data.get("siem_alerts", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        alerts = data.get("siem_alerts", [])
 
-        alert = next((a for a in alerts.values() if a["alert_id"] == alert_id), None)
+        alert_id = kwargs.get("alert_id")
+        new_severity = kwargs.get("severity")
+        reason = kwargs.get("reason")
+
+        alert = next((a for a in alerts if a["alert_id"] == alert_id), None)
         if not alert:
-            payload = {"error": f"Alert {alert_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"Alert {alert_id} not found"}, indent=2)
 
         severity_order = ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
 
-        # Thoroughly verify severity value prior to using .index()
-        if not severity or severity not in severity_order:
-            payload = {"error": "Invalid severity level"}
-            out = json.dumps(payload, indent=2)
-            return out
+        # Robustly check severity value before using .index()
+        if not new_severity or new_severity not in severity_order:
+            return json.dumps({"error": "Invalid severity level"}, indent=2)
         if alert["severity"] not in severity_order:
-            payload = {"error": "Existing severity value invalid"}
-            out = json.dumps(payload, indent=2)
-            return out
-        if severity_order.index(severity) <= severity_order.index(alert["severity"]):
-            payload = {"error": "Only escalation permitted"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Existing severity value invalid"}, indent=2)
+        if severity_order.index(new_severity) <= severity_order.index(alert["severity"]):
+            return json.dumps({"error": "Only escalation permitted"}, indent=2)
 
-        alert["severity"] = severity
-        payload = {"success": f"Alert {alert_id} escalated to {severity}"}
-        out = json.dumps(payload, indent=2)
-        return out
+        alert["severity"] = new_severity
+
+        return json.dumps({"success": f"Alert {alert_id} escalated to {new_severity}"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "EscalateSiemAlert",
+                "name": "escalate_siem_alert",
                 "description": (
                     "Escalate SIEM alert severity. Only escalation (not downgrade) allowed."
                 ),
@@ -1369,30 +1249,26 @@ class EscalateSiemAlertTool(Tool):
                     },
                     "required": ["alert_id", "severity", "reason"],
                 },
-            },
+            }
         }
 
-
-#---------- 36 ----------
+# ---------- 36 ----------
 class SearchSlackMessagesTool(Tool):
-    """Query Slack messages based on channel, user, time range, keywords, regex, or thread context."""
-
+    """Search Slack messages by channel, user, time range, keywords, regex, or thread context."""
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        channel: str = None,
-        username: str = None,
-        start_time: str = None,
-        end_time: str = None,
-        keywords: list[str] = None,
-        regex: str = None,
-        thread_id: str = None
-    ) -> str:
-        messages = data.get("slack_messages", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        messages = data.get("slack_messages", [])
+        channel = kwargs.get("channel")
+        username = kwargs.get("username")
+        start_time = kwargs.get("start_time")
+        end_time = kwargs.get("end_time")
+        keywords = kwargs.get("keywords", [])
+        regex = kwargs.get("regex")
+        thread_id = kwargs.get("thread_id")
         import re
 
         results = []
-        for msg in messages.values():
+        for msg in messages:
             if channel and msg["channel"] != channel:
                 continue
             if username and msg["username"] != username:
@@ -1401,22 +1277,21 @@ class SearchSlackMessagesTool(Tool):
                 continue
             if end_time and msg["timestamp"] > end_time:
                 continue
-            if keywords and not any(kw in msg["message"] for kw in keywords.values()):
+            if keywords and not any(kw in msg["message"] for kw in keywords):
                 continue
             if regex and not re.search(regex, msg["message"]):
                 continue
             if thread_id and msg.get("thread_id") != thread_id:
                 continue
             results.append(msg)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchSlackMessages",
+                "name": "search_slack_messages",
                 "description": "Search Slack messages and retrieve analytics by channel, user, keywords, regex, or time interval.",
                 "parameters": {
                     "type": "object",
@@ -1427,23 +1302,26 @@ class SearchSlackMessagesTool(Tool):
                         "end_time": {"type": "string"},
                         "keywords": {"type": "array", "items": {"type": "string"}},
                         "regex": {"type": "string"},
-                        "thread_id": {"type": "string"},
-                    },
-                },
-            },
+                        "thread_id": {"type": "string"}
+                    }
+                }
+            }
         }
 
-
-#---------- 37 ----------
+# ---------- 37 ----------
 class ModerateSlackChannelTool(Tool):
-    """Manage Slack channel: archive, pin, unpin, or relocate canonical messages (bulk support)."""
-
+    """Moderate Slack channel: archive, pin, unpin, or move canonical messages (bulk support)."""
     @staticmethod
-    def invoke(data: dict[str, Any], channel: str, action: str, message_ids: list[str] = [], target_channel: str = None, moderator_id: str = None) -> str:
-        messages = data.get("slack_messages", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        messages = data.get("slack_messages", [])
+        channel = kwargs.get("channel")
+        action = kwargs.get("action")  # "archive", "pin", "unpin", "move"
+        message_ids = kwargs.get("message_ids", [])
+        target_channel = kwargs.get("target_channel")
+        moderator_id = kwargs.get("moderator_id")
 
         updated = []
-        for msg in messages.values():
+        for msg in messages:
             if msg["message_id"] in message_ids and msg["channel"] == channel:
                 if action == "archive":
                     msg["archived"] = True
@@ -1455,104 +1333,95 @@ class ModerateSlackChannelTool(Tool):
                     msg["channel"] = target_channel
                 updated.append(msg["message_id"])
         status = {"moderated": updated, "action": action}
-        payload = status
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(status, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ModerateSlackChannel",
+                "name": "moderate_slack_channel",
                 "description": "Archive, pin, unpin, or move canonical Slack messages with proper RBAC moderation.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "channel": {"type": "string"},
-                        "action": {
-                            "type": "string",
-                            "enum": ["archive", "pin", "unpin", "move"],
-                        },
+                        "action": {"type": "string", "enum": ["archive", "pin", "unpin", "move"]},
                         "message_ids": {"type": "array", "items": {"type": "string"}},
                         "target_channel": {"type": "string"},
-                        "moderator_id": {"type": "string"},
+                        "moderator_id": {"type": "string"}
                     },
-                    "required": ["channel", "action", "message_ids", "moderator_id"],
-                },
-            },
+                    "required": ["channel", "action", "message_ids", "moderator_id"]
+                }
+            }
         }
 
-
-#---------- 38 ----------
+# ---------- 38 ----------
 class CreateIncidentRecordTool(Tool):
-    """Initiate a new incident record to monitor security or operational events."""
+    """Create a new incident record for tracking security or operational events."""
 
     @staticmethod
-    def invoke(data, timestamp, created_by, summary, linked_alerts=None, linked_users=None, linked_resources=None, severity=None):
-        incident_id = f"INC-{len(data.get('incidents', {})) + 1:03d}"
+    def invoke(data, **kwargs):
+        incident_id = f"INC-{len(data.get('incidents', [])) + 1:03d}"
         record = {
             "incident_id": incident_id,
-            "timestamp": timestamp,
-            "created_by": created_by,
-            "summary": summary,
-            "linked_alerts": linked_alerts or [],
-            "linked_users": linked_users or [],
-            "linked_resources": linked_resources or [],
-            "status": "OPEN",
+            "timestamp": kwargs["timestamp"],
+            "created_by": kwargs["created_by"],
+            "summary": kwargs["summary"],
+            "linked_alerts": kwargs.get("linked_alerts", []),
+            "linked_users": kwargs.get("linked_users", []),
+            "linked_resources": kwargs.get("linked_resources", []),
+            "status": "OPEN"
         }
         data.setdefault("incidents", []).append(record)
-        payload = {"success": f"Incident {incident_id} created", "incident_id": incident_id}
-        out = json.dumps(
-            payload, indent=2,
+
+        return json.dumps(
+            {
+                "success": f"Incident {incident_id} created",
+                "incident_id": incident_id
+            },
+            indent=2
         )
-        return out
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "CreateIncidentRecord",
+                "name": "create_incident_record",
                 "description": "Create a new incident record with linked alerts, users, and resources.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "timestamp": {
-                            "type": "string",
-                            "description": "ISO 8601 UTC timestamp.",
-                        },
-                        "created_by": {
-                            "type": "string",
-                            "description": "user_id of creator.",
-                        },
-                        "summary": {
-                            "type": "string",
-                            "description": "Brief summary of the incident.",
-                        },
+                        "timestamp": {"type": "string", "description": "ISO 8601 UTC timestamp."},
+                        "created_by": {"type": "string", "description": "user_id of creator."},
+                        "summary": {"type": "string", "description": "Brief summary of the incident."},
                         "linked_alerts": {"type": "array", "items": {"type": "string"}},
                         "linked_users": {"type": "array", "items": {"type": "string"}},
-                        "linked_resources": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                        },
+                        "linked_resources": {"type": "array", "items": {"type": "string"}}
                     },
-                    "required": ["timestamp", "created_by", "summary"],
-                },
-            },
+                    "required": ["timestamp", "created_by", "summary"]
+                }
+            }
         }
 
 
+
+
 class CreateAuditLogTool(Tool):
-    """Generate a permanent, predictable audit log entry."""
+    """Create an immutable, deterministic audit log entry."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], actor_id: str = None, action_type: str = None, target_id: str = None, timestamp: str = None, details: str = None,
-    target_ref: Any = None,
-    ) -> str:
-        pass
-        # Mandatory fields
-        # Create log_id in a deterministic manner (e.g., sequentially or by hashing inputs)
-        logs = data.get("audit_logs", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        # Required fields
+        actor_id = kwargs.get("actor_id")
+        action_type = kwargs.get("action_type")
+        target_id = kwargs.get("target_id")
+        timestamp = kwargs.get("timestamp")
+        details = kwargs.get("details")
+
+        # Generate log_id deterministically (e.g., sequential or hash of inputs)
+        logs = data.get("audit_logs", [])
         next_id = f"L-{len(logs) + 1:03d}"
 
         log = {
@@ -1561,106 +1430,91 @@ class CreateAuditLogTool(Tool):
             "action_type": action_type,
             "target_id": target_id,
             "timestamp": timestamp,
-            "details": details,
+            "details": details
         }
-        data["audit_logs"][log["audit_log_id"]] = log
+        logs.append(log)
         data["audit_logs"] = logs
-        payload = log
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(log, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateAuditLog",
+                "name": "create_audit_log",
                 "description": "Create a deterministic, immutable audit log entry in the audit_logs table.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "actor_id": {
                             "type": "string",
-                            "description": "User ID performing the action",
+                            "description": "User ID performing the action"
                         },
                         "action_type": {
                             "type": "string",
-                            "description": "Type of action performed (e.g. ROLE_REVOKED, ACCESS_GRANTED, POLICY_EXCEPTION_REQUESTED)",
+                            "description": "Type of action performed (e.g. ROLE_REVOKED, ACCESS_GRANTED, POLICY_EXCEPTION_REQUESTED)"
                         },
                         "target_id": {
                             "type": "string",
-                            "description": "ID of the affected entity (role, resource, user, or policy exception ID)",
+                            "description": "ID of the affected entity (role, resource, user, or policy exception ID)"
                         },
                         "timestamp": {
                             "type": "string",
-                            "description": "Deterministic ISO8601 UTC timestamp",
+                            "description": "Deterministic ISO8601 UTC timestamp"
                         },
                         "details": {
                             "type": "string",
-                            "description": "Deterministic, canonical event description",
-                        },
+                            "description": "Deterministic, canonical event description"
+                        }
                     },
                     "required": [
                         "actor_id",
                         "action_type",
                         "target_id",
                         "timestamp",
-                        "details",
-                    ],
-                },
-            },
+                        "details"
+                    ]
+                }
+            }
         }
 
 
+
 class SendEmailTool(Tool):
-    """Dispatch an email from a predictable sender to a receiver, recording the event for compliance."""
+    """Send an email from a deterministic sender to a receiver, logging the event for compliance."""
 
     @staticmethod
-    def invoke(data, sender, receiver, subject, body, timestamp):
-        # Confirm sender's existence
-        sender_user = next(
-            (u for u in data.get("users", {}).values() if u.get("user_id") == sender), None
-        )
+    def invoke(data, **kwargs):
+        sender = kwargs["sender"]        # user_id of sender
+        receiver = kwargs["receiver"]    # user_id of receiver
+        subject = kwargs["subject"]
+        body = kwargs["body"]
+        timestamp = kwargs["timestamp"]
+
+        # Validate sender exists
+        sender_user = next((u for u in data.get("users", []) if u.get("user_id") == sender), None)
         if not sender_user:
-            payload = {"error": f"Sender '{sender}' not found in users.json."}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"Sender '{sender}' not found in users.json."}, indent=2)
 
-        # Confirm receiver's existence
-        receiver_user = next(
-            (u for u in data.get("users", {}).values() if u.get("user_id") == receiver), None
-        )
+        # Validate receiver exists
+        receiver_user = next((u for u in data.get("users", []) if u.get("user_id") == receiver), None)
         if not receiver_user:
-            payload = {"error": f"Receiver '{receiver}' not found in users.json."}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"Receiver '{receiver}' not found in users.json."}, indent=2)
 
-        # Receiver should be ACTIVE or PENDING_ACCESS
+        # Receiver must be ACTIVE or PENDING_ACCESS
         if receiver_user.get("status") not in ("ACTIVE", "PENDING_ACCESS"):
-            payload = {
-                    "error": f"Receiver '{receiver}' has status '{receiver_user.get('status')}', not allowed."
-                }
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": f"Receiver '{receiver}' has status '{receiver_user.get('status')}', not allowed."},
+                indent=2
             )
-            return out
 
-        # Check subject/body for validity
+        # Validate subject/body
         if not isinstance(subject, str) or not subject.strip():
-            payload = {"error": "Subject must be a non-empty string."}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "Subject must be a non-empty string."}, indent=2)
         if not isinstance(body, str) or not body.strip():
-            payload = {"error": "Body must be a non-empty string."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "Body must be a non-empty string."}, indent=2)
 
-        # Add to emails.json
+        # Append to emails.json
         emails = data.setdefault("emails", [])
         email_id = f"EM-{len(emails) + 1:03d}"
         record = {
@@ -1669,21 +1523,24 @@ class SendEmailTool(Tool):
             "sender": sender,
             "receiver": receiver,
             "subject": subject,
-            "text_content": body,
+            "text_content": body
         }
-        data["emails"][record["email_id"]] = record
-        payload = {"success": f"Email {email_id} sent to {receiver}", "email_id": email_id}
-        out = json.dumps(
-            payload, indent=2,
+        emails.append(record)
+
+        return json.dumps(
+            {
+                "success": f"Email {email_id} sent to {receiver}",
+                "email_id": email_id
+            },
+            indent=2
         )
-        return out
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "SendEmail",
+                "name": "send_email",
                 "description": (
                     "Send an email from sender user_id to receiver user_id with deterministic subject, "
                     "body, and timestamp. Appends a new record to emails.json. "
@@ -1694,73 +1551,65 @@ class SendEmailTool(Tool):
                     "properties": {
                         "sender": {
                             "type": "string",
-                            "description": "Sender's user_id (must exist in users.json).",
+                            "description": "Sender's user_id (must exist in users.json)."
                         },
                         "receiver": {
                             "type": "string",
-                            "description": "Receiver's user_id (must be ACTIVE or PENDING_ACCESS).",
+                            "description": "Receiver's user_id (must be ACTIVE or PENDING_ACCESS)."
                         },
                         "subject": {
                             "type": "string",
-                            "description": "Email subject, policy/compliance driven.",
+                            "description": "Email subject, policy/compliance driven."
                         },
                         "body": {
                             "type": "string",
-                            "description": "Email body text, deterministic.",
+                            "description": "Email body text, deterministic."
                         },
                         "timestamp": {
                             "type": "string",
-                            "description": "ISO 8601 UTC timestamp, deterministic.",
-                        },
+                            "description": "ISO 8601 UTC timestamp, deterministic."
+                        }
                     },
-                    "required": ["sender", "receiver", "subject", "body", "timestamp"],
-                },
-            },
+                    "required": ["sender", "receiver", "subject", "body", "timestamp"]
+                }
+            }
         }
 
 
 class GetAccessRequestTool(Tool):
-    """Get a single access request using its ID (read-only, predictable)."""
+    """Retrieve a single access request by ID (read-only, deterministic)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], request_id: str = None) -> str:
-        pass
-        # Anticipate: data["access_requests"] is a collection of dicts sourced from /mnt/data/access_requests.json
-        access_requests = data.get("access_requests", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        # Expect: data["access_requests"] is a list of dicts from /mnt/data/access_requests.json
+        access_requests = data.get("access_requests", [])
         if not isinstance(access_requests, list):
-            payload = {"error": "access_requests must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "access_requests must be a list"}, indent=2)
 
+        request_id = kwargs.get("request_id")
         if not isinstance(request_id, str) or not request_id.strip():
-            payload = {"error": "request_id must be a non-empty string"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "request_id must be a non-empty string"}, indent=2)
 
-        # Lookup in read-only mode
-        for row in access_requests.values():
+        # Read-only lookup
+        for row in access_requests:
             if isinstance(row, dict) and row.get("request_id") == request_id:
-                payload = {"access_request": row}
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Access request {request_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps({"access_request": row}, indent=2)
+
+        return json.dumps({"error": f"Access request {request_id} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetAccessRequest",
+                "name": "get_access_request",
                 "description": "Retrieve a single access request by ID (read-only).",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "request_id": {
                             "type": "string",
-                            "description": "Access request ID, e.g. AR-004",
+                            "description": "Access request ID, e.g. AR-004"
                         }
                     },
                     "required": ["request_id"],
@@ -1768,677 +1617,524 @@ class GetAccessRequestTool(Tool):
             },
         }
 
-
 class PostSlackMessageTool(Tool):
-    """Send a new message to a Slack channel (write operation, predictable)."""
+    """Post a new message into a Slack channel (write operation, deterministic)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], channel: str = None, message: str = None) -> str:
-        pass
-        # Anticipate: data["slack_messages"] is a collection of dicts sourced from /mnt/data/slack_messages.json
-        slack_messages = data.get("slack_messages", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        # Expect: data["slack_messages"] is a list of dicts from /mnt/data/slack_messages.json
+        slack_messages = data.get("slack_messages", [])
         if not isinstance(slack_messages, list):
-            payload = {"error": "slack_messages must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "slack_messages must be a list"}, indent=2)
+
+        channel = kwargs.get("channel")
+        message = kwargs.get("message")
 
         if not isinstance(channel, str) or not channel.strip():
-            payload = {"error": "channel must be a non-empty string"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "channel must be a non-empty string"}, indent=2)
         if not isinstance(message, str) or not message.strip():
-            payload = {"error": "message must be a non-empty string"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "message must be a non-empty string"}, indent=2)
 
-        # Add a new message to the log (simulated posting)
+        # Append a new message to the log (mock posting)
         new_entry = {
             "channel": channel,
             "message": message,
         }
-        data["slack_messages"][new_entry["slack_message_id"]] = new_entry
-        payload = {"success": f"Message posted to {channel}", "message": new_entry}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        slack_messages.append(new_entry)
+
+        return json.dumps({"success": f"Message posted to {channel}", "message": new_entry}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "PostSlackMessage",
+                "name": "post_slack_message",
                 "description": "Post a new message into a Slack channel.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "channel": {
                             "type": "string",
-                            "description": "Slack channel name or ID, e.g. #general",
+                            "description": "Slack channel name or ID, e.g. #general"
                         },
                         "message": {
                             "type": "string",
-                            "description": "Text content of the message to post",
-                        },
+                            "description": "Text content of the message to post"
+                        }
                     },
                     "required": ["channel", "message"],
                 },
             },
         }
 
-
 class GetRoleMembersTool(Tool):
-    """Provide user records for individuals in a specified role (read operation, predictable)."""
+    """Return user records for members of a given role (read operation, deterministic)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], role_id: str, status: str = None) -> str:
-        users = data.get("users", {}).values()
-        user_roles = data.get("user_roles", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        users = data.get("users", [])
+        user_roles = data.get("user_roles", [])
+
+        role_id = kwargs.get("role_id")
+        status_filter = kwargs.get("status")  # optional: e.g., "ACTIVE"
 
         if not isinstance(user_roles, list) or not isinstance(users, list):
-            payload = {"error": "users and user_roles must be lists"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "users and user_roles must be lists"}, indent=2)
         if not isinstance(role_id, str) or not role_id.strip():
-            payload = {"error": "role_id must be a non-empty string"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "role_id must be a non-empty string"}, indent=2)
 
-        member_user_ids = {
-            ur["user_id"] for ur in user_roles.values() if ur.get("role_id") == role_id
-        }
+        member_user_ids = {ur["user_id"] for ur in user_roles if ur.get("role_id") == role_id}
         results = []
-        for u in users.values():
+        for u in users:
             if u.get("user_id") in member_user_ids:
-                if status and u.get("status") != status:
+                if status_filter and u.get("status") != status_filter:
                     continue
                 results.append(u)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetRoleMembers",
+                "name": "get_role_members",
                 "description": "List user records for members assigned to a role. Optional filter by user status.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "role_id": {
-                            "type": "string",
-                            "description": "The role_id to lookup",
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "Optional user status filter, e.g. ACTIVE",
-                        },
+                        "role_id": {"type": "string", "description": "The role_id to lookup"},
+                        "status": {"type": "string", "description": "Optional user status filter, e.g. ACTIVE"}
                     },
-                    "required": ["role_id"],
+                    "required": ["role_id"]
                 },
             },
         }
 
 
 class AssignCertificationTool(Tool):
-    """Establish/assign a certification record to a user (write operation, predictable)."""
+    """Create/assign a certification record to a user (write operation, deterministic)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], certification_id: str, user_id: str, assigned_on: str = None, status: str = "ASSIGNED") -> str:
-        certifications = data.get("certifications", {}).values()
-        users = data.get("users", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        certifications = data.get("certifications", [])
+        users = data.get("users", [])
 
         if not isinstance(certifications, list):
-            payload = {"error": "certifications must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "certifications must be a list"}, indent=2)
         if not isinstance(users, list):
-            payload = {"error": "users must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "users must be a list"}, indent=2)
+
+        certification_id = kwargs.get("certification_id")
+        user_id = kwargs.get("user_id")
+        assigned_on = kwargs.get("assigned_on")  # ISO8601 or similar deterministic string
+        status = kwargs.get("status") or "ASSIGNED"
 
         if not isinstance(certification_id, str) or not certification_id.strip():
-            payload = {"error": "certification_id must be a non-empty string"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "certification_id must be a non-empty string"}, indent=2)
         if not isinstance(user_id, str) or not user_id.strip():
-            payload = {"error": "user_id must be a non-empty string"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "user_id must be a non-empty string"}, indent=2)
         if assigned_on is not None and not isinstance(assigned_on, str):
-            payload = {"error": "assigned_on must be a string if provided"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "assigned_on must be a string if provided"}, indent=2)
         if not isinstance(status, str) or not status.strip():
-            payload = {"error": "status must be a non-empty string"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "status must be a non-empty string"}, indent=2)
 
-        #Confirm user existence
-        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
+        # Validate user exists
+        user = next((u for u in users if u.get("user_id") == user_id), None)
         if not user:
-            payload = {"error": f"user_id {user_id} not found in users"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"user_id {user_id} not found in users"}, indent=2)
 
-        #Verify that certification_id is distinct
-        if any(c.get("certification_id") == certification_id for c in certifications.values()):
-            payload = {"error": f"certification_id {certification_id} already exists"}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+        # Ensure certification_id is unique
+        if any(c.get("certification_id") == certification_id for c in certifications):
+            return json.dumps({"error": f"certification_id {certification_id} already exists"}, indent=2)
 
-        #Add a minimal, schema-compliant record utilizing only recognized field names from datasets
+        # Append minimal, schema-safe record using only known field names from datasets
         new_record = {
             "certification_id": certification_id,
             "user_id": user_id,
             "status": status,
         }
         if assigned_on:
-            new_record["assigned_on"] = (
-                assigned_on  #field name is present in project datasets (e.g., user_roles)
-            )
+            new_record["assigned_on"] = assigned_on  # field name exists in project datasets (e.g., user_roles)
 
-        data["certifications"][certification_id] = new_record
-        payload = {
-                "success": f"Certification {certification_id} assigned to user {user_id}",
-                "certification": new_record,
-            }
-        out = json.dumps(
-            payload, indent=2,
+        certifications.append(new_record)
+        return json.dumps(
+            {"success": f"Certification {certification_id} assigned to user {user_id}", "certification": new_record},
+            indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AssignCertification",
+                "name": "assign_certification",
                 "description": "Create/assign a certification record to a user.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "certification_id": {
-                            "type": "string",
-                            "description": "Unique certification identifier",
-                        },
+                        "certification_id": {"type": "string", "description": "Unique certification identifier"},
                         "user_id": {"type": "string", "description": "Target user_id"},
-                        "assigned_on": {
-                            "type": "string",
-                            "description": "Deterministic assignment timestamp",
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "Initial status (defaults to ASSIGNED)",
-                        },
+                        "assigned_on": {"type": "string", "description": "Deterministic assignment timestamp"},
+                        "status": {"type": "string", "description": "Initial status (defaults to ASSIGNED)"}
                     },
-                    "required": ["certification_id", "user_id"],
+                    "required": ["certification_id", "user_id"]
                 },
             },
         }
 
 
 class RevokeCertificationTool(Tool):
-    """Remove an existing certification from a user (write operation, predictable)."""
+    """Revoke an existing certification from a user (write operation, deterministic)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], certification_id: str, expires_on: str = None) -> str:
-        certifications = data.get("certifications", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        certifications = data.get("certifications", [])
         if not isinstance(certifications, list):
-            payload = {"error": "certifications must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "certifications must be a list"}, indent=2)
+
+        certification_id = kwargs.get("certification_id")
+        # Optional timestamp field name chosen from existing datasets; avoids inventing new keys
+        expires_on = kwargs.get("expires_on")
 
         if not isinstance(certification_id, str) or not certification_id.strip():
-            payload = {"error": "certification_id must be a non-empty string"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "certification_id must be a non-empty string"}, indent=2)
         if expires_on is not None and not isinstance(expires_on, str):
-            payload = {"error": "expires_on must be a string if provided"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "expires_on must be a string if provided"}, indent=2)
 
-        cert = next(
-            (
-                c
-                for c in certifications.values() if c.get("certification_id") == certification_id
-            ),
-            None,
-        )
+        cert = next((c for c in certifications if c.get("certification_id") == certification_id), None)
         if not cert:
-            payload = {"error": f"Certification {certification_id} not found"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"Certification {certification_id} not found"}, indent=2)
 
         cert["status"] = "REVOKED"
-        #Reset completion if available
+        # Clear completion if present
         if "completed_on" in cert:
             cert["completed_on"] = None
-        #Optionally mark an end using a pre-existing field name utilized in other datasets
+        # Optionally stamp an end marker using an existing field name used in other datasets
         if expires_on:
             cert["expires_on"] = expires_on
-        payload = {"success": f"Certification {certification_id} revoked"}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+
+        return json.dumps({"success": f"Certification {certification_id} revoked"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RevokeCertification",
+                "name": "revoke_certification",
                 "description": "Revoke a certification by certification_id; clears completed_on and can set expires_on.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "certification_id": {"type": "string"},
-                        "expires_on": {
-                            "type": "string",
-                            "description": "Optional deterministic end timestamp",
-                        },
+                        "expires_on": {"type": "string", "description": "Optional deterministic end timestamp"}
                     },
-                    "required": ["certification_id"],
+                    "required": ["certification_id"]
                 },
             },
         }
 
 
 class LinkAlertToIncidentTool(Tool):
-    """Connect an existing SIEM alert to an incident record (write operation, predictable)."""
+    """Link an existing SIEM alert to an incident record (write operation, deterministic)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], incident_id: str = None, alert_id: str = None) -> str:
-        incidents = data.get("incidents", {}).values()
-        alerts = data.get("siem_alerts", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        incidents = data.get("incidents", [])
+        alerts = data.get("siem_alerts", [])
 
         if not isinstance(incidents, list):
-            payload = {"error": "incidents must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "incidents must be a list"}, indent=2)
         if not isinstance(alerts, list):
-            payload = {"error": "siem_alerts must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "siem_alerts must be a list"}, indent=2)
+
+        incident_id = kwargs.get("incident_id")
+        alert_id = kwargs.get("alert_id")
 
         if not isinstance(incident_id, str) or not incident_id.strip():
-            payload = {"error": "incident_id must be a non-empty string"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "incident_id must be a non-empty string"}, indent=2)
         if not isinstance(alert_id, str) or not alert_id.strip():
-            payload = {"error": "alert_id must be a non-empty string"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "alert_id must be a non-empty string"}, indent=2)
 
-        incident = next(
-            (i for i in incidents.values() if i.get("incident_id") == incident_id), None
-        )
+        incident = next((i for i in incidents if i.get("incident_id") == incident_id), None)
         if not incident:
-            payload = {"error": f"Incident {incident_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"Incident {incident_id} not found"}, indent=2)
 
-        alert = next((a for a in alerts.values() if a.get("alert_id") == alert_id), None)
+        alert = next((a for a in alerts if a.get("alert_id") == alert_id), None)
         if not alert:
-            payload = {"error": f"Alert {alert_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"Alert {alert_id} not found"}, indent=2)
 
         linked = incident.setdefault("linked_alerts", [])
         if alert_id not in linked:
             linked.append(alert_id)
-        payload = {
-                "success": f"Linked alert {alert_id} to incident {incident_id}",
-                "incident_id": incident_id,
-                "alert_id": alert_id,
-            }
-        out = json.dumps(
-            payload, indent=2,
+
+        return json.dumps(
+            {"success": f"Linked alert {alert_id} to incident {incident_id}",
+             "incident_id": incident_id,
+             "alert_id": alert_id},
+            indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "LinkAlertToIncident",
+                "name": "link_alert_to_incident",
                 "description": "Append an alert_id to an incident's linked_alerts after validating existence.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "incident_id": {"type": "string"},
-                        "alert_id": {"type": "string"},
+                        "alert_id": {"type": "string"}
                     },
-                    "required": ["incident_id", "alert_id"],
+                    "required": ["incident_id", "alert_id"]
                 },
             },
         }
 
 
+
 class ListCertificationsForReviewerTool(Tool):
-    """Display all certifications allocated to a specific reviewer (read operation, predictable)."""
+    """List all certifications assigned to a given reviewer (read operation, deterministic)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], reviewer_id: str = None) -> str:
-        certifications = data.get("certifications", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        reviewer_id = kwargs.get("reviewer_id")
+        certifications = data.get("certifications", [])
         if not isinstance(certifications, list):
-            payload = {"error": "certifications must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "certifications must be a list"}, indent=2)
 
         if not isinstance(reviewer_id, str) or not reviewer_id.strip():
-            payload = {"error": "reviewer_id must be a non-empty string"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "reviewer_id must be a non-empty string"}, indent=2)
 
-        results = [c for c in certifications.values() if c.get("reviewer_id") == reviewer_id]
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+        results = [c for c in certifications if c.get("reviewer_id") == reviewer_id]
+        return json.dumps(results, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "ListCertificationsForReviewer",
+                "name": "list_certifications_for_reviewer",
                 "description": "List all certifications assigned to a specific reviewer.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "reviewer_id": {
-                            "type": "string",
-                            "description": "The reviewer’s user_id",
-                        }
+                        "reviewer_id": {"type": "string", "description": "The reviewer’s user_id"}
                     },
-                    "required": ["reviewer_id"],
-                },
-            },
+                    "required": ["reviewer_id"]
+                }
+            }
         }
+
 
 
 class GetTicketDetailsTool(Tool):
-    """Get a HubSpot ticket using ticket_id (read-only, predictable)."""
+    """Retrieve a HubSpot ticket by ticket_id (read-only, deterministic)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], ticket_id: str = None) -> str:
-        tickets = data.get("hubspot_tickets", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        ticket_id = kwargs.get("ticket_id")
+        tickets = data.get("hubspot_tickets", [])
         if not isinstance(tickets, list):
-            payload = {"error": "hubspot_tickets must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "hubspot_tickets must be a list"}, indent=2)
 
         if not isinstance(ticket_id, str) or not ticket_id.strip():
-            payload = {"error": "ticket_id must be a non-empty string"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "ticket_id must be a non-empty string"}, indent=2)
 
-        for t in tickets.values():
+        for t in tickets:
             if t.get("ticket_id") == ticket_id:
-                payload = t
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"ticket_id {ticket_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(t, indent=2)
+
+        return json.dumps({"error": f"ticket_id {ticket_id} not found"}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GetTicketDetails",
+                "name": "get_ticket_details",
                 "description": "Retrieve details of a HubSpot ticket by ticket_id.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"ticket_id": {"type": "string"}},
-                    "required": ["ticket_id"],
-                },
-            },
+                    "properties": {
+                        "ticket_id": {"type": "string"}
+                    },
+                    "required": ["ticket_id"]
+                }
+            }
         }
 
 
+
 class GetAuditLogsForTargetTool(Tool):
-    """Retrieve audit logs filtered by target_id (read-only, predictable)."""
+    """Get audit logs filtered by target_id (read-only, deterministic)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], target_id: str = None) -> str:
-        audit_logs = data.get("audit_logs", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        target_id = kwargs.get("target_id")
+        audit_logs = data.get("audit_logs", [])
         if not isinstance(audit_logs, list):
-            payload = {"error": "audit_logs must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "audit_logs must be a list"}, indent=2)
 
         if not isinstance(target_id, str) or not target_id.strip():
-            payload = {"error": "target_id must be a non-empty string"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "target_id must be a non-empty string"}, indent=2)
 
-        results = [log for log in audit_logs.values() if log.get("target_id") == target_id]
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+        results = [log for log in audit_logs if log.get("target_id") == target_id]
+        return json.dumps(results, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GetAuditLogsForTarget",
+                "name": "get_audit_logs_for_target",
                 "description": "Retrieve audit logs filtered by target_id (user, resource, role, alert, etc.).",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "target_id": {
-                            "type": "string",
-                            "description": "The target entity ID (e.g., U-001, RES-021, ALRT-003)",
-                        }
+                        "target_id": {"type": "string", "description": "The target entity ID (e.g., U-001, RES-021, ALRT-003)"}
                     },
-                    "required": ["target_id"],
-                },
-            },
+                    "required": ["target_id"]
+                }
+            }
         }
 
 
+
 class GetSiemAlertTool(Tool):
-    """Get information about a specific SIEM alert (read-only, predictable)."""
+    """Retrieve details of a specific SIEM alert (read-only, deterministic)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], alert_id: str) -> str:
-        alerts = data.get("siem_alerts", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        alert_id = kwargs.get("alert_id")
+        alerts = data.get("siem_alerts", [])
         if not isinstance(alerts, list):
-            payload = {"error": "siem_alerts must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "siem_alerts must be a list"}, indent=2)
 
         if not isinstance(alert_id, str) or not alert_id.strip():
-            payload = {"error": "alert_id must be a non-empty string"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "alert_id must be a non-empty string"}, indent=2)
 
-        for a in alerts.values():
+        for a in alerts:
             if a.get("alert_id") == alert_id:
-                payload = a
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"alert_id {alert_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps(a, indent=2)
+
+        return json.dumps({"error": f"alert_id {alert_id} not found"}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GetSiemAlert",
+                "name": "get_siem_alert",
                 "description": "Retrieve SIEM alert details by alert_id.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"alert_id": {"type": "string"}},
-                    "required": ["alert_id"],
-                },
-            },
+                    "properties": {
+                        "alert_id": {"type": "string"}
+                    },
+                    "required": ["alert_id"]
+                }
+            }
         }
 
 
 class ListUserSessionsTool(Tool):
-    """Display sessions for a specific user with an optional filter for active sessions only (read operation, predictable)."""
+    """List sessions for a specific user with optional active-only filter (read operation, deterministic)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str, active_only: bool = False) -> str:
-        sessions = data.get("sessions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        sessions = data.get("sessions", [])
         if not isinstance(sessions, list):
-            payload = {"error": "sessions must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "sessions must be a list"}, indent=2)
+
+        user_id = kwargs.get("user_id")
+        active_only = kwargs.get("active_only", False)
 
         if not isinstance(user_id, str) or not user_id.strip():
-            payload = {"error": "user_id must be a non-empty string"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "user_id must be a non-empty string"}, indent=2)
 
         if active_only not in (True, False):
-            payload = {"error": "active_only must be a boolean if provided"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "active_only must be a boolean if provided"}, indent=2)
 
         results = []
-        for s in sessions.values():
+        for s in sessions:
             if s.get("user_id") != user_id:
                 continue
             if active_only and s.get("end_time") is not None:
                 continue
             results.append(s)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListUserSessions",
+                "name": "list_user_sessions",
                 "description": "List sessions for a user; optionally filter to only active sessions.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "user_id": {"type": "string", "description": "Target user_id"},
-                        "active_only": {
-                            "type": "boolean",
-                            "description": "If true, only return sessions without end_time",
-                        },
+                        "active_only": {"type": "boolean", "description": "If true, only return sessions without end_time"}
                     },
-                    "required": ["user_id"],
-                },
-            },
+                    "required": ["user_id"]
+                }
+            }
         }
 
 
 class AssignRoleToUserTool(Tool):
-    """Allocate a role to a user (write operation, predictable)."""
+    """Assign a role to a user (write operation, deterministic)."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        user_id: str,
-        role_id: str,
-        assigned_by: str,
-        assigned_on: str,
-        expires_on: str = None
-,
-    expiry_policy: Any = None,
-    ) -> str:
-        user_roles = data.get("user_roles", {}).values()
-        users = data.get("users", {}).values()
-        roles = data.get("roles", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_roles = data.get("user_roles", [])
+        users = data.get("users", [])
+        roles = data.get("roles", [])
         if not isinstance(user_roles, list):
-            payload = {"error": "user_roles must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "user_roles must be a list"}, indent=2)
         if not isinstance(users, list):
-            payload = {"error": "users must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "users must be a list"}, indent=2)
         if not isinstance(roles, list):
-            payload = {"error": "roles must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "roles must be a list"}, indent=2)
 
-        # Fundamental validation
-        for fld, val in [
-            ("user_id", user_id),
-            ("role_id", role_id),
-            ("assigned_by", assigned_by),
-            ("assigned_on", assigned_on),
-        ]:
+        user_id = kwargs.get("user_id")
+        role_id = kwargs.get("role_id")
+        assigned_by = kwargs.get("assigned_by")
+        assigned_on = kwargs.get("assigned_on")
+
+        # Basic validation
+        for fld, val in [("user_id", user_id), ("role_id", role_id), ("assigned_by", assigned_by), ("assigned_on", assigned_on)]:
             if not isinstance(val, str) or not val.strip():
-                payload = {"error": f"{fld} must be a non-empty string"}
-                out = json.dumps(payload, indent=2)
-                return out
+                return json.dumps({"error": f"{fld} must be a non-empty string"}, indent=2)
 
-        if not any(u.get("user_id") == user_id for u in users.values()):
-            payload = {"error": f"user_id {user_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        if not any(r.get("role_id") == role_id for r in roles.values()):
-            payload = {"error": f"role_id {role_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+        if not any(u.get("user_id") == user_id for u in users):
+            return json.dumps({"error": f"user_id {user_id} not found"}, indent=2)
+        if not any(r.get("role_id") == role_id for r in roles):
+            return json.dumps({"error": f"role_id {role_id} not found"}, indent=2)
 
-        # Avoid duplicate active assignments (no expires_on or expires_on set in the future)
-        existing = [
-            ur
-            for ur in user_roles.values() if ur.get("user_id") == user_id and ur.get("role_id") == role_id
-        ]
+        # Prevent duplicate active assignment (no expires_on or expires_on in the future)
+        existing = [ur for ur in user_roles if ur.get("user_id") == user_id and ur.get("role_id") == role_id]
         if existing:
-            # If any current record remains active (no expiration or expiration set for later), prevent
+            # If any existing record is still active (no expires or expires later), block
             from datetime import datetime, timezone
-
             for ur in existing:
                 exp = ur.get("expires_on")
                 if exp is None:
-                    payload = {"error": "Role already assigned"}
-                    out = json.dumps(payload, indent=2)
-                    return out
+                    return json.dumps({"error": "Role already assigned"}, indent=2)
                 try:
                     exp_dt = datetime.fromisoformat(exp.replace("Z", "+00:00"))
                 except Exception:
-                    payload = {"error": "Role already assigned"}
-                    out = json.dumps(payload, indent=2)
-                    return out
+                    # Unknown date format; be conservative and block
+                    return json.dumps({"error": "Role already assigned"}, indent=2)
                 now_tz = exp_dt.tzinfo or timezone.utc
                 if exp_dt > datetime.now(tz=now_tz):
-                    payload = {"error": "Role already assigned"}
-                    out = json.dumps(payload, indent=2)
-                    return out
+                    return json.dumps({"error": "Role already assigned"}, indent=2)
 
         new_id = f"UR-{len(user_roles) + 1:03d}"
         record = {
@@ -2447,21 +2143,17 @@ class AssignRoleToUserTool(Tool):
             "role_id": role_id,
             "assigned_by": assigned_by,
             "assigned_on": assigned_on,
-            "expires_on": expires_on,  # not mandatory
+            "expires_on": kwargs.get("expires_on")  # optional
         }
-        user_data["roles"][role_id] = record
-        payload = {
-            "success": f"Role {role_id} assigned to {user_id}",
-            "user_role_id": new_id,
-        }
-        out = json.dumps(payload, indent=2)
-        return out
+        user_roles.append(record)
+        return json.dumps({"success": f"Role {role_id} assigned to {user_id}", "user_role_id": new_id}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AssignRoleToUser",
+                "name": "assign_role_to_user",
                 "description": "Assign a role to a user with deterministic fields; blocks if an active assignment exists.",
                 "parameters": {
                     "type": "object",
@@ -2470,424 +2162,338 @@ class AssignRoleToUserTool(Tool):
                         "role_id": {"type": "string"},
                         "assigned_by": {"type": "string"},
                         "assigned_on": {"type": "string"},
-                        "expires_on": {
-                            "type": "string",
-                            "description": "Optional ISO8601 end timestamp",
-                        },
+                        "expires_on": {"type": "string", "description": "Optional ISO8601 end timestamp"}
                     },
-                    "required": ["user_id", "role_id", "assigned_by", "assigned_on"],
-                },
-            },
+                    "required": ["user_id", "role_id", "assigned_by", "assigned_on"]
+                }
+            }
         }
 
 
 class ListPermissionsForRoleTool(Tool):
-    """Display permissions associated with a role_id (read operation, predictable)."""
+    """List permissions bound to a role_id (read operation, deterministic)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], role_id: str = None) -> str:
-        role_permissions = data.get("role_permissions", {}).values()
-        permissions = data.get("permissions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        role_permissions = data.get("role_permissions", [])
+        permissions = data.get("permissions", [])
         if not isinstance(role_permissions, list):
-            payload = {"error": "role_permissions must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "role_permissions must be a list"}, indent=2)
         if not isinstance(permissions, list):
-            payload = {"error": "permissions must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "permissions must be a list"}, indent=2)
 
-        roles = data.get("roles", {}).values()
-        if not any():
-            payload = {"error": f"role_id {role_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+        role_id = kwargs.get("role_id")
+        roles = data.get("roles", [])
+        if not any(r.get("role_id")==role_id for r in roles):
+            return json.dumps({"error": f"role_id {role_id} not found"}, indent=2)
         if not isinstance(role_id, str) or not role_id.strip():
-            payload = {"error": "role_id must be a non-empty string"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "role_id must be a non-empty string"}, indent=2)
 
-        perm_ids = [
-            rp.get("permission_id")
-            for rp in role_permissions.values() if rp.get("role_id") == role_id
-        ]
-        results = [p for p in permissions.values() if p.get("permission_id") in perm_ids]
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+        perm_ids = [rp.get("permission_id") for rp in role_permissions if rp.get("role_id") == role_id]
+        results = [p for p in permissions if p.get("permission_id") in perm_ids]
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListPermissionsForRole",
+                "name": "list_permissions_for_role",
                 "description": "List permission records attached to the given role_id.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"role_id": {"type": "string"}},
-                    "required": ["role_id"],
-                },
-            },
+                    "properties": {
+                        "role_id": {"type": "string"}
+                    },
+                    "required": ["role_id"]
+                }
+            }
         }
 
 
 class GetCertificationTool(Tool):
-    """Provide a single certification record using certification_id (read operation, predictable)."""
+    """Return a single certification record by certification_id (read operation, deterministic)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], certification_id: str = None) -> str:
-        certifications = data.get("certifications", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        certifications = data.get("certifications", [])
         if not isinstance(certifications, list):
-            payload = {"error": "certifications must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "certifications must be a list"}, indent=2)
 
+        certification_id = kwargs.get("certification_id")
         if not isinstance(certification_id, str) or not certification_id.strip():
-            payload = {"error": "certification_id must be a non-empty string"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": "certification_id must be a non-empty string"}, indent=2)
 
-        for c in certifications.values():
+        for c in certifications:
             if c.get("certification_id") == certification_id:
-                payload = c
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"Certification {certification_id} not found"}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+                return json.dumps(c, indent=2)
+        return json.dumps({"error": f"Certification {certification_id} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCertification",
+                "name": "get_certification",
                 "description": "Retrieve a certification by certification_id.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"certification_id": {"type": "string"}},
-                    "required": ["certification_id"],
-                },
-            },
+                    "properties": {
+                        "certification_id": {"type": "string"}
+                    },
+                    "required": ["certification_id"]
+                }
+            }
         }
 
 
 class RemoveRoleFromUserTool(Tool):
-    """Eliminate a specific role assignment from a user (write operation, predictable)."""
+    """Remove a specific role assignment from a user (write operation, deterministic)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, role_id: str = None) -> str:
-        user_roles = data.get("user_roles", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        user_roles = data.get("user_roles", [])
         if not isinstance(user_roles, list):
-            payload = {"error": "user_roles must be a list"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "user_roles must be a list"}, indent=2)
+
+        user_id = kwargs.get("user_id")
+        role_id = kwargs.get("role_id")
 
         for fld, val in [("user_id", user_id), ("role_id", role_id)]:
             if not isinstance(val, str) or not val.strip():
-                payload = {"error": f"{fld} must be a non-empty string"}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
+                return json.dumps({"error": f"{fld} must be a non-empty string"}, indent=2)
 
         before = len(user_roles)
-        data["user_roles"] = [
-            ur
-            for ur in user_roles.values() if not (ur.get("user_id") == user_id and ur.get("role_id") == role_id)
-        ]
+        data["user_roles"] = [ur for ur in user_roles if not (ur.get("user_id") == user_id and ur.get("role_id") == role_id)]
         removed = before - len(data["user_roles"])
 
         if removed == 0:
-            payload = {"error": f"No assignment of {role_id} found for {user_id}"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
-        payload = {"success": f"Removed {removed} assignment(s) of {role_id} from {user_id}"}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+            return json.dumps({"error": f"No assignment of {role_id} found for {user_id}"}, indent=2)
+        return json.dumps({"success": f"Removed {removed} assignment(s) of {role_id} from {user_id}"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RemoveRoleFromUser",
+                "name": "remove_role_from_user",
                 "description": "Remove a role assignment for a user. Deletes matching rows from user_roles.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "user_id": {"type": "string"},
-                        "role_id": {"type": "string"},
+                        "role_id": {"type": "string"}
                     },
-                    "required": ["user_id", "role_id"],
-                },
-            },
+                    "required": ["user_id", "role_id"]
+                }
+            }
         }
 
 
 class UpdateTicketStatusTool(Tool):
-    """Revise the status of a HubSpot ticket (write operation)."""
+    """Update the status of a HubSpot ticket (write operation)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], ticket_id: str = None, status: str = None, updated_at: str = None) -> str:
-        tickets = data.get("hubspot_tickets", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        tickets = data.get("hubspot_tickets", [])
+        ticket_id = kwargs.get("ticket_id")
+        new_status = kwargs.get("status")
+        updated_at = kwargs.get("updated_at")
 
         if not isinstance(ticket_id, str):
-            payload = {"error": "ticket_id must be provided"}
-            out = json.dumps(payload, indent=2)
-            return out
-        if not isinstance(status, str):
-            payload = {"error": "status must be provided"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "ticket_id must be provided"}, indent=2)
+        if not isinstance(new_status, str):
+            return json.dumps({"error": "status must be provided"}, indent=2)
 
-        for t in tickets.values():
+        for t in tickets:
             if t.get("ticket_id") == ticket_id:
-                t["status"] = status
+                t["status"] = new_status
                 if updated_at:
                     t["updated_at"] = updated_at
-                payload = {"success": f"Ticket {ticket_id} updated", "ticket": t}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
-        payload = {"error": f"Ticket {ticket_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps({"success": f"Ticket {ticket_id} updated", "ticket": t}, indent=2)
+
+        return json.dumps({"error": f"Ticket {ticket_id} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateTicketStatus",
+                "name": "update_ticket_status",
                 "description": "Update the status of a HubSpot ticket.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "ticket_id": {
-                            "type": "string",
-                            "description": "Unique ID of the ticket",
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "New status of the ticket (e.g., OPEN, CLOSED, IN_PROGRESS)",
-                        },
-                        "updated_at": {
-                            "type": "string",
-                            "description": "Optional ISO8601 timestamp of the update",
-                        },
+                        "ticket_id": {"type": "string", "description": "Unique ID of the ticket"},
+                        "status": {"type": "string", "description": "New status of the ticket (e.g., OPEN, CLOSED, IN_PROGRESS)"},
+                        "updated_at": {"type": "string", "description": "Optional ISO8601 timestamp of the update"}
                     },
-                    "required": ["ticket_id", "status"],
-                },
-            },
+                    "required": ["ticket_id", "status"]
+                }
+            }
         }
 
 
 class UpdateCertificationStatusTool(Tool):
-    """Revise the status of a certification review (write operation)."""
+    """Update the status of a certification review (write operation)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], certification_id: str = None, status: str = None, completed_on: str = None) -> str:
-        certs = data.get("certifications", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        certs = data.get("certifications", [])
+        cert_id = kwargs.get("certification_id")
+        new_status = kwargs.get("status")
+        completed_on = kwargs.get("completed_on")
 
-        if not isinstance(certification_id, str):
-            payload = {"error": "certification_id must be provided"}
-            out = json.dumps(payload, indent=2)
-            return out
-        if not isinstance(status, str):
-            payload = {"error": "status must be provided"}
-            out = json.dumps(payload, indent=2)
-            return out
+        if not isinstance(cert_id, str):
+            return json.dumps({"error": "certification_id must be provided"}, indent=2)
+        if not isinstance(new_status, str):
+            return json.dumps({"error": "status must be provided"}, indent=2)
 
-        for c in certs.values():
-            if c.get("certification_id") == certification_id:
-                c["status"] = status
+        for c in certs:
+            if c.get("certification_id") == cert_id:
+                c["status"] = new_status
                 if completed_on:
                     c["completed_on"] = completed_on
-                payload = {"success": f"Certification {certification_id} updated", "certification": c}
-                out = json.dumps(
-                    payload, indent=2,
-                )
-                return out
-        payload = {"error": f"Certification {certification_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps({"success": f"Certification {cert_id} updated", "certification": c}, indent=2)
+
+        return json.dumps({"error": f"Certification {cert_id} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateCertificationStatus",
+                "name": "update_certification_status",
                 "description": "Update the status of a certification review.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "certification_id": {
-                            "type": "string",
-                            "description": "Unique ID of the certification",
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "New status (e.g., PENDING, IN_PROGRESS, COMPLETED)",
-                        },
-                        "completed_on": {
-                            "type": "string",
-                            "description": "Optional ISO8601 timestamp when completed",
-                        },
+                        "certification_id": {"type": "string", "description": "Unique ID of the certification"},
+                        "status": {"type": "string", "description": "New status (e.g., PENDING, IN_PROGRESS, COMPLETED)"},
+                        "completed_on": {"type": "string", "description": "Optional ISO8601 timestamp when completed"}
                     },
-                    "required": ["certification_id", "status"],
-                },
-            },
+                    "required": ["certification_id", "status"]
+                }
+            }
         }
 
 
 class EnableUserMFATool(Tool):
-    """Activate MFA for a specified user (write operation)."""
+    """Enable MFA for a given user (write operation)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        users = data.get("users", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        users = data.get("users", [])
+        user_id = kwargs.get("user_id")
 
         if not isinstance(user_id, str):
-            payload = {"error": "user_id must be provided"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "user_id must be provided"}, indent=2)
 
-        for u in users.values():
+        for u in users:
             if u.get("user_id") == user_id:
                 u["mfa_enabled"] = True
-                payload = {"success": f"MFA enabled for {user_id}", "user": u}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
-        payload = {"error": f"User {user_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps({"success": f"MFA enabled for {user_id}", "user": u}, indent=2)
+
+        return json.dumps({"error": f"User {user_id} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "EnableUserMfa",
+                "name": "enable_user_mfa",
                 "description": "Enable MFA for a given user.",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "user_id": {
-                            "type": "string",
-                            "description": "The user ID to enable MFA for",
-                        }
+                        "user_id": {"type": "string", "description": "The user ID to enable MFA for"}
                     },
-                    "required": ["user_id"],
-                },
-            },
+                    "required": ["user_id"]
+                }
+            }
         }
 
 
-from typing import Any
-
+import json
+from typing import Dict, Any
 
 class UpdateAccessRequestTool(Tool):
-    """Fundamental: modify an access request's status and metadata (no side effects)."""
+    """Basic: update an access request's status and metadata (no side effects)."""
 
     _ALLOWED = {"PENDING", "APPROVED", "REJECTED", "DEFERRED"}
 
     @staticmethod
-    def invoke(data: dict[str, Any], request_id: str = None, status: str = None, updated_on: str = None, updated_by: str = None) -> str:
-        # Mandatory parameters
-        params_dict = {k: v for k, v in locals().items() if k != "data"}
-        missing = [
-            k
-            for k in ("request_id", "status", "updated_on", "updated_by")
-            if params_dict.get(k) is None
-        ]
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        request_id = kwargs.get("request_id")
+        status = kwargs.get("status")
+        updated_on = kwargs.get("updated_on")
+        updated_by = kwargs.get("updated_by")
+
+        # Required parameters
+        missing = [k for k in ("request_id","status","updated_on","updated_by") if kwargs.get(k) is None]
         if missing:
-            payload = {"error": f"Missing: {', '.join(missing)}"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"Missing: {', '.join(missing)}"}, indent=2)
 
-        # Simple status verification
+        # Basic status check
         if status not in UpdateAccessRequestTool._ALLOWED:
-            payload = {
-                    "error": f"Invalid status '{status}'. Allowed: {sorted(UpdateAccessRequestTool._ALLOWED)}"
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({"error": f"Invalid status '{status}'. Allowed: {sorted(UpdateAccessRequestTool._ALLOWED)}"}, indent=2)
 
-        # Import tables
-        access_requests = data.get("access_requests", {}).values()
-        users = data.get("users", {}).values()
+        # Load tables
+        access_requests = data.get("access_requests", [])
+        users = data.get("users", [])
 
-        # References
-        req = next(
-            (r for r in access_requests.values() if r.get("request_id") == request_id), None
-        )
+        # Anchors
+        req = next((r for r in access_requests if r.get("request_id") == request_id), None)
         if not req:
-            payload = {"error": f"Unknown request_id '{request_id}'"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"Unknown request_id '{request_id}'"}, indent=2)
 
-        if not any(u.get("user_id") == updated_by for u in users.values()):
-            payload = {"error": f"Unknown updated_by '{updated_by}'"}
-            out = json.dumps(payload, indent=2)
-            return out
+        if not any(u.get("user_id") == updated_by for u in users):
+            return json.dumps({"error": f"Unknown updated_by '{updated_by}'"}, indent=2)
 
-        # Modify in place (basic)
+        # Update in place (basic)
         req["status"] = status
         req["updated_on"] = updated_on
         req["updated_by"] = updated_by
-        payload = req
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(req, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateAccessRequest",
+                "name": "update_access_request",
                 "description": "Basic update of an access request's status and metadata (no side effects).",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "request_id": {"type": "string", "description": "e.g., AR-007"},
-                        "status": {
-                            "type": "string",
-                            "enum": ["PENDING", "APPROVED", "REJECTED", "DEFERRED"],
-                        },
-                        "updated_on": {
-                            "type": "string",
-                            "description": "ISO 8601 timestamp",
-                        },
-                        "updated_by": {
-                            "type": "string",
-                            "description": "User ID performing the update",
-                        },
+                        "status": {"type": "string", "enum": ["PENDING","APPROVED","REJECTED","DEFERRED"]},
+                        "updated_on": {"type": "string", "description": "ISO 8601 timestamp"},
+                        "updated_by": {"type": "string", "description": "User ID performing the update"}
                     },
-                    "required": ["request_id", "status", "updated_on", "updated_by"],
-                },
-            },
+                    "required": ["request_id","status","updated_on","updated_by"]
+                }
+            }
         }
 
 
+
 class ExportAuditLogsTool(Tool):
-    """Export audit logs with optional filtering."""
+    """Export audit logs with optional filters."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], actor_id: str = None, action_type: str = None, 
-               target_id: str = None, start_time: str = None, end_time: str = None) -> str:
-        logs = data.get("audit_logs", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        actor_id = kwargs.get("actor_id")
+        action_type = kwargs.get("action_type")
+        target_id = kwargs.get("target_id")
+        start_time = kwargs.get("start_time")
+        end_time = kwargs.get("end_time")
+
+        logs = data.get("audit_logs", [])
         results = []
 
-        for log in logs.values():
+        for log in logs:
             if actor_id and log.get("actor_id") != actor_id:
                 continue
             if action_type and log.get("action_type") != action_type:
@@ -2899,15 +2505,16 @@ class ExportAuditLogsTool(Tool):
             if end_time and log.get("timestamp") > end_time:
                 continue
             results.append(log)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+
+        # Deterministic export format (JSON string list of logs)
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ExportAuditLogs",
+                "name": "export_audit_logs",
                 "description": "Export audit logs with optional filters for actor, action, target, and time range",
                 "parameters": {
                     "type": "object",
@@ -2915,41 +2522,39 @@ class ExportAuditLogsTool(Tool):
                         "actor_id": {"type": "string"},
                         "action_type": {"type": "string"},
                         "target_id": {"type": "string"},
-                        "start_time": {
-                            "type": "string",
-                            "description": "ISO8601 lower bound",
-                        },
-                        "end_time": {
-                            "type": "string",
-                            "description": "ISO8601 upper bound",
-                        },
-                    },
-                },
-            },
+                        "start_time": {"type": "string", "description": "ISO8601 lower bound"},
+                        "end_time": {"type": "string", "description": "ISO8601 upper bound"}
+                    }
+                }
+            }
         }
-
 
 class GetCurrentTimeTool(Tool):
     """
-    Provides the fixed canonical current time utilized in evaluation.
+    Returns the fixed canonical current time used in evaluation.
     """
 
     @staticmethod
-    def invoke(data: dict) -> str:
-        payload = {"current_time": "2025-08-17T00:00:00Z"}
-        out = json.dumps(payload)
-        return out
+    def invoke(data: dict, **kwargs) -> str:
+        # always return the same canonical time
+        return json.dumps({"current_time": "2025-08-17T00:00:00Z"})
+
     @staticmethod
     def get_info() -> dict:
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GetCurrentTime",
+                "name": "get_current_time",
                 "description": "Return the canonical current time for use in audit logs and decisions.",
-                "parameters": {"type": "object", "properties": {}},
-            },
+                "parameters": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
         }
+
+
+
 
 
 TOOLS = [
@@ -3010,5 +2615,5 @@ TOOLS = [
     UpdateTicketStatusTool(),
     EnableUserMFATool(),
     GetCurrentTimeTool(),
-    UpdateAccessRequestTool(),
+    UpdateAccessRequestTool()
 ]

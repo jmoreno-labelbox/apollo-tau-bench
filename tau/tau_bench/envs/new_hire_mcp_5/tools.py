@@ -1,73 +1,27 @@
-import json
-import re
 from datetime import datetime, timezone
-from typing import Any
-
-from tau_bench.envs.tool import Tool
+from typing import Any, Dict, List, Optional
+import json, re
+from domains.dto import Tool
 
 TEMPLATE_INDEX = {
     "onboarding": "/onboarding/templates/Welcome-Email-Template.md",
 }
 TASK_TEMPLATES = {
     "orientation_invite": "Day-1 orientation details will be provided at check-in.",
-    "manager_intro": "A manager introduction will follow orientation.",
-    "access_gaps": "Access checks require attention. Please review.",
+    "manager_intro":      "A manager introduction will follow orientation.",
+    "access_gaps":        "Access checks require attention. Please review.",
     "checklist_reminder": "Please review your pending onboarding tasks.",
     "allocation_confirmation": "Your asset allocation has been recorded.",
-    "acknowledge": "Acknowledged. We are proceeding per policy.",
+    "acknowledge": "Acknowledged. We are proceeding per policy."
 }
 TEMPLATE_WELCOME_PATH = "/onboarding/templates/Welcome-Email-Template.md"
 
+def _fixed_ts(ts: Optional[str]) -> str:
+    return ts or "2025-09-01T00:00:00Z"
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db.values())
-    return db
-
-
-def _get_table(data: dict[str, Any], name: str) -> list[dict[str, Any]]:
-    """Get table from data and convert from dict to list if needed."""
-    table = data.get(name, [])
-    return _convert_db_to_list(table)
-
-
-def _next_seq(rows, key, prefix):
-    pass
-    mx = 0
-    pat = re.compile(rf"^{re.escape(prefix)}_(\d+)$")
-    for r in rows:
-        v = r.get(key) or ""
-        m = pat.match(v)
-        if m:
-            mx = max(mx, int(m.group(1)))
-    return f"{prefix}_{mx+1}"
-
-
-def _fill(text, cand):
-    pass
-    name = (cand or {}).get("candidate_name", "")
-    role = (cand or {}).get("role_title", "")
-    start = (cand or {}).get("start_date", "")
-    text = re.sub(r"\{\{\s*name\s*}}", name, text, flags=re.I)
-    text = re.sub(r"\{\{\s*role\s*}}", role, text, flags=re.I)
-    text = re.sub(r"\{\{\s*start[_\s]*date\s*}}", start, text, flags=re.I)
-    return text
-
-
-def _ensure_list(v):
-    pass
-    if v is None:
-        return []
-    return v if isinstance(v, list) else [v]
-
-
-def _get_or_create_label_id(db: dict[str, Any], name: str) -> str:
-    """Provide label_id for `name`; generate the next sequential id (label_1, label_2, ...) if it does not exist."""
-    pass
-    labels = _get_table(db, "email_labels")
+def _get_or_create_label_id(db: Dict[str, Any], name: str) -> str:
+    """Return label_id for `name`; create next sequential id (label_1, label_2, ...) if missing."""
+    labels = db.setdefault("email_labels", [])
     for lab in labels:
         if lab.get("name") == name:
             return lab["label_id"]
@@ -77,134 +31,122 @@ def _get_or_create_label_id(db: dict[str, Any], name: str) -> str:
         m = re.match(r"^label_(\d+)$", lid)
         if m:
             n = int(m.group(1))
-            if n > max_n:
-                max_n = n
+            if n > max_n: max_n = n
     new_id = f"label_{max_n + 1}"
     labels.append({"label_id": new_id, "name": name})
     return new_id
 
+def _ensure_list(v):
+    if v is None:
+        return []
+    return v if isinstance(v, list) else [v]
 
-def _fixed_ts(ts: str | None) -> str:
-    pass
-    return ts or "2025-09-01T00:00:00Z"
+def _fill(text, cand):
+    name  = (cand or {}).get("candidate_name", "")
+    role  = (cand or {}).get("role_title", "")
+    start = (cand or {}).get("start_date", "")
+    text = re.sub(r"\{\{\s*name\s*}}", name,  text, flags=re.I)
+    text = re.sub(r"\{\{\s*role\s*}}", role,  text, flags=re.I)
+    text = re.sub(r"\{\{\s*start[_\s]*date\s*}}", start, text, flags=re.I)
+    return text
+
+def _next_seq(rows, key, prefix):
+    mx = 0
+    pat = re.compile(rf"^{re.escape(prefix)}_(\d+)$")
+    for r in rows:
+        v = (r.get(key) or "")
+        m = pat.match(v)
+        if m:
+            mx = max(mx, int(m.group(1)))
+    return f"{prefix}_{mx+1}"
 
 
 class FindCandidateByEmail(Tool):
     """
-    Retrieve a candidate using (candidate_email, start_date).
+    Look up a candidate by (candidate_email, start_date).
     Returns: {"found": bool, "candidate_id": str|None, "candidate": dict|None}
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_email: str, start_date: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        email = kwargs["candidate_email"]
+        start = kwargs["start_date"]
         row = {}
-        for _row in _get_table(data, "candidates"):
-            if _row.get("candidate_email") == candidate_email and _row.get("start_date") == start_date:
+        for _row in data.get("candidates", []):
+            if _row.get("candidate_email") == email and _row.get("start_date") == start:
                 row = _row
 
         if row:
-            payload = {"found": True, "candidate_id": row["candidate_id"], "candidate": row}
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
-        payload = {"found": False, "candidate_id": None, "candidate": None}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+            return json.dumps({
+                "found": True,
+                "candidate_id": row["candidate_id"],
+                "candidate": row
+            }, indent=2)
+        return json.dumps({"found": False, "candidate_id": None, "candidate": None}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindCandidateByEmail",
+                "name": "find_candidate_by_email",
                 "description": "Find candidate by (candidate_email, start_date). Returns full candidate row too.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "candidate_email": {"type": "string"},
-                        "start_date": {"type": "string"},
+                        "start_date": {"type": "string"}
                     },
-                    "required": ["candidate_email", "start_date"],
-                },
-            },
+                    "required": ["candidate_email", "start_date"]
+                }
+            }
         }
 
 
 class ReadAssetRequest(Tool):
     @staticmethod
-    def invoke(data, request_id) -> str:
-        row = next(
-            (r for r in _get_table(data, "asset_requests") if r.get("request_id") == request_id),
-            None,
-        )
-        payload = {"asset_request": row} if row else {"error": f"request_id {request_id} not found"}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+    def invoke(data, **kwargs) -> str:
+        rid = kwargs["request_id"]
+        row = next((r for r in data.get("asset_requests", []) if r.get("request_id") == rid), None)
+        return json.dumps({"asset_request": row} if row else {"error": f"request_id {rid} not found"}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "ReadAssetRequest",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"request_id": {"type": "string"}},
-                    "required": ["request_id"],
-                },
-            },
-        }
+        return {"type":"function","function":{
+            "name":"read_asset_request",
+            "parameters":{"type":"object","properties":{"request_id":{"type":"string"}}, "required":["request_id"]}
+        }}
 
 
 class UpsertCandidateRecord(Tool):
     """
-    Idempotently create or update a candidate row identified by (candidate_email, start_date).
-    Candidate_id is determined based on the provided inputs.
+    Idempotent create/update of candidate row keyed by (candidate_email, start_date).
+    Deterministic candidate_id based on inputs.
     """
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        candidate_email: str,
-        start_date: str,
-        candidate_name: str,
-        role_title: str = None,
-        manager_email: str = None,
-        onboarding_status: str = "Created",
-        created_ts: Any = None
-    ) -> str:
-        pass
-        email = candidate_email
-        start = start_date
-        name = candidate_name
-        role = role_title
-        manager_email = manager_email
-        onboarding_status = onboarding_status
-        created_ts = _fixed_ts(created_ts)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        email = kwargs["candidate_email"]
+        start = kwargs["start_date"]
+        name = kwargs["candidate_name"]
+        role = kwargs.get("role_title")
+        manager_email = kwargs.get("manager_email")
+        onboarding_status = kwargs.get("onboarding_status", "Created")
+        created_ts = _fixed_ts(kwargs.get("created_ts"))
 
-        candidates = _get_table(data, "candidates")
+        candidates = data.setdefault("candidates", [])
         row = {}
-        for _row in _get_table(data, "candidates"):
+        for _row in data.get("candidates", []):
             if _row.get("candidate_email") == email and _row.get("start_date") == start:
                 row = _row
         if row:
             row["candidate_name"] = name
-            if role is not None:
-                row["role_title"] = role
-            if manager_email is not None:
-                row["manager_email_nullable"] = manager_email
+            if role is not None: row["role_title"] = role
+            if manager_email is not None: row["manager_email_nullable"] = manager_email
             row["onboarding_status"] = onboarding_status
-            payload = {"candidate_id": row["candidate_id"], "status": "updated"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"candidate_id": row["candidate_id"], "status": "updated"}, indent=2)
 
-        candidate_id = _get_or_create_label_id(data, "cand")
+        candidate_id = _get_or_create_label_id("cand", {"email": email, "start": start, "name": name})
         new_row = {
             "candidate_id": candidate_id,
             "candidate_name": name,
@@ -218,18 +160,17 @@ class UpsertCandidateRecord(Tool):
             "manager_email_nullable": manager_email,
             "orientation_invite_ts_nullable": None,
             "manager_intro_invite_ts_nullable": None,
-            "welcome_email_message_id_nullable": None,
+            "welcome_email_message_id_nullable": None
         }
-        data["candidates"][candidate_id] = new_row
-        payload = {"candidate_id": candidate_id, "status": "created"}
-        out = json.dumps(payload, indent=2)
-        return out
+        candidates.append(new_row)
+        return json.dumps({"candidate_id": candidate_id, "status": "created"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "upsertCandidateRecord",
+                "name": "upsert_candidate_record",
                 "description": "Create/update candidate keyed by (candidate_email, start_date).",
                 "parameters": {
                     "type": "object",
@@ -240,165 +181,155 @@ class UpsertCandidateRecord(Tool):
                         "candidate_email": {"type": "string"},
                         "manager_email": {"type": "string"},
                         "onboarding_status": {"type": "string"},
-                        "created_ts": {"type": "string"},
+                        "created_ts": {"type": "string"}
                     },
-                    "required": ["candidate_name", "start_date", "candidate_email"],
-                },
-            },
+                    "required": ["candidate_name", "start_date", "candidate_email"]
+                }
+            }
         }
 
 
 class GetCandidateDetails(Tool):
-    """Provide the complete candidate row using candidate_id."""
+    """Return the full candidate row by candidate_id."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str) -> str:
-        cand_id = candidate_id
-        for row in _get_table(data, "candidates"):
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cand_id = kwargs["candidate_id"]
+        for row in data.get("candidates", []):
             if row.get("candidate_id") == cand_id:
-                payload = {"candidate": row}
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"candidate_id {cand_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps({"candidate": row}, indent=2)
+        return json.dumps({"error": f"candidate_id {cand_id} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getCandidateDetails",
+                "name": "get_candidate_details",
                 "description": "Get candidate row by candidate_id.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"candidate_id": {"type": "string"}},
-                    "required": ["candidate_id"],
-                },
-            },
+                    "properties": {
+                        "candidate_id": {"type": "string"}
+                    },
+                    "required": ["candidate_id"]
+                }
+            }
         }
 
 
 class UpdateCandidateStatusFields(Tool):
-    """Update permissible candidate fields (status, invitation timestamps, welcome message id, asset tag link, follow-up timestamp, etc.)."""
+    """Patch allowed candidate fields (status, invite timestamps, welcome msg id, asset tag link, follow-up ts, etc.)."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str, fields: dict[str, Any] = {}) -> str:
-        cand_id = candidate_id
-        for row in _get_table(data, "candidates"):
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cand_id = kwargs["candidate_id"]
+        fields: Dict[str, Any] = kwargs.get("fields", {})
+        for row in data.get("candidates", []):
             if row.get("candidate_id") == cand_id:
                 for k, v in fields.items():
                     if v is None:
                         row[k] = None
                     else:
                         row[k] = v
-                payload = {"candidate_id": cand_id, "updated_fields": list(fields.keys())}
-                out = json.dumps(
-                    payload, indent=2,
-                )
-                return out
-        payload = {"error": f"candidate_id {cand_id} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps({"candidate_id": cand_id, "updated_fields": list(fields.keys())}, indent=2)
+        return json.dumps({"error": f"candidate_id {cand_id} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateCandidateStatusFields",
+                "name": "update_candidate_status_fields",
                 "description": "Update selected candidate fields deterministically.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "candidate_id": {"type": "string"},
-                        "fields": {"type": "object"},
+                        "fields": {"type": "object"}
                     },
-                    "required": ["candidate_id", "fields"],
-                },
-            },
+                    "required": ["candidate_id", "fields"]
+                }
+            }
         }
 
 
 class SearchAttachmentsByFilename(Tool):
-    """Simulate a gdrive search: return any attachments that match the filename, or an empty list if none exist."""
+    """Pretend gdrive search: return any attachments with matching filename, else empty list."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], filename: str) -> str:
-        matches = [
-            a for a in _get_table(data, "attachments") if a.get("filename") == filename
-        ]
-        payload = {"matches": matches}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        filename = kwargs["filename"]
+        matches = [a for a in data.get("attachments", []) if a.get("filename") == filename]
+        return json.dumps({"matches": matches}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "searchAttachmentsByFilename",
+                "name": "search_attachments_by_filename",
                 "description": "Search attachments (simulated Drive) by exact filename.",
                 "parameters": {
                     "type": "object",
                     "properties": {"filename": {"type": "string"}},
-                    "required": ["filename"],
-                },
-            },
+                    "required": ["filename"]
+                }
+            }
         }
 
 
 class ReadOnboardingFile(Tool):
-    """Access a file from onboarding_files using file_path."""
+    """Read a file from onboarding_files by file_path."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], file_path: str) -> str:
-        for f in _get_table(data, "onboarding_files"):
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        file_path = kwargs["file_path"]
+        for f in data.get("onboarding_files", []):
             if f.get("file_path") == file_path:
-                payload = {"file": f}
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": f"file_path {file_path} not found"}
-        out = json.dumps(payload, indent=2)
-        return out
+                return json.dumps({"file": f}, indent=2)
+        return json.dumps({"error": f"file_path {file_path} not found"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ReadOnboardingFile",
+                "name": "read_onboarding_file",
                 "description": "Read an onboarding file by file_path.",
                 "parameters": {
                     "type": "object",
-                    "properties": {"file_path": {"type": "string"}},
-                    "required": ["file_path"],
-                },
-            },
+                    "properties": {
+                        "file_path": {"type": "string"}
+                    },
+                    "required": ["file_path"]
+                }
+            }
         }
 
 
 class RenderOnboardingWelcome(Tool):
     """
-    Generate the onboarding welcome email content by:
-      - verifying candidate_id is present (candidates.json)
-      - loading template from /onboarding/templates/Welcome-Email-Template.md (onboarding_files)
-      - substituting {{name}}, {{role}}, {{start_date}} (case-insensitive)
+    Render onboarding welcome email content by:
+      - confirming candidate_id exists (candidates.json)
+      - reading template from /onboarding/templates/Welcome-Email-Template.md (onboarding_files)
+      - replacing {{name}}, {{role}}, {{start_date}} (case-insensitive)
     Returns: {candidate_id, file_path, content_text}
     """
 
     @staticmethod
-    def _candidate_exists(data: dict[str, Any], cand_id: str) -> bool:
-        pass
-        return any(r.get("candidate_id") == cand_id for r in _get_table(data, "candidates"))
+    def _candidate_exists(data: Dict[str, Any], cand_id: str) -> bool:
+        return any(r.get("candidate_id") == cand_id for r in data.get("candidates", []))
 
     @staticmethod
-    def _get_template_text(data: dict[str, Any]) -> str:
-        pass
-        for f in _get_table(data, "onboarding_files"):
+    def _get_template_text(data: Dict[str, Any]) -> str:
+        for f in data.get("onboarding_files", []):
             if f.get("file_path") == TEMPLATE_WELCOME_PATH:
                 return f.get("content_text", "")
         return ""
 
     @staticmethod
     def _fill(template: str, name: str, role: str, start_date: str) -> str:
-        pass
         repls = {
             r"\{\{\s*name\s*\}\}": name,
             r"\{\{\s*role\s*\}\}": role,
@@ -410,41 +341,32 @@ class RenderOnboardingWelcome(Tool):
         return out
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str, candidate_name: str = "", role_title: str = "", start_date: str = "") -> str:
-        cand_id = candidate_id
-        name = candidate_name
-        role = role_title
-        start_date = start_date
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cand_id = kwargs["candidate_id"]
+        name = kwargs.get("candidate_name", "")
+        role = kwargs.get("role_title", "")
+        start_date = kwargs.get("start_date", "")
 
         if not RenderOnboardingWelcome._candidate_exists(data, cand_id):
-            payload = {"error": f"candidate_id {cand_id} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"candidate_id {cand_id} not found"}, indent=2)
 
         template_text = RenderOnboardingWelcome._get_template_text(data)
         if not template_text:
-            payload = {"error": f"template not found at {TEMPLATE_WELCOME_PATH}"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"error": f"template not found at {TEMPLATE_WELCOME_PATH}"}, indent=2)
 
         content = RenderOnboardingWelcome._fill(template_text, name, role, start_date)
-        payload = {
-                "candidate_id": cand_id,
-                "file_path": TEMPLATE_WELCOME_PATH,
-                "content_text": content,
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        return json.dumps({
+            "candidate_id": cand_id,
+            "file_path": TEMPLATE_WELCOME_PATH,
+            "content_text": content
+        }, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RenderOnboardingWelcome",
+                "name": "render_onboarding_welcome",
                 "description": "Return onboarding welcome email content from the stored template with placeholders filled.",
                 "parameters": {
                     "type": "object",
@@ -452,69 +374,50 @@ class RenderOnboardingWelcome(Tool):
                         "candidate_id": {"type": "string"},
                         "candidate_name": {"type": "string"},
                         "role_title": {"type": "string"},
-                        "start_date": {"type": "string"},
+                        "start_date": {"type": "string"}
                     },
-                    "required": [
-                        "candidate_id",
-                        "candidate_name",
-                        "role_title",
-                        "start_date",
-                    ],
-                },
-            },
+                    "required": ["candidate_id", "candidate_name", "role_title", "start_date"]
+                }
+            }
         }
 
 
 class WriteOnboardingFile(Tool):
-    """Add or update an entry in onboarding_files for candidate_id and file_path."""
+    """Insert/update onboarding_files entry for candidate_id + file_path."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        candidate_id: str,
-        file_path: str,
-        content_text: str = "",
-        mime_type: str = "text/markdown",
-        created_ts: Any = None,
-        updated_ts: Any = None
-,
-    payload: Any = None,
-    ) -> str:
-        cand_id = candidate_id
-        created_ts = _fixed_ts(created_ts)
-        updated_ts = _fixed_ts(updated_ts)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cand_id = kwargs["candidate_id"]
+        file_path = kwargs["file_path"]
+        content_text = kwargs.get("content_text", "")
+        mime_type = kwargs.get("mime_type", "text/markdown")
+        created_ts = _fixed_ts(kwargs.get("created_ts"))
+        updated_ts = _fixed_ts(kwargs.get("updated_ts"))
 
-        files = _get_table(data, "onboarding_files")
+        files = data.setdefault("onboarding_files", [])
         for f in files:
             if f.get("file_path") == file_path and f.get("candidate_id") == cand_id:
                 f["content_text"] = content_text
                 f["mime_type"] = mime_type
                 f["updated_ts"] = updated_ts
-                payload = {"file_path": file_path, "status": "updated"}
-                out = json.dumps(
-                    payload, indent=2
-                )
-                return out
+                return json.dumps({"file_path": file_path, "status": "updated"}, indent=2)
 
-        files.append(
-            {
-                "file_path": file_path,
-                "content_text": content_text,
-                "mime_type": mime_type,
-                "created_ts": created_ts,
-                "updated_ts": updated_ts,
-                "candidate_id": cand_id,
-            }
-        )
-        payload = {"file_path": file_path, "status": "created"}
-        out = json.dumps(payload, indent=2)
-        return out
+        files.append({
+            "file_path": file_path,
+            "content_text": content_text,
+            "mime_type": mime_type,
+            "created_ts": created_ts,
+            "updated_ts": updated_ts,
+            "candidate_id": cand_id
+        })
+        return json.dumps({"file_path": file_path, "status": "created"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "WriteOnboardingFile",
+                "name": "write_onboarding_file",
                 "description": "Create or update an onboarding file record.",
                 "parameters": {
                     "type": "object",
@@ -524,55 +427,46 @@ class WriteOnboardingFile(Tool):
                         "content_text": {"type": "string"},
                         "mime_type": {"type": "string"},
                         "created_ts": {"type": "string"},
-                        "updated_ts": {"type": "string"},
+                        "updated_ts": {"type": "string"}
                     },
-                    "required": ["candidate_id", "file_path"],
-                },
-            },
+                    "required": ["candidate_id", "file_path"]
+                }
+            }
         }
 
 
 class GenerateAndSendEmail(Tool):
     """
-    Compose + (optionally) label + dispatch an email in a single operation.
-    - Does not invoke other tools.
-    - Affects: emails, attachments, email_labels, onboarding_files
+    Draft + (optionally) label + send an email in one call.
+    - Does not call other tools.
+    - Touches: emails, attachments, email_labels, onboarding_files
     Returns: {"message_id","status":"sent","label_ids":[...]}
     """
-
     @staticmethod
-    def invoke(
-        db,
-        to_emails=None,
-        subject=None,
-        body="",
-        cc_emails=None,
-        candidate_id=None,
-        thread_id=None,
-        in_reply_to=None,
-        label_names=None,
-        attach_paths=None,
-        date_ts=None,
-        attachment_file_paths: Any = None, 
-        task: Any = None,
-        add_names: Any = None) -> str:
+    def invoke(db, **kw) -> str:
+        to_emails = kw.get("to_emails")
+        subject   = kw.get("subject")
         if not to_emails or not subject:
-            payload = {"error": "to_emails and subject are required"}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": "to_emails and subject are required"}, indent=2)
 
-        label_names = label_names or []
-        attach_paths = attach_paths or []
+        body      = kw.get("body", "")
+        cc_emails = kw.get("cc_emails")
+        candidate_id = kw.get("candidate_id")
+        thread_id    = kw.get("thread_id")
+        in_reply_to  = kw.get("in_reply_to_message_id")
+        label_names  = kw.get("label_names") or []
+        attach_paths = kw.get("attachment_file_paths") or []
+        date_ts_in   = kw.get("date_ts")
 
         try:
-            dts = _fixed_ts(date_ts)
+            dts = _fixed_ts(date_ts_in)
         except Exception:
-            dts = date_ts or datetime.now(timezone.utc).isoformat()
+            dts = date_ts_in or datetime.now(timezone.utc).isoformat()
 
-        emails = _get_table(db, "emails")
-        attachments = _get_table(db, "attachments")
-        labels_tbl = _get_table(db, "email_labels")
-        files_tbl = _get_table(db, "onboarding_files")
+        emails      = db.setdefault("emails", [])
+        attachments = db.setdefault("attachments", [])
+        labels_tbl  = db.setdefault("email_labels", [])
+        files_tbl   = db.setdefault("onboarding_files", [])
 
         def _ensure_list(x):
             return x if isinstance(x, list) else ([] if x is None else [x])
@@ -581,7 +475,7 @@ class GenerateAndSendEmail(Tool):
             mx = 0
             pat = re.compile(rf"^{re.escape(prefix)}_(\d+)$")
             for r in rows:
-                v = r.get(key) or ""
+                v = (r.get(key) or "")
                 m = pat.match(v)
                 if m:
                     mx = max(mx, int(m.group(1)))
@@ -607,57 +501,44 @@ class GenerateAndSendEmail(Tool):
         emails.append(email_row)
 
         for path in _ensure_list(attach_paths):
-            file_row = next((f for f in files_tbl if f.get("file_path") == path), None)
+            file_row = next((f for f in files_tbl if f.get("file_path")==path), None)
             att_id = _next_id(attachments, "attachment_id", "att")
-            attachments.append(
-                {
-                    "attachment_id": att_id,
-                    "message_id": message_id,
-                    "filename": (
-                        file_row["file_path"].split("/")[-1]
-                        if file_row
-                        else (path.split("/")[-1] or "attachment")
-                    ),
-                    "mime_type": (
-                        file_row.get("mime_type")
-                        if file_row
-                        else "application/octet-stream"
-                    ),
-                    "file_path": (file_row.get("file_path") if file_row else path),
-                    "size_bytes": 0,
-                    "stored_ts": dts,
-                }
-            )
+            attachments.append({
+                "attachment_id": att_id,
+                "message_id": message_id,
+                "filename": (file_row["file_path"].split("/")[-1] if file_row else (path.split("/")[-1] or "attachment")),
+                "mime_type": (file_row.get("mime_type") if file_row else "application/octet-stream"),
+                "file_path": (file_row.get("file_path") if file_row else path),
+                "size_bytes": 0,
+                "stored_ts": dts
+            })
             email_row["attachments_ids"].append(att_id)
 
         label_ids = []
         for name in _ensure_list(label_names):
             if not name:
                 continue
-            lab = next((l for l in labels_tbl if l.get("name") == name), None)
+            lab = next((l for l in labels_tbl if l.get("name")==name), None)
             if not lab:
                 lid = _next_id(labels_tbl, "label_id", "label")
                 lab = {"label_id": lid, "name": name}
-                labels_tbl[lid] = lab
+                labels_tbl.append(lab)
             if lab["label_id"] not in email_row["labels_ids"]:
                 email_row["labels_ids"].append(lab["label_id"])
             label_ids.append(lab["label_id"])
 
         email_row["draft_flag"] = False
-        email_row["sent_flag"] = True
-        email_row["date_ts"] = dts
-        payload = {"message_id": message_id, "status": "sent", "label_ids": label_ids}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        email_row["sent_flag"]  = True
+        email_row["date_ts"]    = dts
+
+        return json.dumps({"message_id": message_id, "status": "sent", "label_ids": label_ids}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
         return {
             "type": "function",
             "function": {
-                "name": "GenerateAndSendEmail",
+                "name": "generate_and_send_email",
                 "description": "Draft, optionally label, and send an email in a single step. No nested tool calls.",
                 "parameters": {
                     "type": "object",
@@ -666,145 +547,101 @@ class GenerateAndSendEmail(Tool):
                         "subject": {"type": "string"},
                         "body": {"type": "string"},
                         "label_names": {"type": "array", "items": {"type": "string"}},
-                        "attachment_file_paths": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                        },
+                        "attachment_file_paths": {"type": "array", "items": {"type": "string"}},
                         "cc_emails": {"type": "array", "items": {"type": "string"}},
                         "candidate_id": {"type": "string"},
                         "thread_id": {"type": "string"},
                         "in_reply_to_message_id": {"type": "string"},
-                        "date_ts": {"type": "string"},
+                        "date_ts": {"type": "string"}
                     },
-                    "required": ["to_emails", "subject"],
-                },
-            },
+                    "required": ["to_emails", "subject"]
+                }
+            }
         }
 
 
 class GetOrCreateEmailLabel(Tool):
-    """Provide label_id for name, generating it deterministically if it is absent."""
+    """Return label_id for name, creating deterministically if missing."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], name: str) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name = kwargs["name"]
         label_id = _get_or_create_label_id(data, name)
-        payload = {"label_id": label_id, "name": name}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"label_id": label_id, "name": name}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetOrCreateEmailLabel",
+                "name": "get_or_create_email_label",
                 "description": "Get or create label by name.",
                 "parameters": {
                     "type": "object",
                     "properties": {"name": {"type": "string"}},
-                    "required": ["name"],
-                },
-            },
+                    "required": ["name"]
+                }
+            }
         }
 
 
 class ModifyEmailLabels(Tool):
     """
-    Add or remove labels from an email.
+    Add/remove labels on an email.
     Accepts EITHER:
       - message_id
-      - OR (candidate_id + subject + date_ts) to uniquely identify the email.
+      - OR (candidate_id + subject + date_ts) to resolve the email deterministically.
     """
 
     @staticmethod
-    def _find_email_by_keys(
-        db: dict[str, Any], candidate_id: str, subject: str, date_ts: str
-    ) -> dict[str, Any] | None:
-        pass
-        emails = _get_table(db, "emails")
-        matches = [
-            e
-            for e in emails
-            if e.get("candidate_id_nullable") == candidate_id
-            and e.get("subject") == subject
-            and e.get("date_ts") == date_ts
-        ]
+    def _find_email_by_keys(db: Dict[str, Any], candidate_id: str, subject: str, date_ts: str) -> Optional[Dict[str, Any]]:
+        emails = db.get("emails", [])
+        matches = [e for e in emails
+                   if e.get("candidate_id_nullable") == candidate_id
+                   and e.get("subject") == subject
+                   and e.get("date_ts") == date_ts]
         if not matches:
             return None
-
         def msg_seq(e):
-            pass
-            m = re.match(r"^msg_(\d+)$", e.get("message_id", ""))
+            m = re.match(r"^msg_(\d+)$", e.get("message_id",""))
             return int(m.group(1)) if m else 0
-
-        matches.sort(
-            key=lambda e: (e.get("sent_flag") is True, msg_seq(e)), reverse=True
-        )
+        matches.sort(key=lambda e: (e.get("sent_flag") is True, msg_seq(e)), reverse=True)
         return matches[0]
 
     @staticmethod
-    def invoke(
-        db: dict[str, Any],
-        message_id: str = None,
-        candidate_id: str = None,
-        subject: str = None,
-        date_ts: int = None,
-        add_names: list[str] = None,
-        remove_names: list[str] = None,
-        email_id: Any = None,
-    ) -> str:
+    def invoke(db: Dict[str, Any], **kwargs) -> str:
         email = None
-        if message_id:
-            email = next(
-                (e for e in _get_table(db, "emails") if e.get("message_id") == message_id), None
-            )
+        msg_id = kwargs.get("message_id")
+        if msg_id:
+            email = next((e for e in db.get("emails", []) if e.get("message_id") == msg_id), None)
         else:
-            date_ts = _fixed_ts(date_ts)
-            if candidate_id and subject:
-                email = ModifyEmailLabels._find_email_by_keys(
-                    db, candidate_id, subject, date_ts
-                )
+            cand_id = kwargs.get("candidate_id"); subject = kwargs.get("subject"); date_ts = _fixed_ts(kwargs.get("date_ts"))
+            if cand_id and subject:
+                email = ModifyEmailLabels._find_email_by_keys(db, cand_id, subject, date_ts)
 
         if not email:
-            payload = {
-                "message_id": None,
-                "labels_ids": [],
-                "note": "email not found for labeling",
-            }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({"message_id": None, "labels_ids": [], "note": "email not found for labeling"}, indent=2)
 
-        add = add_names or []
-        remove = remove_names or []
+        add = kwargs.get("add_names") or []
+        remove = kwargs.get("remove_names") or []
 
         labels_ids = set(email.get("labels_ids", []))
         for nm in add:
             labels_ids.add(_get_or_create_label_id(db, nm))
         for nm in remove:
-            existing = next(
-                (
-                    lab.get("label_id")
-                    for lab in _get_table(db, "email_labels")
-                    if lab.get("name") == nm
-                ),
-                None,
-            )
+            existing = next((lab.get("label_id") for lab in db.get("email_labels", []) if lab.get("name") == nm), None)
             if existing and existing in labels_ids:
                 labels_ids.remove(existing)
 
         email["labels_ids"] = list(labels_ids)
-        payload = {"message_id": email["message_id"], "labels_ids": email["labels_ids"]}
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        return json.dumps({"message_id": email["message_id"], "labels_ids": email["labels_ids"]}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ModifyEmailLabels",
+                "name": "modify_email_labels",
                 "description": "Add or remove labels on an email by message_id or by (candidate_id, subject, date_ts).",
                 "parameters": {
                     "type": "object",
@@ -814,102 +651,75 @@ class ModifyEmailLabels(Tool):
                         "subject": {"type": "string"},
                         "date_ts": {"type": "string"},
                         "add_names": {"type": "array", "items": {"type": "string"}},
-                        "remove_names": {"type": "array", "items": {"type": "string"}},
+                        "remove_names": {"type": "array", "items": {"type": "string"}}
                     },
-                    "required": [],
-                },
-            },
+                    "required": []
+                }
+            }
         }
 
 
 class ListCandidateEmails(Tool):
-    """Enumerate emails associated with a candidate_id."""
+    """List emails linked to a candidate_id."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str) -> str:
-        cand_id = candidate_id
-        rows = [
-            e
-            for e in _get_table(data, "emails")
-            if e.get("candidate_id_nullable") == cand_id
-        ]
-        payload = {"emails": rows}
-        out = json.dumps(payload, indent=2)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cand_id = kwargs["candidate_id"]
+        rows = [e for e in data.get("emails", []) if e.get("candidate_id_nullable") == cand_id]
+        return json.dumps({"emails": rows}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "listCandidateEmails",
+                "name": "list_candidate_emails",
                 "description": "List emails for a candidate.",
                 "parameters": {
                     "type": "object",
                     "properties": {"candidate_id": {"type": "string"}},
-                    "required": ["candidate_id"],
-                },
-            },
+                    "required": ["candidate_id"]
+                }
+            }
         }
 
 
 class CreateAssetRequest(Tool):
-    """Establish or modify an asset request for a candidate (idempotent based on candidate_id+asset_type)."""
-
+    """Create or update an asset request for a candidate (idempotent by candidate_id+asset_type)."""
     @staticmethod
-    def invoke(
-        db: dict[str, Any],
-        candidate_id: str,
-        asset_type: str,
-        status: str = "Requested",
-        requested_ts: Any = None
-    ) -> str:
-        cand_id = candidate_id
-        asset_type = asset_type
-        status = status
-        ts = _fixed_ts(requested_ts)
-        reqs = _get_table(db, "asset_requests")
+    def invoke(db: Dict[str, Any], **kwargs) -> str:
+        cand_id = kwargs["candidate_id"]
+        asset_type = kwargs["asset_type"]
+        status = kwargs.get("status", "Requested")
+        ts = _fixed_ts(kwargs.get("requested_ts"))
+        reqs = db.setdefault("asset_requests", [])
 
-        row = next(
-            (
-                r
-                for r in reqs
-                if r.get("candidate_id") == cand_id
-                and r.get("asset_type") == asset_type
-            ),
-            None,
-        )
+        row = next((r for r in reqs if r.get("candidate_id") == cand_id and r.get("asset_type") == asset_type), None)
         if row:
             row["status"] = status
             row["updated_ts"] = ts
-            payload = {"request_id": row["request_id"], "status": "updated"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+            return json.dumps({"request_id": row["request_id"], "status": "updated"}, indent=2)
 
         request_id = _next_seq(reqs, "request_id", "req")
-        reqs.append(
-            {
-                "request_id": request_id,
-                "candidate_id": cand_id,
-                "asset_type": asset_type,
-                "status": status,
-                "email_message_id_nullable": None,
-                "inventory_checked_flag": False,
-                "asset_tag_nullable": None,
-                "requested_ts": ts,
-                "updated_ts": ts,
-            }
-        )
-        payload = {"request_id": request_id, "status": "created"}
-        out = json.dumps(payload, indent=2)
-        return out
+        reqs.append({
+            "request_id": request_id,
+            "candidate_id": cand_id,
+            "asset_type": asset_type,
+            "status": status,
+            "email_message_id_nullable": None,
+            "inventory_checked_flag": False,
+            "asset_tag_nullable": None,
+            "requested_ts": ts,
+            "updated_ts": ts
+        })
+        return json.dumps({"request_id": request_id, "status": "created"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateAssetRequest",
+                "name": "create_asset_request",
                 "description": "Create or update an asset request for a candidate.",
                 "parameters": {
                     "type": "object",
@@ -917,43 +727,37 @@ class CreateAssetRequest(Tool):
                         "candidate_id": {"type": "string"},
                         "asset_type": {"type": "string"},
                         "status": {"type": "string"},
-                        "requested_ts": {"type": "string"},
+                        "requested_ts": {"type": "string"}
                     },
-                    "required": ["candidate_id", "asset_type"],
-                },
-            },
+                    "required": ["candidate_id", "asset_type"]
+                }
+            }
         }
 
 
 class WriteAssetRequestFile(Tool):
-    """Save /onboarding/<candidate>/asset_request.json to onboarding_files."""
-
+    """Write /onboarding/<candidate>/asset_request.json into onboarding_files."""
     @staticmethod
-    def invoke(
-        db: dict[str, Any],
-        candidate_id: str,
-        file_path: str = None,
-        payload: dict = None,
-        created_ts: str = None,
-        updated_ts: str = None
-    ) -> str:
-        file_path = file_path or f"/onboarding/{candidate_id}/asset_request.json"
-        payload = payload or {}
+    def invoke(db: Dict[str, Any], **kwargs) -> str:
+        cand_id = kwargs["candidate_id"]
+        file_path = kwargs.get("file_path") or f"/onboarding/{cand_id}/asset_request.json"
+        payload = kwargs.get("payload", {})
         return WriteOnboardingFile.invoke(
             db,
-            candidate_id=candidate_id,
+            candidate_id=cand_id,
             file_path=file_path,
             content_text=json.dumps(payload, sort_keys=True, indent=2),
             mime_type="application/json",
-            created_ts=created_ts,
-            updated_ts=updated_ts,
+            created_ts=kwargs.get("created_ts"),
+            updated_ts=kwargs.get("updated_ts"),
         )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "WriteAssetRequestFile",
+                "name": "write_asset_request_file",
                 "description": "Store asset_request.json for the candidate.",
                 "parameters": {
                     "type": "object",
@@ -962,84 +766,83 @@ class WriteAssetRequestFile(Tool):
                         "file_path": {"type": "string"},
                         "payload": {"type": "object"},
                         "created_ts": {"type": "string"},
-                        "updated_ts": {"type": "string"},
+                        "updated_ts": {"type": "string"}
                     },
-                    "required": ["candidate_id", "payload"],
-                },
-            },
+                    "required": ["candidate_id", "payload"]
+                }
+            }
         }
 
 
 class AssignAssetToCandidate(Tool):
     """
-    Allocate an asset_tag to a candidate:
+    Assign an asset_tag to a candidate:
     - inventory_assets.assigned_candidate_id_nullable = candidate_id and status='allocated'
-    - candidates updated with asset_tag (optional through fields)
+    - candidates updated with asset_tag (optional via fields)
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], asset_tag: str, candidate_id: str) -> str:
-        inv = _get_table(data, "inventory_assets")
-        row = next((a for a in inv.values() if a.get("asset_tag") == asset_tag), None)
-        if not row:
-            payload = {"error": f"asset_tag {asset_tag} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        asset_tag = kwargs["asset_tag"]
+        cand_id = kwargs["candidate_id"]
 
-        row["assigned_candidate_id_nullable"] = candidate_id
+        inv = data.get("inventory_assets", [])
+        row = next((a for a in inv if a.get("asset_tag") == asset_tag), None)
+        if not row:
+            return json.dumps({"error": f"asset_tag {asset_tag} not found"}, indent=2)
+
+        row["assigned_candidate_id_nullable"] = cand_id
         row["status"] = "allocated"
-        for c in _get_table(data, "candidates"):
-            if c.get("candidate_id") == candidate_id:
+        for c in data.get("candidates", []):
+            if c.get("candidate_id") == cand_id:
                 c["allocated_asset_tag_nullable"] = asset_tag
-        payload = {"asset_tag": asset_tag, "assigned_to": candidate_id}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"asset_tag": asset_tag, "assigned_to": cand_id}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "assignAssetToCandidate",
+                "name": "assign_asset_to_candidate",
                 "description": "Assign inventory asset to candidate.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "asset_tag": {"type": "string"},
-                        "candidate_id": {"type": "string"},
+                        "candidate_id": {"type": "string"}
                     },
-                    "required": ["asset_tag", "candidate_id"],
-                },
-            },
+                    "required": ["asset_tag", "candidate_id"]
+                }
+            }
         }
 
 
 class RecordAccessChecks(Tool):
     @staticmethod
-    def invoke(data, candidate_id: str, checks: list = None) -> str:
-        if checks is None:
-            checks = []
-        rows = _get_table(data, "access_checks")
+    def invoke(data, **kwargs) -> str:
+        cand_id = kwargs["candidate_id"]
+        checks = kwargs.get("checks", [])
+        rows = data.setdefault("access_checks", [])
         ids = []
         for i, chk in enumerate(checks):
             payload = {
                 "access_check_id": _next_seq(rows, "access_check_id", "acc"),
-                "candidate_id": candidate_id,
+                "candidate_id": cand_id,
                 "system_name": chk["system_name"],
                 "status": chk["status"],
                 "note_nullable": chk.get("note"),
                 "checked_ts": _fixed_ts(chk.get("checked_ts")),
             }
-            data["access_checks"][payload["access_check_id"]] = payload
+            rows.append(payload)
             ids.append(payload["access_check_id"])
-        payload = {"inserted": len(ids), "access_check_ids": ids}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"inserted": len(ids), "access_check_ids": ids}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RecordAccessChecks",
+                "name": "record_access_checks",
                 "description": "Bulk insert access checks for candidate.",
                 "parameters": {
                     "type": "object",
@@ -1053,125 +856,114 @@ class RecordAccessChecks(Tool):
                                     "system_name": {"type": "string"},
                                     "status": {"type": "string"},
                                     "note": {"type": "string"},
-                                    "checked_ts": {"type": "string"},
+                                    "checked_ts": {"type": "string"}
                                 },
-                                "required": ["system_name", "status"],
-                            },
-                        },
+                                "required": ["system_name", "status"]
+                            }
+                        }
                     },
-                    "required": ["candidate_id", "checks"],
-                },
-            },
+                    "required": ["candidate_id", "checks"]
+                }
+            }
         }
 
 
 class UpdateCandidateInviteTimestamps(Tool):
-    """Transfer invitation timestamps (orientation, manager introduction) into the candidate row."""
+    """Copy invite timestamps (orientation, manager intro) into candidate row."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        candidate_id: str, 
-        orientation_invite_ts: str = None, 
-        manager_intro_invite_ts: str = None
-,
-    message_id: Any = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cand_id = kwargs["candidate_id"]
         fields = {}
-        if orientation_invite_ts is not None:
-            fields["orientation_invite_ts_nullable"] = _fixed_ts(orientation_invite_ts)
-        if manager_intro_invite_ts is not None:
-            fields["manager_intro_invite_ts_nullable"] = _fixed_ts(manager_intro_invite_ts)
-        return UpdateCandidateStatusFields.invoke(
-            data, candidate_id=candidate_id, fields=fields
-        )
+        if "orientation_invite_ts" in kwargs:
+            fields["orientation_invite_ts_nullable"] = _fixed_ts(kwargs["orientation_invite_ts"])
+        if "manager_intro_invite_ts" in kwargs:
+            fields["manager_intro_invite_ts_nullable"] = _fixed_ts(kwargs["manager_intro_invite_ts"])
+        return UpdateCandidateStatusFields.invoke(data, candidate_id=cand_id, fields=fields)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateCandidateInviteTimestamps",
+                "name": "update_candidate_invite_timestamps",
                 "description": "Set candidate invite timestamps.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "candidate_id": {"type": "string"},
                         "orientation_invite_ts": {"type": "string"},
-                        "manager_intro_invite_ts": {"type": "string"},
+                        "manager_intro_invite_ts": {"type": "string"}
                     },
-                    "required": ["candidate_id"],
-                },
-            },
+                    "required": ["candidate_id"]
+                }
+            }
         }
 
 
 class SearchChecklistItems(Tool):
-    """Filter checklist_items based on candidate_id, with optional status and optional due_date_lte."""
+    """Filter checklist_items by candidate_id, optional status, optional due_date_lte."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], candidate_id: str, status: str = None, due_date_lte: str = None, message_id: Any = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cand_id = kwargs["candidate_id"]
+        status = kwargs.get("status")
+        due_lte = kwargs.get("due_date_lte")
         rows = []
-        for it in _get_table(data, "checklist_items"):
-            if it.get("candidate_id") != candidate_id:
+        for it in data.get("checklist_items", []):
+            if it.get("candidate_id") != cand_id:
                 continue
             if status and it.get("status") != status:
                 continue
-            if due_date_lte and it.get("due_date") and it["due_date"] > due_date_lte:
+            if due_lte and it.get("due_date") and it["due_date"] > due_lte:
                 continue
             rows.append(it)
-        payload = {"items": rows}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"items": rows}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchChecklistItems",
+                "name": "search_checklist_items",
                 "description": "Search checklist items for a candidate with simple filters.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "candidate_id": {"type": "string"},
                         "status": {"type": "string"},
-                        "due_date_lte": {"type": "string"},
+                        "due_date_lte": {"type": "string"}
                     },
-                    "required": ["candidate_id"],
-                },
-            },
+                    "required": ["candidate_id"]
+                }
+            }
         }
 
 
 class WritePendingTasksFile(Tool):
-    """Create pending_tasks.md in /onboarding/<candidate>/, with content supplied by the caller."""
+    """Write pending_tasks.md under /onboarding/<candidate>/, content provided by caller."""
 
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        candidate_id: str,
-        content_markdown: str = "# Pending Tasks\n",
-        file_path: str = None,
-        created_ts: str = None,
-        updated_ts: str = None
-,
-    due_date_lte: Any = None,
-    ) -> str:
-        file_path = file_path or f"/onboarding/{candidate_id}/pending_tasks.md"
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cand_id = kwargs["candidate_id"]
+        content_md = kwargs.get("content_markdown", "# Pending Tasks\n")
+        file_path = kwargs.get("file_path") or f"/onboarding/{cand_id}/pending_tasks.md"
         return WriteOnboardingFile.invoke(
             data,
-            candidate_id=candidate_id,
+            candidate_id=cand_id,
             file_path=file_path,
-            content_text=content_markdown,
+            content_text=content_md,
             mime_type="text/markdown",
-            created_ts=created_ts,
-            updated_ts=updated_ts,
+            created_ts=kwargs.get("created_ts"),
+            updated_ts=kwargs.get("updated_ts"),
         )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "WritePendingTasksFile",
+                "name": "write_pending_tasks_file",
                 "description": "Write a markdown summary of pending checklist items.",
                 "parameters": {
                     "type": "object",
@@ -1180,133 +972,99 @@ class WritePendingTasksFile(Tool):
                         "content_markdown": {"type": "string"},
                         "file_path": {"type": "string"},
                         "created_ts": {"type": "string"},
-                        "updated_ts": {"type": "string"},
+                        "updated_ts": {"type": "string"}
                     },
-                    "required": ["candidate_id"],
-                },
-            },
+                    "required": ["candidate_id"]
+                }
+            }
         }
 
 
 class MarkChecklistItemsReminded(Tool):
-    """Update status to 'Reminder Sent', set reminder_sent_flag to true, set reminder_email_message_id_nullable, and update the timestamp."""
+    """Set status='Reminder Sent', reminder_sent_flag=true, reminder_email_message_id_nullable, updated_ts."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], item_ids: list[str], reminder_email_message_id: str | None = None, updated_ts: Any = None, due_date_lte: Any = None, candidate_id: str = None, status: str = None, subject: str = None) -> str:
-        updated_ts = _fixed_ts(updated_ts)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        item_ids: List[str] = kwargs["item_ids"]
+        msg_id: Optional[str] = kwargs.get("reminder_email_message_id")
+        updated_ts = _fixed_ts(kwargs.get("updated_ts"))
 
         updated = 0
-        for it in _get_table(data, "checklist_items"):
+        for it in data.get("checklist_items", []):
             if it.get("item_id") in item_ids:
                 it["status"] = "Reminder Sent"
                 it["reminder_sent_flag"] = True
-                it["reminder_email_message_id_nullable"] = reminder_email_message_id
+                it["reminder_email_message_id_nullable"] = msg_id
                 it["updated_ts"] = updated_ts
                 updated += 1
-        payload = {"updated": updated, "message_id": reminder_email_message_id}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"updated": updated, "message_id": msg_id}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "MarkChecklistItemsReminded",
+                "name": "mark_checklist_items_reminded",
                 "description": "Mark checklist items as reminded, link the reminder email id.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "item_ids": {"type": "array", "items": {"type": "string"}},
                         "reminder_email_message_id": {"type": "string"},
-                        "updated_ts": {"type": "string"},
+                        "updated_ts": {"type": "string"}
                     },
-                    "required": ["item_ids"],
-                },
-            },
+                    "required": ["item_ids"]
+                }
+            }
         }
 
 
 class UpdateAssetRequestStatus(Tool):
     @staticmethod
     def _find_email(db, candidate_id: str, subject: str, date_ts: str):
-        pass
-        emails = _get_table(db, "emails")
-        matches = [
-            e
-            for e in emails
-            if e.get("candidate_id_nullable") == candidate_id
-            and e.get("subject") == subject
-            and e.get("date_ts") == date_ts
-        ]
-        if not matches:
-            return None
-
+        emails = db.get("emails", [])
+        matches = [e for e in emails
+                   if e.get("candidate_id_nullable") == candidate_id
+                   and e.get("subject") == subject
+                   and e.get("date_ts") == date_ts]
+        if not matches: return None
         def seq(e):
-            pass
-            m = re.match(r"^msg_(\d+)$", e.get("message_id", ""))
+            m = re.match(r"^msg_(\d+)$", e.get("message_id",""))
             return int(m.group(1) or 0) if m else 0
-
         matches.sort(key=lambda e: (e.get("sent_flag") is True, seq(e)), reverse=True)
         return matches[0]
 
     @staticmethod
-    def invoke(
-        db,
-        request_id: str = None,
-        candidate_id: str = None,
-        asset_type: str = None,
-        email_message_id: str = None,
-        subject: str = None,
-        date_ts: str = None,
-        status: str = None,
-        updated_ts: str = None,
-    ) -> str:
-        reqs = _get_table(db, "asset_requests")
+    def invoke(db, **kwargs) -> str:
+        reqs = db.setdefault("asset_requests", [])
         row = None
-        if request_id:
-            row = next(
-                (r for r in reqs if r.get("request_id") == request_id), None
-            )
+        if "request_id" in kwargs:
+            row = next((r for r in reqs if r.get("request_id") == kwargs["request_id"]), None)
         else:
-            row = next(
-                (
-                    r
-                    for r in reqs
-                    if r.get("candidate_id") == candidate_id
-                    and r.get("asset_type") == asset_type
-                ),
-                None,
-            )
+            row = next((r for r in reqs if r.get("candidate_id") == kwargs["candidate_id"] and r.get("asset_type") == kwargs["asset_type"]), None)
         if not row:
-            payload = {"error": "asset request not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        if not email_message_id:
-            if candidate_id and subject:
-                em = UpdateAssetRequestStatus._find_email(db, candidate_id, subject, _fixed_ts(date_ts))
-                if em:
-                    email_id = em.get("message_id")
-        else:
-            email_id = email_message_id
-        row["status"] = status if status is not None else row.get("status")
+            return json.dumps({"error": "asset request not found"}, indent=2)
+        email_id = kwargs.get("email_message_id")
+        if not email_id:
+            cand_id = kwargs.get("candidate_id")
+            subj    = kwargs.get("subject")
+            dts     = _fixed_ts(kwargs.get("date_ts"))
+            if cand_id and subj:
+                em = UpdateAssetRequestStatus._find_email(db, cand_id, subj, dts)
+                if em: email_id = em.get("message_id")
+        row["status"] = kwargs.get("status", row.get("status"))
         if email_id is not None:
             row["email_message_id_nullable"] = email_id
-        row["updated_ts"] = _fixed_ts(updated_ts)
-        payload = {
-            "request_id": row["request_id"],
-            "status": row["status"],
-            "email_message_id": row.get("email_message_id_nullable"),
-        }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        row["updated_ts"] = _fixed_ts(kwargs.get("updated_ts"))
+        return json.dumps({"request_id": row["request_id"], "status": row["status"], "email_message_id": row.get("email_message_id_nullable")}, indent=2)
+
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateAssetRequestStatus",
+                "name": "update_asset_request_status",
                 "description": "Update asset request status and optional email message id.",
                 "parameters": {
                     "type": "object",
@@ -1315,451 +1073,277 @@ class UpdateAssetRequestStatus(Tool):
                         "asset_type": {"type": "string"},
                         "status": {"type": "string"},
                         "email_message_id": {"type": "string"},
-                        "updated_ts": {"type": "string"},
+                        "updated_ts": {"type": "string"}
                     },
-                    "required": ["candidate_id", "asset_type"],
-                },
-            },
+                    "required": ["candidate_id", "asset_type"]
+                }
+            }
         }
 
 
 class AllocateFirstAvailableAsset(Tool):
     """
-    Allocate the first available inventory asset for a specified request_id.
-    - Retrieves asset_requests[request_id] to obtain (candidate_id, asset_type)
-    - Selects the lexicographically smallest inventory_assets entry where:
+    Allocate the first available inventory asset for a given request_id.
+    - Reads asset_requests[request_id] to get (candidate_id, asset_type)
+    - Picks the lexicographically smallest inventory_assets row where:
         status in {'available','Available'} (case-insensitive OK) and assigned_candidate_id_nullable is null
-        and asset_type corresponds to the request's asset_type
-    - Updates:
+        and asset_type matches the request's asset_type
+    - Writes:
         inventory_assets.assigned_candidate_id_nullable = candidate_id
         inventory_assets.status = 'allocated'
         candidates[candidate_id].allocated_asset_tag_nullable = asset_tag
         asset_requests[request_id].updated_ts = FIXED_TS
     Returns: {"request_id", "candidate_id", "asset_type", "asset_tag", "status":"allocated"}
     """
-
     @staticmethod
-    def invoke(db: dict[str, Any], request_id: str, updated_ts: str = None) -> str:
-        rid = request_id
-        req = next(
-            (r for r in _get_table(db, "asset_requests") if r.get("request_id") == rid),
-            None,
-        )
+    def invoke(db: Dict[str, Any], **kwargs) -> str:
+        rid = kwargs["request_id"]
+        req = next((r for r in db.get("asset_requests", []) if r.get("request_id") == rid), None)
         if not req:
-            payload = {"error": f"request_id {rid} not found"}
-            out = json.dumps(payload, indent=2)
-            return out
-        cand_id = req.get("candidate_id")
-        a_type = req.get("asset_type")
-        inv = _get_table(db, "inventory_assets")
-
+            return json.dumps({"error": f"request_id {rid} not found"}, indent=2)
+        cand_id = req.get("candidate_id"); a_type = req.get("asset_type")
+        inv = db.get("inventory_assets", [])
         def is_free(row):
             st = (row.get("status") or "").lower()
-            return (
-                (row.get("asset_type") == a_type)
-                and (row.get("assigned_candidate_id_nullable") in (None, ""))
-                and (st in ("available", "avail", "free"))
-            )
-
-        free = sorted(
-            [r for r in inv.values() if is_free(r)], key=lambda r: (r.get("asset_tag") or "")
-        )
+            return (row.get("asset_type") == a_type) and (row.get("assigned_candidate_id_nullable") in (None, "")) and (st in ("available","avail","free"))
+        free = sorted([r for r in inv if is_free(r)], key=lambda r: (r.get("asset_tag") or ""))
         if not free:
-            payload = {
-                    "request_id": rid,
-                    "candidate_id": cand_id,
-                    "asset_type": a_type,
-                    "asset_tag": None,
-                    "status": "none_available",
-                }
-            out = json.dumps(
-                payload, indent=2,
-            )
-            return out
+            return json.dumps({"request_id": rid, "candidate_id": cand_id, "asset_type": a_type, "asset_tag": None, "status": "none_available"}, indent=2)
         chosen = free[0]
         chosen["assigned_candidate_id_nullable"] = cand_id
         chosen["status"] = "allocated"
-        for c in _get_table(db, "candidates"):
+        for c in db.get("candidates", []):
             if c.get("candidate_id") == cand_id:
                 c["allocated_asset_tag_nullable"] = chosen.get("asset_tag")
                 break
-        req["updated_ts"] = _fixed_ts(updated_ts)
-        payload = {
-                "request_id": rid,
-                "candidate_id": cand_id,
-                "asset_type": a_type,
-                "asset_tag": chosen.get("asset_tag"),
-                "status": "allocated",
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+        req["updated_ts"] = _fixed_ts(kwargs.get("updated_ts"))
+        return json.dumps({
+            "request_id": rid,
+            "candidate_id": cand_id,
+            "asset_type": a_type,
+            "asset_tag": chosen.get("asset_tag"),
+            "status": "allocated"
+        }, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "AllocateFirstAvailableAsset",
-                "description": "Allocate the first available inventory asset for an existing request_id, and mirror the tag onto the candidate.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "request_id": {"type": "string"},
-                        "updated_ts": {"type": "string"},
-                    },
-                    "required": ["request_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"allocate_first_available_asset",
+            "description":"Allocate the first available inventory asset for an existing request_id, and mirror the tag onto the candidate.",
+            "parameters":{"type":"object","properties":{"request_id":{"type":"string"}, "updated_ts":{"type":"string"}}, "required":["request_id"]}
+        }}
 
 
 class ReplyToEmailThread(Tool):
     """
-    Respond in the same thread to a previously existing email identified by (candidate_id, subject, date_ts).
-    - Subject changes to 'Re: <subject>'
-    - Body is sourced from TASK_TEMPLATES[task] (deterministic), optionally populated with {{name}}/{{role}}/{{start_date}}
-    - Reuses the original to/cc if not specified
-    - Creates a new emails entry with a new msg_N and a deterministic thread_id (utilizes the original's message_id as thread_id)
+    Reply in the same thread to an existing email identified by (candidate_id, subject, date_ts).
+    - Subject becomes 'Re: <subject>'
+    - Body comes from TASK_TEMPLATES[task] (deterministic), optionally filled with {{name}}/{{role}}/{{start_date}}
+    - Reuses original to/cc if not provided
+    - Writes a new emails row with a new msg_N and a deterministic thread_id (uses the original's message_id as thread_id)
     """
-
     @staticmethod
     def _find_email_by_keys(db, candidate_id, subject, date_ts):
-        pass
-        emails = _get_table(db, "emails")
-        matches = [
-            e
-            for e in emails
-            if e.get("candidate_id_nullable") == candidate_id
-            and e.get("subject") == subject
-            and e.get("date_ts") == date_ts
-        ]
+        emails = db.get("emails", [])
+        matches = [e for e in emails
+                   if e.get("candidate_id_nullable") == candidate_id
+                   and e.get("subject") == subject
+                   and e.get("date_ts") == date_ts]
         if not matches:
             return None
-
         def msg_seq(e):
-            pass
-            m = re.match(r"^msg_(\d+)$", e.get("message_id", ""))
+            m = re.match(r"^msg_(\d+)$", e.get("message_id",""))
             return int(m.group(1)) if m else 0
-
-        matches.sort(
-            key=lambda e: (e.get("sent_flag") is True, msg_seq(e)), reverse=True
-        )
+        matches.sort(key=lambda e: (e.get("sent_flag") is True, msg_seq(e)), reverse=True)
         return matches[0]
 
     @staticmethod
-    def invoke(
-        db: dict[str, Any],
-        candidate_id: str,
-        subject: str,
-        date_ts: str = None,
-        to_emails: list[str] = None,
-        cc_emails: list[str] = None,
-        body: str = "",
-        task: str = None, thread_id: Any = None) -> str:
-        date_ts = _fixed_ts(date_ts)
-        base = ReplyToEmailThread._find_email_by_keys(db, candidate_id, subject, date_ts)
-        cand_row = next(
-            (r for r in _get_table(db, "candidates") if r.get("candidate_id") == candidate_id),
-            None,
-        )
-        to_emails = to_emails or (base.get("to_emails") if base else [])
-        cc_emails = cc_emails or (base.get("cc_emails") if base else [])
+    def invoke(db: Dict[str, Any], **kwargs) -> str:
+        cand_id = kwargs["candidate_id"]; subject = kwargs["subject"]; date_ts = _fixed_ts(kwargs.get("date_ts"))
+        base = ReplyToEmailThread._find_email_by_keys(db, cand_id, subject, date_ts)
+        cand_row = next((r for r in db.get("candidates", []) if r.get("candidate_id") == cand_id), None)
+        to_emails = kwargs.get("to_emails") or (base.get("to_emails") if base else [])
+        cc_emails = kwargs.get("cc_emails") or (base.get("cc_emails") if base else [])
+        body = kwargs.get("body", "")
+        task = kwargs.get("task")
         if not body and task in TASK_TEMPLATES:
             body = _fill(TASK_TEMPLATES[task], cand_row)
 
-        emails = _get_table(db, "emails")
+        emails = db.setdefault("emails", [])
         msg_id = _next_seq(emails, "message_id", "msg")
-        thread_id = (
-            (base.get("thread_id_nullable") or base.get("message_id")) if base else None
-        )
+        thread_id = (base.get("thread_id_nullable") or base.get("message_id")) if base else None
 
-        emails.append(
-            {
-                "message_id": msg_id,
-                "subject": f"Re: {subject}",
-                "body": body or "",
-                "from_email": "hr@example.com",
-                "to_emails": to_emails,
-                "cc_emails": cc_emails,
-                "date_ts": date_ts,
-                "labels_ids": [],
-                "attachments_ids": [],
-                "draft_flag": False,
-                "sent_flag": True,
-                "candidate_id_nullable": candidate_id,
-                "thread_id_nullable": thread_id,
-                "in_reply_to_message_id_nullable": (
-                    base.get("message_id") if base else None
-                ),
-            }
-        )
+        emails.append({
+            "message_id": msg_id,
+            "subject": f"Re: {subject}",
+            "body": body or "",
+            "from_email": "hr@example.com",
+            "to_emails": to_emails,
+            "cc_emails": cc_emails,
+            "date_ts": date_ts,
+            "labels_ids": [],
+            "attachments_ids": [],
+            "draft_flag": False,
+            "sent_flag": True,
+            "candidate_id_nullable": cand_id,
+            "thread_id_nullable": thread_id,
+            "in_reply_to_message_id_nullable": base.get("message_id") if base else None
+        })
         if base and not base.get("thread_id_nullable"):
             base["thread_id_nullable"] = thread_id
-        payload = {
-                "message_id": msg_id,
-                "thread_id": thread_id,
-                "status": "sent",
-                "note": "reply appended",
-            }
-        out = json.dumps(
-            payload, indent=2,
-        )
-        return out
+
+        return json.dumps({"message_id": msg_id, "thread_id": thread_id, "status": "sent", "note": "reply appended"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "ReplyToEmailThread",
-                "description": "Reply to an existing email thread identified by (candidate_id, subject, date_ts).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "candidate_id": {"type": "string"},
-                        "subject": {"type": "string"},
-                        "date_ts": {"type": "string"},
-                        "task": {"type": "string"},
-                        "to_emails": {"type": "array", "items": {"type": "string"}},
-                        "cc_emails": {"type": "array", "items": {"type": "string"}},
-                        "body": {"type": "string"},
-                    },
-                    "required": ["candidate_id", "subject", "date_ts"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"reply_to_email_thread",
+            "description":"Reply to an existing email thread identified by (candidate_id, subject, date_ts).",
+            "parameters":{"type":"object","properties":{
+                "candidate_id":{"type":"string"},
+                "subject":{"type":"string"},
+                "date_ts":{"type":"string"},
+                "task":{"type":"string"},
+                "to_emails":{"type":"array","items":{"type":"string"}},
+                "cc_emails":{"type":"array","items":{"type":"string"}},
+                "body":{"type":"string"}
+            },"required":["candidate_id","subject","date_ts"]}
+        }}
 
 
 class SummarizeAccessChecks(Tool):
     """
-    Compile access_checks for a candidate and save to /onboarding/<Name>/access_summary.json.
-    Always generates the file (even if there are no rows), returns file_path and counts.
+    Aggregate access_checks for a candidate and write /onboarding/<Name>/access_summary.json.
+    Always writes the file (even if zero rows), returns file_path and counts.
     """
-
     @staticmethod
     def _safe_name(s: str) -> str:
-        pass
         return re.sub(r"[^A-Za-z0-9]+", "_", s or "").strip("_") or "unknown"
 
     @staticmethod
-    def invoke(db: dict[str, Any], candidate_id: str) -> str:
-        cand_id = candidate_id
-        cand_row = next(
-            (r for r in _get_table(db, "candidates") if r.get("candidate_id") == cand_id),
-            None,
-        )
+    def invoke(db: Dict[str, Any], **kwargs) -> str:
+        cand_id = kwargs["candidate_id"]
+        cand_row = next((r for r in db.get("candidates", []) if r.get("candidate_id") == cand_id), None)
         name = cand_row.get("candidate_name") if cand_row else cand_id
-        checks = [
-            r for r in _get_table(db, "access_checks") if r.get("candidate_id") == cand_id
-        ]
-        by_sys: dict[str, dict[str, int]] = {}
+        checks = [r for r in db.get("access_checks", []) if r.get("candidate_id") == cand_id]
+        by_sys: Dict[str, Dict[str, int]] = {}
         for r in checks:
             sysn = r.get("system_name") or ""
             st = r.get("status") or ""
-            by_sys.setdefault(sysn, {}).values().setdefault(st, 0)
+            by_sys.setdefault(sysn, {}).setdefault(st, 0)
             by_sys[sysn][st] += 1
         summary = {"candidate_id": cand_id, "counts": by_sys, "total": len(checks)}
-        file_path = (
-            f"/onboarding/{SummarizeAccessChecks._safe_name(name)}/access_summary.json"
-        )
-        WriteOnboardingFile.invoke(
-            db,
-            candidate_id=cand_id,
-            file_path=file_path,
-            content_text=json.dumps(summary, sort_keys=True, indent=2),
-            mime_type="application/json",
-            updated_ts=_fixed_ts(None),
-        )
-        payload = {"file_path": file_path, "total_checks": len(checks)}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        file_path = f"/onboarding/{SummarizeAccessChecks._safe_name(name)}/access_summary.json"
+        WriteOnboardingFile.invoke(db, candidate_id=cand_id, file_path=file_path, content_text=json.dumps(summary, sort_keys=True, indent=2), mime_type="application/json", updated_ts=_fixed_ts(None))
+        return json.dumps({"file_path": file_path, "total_checks": len(checks)}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "SummarizeAccessChecks",
-                "description": "Aggregate access_checks and write an access_summary.json artifact.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {"candidate_id": {"type": "string"}},
-                    "required": ["candidate_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"summarize_access_checks",
+            "description":"Aggregate access_checks and write an access_summary.json artifact.",
+            "parameters":{"type":"object","properties":{"candidate_id":{"type":"string"}},"required":["candidate_id"]}
+        }}
 
 
 class AuditAttachmentsForEmail(Tool):
     """
-    Create an attachments audit for a specific email (candidate_id, subject, date_ts) in /onboarding/<Name>/attachments_audit.json.
-    If the email or attachments are absent, still generates an empty audit for consistency.
+    Write an attachments audit for a specific email (candidate_id, subject, date_ts) to /onboarding/<Name>/attachments_audit.json.
+    If the email or attachments are missing, still writes an empty audit for determinism.
     """
-
     @staticmethod
     def _safe_name(s: str) -> str:
-        pass
         return re.sub(r"[^A-Za-z0-9]+", "_", s or "").strip("_") or "unknown"
 
     @staticmethod
     def _find_email_by_keys(db, candidate_id, subject, date_ts):
-        pass
-        emails = _get_table(db, "emails")
-        return next(
-            (
-                e
-                for e in emails
-                if e.get("candidate_id_nullable") == candidate_id
-                and e.get("subject") == subject
-                and e.get("date_ts") == date_ts
-            ),
-            None,
-        )
+        emails = db.get("emails", [])
+        return next((e for e in emails if e.get("candidate_id_nullable")==candidate_id and e.get("subject")==subject and e.get("date_ts")==date_ts), None)
 
     @staticmethod
-    def invoke(db: dict[str, Any], candidate_id: str, subject: str, date_ts: Any = None) -> str:
-        cand_id = candidate_id
-        subject = subject
-        date_ts = _fixed_ts(date_ts)
-        cand_row = next(
-            (r for r in _get_table(db, "candidates") if r.get("candidate_id") == cand_id),
-            None,
-        )
+    def invoke(db: Dict[str, Any], **kwargs) -> str:
+        cand_id = kwargs["candidate_id"]; subject = kwargs["subject"]; date_ts = _fixed_ts(kwargs.get("date_ts"))
+        cand_row = next((r for r in db.get("candidates", []) if r.get("candidate_id")==cand_id), None)
         name = cand_row.get("candidate_name") if cand_row else cand_id
 
-        email = AuditAttachmentsForEmail._find_email_by_keys(
-            db, cand_id, subject, date_ts
-        )
-        att_rows = _get_table(db, "attachments")
+        email = AuditAttachmentsForEmail._find_email_by_keys(db, cand_id, subject, date_ts)
+        att_rows = db.get("attachments", [])
         items = []
         if email:
             for att_id in email.get("attachments_ids", []):
-                a = next(
-                    (x for x in att_rows if x.get("attachment_id") == att_id), None
-                )
+                a = next((x for x in att_rows if x.get("attachment_id")==att_id), None)
                 if a:
-                    items.append(
-                        {
-                            "attachment_id": a.get("attachment_id"),
-                            "filename": a.get("filename"),
-                            "mime_type": a.get("mime_type"),
-                            "file_path": a.get("file_path"),
-                            "size_bytes": a.get("size_bytes"),
-                        }
-                    )
+                    items.append({"attachment_id": a.get("attachment_id"), "filename": a.get("filename"), "mime_type": a.get("mime_type"), "file_path": a.get("file_path"), "size_bytes": a.get("size_bytes")})
 
-        audit = {
-            "candidate_id": cand_id,
-            "subject": subject,
-            "date_ts": date_ts,
-            "attachments": items,
-            "count": len(items),
-        }
+        audit = {"candidate_id": cand_id, "subject": subject, "date_ts": date_ts, "attachments": items, "count": len(items)}
         file_path = f"/onboarding/{AuditAttachmentsForEmail._safe_name(name)}/attachments_audit.json"
-        WriteOnboardingFile.invoke(
-            db,
-            candidate_id=cand_id,
-            file_path=file_path,
-            content_text=json.dumps(audit, sort_keys=True, indent=2),
-            mime_type="application/json",
-            updated_ts=_fixed_ts(None),
-        )
-        payload = {"file_path": file_path, "count": len(items)}
-        out = json.dumps(payload, indent=2)
-        return out
+        WriteOnboardingFile.invoke(db, candidate_id=cand_id, file_path=file_path, content_text=json.dumps(audit, sort_keys=True, indent=2), mime_type="application/json", updated_ts=_fixed_ts(None))
+        return json.dumps({"file_path": file_path, "count": len(items)}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "AuditAttachmentsForEmail",
-                "description": "Write an attachments audit for (candidate_id, subject, date_ts).",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "candidate_id": {"type": "string"},
-                        "subject": {"type": "string"},
-                        "date_ts": {"type": "string"},
-                    },
-                    "required": ["candidate_id", "subject", "date_ts"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"audit_attachments_for_email",
+            "description":"Write an attachments audit for (candidate_id, subject, date_ts).",
+            "parameters":{"type":"object","properties":{
+                "candidate_id":{"type":"string"},
+                "subject":{"type":"string"},
+                "date_ts":{"type":"string"}
+            },"required":["candidate_id","subject","date_ts"]}
+        }}
 
 
 class CloseCompletedChecklistItems(Tool):
     """
-    Assign completed_ts for any 'Completed' checklist items that lack a timestamp (optionally up to due_date_lte).
-    Returns the count of items updated.
+    Set completed_ts for any 'Completed' checklist items missing a timestamp (optionally up to due_date_lte).
+    Returns count updated.
     """
-
     @staticmethod
-    def invoke(db: dict[str, Any], candidate_id: str, due_date_lte: str = None) -> str:
-        items = _get_table(db, "checklist_items")
+    def invoke(db: Dict[str, Any], **kwargs) -> str:
+        cand_id = kwargs["candidate_id"]; due_lte = kwargs.get("due_date_lte")
+        items = db.get("checklist_items", [])
         updated = 0
         for it in items:
-            if it.get("candidate_id") != candidate_id:
-                continue
-            if it.get("status") != "Completed":
-                continue
-            if it.get("completed_ts"):
-                continue
-            if due_date_lte and it.get("due_date") and it["due_date"] > due_date_lte:
-                continue
-            it["completed_ts"] = _fixed_ts(None)
-            updated += 1
-        payload = {"updated": updated}
-        out = json.dumps(payload, indent=2)
-        return out
+            if it.get("candidate_id") != cand_id: continue
+            if it.get("status") != "Completed": continue
+            if it.get("completed_ts"): continue
+            if due_lte and it.get("due_date") and it["due_date"] > due_lte: continue
+            it["completed_ts"] = _fixed_ts(None); updated += 1
+        return json.dumps({"updated": updated}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
-        return {
-            "type": "function",
-            "function": {
-                "name": "CloseCompletedChecklistItems",
-                "description": "Backfill completed_ts for completed checklist items.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "candidate_id": {"type": "string"},
-                        "due_date_lte": {"type": "string"},
-                    },
-                    "required": ["candidate_id"],
-                },
-            },
-        }
+    def get_info() -> Dict[str, Any]:
+        return {"type":"function","function":{
+            "name":"close_completed_checklist_items",
+            "description":"Backfill completed_ts for completed checklist items.",
+            "parameters":{"type":"object","properties":{
+                "candidate_id":{"type":"string"},
+                "due_date_lte":{"type":"string"}
+            },"required":["candidate_id"]}
+        }}
 
 
 class RecordAccessChecksAndNotifyGaps(Tool):
     """
-    Log access checks for a candidate and dispatch an 'Access Gaps' email in a single action.
-    Affects: access_checks (append), emails (create+send)
+    Record access checks for a candidate and send an 'Access Gaps' email in one step.
+    Touches: access_checks (append), emails (create+send)
     Returns: {"message_id": "...", "checks_recorded": N}
     """
-
     @staticmethod
-    def invoke(
-        db, 
-        candidate_id: str, 
-        checks: list = None, 
-        to_emails: list = None, 
-        subject: str = "Access Gaps", 
-        date_ts: str = "2000-01-01T00:00:00Z"
-    ) -> str:
-        checks = checks or []
-        to_emails = to_emails or ["it-assets@example.com"]
+    def invoke(db, **kw) -> str:
+        candidate_id = kw["candidate_id"]
+        checks = kw.get("checks") or []
+        to_emails = kw.get("to_emails") or ["it-assets@example.com"]
+        subject = kw.get("subject") or "Access Gaps"
+        date_ts = kw.get("date_ts") or "2000-01-01T00:00:00Z"
 
-        rows = _get_table(db, "access_checks")
-        rows.append(
-            {"candidate_id": candidate_id, "checks": checks, "recorded_ts": date_ts}
-        )
-        emails = _get_table(db, "emails")
-
+        rows = db.setdefault("access_checks", [])
+        rows.append({"candidate_id": candidate_id, "checks": checks, "recorded_ts": date_ts})
+        emails = db.setdefault("emails", [])
         def _next_id(rows, key, prefix):
             mx = 0
             for r in rows:
-                v = r.get(key) or ""
+                v = (r.get(key) or "")
                 if v.startswith(prefix + "_"):
                     try:
                         mx = max(mx, int(v.split("_")[-1]))
@@ -1768,49 +1352,37 @@ class RecordAccessChecksAndNotifyGaps(Tool):
             return f"{prefix}_{mx+1}"
 
         msg_id = _next_id(emails, "message_id", "msg")
-        emails.append(
-            {
-                "message_id": msg_id,
-                "subject": subject,
-                "body": "",
-                "from_email": "hr@example.com",
-                "to_emails": to_emails,
-                "cc_emails": [],
-                "date_ts": date_ts,
-                "draft_flag": False,
-                "sent_flag": True,
-                "labels_ids": [],
-                "attachments_ids": [],
-                "candidate_id_nullable": candidate_id,
-                "thread_id_nullable": None,
-                "in_reply_to_message_id_nullable": None,
-            }
-        )
-        payload = {"message_id": msg_id, "checks_recorded": len(checks)}
-        out = json.dumps(
-            payload, indent=2
-        )
-        return out
+        emails.append({
+            "message_id": msg_id,
+            "subject": subject,
+            "body": "",
+            "from_email": "hr@example.com",
+            "to_emails": to_emails,
+            "cc_emails": [],
+            "date_ts": date_ts,
+            "draft_flag": False,
+            "sent_flag": True,
+            "labels_ids": [],
+            "attachments_ids": [],
+            "candidate_id_nullable": candidate_id,
+            "thread_id_nullable": None,
+            "in_reply_to_message_id_nullable": None,
+        })
+
+        return json.dumps({"message_id": msg_id, "checks_recorded": len(checks)}, indent=2)
+
     @staticmethod
     def get_info():
-        pass
-        return {
-            "type": "function",
-            "function": {
-                "name": "recordAccessChecksAndNotifyGaps",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "candidate_id": {"type": "string"},
-                        "checks": {"type": "array", "items": {"type": "object"}},
-                        "to_emails": {"type": "array", "items": {"type": "string"}},
-                        "subject": {"type": "string"},
-                        "date_ts": {"type": "string"},
-                    },
-                    "required": ["candidate_id", "checks"],
-                },
-            },
-        }
+        return {"type":"function","function":{
+            "name":"record_access_checks_and_notify_gaps",
+            "parameters":{"type":"object","properties":{
+                "candidate_id":{"type":"string"},
+                "checks":{"type":"array","items":{"type":"object"}},
+                "to_emails":{"type":"array","items":{"type":"string"}},
+                "subject":{"type":"string"},
+                "date_ts":{"type":"string"}
+            },"required":["candidate_id","checks"]}
+        }}
 
 
 TOOLS = [
@@ -1842,4 +1414,5 @@ TOOLS = [
     AuditAttachmentsForEmail(),
     CloseCompletedChecklistItems(),
     RecordAccessChecksAndNotifyGaps(),
+
 ]

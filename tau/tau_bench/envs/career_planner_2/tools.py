@@ -1,40 +1,27 @@
 import json
 from datetime import datetime
-from typing import Any
-
-from tau_bench.envs.tool import Tool
-
+from typing import Any, Dict, List
+from domains.dto import Tool
 
 
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db.values())
-    return db
-
-
-#Tools that are read-only
+# Read-only Tools
 class GetUserProfile(Tool):
-    """Retrieve an employee's profile using their ID."""
+    """Fetch an employee's profile by ID."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        uid = user_id
-        for u in data.get("users", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        uid = kwargs.get("user_id")
+        for u in data.get("users", []):
             if u.get("user_id") == uid:
-                payload = u
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": "User not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(u, indent=2)
+        return json.dumps({"error": "User not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetUserProfile",
+                "name": "get_user_profile",
                 "description": "Fetch user profile.",
                 "parameters": {
                     "type": "object",
@@ -46,24 +33,23 @@ class GetUserProfile(Tool):
 
 
 class GetSkillGap(Tool):
-    """Identify skills that a user lacks compared to the target role."""
+    """List missing skills for a user vs target role."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, target_role: str = None) -> str:
-        for g in data.get("skill_gap_analysis", {}).values():
-            if g.get("user_id") == user_id and g.get("target_role") == target_role:
-                payload = g.get("skill_gaps", [])
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": "Gap data not found"}
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        uid = kwargs.get("user_id")
+        role = kwargs.get("target_role")
+        for g in data.get("skill_gap_analysis", []):
+            if g.get("user_id") == uid and g.get("target_role") == role:
+                return json.dumps(g.get("skill_gaps", []), indent=2)
+        return json.dumps({"error": "Gap data not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetSkillGap",
+                "name": "get_skill_gap",
                 "description": "Retrieve missing skills.",
                 "parameters": {
                     "type": "object",
@@ -78,26 +64,27 @@ class GetSkillGap(Tool):
 
 
 class GetPerformanceReview(Tool):
-    """Retrieve performance review workflows for a specific user and time frame."""
+    """Fetch performance review workflows for a user and period."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, period: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        uid = kwargs.get("user_id")
+        per = kwargs.get("period")
         reviews = [
             wf
-            for wf in data.get("hr_workflows", {}).values()
+            for wf in data.get("hr_workflows", [])
             if wf.get("workflow_type") == "Performance Review"
-            and wf.get("employee_id") == user_id
-            and wf.get("review_period") == period
+            and wf.get("employee_id") == uid
+            and wf.get("review_period") == per
         ]
-        payload = reviews
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(reviews, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPerformanceReview",
+                "name": "get_performance_review",
                 "description": "Get performance review by period.",
                 "parameters": {
                     "type": "object",
@@ -112,24 +99,23 @@ class GetPerformanceReview(Tool):
 
 
 class GetCourseProgress(Tool):
-    """Check the enrollment progress for a particular course."""
+    """Look up enrollment progress for a course."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, course_id: str = None) -> str:
-        for rec in data.get("user_course_progress", {}).values():
-            if rec.get("user_id") == user_id and rec.get("course_id") == course_id:
-                payload = rec
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": "Progress record not found"}
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        uid = kwargs.get("user_id")
+        cid = kwargs.get("course_id")
+        for rec in data.get("user_course_progress", []):
+            if rec.get("user_id") == uid and rec.get("course_id") == cid:
+                return json.dumps(rec, indent=2)
+        return json.dumps({"error": "Progress record not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCourseProgress",
+                "name": "get_course_progress",
                 "description": "Fetch course progress.",
                 "parameters": {
                     "type": "object",
@@ -144,25 +130,24 @@ class GetCourseProgress(Tool):
 
 
 class GetUserCourseProgress(Tool):
-    """Retrieve the complete course progress for a user."""
+    """Get all course progress for a user."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        uid = user_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        uid = kwargs.get("user_id")
         progress = [
             rec
-            for rec in data.get("user_course_progress", {}).values()
+            for rec in data.get("user_course_progress", [])
             if rec.get("user_id") == uid
         ]
-        payload = progress
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(progress, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetUserCourseProgress",
+                "name": "get_user_course_progress",
                 "description": "Get all course progress for user.",
                 "parameters": {
                     "type": "object",
@@ -174,26 +159,25 @@ class GetUserCourseProgress(Tool):
 
 
 class SearchCourses(Tool):
-    """Look for courses based on skill."""
+    """Search for courses by skill."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], skill: str) -> str:
-        skill_query = skill
-        # Adjusted to look for 'related_skills' and conduct a case-insensitive check
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        skill_query = kwargs.get("skill")
+        # Corrected to search 'related_skills' and perform a case-insensitive comparison
         courses = [
             c
-            for c in data.get("course_catalog", {}).values()
+            for c in data.get("course_catalog", [])
             if skill_query.lower() in [s.lower() for s in c.get("related_skills", [])]
         ]
-        payload = courses
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(courses, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchCourses",
+                "name": "search_courses",
                 "description": "Search for courses by skill.",
                 "parameters": {
                     "type": "object",
@@ -205,27 +189,26 @@ class SearchCourses(Tool):
 
 
 class SearchJobPostings(Tool):
-    """Provide job postings that align with specified keywords and location."""
+    """Return job postings matching keywords and location."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], skill_keywords: list[str] = None, location: str = None) -> str:
-        if skill_keywords is None:
-            skill_keywords = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        kws = kwargs.get("skill_keywords", [])
+        loc = kwargs.get("location")
         res = [
             p
-            for p in data.get("job_postings", {}).values()
-            if (not location or location.lower() in p.get("location", ""))
-            and all(kw.lower() in json.dumps(p).lower() for kw in skill_keywords.values())
+            for p in data.get("job_postings", [])
+            if (not loc or loc.lower() in p.get("location", ""))
+            and all(kw.lower() in json.dumps(p).lower() for kw in kws)
         ]
-        payload = res
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(res, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "searchJobPostings",
+                "name": "search_job_postings",
                 "description": "Search postings.",
                 "parameters": {
                     "type": "object",
@@ -243,25 +226,22 @@ class SearchJobPostings(Tool):
 
 
 class GetJobApplication(Tool):
-    """Retrieve a job application record using its ID."""
+    """Fetch a job application record by ID."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], application_id: str = None) -> str:
-        aid = application_id
-        for a in data.get("job_applications", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        aid = kwargs.get("application_id")
+        for a in data.get("job_applications", []):
             if a.get("application_id") == aid:
-                payload = a
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": "Application not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(a, indent=2)
+        return json.dumps({"error": "Application not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetJobApplication",
+                "name": "get_job_application",
                 "description": "Get job application.",
                 "parameters": {
                     "type": "object",
@@ -273,29 +253,26 @@ class GetJobApplication(Tool):
 
 
 class ShortlistCandidate(Tool):
-    """Include a candidate in the shortlist for a job posting."""
+    """Add a candidate to a posting's shortlist."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], job_id: str = None, candidate_id: str = None) -> str:
-        jid = job_id
-        cid = candidate_id
-        for p in data.get("job_postings", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        jid = kwargs.get("job_id")
+        cid = kwargs.get("candidate_id")
+        for p in data.get("job_postings", []):
             if p.get("job_id") == jid:
                 sl = p.setdefault("shortlist", [])
                 if cid not in sl:
-                    sl[cid] = cid
-                payload = {"success": f"{cid} shortlisted for {jid}"}
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": "Job not found"}
-        out = json.dumps(payload)
-        return out
+                    sl.append(cid)
+                return json.dumps({"success": f"{cid} shortlisted for {jid}"}, indent=2)
+        return json.dumps({"error": "Job not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ShortlistCandidate",
+                "name": "shortlist_candidate",
                 "description": "Shortlist candidate.",
                 "parameters": {
                     "type": "object",
@@ -310,26 +287,25 @@ class ShortlistCandidate(Tool):
 
 
 class UpdateApplicationStatus(Tool):
-    """Update the status of a job application."""
+    """Set a new status on a job application."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], application_id: str = None, status: str = None) -> str:
-        for a in data.get("job_applications", {}).values():
-            if a.get("application_id") == application_id:
-                a["status"] = status
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        aid = kwargs.get("application_id")
+        st = kwargs.get("status")
+        for a in data.get("job_applications", []):
+            if a.get("application_id") == aid:
+                a["status"] = st
                 a["last_updated"] = datetime.utcnow().date().isoformat()
-                payload = {"success": f"{application_id} status {status}"}
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": "Application not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"success": f"{aid} status {st}"}, indent=2)
+        return json.dumps({"error": "Application not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateApplicationStatus",
+                "name": "update_application_status",
                 "description": "Update app status.",
                 "parameters": {
                     "type": "object",
@@ -343,16 +319,16 @@ class UpdateApplicationStatus(Tool):
         }
 
 
-#Tools for writing
+# Write Tools
 class AssignCourse(Tool):
-    """Register a user in a course."""
+    """Enroll user in course."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, course_id: str = None) -> str:
-        uid = user_id
-        cid = course_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        uid = kwargs.get("user_id")
+        cid = kwargs.get("course_id")
         log = data.setdefault("user_course_progress", [])
-        log[:] = [r for r in log.values() if not (r["user_id"] == uid and r["course_id"] == cid)]
+        log[:] = [r for r in log if not (r["user_id"] == uid and r["course_id"] == cid)]
         log.append(
             {
                 "user_id": uid,
@@ -361,15 +337,14 @@ class AssignCourse(Tool):
                 "progress_percent": 0,
             }
         )
-        payload = {"success": f"{uid} enrolled in {cid}"}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"success": f"{uid} enrolled in {cid}"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "AssignCourse",
+                "name": "assign_course",
                 "description": "Enroll user in course.",
                 "parameters": {
                     "type": "object",
@@ -384,12 +359,12 @@ class AssignCourse(Tool):
 
 
 class LinkMentor(Tool):
-    """Connect a mentor with a mentee."""
+    """Link mentor to mentee."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, mentor_id: str = None) -> str:
-        uid = user_id
-        mid = mentor_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        uid = kwargs.get("user_id")
+        mid = kwargs.get("mentor_id")
         rel = data.setdefault("user_mentorship_relationships", [])
         rel[:] = [
             r for r in rel if not (r["mentee_id"] == uid and r["mentor_id"] == mid)
@@ -402,15 +377,14 @@ class LinkMentor(Tool):
                 "status": "Active",
             }
         )
-        payload = {"success": f"Mentor {mid} -> {uid}"}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"success": f"Mentor {mid} -> {uid}"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "LinkMentor",
+                "name": "link_mentor",
                 "description": "Link mentor.",
                 "parameters": {
                     "type": "object",
@@ -425,31 +399,28 @@ class LinkMentor(Tool):
 
 
 class UpdateWorkflowStage(Tool):
-    """Revise the status of the HR workflow stage."""
+    """Update HR workflow stage status."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], workflow_id: str = None, stage: str = None, status: str = None) -> str:
-        wid = workflow_id
-        stg = stage
-        st = status
-        for wf in data.get("hr_workflows", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        wid = kwargs.get("workflow_id")
+        stg = kwargs.get("stage")
+        st = kwargs.get("status")
+        for wf in data.get("hr_workflows", []):
             if wf.get("workflow_id") == wid:
                 for s in wf.get("workflow_stages", []):
                     if s.get("stage") == stg:
                         s["status"] = st
                         s["date"] = datetime.utcnow().date().isoformat()
-                        payload = {"success": f"{stg} -> {st}"}
-                        out = json.dumps(payload, indent=2)
-                        return out
-        payload = {"error": "Not found"}
-        out = json.dumps(payload)
-        return out
+                        return json.dumps({"success": f"{stg} -> {st}"}, indent=2)
+        return json.dumps({"error": "Not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateWorkflowStage",
+                "name": "update_workflow_stage",
                 "description": "Update stage.",
                 "parameters": {
                     "type": "object",
@@ -465,21 +436,22 @@ class UpdateWorkflowStage(Tool):
 
 
 class SetPerformanceGoal(Tool):
-    """Introduce a performance objective."""
+    """Add a performance goal."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, goal: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        uid = kwargs.get("user_id")
+        goal = kwargs.get("goal")
         tbl = data.setdefault("goals", [])
-        tbl.append({"user_id": user_id, "goals": [goal]})
-        payload = {"success": f"Goal set for {user_id}"}
-        out = json.dumps(payload, indent=2)
-        return out
+        tbl.append({"user_id": uid, "goals": [goal]})
+        return json.dumps({"success": f"Goal set for {uid}"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SetPerformanceGoal",
+                "name": "set_performance_goal",
                 "description": "Set performance goal.",
                 "parameters": {
                     "type": "object",
@@ -494,13 +466,13 @@ class SetPerformanceGoal(Tool):
 
 
 class UpdateSkillProficiency(Tool):
-    """Revise the proficiency level of a user's skills."""
+    """Update user skill proficiency level."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, skill: str = None, new_level: int = None) -> str:
-        uid = user_id
-        skill = skill
-        level = new_level
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        uid = kwargs.get("user_id")
+        skill = kwargs.get("skill")
+        level = kwargs.get("new_level")
         skills = data.setdefault("user_skills", [])
         skills[:] = [
             s for s in skills if not (s["user_id"] == uid and s["skill"] == skill)
@@ -513,15 +485,14 @@ class UpdateSkillProficiency(Tool):
                 "updated_date": datetime.utcnow().date().isoformat(),
             }
         )
-        payload = {"success": f"{uid} {skill} -> {level}"}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"success": f"{uid} {skill} -> {level}"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateSkillProficiency",
+                "name": "update_skill_proficiency",
                 "description": "Update skill level.",
                 "parameters": {
                     "type": "object",
@@ -537,24 +508,24 @@ class UpdateSkillProficiency(Tool):
 
 
 class GetTeamTrainingLog(Tool):
-    """Retrieve entries from the team training log."""
+    """Get team training log entries."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], team_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        tid = kwargs.get("team_id")
         logs = [
             log
-            for log in data.get("team_training_logs", {}).values()
-            if log.get("team_id") == team_id
+            for log in data.get("team_training_logs", [])
+            if log.get("team_id") == tid
         ]
-        payload = logs
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(logs, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetTeamTrainingLog",
+                "name": "get_team_training_log",
                 "description": "Get team training log.",
                 "parameters": {
                     "type": "object",
@@ -566,27 +537,28 @@ class GetTeamTrainingLog(Tool):
 
 
 class UpdateTeamTrainingLog(Tool):
-    """Insert an entry into the team training log."""
+    """Add entry to team training log."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], team_id: str = None, entry: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        tid = kwargs.get("team_id")
+        entry = kwargs.get("entry")
         logs = data.setdefault("team_training_logs", [])
         logs.append(
             {
-                "team_id": team_id,
+                "team_id": tid,
                 "entry": entry,
                 "date": datetime.utcnow().date().isoformat(),
             }
         )
-        payload = {"success": f"Log entry added for {team_id}"}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"success": f"Log entry added for {tid}"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateTeamTrainingLog",
+                "name": "update_team_training_log",
                 "description": "Add training log entry.",
                 "parameters": {
                     "type": "object",
@@ -601,23 +573,22 @@ class UpdateTeamTrainingLog(Tool):
 
 
 class GetUserCertification(Tool):
-    """Retrieve certifications held by a user."""
+    """Get user certifications."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        uid = user_id
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        uid = kwargs.get("user_id")
         certs = [
-            c for c in data.get("user_certifications", {}).values() if c.get("user_id") == uid
+            c for c in data.get("user_certifications", []) if c.get("user_id") == uid
         ]
-        payload = certs
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(certs, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetUserCertification",
+                "name": "get_user_certification",
                 "description": "Get user certifications.",
                 "parameters": {
                     "type": "object",
@@ -629,12 +600,12 @@ class GetUserCertification(Tool):
 
 
 class UpdateUserCertification(Tool):
-    """Revise a user's certification."""
+    """Update user certification."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, certification: str = None) -> str:
-        uid = user_id
-        cert = certification
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        uid = kwargs.get("user_id")
+        cert = kwargs.get("certification")
         certs = data.setdefault("user_certifications", [])
         certs[:] = [
             c for c in certs if not (c["user_id"] == uid and c["certification"] == cert)
@@ -646,15 +617,14 @@ class UpdateUserCertification(Tool):
                 "date_earned": datetime.utcnow().date().isoformat(),
             }
         )
-        payload = {"success": f"{uid} earned {cert}"}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"success": f"{uid} earned {cert}"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "updateUserCertification",
+                "name": "update_user_certification",
                 "description": "Update user certification.",
                 "parameters": {
                     "type": "object",
@@ -669,24 +639,22 @@ class UpdateUserCertification(Tool):
 
 
 class FindUserByName(Tool):
-    """Locate a user's ID using their full name."""
+    """Find a user's ID by their full name."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], name: str = None) -> str:
-        for u in data.get("users", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name = kwargs.get("name")
+        for u in data.get("users", []):
             if u.get("name").lower() == name.lower():
-                payload = {"user_id": u.get("user_id")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "User not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"user_id": u.get("user_id")})
+        return json.dumps({"error": "User not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindUserByName",
+                "name": "find_user_by_name",
                 "description": "Find a user's ID by their full name.",
                 "parameters": {
                     "type": "object",
@@ -698,24 +666,22 @@ class FindUserByName(Tool):
 
 
 class FindCourseByName(Tool):
-    """Identify a course's ID based on its name."""
+    """Find a course's ID by its name."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], name: str = None) -> str:
-        for c in data.get("course_catalog", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        name = kwargs.get("name")
+        for c in data.get("course_catalog", []):
             if c.get("name").lower() == name.lower():
-                payload = {"course_id": c.get("course_id")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Course not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"course_id": c.get("course_id")})
+        return json.dumps({"error": "Course not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindCourseByName",
+                "name": "find_course_by_name",
                 "description": "Find a course's ID by its name.",
                 "parameters": {
                     "type": "object",
@@ -727,24 +693,22 @@ class FindCourseByName(Tool):
 
 
 class FindJobByTitle(Tool):
-    """Determine a job posting's ID using its title."""
+    """Find a job posting's ID by its title."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], title: str = None) -> str:
-        for j in data.get("job_postings", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        title = kwargs.get("title")
+        for j in data.get("job_postings", []):
             if j.get("title").lower() == title.lower():
-                payload = {"job_id": j.get("job_id")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Job not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"job_id": j.get("job_id")})
+        return json.dumps({"error": "Job not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindJobByTitle",
+                "name": "find_job_by_title",
                 "description": "Find a job posting's ID by its title.",
                 "parameters": {
                     "type": "object",
@@ -756,24 +720,23 @@ class FindJobByTitle(Tool):
 
 
 class FindApplication(Tool):
-    """Locate a job application ID using the user ID and job ID."""
+    """Find a job application ID by user ID and job ID."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], user_id: str = None, job_id: str = None) -> str:
-        for a in data.get("job_applications", {}).values():
-            if a.get("applicant_id") == user_id and a.get("job_id") == job_id:
-                payload = {"application_id": a.get("application_id")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "Application not found"}
-        out = json.dumps(payload)
-        return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        uid = kwargs.get("user_id")
+        jid = kwargs.get("job_id")
+        for a in data.get("job_applications", []):
+            if a.get("applicant_id") == uid and a.get("job_id") == jid:
+                return json.dumps({"application_id": a.get("application_id")})
+        return json.dumps({"error": "Application not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindApplication",
+                "name": "find_application",
                 "description": "Find a job application ID by user and job ID.",
                 "parameters": {
                     "type": "object",
@@ -788,29 +751,27 @@ class FindApplication(Tool):
 
 
 class FindMentor(Tool):
-    """Identify an available mentor based on expertise."""
+    """Find an available mentor by expertise."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], expertise: list[str] = None) -> str:
-        mentors = data.get("user_mentorship", {}).values()
-        # Deterministic choice: the first mentor from the list who meets all expertise criteria and is available.
-        for m in sorted(mentors, key=lambda x: x["mentor_id"]):  # Sort to ensure determinism
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        expertise = kwargs.get("expertise")
+        mentors = data.get("user_mentorship", [])
+        # Deterministic selection: first mentor in the list that matches all expertise areas and has capacity.
+        for m in sorted(mentors, key=lambda x: x["mentor_id"]):  # Sort for determinism
             if m.get("availability") != "Full" and all(
                 e.lower() in [exp.lower() for exp in m.get("expertise", [])]
                 for e in expertise
             ):
-                payload = {"mentor_id": m.get("mentor_id")}
-                out = json.dumps(payload)
-                return out
-        payload = {"error": "No suitable mentor found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps({"mentor_id": m.get("mentor_id")})
+        return json.dumps({"error": "No suitable mentor found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindMentor",
+                "name": "find_mentor",
                 "description": "Find an available mentor by expertise.",
                 "parameters": {
                     "type": "object",
@@ -824,45 +785,39 @@ class FindMentor(Tool):
 
 
 class FindWorkflow(Tool):
-    """Locate a workflow ID using the employee ID and workflow name."""
+    """Find a workflow ID by employee ID and workflow name."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None, workflow_name: str = None) -> str:
-        uid = employee_id
-        name = workflow_name
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        uid = kwargs.get("employee_id")
+        name = kwargs.get("workflow_name")
 
-        for wf in data.get("hr_workflows", {}).values():
-            # Verify if the workflow name matches initially
+        for wf in data.get("hr_workflows", []):
+            # Check if the workflow name matches first
             if wf.get("workflow_name", "").lower() == name.lower():
-                # Verify the presence of a top-level employee_id (e.g., Performance Review)
+                # Check for a top-level employee_id (e.g., Performance Review)
                 if wf.get("employee_id") == uid:
-                    payload = {"workflow_id": wf.get("workflow_id")}
-                    out = json.dumps(payload)
-                    return out
+                    return json.dumps({"workflow_id": wf.get("workflow_id")})
 
-                # Confirm if the user is included in the 'candidates' list (e.g., Succession Planning)
+                # Check if the user is in the 'candidates' list (e.g., Succession Planning)
                 if any(
                     candidate.get("employee_id") == uid
                     for candidate in wf.get("candidates", [])
                 ):
-                    payload = {"workflow_id": wf.get("workflow_id")}
-                    out = json.dumps(payload)
-                    return out
+                    return json.dumps({"workflow_id": wf.get("workflow_id")})
 
-                # Verify if the user appears in the 'target_audience' list (e.g., Training Initiative)
+                # Check if the user is in the 'target_audience' list (e.g., Training Initiative)
                 if uid in wf.get("target_audience", []):
-                    payload = {"workflow_id": wf.get("workflow_id")}
-                    out = json.dumps(payload)
-                    return out
-        payload = {"error": "Workflow not found"}
-        out = json.dumps(payload)
-        return out
+                    return json.dumps({"workflow_id": wf.get("workflow_id")})
+
+        return json.dumps({"error": "Workflow not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "FindWorkflow",
+                "name": "find_workflow",
                 "description": "Find a workflow ID by employee and workflow name.",
                 "parameters": {
                     "type": "object",
@@ -877,25 +832,22 @@ class FindWorkflow(Tool):
 
 
 class GetWorkflowDetails(Tool):
-    """Retrieve comprehensive details of a specific HR workflow using its ID."""
+    """Fetch the full details of a specific HR workflow by its ID."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], workflow_id: str = None) -> str:
-        wid = workflow_id
-        for wf in data.get("hr_workflows", {}).values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        wid = kwargs.get("workflow_id")
+        for wf in data.get("hr_workflows", []):
             if wf.get("workflow_id") == wid:
-                payload = wf
-                out = json.dumps(payload, indent=2)
-                return out
-        payload = {"error": "Workflow not found"}
-        out = json.dumps(payload)
-        return out
+                return json.dumps(wf, indent=2)
+        return json.dumps({"error": "Workflow not found"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetWorkflowDetails",
+                "name": "get_workflow_details",
                 "description": "Fetch the full details of a specific HR workflow by its ID.",
                 "parameters": {
                     "type": "object",

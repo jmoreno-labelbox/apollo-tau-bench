@@ -1,34 +1,23 @@
 import json
 import uuid
 from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Dict, List, Optional
 
-from tau_bench.envs.tool import Tool
-
-
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
+from domains.dto import Tool
 
 
 class CreateChangeRequest(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        title: str,
-        description: str,
-        requester_id: str,
-        project_id: str,
-        change_type: str,
-        business_justification: str,
-        priority: str = "medium",
-        affected_deliverables: list = [],
-        cr_id: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        title = kwargs.get("title")
+        description = kwargs.get("description")
+        requester_id = kwargs.get("requester_id")
+        project_id = kwargs.get("project_id")
+        change_type = kwargs.get("change_type")
+        priority = kwargs.get("priority", "medium")
+        affected_deliverables = kwargs.get("affected_deliverables", [])
+        business_justification = kwargs.get("business_justification")
+
         if not all(
             [
                 title,
@@ -39,35 +28,34 @@ class CreateChangeRequest(Tool):
                 business_justification,
             ]
         ):
-            payload = {
-                "error": "title, description, requester_id, project_id, change_type, and business_justification are required"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": "title, description, requester_id, project_id, change_type, and business_justification are required"
+                }
+            )
 
-        change_requests = data.get("change_requests", {}).values()
-        projects = data.get("projects", {}).values()
-        scope_baselines = data.get("scope_baselines", {}).values()
+        change_requests = data.get("change_requests", [])
+        projects = data.get("projects", [])
+        scope_baselines = data.get("scope_baselines", [])
 
-        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
+        project = next((p for p in projects if p.get("project_id") == project_id), None)
         if not project:
-            payload = {"error": f"Project '{project_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Project '{project_id}' not found"})
 
         project_baseline = next(
             (
                 b
-                for b in scope_baselines.values() if b.get("project_id") == project_id and b.get("status") == "approved"
+                for b in scope_baselines
+                if b.get("project_id") == project_id and b.get("status") == "approved"
             ),
             None,
         )
         if not project_baseline:
-            payload = {
-                "error": "Cannot create change request: No approved scope baseline exists for this project. A baseline must be formally established and approved first."
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": "Cannot create change request: No approved scope baseline exists for this project. A baseline must be formally established and approved first."
+                }
+            )
 
         if not all(
             [
@@ -76,17 +64,18 @@ class CreateChangeRequest(Tool):
                 project_baseline.get("metrics"),
             ]
         ):
-            payload = {
-                "error": "Cannot create change request: Existing baseline is incomplete. It must include deliverables, acceptance criteria, and success metrics."
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": "Cannot create change request: Existing baseline is incomplete. It must include deliverables, acceptance criteria, and success metrics."
+                }
+            )
 
         baseline_version = project_baseline.get("version", "1.0")
 
         active_crs = [
             cr
-            for cr in change_requests.values() if cr.get("project_id") == project_id
+            for cr in change_requests
+            if cr.get("project_id") == project_id
             and cr.get("status")
             in [
                 "draft",
@@ -102,54 +91,62 @@ class CreateChangeRequest(Tool):
                 set(active_cr.get("affected_deliverables", []))
             )
             if overlapping_deliverables:
-                payload = {
-                    "error": f"Cannot create change request: Deliverables {list(overlapping_deliverables)} are already affected by active change request '{active_cr.get('cr_id')}'. Multiple change requests affecting the same deliverable must be consolidated.",
-                    "suggestion": "Please merge with existing change request or wait for it to complete.",
-                }
-                out = json.dumps(payload)
-                return out
+                return json.dumps(
+                    {
+                        "error": f"Cannot create change request: Deliverables {list(overlapping_deliverables)} are already affected by active change request '{active_cr.get('cr_id')}'. Multiple change requests affecting the same deliverable must be consolidated.",
+                        "suggestion": "Please merge with existing change request or wait for it to complete.",
+                    }
+                )
 
         rejected_crs = [
             cr
-            for cr in change_requests.values() if cr.get("project_id") == project_id
+            for cr in change_requests
+            if cr.get("project_id") == project_id
             and cr.get("status") == "rejected"
             and cr.get("requester_id") == requester_id
         ]
 
         for rejected_cr in rejected_crs:
+
             if (
                 title.lower() in rejected_cr.get("title", "").lower()
                 or rejected_cr.get("title", "").lower() in title.lower()
                 or description[:50].lower()
                 in rejected_cr.get("description", "").lower()
             ):
+
                 can_resubmit_after = rejected_cr.get("can_resubmit_after")
-                if can_resubmit_after and datetime.now().isoformat() < can_resubmit_after:
+                if (
+                    can_resubmit_after
+                    and datetime.now().isoformat() < can_resubmit_after
+                ):
                     days_remaining = (
                         datetime.fromisoformat(can_resubmit_after) - datetime.now()
                     ).days
-                    payload = {
-                        "error": f"Cannot create change request: This appears to be a resubmission of rejected CR '{rejected_cr.get('cr_id')}'. Rejected change requests have a 30-day cooling period.",
-                        "days_remaining": days_remaining,
-                        "can_resubmit_after": can_resubmit_after,
-                        "requirement": "Resubmitted requests must include new justification addressing original rejection reasons and demonstrate changed circumstances.",
-                    }
-                    out = json.dumps(payload)
-                    return out
+                    return json.dumps(
+                        {
+                            "error": f"Cannot create change request: This appears to be a resubmission of rejected CR '{rejected_cr.get('cr_id')}'. Rejected change requests have a 30-day cooling period.",
+                            "days_remaining": days_remaining,
+                            "can_resubmit_after": can_resubmit_after,
+                            "requirement": "Resubmitted requests must include new justification addressing original rejection reasons and demonstrate changed circumstances.",
+                        }
+                    )
 
                 if (
                     rejected_cr.get("rejection_reason")
-                    and rejected_cr.get("rejection_reason", "").lower()
+                    and rejected_cr.get("rejection_reason").lower()
                     not in business_justification.lower()
                 ):
-                    payload = {
-                        "error": "Resubmission detected: Please address the original rejection reason in your business justification.",
-                        "original_rejection_reason": rejected_cr.get("rejection_reason"),
-                    }
-                    out = json.dumps(payload)
-                    return out
+                    return json.dumps(
+                        {
+                            "error": f"Resubmission detected: Please address the original rejection reason in your business justification.",
+                            "original_rejection_reason": rejected_cr.get(
+                                "rejection_reason"
+                            ),
+                        }
+                    )
 
-        cr_id = cr_id or f"cr_{uuid.uuid4().hex[:8]}"
+        cr_id = kwargs.get("cr_id", f"cr_{uuid.uuid4().hex[:8]}")
 
         new_cr = {
             "cr_id": cr_id,
@@ -169,9 +166,9 @@ class CreateChangeRequest(Tool):
             "approvals_received": [],
         }
 
-        data["change_requests"][new_cr["change_request_id"]] = new_cr
+        change_requests.append(new_cr)
 
-        change_history = data.get("change_history", {}).values()
+        change_history = data.get("change_history", [])
         history_entry = {
             "history_id": f"hist_ch_{uuid.uuid4().hex[:8]}",
             "cr_id": cr_id,
@@ -179,16 +176,16 @@ class CreateChangeRequest(Tool):
             "performed_by": requester_id,
             "timestamp": datetime.now().isoformat(),
         }
-        data["change_history"][history_entry["change_history_id"]] = history_entry
-        payload = {"success": True, "change_request": new_cr}
-        out = json.dumps(payload)
-        return out
+        change_history.append(history_entry)
+
+        return json.dumps({"success": True, "change_request": new_cr})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateChangeRequest",
+                "name": "create_change_request",
                 "description": "Create a new change request",
                 "parameters": {
                     "type": "object",
@@ -246,31 +243,26 @@ class CreateChangeRequest(Tool):
 
 class PerformImpactAssessment(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        cr_id: str,
-        assessed_by: str,
-        timeline_impact_weeks: int = 0,
-        budget_impact: float = 0,
-        resource_requirements: list = [],
-        technical_dependencies: list = []
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
+        assessed_by = kwargs.get("assessed_by")
+        timeline_impact_weeks = kwargs.get("timeline_impact_weeks", 0)
+        budget_impact = kwargs.get("budget_impact", 0)
+        resource_requirements = kwargs.get("resource_requirements", [])
+        technical_dependencies = kwargs.get("technical_dependencies", [])
+
         if not all([cr_id, assessed_by]):
-            payload = {"error": "cr_id and assessed_by are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "cr_id and assessed_by are required"})
 
-        change_requests = data.get("change_requests", {}).values()
-        budgets = data.get("budgets", {}).values()
+        change_requests = data.get("change_requests", [])
+        budgets = data.get("budgets", [])
 
-        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:
-            payload = {"error": f"Change request '{cr_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Change request '{cr_id}' not found"})
 
         project_budget = next(
-            (b for b in budgets.values() if b.get("project_id") == cr.get("project_id")), None
+            (b for b in budgets if b.get("project_id") == cr.get("project_id")), None
         )
         budget_impact_percentage = 0
         if project_budget and budget_impact:
@@ -279,23 +271,25 @@ class PerformImpactAssessment(Tool):
                 (budget_impact / total_budget * 100) if total_budget > 0 else 0
             )
 
-        allocations = data.get("allocations", {}).values()
+        allocations = data.get("allocations", [])
         resource_conflicts = []
         for req in resource_requirements:
             emp_id = req.get("employee_id")
             emp_allocations = [
                 a
-                for a in allocations.values() if a.get("employee_id") == emp_id and a.get("status") == "active"
+                for a in allocations
+                if a.get("employee_id") == emp_id and a.get("status") == "active"
             ]
-            total_hours = sum(a.get("hours_per_week", 0) for a in emp_allocations.values())
+            total_hours = sum(a.get("hours_per_week", 0) for a in emp_allocations)
             if total_hours + req.get("hours_per_week", 0) > 40:
                 resource_conflicts.append(emp_id)
 
-        critical_paths = data.get("critical_paths", {}).values()
+        critical_paths = data.get("critical_paths", [])
         project_critical_path = next(
             (
                 cp
-                for cp in critical_paths.values() if cp.get("project_id") == cr.get("project_id")
+                for cp in critical_paths
+                if cp.get("project_id") == cr.get("project_id")
             ),
             None,
         )
@@ -336,7 +330,11 @@ class PerformImpactAssessment(Tool):
         overall_risk = (
             "critical"
             if risk_score >= 6
-            else "high" if risk_score >= 4 else "medium" if risk_score >= 2 else "low"
+            else "high"
+            if risk_score >= 4
+            else "medium"
+            if risk_score >= 2
+            else "low"
         )
 
         assessment_id = f"ia_{uuid.uuid4().hex[:8]}"
@@ -361,15 +359,15 @@ class PerformImpactAssessment(Tool):
         cr["impact_assessment"] = impact_assessment
         cr["approvals_required"] = approval_levels_required
         cr["requires_risk_assessment"] = requires_risk_assessment
-        payload = {"success": True, "impact_assessment": impact_assessment}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"success": True, "impact_assessment": impact_assessment})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "PerformImpactAssessment",
+                "name": "perform_impact_assessment",
                 "description": "Perform impact assessment for a change request",
                 "parameters": {
                     "type": "object",
@@ -413,21 +411,23 @@ class PerformImpactAssessment(Tool):
 
 class UpdateChangeRequestStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], cr_id: str = None, new_status: str = None, performed_by: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
+        new_status = kwargs.get("new_status")
+        performed_by = kwargs.get("performed_by")
+
         if not all([cr_id, new_status, performed_by]):
-            payload = {"error": "cr_id, new_status, and performed_by are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "cr_id, new_status, and performed_by are required"}
+            )
 
-        change_requests = data.get("change_requests", {}).values()
-        change_history = data.get("change_history", {}).values()
-        risk_assessments = data.get("risk_assessments", {}).values()
+        change_requests = data.get("change_requests", [])
+        change_history = data.get("change_history", [])
+        risk_assessments = data.get("risk_assessments", [])
 
-        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:
-            payload = {"error": f"Change request '{cr_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Change request '{cr_id}' not found"})
 
         old_status = cr.get("status")
 
@@ -445,38 +445,39 @@ class UpdateChangeRequestStatus(Tool):
         }
 
         if new_status not in valid_transitions.get(old_status, []):
-            payload = {
-                "error": f"Invalid status transition from '{old_status}' to '{new_status}'"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": f"Invalid status transition from '{old_status}' to '{new_status}'"
+                }
+            )
 
         if new_status == "pending_approval" and not cr.get("impact_assessment"):
-            payload = {
-                "error": "Impact assessment required before moving to pending_approval"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": "Impact assessment required before moving to pending_approval"
+                }
+            )
 
         if new_status == "pending_approval":
-            impact = cr.get("impact_assessment", {}).values()
+            impact = cr.get("impact_assessment", {})
             if impact.get("affects_critical_path") or impact.get("overall_risk") in [
                 "high",
                 "critical",
             ]:
+
                 has_risk_assessment = any(
-                    ra.get("cr_id") == cr_id for ra in risk_assessments.values()
+                    ra.get("cr_id") == cr_id for ra in risk_assessments
                 )
                 if not has_risk_assessment:
-                    payload = {
-                        "error": "Risk assessment required: This change impacts the critical path or is high-risk. Must have documented mitigation strategies, contingency plans, and rollback procedures.",
-                        "requirement": "Please complete risk assessment before proceeding to approval.",
-                    }
-                    out = json.dumps(payload)
-                    return out
+                    return json.dumps(
+                        {
+                            "error": "Risk assessment required: This change impacts the critical path or is high-risk. Must have documented mitigation strategies, contingency plans, and rollback procedures.",
+                            "requirement": "Please complete risk assessment before proceeding to approval.",
+                        }
+                    )
 
                 risk_assessment = next(
-                    (ra for ra in risk_assessments.values() if ra.get("cr_id") == cr_id), None
+                    (ra for ra in risk_assessments if ra.get("cr_id") == cr_id), None
                 )
                 if risk_assessment:
                     if not all(
@@ -486,26 +487,25 @@ class UpdateChangeRequestStatus(Tool):
                             risk_assessment.get("rollback_procedure"),
                         ]
                     ):
-                        payload = {
-                            "error": "Incomplete risk assessment: Must include mitigation strategies, contingency plans, and rollback procedures for critical path/high-risk changes."
-                        }
-                        out = json.dumps(payload)
-                        return out
+                        return json.dumps(
+                            {
+                                "error": "Incomplete risk assessment: Must include mitigation strategies, contingency plans, and rollback procedures for critical path/high-risk changes."
+                            }
+                        )
 
         if new_status == "approved":
             required_approvals = cr.get("approvals_required", [])
             received_approvals = cr.get("approvals_received", [])
             missing_approvals = list(set(required_approvals) - set(received_approvals))
             if missing_approvals:
-                payload = {"error": f"Missing approvals from: {missing_approvals}"}
-                out = json.dumps(payload)
-                return out
+                return json.dumps({"error": f"Missing approvals from: {missing_approvals}"})
 
         cr["status"] = new_status
         cr["updated_date"] = datetime.now().isoformat()
 
         if new_status == "rejected":
             cr["rejection_date"] = datetime.now().isoformat()
+
             cr["can_resubmit_after"] = (datetime.now() + timedelta(days=30)).isoformat()
         elif new_status == "approved":
             cr["approval_date"] = datetime.now().isoformat()
@@ -519,7 +519,7 @@ class UpdateChangeRequestStatus(Tool):
             "performed_by": performed_by,
             "timestamp": datetime.now().isoformat(),
         }
-        data["change_history"][history_entry["change_history_id"]] = history_entry
+        change_history.append(history_entry)
 
         if new_status == "approved":
             cr["artifacts_pending"] = [
@@ -529,15 +529,15 @@ class UpdateChangeRequestStatus(Tool):
                 "scope_statement",
             ]
             cr["update_deadline"] = datetime.now().isoformat()
-        payload = {"success": True, "change_request": cr}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"success": True, "change_request": cr})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateChangeRequestStatus",
+                "name": "update_change_request_status",
                 "description": "Update the status of a change request",
                 "parameters": {
                     "type": "object",
@@ -560,51 +560,48 @@ class UpdateChangeRequestStatus(Tool):
 
 class ProcessEmergencyChange(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        cr_id: str,
-        authorized_by: str,
-        emergency_type: str,
-        justification: str,
-        log_id: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
+        authorized_by = kwargs.get("authorized_by")
+        emergency_type = kwargs.get("emergency_type")
+        justification = kwargs.get("justification")
+
         if not all([cr_id, authorized_by, emergency_type, justification]):
-            payload = {
-                "error": "cr_id, authorized_by, emergency_type, and justification are required"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": "cr_id, authorized_by, emergency_type, and justification are required"
+                }
+            )
 
-        change_requests = data.get("change_requests", {}).values()
-        emergency_logs = data.get("emergency_logs", {}).values()
-        approval_workflows = data.get("approval_workflows", {}).values()
-        stakeholders = data.get("stakeholders", {}).values()
+        change_requests = data.get("change_requests", [])
+        emergency_logs = data.get("emergency_logs", [])
+        approval_workflows = data.get("approval_workflows", [])
+        stakeholders = data.get("stakeholders", [])
 
-        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:
-            payload = {"error": f"Change request '{cr_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Change request '{cr_id}' not found"})
 
         authorizer = next(
-            (s for s in stakeholders.values() if s.get("stakeholder_id") == authorized_by), None
+            (s for s in stakeholders if s.get("stakeholder_id") == authorized_by), None
         )
         if not authorizer or "emergency" not in str(
             authorizer.get("approval_authority", [])
         ):
+
             if not authorizer or authorizer.get("role") not in [
                 "executive_sponsor",
                 "pmo_director",
             ]:
-                payload = {"error": "Authorizer does not have emergency approval authority"}
-                out = json.dumps(payload)
-                return out
+                return json.dumps(
+                    {"error": "Authorizer does not have emergency approval authority"}
+                )
 
         current_time = datetime.now()
         documentation_deadline = (current_time + timedelta(hours=24)).isoformat()
         retroactive_approval_deadline = (current_time + timedelta(hours=48)).isoformat()
 
-        log_id = log_id or f"elog_{uuid.uuid4().hex[:8]}"
+        log_id = kwargs.get("log_id", f"elog_{uuid.uuid4().hex[:8]}")
 
         emergency_log = {
             "log_id": log_id,
@@ -620,7 +617,7 @@ class ProcessEmergencyChange(Tool):
             "requires_automatic_rollback": True,
         }
 
-        data["emergency_logs"][emergency_log_id] = emergency_log
+        emergency_logs.append(emergency_log)
 
         cr["status"] = "approved"
         cr["approval_date"] = current_time.isoformat()
@@ -653,27 +650,29 @@ class ProcessEmergencyChange(Tool):
             "retroactive_deadline": retroactive_approval_deadline,
         }
 
-        data["approval_workflows"][emergency_workflow["approval_workflow_id"]] = emergency_workflow
-        payload = {
-            "success": True,
-            "emergency_approval": {
-                "cr_id": cr_id,
-                "log_id": log_id,
-                "status": "approved",
-                "requires_retroactive_approval": True,
-                "documentation_deadline": documentation_deadline,
-                "retroactive_approval_deadline": retroactive_approval_deadline,
-                "warning": "Must be documented within 24 hours and receive retroactive approval within 48 hours or automatic rollback will be triggered",
-            },
-        }
-        out = json.dumps(payload)
-        return out
+        approval_workflows.append(emergency_workflow)
+
+        return json.dumps(
+            {
+                "success": True,
+                "emergency_approval": {
+                    "cr_id": cr_id,
+                    "log_id": log_id,
+                    "status": "approved",
+                    "requires_retroactive_approval": True,
+                    "documentation_deadline": documentation_deadline,
+                    "retroactive_approval_deadline": retroactive_approval_deadline,
+                    "warning": "Must be documented within 24 hours and receive retroactive approval within 48 hours or automatic rollback will be triggered",
+                },
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ProcessEmergencyChange",
+                "name": "process_emergency_change",
                 "description": "Process an emergency change request with expedited approval",
                 "parameters": {
                     "type": "object",
@@ -706,35 +705,34 @@ class ProcessEmergencyChange(Tool):
 
 class RecordRetroactiveApproval(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        emergency_log_id: str,
-        approver_id: str,
-        approval_decision: str,
-        comments: str = ""
-    ) -> str:
-        if not all([emergency_log_id, approver_id, approval_decision]):
-            payload = {
-                "error": "emergency_log_id, approver_id, and approval_decision are required"
-            }
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        emergency_log_id = kwargs.get("emergency_log_id")
+        approver_id = kwargs.get("approver_id")
+        approval_decision = kwargs.get("approval_decision")
+        comments = kwargs.get("comments", "")
 
-        emergency_logs = data.get("emergency_logs", {}).values()
-        change_requests = data.get("change_requests", {}).values()
+        if not all([emergency_log_id, approver_id, approval_decision]):
+            return json.dumps(
+                {
+                    "error": "emergency_log_id, approver_id, and approval_decision are required"
+                }
+            )
+
+        emergency_logs = data.get("emergency_logs", [])
+        change_requests = data.get("change_requests", [])
 
         log = next(
-            (e for e in emergency_logs.values() if e.get("log_id") == emergency_log_id), None
+            (e for e in emergency_logs if e.get("log_id") == emergency_log_id), None
         )
         if not log:
-            payload = {"error": f"Emergency log '{emergency_log_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": f"Emergency log '{emergency_log_id}' not found"}
+            )
 
         if log.get("retroactive_status") != "pending":
-            payload = {"error": f"Emergency log already {log.get('retroactive_status')}"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": f"Emergency log already {log.get('retroactive_status')}"}
+            )
 
         current_time = datetime.now()
         deadline = datetime.fromisoformat(
@@ -744,24 +742,26 @@ class RecordRetroactiveApproval(Tool):
         )
 
         if current_time > deadline:
+
             log["retroactive_status"] = "failed_deadline"
             log["automatic_rollback_triggered"] = True
             log["rollback_trigger_date"] = current_time.isoformat()
 
             cr = next(
-                (c for c in change_requests.values() if c.get("cr_id") == log.get("cr_id")), None
+                (c for c in change_requests if c.get("cr_id") == log.get("cr_id")), None
             )
             if cr:
                 cr["requires_rollback"] = True
                 cr["rollback_triggered_date"] = current_time.isoformat()
-            payload = {
-                "error": "Retroactive approval deadline exceeded. Automatic rollback has been triggered.",
-                "deadline_was": log.get("retroactive_approval_deadline"),
-                "current_time": current_time.isoformat(),
-                "rollback_triggered": True,
-            }
-            out = json.dumps(payload)
-            return out
+
+            return json.dumps(
+                {
+                    "error": "Retroactive approval deadline exceeded. Automatic rollback has been triggered.",
+                    "deadline_was": log.get("retroactive_approval_deadline"),
+                    "current_time": current_time.isoformat(),
+                    "rollback_triggered": True,
+                }
+            )
 
         if "retroactive_approvers" not in log:
             log["retroactive_approvers"] = []
@@ -778,29 +778,33 @@ class RecordRetroactiveApproval(Tool):
             log["rejection_comments"] = comments
 
             cr = next(
-                (c for c in change_requests.values() if c.get("cr_id") == log.get("cr_id")), None
+                (c for c in change_requests if c.get("cr_id") == log.get("cr_id")), None
             )
             if cr:
                 cr["requires_rollback"] = True
                 cr["rollback_triggered_date"] = current_time.isoformat()
                 log["automatic_rollback_triggered"] = True
-        payload = {
-            "success": True,
-            "retroactive_approval": {
-                "log_id": emergency_log_id,
-                "decision": approval_decision,
-                "status": log["retroactive_status"],
-                "rollback_triggered": log.get("automatic_rollback_triggered", False),
-            },
-        }
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(
+            {
+                "success": True,
+                "retroactive_approval": {
+                    "log_id": emergency_log_id,
+                    "decision": approval_decision,
+                    "status": log["retroactive_status"],
+                    "rollback_triggered": log.get(
+                        "automatic_rollback_triggered", False
+                    ),
+                },
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RecordRetroactiveApproval",
+                "name": "record_retroactive_approval",
                 "description": "Record retroactive approval for emergency changes",
                 "parameters": {
                     "type": "object",
@@ -834,19 +838,18 @@ class RecordRetroactiveApproval(Tool):
 
 class CheckChangeConflicts(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], cr_id: str = None, compare_to_cr_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
+        compare_to_cr_id = kwargs.get("compare_to_cr_id")
+
         if not cr_id:
-            payload = {"error": "cr_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "cr_id is required"})
 
-        change_requests = data.get("change_requests", {}).values()
+        change_requests = data.get("change_requests", [])
 
-        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:
-            payload = {"error": f"Change request '{cr_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Change request '{cr_id}' not found"})
 
         project_id = cr.get("project_id")
         conflicts = []
@@ -854,15 +857,17 @@ class CheckChangeConflicts(Tool):
         if compare_to_cr_id:
             active_crs = [
                 c
-                for c in change_requests.values() if c.get("project_id") == project_id
-                and c.get("cr_id") == compare_to_cr_id
-                and c.get("status")
-                in ["pending_approval", "in_review", "approved", "draft"]
+                for c in change_requests
+                if c.get("project_id") == project_id
+                   and c.get("cr_id") == compare_to_cr_id
+                   and c.get("status")
+                   in ["pending_approval", "in_review", "approved", "draft"]
             ]
         else:
             active_crs = [
                 c
-                for c in change_requests.values() if c.get("project_id") == project_id
+                for c in change_requests
+                if c.get("project_id") == project_id
                 and c.get("cr_id") != cr_id
                 and c.get("status")
                 in ["pending_approval", "in_review", "approved", "draft"]
@@ -933,32 +938,29 @@ class CheckChangeConflicts(Tool):
                         }
                     )
 
-        has_rule_violations = any(c.get("rule_violation") for c in conflicts.values())
-        payload = {
+        has_rule_violations = any(c.get("rule_violation") for c in conflicts)
+
+        return json.dumps(
+            {
                 "cr_id": cr_id,
                 "conflicts_found": len(conflicts),
                 "has_rule_violations": has_rule_violations,
                 "conflicts": conflicts,
-                "recommendation": (
-                    "Cannot proceed - consolidate with conflicting CRs"
-                    if has_rule_violations
-                    else (
-                        "Coordinate with conflicting CRs"
-                        if conflicts
-                        else "No conflicts found"
-                    )
-                ),
-            }
-        out = json.dumps(
-            payload, indent=2,
+                "recommendation": "Cannot proceed - consolidate with conflicting CRs"
+                if has_rule_violations
+                else "Coordinate with conflicting CRs"
+                if conflicts
+                else "No conflicts found",
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CheckChangeConflicts",
+                "name": "check_change_conflicts",
                 "description": "Check for conflicts with other change requests",
                 "parameters": {
                     "type": "object",
@@ -970,7 +972,7 @@ class CheckChangeConflicts(Tool):
                         "compare_to_cr_id": {
                             "type": "string",
                             "description": "Change request ID to compare with cr_id",
-                        },
+                        }
                     },
                     "required": ["cr_id"],
                 },
@@ -980,26 +982,22 @@ class CheckChangeConflicts(Tool):
 
 class SaveChangeRequestsConflicts(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        cr_id: str = None,
-        conflicting_cr_id: str = None,
-        conflict_type: str = None,
-        conflicting_deliverables: list = None,
-        severity: str = None,
-        rule_violation: str = None,
-        action_required: str = None,
-        recommendation: str = None,
-    type: Any = None,
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
+        conflicting_cr_id = kwargs.get("conflicting_cr_id")
+        conflict_type = kwargs.get("type")
+        conflicting_deliverables = kwargs.get("conflicting_deliverables")
+        severity = kwargs.get("severity")
+        rule_violation = kwargs.get("rule_violation")
+        action_required = kwargs.get("action_required")
+        recommendation = kwargs.get("recommendation")
+
         if not cr_id or not conflicting_cr_id:
-            payload = {"error": "cr_id and conflicting_cr_id are required parameters"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "cr_id and conflicting_cr_id are required parameters"})
 
         conflict_cr_id_1 = {
             "conflicting_cr_id": conflicting_cr_id,
-            "conflict_id": f"cf_{uuid.uuid4().hex[:8]}",
+            "conflict_id": f"cf_{uuid.uuid4().hex[:8]}"
         }
         if conflict_type:
             conflict_cr_id_1["conflict_type"] = conflict_type
@@ -1014,16 +1012,15 @@ class SaveChangeRequestsConflicts(Tool):
         if recommendation:
             conflict_cr_id_1["recommendation"] = recommendation
 
-        change_requests = data.get("change_requests", {}).values()
-        for change_request in change_requests.values():
+        change_requests = data.get("change_requests", [])
+        for change_request in change_requests:
             if change_request.get("cr_id") == cr_id:
                 if "conflicts" in change_request:
                     change_request["conflicts"].append(conflict_cr_id_1)
                 else:
                     change_request["conflicts"] = [conflict_cr_id_1]
-                payload = {"success": True}
-                out = json.dumps(payload)
-                return out
+
+                return json.dumps({"success": True})
 
             elif change_request.get("cr_id") == conflicting_cr_id:
                 conflict_cr_id_2 = conflict_cr_id_1.copy()
@@ -1032,16 +1029,15 @@ class SaveChangeRequestsConflicts(Tool):
                     change_request["conflicts"].append(conflict_cr_id_2)
                 else:
                     change_request["conflicts"] = [conflict_cr_id_2]
-        payload = {"error": f"It wasn't found any change request with the ID {cr_id}"}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"error": f"It wasn't found any change request with the ID {cr_id}"})
 
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SaveChangeRequestsConflicts",
+                "name": "save_change_requests_conflicts",
                 "description": "Save conflicts into change requests",
                 "parameters": {
                     "type": "object",
@@ -1059,8 +1055,7 @@ class SaveChangeRequestsConflicts(Tool):
                             "description": "Conflicting change request ID",
                         },
                         "conflicting_deliverables": {
-                            "type": "array",
-                            "items": {"type": "string"},
+                            "type": "list",
                             "description": "Conflicting deliverable IDs",
                         },
                         "severity": {
@@ -1078,7 +1073,7 @@ class SaveChangeRequestsConflicts(Tool):
                         "recommendation": {
                             "type": "string",
                             "description": "Recommendation description",
-                        },
+                        }
                     },
                     "required": ["cr_id", "conflicting_cr"],
                 },
@@ -1088,26 +1083,21 @@ class SaveChangeRequestsConflicts(Tool):
 
 class ValidateChangeCompliance(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        cr_id: str,
-        compliance_checklist: list[str] = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
+        compliance_checklist = kwargs.get("compliance_checklist", [])
+
         if not cr_id:
-            payload = {"error": "cr_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "cr_id is required"})
 
-        change_requests = data.get("change_requests", {}).values()
-        emergency_logs = data.get("emergency_logs", {}).values()
-        risk_assessments = data.get("risk_assessments", {}).values()
-        scope_baselines = data.get("scope_baselines", {}).values()
+        change_requests = data.get("change_requests", [])
+        emergency_logs = data.get("emergency_logs", [])
+        risk_assessments = data.get("risk_assessments", [])
+        scope_baselines = data.get("scope_baselines", [])
 
-        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:
-            payload = {"error": f"Change request '{cr_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Change request '{cr_id}' not found"})
 
         violations = []
         warnings = []
@@ -1142,8 +1132,8 @@ class ValidateChangeCompliance(Tool):
                     violations.append("Missing impact assessment")
 
             elif check == "has_risk_assessment":
-                risk_assessments = data.get("risk_assessments", {}).values()
-                has_risk = any(ra.get("cr_id") == cr_id for ra in risk_assessments.values())
+                risk_assessments = data.get("risk_assessments", [])
+                has_risk = any(ra.get("cr_id") == cr_id for ra in risk_assessments)
                 if cr.get("priority") in ["high", "critical"] and not has_risk:
                     warnings.append("High priority change without risk assessment")
 
@@ -1183,7 +1173,8 @@ class ValidateChangeCompliance(Tool):
                 project_baseline = next(
                     (
                         b
-                        for b in scope_baselines.values() if b.get("project_id") == cr.get("project_id")
+                        for b in scope_baselines
+                        if b.get("project_id") == cr.get("project_id")
                         and b.get("status") == "approved"
                     ),
                     None,
@@ -1216,7 +1207,7 @@ class ValidateChangeCompliance(Tool):
             elif check == "emergency_deadlines_met":
                 if cr.get("requires_emergency_approval"):
                     log = next(
-                        (e for e in emergency_logs.values() if e.get("cr_id") == cr_id), None
+                        (e for e in emergency_logs if e.get("cr_id") == cr_id), None
                     )
                     if log:
                         current_time = datetime.now()
@@ -1254,7 +1245,7 @@ class ValidateChangeCompliance(Tool):
                         and cr.get("status") != "draft"
                     ):
                         risk_assessment = next(
-                            (ra for ra in risk_assessments.values() if ra.get("cr_id") == cr_id),
+                            (ra for ra in risk_assessments if ra.get("cr_id") == cr_id),
                             None,
                         )
                         if not risk_assessment:
@@ -1273,28 +1264,29 @@ class ValidateChangeCompliance(Tool):
                             )
 
         compliance_status = "compliant" if not violations else "non_compliant"
-        payload = {
+
+        return json.dumps(
+            {
                 "cr_id": cr_id,
                 "compliance_status": compliance_status,
                 "violations": violations,
                 "warnings": warnings,
                 "checks_performed": checks_to_perform,
-                "recommendation": (
-                    "Address violations before proceeding"
-                    if violations
-                    else "Proceed with caution" if warnings else "Fully compliant"
-                ),
-            }
-        out = json.dumps(
-            payload, indent=2,
+                "recommendation": "Address violations before proceeding"
+                if violations
+                else "Proceed with caution"
+                if warnings
+                else "Fully compliant",
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ValidateChangeCompliance",
+                "name": "validate_change_compliance",
                 "description": "Validate change request compliance with policies",
                 "parameters": {
                     "type": "object",
@@ -1314,31 +1306,22 @@ class ValidateChangeCompliance(Tool):
 
 class CreateApprovalWorkflow(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        cr_id: str,
-        workflow_type: str = "standard"
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
+        workflow_type = kwargs.get("workflow_type", "standard")
+
         if not cr_id:
-            payload = {"error": "cr_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "cr_id is required"})
 
-        change_requests = data.get("change_requests", {}).values()
-        approval_workflows = data.get("approval_workflows", {}).values()
-        stakeholders = data.get("stakeholders", {}).values()
+        change_requests = data.get("change_requests", [])
+        approval_workflows = data.get("approval_workflows", [])
+        stakeholders = data.get("stakeholders", [])
 
-        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:
-            payload = {"error": f"Change request '{cr_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Change request '{cr_id}' not found"})
 
-        existing = [
-            i
-            for i in range(len(approval_workflows))
-            if approval_workflows[i].get("cr_id") == cr_id
-        ]
+        existing = [i for i in range(len(approval_workflows)) if approval_workflows[i].get("cr_id") == cr_id]
         for drop_index in existing:
             approval_workflows.pop(drop_index)
 
@@ -1358,7 +1341,7 @@ class CreateApprovalWorkflow(Tool):
                 mapping = approval_mapping[approval_level]
 
                 approver = next(
-                    (s for s in stakeholders.values() if mapping["role"] in s.get("role", "")),
+                    (s for s in stakeholders if mapping["role"] in s.get("role", "")),
                     None,
                 )
 
@@ -1387,20 +1370,20 @@ class CreateApprovalWorkflow(Tool):
             "created_date": datetime.now().isoformat(),
         }
 
-        data["approval_workflows"][new_workflow["approval_workflow_id"]] = new_workflow
+        approval_workflows.append(new_workflow)
 
         if cr.get("status") == "pending_approval" and not steps:
             cr["status"] = "approved"
             cr["approval_date"] = datetime.now().isoformat()
-        payload = {"success": True, "workflow": new_workflow}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"success": True, "workflow": new_workflow})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateApprovalWorkflow",
+                "name": "create_approval_workflow",
                 "description": "Create approval workflow for a change request",
                 "parameters": {
                     "type": "object",
@@ -1419,30 +1402,28 @@ class CreateApprovalWorkflow(Tool):
 
 class CheckWorkflowExistsForChangeRequest(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], cr_id: str = None) -> str:
-        if not cr_id:
-            payload = {"error": "cr_id is required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
 
-        approval_workflows = data.get("approval_workflows", {}).values()
+        if not cr_id:
+            return json.dumps({"error": "cr_id is required"})
+
+        approval_workflows = data.get("approval_workflows", [])
 
         existing = next(
-            (w for w in approval_workflows.values() if w.get("cr_id") == cr_id), None
+            (w for w in approval_workflows if w.get("cr_id") == cr_id), None
         )
         if existing:
-            payload = {"success": True, "exists": True}
-            out = json.dumps(payload)
-            return out
-        payload = {"success": True, "exists": False}
-        out = json.dumps(payload)
-        return out
+            return json.dumps({"success": True, "exists": True})
+
+        return json.dumps({"success": True, "exists": False})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CheckWorkflowExistsForChangeRequest",
+                "name": "check_workflow_exists_for_change_request",
                 "description": "Check if a workflow exists for a change request",
                 "parameters": {
                     "type": "object",
@@ -1457,48 +1438,43 @@ class CheckWorkflowExistsForChangeRequest(Tool):
 
 class RecordApprovalDecision(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        cr_id: str,
-        approver_id: str,
-        decision: str,
-        comments: str = "",
-        conditions: list = [],
-        approval_id: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
+        approver_id = kwargs.get("approver_id")
+        decision = kwargs.get("decision")
+        comments = kwargs.get("comments", "")
+        conditions = kwargs.get("conditions", [])
+
         if not all([cr_id, approver_id, decision]):
-            payload = {"error": "cr_id, approver_id, and decision are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "cr_id, approver_id, and decision are required"}
+            )
 
         if decision not in ["approve", "reject", "approve_with_conditions"]:
-            payload = {
-                "error": "Decision must be: approve, reject, or approve_with_conditions"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": "Decision must be: approve, reject, or approve_with_conditions"
+                }
+            )
 
-        change_requests = data.get("change_requests", {}).values()
-        approval_workflows = data.get("approval_workflows", {}).values()
-        change_approvals = data.get("change_approvals", {}).values()
+        change_requests = data.get("change_requests", [])
+        approval_workflows = data.get("approval_workflows", [])
+        change_approvals = data.get("change_approvals", [])
 
-        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:
-            payload = {"error": f"Change request '{cr_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Change request '{cr_id}' not found"})
 
         workflow = next(
             (
                 w
-                for w in approval_workflows.values() if w.get("cr_id") == cr_id and w.get("status") == "active"
+                for w in approval_workflows
+                if w.get("cr_id") == cr_id and w.get("status") == "active"
             ),
             None,
         )
         if not workflow:
-            payload = {"error": f"No active workflow found for CR '{cr_id}'"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"No active workflow found for CR '{cr_id}'"})
 
         current_step = {}
         for step in workflow.get("steps", []):
@@ -1509,15 +1485,10 @@ class RecordApprovalDecision(Tool):
                 current_step = step
                 break
 
-        if current_step and current_step.get("step_number") != workflow.get(
-            "current_step"
-        ):
-            payload = {"error": "Cannot approve out of sequence"}
-            out = json.dumps(payload)
-            return out
+        if current_step and current_step.get("step_number") != workflow.get("current_step"):
+            return json.dumps({"error": "Cannot approve out of sequence"})
 
-        if approval_id is None:
-            approval_id = f"appr_ch_{uuid.uuid4().hex[:8]}"
+        approval_id = kwargs.get("approval_id", f"appr_ch_{uuid.uuid4().hex[:8]}")
 
         approval_record = {
             "approval_id": approval_id,
@@ -1530,7 +1501,7 @@ class RecordApprovalDecision(Tool):
             "action_date": datetime.now().isoformat(),
         }
 
-        data["change_approvals"][approval_record["change_approval_id"]] = approval_record
+        change_approvals.append(approval_record)
 
         current_step["status"] = "approved" if decision != "reject" else "rejected"
         current_step["action_date"] = datetime.now().isoformat()
@@ -1542,6 +1513,7 @@ class RecordApprovalDecision(Tool):
             cr["rejection_date"] = datetime.now().isoformat()
             cr["can_resubmit_after"] = (datetime.now() + timedelta(days=30)).isoformat()
         else:
+
             approval_level = current_step.get("approval_level")
             if "approvals_received" not in cr:
                 cr["approvals_received"] = []
@@ -1561,21 +1533,23 @@ class RecordApprovalDecision(Tool):
                     cr["status"] = "approved"
                     cr["approval_date"] = datetime.now().isoformat()
             else:
+
                 workflow["current_step"] = current_step.get("step_number", 0) + 1
 
-        payload = {
-            "success": True,
-            "approval": approval_record,
-            "workflow_status": workflow.get("status"),
-        }
-        out = json.dumps(payload)
-        return out
+        return json.dumps(
+            {
+                "success": True,
+                "approval": approval_record,
+                "workflow_status": workflow.get("status"),
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RecordApprovalDecision",
+                "name": "record_approval_decision",
                 "description": "Record an approval decision for a change request",
                 "parameters": {
                     "type": "object",
@@ -1605,19 +1579,18 @@ class RecordApprovalDecision(Tool):
 
 class SearchChangeRequests(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_id: str = None,
-        status: str = None,
-        priority: str = None,
-        change_type: str = None,
-        requester_id: str = None,
-        include_impact: bool = False
-    ) -> str:
-        change_requests = data.get("change_requests", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        status = kwargs.get("status")
+        priority = kwargs.get("priority")
+        change_type = kwargs.get("change_type")
+        requester_id = kwargs.get("requester_id")
+        include_impact = kwargs.get("include_impact", False)
+
+        change_requests = data.get("change_requests", [])
         results = []
 
-        for cr in change_requests.values():
+        for cr in change_requests:
             match = True
 
             if project_id and cr.get("project_id") != project_id:
@@ -1634,21 +1607,22 @@ class SearchChangeRequests(Tool):
             if match:
                 result = cr.copy()
                 if not include_impact and "impact_assessment" in result:
+
                     result["has_impact_assessment"] = True
-                    result["overall_risk"] = cr.get("impact_assessment", {}).values().get(
+                    result["overall_risk"] = cr.get("impact_assessment", {}).get(
                         "overall_risk"
                     )
                     del result["impact_assessment"]
                 results.append(result)
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SearchChangeRequests",
+                "name": "search_change_requests",
                 "description": "Search for change requests by various criteria",
                 "parameters": {
                     "type": "object",
@@ -1682,40 +1656,36 @@ class SearchChangeRequests(Tool):
 
 class TrackArtifactUpdates(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        cr_id: str,
-        artifact_type: str,
-        update_description: str,
-        version_after: str,
-        updated_by: str,
-        version_before: str = None,
-        update_id: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
+        artifact_type = kwargs.get("artifact_type")
+        update_description = kwargs.get("update_description")
+        version_before = kwargs.get("version_before")
+        version_after = kwargs.get("version_after")
+        updated_by = kwargs.get("updated_by")
+
         if not all(
             [cr_id, artifact_type, update_description, version_after, updated_by]
         ):
-            payload = {
-                "error": "cr_id, artifact_type, update_description, version_after, and updated_by are required"
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": "cr_id, artifact_type, update_description, version_after, and updated_by are required"
+                }
+            )
 
-        change_requests = data.get("change_requests", {}).values()
-        artifact_updates = data.get("artifact_updates", {}).values()
+        change_requests = data.get("change_requests", [])
+        artifact_updates = data.get("artifact_updates", [])
 
-        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:
-            payload = {"error": f"Change request '{cr_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Change request '{cr_id}' not found"})
 
         if cr.get("status") != "approved":
-            payload = {"error": "Can only update artifacts for approved change requests"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "Can only update artifacts for approved change requests"}
+            )
 
-        update_id = update_id or f"au_{uuid.uuid4().hex[:8]}"
+        update_id = kwargs.get("update_id", f"au_{uuid.uuid4().hex[:8]}")
 
         artifact_update = {
             "update_id": update_id,
@@ -1728,7 +1698,7 @@ class TrackArtifactUpdates(Tool):
             "update_date": datetime.now().isoformat(),
         }
 
-        data["artifact_updates"][artifact_update["artifact_update_id"]] = artifact_update
+        artifact_updates.append(artifact_update)
 
         if "artifacts_updated" not in cr:
             cr["artifacts_updated"] = []
@@ -1739,20 +1709,22 @@ class TrackArtifactUpdates(Tool):
             cr["artifacts_pending"].remove(artifact_type)
 
         all_updated = len(cr.get("artifacts_pending", [])) == 0
-        payload = {
-            "success": True,
-            "artifact_update": artifact_update,
-            "all_artifacts_updated": all_updated,
-            "remaining_artifacts": cr.get("artifacts_pending", []),
-        }
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(
+            {
+                "success": True,
+                "artifact_update": artifact_update,
+                "all_artifacts_updated": all_updated,
+                "remaining_artifacts": cr.get("artifacts_pending", []),
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "TrackArtifactUpdates",
+                "name": "track_artifact_updates",
                 "description": "Track updates to project artifacts after change approval",
                 "parameters": {
                     "type": "object",
@@ -1794,57 +1766,54 @@ class TrackArtifactUpdates(Tool):
 
 class CreateScopeBaseline(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_id: str,
-        baseline_name: str,
-        created_by: str,
-        scope_items: list = [],
-        deliverables: list = [],
-        acceptance_criteria: dict = {},
-        success_metrics: dict = {},
-        baseline_id: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        baseline_name = kwargs.get("baseline_name")
+        scope_items = kwargs.get("scope_items", [])
+        deliverables = kwargs.get("deliverables", [])
+        acceptance_criteria = kwargs.get("acceptance_criteria", {})
+        success_metrics = kwargs.get("success_metrics", {})
+        created_by = kwargs.get("created_by")
+
         if not all([project_id, baseline_name, created_by]):
-            payload = {"error": "project_id, baseline_name, and created_by are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "project_id, baseline_name, and created_by are required"}
+            )
 
         if not deliverables:
-            payload = {"error": "RULE 2: Baseline must include deliverables"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "RULE 2: Baseline must include deliverables"})
 
         if not acceptance_criteria:
-            payload = {"error": "RULE 2: Baseline must include acceptance criteria"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "RULE 2: Baseline must include acceptance criteria"}
+            )
 
         if not success_metrics:
-            payload = {"error": "RULE 2: Baseline must include success metrics"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "RULE 2: Baseline must include success metrics"}
+            )
 
-        scope_baselines = data.get("scope_baselines", {}).values()
+        scope_baselines = data.get("scope_baselines", [])
 
         existing = next(
             (
                 b
-                for b in scope_baselines.values() if b.get("project_id") == project_id and b.get("status") == "approved"
+                for b in scope_baselines
+                if b.get("project_id") == project_id and b.get("status") == "approved"
             ),
             None,
         )
         if existing:
+
             current_version = existing.get("version", "1.0")
             major, minor = map(int, current_version.split("."))
             new_version = f"{major}.{minor + 1}"
         else:
             new_version = "1.0"
 
-        if baseline_id is None:
-            baseline_id = f"bl_{uuid.uuid4().hex[:8]}"
+        baseline_id = kwargs.get("baseline_id", f"bl_{uuid.uuid4().hex[:8]}")
 
-        total_hours = sum(d.get("estimated_hours", 0) for d in deliverables.values())
+        total_hours = sum(d.get("estimated_hours", 0) for d in deliverables)
 
         new_baseline = {
             "baseline_id": baseline_id,
@@ -1867,16 +1836,16 @@ class CreateScopeBaseline(Tool):
             "change_history": [],
         }
 
-        data["scope_baselines"][new_baseline["scope_baseline_id"]] = new_baseline
-        payload = {"success": True, "baseline": new_baseline}
-        out = json.dumps(payload)
-        return out
+        scope_baselines.append(new_baseline)
+
+        return json.dumps({"success": True, "baseline": new_baseline})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateScopeBaseline",
+                "name": "create_scope_baseline",
                 "description": "Create a new scope baseline for a project",
                 "parameters": {
                     "type": "object",
@@ -1930,48 +1899,48 @@ class CreateScopeBaseline(Tool):
 
 class CompareAgainstBaseline(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_id: str,
-        baseline_version: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+
         if not project_id:
-            payload = {"error": "project_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "project_id is required"})
 
-        scope_baselines = data.get("scope_baselines", {}).values()
-        change_requests = data.get("change_requests", {}).values()
-        deliverables = data.get("deliverables", {}).values()
+        scope_baselines = data.get("scope_baselines", [])
+        change_requests = data.get("change_requests", [])
+        deliverables = data.get("deliverables", [])
 
-        if baseline_version:
+        if baseline_version := kwargs.get("baseline_version"):
             baseline = next(
                 (
                     b
-                    for b in scope_baselines.values() if b.get("project_id") == project_id
+                    for b in scope_baselines
+                    if b.get("project_id") == project_id
                     and b.get("version") == baseline_version
                 ),
                 None,
             )
         else:
+
             baseline = next(
                 (
                     b
-                    for b in scope_baselines.values() if b.get("project_id") == project_id
+                    for b in scope_baselines
+                    if b.get("project_id") == project_id
                     and b.get("status") == "approved"
                 ),
                 None,
             )
 
         if not baseline:
-            payload = {"error": f"No baseline found for project '{project_id}'"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": f"No baseline found for project '{project_id}'"}
+            )
 
         baseline_date = baseline.get("approved_date", baseline.get("created_date"))
         approved_changes = [
             cr
-            for cr in change_requests.values() if cr.get("project_id") == project_id
+            for cr in change_requests
+            if cr.get("project_id") == project_id
             and cr.get("status") == "approved"
             and cr.get("approval_date", "") > baseline_date
         ]
@@ -2007,11 +1976,11 @@ class CompareAgainstBaseline(Tool):
                 )
 
         total_budget_impact = sum(
-            cr.get("impact_assessment", {}).values().get("budget_impact", 0)
+            cr.get("impact_assessment", {}).get("budget_impact", 0)
             for cr in approved_changes
         )
         total_timeline_impact = sum(
-            cr.get("impact_assessment", {}).values().get("timeline_impact_weeks", 0)
+            cr.get("impact_assessment", {}).get("timeline_impact_weeks", 0)
             for cr in approved_changes
         )
 
@@ -2020,7 +1989,8 @@ class CompareAgainstBaseline(Tool):
         ]
         current_deliverable_ids = [
             d.get("deliverable_id")
-            for d in deliverables.values() if d.get("project_id") == project_id
+            for d in deliverables
+            if d.get("project_id") == project_id
         ]
 
         added_deliverables = list(
@@ -2052,21 +2022,19 @@ class CompareAgainstBaseline(Tool):
                 ),
                 1,
             ),
-            "recommendation": (
-                "Consider rebaselining"
-                if len(approved_changes) > 5 or total_timeline_impact > 8
-                else "Within acceptable variance"
-            ),
+            "recommendation": "Consider rebaselining"
+            if len(approved_changes) > 5 or total_timeline_impact > 8
+            else "Within acceptable variance",
         }
-        payload = variance_report
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(variance_report, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CompareAgainstBaseline",
+                "name": "compare_against_baseline",
                 "description": "Compare current project scope against baseline",
                 "parameters": {
                     "type": "object",
@@ -2085,57 +2053,56 @@ class CompareAgainstBaseline(Tool):
 
 class ScheduleChangeReview(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_id: str,
-        review_date: str,
-        scheduled_by: str,
-        review_type: str = "quarterly",
-        participants: list = None
-    ) -> str:
-        if participants is None:
-            participants = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        review_date = kwargs.get("review_date")
+        review_type = kwargs.get("review_type", "quarterly")
+        participants = kwargs.get("participants", [])
+        scheduled_by = kwargs.get("scheduled_by")
 
         if not all([project_id, review_date, scheduled_by]):
-            payload = {"error": "project_id, review_date, and scheduled_by are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "project_id, review_date, and scheduled_by are required"}
+            )
 
-        change_reviews = data.get("change_reviews", {}).values()
-        change_requests = data.get("change_requests", {}).values()
-        emergency_logs = data.get("emergency_logs", {}).values()
+        change_reviews = data.get("change_reviews", [])
+        change_requests = data.get("change_requests", [])
+        emergency_logs = data.get("emergency_logs", [])
 
         existing = next(
             (
                 r
-                for r in change_reviews.values() if r.get("project_id") == project_id
+                for r in change_reviews
+                if r.get("project_id") == project_id
                 and r.get("review_date") == review_date
             ),
             None,
         )
         if existing:
-            payload = {"error": "Review already scheduled for this project and date"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "Review already scheduled for this project and date"}
+            )
 
         pending_changes = [
             cr
-            for cr in change_requests.values() if cr.get("project_id") == project_id
+            for cr in change_requests
+            if cr.get("project_id") == project_id
             and cr.get("status") in ["pending_approval", "in_review"]
         ]
 
         approved_changes = [
             cr
-            for cr in change_requests.values() if cr.get("project_id") == project_id and cr.get("status") == "approved"
+            for cr in change_requests
+            if cr.get("project_id") == project_id and cr.get("status") == "approved"
         ]
 
         emergency_changes_pending = []
-        for cr in change_requests.values():
+        for cr in change_requests:
             if cr.get("project_id") == project_id and cr.get(
                 "requires_emergency_approval"
             ):
                 log = next(
-                    (e for e in emergency_logs.values() if e.get("cr_id") == cr.get("cr_id")),
+                    (e for e in emergency_logs if e.get("cr_id") == cr.get("cr_id")),
                     None,
                 )
                 if log and log.get("retroactive_status") == "pending":
@@ -2194,11 +2161,9 @@ class ScheduleChangeReview(Tool):
                 "emergency_items": len(emergency_changes_pending),
                 "topics": [
                     "Review pending change requests",
-                    (
-                        "Emergency change retroactive approvals"
-                        if emergency_changes_pending
-                        else None
-                    ),
+                    "Emergency change retroactive approvals"
+                    if emergency_changes_pending
+                    else None,
                     "Assess cumulative impact on baseline",
                     "Evaluate resource availability for changes",
                     "Review risk assessments",
@@ -2211,16 +2176,16 @@ class ScheduleChangeReview(Tool):
             t for t in new_review["agenda"]["topics"] if t
         ]
 
-        change_data["reviews"][review_id] = new_review
-        payload = {"success": True, "review": new_review}
-        out = json.dumps(payload)
-        return out
+        change_reviews.append(new_review)
+
+        return json.dumps({"success": True, "review": new_review})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ScheduleChangeReview",
+                "name": "schedule_change_review",
                 "description": "Schedule a change control board review meeting",
                 "parameters": {
                     "type": "object",
@@ -2252,21 +2217,18 @@ class ScheduleChangeReview(Tool):
 
 class CalculateCumulativeImpact(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_id: str,
-        include_pending: bool = False,
-        from_date: str = None
-    ) -> str:
-        if not project_id:
-            payload = {"error": "project_id is required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        include_pending = kwargs.get("include_pending", False)
+        from_date = kwargs.get("from_date")
 
-        change_requests = data.get("change_requests", {}).values()
+        if not project_id:
+            return json.dumps({"error": "project_id is required"})
+
+        change_requests = data.get("change_requests", [])
 
         project_crs = [
-            cr for cr in change_requests.values() if cr.get("project_id") == project_id
+            cr for cr in change_requests if cr.get("project_id") == project_id
         ]
 
         if from_date:
@@ -2281,7 +2243,7 @@ class CalculateCumulativeImpact(Tool):
                 if cr.get("status") in ["approved", "pending_approval", "in_review"]
             ]
         else:
-            relevant_crs = [cr for cr in project_crs.values() if cr.get("status") == "approved"]
+            relevant_crs = [cr for cr in project_crs if cr.get("status") == "approved"]
 
         total_budget_impact = 0
         total_timeline_impact = 0
@@ -2325,13 +2287,15 @@ class CalculateCumulativeImpact(Tool):
         overall_risk = (
             "critical"
             if len(risk_factors) >= 3
-            else (
-                "high"
-                if len(risk_factors) >= 2
-                else "medium" if risk_factors else "low"
-            )
+            else "high"
+            if len(risk_factors) >= 2
+            else "medium"
+            if risk_factors
+            else "low"
         )
-        payload = {
+
+        return json.dumps(
+            {
                 "project_id": project_id,
                 "analysis_period": {
                     "from_date": from_date or "project_start",
@@ -2341,10 +2305,10 @@ class CalculateCumulativeImpact(Tool):
                 "change_summary": {
                     "total_changes": len(relevant_crs),
                     "approved": len(
-                        [cr for cr in relevant_crs.values() if cr.get("status") == "approved"]
+                        [cr for cr in relevant_crs if cr.get("status") == "approved"]
                     ),
                     "pending": len(
-                        [cr for cr in relevant_crs.values() if cr.get("status") != "approved"]
+                        [cr for cr in relevant_crs if cr.get("status") != "approved"]
                     ),
                     "by_type": {
                         "scope_additions": scope_additions,
@@ -2365,23 +2329,20 @@ class CalculateCumulativeImpact(Tool):
                 "recommendations": [
                     "Consider project rebaseline" if len(relevant_crs) > 10 else None,
                     "Review resource capacity" if len(resource_summary) > 3 else None,
-                    (
-                        "Update stakeholder expectations"
-                        if total_timeline_impact > 8
-                        else None
-                    ),
+                    "Update stakeholder expectations"
+                    if total_timeline_impact > 8
+                    else None,
                 ],
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateCumulativeImpact",
+                "name": "calculate_cumulative_impact",
                 "description": "Calculate cumulative impact of all changes on a project",
                 "parameters": {
                     "type": "object",
@@ -2404,28 +2365,23 @@ class CalculateCumulativeImpact(Tool):
 
 class GenerateChangeReport(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        project_id: str,
-        report_type: str = "summary",
-        include_details: bool = False
-    ) -> str:
-        if not project_id:
-            payload = {"error": "project_id is required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        report_type = kwargs.get("report_type", "summary")
+        include_details = kwargs.get("include_details", False)
 
-        change_requests = data.get("change_requests", {}).values()
-        change_approvals = data.get("change_approvals", {}).values()
-        projects = data.get("projects", {}).values()
-        emergency_logs = data.get("emergency_logs", {}).values()
+        if not project_id:
+            return json.dumps({"error": "project_id is required"})
+
+        change_requests = data.get("change_requests", [])
+        change_approvals = data.get("change_approvals", [])
+        projects = data.get("projects", [])
+        emergency_logs = data.get("emergency_logs", [])
         report = {}
 
-        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
+        project = next((p for p in projects if p.get("project_id") == project_id), None)
         if not project:
-            payload = {"error": f"Project '{project_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Project '{project_id}' not found"})
 
         def normalize_datetime(dt_str):
             if not dt_str:
@@ -2441,7 +2397,7 @@ class GenerateChangeReport(Tool):
                 return None
 
         project_crs = [
-            cr for cr in change_requests.values() if cr.get("project_id") == project_id
+            cr for cr in change_requests if cr.get("project_id") == project_id
         ]
 
         if report_type == "summary":
@@ -2475,7 +2431,8 @@ class GenerateChangeReport(Tool):
                     log = next(
                         (
                             e
-                            for e in emergency_logs.values() if e.get("cr_id") == cr.get("cr_id")
+                            for e in emergency_logs
+                            if e.get("cr_id") == cr.get("cr_id")
                         ),
                         None,
                     )
@@ -2493,15 +2450,9 @@ class GenerateChangeReport(Tool):
 
                 conflicts = cr.get("conflicts", [])
                 for conflict in conflicts:
-                    if (
-                        conflict.get("conflict_id")
-                        and conflict.get("conflict_id") not in project_conflicts
-                    ):
+                    if conflict.get("conflict_id") and conflict.get("conflict_id") not in project_conflicts:
                         project_conflicts[conflict.get("conflict_id")] = {
-                            "crs_involved": [
-                                cr.get("cr_id"),
-                                conflict.get("conflicting_cr_id"),
-                            ],
+                            "crs_involved": [cr.get("cr_id"), conflict.get("conflicting_cr_id")],
                             "type": conflict.get("type"),
                             "severity": conflict.get("critical"),
                         }
@@ -2599,7 +2550,7 @@ class GenerateChangeReport(Tool):
                         }
 
                     cr_approvals = [
-                        a for a in change_approvals.values() if a.get("cr_id") == cr.get("cr_id")
+                        a for a in change_approvals if a.get("cr_id") == cr.get("cr_id")
                     ]
                     cr_detail["approvals"] = [
                         {
@@ -2625,10 +2576,10 @@ class GenerateChangeReport(Tool):
             missing_risk_assessments = 0
             non_compliant_items = []
 
-            scope_baselines = data.get("scope_baselines", {}).values()
+            scope_baselines = data.get("scope_baselines", [])
             baseline_exists = any(
                 b.get("project_id") == project_id and b.get("status") == "approved"
-                for b in scope_baselines.values()
+                for b in scope_baselines
             )
             no_baseline = not baseline_exists
 
@@ -2650,15 +2601,9 @@ class GenerateChangeReport(Tool):
 
                 conflicts = cr.get("conflicts", [])
                 for conflict in conflicts:
-                    if (
-                        conflict.get("conflict_id")
-                        and conflict.get("conflict_id") not in project_conflicts
-                    ):
+                    if conflict.get("conflict_id") and conflict.get("conflict_id") not in project_conflicts:
                         project_conflicts[conflict.get("conflict_id")] = {
-                            "crs_involved": [
-                                cr.get("cr_id"),
-                                conflict.get("conflicting_cr_id"),
-                            ],
+                            "crs_involved": [cr.get("cr_id"), conflict.get("conflicting_cr_id")],
                             "conflict_type": conflict.get("conflict_type"),
                             "severity": conflict.get("severity"),
                         }
@@ -2670,22 +2615,86 @@ class GenerateChangeReport(Tool):
                     log = next(
                         (
                             e
-                            for e in emergency_logs.values() if e.get("cr_id") == cr.get("cr_id")
+                            for e in emergency_logs
+                            if e.get("cr_id") == cr.get("cr_id")
                         ),
                         None,
                     )
                     if log and log.get("retroactive_status") == "pending":
-                        pass
-        
-        out = json.dumps(report)
-        return out
-    
+                        deadline = normalize_datetime(
+                            log.get("retroactive_approval_deadline", "")
+                        )
+                        if deadline and datetime.now() > deadline:
+                            issues.append(
+                                "RULE 1 VIOLATION: Overdue emergency retroactive approval"
+                            )
+                            overdue_emergency_approvals_count += 1
+
+                if cr.get("status") == "approved" and cr.get("artifacts_pending", []):
+                    update_deadline = normalize_datetime(cr.get("update_deadline", ""))
+                    if update_deadline and datetime.now() > update_deadline:
+                        issues.append("Overdue artifact updates")
+                        overdue_implementations += 1
+
+                if cr.get("requires_risk_assessment"):
+                    risk_assessments = data.get("risk_assessments", [])
+                    has_risk = any(
+                        ra.get("cr_id") == cr.get("cr_id") for ra in risk_assessments
+                    )
+                    if not has_risk:
+                        issues.append(
+                            "RULE 5 VIOLATION: Critical path change without risk assessment"
+                        )
+                        missing_risk_assessments += 1
+
+                if issues:
+                    non_compliant_items.append(
+                        {
+                            "cr_id": cr.get("cr_id"),
+                            "title": cr.get("title"),
+                            "issues": issues,
+                        }
+                    )
+
+            report = {
+                "project_id": project_id,
+                "project_name": project.get("name"),
+                "report_date": datetime.now().isoformat(),
+                "report_type": "compliance",
+                "compliance_summary": {
+                    "total_change_requests": len(project_crs),
+                    "changes_without_impact_assessment": changes_without_impact_assessment,
+                    "changes_without_proper_approval": changes_without_proper_approval,
+                    "emergency_changes": emergency_changes_count,
+                    "overdue_implementations": overdue_implementations,
+                    "rule_violations": {
+                        "no_baseline": no_baseline,
+                        "conflicts_count": conflicts_count,
+                        "project_conflicts": project_conflicts,
+                        "cooling_period_violations": cooling_period_violations,
+                        "overdue_emergency_approvals": overdue_emergency_approvals_count,
+                        "missing_risk_assessments": missing_risk_assessments,
+                    },
+                },
+                "non_compliant_items": non_compliant_items,
+            }
+
+        cr_reports = data.get("change_request_reports", [])
+        cr_reports.append({
+            "report_id": f"rp_{uuid.uuid4().hex[:8]}",
+            "project_id": project_id,
+            "report_type": report_type,
+            "content": report,
+        })
+
+        return json.dumps(report, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GenerateChangeReport",
+                "name": "generate_change_report",
                 "description": "Generate various reports for change requests",
                 "parameters": {
                     "type": "object",
@@ -2708,51 +2717,46 @@ class GenerateChangeReport(Tool):
 
 class CreateRiskAssessment(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        cr_id: str = None,
-        assessed_by: str = None,
-        risk_categories: dict = {},
-        identified_risks: list = [],
-        mitigation_strategies: list = [],
-        contingency_plans: dict = {},
-        rollback_procedure: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
+        assessed_by = kwargs.get("assessed_by")
+        risk_categories = kwargs.get("risk_categories", {})
+        identified_risks = kwargs.get("identified_risks", [])
+        mitigation_strategies = kwargs.get("mitigation_strategies", [])
+        contingency_plans = kwargs.get("contingency_plans", {})
+        rollback_procedure = kwargs.get("rollback_procedure")
+
         if not all([cr_id, assessed_by]):
-            payload = {"error": "cr_id and assessed_by are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "cr_id and assessed_by are required"})
 
-        change_requests = data.get("change_requests", {}).values()
-        risk_assessments = data.get("risk_assessments", {}).values()
+        change_requests = data.get("change_requests", [])
+        risk_assessments = data.get("risk_assessments", [])
 
-        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:
-            payload = {"error": f"Change request '{cr_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Change request '{cr_id}' not found"})
 
         if cr.get("requires_risk_assessment") or (
-            cr.get("impact_assessment", {}).values().get("affects_critical_path")
+            cr.get("impact_assessment", {}).get("affects_critical_path")
         ):
             if not mitigation_strategies:
-                payload = {
-                    "error": "RULE 5: Mitigation strategies are required for critical path changes"
-                }
-                out = json.dumps(payload)
-                return out
+                return json.dumps(
+                    {
+                        "error": "RULE 5: Mitigation strategies are required for critical path changes"
+                    }
+                )
             if not contingency_plans:
-                payload = {
-                    "error": "RULE 5: Contingency plans are required for critical path changes"
-                }
-                out = json.dumps(payload)
-                return out
+                return json.dumps(
+                    {
+                        "error": "RULE 5: Contingency plans are required for critical path changes"
+                    }
+                )
             if not rollback_procedure:
-                payload = {
-                    "error": "RULE 5: Rollback procedure is required for critical path changes"
-                }
-                out = json.dumps(payload)
-                return out
+                return json.dumps(
+                    {
+                        "error": "RULE 5: Rollback procedure is required for critical path changes"
+                    }
+                )
 
         risk_scores = {"critical": 4, "high": 3, "medium": 2, "low": 1}
         total_score = sum(
@@ -2763,7 +2767,11 @@ class CreateRiskAssessment(Tool):
         overall_risk_level = (
             "critical"
             if avg_score >= 3.5
-            else "high" if avg_score >= 2.5 else "medium" if avg_score >= 1.5 else "low"
+            else "high"
+            if avg_score >= 2.5
+            else "medium"
+            if avg_score >= 1.5
+            else "low"
         )
 
         requires_contingency_budget = (
@@ -2774,11 +2782,11 @@ class CreateRiskAssessment(Tool):
         monitoring_frequency = (
             "continuous"
             if overall_risk_level == "critical"
-            else (
-                "daily"
-                if overall_risk_level == "high"
-                else "weekly" if overall_risk_level == "medium" else "bi-weekly"
-            )
+            else "daily"
+            if overall_risk_level == "high"
+            else "weekly"
+            if overall_risk_level == "medium"
+            else "bi-weekly"
         )
 
         assessment_id = f"ra_{uuid.uuid4().hex[:8]}"
@@ -2798,20 +2806,20 @@ class CreateRiskAssessment(Tool):
             "monitoring_frequency": monitoring_frequency,
         }
 
-        data["risk_assessments"][risk_assessment["risk_assessment_id"]] = risk_assessment
+        risk_assessments.append(risk_assessment)
 
         if cr.get("status") == "in_review":
             cr["risk_assessment_id"] = assessment_id
             cr["risk_level"] = overall_risk_level
-        payload = {"success": True, "risk_assessment": risk_assessment}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"success": True, "risk_assessment": risk_assessment})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateRiskAssessment",
+                "name": "create_risk_assessment",
                 "description": "Create risk assessment for a change request",
                 "parameters": {
                     "type": "object",
@@ -2852,33 +2860,31 @@ class CreateRiskAssessment(Tool):
 
 class LinkChangeToMilestone(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], cr_id: str = None, milestone_id: str = None, impact_type: str = "schedule") -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
+        milestone_id = kwargs.get("milestone_id")
+        impact_type = kwargs.get("impact_type", "schedule")
+
         if not all([cr_id, milestone_id]):
-            payload = {"error": "cr_id and milestone_id are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "cr_id and milestone_id are required"})
 
-        change_requests = data.get("change_requests", {}).values()
-        milestones = data.get("milestones", {}).values()
+        change_requests = data.get("change_requests", [])
+        milestones = data.get("milestones", [])
 
-        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         milestone = next(
-            (m for m in milestones.values() if m.get("milestone_id") == milestone_id), None
+            (m for m in milestones if m.get("milestone_id") == milestone_id), None
         )
 
         if not cr:
-            payload = {"error": f"Change request '{cr_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Change request '{cr_id}' not found"})
         if not milestone:
-            payload = {"error": f"Milestone '{milestone_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Milestone '{milestone_id}' not found"})
 
         if cr.get("project_id") != milestone.get("project_id"):
-            payload = {"error": "Change request and milestone must be in the same project"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "Change request and milestone must be in the same project"}
+            )
 
         if "linked_milestones" not in cr:
             cr["linked_milestones"] = []
@@ -2904,7 +2910,9 @@ class LinkChangeToMilestone(Tool):
                     "impacted_by_changes", []
                 )
                 milestone["impacted_by_changes"].append(cr_id)
-        payload = {
+
+        return json.dumps(
+            {
                 "success": True,
                 "link_created": {
                     "cr_id": cr_id,
@@ -2912,14 +2920,14 @@ class LinkChangeToMilestone(Tool):
                     "impact_type": impact_type,
                 },
             }
-        out = json.dumps(payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "LinkChangeToMilestone",
+                "name": "link_change_to_milestone",
                 "description": "Link a change request to affected project milestones",
                 "parameters": {
                     "type": "object",
@@ -2942,26 +2950,26 @@ class LinkChangeToMilestone(Tool):
 
 class ApproveBaselineUpdate(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], baseline_id: str = None, approved_by: str = None, approval_notes: str = "") -> str:
-        if not all([baseline_id, approved_by]):
-            payload = {"error": "baseline_id and approved_by are required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        baseline_id = kwargs.get("baseline_id")
+        approved_by = kwargs.get("approved_by")
+        approval_notes = kwargs.get("approval_notes", "")
 
-        scope_baselines = data.get("scope_baselines", {}).values()
+        if not all([baseline_id, approved_by]):
+            return json.dumps({"error": "baseline_id and approved_by are required"})
+
+        scope_baselines = data.get("scope_baselines", [])
 
         baseline = next(
-            (b for b in scope_baselines.values() if b.get("baseline_id") == baseline_id), None
+            (b for b in scope_baselines if b.get("baseline_id") == baseline_id), None
         )
         if not baseline:
-            payload = {"error": f"Baseline '{baseline_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Baseline '{baseline_id}' not found"})
 
         if baseline.get("status") != "draft":
-            payload = {"error": f"Baseline is already {baseline.get('status')}"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": f"Baseline is already {baseline.get('status')}"}
+            )
 
         if not all(
             [
@@ -2970,17 +2978,18 @@ class ApproveBaselineUpdate(Tool):
                 baseline.get("success_metrics"),
             ]
         ):
-            payload = {
-                "error": "RULE 2: Cannot approve incomplete baseline. Must include deliverables, acceptance criteria, and success metrics."
-            }
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": "RULE 2: Cannot approve incomplete baseline. Must include deliverables, acceptance criteria, and success metrics."
+                }
+            )
 
         project_id = baseline.get("project_id")
         existing_approved = next(
             (
                 b
-                for b in scope_baselines.values() if b.get("project_id") == project_id
+                for b in scope_baselines
+                if b.get("project_id") == project_id
                 and b.get("status") == "approved"
                 and b.get("baseline_id") != baseline_id
             ),
@@ -2988,6 +2997,7 @@ class ApproveBaselineUpdate(Tool):
         )
 
         if existing_approved:
+
             existing_approved["status"] = "superseded"
             existing_approved["superseded_by"] = baseline_id
             existing_approved["superseded_date"] = datetime.now().isoformat()
@@ -3009,34 +3019,34 @@ class ApproveBaselineUpdate(Tool):
             }
         )
 
-        change_requests = data.get("change_requests", {}).values()
-        for cr in change_requests.values():
+        change_requests = data.get("change_requests", [])
+        for cr in change_requests:
             if cr.get("project_id") == project_id and cr.get("status") in [
                 "completed",
                 "approved",
             ]:
                 cr["included_in_baseline"] = baseline.get("version")
-        payload = {
-            "success": True,
-            "baseline": {
-                "baseline_id": baseline_id,
-                "version": baseline.get("version"),
-                "status": "approved",
-                "superseded_baseline": (
-                    existing_approved.get("baseline_id")
+
+        return json.dumps(
+            {
+                "success": True,
+                "baseline": {
+                    "baseline_id": baseline_id,
+                    "version": baseline.get("version"),
+                    "status": "approved",
+                    "superseded_baseline": existing_approved.get("baseline_id")
                     if existing_approved
-                    else None
-                ),
-            },
-        }
-        out = json.dumps(payload)
-        return out
+                    else None,
+                },
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ApproveBaselineUpdate",
+                "name": "approve_baseline_update",
                 "description": "Approve a new scope baseline, superseding the previous one",
                 "parameters": {
                     "type": "object",
@@ -3059,21 +3069,25 @@ class ApproveBaselineUpdate(Tool):
 
 class EscalateChangeRequest(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], cr_id: str = None, escalate_to_level: str = None, escalated_by: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
+        escalate_to_level = kwargs.get("escalate_to_level")
+        escalated_by = kwargs.get("escalated_by")
+
         if not all([cr_id, escalate_to_level, escalated_by]):
-            payload = {"error": "cr_id, escalate_to_level, and escalated_by are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {
+                    "error": "cr_id, escalate_to_level, and escalated_by are required"
+                }
+            )
 
-        change_requests = data.get("change_requests", {}).values()
-        approval_workflows = data.get("approval_workflows", {}).values()
-        change_history = data.get("change_history", {}).values()
+        change_requests = data.get("change_requests", [])
+        approval_workflows = data.get("approval_workflows", [])
+        change_history = data.get("change_history", [])
 
-        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:
-            payload = {"error": f"Change request '{cr_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Change request '{cr_id}' not found"})
 
         old_priority = cr.get("priority")
         if escalate_to_level in ["executive", "critical"]:
@@ -3088,11 +3102,13 @@ class EscalateChangeRequest(Tool):
         workflow = next(
             (
                 w
-                for w in approval_workflows.values() if w.get("cr_id") == cr_id and w.get("status") == "active"
+                for w in approval_workflows
+                if w.get("cr_id") == cr_id and w.get("status") == "active"
             ),
             None,
         )
         if workflow:
+
             if escalate_to_level == "executive":
                 new_step = {
                     "step_number": len(workflow.get("steps", [])) + 1,
@@ -3117,24 +3133,26 @@ class EscalateChangeRequest(Tool):
             "priority_change": f"{old_priority} -> {cr.get('priority')}",
             "timestamp": datetime.now().isoformat(),
         }
-        data["change_history"][history_entry["change_history_id"]] = history_entry
-        payload = {
-            "success": True,
-            "escalation": {
-                "cr_id": cr_id,
-                "escalated_to": escalate_to_level,
-                "new_priority": cr.get("priority"),
-                "workflow_updated": workflow is not None,
-            },
-        }
-        out = json.dumps(payload)
-        return out
+        change_history.append(history_entry)
+
+        return json.dumps(
+            {
+                "success": True,
+                "escalation": {
+                    "cr_id": cr_id,
+                    "escalated_to": escalate_to_level,
+                    "new_priority": cr.get("priority"),
+                    "workflow_updated": workflow is not None,
+                },
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "EscalateChangeRequest",
+                "name": "escalate_change_request",
                 "description": "Escalate a change request to higher management",
                 "parameters": {
                     "type": "object",
@@ -3161,27 +3179,28 @@ class EscalateChangeRequest(Tool):
 
 class MergeChangeRequests(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], primary_cr_id: str = None, secondary_cr_ids: list = None, merged_by: str = None) -> str:
-        if secondary_cr_ids is None:
-            secondary_cr_ids = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        primary_cr_id = kwargs.get("primary_cr_id")
+        secondary_cr_ids = kwargs.get("secondary_cr_ids", [])
+        merged_by = kwargs.get("merged_by")
 
         if not all([primary_cr_id, secondary_cr_ids, merged_by]):
-            payload = {"error": "primary_cr_id, secondary_cr_ids, and merged_by are required"}
-            out = json.dumps(
-                payload)
-            return out
+            return json.dumps(
+                {
+                    "error": "primary_cr_id, secondary_cr_ids, and merged_by are required"
+                }
+            )
 
-        change_requests = data.get("change_requests", {}).values()
-        change_history = data.get("change_history", {}).values()
+        change_requests = data.get("change_requests", [])
+        change_history = data.get("change_history", [])
 
         primary_cr = next(
-            (c for c in change_requests.values() if c.get("cr_id") == primary_cr_id), None
+            (c for c in change_requests if c.get("cr_id") == primary_cr_id), None
         )
         if not primary_cr:
-            payload = {"error": f"Primary change request '{primary_cr_id}' not found"}
-            out = json.dumps(
-                payload)
-            return out
+            return json.dumps(
+                {"error": f"Primary change request '{primary_cr_id}' not found"}
+            )
 
         project_id = primary_cr.get("project_id")
         merged_deliverables = set(primary_cr.get("affected_deliverables", []))
@@ -3189,19 +3208,17 @@ class MergeChangeRequests(Tool):
 
         for cr_id in secondary_cr_ids:
             secondary_cr = next(
-                (c for c in change_requests.values() if c.get("cr_id") == cr_id), None
+                (c for c in change_requests if c.get("cr_id") == cr_id), None
             )
             if not secondary_cr:
-                payload = {"error": f"Secondary change request '{cr_id}' not found"}
-                out = json.dumps(
-                    payload)
-                return out
+                return json.dumps(
+                    {"error": f"Secondary change request '{cr_id}' not found"}
+                )
 
             if secondary_cr.get("project_id") != project_id:
-                payload = {"error": "All change requests must be for the same project"}
-                out = json.dumps(
-                    payload)
-                return out
+                return json.dumps(
+                    {"error": "All change requests must be for the same project"}
+                )
 
             merged_deliverables.update(secondary_cr.get("affected_deliverables", []))
             merged_justifications.append(secondary_cr.get("business_justification"))
@@ -3218,18 +3235,20 @@ class MergeChangeRequests(Tool):
                 "performed_by": merged_by,
                 "timestamp": datetime.now().isoformat(),
             }
-            data["change_history"][history_entry["change_history_id"]] = history_entry
+            change_history.append(history_entry)
 
         primary_cr["affected_deliverables"] = list(merged_deliverables)
-        primary_cr["business_justification"] = (
-            f"{primary_cr.get('business_justification')}. MERGED: {'; '.join(merged_justifications[1:])}"
-        )
+        primary_cr[
+            "business_justification"
+        ] = f"{primary_cr.get('business_justification')}. MERGED: {'; '.join(merged_justifications[1:])}"
         primary_cr["merged_from"] = secondary_cr_ids
         primary_cr["merge_date"] = datetime.now().isoformat()
 
         if len(secondary_cr_ids) >= 2 and primary_cr.get("priority") == "medium":
             primary_cr["priority"] = "high"
-        payload = {
+
+        return json.dumps(
+            {
                 "success": True,
                 "merge_result": {
                     "primary_cr": primary_cr_id,
@@ -3238,15 +3257,14 @@ class MergeChangeRequests(Tool):
                     "new_priority": primary_cr.get("priority"),
                 },
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "MergeChangeRequests",
+                "name": "merge_change_requests",
                 "description": "Merge duplicate or related change requests",
                 "parameters": {
                     "type": "object",
@@ -3277,34 +3295,39 @@ class MergeChangeRequests(Tool):
 
 class ArchiveChanges(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], project_id: str = None, archive_before_date: str = None, archived_by: str = None) -> str:
-        if not all([project_id, archived_by]):
-            payload = {"error": "project_id and archived_by are required"}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        project_id = kwargs.get("project_id")
+        archive_before_date = kwargs.get("archive_before_date")
+        archived_by = kwargs.get("archived_by")
 
-        change_requests = data.get("change_requests", {}).values()
+        if not all([project_id, archived_by]):
+            return json.dumps({"error": "project_id and archived_by are required"})
+
+        change_requests = data.get("change_requests", [])
 
         if "archived_changes" not in data:
             data["archived_changes"] = []
         archived_changes = data["archived_changes"]
 
         if not archive_before_date:
+
             archive_before_date = (datetime.now() - timedelta(days=90)).isoformat()
 
         to_archive = []
-        for cr in change_requests.values():
+        for cr in change_requests:
             if (
                 cr.get("project_id") == project_id
                 and cr.get("status") in ["completed", "cancelled", "rejected"]
                 and cr.get("updated_date", cr.get("created_date", ""))
                 < archive_before_date
             ):
+
                 if cr.get("status") == "completed" or cr.get("status") != "approved":
                     to_archive.append(cr)
 
         archived_count = 0
         for cr in to_archive:
+
             archive_entry = cr.copy()
             archive_entry["archived_date"] = datetime.now().isoformat()
             archive_entry["archived_by"] = archived_by
@@ -3315,26 +3338,28 @@ class ArchiveChanges(Tool):
             cr["archive_date"] = datetime.now().isoformat()
 
             archived_count += 1
-        payload = {
-            "success": True,
-            "archive_summary": {
-                "project_id": project_id,
-                "archived_count": archived_count,
-                "archive_date": datetime.now().isoformat(),
-                "criteria": {
-                    "before_date": archive_before_date,
-                    "statuses": ["completed", "cancelled", "rejected"],
+
+        return json.dumps(
+            {
+                "success": True,
+                "archive_summary": {
+                    "project_id": project_id,
+                    "archived_count": archived_count,
+                    "archive_date": datetime.now().isoformat(),
+                    "criteria": {
+                        "before_date": archive_before_date,
+                        "statuses": ["completed", "cancelled", "rejected"],
+                    },
                 },
-            },
-        }
-        out = json.dumps(payload)
-        return out
+            }
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ArchiveChanges",
+                "name": "archive_changes",
                 "description": "Archive completed, cancelled, or rejected change requests",
                 "parameters": {
                     "type": "object",
@@ -3357,32 +3382,29 @@ class ArchiveChanges(Tool):
 
 class CreateChangeTemplate(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        template_name: str,
-        template_type: str,
-        standard_fields: dict[str, Any] = {},
-        required_approvals: list = [],
-        risk_threshold: str = "medium",
-        created_by: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        template_name = kwargs.get("template_name")
+        template_type = kwargs.get("template_type")
+        standard_fields = kwargs.get("standard_fields", {})
+        required_approvals = kwargs.get("required_approvals", [])
+        risk_threshold = kwargs.get("risk_threshold", "medium")
+        created_by = kwargs.get("created_by")
+
         if not all([template_name, template_type, created_by]):
-            payload = {"error": "template_name, template_type, and created_by are required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps(
+                {"error": "template_name, template_type, and created_by are required"}
+            )
 
         if "change_templates" not in data:
             data["change_templates"] = []
         change_templates = data["change_templates"]
 
         existing = next(
-            (t for t in change_templates.values() if t.get("template_name") == template_name),
+            (t for t in change_templates if t.get("template_name") == template_name),
             None,
         )
         if existing:
-            payload = {"error": f"Template '{template_name}' already exists"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Template '{template_name}' already exists"})
 
         template_id = f"ct_{uuid.uuid4().hex[:8]}"
 
@@ -3425,15 +3447,15 @@ class CreateChangeTemplate(Tool):
         }
 
         change_templates.append(new_template)
-        payload = {"success": True, "template": new_template}
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps({"success": True, "template": new_template})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CreateChangeTemplate",
+                "name": "create_change_template",
                 "description": "Create a template for common change request types",
                 "parameters": {
                     "type": "object",
@@ -3469,25 +3491,27 @@ class CreateChangeTemplate(Tool):
 
 class BulkUpdateChangeStatus(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], cr_ids: list = None, new_status: str = None, updated_by: str = None) -> str:
-        if cr_ids is None:
-            cr_ids = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_ids = kwargs.get("cr_ids", [])
+        new_status = kwargs.get("new_status")
+        updated_by = kwargs.get("updated_by")
 
         if not all([cr_ids, new_status, updated_by]):
-            payload = {"error": "cr_ids, new_status, and updated_by are required"}
-            out = json.dumps(
-                payload)
-            return out
+            return json.dumps(
+                {"error": "cr_ids, new_status, and updated_by are required"}
+            )
 
-        change_requests = data.get("change_requests", {}).values()
-        change_history = data.get("change_history", {}).values()
+        change_requests = data.get("change_requests", [])
+        change_history = data.get("change_history", [])
 
         results = {"successful": [], "failed": []}
 
         for cr_id in cr_ids:
-            cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
+            cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
             if not cr:
-                results["failed"].append({"cr_id": cr_id})
+                results["failed"].append(
+                    {"cr_id": cr_id}
+                )
                 continue
 
             old_status = cr.get("status")
@@ -3522,12 +3546,14 @@ class BulkUpdateChangeStatus(Tool):
                 "performed_by": updated_by,
                 "timestamp": datetime.now().isoformat(),
             }
-            data["change_history"][history_entry["change_history_id"]] = history_entry
+            change_history.append(history_entry)
 
             results["successful"].append(
                 {"cr_id": cr_id, "old_status": old_status, "new_status": new_status}
             )
-        payload = {
+
+        return json.dumps(
+            {
                 "success": len(results["successful"]) > 0,
                 "summary": {
                     "total_requested": len(cr_ids),
@@ -3535,17 +3561,16 @@ class BulkUpdateChangeStatus(Tool):
                     "failed": len(results["failed"]),
                 },
                 "results": results,
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "BulkUpdateChangeStatus",
+                "name": "bulk_update_change_status",
                 "description": "Update status for multiple change requests at once",
                 "parameters": {
                     "type": "object",
@@ -3572,26 +3597,21 @@ class BulkUpdateChangeStatus(Tool):
 
 class CalculateChangeROI(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        cr_id: str,
-        expected_benefits: dict = {},
-        benefit_timeframe_months: int = 12
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
+        expected_benefits = kwargs.get("expected_benefits", {})
+        benefit_timeframe_months = kwargs.get("benefit_timeframe_months", 12)
+
         if not cr_id:
-            payload = {"error": "cr_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "cr_id is required"})
 
-        change_requests = data.get("change_requests", {}).values()
+        change_requests = data.get("change_requests", [])
 
-        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:
-            payload = {"error": f"Change request '{cr_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Change request '{cr_id}' not found"})
 
-        impact = cr.get("impact_assessment", {}).values()
+        impact = cr.get("impact_assessment", {})
         total_cost = impact.get("budget_impact", 0)
 
         for resource in impact.get("resource_requirements", []):
@@ -3642,18 +3662,18 @@ class CalculateChangeROI(Tool):
             recommendation = "Consider with caution - Low ROI"
         else:
             recommendation = "Not recommended - Negative ROI"
-        payload = {
+
+        return json.dumps(
+            {
                 "cr_id": cr_id,
                 "financial_analysis": {
                     "total_cost": total_cost,
                     "total_benefits": total_benefits,
                     "benefit_breakdown": benefit_breakdown,
                     "roi_percentage": round(roi_percentage, 1),
-                    "payback_period_months": (
-                        round(payback_period_months, 1)
-                        if payback_period_months
-                        else None
-                    ),
+                    "payback_period_months": round(payback_period_months, 1)
+                    if payback_period_months
+                    else None,
                     "benefit_timeframe_months": benefit_timeframe_months,
                 },
                 "recommendation": recommendation,
@@ -3661,17 +3681,16 @@ class CalculateChangeROI(Tool):
                     "hourly_rate": "$150/hour",
                     "working_hours_per_month": 160,
                 },
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "CalculateChangeRoi",
+                "name": "calculate_change_roi",
                 "description": "Calculate return on investment for a change request",
                 "parameters": {
                     "type": "object",
@@ -3694,36 +3713,27 @@ class CalculateChangeROI(Tool):
 
 class TrackChangeDependencies(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], cr_id: str = None, depends_on: list = None, blocks: list = None) -> str:
-        if depends_on is None:
-            depends_on = []
-        if blocks is None:
-            blocks = []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
+        depends_on = kwargs.get("depends_on", [])
+        blocks = kwargs.get("blocks", [])
 
         if not cr_id:
-            payload = {"error": "cr_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "cr_id is required"})
 
-        change_requests = data.get("change_requests", {}).values()
+        change_requests = data.get("change_requests", [])
 
-        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:
-            payload = {"error": f"Change request '{cr_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Change request '{cr_id}' not found"})
 
         for dep_id in depends_on:
-            if not any(c.get("cr_id") == dep_id for c in change_requests.values()):
-                payload = {"error": f"Dependency CR '{dep_id}' not found"}
-                out = json.dumps(payload)
-                return out
+            if not any(c.get("cr_id") == dep_id for c in change_requests):
+                return json.dumps({"error": f"Dependency CR '{dep_id}' not found"})
 
         for block_id in blocks:
-            if not any(c.get("cr_id") == block_id for c in change_requests.values()):
-                payload = {"error": f"Blocked CR '{block_id}' not found"}
-                out = json.dumps(payload)
-                return out
+            if not any(c.get("cr_id") == block_id for c in change_requests):
+                return json.dumps({"error": f"Blocked CR '{block_id}' not found"})
 
         def has_circular_dependency(start_id, check_id, visited=None):
             if visited is None:
@@ -3733,7 +3743,7 @@ class TrackChangeDependencies(Tool):
             visited.add(start_id)
 
             cr_to_check = next(
-                (c for c in change_requests.values() if c.get("cr_id") == start_id), None
+                (c for c in change_requests if c.get("cr_id") == start_id), None
             )
             if not cr_to_check:
                 return False
@@ -3747,24 +3757,23 @@ class TrackChangeDependencies(Tool):
 
         for dep_id in depends_on:
             if has_circular_dependency(dep_id, cr_id):
-                payload = {
+                return json.dumps(
+                    {
                         "error": f"Adding dependency on '{dep_id}' would create a circular dependency"
                     }
-                out = json.dumps(
-                    payload)
-                return out
+                )
 
         if "depends_on" not in cr:
             cr["depends_on"] = []
         if "blocks" not in cr:
             cr["blocks"] = []
 
-        cr["depends_on"].extend([d for d in depends_on.values() if d not in cr["depends_on"]])
-        cr["blocks"].extend([b for b in blocks.values() if b not in cr["blocks"]])
+        cr["depends_on"].extend([d for d in depends_on if d not in cr["depends_on"]])
+        cr["blocks"].extend([b for b in blocks if b not in cr["blocks"]])
 
         for block_id in blocks:
             blocked_cr = next(
-                (c for c in change_requests.values() if c.get("cr_id") == block_id), None
+                (c for c in change_requests if c.get("cr_id") == block_id), None
             )
             if blocked_cr:
                 if "blocked_by" not in blocked_cr:
@@ -3782,7 +3791,7 @@ class TrackChangeDependencies(Tool):
         blocking_crs = []
         for dep_id in cr.get("depends_on", []):
             dep_cr = next(
-                (c for c in change_requests.values() if c.get("cr_id") == dep_id), None
+                (c for c in change_requests if c.get("cr_id") == dep_id), None
             )
             if dep_cr and dep_cr.get("status") not in [
                 "completed",
@@ -3791,7 +3800,9 @@ class TrackChangeDependencies(Tool):
             ]:
                 can_proceed = False
                 blocking_crs.append({"cr_id": dep_id, "status": dep_cr.get("status")})
-        payload = {
+
+        return json.dumps(
+            {
                 "success": True,
                 "dependencies": {
                     "cr_id": cr_id,
@@ -3801,15 +3812,14 @@ class TrackChangeDependencies(Tool):
                     "blocking_crs": blocking_crs,
                 },
             }
-        out = json.dumps(
-            payload)
-        return out
+        )
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "trackChangeDependencies",
+                "name": "track_change_dependencies",
                 "description": "Track dependencies between change requests",
                 "parameters": {
                     "type": "object",
@@ -3834,29 +3844,24 @@ class TrackChangeDependencies(Tool):
 
 class GenerateAuditTrail(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        cr_id: str,
-        include_approvals: bool = True,
-        include_artifacts: bool = True
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        cr_id = kwargs.get("cr_id")
+        include_approvals = kwargs.get("include_approvals", True)
+        include_artifacts = kwargs.get("include_artifacts", True)
+
         if not cr_id:
-            payload = {"error": "cr_id is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "cr_id is required"})
 
-        change_requests = data.get("change_requests", {}).values()
-        change_history = data.get("change_history", {}).values()
-        change_approvals = data.get("change_approvals", {}).values()
-        artifact_updates = data.get("artifact_updates", {}).values()
-        risk_assessments = data.get("risk_assessments", {}).values()
-        emergency_logs = data.get("emergency_logs", {}).values()
+        change_requests = data.get("change_requests", [])
+        change_history = data.get("change_history", [])
+        change_approvals = data.get("change_approvals", [])
+        artifact_updates = data.get("artifact_updates", [])
+        risk_assessments = data.get("risk_assessments", [])
+        emergency_logs = data.get("emergency_logs", [])
 
-        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
         if not cr:
-            payload = {"error": f"Change request '{cr_id}' not found"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": f"Change request '{cr_id}' not found"})
 
         audit_trail = {
             "cr_id": cr_id,
@@ -3875,7 +3880,7 @@ class GenerateAuditTrail(Tool):
             }
         )
 
-        cr_history = [h for h in change_history.values() if h.get("cr_id") == cr_id]
+        cr_history = [h for h in change_history if h.get("cr_id") == cr_id]
         for event in sorted(cr_history, key=lambda x: x.get("timestamp", "")):
             audit_trail["timeline"].append(
                 {
@@ -3903,7 +3908,7 @@ class GenerateAuditTrail(Tool):
             )
 
         risk_assessment = next(
-            (r for r in risk_assessments.values() if r.get("cr_id") == cr_id), None
+            (r for r in risk_assessments if r.get("cr_id") == cr_id), None
         )
         if risk_assessment:
             audit_trail["timeline"].append(
@@ -3916,7 +3921,7 @@ class GenerateAuditTrail(Tool):
             )
 
         if cr.get("requires_emergency_approval"):
-            log = next((e for e in emergency_logs.values() if e.get("cr_id") == cr_id), None)
+            log = next((e for e in emergency_logs if e.get("cr_id") == cr_id), None)
             if log:
                 audit_trail["timeline"].append(
                     {
@@ -3935,7 +3940,7 @@ class GenerateAuditTrail(Tool):
                 )
 
         if include_approvals:
-            cr_approvals = [a for a in change_approvals.values() if a.get("cr_id") == cr_id]
+            cr_approvals = [a for a in change_approvals if a.get("cr_id") == cr_id]
             for approval in sorted(
                 cr_approvals, key=lambda x: x.get("action_date", "")
             ):
@@ -3953,7 +3958,7 @@ class GenerateAuditTrail(Tool):
                 )
 
         if include_artifacts:
-            cr_artifacts = [a for a in artifact_updates.values() if a.get("cr_id") == cr_id]
+            cr_artifacts = [a for a in artifact_updates if a.get("cr_id") == cr_id]
             for artifact in sorted(
                 cr_artifacts, key=lambda x: x.get("update_date", "")
             ):
@@ -3987,7 +3992,7 @@ class GenerateAuditTrail(Tool):
                 )
 
         if cr.get("requires_emergency_approval"):
-            log = next((e for e in emergency_logs.values() if e.get("cr_id") == cr_id), None)
+            log = next((e for e in emergency_logs if e.get("cr_id") == cr_id), None)
             if log and log.get("retroactive_status") == "pending":
                 deadline = log.get("retroactive_approval_deadline", "")
                 if deadline and datetime.now().isoformat() > deadline:
@@ -4002,15 +4007,15 @@ class GenerateAuditTrail(Tool):
             if cr.get("status") == "approved" and cr.get("approval_date"):
 
                 audit_trail["summary"]["approval_time_days"] = 7
-        payload = audit_trail
-        out = json.dumps(payload, indent=2)
-        return out
+
+        return json.dumps(audit_trail, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GenerateAuditTrail",
+                "name": "generate_audit_trail",
                 "description": "Generate complete audit trail for a change request",
                 "parameters": {
                     "type": "object",
@@ -4060,5 +4065,5 @@ TOOLS = [
     TrackChangeDependencies(),
     GenerateAuditTrail(),
     RecordRetroactiveApproval(),
-    SaveChangeRequestsConflicts(),
+    SaveChangeRequestsConflicts()
 ]

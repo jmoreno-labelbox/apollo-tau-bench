@@ -1,23 +1,12 @@
 import json
+from typing import Any, Dict, List
+from domains.dto import Tool
 from collections import Counter
-from typing import Any
-
-from tau_bench.envs.tool import Tool
 
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db)
-    return db
-
-
-#Assistance function
-def find_employee(employees: list[dict[str, Any]], employee_id: str) -> dict[str, Any]:
-    """Assistance in locating an individual employee by their ID."""
-    pass
+#  Helper function
+def find_employee(employees: List[Dict[str, Any]], employee_id: str) -> Dict[str, Any]:
+    """Helper to find a single employee by ID."""
     for e in employees:
         if e.get("employee_id") == employee_id:
             return e
@@ -26,46 +15,44 @@ def find_employee(employees: list[dict[str, Any]], employee_id: str) -> dict[str
 
 class get_employee_profile(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None) -> str:
-        employee = find_employee(data.get("employees", {}).values(), employee_id)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        employee = find_employee(data.get("employees", []), employee_id)
         if not employee:
-            payload = {"error": f"employee_id {employee_id} not found"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": f"employee_id {employee_id} not found"}, indent=2
             )
-            return out
 
         profile = employee.copy()
         profile["compensation_history"] = [
             c
-            for c in data.get("compensation_records", {}).values()
+            for c in data.get("compensation_records", [])
             if c.get("employee_id") == employee_id
         ]
         profile["performance_reviews"] = [
             r
-            for r in data.get("performance_reviews", {}).values()
+            for r in data.get("performance_reviews", [])
             if r.get("employee_id") == employee_id
         ]
         profile["leave_records"] = [
             l
-            for l in data.get("leave_records", {}).values()
+            for l in data.get("leave_records", [])
             if l.get("employee_id") == employee_id
         ]
-        for doc_record in data.get("employee_documents", {}).values().get(
+        for doc_record in data.get("employee_documents", {}).get(
             "employee_documents", []
         ):
             if doc_record.get("employee_id") == employee_id:
                 profile["documents"] = doc_record.get("documents", [])
                 break
-        payload = profile
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(profile, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetEmployeeProfile",
+                "name": "get_employee_profile",
                 "description": "Retrieve a comprehensive profile for an employee, including job, compensation, reviews, and documents.",
                 "parameters": {
                     "type": "object",
@@ -78,19 +65,17 @@ class get_employee_profile(Tool):
 
 class create_employee_from_offer_letter(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], offer_doc_id: str = None, employee_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        offer_doc_id = kwargs.get("offer_doc_id")
+        employee_id = kwargs.get("employee_id")
         if not offer_doc_id or not employee_id:
-            payload = {"error": "offer_doc_id and employee_id are required"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": "offer_doc_id and employee_id are required"}, indent=2
             )
-            return out
-        if find_employee(data.get("employees", {}).values(), employee_id):
-            payload = {"error": f"employee_id {employee_id} already exists"}
-            out = json.dumps(
-                payload, indent=2
+        if find_employee(data.get("employees", []), employee_id):
+            return json.dumps(
+                {"error": f"employee_id {employee_id} already exists"}, indent=2
             )
-            return out
 
         new_employee = {
             "employee_id": employee_id,
@@ -99,20 +84,20 @@ class create_employee_from_offer_letter(Tool):
             "status": "Active",
             "notes": f"Created from offer doc {offer_doc_id}",
         }
-        data["employees"][new_employee["employee_id"]] = new_employee
-        payload = {
+        data.get("employees", []).append(new_employee)
+        return json.dumps(
+            {
                 "success": f"Employee {employee_id} created from offer letter {offer_doc_id}"
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createEmployeeFromOfferLetter",
+                "name": "create_employee_from_offer_letter",
                 "description": "Creates a new employee record based on an offer letter.",
                 "parameters": {
                     "type": "object",
@@ -128,26 +113,26 @@ class create_employee_from_offer_letter(Tool):
 
 class list_department_headcount(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], department_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        department_id = kwargs.get("department_id")
         headcount = len(
             [
                 e
-                for e in data.get("employees", {}).values()
+                for e in data.get("employees", [])
                 if e.get("department_id") == department_id
                 and e.get("status") == "Active"
             ]
         )
-        payload = {"department_id": department_id, "active_headcount": headcount}
-        out = json.dumps(
-            payload, indent=2
+        return json.dumps(
+            {"department_id": department_id, "active_headcount": headcount}, indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ListDepartmentHeadcount",
+                "name": "list_department_headcount",
                 "description": "Return current headcount of active employees for a department.",
                 "parameters": {
                     "type": "object",
@@ -160,37 +145,36 @@ class list_department_headcount(Tool):
 
 class update_employee_compensation(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None, new_comp: dict = None) -> str:
-        if not find_employee(data.get("employees", {}).values(), employee_id):
-            payload = {"error": f"employee_id {employee_id} not found"}
-            out = json.dumps(
-                payload, indent=2
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        new_comp = kwargs.get("new_comp")
+        if not find_employee(data.get("employees", []), employee_id):
+            return json.dumps(
+                {"error": f"employee_id {employee_id} not found"}, indent=2
             )
-            return out
 
         new_comp_record = new_comp.copy()
         new_comp_record["employee_id"] = employee_id
         if "compensation_id" not in new_comp_record:
-            payload = {"error": "new_comp payload must include a unique compensation_id"}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"error": "new_comp payload must include a unique compensation_id"},
+                indent=2,
             )
-            return out
 
-        data["compensation_records"][new_comp_record["compensation_record_id"]] = new_comp_record
-        payload = {
+        data.get("compensation_records", []).append(new_comp_record)
+        return json.dumps(
+            {
                 "success": f"Compensation record {new_comp_record['compensation_id']} added for {employee_id}"
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateEmployeeCompensation",
+                "name": "update_employee_compensation",
                 "description": "Adds a new compensation record for an employee, preserving history.",
                 "parameters": {
                     "type": "object",
@@ -209,33 +193,32 @@ class update_employee_compensation(Tool):
 
 class get_performance_review_status(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], department_id: str = None, employee_id: str = None) -> str:
-        reviews = data.get("performance_reviews", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        department_id = kwargs.get("department_id")
+        employee_id = kwargs.get("employee_id")
+        reviews = data.get("performance_reviews", [])
 
         if employee_id:
-            results = [r for r in reviews.values() if r.get("employee_id") == employee_id]
+            results = [r for r in reviews if r.get("employee_id") == employee_id]
         elif department_id:
             dept_employees = {
                 e["employee_id"]
-                for e in data.get("employees", {}).values()
+                for e in data.get("employees", [])
                 if e.get("department_id") == department_id
             }
-            results = [r for r in reviews.values() if r.get("employee_id") in dept_employees]
+            results = [r for r in reviews if r.get("employee_id") in dept_employees]
         else:
-            payload = {"error": "Either employee_id or department_id is required"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": "Either employee_id or department_id is required"}, indent=2
             )
-            return out
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetPerformanceReviewStatus",
+                "name": "get_performance_review_status",
                 "description": "List performance reviews for a department or an individual employee.",
                 "parameters": {
                     "type": "object",
@@ -250,41 +233,42 @@ class get_performance_review_status(Tool):
 
 class submit_performance_review(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None, review_data: dict[str, Any] = None) -> str:
-        employee = find_employee(data.get("employees", {}).values(), employee_id)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        review_data = kwargs.get("review_data")
+        employee = find_employee(data.get("employees", []), employee_id)
         if not employee:
-            payload = {"error": f"employee_id {employee_id} not found"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": f"employee_id {employee_id} not found"}, indent=2
             )
-            return out
 
         new_review = review_data.copy()
         new_review["employee_id"] = employee_id
         if "review_id" not in new_review:
             new_review["review_id"] = (
-                f"PR_NEW_{len(data.get('performance_reviews', {})) + 1}"
+                f"PR_NEW_{len(data.get('performance_reviews', [])) + 1}"
             )
 
-        data["performance_reviews"][new_review["performance_review_id"]] = new_review
+        data.get("performance_reviews", []).append(new_review)
 
         if "performance_review_ids" not in employee:
             employee["performance_review_ids"] = []
         if new_review["review_id"] not in employee["performance_review_ids"]:
             employee["performance_review_ids"].append(new_review["review_id"])
-        payload = {
+
+        return json.dumps(
+            {
                 "success": f"Performance review {new_review['review_id']} submitted for {employee_id}"
-            }
-        out = json.dumps(
-            payload, indent=2,
+            },
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "SubmitPerformanceReview",
+                "name": "submit_performance_review",
                 "description": "Submit a new performance review for an employee.",
                 "parameters": {
                     "type": "object",
@@ -303,41 +287,44 @@ class submit_performance_review(Tool):
 
 class get_leave_calendar(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], department_id: str = None, employee_id: str = None, start_date: str = None, end_date: str = None) -> str:
-        if not department_id and not employee_id:
-            payload = {"error": "department_id or employee_id is required"}
-            out = json.dumps(
-                payload, indent=2
-            )
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        department_id = kwargs.get("department_id")
+        employee_id = kwargs.get("employee_id")
+        start_date = kwargs.get("start_date")
+        end_date = kwargs.get("end_date")
 
-        results = data.get("leave_records", {}).values()
+        if not department_id and not employee_id:
+            return json.dumps(
+                {"error": "department_id or employee_id is required"}, indent=2
+            )
+
+        results = data.get("leave_records", [])
 
         if department_id:
             dept_employees = {
                 e["employee_id"]
-                for e in data.get("employees", {}).values()
+                for e in data.get("employees", [])
                 if e.get("department_id") == department_id
             }
-            results = [r for r in results.values() if r.get("employee_id") in dept_employees]
+            results = [r for r in results if r.get("employee_id") in dept_employees]
 
         if employee_id:
-            results = [r for r in results.values() if r.get("employee_id") == employee_id]
+            results = [r for r in results if r.get("employee_id") == employee_id]
 
         if start_date:
-            results = [r for r in results.values() if r.get("end_date", "") >= start_date]
+            results = [r for r in results if r.get("end_date", "") >= start_date]
 
         if end_date:
-            results = [r for r in results.values() if r.get("start_date", "") <= end_date]
-        payload = results
-        out = json.dumps(payload, indent=2)
-        return out
+            results = [r for r in results if r.get("start_date", "") <= end_date]
+
+        return json.dumps(results, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetLeaveCalendar",
+                "name": "get_leave_calendar",
                 "description": "Retrieve leave records for a department or employee, optionally within a date range.",
                 "parameters": {
                     "type": "object",
@@ -354,31 +341,31 @@ class get_leave_calendar(Tool):
 
 class request_leave(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None, leave_data: dict = None) -> str:
-        if not find_employee(data.get("employees", {}).values(), employee_id):
-            payload = {"error": f"employee_id {employee_id} not found"}
-            out = json.dumps(
-                payload, indent=2
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        leave_data = kwargs.get("leave_data")
+        if not find_employee(data.get("employees", []), employee_id):
+            return json.dumps(
+                {"error": f"employee_id {employee_id} not found"}, indent=2
             )
-            return out
 
         new_leave = leave_data.copy()
         new_leave["employee_id"] = employee_id
         if "leave_id" not in new_leave:
-            new_leave["leave_id"] = f"LV_NEW_{len(data.get('leave_records', {})) + 1}"
+            new_leave["leave_id"] = f"LV_NEW_{len(data.get('leave_records', [])) + 1}"
 
-        data["leave_records"][new_leave["leave_record_id"]] = new_leave
-        payload = {"success": f"Leave {new_leave['leave_id']} requested for {employee_id}"}
-        out = json.dumps(
-            payload, indent=2,
+        data.get("leave_records", []).append(new_leave)
+        return json.dumps(
+            {"success": f"Leave {new_leave['leave_id']} requested for {employee_id}"},
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RequestLeave",
+                "name": "request_leave",
                 "description": "Submit a new leave request for an employee.",
                 "parameters": {
                     "type": "object",
@@ -397,23 +384,22 @@ class request_leave(Tool):
 
 class get_benefits_enrollment(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None, department_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        department_id = kwargs.get("department_id")
+
         if employee_id:
-            employee = find_employee(data.get("employees", {}).values(), employee_id)
+            employee = find_employee(data.get("employees", []), employee_id)
             if not employee:
-                payload = {"error": f"employee_id {employee_id} not found"}
-                out = json.dumps(
-                    payload, indent=2
+                return json.dumps(
+                    {"error": f"employee_id {employee_id} not found"}, indent=2
                 )
-                return out
-            payload = employee.get("benefit_plan_ids", [])
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps(employee.get("benefit_plan_ids", []), indent=2)
 
         if department_id:
             dept_employees = [
                 e
-                for e in data.get("employees", {}).values()
+                for e in data.get("employees", [])
                 if e.get("department_id") == department_id
             ]
             all_benefits = {
@@ -421,20 +407,18 @@ class get_benefits_enrollment(Tool):
                 for emp in dept_employees
                 for plan_id in emp.get("benefit_plan_ids", [])
             }
-            payload = list(all_benefits)
-            out = json.dumps(payload, indent=2)
-            return out
-        payload = {"error": "employee_id or department_id is required"}
-        out = json.dumps(
-            payload, indent=2
+            return json.dumps(list(all_benefits), indent=2)
+
+        return json.dumps(
+            {"error": "employee_id or department_id is required"}, indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetBenefitsEnrollment",
+                "name": "get_benefits_enrollment",
                 "description": "List benefits enrollment status for an employee or department.",
                 "parameters": {
                     "type": "object",
@@ -449,40 +433,39 @@ class get_benefits_enrollment(Tool):
 
 class enroll_in_benefit(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None, benefit_id: str = None) -> str:
-        employee = find_employee(data.get("employees", {}).values(), employee_id)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        benefit_id = kwargs.get("benefit_id")
+        employee = find_employee(data.get("employees", []), employee_id)
         if not employee:
-            payload = {"error": f"employee_id {employee_id} not found"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": f"employee_id {employee_id} not found"}, indent=2
             )
-            return out
 
         if "benefit_plan_ids" not in employee:
             employee["benefit_plan_ids"] = []
 
         if benefit_id not in employee["benefit_plan_ids"]:
             employee["benefit_plan_ids"].append(benefit_id)
-            payload = {"success": f"Employee {employee_id} enrolled in benefit {benefit_id}"}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"success": f"Employee {employee_id} enrolled in benefit {benefit_id}"},
+                indent=2,
             )
-            return out
         else:
-            payload = {
+            return json.dumps(
+                {
                     "success": f"Employee {employee_id} was already enrolled in benefit {benefit_id}"
-                }
-            out = json.dumps(
-                payload, indent=2,
+                },
+                indent=2,
             )
-            return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "EnrollInBenefit",
-                "description": "Enroll an employee IND a specific benefit plan (non-destructive).",
+                "name": "enroll_in_benefit",
+                "description": "Enroll an employee in a specific benefit plan (non-destructive).",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -497,41 +480,40 @@ class enroll_in_benefit(Tool):
 
 class remove_from_benefit(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None, benefit_id: str = None) -> str:
-        employee = find_employee(data.get("employees", {}).values(), employee_id)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        benefit_id = kwargs.get("benefit_id")
+        employee = find_employee(data.get("employees", []), employee_id)
         if not employee:
-            payload = {"error": f"employee_id {employee_id} not found"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": f"employee_id {employee_id} not found"}, indent=2
             )
-            return out
 
         if (
             "benefit_plan_ids" in employee
             and benefit_id in employee["benefit_plan_ids"]
         ):
             employee["benefit_plan_ids"].remove(benefit_id)
-            payload = {
+            return json.dumps(
+                {
                     "success": f"Employee {employee_id} removed from benefit {benefit_id}"
-                }
-            out = json.dumps(
-                payload, indent=2,
+                },
+                indent=2,
             )
-            return out
         else:
-            payload = {
+            return json.dumps(
+                {
                     "success": f"Employee {employee_id} was not enrolled in benefit {benefit_id}"
-                }
-            out = json.dumps(
-                payload, indent=2,
+                },
+                indent=2,
             )
-            return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "RemoveFromBenefit",
+                "name": "remove_from_benefit",
                 "description": "Remove an employee from a specific benefit plan.",
                 "parameters": {
                     "type": "object",
@@ -547,11 +529,12 @@ class remove_from_benefit(Tool):
 
 class get_document_compliance_status(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
         emp_doc_record = next(
             (
                 d
-                for d in data.get("employee_documents", {}).values().get(
+                for d in data.get("employee_documents", {}).get(
                     "employee_documents", []
                 )
                 if d.get("employee_id") == employee_id
@@ -559,11 +542,9 @@ class get_document_compliance_status(Tool):
             None,
         )
         if not emp_doc_record:
-            payload = {"employee_id": employee_id, "status": "No documents on file"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"employee_id": employee_id, "status": "No documents on file"}, indent=2
             )
-            return out
 
         docs = emp_doc_record.get("documents", [])
         doc_categories = {doc.get("category") for doc in docs}
@@ -574,15 +555,14 @@ class get_document_compliance_status(Tool):
             "has_id_verification": "ID Verification" in doc_categories,
             "document_count": len(docs),
         }
-        payload = status
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(status, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetDocumentComplianceStatus",
+                "name": "get_document_compliance_status",
                 "description": "Check if an employee has key required documents like an NDA and ID verification.",
                 "parameters": {
                     "type": "object",
@@ -598,15 +578,17 @@ class get_document_compliance_status(Tool):
 
 class upload_employee_document(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None, document_data: dict = None) -> str:
-        main_container = data.get("employee_documents", {}).values().get(
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        document_data = kwargs.get("document_data")
+        main_container = data.get("employee_documents", {}).get(
             "employee_documents", []
         )
 
         emp_doc_record = next(
             (
                 d
-                for d in data.get("employee_documents", {}).values().get(
+                for d in data.get("employee_documents", {}).get(
                     "employee_documents", []
                 )
                 if d.get("employee_id") == employee_id
@@ -614,7 +596,7 @@ class upload_employee_document(Tool):
             None,
         )
         if not emp_doc_record:
-            employee = find_employee(data.get("employees", {}).values(), employee_id)
+            employee = find_employee(data.get("employees", []), employee_id)
             employee_name = (
                 f"{employee.get('first_name')} {employee.get('last_name')}"
                 if employee
@@ -626,18 +608,17 @@ class upload_employee_document(Tool):
                 "name": employee_name,
                 "documents": [],
             }
-            data["employee_documents"][emp_doc_record["employee_document_id"]] = emp_doc_record
+            main_container.append(emp_doc_record)
 
         emp_doc_record["documents"].append(document_data)
-        payload = {"success": f"Document uploaded for {employee_id}"}
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps({"success": f"Document uploaded for {employee_id}"}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UploadEmployeeDocument",
+                "name": "upload_employee_document",
                 "description": "Upload or attach a new document to an employee's record.",
                 "parameters": {
                     "type": "object",
@@ -656,19 +637,22 @@ class upload_employee_document(Tool):
 
 class get_org_diversity_metrics(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], department_id: str = None, level: str = None) -> str:
-        employees_to_scan = data.get("employees", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        department_id = kwargs.get("department_id")
+        level = kwargs.get("level")
+
+        employees_to_scan = data.get("employees", [])
         if department_id:
             employees_to_scan = [
-                e for e in employees_to_scan.values() if e.get("department_id") == department_id
+                e for e in employees_to_scan if e.get("department_id") == department_id
             ]
         if level:
             employees_to_scan = [
-                e for e in employees_to_scan.values() if e.get("level_id") == level
+                e for e in employees_to_scan if e.get("level_id") == level
             ]
 
-        gender_counts = Counter(e.get("gender") for e in employees_to_scan.values())
-        ethnicity_counts = Counter(e.get("ethnicity_code") for e in employees_to_scan.values())
+        gender_counts = Counter(e.get("gender") for e in employees_to_scan)
+        ethnicity_counts = Counter(e.get("ethnicity_code") for e in employees_to_scan)
 
         metrics = {
             "filter_department": department_id,
@@ -677,15 +661,14 @@ class get_org_diversity_metrics(Tool):
             "gender_distribution": dict(gender_counts),
             "ethnicity_distribution": dict(ethnicity_counts),
         }
-        payload = metrics
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(metrics, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetOrgDiversityMetrics",
+                "name": "get_org_diversity_metrics",
                 "description": "Return diversity metrics (gender, ethnicity) by department, level, or company-wide.",
                 "parameters": {
                     "type": "object",
@@ -700,27 +683,26 @@ class get_org_diversity_metrics(Tool):
 
 class update_employee_job_level(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None, new_level: str = None) -> str:
-        employee = find_employee(data.get("employees", {}).values(), employee_id)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        new_level = kwargs.get("new_level")
+        employee = find_employee(data.get("employees", []), employee_id)
         if not employee:
-            payload = {"error": f"employee_id {employee_id} not found"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": f"employee_id {employee_id} not found"}, indent=2
             )
-            return out
 
         employee["level_id"] = new_level
-        payload = {"success": f"Job level for {employee_id} updated to {new_level}"}
-        out = json.dumps(
-            payload, indent=2
+        return json.dumps(
+            {"success": f"Job level for {employee_id} updated to {new_level}"}, indent=2
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateEmployeeJobLevel",
+                "name": "update_employee_job_level",
                 "description": "Change an employee's job level ID.",
                 "parameters": {
                     "type": "object",
@@ -736,16 +718,19 @@ class update_employee_job_level(Tool):
 
 class get_open_positions(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], department_id: str = None, level: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        department_id = kwargs.get("department_id")
+        level = kwargs.get("level")
+
         filled_position_ids = {
             e.get("position_id")
-            for e in data.get("employees", {}).values()
+            for e in data.get("employees", [])
             if e.get("status") == "Active"
         }
-        all_positions = data.get("positions", {}).values()
+        all_positions = data.get("positions", [])
 
         open_positions = [
-            p for p in all_positions.values() if p.get("position_id") not in filled_position_ids
+            p for p in all_positions if p.get("position_id") not in filled_position_ids
         ]
 
         if department_id:
@@ -753,16 +738,16 @@ class get_open_positions(Tool):
                 p for p in open_positions if p.get("department_id") == department_id
             ]
         if level:
-            open_positions = [p for p in open_positions.values() if p.get("level_id") == level]
-        payload = open_positions
-        out = json.dumps(payload, indent=2)
-        return out
+            open_positions = [p for p in open_positions if p.get("level_id") == level]
+
+        return json.dumps(open_positions, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetOpenPositions",
+                "name": "get_open_positions",
                 "description": "List all open positions not currently filled by an active employee.",
                 "parameters": {
                     "type": "object",
@@ -777,29 +762,28 @@ class get_open_positions(Tool):
 
 class close_position(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], position_id: str = None) -> str:
-        positions = data.get("positions", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        position_id = kwargs.get("position_id")
+        positions = data.get("positions", [])
         position_to_close = next(
-            (p for p in positions.values() if p.get("position_id") == position_id), None
+            (p for p in positions if p.get("position_id") == position_id), None
         )
 
         if position_to_close:
             positions.remove(position_to_close)
-            payload = {"success": f"Position {position_id} has been closed and removed."}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"success": f"Position {position_id} has been closed and removed."},
+                indent=2,
             )
-            return out
         else:
-            payload = {"error": f"Position {position_id} not found."}
-            out = json.dumps(payload, indent=2)
-            return out
+            return json.dumps({"error": f"Position {position_id} not found."}, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "ClosePosition",
+                "name": "close_position",
                 "description": "Mark a position as closed by removing it from the list of available positions.",
                 "parameters": {
                     "type": "object",
@@ -812,30 +796,31 @@ class close_position(Tool):
 
 class update_company_document_content(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], doc_id: str = None, new_content: str = None) -> str:
-        all_docs = data.get("company_doc", {}).values().get("company_documents", [])
-        doc_to_update = next((d for d in all_docs.values() if d.get("id") == doc_id), None)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        doc_id = kwargs.get("doc_id")
+        new_content = kwargs.get("new_content")
+
+        all_docs = data.get("company_doc", {}).get("company_documents", [])
+        doc_to_update = next((d for d in all_docs if d.get("id") == doc_id), None)
 
         if doc_to_update:
             doc_to_update["content"] = new_content
             doc_to_update["last_updated"] = "2025-06-24"
-            payload = {"success": f"Content for document '{doc_id}' updated successfully."}
-            out = json.dumps(
-                payload, indent=2,
+            return json.dumps(
+                {"success": f"Content for document '{doc_id}' updated successfully."},
+                indent=2,
             )
-            return out
         else:
-            payload = {"error": f"Company document with ID '{doc_id}' not found."}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": f"Company document with ID '{doc_id}' not found."}, indent=2
             )
-            return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateCompanyDocumentContent",
+                "name": "update_company_document_content",
                 "description": "Updates the full text content of an existing company-wide document.",
                 "parameters": {
                     "type": "object",
@@ -851,28 +836,26 @@ class update_company_document_content(Tool):
 
 class get_compensation_records(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None) -> str:
-        if not find_employee(data.get("employees", {}).values(), employee_id):
-            payload = {"error": f"employee_id {employee_id} not found"}
-            out = json.dumps(
-                payload, indent=2
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        if not find_employee(data.get("employees", []), employee_id):
+            return json.dumps(
+                {"error": f"employee_id {employee_id} not found"}, indent=2
             )
-            return out
 
         records = [
             c
-            for c in data.get("compensation_records", {}).values()
+            for c in data.get("compensation_records", [])
             if c.get("employee_id") == employee_id
         ]
-        payload = records
-        out = json.dumps(payload, indent=2)
-        return out
+        return json.dumps(records, indent=2)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "GetCompensationRecords",
+                "name": "get_compensation_records",
                 "description": "Retrieve all historical compensation records for an employee.",
                 "parameters": {
                     "type": "object",
@@ -885,29 +868,29 @@ class get_compensation_records(Tool):
 
 class update_employee_status(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str = None, new_status: str = None) -> str:
-        employee = find_employee(data.get("employees", {}).values(), employee_id)
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        employee_id = kwargs.get("employee_id")
+        new_status = kwargs.get("new_status")
+        employee = find_employee(data.get("employees", []), employee_id)
         if not employee:
-            payload = {"error": f"employee_id {employee_id} not found"}
-            out = json.dumps(
-                payload, indent=2
+            return json.dumps(
+                {"error": f"employee_id {employee_id} not found"}, indent=2
             )
-            return out
 
         employee["status"] = new_status
         if new_status.lower() == "terminated":
-            employee["termination_date"] = "2025-06-24"  # Utilizing our typical "today"
-        payload = {"success": f"Employee {employee_id} status updated to {new_status}"}
-        out = json.dumps(
-            payload, indent=2,
+            employee["termination_date"] = "2025-06-24"  # Using our standard "today"
+        return json.dumps(
+            {"success": f"Employee {employee_id} status updated to {new_status}"},
+            indent=2,
         )
-        return out
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "UpdateEmployeeStatus",
+                "name": "update_employee_status",
                 "description": "Update an employee's current status (e.g., 'Active', 'On Leave', 'Terminated').",
                 "parameters": {
                     "type": "object",

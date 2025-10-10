@@ -1,31 +1,21 @@
 import json
-from typing import Any
-
-from tau_bench.envs.tool import Tool
+from typing import Any, Dict
+from domains.dto import Tool
 
 LAT = 55
 LONG = 55
 
 
-
-
-def _convert_db_to_list(db):
-    """Convert database from dict format to list format."""
-    if isinstance(db, dict):
-        return list(db.values())
-    return db
-
-
 class SetProjectConfig(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], target_city: str = None, forecast_horizon_days: int = None, max_station_distance_km_nullable: float = None) -> str:
-        target_city = target_city
-        horizon = forecast_horizon_days
-        max_radius = max_station_distance_km_nullable
-        configs = data.get("project_config", {}).values()
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        target_city = kwargs.get("target_city")
+        horizon = kwargs.get("forecast_horizon_days")
+        max_radius = kwargs.get("max_station_distance_km_nullable")
+        configs = data.get("project_config", [])
 
         timezone = "America/New_York"
-        for config in configs.values():
+        for config in configs:
             if config.get("target_city") == target_city:
                 timezone = config.get("timezone_default")
                 break
@@ -36,16 +26,15 @@ class SetProjectConfig(Tool):
             "forecast_horizon_days": horizon,
             "max_station_distance_km_nullable": max_radius,
         }
-        data["project_config"][config["project_config_id"]] = config
-        payload = {"config_id": "CONFIG_001", **config}
-        out = json.dumps(payload)
-        return out
+        data.get("project_config", []).append(config)
+        return json.dumps({"config_id": "CONFIG_001", **config})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "setProjectConfig",
+                "name": "SetProjectConfig",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -62,13 +51,13 @@ class SetProjectConfig(Tool):
 
 class SetGeocodeCity(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], city_name: str) -> str:
-        results = data.get("geocoding_results", {}).values()
-        for result in results.values():
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        city_name = kwargs.get("city_name")
+
+        results = data.get("geocoding_results", [])
+        for result in results:
             if result.get("query_city") == city_name:
-                payload = result
-                out = json.dumps(payload)
-                return out
+                return json.dumps(result)
         json_city_path = "_".join(city_name.split()).lower()
         result = {
             "geo_id": "GEO_001",
@@ -77,16 +66,15 @@ class SetGeocodeCity(Tool):
             "longitude": LONG,
             "raw_json_path_nullable": f"/data/raw/geocoding_{json_city_path}.json",
         }
-        data["geocoding_results"][result["geocoding_result_id"]] = result
-        payload = result
-        out = json.dumps(payload)
-        return out
+        data.get("geocoding_results", []).append(result)
+        return json.dumps(result)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "setGeocodeCity",
+                "name": "SetGeocodeCity",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -103,25 +91,23 @@ class SetGeocodeCity(Tool):
 
 class SetProjectDirectories(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], files: list = None) -> str:
-        pass
-        # This is a mockup; in an actual setting, this would engage with a file system.
-        files = files or []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        # This is a simulation; in a real environment, this would interact with a file system.
+        files = kwargs.get("files", [])
         project_dir_id = "PROJ_DIR_001"
         file_dir = {
             "paths": files,
             "project_dir_id": project_dir_id,
         }
-        data["file_directory"][file_dir["file_directory_id"]] = file_dir
-        payload = {"status": "success", "project_dir_id": project_dir_id}
-        out = json.dumps(payload)
-        return out
+        data.get("file_directory", []).append(file_dir)
+        return json.dumps({"status": "success", "project_dir_id": project_dir_id})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "setProjectDirectories",
+                "name": "SetProjectDirectories",
                 "parameters": {"type": "object", "properties": {}},
             },
         }
@@ -129,22 +115,24 @@ class SetProjectDirectories(Tool):
 
 class FindNoaaStation(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], latitude: float = None, longitude: float = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        lat = kwargs.get("latitude")
+        lon = kwargs.get("longitude")
+
         station_id = "NOAA_STATION_001"
         noaa_station_json = {
             "station_ids": station_id,
             "raw_json_path_nullable": f"/data/raw/noaa_station_{station_id}.json",
         }
-        data["noaa_station_searches"][noaa_station_json["noaa_station_searche_id"]] = noaa_station_json
-        payload = noaa_station_json
-        out = json.dumps(payload)
-        return out
+        data.get("noaa_station_searches", []).append(noaa_station_json)
+        return json.dumps(noaa_station_json)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "findNoaaStation",
+                "name": "FindNoaaStation",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -169,31 +157,22 @@ class FindNoaaStation(Tool):
 
 class SetWeatherForecast(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        city: str = None,
-        city_name: str = None,
-        latitude: Any = None,
-        longitude: Any = None
-    ) -> str:
-        # Accept either city or city_name
-        if city_name is not None:
-            city = city_name
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        city = kwargs.get("city")
         id = "WEATHER_FORECAST_001"
         weather_forecast_json = {
             "forecast_id": id,
             "raw_json_path_nullable": f"/data/raw/weather_forecast_{id}.json",
         }
-        data["weather_forecasts"][weather_forecast_json["weather_forecast_id"]] = weather_forecast_json
-        payload = weather_forecast_json
-        out = json.dumps(payload)
-        return out
+        data.get("weather_forecasts", []).append(weather_forecast_json)
+        return json.dumps(weather_forecast_json)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "setWeatherForecast",
+                "name": "SetWeatherForecast",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -218,9 +197,9 @@ class SetWeatherForecast(Tool):
 
 class SetWaterLevels(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], station_id: str = None) -> str:
-        pass
-        # This is a mockup; in an actual setting, this would retrieve data from NOAA.
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        station_id = kwargs.get("station_id")
+        # This is a simulation; in a real environment, this would fetch data from NOAA.
 
         water_level_data = {
             "station_id": station_id,
@@ -230,16 +209,15 @@ class SetWaterLevels(Tool):
             ],
             "raw_json_path_nullable": f"/data/raw/water_levels_{station_id}.json",
         }
-        data["water_level_data"][water_level_data["water_level_data_id"]] = water_level_data
-        payload = water_level_data
-        out = json.dumps(payload)
-        return out
+        data.get("water_level_data", []).append(water_level_data)
+        return json.dumps(water_level_data)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "setWaterLevels",
+                "name": "SetWaterLevels",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -256,8 +234,9 @@ class SetWaterLevels(Tool):
 
 class SetTidePredictions(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], station_id: str = None) -> str:
-        # This is a mockup; in an actual setting, this would retrieve data from NOAA.
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        station_id = kwargs.get("station_id")
+        # This is a simulation; in a real environment, this would fetch data from NOAA.
 
         tide_prediction_data = {
             "station_id": station_id,
@@ -267,16 +246,15 @@ class SetTidePredictions(Tool):
             ],
             "raw_json_path_nullable": f"/data/raw/tide_predictions_{station_id}.json",
         }
-        data["tide_predictions"][tide_prediction_data["tide_prediction_id"]] = tide_prediction_data
-        payload = tide_prediction_data
-        out = json.dumps(payload)
-        return out
+        data.get("tide_predictions", []).append(tide_prediction_data)
+        return json.dumps(tide_prediction_data)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "setTidePredictions",
+                "name": "SetTidePredictions",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -293,8 +271,9 @@ class SetTidePredictions(Tool):
 
 class SetCoastalMeteorology(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], station_id: str = None) -> str:
-        # This is a mockup; in an actual setting, this would retrieve data from NOAA.
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        station_id = kwargs.get("station_id")
+        # This is a simulation; in a real environment, this would fetch data from NOAA.
 
         coastal_meteorology_data = {
             "station_id": station_id,
@@ -312,16 +291,15 @@ class SetCoastalMeteorology(Tool):
             ],
             "raw_json_path_nullable": f"/data/raw/coastal_meteorology_{station_id}.json",
         }
-        data["coastal_meteorology_data"][coastal_meteorology_data["coastal_meteorology_data_id"]] = coastal_meteorology_data
-        payload = coastal_meteorology_data
-        out = json.dumps(payload)
-        return out
+        data.get("coastal_meteorology_data", []).append(coastal_meteorology_data)
+        return json.dumps(coastal_meteorology_data)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "setCoastalMeteorology",
+                "name": "SetCoastalMeteorology",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -338,18 +316,17 @@ class SetCoastalMeteorology(Tool):
 
 class CreateFeatures(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], input_csv_path: str = None) -> str:
-        if not input_csv_path:
-            payload = {"error": "input_csv_path is a required argument."}
-            out = json.dumps(payload)
-            return out
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        input_path = kwargs.get("input_csv_path")
+        if not input_path:
+            return json.dumps({"error": "input_csv_path is a required argument."})
 
         features_id = "FEATURES_001"
         new_features_path = "/processed_data/features_001.csv"
 
         feature_entry = {
             "features_id": features_id,
-            "source_csv_path": input_csv_path,
+            "source_csv_path": input_path,
             "features_csv_path": new_features_path,
             "feature_names": [
                 "precip_24h_mm",
@@ -358,18 +335,15 @@ class CreateFeatures(Tool):
             ],
         }
 
-        table = data.setdefault("features", {})
-        key = f"{len(table)}"
-        table[key] = feature_entry
-        payload = feature_entry
-        out = json.dumps(payload)
-        return out
+        data.setdefault("features", []).append(feature_entry)
+        return json.dumps(feature_entry)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createFeatures",
+                "name": "CreateFeatures",
                 "description": "Takes a path to a processed timeseries CSV and engineers a standard set of features required for modeling.",
                 "parameters": {
                     "type": "object",
@@ -387,34 +361,26 @@ class CreateFeatures(Tool):
 
 class SetModelConfig(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        classification_threshold_m: float = None, 
-        precip_24h_threshold_mm: float = None, 
-        test_split_fraction: float = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         config_id = "MODEL_CONFIG_001"
 
         config_entry = {
             "config_id": config_id,
-            "classification_threshold_m": classification_threshold_m,
-            "precip_24h_threshold_mm": precip_24h_threshold_mm,
-            "test_split_fraction": test_split_fraction,
+            "classification_threshold_m": kwargs.get("classification_threshold_m"),
+            "precip_24h_threshold_mm": kwargs.get("precip_24h_threshold_mm"),
+            "test_split_fraction": kwargs.get("test_split_fraction"),
             "config_json_path": f"/configs/model_config_{config_id}.json",
         }
 
-        table = data.setdefault("model_config", {})
-        key = f"{len(table)}"
-        table[key] = config_entry
-        payload = config_entry
-        out = json.dumps(payload)
-        return out
+        data.setdefault("model_config", []).append(config_entry)
+        return json.dumps(config_entry)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "setModelConfig",
+                "name": "SetModelConfig",
                 "description": "Creates a configuration record for the modeling process with specified parameters.",
                 "parameters": {
                     "type": "object",
@@ -440,29 +406,28 @@ class SetModelConfig(Tool):
 
 class CreateModel(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], model_config_id: str = None, model_name: str = None, model_type: str = None, features_id: list[str] = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        config_id = kwargs.get("model_config_id")
+        model_name = kwargs.get("model_name")
         model_id = f"MODEL_{model_name}"
         model_entry = {
             "model_id": model_id,
             "model_name": model_name,
-            "config_id": model_config_id,
+            "config_id": config_id,
             "model_path": f"/models/{model_id}.joblib",
-            "model_type": model_type,
-            "feature_names": features_id,
+            "model_type": kwargs.get("model_type"),
+            "feature_names": kwargs.get("features_id"),
             "train_metrics_json_path_nullable": f"/metrics/{model_id}_train_metrics.json",
         }
-        table = data.setdefault("models", {})
-        key = f"{len(table)}"
-        table[key] = model_entry
-        payload = model_entry
-        out = json.dumps(payload)
-        return out
+        data.setdefault("models", []).append(model_entry)
+        return json.dumps(model_entry)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createModel",
+                "name": "CreateModel",
                 "description": "Creates a model entry, linking a configuration, model type, and feature set.",
                 "parameters": {
                     "type": "object",
@@ -488,29 +453,28 @@ class CreateModel(Tool):
 
 class GetModel(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], model_name: str = None, model_type: str = None, features_id: list[str] = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+
+        model_name = kwargs.get("model_name")
         model_id = f"MODEL_{model_name}"
 
         model_entry = {
             "model_id": model_id,
             "model_name": model_name,
             "model_path": f"/models/{model_id}.joblib",
-            "model_type": model_type,
-            "feature_names": features_id,
+            "model_type": kwargs.get("model_type"),
+            "feature_names": kwargs.get("features_id"),
             "train_metrics_json_path_nullable": f"/metrics/{model_id}_train_metrics.json",
         }
-        table = data.setdefault("models", {})
-        key = f"{len(table)}"
-        table[key] = model_entry
-        payload = model_entry
-        out = json.dumps(payload)
-        return out
+        data.setdefault("models", []).append(model_entry)
+        return json.dumps(model_entry)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "getModel",
+                "name": "GetModel",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -535,27 +499,26 @@ class GetModel(Tool):
 
 class CreateDatasetSplit(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], features_id: str = None, test_fraction: float = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         split_id = "SPLIT_001"
 
         split_entry = {
             "split_id": split_id,
-            "features_id": features_id,
+            "features_id": kwargs.get("features_id"),
             "method": "time_based",
-            "test_fraction": test_fraction,
+            "test_fraction": kwargs.get("test_fraction"),
             "split_summary_json_path": f"/processed_data/split_summary_{split_id}.json",
         }
 
         data.setdefault("dataset_split.json", []).append(split_entry)
-        payload = split_entry
-        out = json.dumps(payload)
-        return out
+        return json.dumps(split_entry)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createDatasetSplit",
+                "name": "CreateDatasetSplit",
                 "description": "Creates a train/test split from the feature set based on the specified method.",
                 "parameters": {
                     "type": "object",
@@ -577,24 +540,18 @@ class CreateDatasetSplit(Tool):
 
 class TrainModel(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any], 
-        model_name: str = None, 
-        model_type: str = None, 
-        features_id: str = None, 
-        config_id: str = None, 
-        split_id: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        model_name = kwargs.get("model_name")
         model_id = f"MODEL_{model_name}"
         predictions_id = "PRED_001"
 
         model_entry = {
             "model_id": model_id,
             "model_name": model_name,
-            "model_type": model_type,
-            "features_id": features_id,
-            "config_id": config_id,
-            "split_id": split_id,
+            "model_type": kwargs.get("model_type"),
+            "features_id": kwargs.get("features_id"),
+            "config_id": kwargs.get("config_id"),
+            "split_id": kwargs.get("split_id"),
             "model_path": f"/models/{model_id}.joblib",
         }
 
@@ -606,15 +563,15 @@ class TrainModel(Tool):
 
         data.setdefault("models.json", []).append(model_entry)
         data.setdefault("predictions.json", []).append(predictions_entry)
-        payload = predictions_entry
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(predictions_entry)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "trainModel",
+                "name": "TrainModel",
                 "description": "Trains a simple logistic regression model using the specified features, configuration, and data split.",
                 "parameters": {
                     "type": "object",
@@ -644,12 +601,13 @@ class TrainModel(Tool):
 
 class EvaluateModel(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], model_id: str = None, predictions_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         metrics_id = "METRICS_001"
+        predictions_id = kwargs.get("predictions_id")
         if not predictions_id:
             predictions_id = "PRED_001"
         metrics_entry = {
-            "model_id": model_id,
+            "model_id": kwargs.get("model_id"),
             "metrics_id": metrics_id,
             "predictions_id": predictions_id,
             "auc": 0.87,
@@ -658,15 +616,14 @@ class EvaluateModel(Tool):
         }
 
         data.setdefault("metrics.json", []).append(metrics_entry)
-        payload = metrics_entry
-        out = json.dumps(payload)
-        return out
+        return json.dumps(metrics_entry)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "evaluateModel",
+                "name": "EvaluateModel",
                 "description": "Calculates performance metrics (AUC and accuracy) for a trained model based on its predictions.",
                 "parameters": {
                     "type": "object",
@@ -684,31 +641,29 @@ class EvaluateModel(Tool):
 
 class PrepareStakeholderOutputs(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], predictions_id: str = None, metrics_id: str = None) -> str:
-        pass
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
         output_id = "STAKEHOLDER_OUTPUT_001"
 
-        # In a genuine situation, this would transfer files to a designated 'deliverables' location.
-        # At this point, we simply generate the record.
+        # In a real scenario, this would copy files to a final 'deliverables' location.
+        # Here we just create the record.
         output_entry = {
             "stakeholder_output_id": output_id,
-            "final_predictions_id": predictions_id,
-            "final_metrics_id": metrics_id,
+            "final_predictions_id": kwargs.get("predictions_id"),
+            "final_metrics_id": kwargs.get("metrics_id"),
             "status": "ready",
             "predictions_csv_path": f"/deliverables/final_predictions_{output_id}.csv",
             "metrics_json_path": f"/deliverables/final_metrics_{output_id}.json",
         }
 
         data.setdefault("stakeholder_outputs.json", []).append(output_entry)
-        payload = output_entry
-        out = json.dumps(payload)
-        return out
+        return json.dumps(output_entry)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "prepareStakeholderOutputs",
+                "name": "PrepareStakeholderOutputs",
                 "description": "Finalizes the modeling run by creating a record pointing to the definitive prediction and metrics files.",
                 "parameters": {
                     "type": "object",
@@ -730,7 +685,10 @@ class PrepareStakeholderOutputs(Tool):
 
 class CreateSummaryPlots(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], predictions_id: str = None, model_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        predictions_id = kwargs.get("predictions_id")
+        model_id = kwargs.get("model_id")
+
         figure_id = "FIGURE_001"
         figure_path = f"/figures/risk_timeseries_{model_id}.png"
 
@@ -744,15 +702,15 @@ class CreateSummaryPlots(Tool):
         }
 
         data.setdefault("qc_figures.json", []).append(qc_figure_entry)
-        payload = qc_figure_entry
-        out = json.dumps(payload)
-        return out
+
+        return json.dumps(qc_figure_entry)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createSummaryPlots",
+                "name": "CreateSummaryPlots",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -773,25 +731,18 @@ class CreateSummaryPlots(Tool):
 
 class CreateGmailJson(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        to: list[str] = None,
-        cc: list[str] = None,
-        bcc: list[str] = None,
-        subject: str = None,
-        body_text: str = "",
-        body: str = None,
-        body_html_nullable: str = None,
-        attachments_paths: list[str] = None
-    ) -> str:
-        # Accept either body or body_text
-        if body is not None:
-            body_text = body
-        """Generates a Gmail-like JSON draft (without sending email). Helpful for compiling evaluation results and deliverables into an email artifact."""
-        to = to if to is not None else []
-        cc = cc if cc is not None else []
-        bcc = bcc if bcc is not None else []
-        attachments_paths = attachments_paths if attachments_paths is not None else []
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        """
+        Creates a Gmail-style JSON draft (not sending email). Useful for packaging
+        evaluation results and deliverables into an email artifact.
+        """
+        to = kwargs.get("to", [])
+        cc = kwargs.get("cc", [])
+        bcc = kwargs.get("bcc", [])
+        subject = kwargs.get("subject")
+        body_text = kwargs.get("body_text", "")
+        body_html_nullable = kwargs.get("body_html_nullable")
+        attachments_paths = kwargs.get("attachments_paths", [])
 
         message_id = "GMAIL_MSG_001"
         json_path = f"/gmail/outbox/{message_id}.json"
@@ -810,15 +761,14 @@ class CreateGmailJson(Tool):
         }
 
         data.setdefault("gmail_outbox.json", []).append(msg_entry)
-        payload = {"message_id": message_id, "json_path": json_path}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"message_id": message_id, "json_path": json_path})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createGmailJson",
+                "name": "CreateGmailJson",
                 "description": "Creates a Gmail-style JSON draft with recipients, subject, body, and attachments.",
                 "parameters": {
                     "type": "object",
@@ -850,55 +800,48 @@ class CreateGmailJson(Tool):
 
 class CreateNotionPageJson(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        title: str = None,
-        parent_database_id_nullable: str = None,
-        parent_page_id_nullable: str = None,
-        icon_emoji_nullable: str = None,
-        cover_image_url_nullable: str = None,
-        tags: list = None,
-        status_nullable: str = None,
-        properties: dict = None,
-        blocks: list = None,
-        attachments_paths: list = None
-    ) -> str:
-        """Generates a Notion-like page JSON (including metadata and block structure). Does NOT interact with Notion; solely documents a consistent JSON artifact."""
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        """
+        Creates a Notion-style page JSON (metadata + block structure).
+        Does NOT call Notion; only records a deterministic JSON artifact.
+        """
+        title = kwargs.get("title")
         if not title:
-            payload = {"error": "title is required"}
-            out = json.dumps(payload)
-            return out
+            return json.dumps({"error": "title is required"})
 
-        page_id = "NOTION_PAGE_001"  # consistent for evaluations
+        page_id = "NOTION_PAGE_001"  # deterministic for evals
         slug = "_".join(title.lower().split())
         json_path = f"/notion/pages/{page_id}.json"
 
         page_entry = {
             "page_id": page_id,
             "title": title,
-            "parent_database_id_nullable": parent_database_id_nullable,
-            "parent_page_id_nullable": parent_page_id_nullable,
-            "icon_emoji_nullable": icon_emoji_nullable,
-            "cover_image_url_nullable": cover_image_url_nullable,
-            "tags": tags or [],
-            "status_nullable": status_nullable,
-            "properties": properties or {},  # for example, {"Model":"SF_V1","AUC":0.87}
-            "blocks": blocks or [],  # for instance, [{"type":"heading_2","text":"Overview"}, ...]
-            "attachments_paths": attachments_paths or [],
+            "parent_database_id_nullable": kwargs.get("parent_database_id_nullable"),
+            "parent_page_id_nullable": kwargs.get("parent_page_id_nullable"),
+            "icon_emoji_nullable": kwargs.get("icon_emoji_nullable"),
+            "cover_image_url_nullable": kwargs.get("cover_image_url_nullable"),
+            "tags": kwargs.get("tags", []),
+            "status_nullable": kwargs.get("status_nullable"),
+            "properties": kwargs.get(
+                "properties", {}
+            ),  # e.g., {"Model":"SF_V1","AUC":0.87}
+            "blocks": kwargs.get(
+                "blocks", []
+            ),  # e.g., [{"type":"heading_2","text":"Overview"}, ...]
+            "attachments_paths": kwargs.get("attachments_paths", []),
             "json_path": json_path,
             "slug": slug,
         }
 
         data.setdefault("notion_pages.json", []).append(page_entry)
-        payload = {"page_id": page_id, "json_path": json_path}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({"page_id": page_id, "json_path": json_path})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createNotionPageJson",
+                "name": "CreateNotionPageJson",
                 "description": "Creates a Notion-style page JSON (metadata + block structure + attachments).",
                 "parameters": {
                     "type": "object",
@@ -925,7 +868,10 @@ class CreateNotionPageJson(Tool):
 
 class EnrichNotion(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], page_id: str = None, model_id: str = None) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        page_id = kwargs.get("page_id")
+        model_id = kwargs.get("model_id")
+
         zotero_id = "ZOTERO_001"
         entry = {
             "page_id": page_id,
@@ -933,18 +879,16 @@ class EnrichNotion(Tool):
             "zotero_id": zotero_id,
         }
 
-        table = data.setdefault("zotero_metadata", {})
-        key = f"{len(table)}"
-        table[key] = entry
-        payload = entry
-        out = json.dumps(payload)
-        return out
+        data.setdefault("zotero_metadata", []).append(entry)
+
+        return json.dumps(entry)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "enrichNotion",
+                "name": "EnrichNotion",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -965,27 +909,23 @@ class EnrichNotion(Tool):
 
 class AppendTerminalLog(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        log_type: str = None,
-        message: str = None,
-        type: Any = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        msg = kwargs.get("message")
+        log_type = kwargs.get("type")
         logs = data.setdefault("terminal_log", [])
         if log_type == "completed":
-            entry = {"event_id": "APPEND_002", "message": message}
+            entry = {"event_id": f"APPEND_002", "message": msg}
         else:
-            entry = {"event_id": "APPEND_001", "message": message}
+            entry = {"event_id": f"APPEND_001", "message": msg}
         logs.append(entry)
-        payload = entry
-        out = json.dumps(payload)
-        return out
+        return json.dumps(entry)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "appendTerminalLog",
+                "name": "AppendTerminalLog",
                 "parameters": {
                     "type": "object",
                     "properties": {"message": {"type": "string"}},
@@ -997,14 +937,13 @@ class AppendTerminalLog(Tool):
 
 class StartEtlRun(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], weather_raw_path: str = None, tides_raw_path: str = None, water_levels_raw_path: str = None, city_name: str = None) -> str:
-        pass
-        weather = weather_raw_path
-        tides = tides_raw_path
-        water = water_levels_raw_path
-        city_name  # This line seems to be unused, but kept for consistency
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        weather = kwargs.get("weather_raw_path")
+        tides = kwargs.get("tides_raw_path")
+        water = kwargs.get("water_levels_raw_path")
+        city = kwargs.get("city_name")
 
-        #consistently generate processed path
+        # deterministically produce processed path
         elt_id = "ETL_001"
         processed_path = f"/data/processed/timeseries_{elt_id}.csv"
 
@@ -1014,18 +953,15 @@ class StartEtlRun(Tool):
             "status": "completed",
             "processed_path": processed_path,
         }
-        table = data.setdefault("etl_runs", {})
-        key = f"{len(table)}"
-        table[key] = etl_entry
-        payload = {"status": "completed", **etl_entry}
-        out = json.dumps(payload)
-        return out
+        data.setdefault("etl_runs", []).append(etl_entry)
+        return json.dumps({"status": "completed", **etl_entry})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "startEtlRun",
+                "name": "StartEtlRun",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -1047,18 +983,18 @@ class StartEtlRun(Tool):
 
 class RegisterProcessedTimeseries(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], processed_csv_path: str = None) -> str:
-        entry = {"processed_csv_path": processed_csv_path}
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        path = kwargs.get("processed_csv_path")
+        entry = {"processed_csv_path": path}
         data.setdefault("processed_timeseries.json", []).append(entry)
-        payload = {**entry, "status": "completed"}
-        out = json.dumps(payload)
-        return out
+        return json.dumps({**entry, "status": "completed"})
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "registerProcessedTimeseries",
+                "name": "RegisterProcessedTimeseries",
                 "parameters": {
                     "type": "object",
                     "properties": {"processed_csv_path": {"type": "string"}},
@@ -1070,11 +1006,9 @@ class RegisterProcessedTimeseries(Tool):
 
 class CreateQCFigures(Tool):
     @staticmethod
-    def invoke(
-        data: dict[str, Any],
-        figure_type: str = "overview",
-        processed_csv_path: str = None
-    ) -> str:
+    def invoke(data: Dict[str, Any], **kwargs) -> str:
+        processed_csv_path = kwargs.get("processed_csv_path")
+        figure_type = kwargs.get("figure_type", "overview")
         qc_fig_id = "QC_FIG_001"
         figures = {
             "qc_figure_id": qc_fig_id,
@@ -1082,15 +1016,14 @@ class CreateQCFigures(Tool):
             "figure_paths": [f"/figures/qc_{figure_type}.png", "/figures/qc_gaps.png"],
         }
         data.setdefault("qc_figures.json", []).append(figures)
-        payload = figures
-        out = json.dumps(payload)
-        return out
+        return json.dumps(figures)
+
     @staticmethod
-    def get_info() -> dict[str, Any]:
+    def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "createQcfigures",
+                "name": "CreateQCFigures",
                 "parameters": {
                     "type": "object",
                     "properties": {"processed_csv_path": {"type": "string"}},
