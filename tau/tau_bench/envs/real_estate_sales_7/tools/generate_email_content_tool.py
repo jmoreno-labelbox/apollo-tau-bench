@@ -163,7 +163,7 @@ class GenerateEmailContentTool(Tool):
                         "template_code": {"type": "string"},
                         "recipient_data": {"type": "object"},
                         "context_data": {"type": "object"},
-                        "attachments": {"type": "array"},
+                        "attachments": {"type": "array", "items": {"type": "string"}},
                     },
                     "required": [
                         "template_code",

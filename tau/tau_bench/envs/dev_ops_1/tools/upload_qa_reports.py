@@ -12,4 +12,4 @@ class UploadQaReports(Tool):
 
     @staticmethod
     def get_info() -> Dict[str, Any]:
-        return {"type": "function", "function": {"name": "upload_qa_reports", "description": "Returns deterministic report URIs for uploaded QA artifacts.", "parameters": {"type": "object", "properties": {"qa_json": {"type": "array"}, "tex_report": {"type": "array"}, "engine_report": {"type": "object"}, "previews": {"type": "object"}}, "required": ["qa_json", "tex_report", "engine_report", "previews"]}}}
+        return {"type": "function", "function": {"name": "upload_qa_reports", "description": "Returns deterministic report URIs for uploaded QA artifacts.", "parameters": {"type": "object", "properties": {"qa_json": {"type": "array", "items": {"type": "string"}}, "tex_report": {"type": "array", "items": {"type": "string"}}, "engine_report": {"type": "object"}, "previews": {"type": "object"}}, "required": ["qa_json", "tex_report", "engine_report", "previews"]}}}

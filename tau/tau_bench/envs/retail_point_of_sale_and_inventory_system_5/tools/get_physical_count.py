@@ -1,5 +1,6 @@
 # Copyright Sierra
 
+import hashlib
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
@@ -20,6 +21,21 @@ class GetPhysicalCount(Tool):
             h = int(hashlib.sha256(f"{store_id}-{sku}".encode()).hexdigest(), 16)
             physical_count = 10 + (h % 90)
         return json.dumps({"physical_count": physical_count})
+    
     @staticmethod
     def get_info() -> Dict[str, Any]:
-        return {"type": "function", "function": {"name": "get_physical_count", "parameters": {"store_id": {"type": "string"}, "sku": {"type": "string"}, "auditor_id": {"type": "string"}}, "required": ["store_id", "sku", "auditor_id"]}}
+        return {
+            "type": "function",
+            "function": {
+                "name": "get_physical_count",
+                "description": "Get the physical count of inventory for a specific store and SKU",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "store_id": {"type": "string", "description": "Store ID"},
+                        "sku": {"type": "string", "description": "Product SKU"}
+                    },
+                    "required": ["store_id", "sku"]
+                }
+            }
+        }

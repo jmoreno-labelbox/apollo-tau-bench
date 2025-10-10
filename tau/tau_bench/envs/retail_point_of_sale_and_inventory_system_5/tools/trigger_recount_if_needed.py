@@ -11,4 +11,3 @@ class TriggerRecountIfNeeded(Tool):
         return json.dumps({"recount_triggered": True}, indent=2)
     @staticmethod
     def get_info() -> Dict[str, Any]:
-        return {"type": "function", "function": {"name": "trigger_recount_if_needed", "parameters": {"store_id": {"type": "string"}, "sku": {"type": "string"}, "discrepancy_threshold": {"type": "number"}}, "required": ["store_id", "sku", "discrepancy_threshold"]}}

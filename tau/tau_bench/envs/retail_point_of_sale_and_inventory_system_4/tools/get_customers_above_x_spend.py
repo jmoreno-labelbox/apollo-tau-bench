@@ -29,7 +29,7 @@ class GetCustomersAboveXSpend(Tool): # READ
                     "type": "object",
                     "properties": {
                         "amount": {
-                            "type": "int",
+                            "type": "integer",
                             "description": "The minimum total spend threshold."
                         }
                     },

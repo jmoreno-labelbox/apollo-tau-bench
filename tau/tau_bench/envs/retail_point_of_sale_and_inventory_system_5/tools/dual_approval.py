@@ -11,4 +11,3 @@ class DualApproval(Tool):
         return json.dumps({"dual_approved": True}, indent=2)
     @staticmethod
     def get_info() -> Dict[str, Any]:
-        return {"type": "function", "function": {"name": "dual_approval", "parameters": {"adjustment_id": {"type": "string"}}, "required": ["adjustment_id"]}}

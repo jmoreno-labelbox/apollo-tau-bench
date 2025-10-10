@@ -24,6 +24,6 @@ class CreatePlan(Tool):
                                                            "author": {"type": "string"},
                                                            "created_at": {"type": "string"},
                                                            "checksum": {"type": "string"},
-                                                           "allocations": {"type": "array"}},
+                                                           "allocations": {"type": "array", "items": {"type": "object"}}},
                                             "required": ["plan_id", "date", "total_budget", "author", "created_at",
                                                          "checksum", "allocations"]}}}

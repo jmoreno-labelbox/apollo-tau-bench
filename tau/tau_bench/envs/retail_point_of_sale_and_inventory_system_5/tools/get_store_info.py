@@ -16,4 +16,3 @@ class GetStoreInfo(Tool):
         return json.dumps({"error": f"Store {store_id} not found"})
     @staticmethod
     def get_info() -> Dict[str, Any]:
-        return {"type": "function", "function": {"name": "get_store_info", "parameters": {"store_id": {"type": "string"}}, "required": ["store_id"]}}

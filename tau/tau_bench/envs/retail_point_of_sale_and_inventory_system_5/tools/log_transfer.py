@@ -18,4 +18,3 @@ class LogTransfer(Tool):
         return json.dumps({"message": "Transfer logged.", "entry": entry}, indent=2)
     @staticmethod
     def get_info() -> Dict[str, Any]:
-        return {"type": "function", "function": {"name": "log_transfer", "parameters": {"from_store": {"type": "string"}, "to_store": {"type": "string"}, "sku": {"type": "string"}, "quantity": {"type": "number"}}, "required": ["from_store", "to_store", "sku", "quantity"]}}

@@ -27,6 +27,7 @@ class PlaceGroceryOrderTool(Tool):
                         "user_id": { "type": "integer", "description": "The ID of the user placing the order." },
                         "substitutions": {
                             "type": "array",
+                            "items": {"type": "object"},
                             "description": "Optional list of substitutions for out-of-stock items."
                         }
                     },

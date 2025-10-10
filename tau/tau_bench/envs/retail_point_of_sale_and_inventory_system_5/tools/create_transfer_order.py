@@ -27,4 +27,3 @@ class CreateTransferOrder(Tool):
         return json.dumps(resp)
     @staticmethod
     def get_info() -> Dict[str, Any]:
-        return {"type": "function", "function": {"name": "create_transfer_order", "parameters": {"from_store": {"type": "string"}, "to_store": {"type": "string"}, "sku": {"type": "string"}, "quantity": {"type": "number"}}, "required": ["from_store", "to_store", "sku", "quantity"]}}

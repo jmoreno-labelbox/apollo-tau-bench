@@ -29,7 +29,7 @@ class UpdateInventoryItem(Tool): # WRITE
                     "type": "object",
                     "properties": {
                         "inventory_id": {"type": "string", "description": "The inventory item's id to update."},
-                        "quantity_change": {"type": "int", "description": "The amount to change the quantity by (can be negative)."},
+                        "quantity_change": {"type": "integer", "description": "The amount to change the quantity by (can be negative)."},
                         "current_time": {"type": "string", "description": "Timestamp for updated_at."}
                     },
                     "required": ["inventory_id", "quantity_change", "current_time"]

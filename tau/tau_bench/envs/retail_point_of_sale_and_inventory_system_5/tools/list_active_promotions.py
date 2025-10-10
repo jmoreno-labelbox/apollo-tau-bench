@@ -17,4 +17,3 @@ class ListActivePromotions(Tool):
         return json.dumps(result)
     @staticmethod
     def get_info() -> Dict[str, Any]:
-        return {"type": "function", "function": {"name": "list_active_promotions", "parameters": {"store_id": {"type": "string"}}, "required": ["store_id"]}}

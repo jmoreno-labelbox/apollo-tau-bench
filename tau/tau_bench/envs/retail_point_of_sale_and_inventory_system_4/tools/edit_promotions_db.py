@@ -87,8 +87,8 @@ class EditPromotionsDb(Tool): # WRITE
                         "start_date": {"type": "string", "default": None, "description": "Start date of the promotion."},
                         "end_date": {"type": "string", "default": None, "description": "End date of the promotion."},
                         "status": {"type": "string", "default": None, "description": "Status of the promotion."},
-                        "usage_limit": {"type": "int", "default": None, "description": "Usage limit for the promotion."},
-                        "times_used": {"type": "int", "default": None, "description": "Number of times the promotion has been used."},
+                        "usage_limit": {"type": "integer", "default": None, "description": "Usage limit for the promotion."},
+                        "times_used": {"type": "integer", "default": None, "description": "Number of times the promotion has been used."},
                         "current_time": {"type": "string", "default": None, "description": "Current timestamp for created_at/updated_at."}
                     },
                     "required": []

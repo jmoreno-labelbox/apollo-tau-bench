@@ -61,7 +61,7 @@ class get_detailed_item_price(Tool):
                             "type": "string",
                             "description": "The barcode of the item",
                         },
-                        # "quantity": {"type": "int", "description": "The amount of the item being purchased"}
+                        # "quantity": {"type": "integer", "description": "The amount of the item being purchased"}
                     },
                 },
             },

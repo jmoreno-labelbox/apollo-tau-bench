@@ -11,4 +11,14 @@ class FlagExpiredProducts(Tool):
         return json.dumps({"flagged_products": True}, indent=2)
     @staticmethod
     def get_info() -> Dict[str, Any]:
-        return {"type": "function", "function": {"name": "flag_expired_products", "parameters": {}, "required": []}}
+        return {
+            "type": "function", 
+            "function": {
+                "name": "flag_expired_products",
+                "description": "Flag expired products in the system",
+                "parameters": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
+        }

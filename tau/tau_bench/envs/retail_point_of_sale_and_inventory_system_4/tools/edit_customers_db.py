@@ -83,7 +83,7 @@ class EditCustomersDb(Tool): # WRITE
                         "address" : {"type": "string", "default": None, "description": "The address of a customer to create or update a record with."},
                         "phone_number" : {"type": "string", "default": None, "description": "The phone number of a customer to create or update a record with."},
                         "membership_level" : {"type": "string", "default": None, "description": "The membership level of a customer to create or update a record with."},
-                        "loyalty_points" : {"type": "int", "default": None, "description": "The number of loyalty_points a customer has for creating or updating a record."},
+                        "loyalty_points" : {"type": "integer", "default": None, "description": "The number of loyalty_points a customer has for creating or updating a record."},
                         "status" : {"type": "string", "default": None, "description": "The status of a customer to create or update a record with."},
                         "birthdate" : {"type": "string", "default": None, "description": "The birthdate of a customer to create or update a record with."},
                         "opt_in_marketing" : {"type": "boolean", "default": None, "description": "A boolean indicating if the customer opted into marketing, for creating or updating their record."},

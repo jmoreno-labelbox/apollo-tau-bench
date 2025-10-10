@@ -14,4 +14,3 @@ class ListStoreTransactions(Tool):
         return json.dumps(result, indent=2)
     @staticmethod
     def get_info() -> Dict[str, Any]:
-        return {"type": "function", "function": {"name": "list_store_transactions", "parameters": {"store_id": {"type": "string"}}, "required": ["store_id"]}}

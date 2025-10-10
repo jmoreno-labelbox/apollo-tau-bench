@@ -44,5 +44,5 @@ class ValidateAllocationsAgainstPolicy(Tool):
                                                  "description": "Validates a plan allocation list against policy.",
                                                  "parameters": {"type": "object",
                                                                 "properties": {"total_budget": {"type": "number"},
-                                                                               "allocations": {"type": "array"}},
+                                                                               "allocations": {"type": "array", "items": {"type": "object"}}},
                                                                 "required": ["total_budget", "allocations"]}}}

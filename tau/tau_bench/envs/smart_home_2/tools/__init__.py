@@ -1,14 +1,28 @@
 # Copyright Sierra
 
+from datetime import datetime
 
 
-# Helper function
-def _find(items, predicate):
-    """Find first item matching predicate."""
-    for item in items:
-        if predicate(item):
-            return item
-    return None
+# Helper functions
+def _find(items, item_id):
+    """Find first item by id. Returns (index, item) or (None, None)."""
+    for idx, item in enumerate(items):
+        # Check various common ID fields
+        if (item.get("id") == item_id or 
+            item.get("device_id") == item_id or 
+            item.get("sensor_id") == item_id or
+            item.get("room_id") == item_id or
+            item.get("scene_id") == item_id or
+            item.get("list_id") == item_id or
+            item.get("reminder_id") == item_id or
+            item.get("member_id") == item_id):
+            return idx, item
+    return None, None
+
+
+def _now_iso():
+    """Return current timestamp in ISO format."""
+    return datetime.now().isoformat()
 
 from .get_entity import GetEntity
 from .query_entities import QueryEntities

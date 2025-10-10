@@ -76,11 +76,11 @@ class update_stock_quantity(Tool):
                             "description": "The specific sku for the item",
                         },
                         "quantity": {
-                            "type": "int",
+                            "type": "integer",
                             "description": "The quantity to set for the item. Overrides relative_quantity",
                         },
                         "relative_quantity": {
-                            "type": "int",
+                            "type": "integer",
                             "description": "Will add or remove this much from the current quantity: 5 will add 5 and -2 will remove 2",
                         },
                     },

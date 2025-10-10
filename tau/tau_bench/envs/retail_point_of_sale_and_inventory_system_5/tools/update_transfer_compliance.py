@@ -16,4 +16,3 @@ class UpdateTransferCompliance(Tool):
         return json.dumps({"message": "Transfer compliance updated.", "entry": entry}, indent=2)
     @staticmethod
     def get_info() -> Dict[str, Any]:
-        return {"type": "function", "function": {"name": "update_transfer_compliance", "parameters": {"transfer_id": {"type": "string"}, "status": {"type": "string"}}, "required": ["transfer_id", "status"]}}

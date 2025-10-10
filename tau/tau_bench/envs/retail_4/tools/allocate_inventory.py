@@ -148,11 +148,7 @@ class AllocateInventory(Tool):
                             "description": "Quantity to allocate for each item (applies to all items in batch processing)",
                             "default": 1
                         }
-                    },
-                    "anyOf": [
-                        {"required": ["item_id"]},
-                        {"required": ["item_ids"]}
-                    ]
+                    }
                 }
             }
         }

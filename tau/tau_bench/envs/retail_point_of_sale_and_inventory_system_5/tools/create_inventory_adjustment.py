@@ -31,4 +31,3 @@ class CreateInventoryAdjustment(Tool):
         return json.dumps(resp)
     @staticmethod
     def get_info() -> Dict[str, Any]:
-        return {"type": "function", "function": {"name": "create_inventory_adjustment", "parameters": {"store_id": {"type": "string"}, "sku": {"type": "string"}, "amount": {"type": "number"}, "reason": {"type": "string"}}, "required": ["store_id", "sku", "amount"]}}

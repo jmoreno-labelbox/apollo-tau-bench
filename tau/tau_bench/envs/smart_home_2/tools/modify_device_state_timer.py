@@ -3,7 +3,8 @@
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-from . import _find
+from . import _find, _now_iso
+from .modify_device_state import ModifyDeviceState
 
 
 class ModifyDeviceStateTimer(Tool):
@@ -46,7 +47,7 @@ class ModifyDeviceStateTimer(Tool):
                     "type": "object",
                     "properties": {
                         "device_id": {"type": "string", "description": "Target device id"},
-                        "schedule_at": {
+                        "schedule_end": {
                             "type": "string",
                             "description": "ISO8601 timestamp for when to apply the power off"
                         },

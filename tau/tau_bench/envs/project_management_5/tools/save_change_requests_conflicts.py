@@ -80,7 +80,7 @@ class SaveChangeRequestsConflicts(Tool):
                             "description": "Conflicting change request ID",
                         },
                         "conflicting_deliverables": {
-                            "type": "list",
+                            "type": "array",
                             "description": "Conflicting deliverable IDs",
                         },
                         "severity": {

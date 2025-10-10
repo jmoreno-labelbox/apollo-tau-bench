@@ -16,4 +16,4 @@ class ApplyAssetAutofixes(Tool):
 
     @staticmethod
     def get_info() -> Dict[str, Any]:
-        return {"type": "function", "function": {"name": "apply_asset_autofixes", "description": "Produces a deterministic patch_set representing mechanical fixes only.", "parameters": {"type": "object", "properties": {"qa_json": {"type": "array"}, "tex_report": {"type": "array"}}, "required": ["qa_json", "tex_report"]}}}
+        return {"type": "function", "function": {"name": "apply_asset_autofixes", "description": "Produces a deterministic patch_set representing mechanical fixes only.", "parameters": {"type": "object", "properties": {"qa_json": {"type": "array", "items": {"type": "string"}}, "tex_report": {"type": "array", "items": {"type": "string"}}}, "required": ["qa_json", "tex_report"]}}}
