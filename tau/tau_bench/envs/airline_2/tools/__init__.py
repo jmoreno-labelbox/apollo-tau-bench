@@ -1,5 +1,20 @@
 # Copyright Sierra
 
+
+def _next_numeric_suffix(prefix, items, id_key):
+    """Generate next ID with numeric suffix (e.g., 'ML-001', 'ML-002')."""
+    max_num = 0
+    for item in items:
+        item_id = str(item.get(id_key, ""))
+        if item_id.startswith(prefix + "-"):
+            try:
+                num = int(item_id.split("-")[-1])
+                max_num = max(max_num, num)
+            except (ValueError, IndexError):
+                pass
+    return f"{prefix}-{max_num + 1:03d}"
+
+
 from .get_airport_by_code import GetAirportByCode
 from .get_aircraft_by_tail import GetAircraftByTail
 from .get_aircraft_by_airport import GetAircraftByAirport

@@ -3,7 +3,7 @@
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-from . import _require
+from . import _require, _json_dump
 
 
 class GetMealPlanDetails(Tool):

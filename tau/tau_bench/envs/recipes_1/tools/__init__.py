@@ -1,14 +1,29 @@
+import json
 # Copyright Sierra
 
 
 
 # Helper function
-def _require(data, key, error_msg=None):
-    """Require a key to exist in data."""
-    if key not in data or data[key] is None:
-        raise ValueError(error_msg or f"Required key '{key}' not found or is None")
-    return data[key]
-
+def _require(data, table_key, item_key=None, item_value=None):
+    """
+    Get a table from data, or find an item in that table.
+    
+    If item_key and item_value are provided, search for an item where item[item_key] == item_value.
+    Otherwise, return the entire table.
+    """
+    table = data.get(table_key, {})
+    if isinstance(table, dict):
+        table = list(table.values())
+    
+    if item_key is not None and item_value is not None:
+        # Find specific item
+        for item in table:
+            if item.get(item_key) == item_value:
+                return item
+        return None
+    else:
+        # Return entire table
+        return table
 
 # Helper function
 def _max_id(items, id_key='id', prefix=''):
@@ -26,6 +41,12 @@ def _max_id(items, id_key='id', prefix=''):
         except (ValueError, AttributeError):
             pass
     return max_id
+
+
+def _json_dump(obj):
+    """Serialize object to JSON string."""
+    return json.dumps(obj, indent=2)
+
 
 from .get_user_by_id import GetUserById
 from .get_household_by_id import GetHouseholdById

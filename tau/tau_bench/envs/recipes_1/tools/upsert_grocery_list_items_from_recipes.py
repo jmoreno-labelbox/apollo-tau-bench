@@ -3,7 +3,7 @@
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-from . import _max_id
+from . import _max_id, _json_dump
 
 
 class UpsertGroceryListItemsFromRecipes(Tool):

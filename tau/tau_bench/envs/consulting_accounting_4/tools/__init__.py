@@ -1,4 +1,11 @@
+from datetime import datetime
 # Copyright Sierra
+
+
+def _fixed_now_iso():
+    """Return current time in ISO format."""
+    return datetime.now().isoformat()
+
 
 from .get_consultant_profile import GetConsultantProfile
 from .update_consultant_contact import UpdateConsultantContact
