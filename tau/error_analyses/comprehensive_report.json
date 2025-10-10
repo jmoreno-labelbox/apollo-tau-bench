@@ -1,33 +1,12 @@
 {
   "stats": {
-    "total": 4,
-    "tested": 4,
-    "analyzed": 4,
-    "skipped": 0,
+    "total": 2,
+    "tested": 1,
+    "analyzed": 1,
+    "skipped": 1,
     "failed": 0
   },
   "summaries": {
-    "dev_ops_6": {
-      "total_failures": 0,
-      "user_faults": 0,
-      "agent_faults": 0,
-      "env_faults": 0,
-      "fault_types": {}
-    },
-    "banking_services_5": {
-      "total_failures": 0,
-      "user_faults": 0,
-      "agent_faults": 0,
-      "env_faults": 0,
-      "fault_types": {}
-    },
-    "data_science_3": {
-      "total_failures": 1,
-      "user_faults": 0,
-      "agent_faults": 0,
-      "env_faults": 1,
-      "fault_types": {}
-    },
     "recipes_3": {
       "total_failures": 1,
       "user_faults": 0,
