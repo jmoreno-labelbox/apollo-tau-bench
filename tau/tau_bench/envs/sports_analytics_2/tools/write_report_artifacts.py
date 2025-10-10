@@ -3,6 +3,7 @@
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
+from . import _load_table
 
 
 class WriteReportArtifacts(Tool):

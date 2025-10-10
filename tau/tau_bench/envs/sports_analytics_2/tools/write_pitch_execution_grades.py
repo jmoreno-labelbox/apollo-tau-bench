@@ -10,11 +10,14 @@ class WritePitchExecutionGrades(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         game_pk = kwargs.get("game_pk")
         grades_count = kwargs.get("grades_count")
-        data.setdefault("pitch_execution_grades", []).append({
-            "grade_id": f"grade_{len(data.get('pitch_execution_grades', []))+1}",
+        grades = data.setdefault("pitch_execution_grades", {})
+        # Generate next ID
+        next_id = str(len(grades) + 1)
+        grades[next_id] = {
+            "grade_id": f"grade_{next_id}",
             "game_pk": game_pk,
             "grades_count": grades_count
-        })
+        }
         return json.dumps({"status": "ok"}, indent=2)
 
     @staticmethod

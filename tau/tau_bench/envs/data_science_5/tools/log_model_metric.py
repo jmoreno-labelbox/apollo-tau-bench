@@ -24,7 +24,7 @@ class LogModelMetric(Tool):
             "metric_name": kwargs.get("metric_name"),
             "value": kwargs.get("value"),
             "dataset_split": kwargs.get("dataset_split"),
-            "timestamp": _now_iso_fixed(),
+            "timestamp": _fixed_now_iso(),
         }
         metrics.append(row)
         return json.dumps({"metric_id": new_id, "model_name": row["model_name"], "metric_name": row["metric_name"]},

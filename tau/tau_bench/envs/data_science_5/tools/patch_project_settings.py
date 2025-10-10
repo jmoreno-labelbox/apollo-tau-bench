@@ -14,7 +14,7 @@ class PatchProjectSettings(Tool):
             cfg = {}
             data["project_config"] = cfg
         cfg.update(updates)
-        cfg["updated_at"] = _now_iso_fixed()
+        cfg["updated_at"] = _fixed_now_iso()
         return json.dumps({"updated": updates}, indent=2)
 
     @staticmethod

@@ -1,5 +1,15 @@
 # Copyright Sierra
 
+
+
+# Helper function
+def _require_tables(data, table_names):
+    """Check if required tables exist in data."""
+    missing = [t for t in table_names if t not in data or not data[t]]
+    if missing:
+        return f"Missing required tables: {', '.join(missing)}"
+    return None
+
 from .get_game_details import GetGameDetails
 from .list_games_by_status import ListGamesByStatus
 from .get_player_details import GetPlayerDetails

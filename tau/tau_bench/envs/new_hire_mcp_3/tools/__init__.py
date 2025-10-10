@@ -1,5 +1,13 @@
 # Copyright Sierra
 
+
+# Helper function
+from datetime import datetime
+
+def _fixed_now_iso():
+    """Return current time in ISO format."""
+    return datetime.now().isoformat()
+
 from .modify_candidate import ModifyCandidate
 from .add_candidate import AddCandidate
 from .remove_candidate import RemoveCandidate

@@ -23,7 +23,7 @@ class RegisterFeatureBundle(Tool):
             "feature_set_name": kwargs.get("feature_set_name"),
             "version": kwargs.get("version"),
             "columns": kwargs.get("columns"),
-            "created_at": _now_iso_fixed(),
+            "created_at": _fixed_now_iso(),
         }
         feats.append(row)
         return json.dumps({"feature_set_id": new_id, "feature_set_name": row["feature_set_name"]}, indent=2)

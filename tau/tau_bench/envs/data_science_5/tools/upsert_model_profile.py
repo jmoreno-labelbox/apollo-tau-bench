@@ -15,7 +15,7 @@ class UpsertModelProfile(Tool):
         row = next((c for c in cfgs if c.get("model_name") == model_name and c.get("config_name") == config_name), None)
         if row:
             row["params"] = params
-            row["updated_at"] = _now_iso_fixed()
+            row["updated_at"] = _fixed_now_iso()
             out = {"model_name": model_name, "config_name": config_name, "action": "updated"}
         else:
             max_id = 0
@@ -32,7 +32,7 @@ class UpsertModelProfile(Tool):
                 "model_name": model_name,
                 "config_name": config_name,
                 "params": params,
-                "created_at": _now_iso_fixed(),
+                "created_at": _fixed_now_iso(),
             }
             cfgs.append(row)
             out = {"config_id": new_id, "model_name": model_name, "config_name": config_name, "action": "inserted"}

@@ -24,8 +24,8 @@ class LogEtlExecution(Tool):
             "task": kwargs.get("task"),
             "status": kwargs.get("status"),
             "rows_processed": kwargs.get("rows_processed"),
-            "started_at": _now_iso_fixed(),
-            "finished_at": _now_iso_fixed(),
+            "started_at": _fixed_now_iso(),
+            "finished_at": _fixed_now_iso(),
         }
         runs.append(row)
         return json.dumps({"run_id": new_id, "run_name": row["run_name"]}, indent=2)

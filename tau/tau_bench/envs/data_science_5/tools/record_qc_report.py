@@ -24,7 +24,7 @@ class RecordQcReport(Tool):
             "figure_path": kwargs.get("figure_path"),
             "artifact_type": kwargs.get("artifact_type"),
             "related_model_name": kwargs.get("related_model_name"),
-            "created_at": _now_iso_fixed(),
+            "created_at": _fixed_now_iso(),
         }
         figs.append(row)
         return json.dumps({"figure_id": new_id, "figure_label": row["figure_label"]}, indent=2)

@@ -1,5 +1,11 @@
 # Copyright Sierra
 
+
+# Helper function
+def _money(amount):
+    """Format amount as money string."""
+    return f"${amount:.2f}"
+
 from .get_account_by_id import GetAccountById
 from .get_account_by_name import GetAccountByName
 from .update_street_address import UpdateStreetAddress

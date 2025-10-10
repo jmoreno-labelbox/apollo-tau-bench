@@ -22,7 +22,7 @@ class RegisterFileEntry(Tool):
             "path": kwargs.get("path"),
             "mime_type": kwargs.get("mime_type"),
             "size": kwargs.get("size"),
-            "created_at": _now_iso_fixed()
+            "created_at": _fixed_now_iso()
         }
         files.append(row)
         return json.dumps({"file_id": new_id, "path": row["path"]}, indent=2)

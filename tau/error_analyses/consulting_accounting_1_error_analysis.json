@@ -2,8 +2,8 @@
     "fault_assignment_analysis": [
         {
             "task_id": 0,
-            "author": "environment",
-            "description": "The environment is responsible for the fault in the trajectory because it repeatedly returns an error message \"'str' object has no attribute 'get'\" when the assistant attempts to perform actions. This indicates a malfunction or misconfiguration in the environment's handling of the assistant's requests, preventing the execution of any actions such as retrieving invoice details or computing invoice aging. This error disrupts the entire process, leading to a failure in executing the ground truth action sequence."
+            "author": "user",
+            "description": "The user is responsible for the fault in the trajectory because they incorrectly calculated the aging of the invoices and decided to handle the follow-up actions themselves, which led to no actions being taken by the assistant. Specifically, the user calculated that INV009 is overdue by 61 days and INV021 by 76 days, but did not instruct the assistant to create audit entries for these invoices, which was required by the task. The user also did not provide the assistant with the necessary information to proceed with the follow-up actions, resulting in a lack of execution of the required actions."
         }
     ],
     "fault_type_analysis": []

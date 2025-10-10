@@ -3,9 +3,16 @@
 
 
 # Helper function
-def _find_all(items, predicate):
-    """Find all items matching predicate."""
-    return [item for item in items if predicate(item)]
+def _find_all(items, **filters):
+    """Find all items matching filters."""
+    if not filters:
+        return items
+    result = []
+    for item in items:
+        match = all(item.get(k) == v for k, v in filters.items())
+        if match:
+            result.append(item)
+    return result
 
 from .ingest_hr_memo import IngestHrMemo
 from .find_employees import FindEmployees

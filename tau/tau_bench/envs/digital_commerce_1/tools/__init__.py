@@ -9,6 +9,18 @@ def _ensure_table(data, table_name):
         data[table_name] = {}
     return data[table_name]
 
+
+
+# Helper function
+def _get_network_defaults():
+    """Get default network configuration."""
+    return {
+        "cidr_block": "10.0.0.0/16",
+        "availability_zone": "us-east-1a",
+        "enable_dns_support": True,
+        "enable_dns_hostnames": True
+    }
+
 from .get_environment_network_defaults import GetEnvironmentNetworkDefaults
 from .get_service_security_group import GetServiceSecurityGroup
 from .update_security_group_ruleset import UpdateSecurityGroupRuleset

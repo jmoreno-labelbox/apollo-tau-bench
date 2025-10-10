@@ -8,12 +8,14 @@ from tau_bench.envs.tool import Tool
 class WriteSpatialArtifact(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        artifacts = data.setdefault("spatial_artifacts", [])
-        artifacts.append({
+        artifacts = data.setdefault("spatial_artifacts", {})
+        # Generate next ID
+        next_id = str(len(artifacts) + 1)
+        artifacts[next_id] = {
             "game_pk": kwargs.get("game_pk"),
             "artifact_name": kwargs.get("artifact_name"),
             "qc_status": kwargs.get("qc_status", "passed")
-        })
+        }
         return json.dumps({"status": "ok"}, indent=2)
 
     @staticmethod

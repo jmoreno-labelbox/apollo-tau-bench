@@ -8,6 +8,15 @@ def generate_unique_id():
     """Generate a unique ID."""
     return uuid.uuid4().hex[:8]
 
+
+
+# Helper function
+from datetime import datetime
+
+def get_current_timestamp():
+    """Get current timestamp in ISO format."""
+    return datetime.now().isoformat()
+
 from .find_customer_by_name_tool import FindCustomerByNameTool
 from .get_customer_accounts_tool import GetCustomerAccountsTool
 from .get_account_transactions_tool import GetAccountTransactionsTool

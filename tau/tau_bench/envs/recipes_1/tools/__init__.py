@@ -9,6 +9,24 @@ def _require(data, key, error_msg=None):
         raise ValueError(error_msg or f"Required key '{key}' not found or is None")
     return data[key]
 
+
+# Helper function
+def _max_id(items, id_key='id', prefix=''):
+    """Get max ID from items."""
+    if not items:
+        return 0
+    max_id = 0
+    for item in items:
+        item_id = str(item.get(id_key, ''))
+        if prefix:
+            item_id = item_id.replace(prefix, '')
+        try:
+            num = int(item_id)
+            max_id = max(max_id, num)
+        except (ValueError, AttributeError):
+            pass
+    return max_id
+
 from .get_user_by_id import GetUserById
 from .get_household_by_id import GetHouseholdById
 from .list_household_members import ListHouseholdMembers

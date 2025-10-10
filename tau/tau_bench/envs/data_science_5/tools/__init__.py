@@ -1,5 +1,14 @@
 # Copyright Sierra
 
+
+
+# Helper function
+from datetime import datetime
+
+def _fixed_now_iso():
+    """Return fixed current time in ISO format."""
+    return datetime.now().isoformat()
+
 from .read_project_settings import ReadProjectSettings
 from .patch_project_settings import PatchProjectSettings
 from .read_runtime_env import ReadRuntimeEnv

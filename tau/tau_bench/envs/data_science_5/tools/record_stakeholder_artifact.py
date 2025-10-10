@@ -23,7 +23,7 @@ class RecordStakeholderArtifact(Tool):
             "output_label": kwargs.get("output_label"),
             "audience": kwargs.get("audience"),
             "artifact_path": kwargs.get("artifact_path"),
-            "created_at": _now_iso_fixed(),
+            "created_at": _fixed_now_iso(),
         }
         outs.append(row)
         return json.dumps({"output_id": new_id, "output_label": row["output_label"]}, indent=2)

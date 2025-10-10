@@ -25,8 +25,8 @@ class StoreModelArtifact(Tool):
             "framework": kwargs.get("framework"),
             "version": kwargs.get("version"),
             "status": kwargs.get("status"),
-            "created_at": _now_iso_fixed(),
-            "updated_at": _now_iso_fixed(),
+            "created_at": _fixed_now_iso(),
+            "updated_at": _fixed_now_iso(),
         }
         models.append(row)
         return json.dumps({"model_id": new_id, "model_name": row["model_name"]}, indent=2)

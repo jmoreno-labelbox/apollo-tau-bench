@@ -23,7 +23,7 @@ class WritePredictionLot(Tool):
             "batch_name": kwargs.get("batch_name"),
             "model_name": kwargs.get("model_name"),
             "items": kwargs.get("items") or [],
-            "created_at": _now_iso_fixed(),
+            "created_at": _fixed_now_iso(),
         }
         preds.append(row)
         return json.dumps({"prediction_id": new_id, "batch_name": row["batch_name"]}, indent=2)

@@ -26,7 +26,7 @@ class DispatchResultsMail(Tool):
             "attachment": kwargs.get("attachment"),
             "model_name": kwargs.get("model_name"),
             "batch_name": kwargs.get("batch_name"),
-            "sent_at": _now_iso_fixed(),
+            "sent_at": _fixed_now_iso(),
         }
         inbox.append(row)
         return json.dumps({"status": "sent", "message_id": new_id, "to": row["to"]}, indent=2)

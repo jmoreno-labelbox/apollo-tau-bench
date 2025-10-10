@@ -1,5 +1,14 @@
 # Copyright Sierra
 
+
+# Helper function
+def _load_table(data, table_name):
+    """Load table from data, return as list of values."""
+    table = data.get(table_name, {})
+    if isinstance(table, dict):
+        return list(table.values())
+    return table
+
 from .get_next_series_info import GetNextSeriesInfo
 from .get_probable_pitchers import GetProbablePitchers
 from .fetch_pitch_data import FetchPitchData

@@ -12,13 +12,16 @@ class WriteUmpireGameModel(Tool):
         zone_shift_x = kwargs.get("zone_shift_x")
         zone_shift_z = kwargs.get("zone_shift_z")
         calibration_error_pct = kwargs.get("calibration_error_pct")
-        data.setdefault("umpire_game_models", []).append({
-            "umpire_game_id": f"ump_{len(data.get('umpire_game_models', []))+1}",
+        models = data.setdefault("umpire_game_models", {})
+        # Generate next ID
+        next_id = str(len(models) + 1)
+        models[next_id] = {
+            "umpire_game_id": f"ump_{next_id}",
             "game_pk": game_pk,
             "zone_shift_x": zone_shift_x,
             "zone_shift_z": zone_shift_z,
             "calibration_error_pct": calibration_error_pct
-        })
+        }
         return json.dumps({"status": "ok"}, indent=2)
 
     @staticmethod

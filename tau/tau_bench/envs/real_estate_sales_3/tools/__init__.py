@@ -20,6 +20,14 @@ def _next_int_id(items, id_key='id', prefix=''):
             pass
     return f"{prefix}{max_id + 1}"
 
+
+# Helper function
+from datetime import datetime
+
+def _fixed_now_iso():
+    """Return current time in ISO format."""
+    return datetime.now().isoformat()
+
 from .get_client_preferences import GetClientPreferences
 from .get_mortgage_profile import GetMortgageProfile
 from .get_property_and_listing import GetPropertyAndListing

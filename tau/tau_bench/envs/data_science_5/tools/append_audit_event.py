@@ -22,7 +22,7 @@ class AppendAuditEvent(Tool):
             "log_id": new_id,
             "event_type": kwargs.get("event_type"),
             "message": kwargs.get("message"),
-            "created_at": _now_iso_fixed(),
+            "created_at": _fixed_now_iso(),
         }
         logs.append(row)
         return json.dumps(row, indent=2)

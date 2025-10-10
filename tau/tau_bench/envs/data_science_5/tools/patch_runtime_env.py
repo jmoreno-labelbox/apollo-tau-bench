@@ -14,7 +14,7 @@ class PatchRuntimeEnv(Tool):
             env = {}
             data["environment"] = env
         env.update(updates)
-        env["updated_at"] = _now_iso_fixed()
+        env["updated_at"] = _fixed_now_iso()
         return json.dumps({"updated": updates}, indent=2)
 
     @staticmethod
