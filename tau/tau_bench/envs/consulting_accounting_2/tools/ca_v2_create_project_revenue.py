@@ -25,7 +25,12 @@ class CaV2CreateProjectRevenue(Tool):
             "ytd_revenue": ytd_revenue
         }
 
-        data.setdefault("project_revenue", []).append(project_revenue)
+        # Ensure project_revenue is a list before appending
+        if "project_revenue" not in data:
+            data["project_revenue"] = []
+        elif not isinstance(data["project_revenue"], list):
+            data["project_revenue"] = list(data["project_revenue"].values()) if isinstance(data["project_revenue"], dict) else []
+        data["project_revenue"].append(project_revenue)
 
         return _ok(row_id=row_id, project_id=project_id, ytd_revenue=ytd_revenue)
 

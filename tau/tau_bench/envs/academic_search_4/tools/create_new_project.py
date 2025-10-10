@@ -3,7 +3,8 @@
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import uuid
+from datetime import datetime
 
 class CreateNewProject(Tool):
     """Creates a new research project."""

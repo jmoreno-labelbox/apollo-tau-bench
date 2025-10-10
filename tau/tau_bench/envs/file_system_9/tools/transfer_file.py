@@ -72,6 +72,11 @@ class TransferFile(Tool):
             new_id_num = max_id + 1
             new_server_id = f"srv_{new_id_num:03d}"
             dest_server = {"server_id": new_server_id, "hostname": dest_hostname, "directories": []}
+            # Ensure file_system is a list before appending
+            if "file_system" not in data:
+                data["file_system"] = []
+            elif not isinstance(data["file_system"], list):
+                data["file_system"] = list(data["file_system"].values()) if isinstance(data["file_system"], dict) else []
             data["file_system"].append(dest_server)
 
         dest_directory = None
@@ -82,10 +87,20 @@ class TransferFile(Tool):
 
         if not dest_directory:
             dest_directory = {"path": dest_dir_path, "files": []}
+            # Ensure directories is a list before appending
+            if "directories" not in dest_server:
+                dest_server["directories"] = []
+            elif not isinstance(dest_server["directories"], list):
+                dest_server["directories"] = list(dest_server["directories"].values()) if isinstance(dest_server["directories"], dict) else []
             dest_server["directories"].append(dest_directory)
         
         new_file_entry = source_file_details
         new_file_entry["filename"] = dest_filename
+        # Ensure files is a list before appending
+        if "files" not in dest_directory:
+            dest_directory["files"] = []
+        elif not isinstance(dest_directory["files"], list):
+            dest_directory["files"] = list(dest_directory["files"].values()) if isinstance(dest_directory["files"], dict) else []
         dest_directory["files"].append(new_file_entry)
 
         return json.dumps({"status": "success", "message": f"File transferred from {source_path} to {destination_full_path}."})

@@ -29,7 +29,12 @@ class CaV2CreateSchedulerRun(Tool):
             "log_path": log_path
         }
 
-        data.setdefault("scheduler_runs", []).append(scheduler_run)
+        # Ensure scheduler_runs is a list before appending
+        if "scheduler_runs" not in data:
+            data["scheduler_runs"] = []
+        elif not isinstance(data["scheduler_runs"], list):
+            data["scheduler_runs"] = list(data["scheduler_runs"].values()) if isinstance(data["scheduler_runs"], dict) else []
+        data["scheduler_runs"].append(scheduler_run)
 
         return _ok(run_id=run_id, task_name=task_name, status=status)
 

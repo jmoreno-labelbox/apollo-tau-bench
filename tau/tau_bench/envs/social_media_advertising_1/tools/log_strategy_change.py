@@ -40,8 +40,11 @@ class LogStrategyChange(Tool):
             "reason": reason
         }
         
+        # Ensure strategy_changes is a list before appending
         if "strategy_changes" not in data:
             data["strategy_changes"] = []
+        elif not isinstance(data["strategy_changes"], list):
+            data["strategy_changes"] = list(data["strategy_changes"].values()) if isinstance(data["strategy_changes"], dict) else []
             
         data['strategy_changes'].append(new_strategy_change)
 

@@ -10,8 +10,21 @@ class ValidateUserGoalAlignment(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         user_id = kwargs.get("user_id")
         target_role = kwargs.get("target_role")
+        # Ensure goals is a list before processing
         goals = data.get("goals", [])
-        user_goals = [g for g in goals if g["user_id"] == user_id]
+        if isinstance(goals, str):
+            # If it's a string, try to parse it as JSON or treat as empty list
+            try:
+                goals = json.loads(goals) if goals else []
+            except (json.JSONDecodeError, TypeError):
+                goals = []
+        elif isinstance(goals, dict):
+            # If it's a dict, convert to list of values
+            goals = list(goals.values())
+        elif not isinstance(goals, list):
+            goals = []
+            
+        user_goals = [g for g in goals if isinstance(g, dict) and g.get("user_id") == user_id]
 
         if not user_goals:
             return json.dumps(

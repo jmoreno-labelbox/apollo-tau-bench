@@ -13,7 +13,21 @@ class UpdatePaymentBehavior(Tool):
         Updates or inserts a payment behavior record for a publisher.
         """
         publisher_id = kwargs["publisher_id"]
-        record = next((pb for pb in data["payment_behavior"] if pb["publisher_id"] == publisher_id), None)
+        # Ensure payment_behavior is a list before iterating
+        payment_behavior = data.get("payment_behavior", [])
+        if isinstance(payment_behavior, str):
+            # If it's a string, try to parse it as JSON or treat as empty list
+            try:
+                payment_behavior = json.loads(payment_behavior) if payment_behavior else []
+            except (json.JSONDecodeError, TypeError):
+                payment_behavior = []
+        elif isinstance(payment_behavior, dict):
+            # If it's a dict, convert to list of values
+            payment_behavior = list(payment_behavior.values())
+        elif not isinstance(payment_behavior, list):
+            payment_behavior = []
+            
+        record = next((pb for pb in payment_behavior if pb.get("publisher_id") == publisher_id), None)
 
         if record:
             if "avg_days_to_pay" in kwargs:

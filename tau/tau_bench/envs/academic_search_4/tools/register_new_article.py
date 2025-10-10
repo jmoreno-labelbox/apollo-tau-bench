@@ -3,7 +3,8 @@
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import uuid
+from datetime import datetime
 
 class RegisterNewArticle(Tool):
     """Registers a new article manuscript in the system."""

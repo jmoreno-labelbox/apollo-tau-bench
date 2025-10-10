@@ -36,8 +36,11 @@ class LogBudgetChange(Tool):
             "reason": reason
         }
         
+        # Ensure budget_changes is a list before appending
         if "budget_changes" not in data:
             data["budget_changes"] = []
+        elif not isinstance(data["budget_changes"], list):
+            data["budget_changes"] = list(data["budget_changes"].values()) if isinstance(data["budget_changes"], dict) else []
             
         data['budget_changes'].append(new_budget_change)
 
